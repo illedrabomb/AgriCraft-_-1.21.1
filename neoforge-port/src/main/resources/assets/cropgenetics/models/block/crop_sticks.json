@@ -1,8 +1,8 @@
 {
   "textures": {
-    "wood": "minecraft:block/oak_planks",
+    "wood": "cropgenetics:block/crop_sticks_wood",
     "leaf": "minecraft:block/oak_leaves",
-    "particle": "minecraft:block/oak_planks"
+    "particle": "cropgenetics:block/crop_sticks_wood"
   },
   "elements": [
     {

@@ -1,3 +1,6 @@
 {
-  "parent": "cropgenetics:block/crop_sticks"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "cropgenetics:item/crop_sticks_wood"
+  }
 }

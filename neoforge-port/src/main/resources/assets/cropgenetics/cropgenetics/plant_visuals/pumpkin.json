@@ -2,16 +2,9 @@
   "plant": "minecraft:pumpkin_plant",
   "geometry": "gourd",
   "stages": [
-    "minecraft:block/pumpkin_stem",
-    "minecraft:block/pumpkin_stem",
-    "minecraft:block/pumpkin_stem",
-    "minecraft:block/pumpkin_stem",
-    "minecraft:block/pumpkin_stem",
-    "minecraft:block/pumpkin_stem",
-    "minecraft:block/pumpkin_stem",
-    [
-      "minecraft:block/pumpkin_stem",
-      "minecraft:block/pumpkin_side"
-    ]
+    "cropgenetics:plant/pumpkin1",
+    "cropgenetics:plant/pumpkin2",
+    "cropgenetics:plant/pumpkin3",
+    "cropgenetics:plant/pumpkin4"
   ]
 }

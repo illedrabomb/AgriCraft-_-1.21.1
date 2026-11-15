@@ -2,16 +2,9 @@
   "plant": "minecraft:melon_plant",
   "geometry": "gourd",
   "stages": [
-    "minecraft:block/melon_stem",
-    "minecraft:block/melon_stem",
-    "minecraft:block/melon_stem",
-    "minecraft:block/melon_stem",
-    "minecraft:block/melon_stem",
-    "minecraft:block/melon_stem",
-    "minecraft:block/melon_stem",
-    [
-      "minecraft:block/melon_stem",
-      "minecraft:block/melon_side"
-    ]
+    "cropgenetics:plant/melon1",
+    "cropgenetics:plant/melon2",
+    "cropgenetics:plant/melon3",
+    "cropgenetics:plant/melon4"
   ]
 }
