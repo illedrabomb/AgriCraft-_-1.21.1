@@ -8,10 +8,13 @@ import java.util.Optional;
  * Old AgriPlants soil chemistry/seasons are NOT silently interpreted as vanilla farmland.
  */
 public record PlantRequirements(int minLight, int maxLight, Optional<String> soilBlock,
-                                Optional<String> soilTag) {
+                                Optional<String> soilTag, int lightTolerance) {
     public PlantRequirements {
         Objects.requireNonNull(soilBlock);
         Objects.requireNonNull(soilTag);
+        if (lightTolerance < 0 || lightTolerance > 15) {
+            throw new IllegalArgumentException("Light tolerance must be within 0..15");
+        }
         if (minLight < 0 || maxLight > 15 || minLight > maxLight) {
             throw new IllegalArgumentException("Light range must be within 0..15");
         }
@@ -29,6 +32,6 @@ public record PlantRequirements(int minLight, int maxLight, Optional<String> soi
     }
 
     public static PlantRequirements defaultFarmland() {
-        return new PlantRequirements(9, 15, Optional.of("minecraft:farmland"), Optional.empty());
+        return new PlantRequirements(9, 15, Optional.of("minecraft:farmland"), Optional.empty(), 0);
     }
 }
