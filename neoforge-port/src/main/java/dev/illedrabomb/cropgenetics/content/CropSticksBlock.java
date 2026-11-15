@@ -107,6 +107,9 @@ public final class CropSticksBlock extends BaseEntityBlock {
         }
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
         if (plant == null) return;
+        // Retry migration if this chunk was loaded before the datapack
+        // catalogue was available. Does not advance normal growth.
+        crop.reconcileLoadedStage(plant);
         // Reconcile even under bad lighting so removed fruit never stays
         // "ready" indefinitely or gets duplicated through stem harvesting.
         if (plant.harvestMode() == HarvestMode.GOURD && crop.reconcilePhysicalFruit(plant)) return;
