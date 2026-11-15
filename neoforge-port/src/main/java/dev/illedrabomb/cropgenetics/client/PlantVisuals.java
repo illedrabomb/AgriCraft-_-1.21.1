@@ -11,93 +11,114 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.slf4j.Logger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 /**
- * Client resource-pack visuals (not server datapack definitions).
- *
- * assets/<namespace>/cropgenetics/plant_visuals/*.json:
- * { "plant": "minecraft:wheat_plant",
- *   "textures": ["minecraft:block/wheat_stage0", ...] }
- *
- * Each texture is an ordinary texture resource location WITHOUT
- * "textures/" and ".png". Never access the server's AgriPlants registry
- * from a dedicated client renderer.
+ * Resource-pack plant visuals, independently reloadable from server crop data.
+ * Supports cross / plus / gourd-style vegetation with up to two texture layers.
+ * These are approximations, not the original AgriCraft model renderer.
  */
 public final class PlantVisuals extends SimpleJsonResourceReloadListener {
     private static final Logger LOG = LogUtils.getLogger();
     public static final PlantVisuals INSTANCE = new PlantVisuals();
+    private static final ResourceLocation FALLBACK =
+            ResourceLocation.withDefaultNamespace("block/oak_leaves");
 
-    private volatile Map<String, List<ResourceLocation>> visuals = Map.of();
+    public enum Geometry { CROSS, PLUS, GOURD }
+
+    public record Visual(Geometry geometry, List<List<ResourceLocation>> stages) {
+        public Visual {
+            stages = stages.stream().map(List::copyOf).toList();
+        }
+
+        public List<ResourceLocation> at(int stage, int totalStages) {
+            int last = stages.size() - 1;
+            int index = totalStages <= 1 ? last
+                    : Math.min(last, (int) ((long) Math.max(0, stage) * last / (totalStages - 1)));
+            return stages.get(index);
+        }
+    }
+
+    private volatile Map<String, Visual> visuals = Map.of();
 
     private PlantVisuals() {
         super(new Gson(), "cropgenetics/plant_visuals");
     }
 
-    public ResourceLocation texture(String plantId, int stage, int totalStages) {
-        List<ResourceLocation> stages = visuals.get(plantId);
-        if (stages == null || stages.isEmpty()) {
-            return ResourceLocation.withDefaultNamespace("block/oak_leaves");
-        }
-        int last = stages.size() - 1;
-        int index = totalStages <= 1 ? last
-                : Math.min(last, (int) ((long) Math.max(0, stage) * last / (totalStages - 1)));
-        return stages.get(index);
+    public Visual visual(String plantId) {
+        return visuals.getOrDefault(plantId,
+                new Visual(Geometry.CROSS, List.of(List.of(FALLBACK))));
     }
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> sources, ResourceManager resourceManager,
                          ProfilerFiller profiler) {
-        Map<String, List<ResourceLocation>> next = new HashMap<>();
-        for (Map.Entry<ResourceLocation, JsonElement> source : sources.entrySet()) {
+        Map<String, Visual> next = new HashMap<>();
+        // Stable duplicate handling regardless of resource manager map order.
+        sources.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(source -> {
             try {
                 JsonObject json = source.getValue().getAsJsonObject();
-                // Modern resource-pack format, or a mirrored 1.18.2 AgriPlants
-                // entry with its original texture.plant_textures array.
                 String plantId = json.has("plant") ? json.get("plant").getAsString()
                         : json.get("id").getAsString();
                 if (ResourceLocation.tryParse(plantId) == null) {
                     throw new IllegalArgumentException("Invalid plant ID");
                 }
-                JsonObject legacyTexture = json.has("texture")
-                        ? json.getAsJsonObject("texture") : null;
-                if (legacyTexture != null && !"hash".equals(legacyTexture.get("render_type").getAsString())) {
-                    throw new IllegalArgumentException("Only legacy render_type=hash can be approximated");
+
+                JsonObject legacy = json.has("texture") ? json.getAsJsonObject("texture") : null;
+                String geometryName = legacy != null
+                        ? legacy.get("render_type").getAsString()
+                        : json.has("geometry") ? json.get("geometry").getAsString() : "cross";
+                Geometry geometry = switch (geometryName) {
+                    case "cross", "hash" -> Geometry.CROSS;
+                    case "plus" -> Geometry.PLUS;
+                    case "gourd" -> Geometry.GOURD;
+                    default -> throw new IllegalArgumentException("Unsupported geometry: " + geometryName);
+                };
+
+                JsonArray entries = legacy == null
+                        ? json.has("stages") ? json.getAsJsonArray("stages")
+                                : json.getAsJsonArray("textures")
+                        : legacy.getAsJsonArray("plant_textures");
+                if (entries == null || entries.size() < 1 || entries.size() > 64) {
+                    throw new IllegalArgumentException("Expected 1..64 stages");
                 }
-                JsonArray entries = legacyTexture != null
-                        ? legacyTexture.getAsJsonArray("plant_textures")
-                        : json.getAsJsonArray("textures");
-                if (entries == null || entries.isEmpty() || entries.size() > 64) {
-                    throw new IllegalArgumentException("Expected 1..64 texture stages");
-                }
-                List<ResourceLocation> textures = new ArrayList<>();
-                for (JsonElement value : entries) {
-                    String id;
-                    if (legacyTexture != null) {
-                        JsonArray group = value.getAsJsonArray();
-                        if (group.size() != 1) {
-                            throw new IllegalArgumentException("Multi-layer textures require a dedicated renderer");
+                List<List<ResourceLocation>> stages = new ArrayList<>();
+                for (JsonElement entry : entries) {
+                    List<ResourceLocation> layers = new ArrayList<>();
+                    if (entry.isJsonArray()) {
+                        for (JsonElement layer : entry.getAsJsonArray()) {
+                            layers.add(parseTexture(layer.getAsString()));
                         }
-                        id = group.get(0).getAsString();
                     } else {
-                        id = value.getAsString();
+                        layers.add(parseTexture(entry.getAsString()));
                     }
-                    ResourceLocation parsed = ResourceLocation.tryParse(id);
-                    if (parsed == null || !parsed.getPath().startsWith("block/")) {
-                        throw new IllegalArgumentException("Expected texture ID namespace:block/name");
+                    if (layers.isEmpty() || layers.size() > 2) {
+                        throw new IllegalArgumentException("Expected 1 or 2 texture layers per stage");
                     }
-                    textures.add(parsed);
+                    if (geometry != Geometry.GOURD && layers.size() != 1) {
+                        throw new IllegalArgumentException("Second layer only supported for gourd geometry");
+                    }
+                    stages.add(List.copyOf(layers));
                 }
-                if (next.putIfAbsent(plantId, List.copyOf(textures)) != null) {
-                    LOG.warn("Duplicate plant visuals ID {}, ignoring {}", plantId, source.getKey());
+                if (next.putIfAbsent(plantId, new Visual(geometry, stages)) != null) {
+                    LOG.warn("Duplicate plant visuals ID {} from {}", plantId, source.getKey());
                 }
             } catch (RuntimeException ex) {
                 LOG.warn("Skipping invalid plant visuals {}: {}", source.getKey(), ex.getMessage());
             }
-        }
+        });
         visuals = Map.copyOf(next);
-        LOG.info("Loaded {} crop visual definitions", visuals.size());
+        LOG.info("Loaded {} plant visual definitions", visuals.size());
+    }
+
+    private static ResourceLocation parseTexture(String id) {
+        ResourceLocation parsed = ResourceLocation.tryParse(id);
+        if (parsed == null || !(parsed.getPath().startsWith("block/")
+                || parsed.getPath().startsWith("plant/"))) {
+            throw new IllegalArgumentException("Expected namespaced block/ or plant/ texture: " + id);
+        }
+        return parsed;
     }
 }
