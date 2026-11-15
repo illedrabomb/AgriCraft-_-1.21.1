@@ -21,6 +21,7 @@ Dieses Repository ist ein Fork von [AgriCraft/AgriCraft](https://github.com/Agri
 ## Separate, optional installierbare Addons (nicht Teil der Hauptmod)
 - Bewässerung: Wasserspeicher/Tank, Kanäle und Sprinkler
 - Erweitertes Gewächshaussystem
+- MineColonies-Integration als eigenständiges optionales Addon: Kolonisten-/Farmer-Arbeitsabläufe und genetische Saaten integrieren; konkrete Schnittstellen und MineColonies-Version noch prüfen
 - Unkraut (Weeds) gehört nicht zum Hauptumfang; nur bei künftigem Bedarf als optionales Addon
 
 ## Wiederverwendung versus Neubau
@@ -37,7 +38,7 @@ Das bisherige Repository hat ca. 375 Java-Dateien unter `src/main/java`, verweis
 4. Mutation, Pflanzendatensätze, Datapacks und kompatibler Standard-Pflanzenscanner; Spezialadapter pro Mod.
 5. Züchterhaus, Villager-Handel, Analyse, Aufbewahrung, UI und Multiplayer.
 6. Spieltests (Client/Server), Balancing, Save-Kompatibilität, CI und Release-Build.
-7. Bewässerungs- und Gewächshaus-Addons unabhängig entwickeln.
+7. Bewässerungs-, Gewächshaus- und MineColonies-Addons unabhängig entwickeln; MineColonies-API und Kompatibilität erst vor der Implementierung verifizieren.
 
 ## Integrationsprinzip
 Keine Zusicherung, dass *alle* Mod-Samen ohne Anpassungen kompatibel sind: eigene Pflanzenblöcke, Sonderwachstum, Custom Harvest oder nichtstandardisierte Samen verlangen Adapter und echte Modpack-Tests. Ziel ist maximale Abdeckung ohne bestehende Ernte-/Bodenregeln anderer Mods zu beschädigen.
