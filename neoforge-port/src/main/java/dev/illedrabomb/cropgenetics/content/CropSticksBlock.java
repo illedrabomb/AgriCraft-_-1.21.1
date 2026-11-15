@@ -102,6 +102,9 @@ public final class CropSticksBlock extends BaseEntityBlock {
         }
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
         if (plant == null) return;
+        // Reconcile even under bad lighting so removed fruit never stays
+        // "ready" indefinitely or gets duplicated through stem harvesting.
+        if (plant.harvestMode() == HarvestMode.GOURD && crop.reconcilePhysicalFruit(plant)) return;
         double factor = CropConditions.growthFactor(level, pos, plant, genome);
         if (factor <= 0D) return;
         if (crop.isMature(plant)) {
@@ -109,7 +112,9 @@ public final class CropSticksBlock extends BaseEntityBlock {
                 int gain = genome.gain().expressed(GenePair.TraitMode.MAX);
                 double fruitChance = Math.min(1D,
                         plant.fruitChance() * (1D + (gain - 1) / 10.0D) * factor);
-                if (random.nextDouble() < fruitChance) crop.tryFormFruit(plant);
+                if (random.nextDouble() < fruitChance) {
+                    GourdFruits.tryPlace(level, pos, plant, crop, random);
+                }
             }
             return;
         }
