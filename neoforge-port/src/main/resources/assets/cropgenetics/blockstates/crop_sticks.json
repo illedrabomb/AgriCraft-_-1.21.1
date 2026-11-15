@@ -10,7 +10,7 @@
       "model": "cropgenetics:block/crop_sticks_cross"
     },
     "cross=true,planted=true,stage=0": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+      "model": "cropgenetics:block/crop_sticks_cross_young"
     },
     "cross=false,planted=false,stage=1": {
       "model": "cropgenetics:block/crop_sticks"
@@ -22,7 +22,7 @@
       "model": "cropgenetics:block/crop_sticks_cross"
     },
     "cross=true,planted=true,stage=1": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+      "model": "cropgenetics:block/crop_sticks_cross_young"
     },
     "cross=false,planted=false,stage=2": {
       "model": "cropgenetics:block/crop_sticks"
@@ -34,7 +34,7 @@
       "model": "cropgenetics:block/crop_sticks_cross"
     },
     "cross=true,planted=true,stage=2": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+      "model": "cropgenetics:block/crop_sticks_cross_young"
     },
     "cross=false,planted=false,stage=3": {
       "model": "cropgenetics:block/crop_sticks"
@@ -46,7 +46,7 @@
       "model": "cropgenetics:block/crop_sticks_cross"
     },
     "cross=true,planted=true,stage=3": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+      "model": "cropgenetics:block/crop_sticks_cross_mid"
     },
     "cross=false,planted=false,stage=4": {
       "model": "cropgenetics:block/crop_sticks"
@@ -58,7 +58,7 @@
       "model": "cropgenetics:block/crop_sticks_cross"
     },
     "cross=true,planted=true,stage=4": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+      "model": "cropgenetics:block/crop_sticks_cross_mid"
     },
     "cross=false,planted=false,stage=5": {
       "model": "cropgenetics:block/crop_sticks"
@@ -70,7 +70,7 @@
       "model": "cropgenetics:block/crop_sticks_cross"
     },
     "cross=true,planted=true,stage=5": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+      "model": "cropgenetics:block/crop_sticks_cross_mid"
     },
     "cross=false,planted=false,stage=6": {
       "model": "cropgenetics:block/crop_sticks"
@@ -82,7 +82,7 @@
       "model": "cropgenetics:block/crop_sticks_cross"
     },
     "cross=true,planted=true,stage=6": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+      "model": "cropgenetics:block/crop_sticks_cross_mature"
     },
     "cross=false,planted=false,stage=7": {
       "model": "cropgenetics:block/crop_sticks"
@@ -94,7 +94,7 @@
       "model": "cropgenetics:block/crop_sticks_cross"
     },
     "cross=true,planted=true,stage=7": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+      "model": "cropgenetics:block/crop_sticks_cross_mature"
     }
   }
 }
