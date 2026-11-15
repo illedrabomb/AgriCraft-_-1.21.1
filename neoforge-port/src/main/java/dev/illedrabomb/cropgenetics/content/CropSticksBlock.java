@@ -220,7 +220,11 @@ public final class CropSticksBlock extends BaseEntityBlock {
         Genome genome = crop.genome();
         if (genome == null) return InteractionResult.PASS;
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
-        if (plant == null || !crop.readyForHarvest(plant)) return InteractionResult.PASS;
+        if (plant == null) return InteractionResult.PASS;
+        // A player can harvest immediately after /reload, before the next
+        // staggered ticker. Normalize saved age only on the server.
+        if (!level.isClientSide) crop.reconcileLoadedStage(plant);
+        if (!crop.readyForHarvest(plant)) return InteractionResult.PASS;
 
         if (!level.isClientSide && crop.finishHarvest(plant)) {
             for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom())) {
