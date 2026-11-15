@@ -12,6 +12,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
@@ -20,6 +21,8 @@ import java.util.UUID;
 /** Owns the exact growth stage and the genome of a planted crop. */
 public final class CropSticksBlockEntity extends BlockEntity {
     @Nullable private Genome genome;
+    private boolean seedAnalyzed;
+    @Nullable private String originalSeedId;
     private int growthStage;
     // Also synced to clients: the client cannot read server datapack stage counts.
     // Zero signals an older save that only has the 0..7 blockstate stage.
@@ -77,6 +80,17 @@ public final class CropSticksBlockEntity extends BlockEntity {
     }
 
     @Nullable public Genome genome() { return genome; }
+    public boolean seedAnalyzed() { return seedAnalyzed; }
+    @Nullable public String originalSeedId() { return originalSeedId; }
+
+    /** Uprooted genetic seed retains the exact parent's metadata. */
+    public ItemStack seedDrop() {
+        if (genome == null) return ItemStack.EMPTY;
+        ItemStack result = CropItems.seedWithGenome(genome);
+        if (originalSeedId != null) result.set(CropComponents.ORIGINAL_SEED.get(), originalSeedId);
+        if (seedAnalyzed) result.set(CropComponents.ANALYZED.get(), true);
+        return result;
+    }
     public int growthStage() { return growthStage; }
     public int totalGrowthStages() { return totalGrowthStages; }
     public boolean fruitReady() { return fruitReady; }
@@ -84,11 +98,24 @@ public final class CropSticksBlockEntity extends BlockEntity {
     @Nullable public UUID fruitToken() { return fruitToken; }
 
     public boolean plant(Genome seedGenome) {
+        return plant(seedGenome, ItemStack.EMPTY);
+    }
+
+    /** Accept the actual consumed seed stack to preserve origin and analysis. */
+    public boolean plant(Genome seedGenome, ItemStack sourceSeed) {
         if (genome != null || seedGenome == null || level == null || level.isClientSide
                 || getBlockState().getValue(CropSticksBlock.CROSS)) return false;
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(seedGenome.plantId());
         if (plant == null) return false;
         genome = seedGenome;
+        seedAnalyzed = CropItems.isAnalyzed(sourceSeed);
+        originalSeedId = sourceSeed.isEmpty() ? null
+                : sourceSeed.get(CropComponents.ORIGINAL_SEED.get());
+        if (originalSeedId == null && !sourceSeed.isEmpty()
+                && !sourceSeed.is(CropItems.GENETIC_SEED.get())) {
+            originalSeedId = net.minecraft.core.registries.BuiltInRegistries.ITEM
+                    .getKey(sourceSeed.getItem()).toString();
+        }
         growthStage = 0;
         totalGrowthStages = plant.stages().size();
         fruitReady = false;
@@ -107,6 +134,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 || !getBlockState().getValue(CropSticksBlock.CROSS)
                 || !child.plantId().equals(plant.id())) return false;
         genome = child;
+        // A new crossed genome has never been analyzed, even if parents were.
+        seedAnalyzed = false;
+        originalSeedId = null;
         growthStage = 0;
         totalGrowthStages = plant.stages().size();
         fruitReady = false;
@@ -227,6 +257,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putInt("GrowthStage", growthStage);
+        tag.putBoolean("SeedAnalyzed", seedAnalyzed);
+        if (originalSeedId != null) tag.putString("OriginalSeed", originalSeedId);
         tag.putInt("TotalGrowthStages", totalGrowthStages);
         tag.putBoolean("FruitReady", fruitReady);
         if (fruitReady && fruitDirection != null && fruitToken != null) {
@@ -241,6 +273,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         growthStage = Math.max(0, tag.getInt("GrowthStage"));
+        seedAnalyzed = tag.getBoolean("SeedAnalyzed");
+        originalSeedId = tag.contains("OriginalSeed")
+                ? tag.getString("OriginalSeed") : null;
         int savedTotal = tag.getInt("TotalGrowthStages");
         totalGrowthStages = savedTotal >= 1 && savedTotal <= 64 ? savedTotal : 0;
         fruitReady = tag.getBoolean("FruitReady");
