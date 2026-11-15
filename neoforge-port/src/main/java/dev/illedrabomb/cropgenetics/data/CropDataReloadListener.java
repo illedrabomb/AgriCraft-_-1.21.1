@@ -91,6 +91,16 @@ public final class CropDataReloadListener extends
                 }
                 PlantDefinition plant = AgriPlantsParser.plant(json);
                 id = plant.id();
+                // The apply phase runs with live Minecraft registries available.
+                // Reject unknown items/blocks instead of silently growing
+                // unharvestable plants or accepting impossible soil rules.
+                List<String> registryErrors = PlantRegistryValidator.errors(plant);
+                if (!registryErrors.isEmpty()) {
+                    details.add(entry(CropReloadReport.Kind.PLANT, key, id,
+                            CropReloadReport.Status.INVALID,
+                            String.join("; ", registryErrors)));
+                    return;
+                }
                 if (duplicates.contains(id)) {
                     details.add(entry(CropReloadReport.Kind.PLANT, key, id,
                             CropReloadReport.Status.CONFLICT, "Duplicate plant ID: " + id));
