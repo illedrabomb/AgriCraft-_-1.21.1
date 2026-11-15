@@ -85,6 +85,7 @@ public final class CropDataCommand {
         }
         tell(source, "Crop Genetics " + (includeLoaded ? "all files" : "issues")
                 + " - page " + page + "/" + pages + " (" + entries.size() + " entries):");
+        // Bounds checked before multiplication: a huge page argument must not overflow.
         int from = (page - 1) * PAGE_SIZE;
         int to = Math.min(entries.size(), from + PAGE_SIZE);
         if (entries.isEmpty()) tell(source, "No matching entries.");
