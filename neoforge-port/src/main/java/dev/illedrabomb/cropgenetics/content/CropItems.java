@@ -28,6 +28,21 @@ public final class CropItems {
         return stack;
     }
 
+    /** Called on the server when a seed analyzer successfully scans this stack. */
+    public static boolean markAnalyzed(ItemStack stack) {
+        if (!stack.is(GENETIC_SEED.get()) || stack.get(CropComponents.GENOME.get()) == null) {
+            return false;
+        }
+        stack.set(CropComponents.ANALYZED.get(), true);
+        return true;
+    }
+
+    /** Analysis belongs to the individual stack and persists across saves. */
+    public static boolean isAnalyzed(ItemStack stack) {
+        return Boolean.TRUE.equals(stack.get(CropComponents.ANALYZED.get()))
+                && stack.get(CropComponents.GENOME.get()) != null;
+    }
+
     public static void register(IEventBus bus) {
         ITEMS.register(bus);
     }
