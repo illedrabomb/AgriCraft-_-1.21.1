@@ -65,7 +65,7 @@ public final class CrossBreeding {
 
         Genome first = parents.get(0);
         Genome second = parents.get(1);
-        String childId = chooseChildSpecies(first, second, snapshot, random);
+        String childId = chooseChildSpecies(first, second, snapshot, level, position, random);
         PlantDefinition childPlant = plants.get(childId);
         if (childPlant == null) return;
 
@@ -75,12 +75,17 @@ public final class CrossBreeding {
     }
 
     private static String chooseChildSpecies(Genome first, Genome second,
-                                             AgriPlantsRegistry.Snapshot snapshot, RandomSource random) {
+                                             AgriPlantsRegistry.Snapshot snapshot,
+                                             ServerLevel level, BlockPos target, RandomSource random) {
         // Sort by datapack ID for deterministic iteration regardless of Map ordering.
         List<Map.Entry<String, MutationDefinition>> candidates = snapshot.mutations().entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().matchesParents(first.plantId(), second.plantId()))
                 .filter(entry -> snapshot.plants().containsKey(entry.getValue().childPlantId()))
+                // Do not consume a successful mutation roll on a child species
+                // that cannot grow on the actual destination soil.
+                .filter(entry -> CropConditions.matchesSoil(level, target,
+                        snapshot.plants().get(entry.getValue().childPlantId()).requirements()))
                 .sorted(Comparator.comparing(Map.Entry::getKey))
                 .toList();
 
@@ -89,7 +94,19 @@ public final class CrossBreeding {
                 return entry.getValue().childPlantId();
             }
         }
-        // No matching/successful species mutation: inherit one of the parent species.
-        return random.nextBoolean() ? first.plantId() : second.plantId();
+        // No matching/successful species mutation: pick a parent species
+        // that supports the target soil, rather than wasting this breeding
+        // attempt on a species that could never take root there.
+        String preferred = random.nextBoolean() ? first.plantId() : second.plantId();
+        String alternate = preferred.equals(first.plantId()) ? second.plantId() : first.plantId();
+        PlantDefinition preferredPlant = snapshot.plants().get(preferred);
+        if (preferredPlant != null
+                && CropConditions.matchesSoil(level, target, preferredPlant.requirements()))
+            return preferred;
+        PlantDefinition otherPlant = snapshot.plants().get(alternate);
+        if (otherPlant != null
+                && CropConditions.matchesSoil(level, target, otherPlant.requirements()))
+            return alternate;
+        return preferred; // caller still rejects unsuitable offspring safely
     }
 }
