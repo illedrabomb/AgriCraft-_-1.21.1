@@ -42,6 +42,7 @@
   "cropgenetics_requirements": {
     "min_light": 9,
     "max_light": 15,
-    "soil_block": "minecraft:farmland"
+    "soil_block": "minecraft:farmland",
+    "light_tolerance": 3
   }
 }
