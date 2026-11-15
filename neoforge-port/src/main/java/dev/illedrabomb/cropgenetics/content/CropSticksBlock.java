@@ -95,8 +95,11 @@ public final class CropSticksBlock extends BaseEntityBlock {
             return;
         }
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
-        if (plant == null || crop.isMature(plant) || !CropConditions.canGrow(level, pos, plant)) return;
-        if (random.nextDouble() < CropGrowth.chance(plant, genome)) crop.advanceGrowth(plant);
+        if (plant == null || crop.isMature(plant)) return;
+        double factor = CropConditions.growthFactor(level, pos, plant, genome);
+        if (factor > 0D && random.nextDouble() < CropGrowth.chance(plant, genome) * factor) {
+            crop.advanceGrowth(plant);
+        }
     }
 
     @Override
@@ -121,7 +124,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
             PlantDefinition plant = genome == null ? null
                     : CropGeneticsMod.plants().plants().get(genome.plantId());
             if (plant == null || crop.genome() != null
-                    || !CropConditions.canGrow(level, pos, plant)) {
+                    || !CropConditions.canGrow(level, pos, plant, genome)) {
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
             if (!level.isClientSide && crop.plant(genome) && !player.isCreative()) stack.shrink(1);
@@ -135,7 +138,8 @@ public final class CropSticksBlock extends BaseEntityBlock {
                 && stack.getComponentsPatch().isEmpty()) {
             String seedId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
             var plant = CropGeneticsMod.plants().plantForSeed(seedId);
-            if (plant.isPresent() && CropConditions.canGrow(level, pos, plant.get())) {
+            if (plant.isPresent() && CropConditions.canGrow(level, pos, plant.get(),
+                    Genome.basic(plant.get().id()))) {
                 if (!level.isClientSide) {
                     if (!crop.plant(Genome.basic(plant.get().id()))) {
                         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
