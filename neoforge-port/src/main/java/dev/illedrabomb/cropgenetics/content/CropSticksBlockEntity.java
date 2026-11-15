@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics.content;
 
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
+import dev.illedrabomb.cropgenetics.data.HarvestMode;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.genetics.GenomeCodecs;
 import net.minecraft.core.BlockPos;
@@ -17,6 +18,7 @@ import javax.annotation.Nullable;
 public final class CropSticksBlockEntity extends BlockEntity {
     @Nullable private Genome genome;
     private int growthStage;
+    private boolean fruitReady;
 
     public CropSticksBlockEntity(BlockPos pos, BlockState state) {
         super(CropBlocks.CROP_STICKS_ENTITY.get(), pos, state);
@@ -24,6 +26,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
 
     @Nullable public Genome genome() { return genome; }
     public int growthStage() { return growthStage; }
+    public boolean fruitReady() { return fruitReady; }
 
     public boolean plant(Genome seedGenome) {
         if (genome != null || seedGenome == null || level == null || level.isClientSide
@@ -32,6 +35,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (plant == null) return false;
         genome = seedGenome;
         growthStage = 0;
+        fruitReady = false;
         syncState(plant);
         return true;
     }
@@ -46,6 +50,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 || !child.plantId().equals(plant.id())) return false;
         genome = child;
         growthStage = 0;
+        fruitReady = false;
         syncState(plant);
         return true;
     }
@@ -59,12 +64,27 @@ public final class CropSticksBlockEntity extends BlockEntity {
         return true;
     }
 
+    /** Mature gourd stems form a single separate fruit on later random ticks. */
+    public boolean tryFormFruit(PlantDefinition plant) {
+        if (level == null || level.isClientSide || plant.harvestMode() != HarvestMode.GOURD
+                || !isMature(plant) || fruitReady) return false;
+        fruitReady = true;
+        syncState(plant);
+        return true;
+    }
+
+    public boolean readyForHarvest(PlantDefinition plant) {
+        return isMature(plant)
+                && (plant.harvestMode() != HarvestMode.GOURD || fruitReady);
+    }
+
     /**
      * Regrow from the stage configured in AgriPlants after a successful harvest.
      * No mutation of the stored genome occurs, and the block is not destroyed.
      */
     public boolean finishHarvest(PlantDefinition plant) {
-        if (level == null || level.isClientSide || !isMature(plant)) return false;
+        if (level == null || level.isClientSide || !readyForHarvest(plant)) return false;
+        fruitReady = false;
         // A final-stage reset would allow unlimited repeated harvests without regrowth.
         growthStage = plant.harvestStage() >= plant.stages().size() - 1
                 ? 0 : Math.max(0, plant.harvestStage());
@@ -83,6 +103,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         BlockState previous = getBlockState();
         BlockState updated = previous.setValue(CropSticksBlock.PLANTED, genome != null)
                 .setValue(CropSticksBlock.STAGE, CropGrowth.displayStage(growthStage, plant.stages().size()))
+                .setValue(CropSticksBlock.FRUIT, fruitReady)
                 .setValue(CropSticksBlock.SPECIES, genome == null
                         ? CropAppearance.GENERIC : CropAppearance.fromPlantId(genome.plantId()));
         if (!updated.equals(previous)) level.setBlock(worldPosition, updated, 3);
@@ -93,6 +114,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putInt("GrowthStage", growthStage);
+        tag.putBoolean("FruitReady", fruitReady);
         if (genome != null) GenomeCodecs.GENOME.encodeStart(NbtOps.INSTANCE, genome)
                 .result().ifPresent(value -> tag.put("Genome", value));
     }
@@ -101,9 +123,11 @@ public final class CropSticksBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         growthStage = Math.max(0, tag.getInt("GrowthStage"));
+        fruitReady = tag.getBoolean("FruitReady");
         genome = null;
         if (tag.contains("Genome")) GenomeCodecs.GENOME.parse(NbtOps.INSTANCE, tag.get("Genome"))
                 .result().ifPresent(value -> genome = value);
+        if (genome == null) fruitReady = false;
     }
 
     @Override
