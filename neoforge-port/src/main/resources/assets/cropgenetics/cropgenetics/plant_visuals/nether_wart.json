@@ -1,0 +1,13 @@
+{
+  "plant": "minecraft:nether_wart_plant",
+  "textures": [
+    "minecraft:block/nether_wart_stage0",
+    "minecraft:block/nether_wart_stage0",
+    "minecraft:block/nether_wart_stage0",
+    "minecraft:block/nether_wart_stage1",
+    "minecraft:block/nether_wart_stage1",
+    "minecraft:block/nether_wart_stage1",
+    "minecraft:block/nether_wart_stage1",
+    "minecraft:block/nether_wart_stage2"
+  ]
+}
