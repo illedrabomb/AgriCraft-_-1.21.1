@@ -36,7 +36,8 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
 
         // Only GOURD entries may have a second layer. Display it separately
         // rather than interpreting multi-texture data as two ordinary crops.
-        if (visual.geometry() == PlantVisuals.Geometry.GOURD && layers.size() == 2) {
+        if (visual.geometry() == PlantVisuals.Geometry.GOURD && layers.size() == 2
+                && crop.getBlockState().getValue(CropSticksBlock.FRUIT)) {
             drawLayer(layers.get(1), PlantVisuals.Geometry.CROSS, poses, buffers,
                     0.22F, 0.78F, 0.05F, 0.72F, packedLight, packedOverlay);
         }
