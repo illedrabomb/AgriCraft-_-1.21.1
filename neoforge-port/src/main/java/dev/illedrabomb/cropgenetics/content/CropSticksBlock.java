@@ -119,13 +119,43 @@ public final class CropSticksBlock extends BaseEntityBlock {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
+    /**
+     * Empty-hand / default right click harvest. Genetic seed remains planted;
+     * only the fruit products are dropped, and the growth stage resets.
+     */
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level,
+            BlockPos pos, Player player, BlockHitResult hit) {
+        if (!(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)) {
+            return InteractionResult.PASS;
+        }
+        Genome genome = crop.genome();
+        if (genome == null) return InteractionResult.PASS;
+        PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
+        if (plant == null || !crop.isMature(plant)) return InteractionResult.PASS;
+
+        if (!level.isClientSide && crop.finishHarvest(plant)) {
+            for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom())) {
+                popResource(level, pos, drop);
+            }
+        }
+        return InteractionResult.SUCCESS;
+    }
+
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> drops = new ArrayList<>();
         drops.add(new ItemStack(CropItems.CROP_STICKS.get(), state.getValue(CROSS) ? 2 : 1));
         BlockEntity entity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if (entity instanceof CropSticksBlockEntity crop && crop.genome() != null) {
-            drops.add(CropItems.seedWithGenome(crop.genome()));
+            Genome genome = crop.genome();
+            drops.add(CropItems.seedWithGenome(genome));
+            PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
+            // Normal breaking is destructive: keep the seed, and if mature add
+            // products. Repeated calls are avoided through the usual block loot path.
+            if (plant != null && crop.isMature(plant)) {
+                drops.addAll(CropHarvest.products(plant, genome, builder.getLevel().getRandom()));
+            }
         }
         return drops;
     }
