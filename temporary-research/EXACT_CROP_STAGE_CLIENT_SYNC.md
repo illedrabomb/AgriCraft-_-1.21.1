@@ -25,3 +25,9 @@ Die Clienttexturen werden weiterhin aus dem lokalen Resource-Pack geladen, nicht
 
 ## Nächste Schritte
 Bei späterer ausdrücklicher Genehmigung: Compile, Multiplayer-Chunk-Neueintritt, Pflanze mit 16/32 Texturframes, Wachstum innerhalb einer unveränderten BlockState-Stufe sowie Speichern/Neuladen alter Save-Daten gezielt prüfen.
+
+## Ergänzung: BlockState-Konsistenz bei älteren Chunks (2026-11-15)
+
+Die inzwischen vorhandene Migration über `onLoad()`, `reconcileLoadedStage()` und den periodischen `BlockEntityTicker` repariert fehlende `TotalGrowthStages`-Daten. Die Prüfung `stageMetadataMatches(plant)` wurde zusätzlich erweitert: Sie vergleicht nun `PLANTED`, den auf 0..7 normalisierten `STAGE` und `SPECIES` mit dem gespeicherten Genom und der exakten Stufe. Dadurch werden auch alte oder inkonsistente BlockStates korrigiert, obwohl die beiden NBT-Stufenwerte bereits gültig sind. `reconcileLoadedStage` ruft dafür dieselbe bestehende `syncState(plant)`-Routine auf; keine neuen Pakete und keine Änderung an der genetischen Wachstumslogik.
+
+**Nicht ausgeführt:** Build, Tests, CI oder Minecraft. Die korrekte Aktualisierung beim Chunk-Neuladen ist weiterhin ingame zu verifizieren.
