@@ -31,6 +31,18 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.8-alpha: NeoForge 1.21.1 API compile fixes (Codex H1)
+
+- `CropSticksBlock` and `GeneticGourdFruitBlock`, both derived from
+  `BaseEntityBlock`, now implement its required `codec()` method using
+  `MapCodec` plus the Vanilla `simpleCodec(Properties constructor)` helper.
+- The `CropItems.CROP_STICKS` registration is typed
+  `DeferredItem<BlockItem>` to match NeoForge's `registerSimpleBlockItem`
+  return type, instead of the incompatible `DeferredItem<Item>`.
+- No gameplay or resource behavior was intentionally changed in this commit.
+- **Source-level fix only**: no compile, tests or game launch were authorized.
+  Further compile issues, if any, remain to be found by a later authorized build.
+
 ## 0.2.7-alpha: client-side survival prediction for specialty soils
 
 Confirmed that `PlantVisuals` accepts **both** the `textures` schema

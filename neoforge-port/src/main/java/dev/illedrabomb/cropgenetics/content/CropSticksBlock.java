@@ -1,5 +1,7 @@
 package dev.illedrabomb.cropgenetics.content;
 
+import com.mojang.serialization.MapCodec;
+
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
@@ -47,6 +49,13 @@ import javax.annotation.Nullable;
  * sticks. Empty crossing sticks discover neighboring mature crops on server ticks.
  */
 public final class CropSticksBlock extends BaseEntityBlock {
+    public static final MapCodec<CropSticksBlock> CODEC = simpleCodec(CropSticksBlock::new);
+
+    @Override
+    protected MapCodec<? extends CropSticksBlock> codec() {
+        return CODEC;
+    }
+
     public static final BooleanProperty CROSS = BooleanProperty.create("cross");
     public static final BooleanProperty PLANTED = BooleanProperty.create("planted");
     public static final BooleanProperty FRUIT = BooleanProperty.create("fruit");

@@ -8,6 +8,7 @@ import net.minecraft.world.item.Items;
 import java.util.Optional;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -26,7 +27,7 @@ public final class CropItems {
     public static final DeferredItem<SeedAnalyzerItem> SEED_ANALYZER =
             ITEMS.registerItem("seed_analyzer", SeedAnalyzerItem::new);
 
-    public static final DeferredItem<Item> CROP_STICKS =
+    public static final DeferredItem<BlockItem> CROP_STICKS =
             ITEMS.registerSimpleBlockItem("crop_sticks", CropBlocks.CROP_STICKS);
 
     /** Creates a genetic seed without losing the inherited genome. */
