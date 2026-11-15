@@ -45,6 +45,17 @@ public final class CropSticksBlockEntity extends BlockEntity {
         return true;
     }
 
+    /**
+     * Regrow from the stage configured in AgriPlants after a successful harvest.
+     * No mutation of the stored genome occurs, and the block is not destroyed.
+     */
+    public boolean finishHarvest(PlantDefinition plant) {
+        if (level == null || level.isClientSide || !isMature(plant)) return false;
+        growthStage = Math.max(0, Math.min(plant.harvestStage(), plant.stages().size() - 1));
+        syncState(plant);
+        return true;
+    }
+
     public boolean isMature(PlantDefinition plant) {
         return genome != null && genome.plantId().equals(plant.id())
                 && growthStage >= plant.stages().size() - 1;
