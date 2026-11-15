@@ -8,7 +8,7 @@ public record PlantDefinition(
         String id, List<String> requiredMods, List<String> seedItems, List<Integer> stages,
         int harvestStage, double growthChance, double growthBonus,
         boolean cloneable, double spreadChance, List<HarvestProduct> harvestProducts,
-        PlantRequirements requirements
+        PlantRequirements requirements, HarvestMode harvestMode, double fruitChance
 ) {
     public PlantDefinition {
         Objects.requireNonNull(id);
@@ -17,6 +17,13 @@ public record PlantDefinition(
         stages = List.copyOf(stages);
         harvestProducts = List.copyOf(harvestProducts);
         Objects.requireNonNull(requirements);
+        Objects.requireNonNull(harvestMode);
+        if (!Double.isFinite(fruitChance) || fruitChance < 0 || fruitChance > 1)
+            throw new IllegalArgumentException("Invalid fruit chance");
+        if (harvestMode == HarvestMode.GOURD && (harvestProducts.size() != 1
+                || harvestProducts.get(0).minimum() != 1 || harvestProducts.get(0).maximum() != 1
+                || harvestProducts.get(0).chance() != 1))
+            throw new IllegalArgumentException("Gourd requires one guaranteed single fruit product");
         if (!id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) throw new IllegalArgumentException("Invalid plant ID: " + id);
         if (seedItems.stream().anyMatch(seed -> seed == null || !seed.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")))
             throw new IllegalArgumentException("Invalid seed item ID");
