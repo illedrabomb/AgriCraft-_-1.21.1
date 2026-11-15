@@ -26,9 +26,9 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 ## Versioning and branch policy
 
 - `master`: pinned to commit `fe111987fb50759aa9607fc5b68f79430c124441`, the **0.1.0-alpha source revision reported as thoroughly tested locally with Codex**. A subsequently built and booted local analyzer variant was not identified by its own commit SHA and is **not** asserted to be present on `master`.
-- `entwicklung`: ongoing feature work, starting at `0.2.0-alpha`, not yet verified by a build or game test.
-- **Minor** milestone (`0.1.0-alpha` → `0.2.0-alpha`): increment when starting a substantial feature batch, not for every single commit.
-- **Patch** revision (`0.2.0-alpha.1`, etc.) may be used for specific alpha fixes/build candidates; avoid presenting an untested commit as a tested release.
+- `entwicklung`: ongoing feature work; the current mod version is increased with each commit (starting with `0.2.1-alpha`), and new code remains unverified until explicitly tested.
+- **Minor** milestone (`0.1.0-alpha` → `0.2.0-alpha`): increase the middle number when starting a substantial feature batch, resetting the patch number to zero.
+- **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
 ## Crafting-only recovery of original seeds
