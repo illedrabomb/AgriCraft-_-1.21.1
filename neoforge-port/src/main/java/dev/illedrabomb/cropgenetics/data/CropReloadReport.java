@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public record CropReloadReport(List<Entry> entries) {
     public enum Kind { PLANT, MUTATION }
-    public enum Status { LOADED, DISABLED, MISSING_MOD, INVALID, CONFLICT, MISSING_SPECIES }
+    public enum Status { LOADED, WARNING, DISABLED, MISSING_MOD, INVALID, CONFLICT, MISSING_SPECIES }
 
     public record Entry(Kind kind, ResourceLocation source, String plantId,
                         Status status, String detail) {
