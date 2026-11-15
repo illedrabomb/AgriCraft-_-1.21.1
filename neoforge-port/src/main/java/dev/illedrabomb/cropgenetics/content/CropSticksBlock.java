@@ -3,6 +3,8 @@ package dev.illedrabomb.cropgenetics.content;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
+import dev.illedrabomb.cropgenetics.data.HarvestMode;
+import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
@@ -41,6 +43,7 @@ import javax.annotation.Nullable;
 public final class CropSticksBlock extends BaseEntityBlock {
     public static final BooleanProperty CROSS = BooleanProperty.create("cross");
     public static final BooleanProperty PLANTED = BooleanProperty.create("planted");
+    public static final BooleanProperty FRUIT = BooleanProperty.create("fruit");
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 7);
     public static final EnumProperty<CropAppearance> SPECIES = EnumProperty.create("species", CropAppearance.class);
 
@@ -49,12 +52,12 @@ public final class CropSticksBlock extends BaseEntityBlock {
     public CropSticksBlock(Properties properties) {
         super(properties.randomTicks());
         registerDefaultState(stateDefinition.any().setValue(CROSS, false).setValue(PLANTED, false).setValue(STAGE, 0)
-                .setValue(SPECIES, CropAppearance.GENERIC));
+                .setValue(SPECIES, CropAppearance.GENERIC).setValue(FRUIT, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
-        builder.add(CROSS, PLANTED, STAGE, SPECIES);
+        builder.add(CROSS, PLANTED, STAGE, SPECIES, FRUIT);
     }
 
     @Override
@@ -98,9 +101,19 @@ public final class CropSticksBlock extends BaseEntityBlock {
             return;
         }
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
-        if (plant == null || crop.isMature(plant)) return;
+        if (plant == null) return;
         double factor = CropConditions.growthFactor(level, pos, plant, genome);
-        if (factor > 0D && random.nextDouble() < CropGrowth.chance(plant, genome) * factor) {
+        if (factor <= 0D) return;
+        if (crop.isMature(plant)) {
+            if (plant.harvestMode() == HarvestMode.GOURD && !crop.fruitReady()) {
+                int gain = genome.gain().expressed(GenePair.TraitMode.MAX);
+                double fruitChance = Math.min(1D,
+                        plant.fruitChance() * (1D + (gain - 1) / 10.0D) * factor);
+                if (random.nextDouble() < fruitChance) crop.tryFormFruit(plant);
+            }
+            return;
+        }
+        if (random.nextDouble() < CropGrowth.chance(plant, genome) * factor) {
             crop.advanceGrowth(plant);
         }
     }
@@ -169,7 +182,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
         Genome genome = crop.genome();
         if (genome == null) return InteractionResult.PASS;
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
-        if (plant == null || !crop.isMature(plant)) return InteractionResult.PASS;
+        if (plant == null || !crop.readyForHarvest(plant)) return InteractionResult.PASS;
 
         if (!level.isClientSide && crop.finishHarvest(plant)) {
             for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom())) {
@@ -190,7 +203,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
             PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
             // Normal breaking is destructive: keep the seed, and if mature add
             // products. Repeated calls are avoided through the usual block loot path.
-            if (plant != null && crop.isMature(plant)) {
+            if (plant != null && crop.readyForHarvest(plant)) {
                 drops.addAll(CropHarvest.products(plant, genome, builder.getLevel().getRandom()));
             }
         }
