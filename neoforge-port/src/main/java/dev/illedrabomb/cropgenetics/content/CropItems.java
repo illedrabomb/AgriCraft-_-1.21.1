@@ -2,6 +2,10 @@ package dev.illedrabomb.cropgenetics.content;
 
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
+import dev.illedrabomb.cropgenetics.data.PlantDefinition;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import java.util.Optional;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +30,45 @@ public final class CropItems {
     public static ItemStack seedWithGenome(Genome genome) {
         ItemStack stack = new ItemStack(GENETIC_SEED.get());
         stack.set(CropComponents.GENOME.get(), genome);
+        // Retain the source item while the active datapack still knows it.
+        // Later recovery does not require the same crop adapter to exist.
+        originalSeedId(genome).ifPresent(id -> stack.set(CropComponents.ORIGINAL_SEED.get(), id));
         return stack;
+    }
+
+    /** Choose a registered original seed from the current species definition. */
+    private static Optional<String> originalSeedId(Genome genome) {
+        PlantDefinition plant = CropGeneticsMod.plants().snapshot().plants().get(genome.plantId());
+        if (plant == null) return Optional.empty();
+        for (String candidate : plant.seedItems()) {
+            ResourceLocation id = ResourceLocation.tryParse(candidate);
+            if (id != null && BuiltInRegistries.ITEM.getOptional(id)
+                    .filter(item -> item != Items.AIR).isPresent()) {
+                return Optional.of(candidate);
+            }
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Explicit fallback conversion, never automatic: one genetic seed becomes
+     * one plain Vanilla/mod seed. The resulting ItemStack deliberately carries
+     * no genetics or analysis components, matching the original item behavior.
+     *
+     * For older stacks without original_seed, use the currently active plant
+     * catalogue. If neither lookup works, do not consume the genetic seed.
+     */
+    public static Optional<ItemStack> recoverOriginalSeed(ItemStack geneticSeed) {
+        if (!geneticSeed.is(GENETIC_SEED.get()) || !hasGenome(geneticSeed)) return Optional.empty();
+        Genome genome = geneticSeed.get(CropComponents.GENOME.get());
+        String recorded = geneticSeed.get(CropComponents.ORIGINAL_SEED.get());
+        String source = recorded != null ? recorded : originalSeedId(genome).orElse(null);
+        if (source == null) return Optional.empty();
+        ResourceLocation id = ResourceLocation.tryParse(source);
+        if (id == null) return Optional.empty();
+        return BuiltInRegistries.ITEM.getOptional(id)
+                .filter(item -> item != Items.AIR && item != GENETIC_SEED.get())
+                .map(ItemStack::new);
     }
 
     /**
