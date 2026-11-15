@@ -26,7 +26,8 @@ public final class CrossBreeding {
                                RandomSource random) {
         if (target.genome() != null || !target.getBlockState().getValue(CropSticksBlock.CROSS)) return;
         AgriPlantsRegistry registry = CropGeneticsMod.plants();
-        Map<String, PlantDefinition> plants = registry.plants();
+        AgriPlantsRegistry.Snapshot snapshot = registry.snapshot();
+        Map<String, PlantDefinition> plants = snapshot.plants();
         List<Genome> parents = new ArrayList<>();
 
         for (Direction direction : Direction.Plane.HORIZONTAL) {
@@ -64,7 +65,7 @@ public final class CrossBreeding {
 
         Genome first = parents.get(0);
         Genome second = parents.get(1);
-        String childId = chooseChildSpecies(first, second, registry, random);
+        String childId = chooseChildSpecies(first, second, snapshot, random);
         PlantDefinition childPlant = plants.get(childId);
         if (childPlant == null) return;
 
@@ -74,12 +75,12 @@ public final class CrossBreeding {
     }
 
     private static String chooseChildSpecies(Genome first, Genome second,
-                                             AgriPlantsRegistry registry, RandomSource random) {
+                                             AgriPlantsRegistry.Snapshot snapshot, RandomSource random) {
         // Sort by datapack ID for deterministic iteration regardless of Map ordering.
-        List<Map.Entry<String, MutationDefinition>> candidates = registry.mutations().entrySet()
+        List<Map.Entry<String, MutationDefinition>> candidates = snapshot.mutations().entrySet()
                 .stream()
                 .filter(entry -> entry.getValue().matchesParents(first.plantId(), second.plantId()))
-                .filter(entry -> registry.plants().containsKey(entry.getValue().childPlantId()))
+                .filter(entry -> snapshot.plants().containsKey(entry.getValue().childPlantId()))
                 .sorted(Comparator.comparing(Map.Entry::getKey))
                 .toList();
 
