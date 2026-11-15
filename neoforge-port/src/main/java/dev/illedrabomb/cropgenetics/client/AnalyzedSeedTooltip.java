@@ -21,9 +21,20 @@ public final class AnalyzedSeedTooltip {
     @SubscribeEvent
     public static void onTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
-        if (!stack.is(CropItems.GENETIC_SEED.get())
-                || !CropItems.isAnalyzed(stack)
-                || !Screen.hasShiftDown()) return;
+        // The same genome can be stored on an ordinary Vanilla seed after
+        // an external analyzer has inspected it. These also need a tooltip.
+        if (!CropItems.isGeneticSeedStack(stack)) return;
+        boolean customItem = stack.is(CropItems.GENETIC_SEED.get());
+        if (!customItem) {
+            Genome attached = stack.get(CropComponents.GENOME.get());
+            if (attached == null) return;
+            event.getToolTip().add(Component.translatable(
+                    "tooltip.cropgenetics.plant", attached.plantId()));
+            event.getToolTip().add(Component.translatable(CropItems.isAnalyzed(stack)
+                    ? "tooltip.cropgenetics.analyzed_hint"
+                    : "tooltip.cropgenetics.unanalyzed"));
+        }
+        if (!CropItems.isAnalyzed(stack) || !Screen.hasShiftDown()) return;
 
         Genome genome = stack.get(CropComponents.GENOME.get());
         if (genome == null) return;
