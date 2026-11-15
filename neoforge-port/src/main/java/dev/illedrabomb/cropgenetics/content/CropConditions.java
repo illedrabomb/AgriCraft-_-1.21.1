@@ -70,6 +70,21 @@ public final class CropConditions {
             }
             return true;
         }
+        if ("minecraft:bamboo_plant".equals(plant.id())) {
+            BlockState soil = level.getBlockState(pos.below());
+            // Mirrors the ordinary bamboo support family for 1.21.1 without
+            // assuming the precise tag members of a newer Minecraft version.
+            return soil.is(BlockTags.DIRT) || soil.is(Blocks.SAND)
+                    || soil.is(Blocks.RED_SAND) || soil.is(Blocks.GRAVEL)
+                    || soil.is(Blocks.MOSS_BLOCK) || soil.is(Blocks.MUD)
+                    || soil.is(Blocks.MUDDY_MANGROVE_ROOTS);
+        }
+        if ("minecraft:sweet_berry_plant".equals(plant.id())) {
+            BlockState soil = level.getBlockState(pos.below());
+            return soil.is(BlockTags.DIRT) || soil.is(Blocks.FARMLAND)
+                    || soil.is(Blocks.MOSS_BLOCK) || soil.is(Blocks.MUD)
+                    || soil.is(Blocks.MUDDY_MANGROVE_ROOTS);
+        }
         return matchesSoil(level, pos, plant.requirements());
     }
 

@@ -31,6 +31,20 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.5-alpha: bamboo and sweet berry genetic crops
+
+Two more Minecraft crop-stick plants have been added, using Vanilla items and sprite references:
+`minecraft:bamboo_plant` (seed and harvest `minecraft:bamboo`) and
+`minecraft:sweet_berry_plant` (seed and harvest `minecraft:sweet_berries`).
+Their block-site restrictions are implemented by `CropConditions.matchesPlantingSite`,
+shared by planting, growth and mutation selection. Bamboo accepts dirt-family,
+sand, red sand, gravel, moss, mud and muddy mangrove roots. Sweet berry bushes
+accept dirt-family, farmland, moss, mud and muddy mangrove roots.
+Both require their defined minimum light level to grow. Berry visual frames
+use the four default Vanilla bush stages; bamboo uses Vanilla bamboo sprites.
+These remain *crop-stick crops*, not native bamboo columns or damaging bushes.
+No external mod dependency is introduced. No build or test has run.
+
 ## 0.2.4-alpha: avoid incorrect source seed restoration
 
 For original-seed recovery, a recorded `cropgenetics:original_seed` ID is **rejected** if the active plant catalogue maps that item to a different plant, or the item is marked ambiguous between species. If the original mod's integration has disappeared and the source item still exists without a conflicting mapping, its recorded ID remains usable. Legacy seeds lacking a recorded source only gain a fallback when exactly one registered, unambiguous seed item maps to their genome species. No genetic values are modified by the check.

@@ -49,6 +49,8 @@ public final class CropGeneticsMod {
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:dandelion_plant")));
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:cactus_plant")));
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:sugar_cane_plant")));
+            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:bamboo_plant")));
+            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:sweet_berry_plant")));
             event.accept(CropItems.SEED_ANALYZER.get());
             event.accept(CropItems.CROP_STICKS.get());
         }
