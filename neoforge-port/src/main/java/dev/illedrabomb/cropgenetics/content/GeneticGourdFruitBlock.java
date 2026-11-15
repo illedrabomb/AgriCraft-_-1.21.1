@@ -56,6 +56,10 @@ public final class GeneticGourdFruitBlock extends BaseEntityBlock {
         // loot builder; this retains the tool and loot modifiers.
         BlockState vanilla = state.is(CropBlocks.GENETIC_MELON_FRUIT.get())
                 ? Blocks.MELON.defaultBlockState() : Blocks.PUMPKIN.defaultBlockState();
-        return vanilla.getDrops(builder);
+        // Vanilla's loot predicates must see the Vanilla block state, not
+        // our owner-aware fruit's block state. Keep tool, origin and entity
+        // context from the incoming builder unchanged.
+        return vanilla.getDrops(builder.withParameter(
+                net.minecraft.world.level.storage.loot.parameters.LootContextParams.BLOCK_STATE, vanilla));
     }
 }
