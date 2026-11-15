@@ -10,5 +10,5 @@
   "tooltip.cropgenetics.strength": "Strength: %s / %s",
   "tooltip.cropgenetics.fertility": "Fertility: %s / %s",
   "tooltip.cropgenetics.mutativity": "Mutativity: %s / %s",
-  "tooltip.cropgenetics.recover_hint": "In crafting grid: restore plain seed (genetic data will be lost)"
+  "tooltip.cropgenetics.recover_hint": "Crafting grid: genetic seed + paper → plain seed (paper is returned)"
 }
