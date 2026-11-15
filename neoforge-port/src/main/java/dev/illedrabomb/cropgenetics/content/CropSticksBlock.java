@@ -26,6 +26,8 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -88,6 +90,29 @@ public final class CropSticksBlock extends BaseEntityBlock {
     @Nullable
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CropSticksBlockEntity(pos, state);
+    }
+
+    /**
+     * Periodic, staggered reconciliation for ALREADY LOADED chunks following
+     * /reload. The random-tick path cannot repair crops when randomTickSpeed=0
+     * or when a crop is not receiving random ticks.
+     */
+    @Override
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level, BlockState state, BlockEntityType<T> type) {
+        if (level.isClientSide) return null;
+        return createTickerHelper(type, CropBlocks.CROP_STICKS_ENTITY.get(),
+                (world, pos, current, crop) -> {
+                    if ((world.getGameTime() + pos.asLong()) % 100 != 0) return;
+                    Genome currentGenome = crop.genome();
+                    if (currentGenome == null) return;
+                    PlantDefinition currentPlant =
+                            CropGeneticsMod.plants().plants().get(currentGenome.plantId());
+                    if (currentPlant != null && !crop.stageMetadataMatches(currentPlant)) {
+                        crop.reconcileLoadedStage(currentPlant);
+                    }
+                });
     }
 
     @Override
