@@ -5,22 +5,23 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.slf4j.Logger;
 
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Predicate;
 
 /**
- * Both resource folders are parsed from one ResourceManager snapshot and
- * published together. A mutation never sees an older plant catalogue.
+ * Reads the complete plant and mutation data from a single resource manager
+ * and publishes an immutable catalogue + per-file diagnostics in one step.
  */
 public final class CropDataReloadListener extends
         SimplePreparableReloadListener<CropDataReloadListener.Prepared> {
@@ -36,88 +37,159 @@ public final class CropDataReloadListener extends
         this.loadedMod = loadedMod;
     }
 
-    /** Resource I/O only; this phase never writes the active registry. */
     @Override
     protected Prepared prepare(ResourceManager manager, ProfilerFiller profiler) {
-        return new Prepared(readJson(manager, PLANTS), readJson(manager, MUTATIONS));
+        List<CropReloadReport.Entry> errors = new ArrayList<>();
+        Map<ResourceLocation, JsonElement> plants =
+                readJson(manager, PLANTS, CropReloadReport.Kind.PLANT, errors);
+        Map<ResourceLocation, JsonElement> mutations =
+                readJson(manager, MUTATIONS, CropReloadReport.Kind.MUTATION, errors);
+        return new Prepared(plants, mutations, List.copyOf(errors));
     }
 
-    private static Map<ResourceLocation, JsonElement> readJson(ResourceManager manager, String root) {
-        Map<ResourceLocation, JsonElement> values = new HashMap<>();
-        // ResourceManager already applies pack priority to each resource key.
+    private static Map<ResourceLocation, JsonElement> readJson(
+            ResourceManager manager, String root, CropReloadReport.Kind kind,
+            List<CropReloadReport.Entry> errors) {
+        Map<ResourceLocation, JsonElement> result = new HashMap<>();
+        // listResources applies pack priority for each matching resource path.
         manager.listResources(root, id -> id.getPath().endsWith(".json"))
                 .entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
                     try (Reader reader = entry.getValue().openAsReader()) {
-                        values.put(entry.getKey(), JsonParser.parseReader(reader));
-                    } catch (Exception exception) {
-                        LOG.error("Skipping unreadable {}: {}", entry.getKey(), exception.getMessage());
+                        result.put(entry.getKey(), JsonParser.parseReader(reader));
+                    } catch (Exception ex) {
+                        errors.add(new CropReloadReport.Entry(
+                                kind, entry.getKey(), "", CropReloadReport.Status.INVALID,
+                                "Unreadable JSON: " + ex.getMessage()));
                     }
                 });
-        return Map.copyOf(values);
+        return Map.copyOf(result);
     }
 
     @Override
     protected void apply(Prepared input, ResourceManager manager, ProfilerFiller profiler) {
+        List<CropReloadReport.Entry> details = new ArrayList<>(input.readErrors());
         Map<String, PlantDefinition> plants = new HashMap<>();
+        Map<String, Integer> firstPlantEntry = new HashMap<>();
         Set<String> duplicates = new HashSet<>();
 
-        input.plants().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
+        input.plants().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(resource -> {
+            ResourceLocation key = resource.getKey();
+            String id = "";
             try {
-                JsonObject json = entry.getValue().getAsJsonObject();
-                if (!AgriPlantsParser.enabled(json) || !modsAvailable(json)) return;
-                PlantDefinition plant = AgriPlantsParser.plant(json);
-                if (duplicates.contains(plant.id())) return;
-                if (plants.putIfAbsent(plant.id(), plant) != null) {
-                    plants.remove(plant.id());
-                    duplicates.add(plant.id());
-                    LOG.error("Conflicting plant ID {} at {}: disabling the species",
-                            plant.id(), entry.getKey());
+                JsonObject json = resource.getValue().getAsJsonObject();
+                id = json.has("id") ? json.get("id").getAsString() : "";
+                if (!AgriPlantsParser.enabled(json)) {
+                    details.add(entry(CropReloadReport.Kind.PLANT, key, id,
+                            CropReloadReport.Status.DISABLED, "enabled=false"));
+                    return;
                 }
+                String missing = missingMod(json);
+                if (missing != null) {
+                    details.add(entry(CropReloadReport.Kind.PLANT, key, id,
+                            CropReloadReport.Status.MISSING_MOD, "Missing mod: " + missing));
+                    return;
+                }
+                PlantDefinition plant = AgriPlantsParser.plant(json);
+                id = plant.id();
+                if (duplicates.contains(id)) {
+                    details.add(entry(CropReloadReport.Kind.PLANT, key, id,
+                            CropReloadReport.Status.CONFLICT, "Duplicate plant ID: " + id));
+                    return;
+                }
+                if (plants.putIfAbsent(id, plant) != null) {
+                    plants.remove(id);
+                    duplicates.add(id);
+                    // The FIRST definition is also unusable. Do not report it as loaded.
+                    Integer index = firstPlantEntry.remove(id);
+                    if (index != null) {
+                        CropReloadReport.Entry previous = details.get(index);
+                        details.set(index, entry(CropReloadReport.Kind.PLANT, previous.source(),
+                                id, CropReloadReport.Status.CONFLICT,
+                                "Duplicate plant ID: " + id));
+                    }
+                    details.add(entry(CropReloadReport.Kind.PLANT, key, id,
+                            CropReloadReport.Status.CONFLICT, "Duplicate plant ID: " + id));
+                    return;
+                }
+                firstPlantEntry.put(id, details.size());
+                details.add(entry(CropReloadReport.Kind.PLANT, key, id,
+                        CropReloadReport.Status.LOADED, ""));
             } catch (RuntimeException ex) {
-                LOG.error("Skipping invalid plant {}: {}", entry.getKey(), ex.getMessage());
+                details.add(entry(CropReloadReport.Kind.PLANT, key, id,
+                        CropReloadReport.Status.INVALID, ex.getMessage()));
             }
         });
 
         Map<String, MutationDefinition> mutations = new HashMap<>();
-        input.mutations().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
+        input.mutations().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(resource -> {
+            ResourceLocation key = resource.getKey();
             try {
-                JsonObject json = entry.getValue().getAsJsonObject();
-                if (!AgriPlantsParser.enabled(json) || !modsAvailable(json)) return;
-                MutationDefinition mutation = AgriPlantsParser.mutation(json);
-                if (!plants.containsKey(mutation.parentA())
-                        || !plants.containsKey(mutation.parentB())
-                        || !plants.containsKey(mutation.childPlantId())) {
-                    LOG.warn("Skipping mutation {}: unknown or disabled parent/child species",
-                            entry.getKey());
+                JsonObject json = resource.getValue().getAsJsonObject();
+                if (!AgriPlantsParser.enabled(json)) {
+                    details.add(entry(CropReloadReport.Kind.MUTATION, key, "",
+                            CropReloadReport.Status.DISABLED, "enabled=false"));
                     return;
                 }
-                mutations.put(entry.getKey().toString(), mutation);
+                String missing = missingMod(json);
+                if (missing != null) {
+                    details.add(entry(CropReloadReport.Kind.MUTATION, key, "",
+                            CropReloadReport.Status.MISSING_MOD, "Missing mod: " + missing));
+                    return;
+                }
+                MutationDefinition mutation = AgriPlantsParser.mutation(json);
+                List<String> missingSpecies = new ArrayList<>();
+                if (!plants.containsKey(mutation.parentA())) missingSpecies.add(mutation.parentA());
+                if (!plants.containsKey(mutation.parentB())) missingSpecies.add(mutation.parentB());
+                if (!plants.containsKey(mutation.childPlantId())) missingSpecies.add(mutation.childPlantId());
+                if (!missingSpecies.isEmpty()) {
+                    details.add(entry(CropReloadReport.Kind.MUTATION, key,
+                            mutation.childPlantId(), CropReloadReport.Status.MISSING_SPECIES,
+                            "Unknown or disabled species: " + String.join(", ", missingSpecies)));
+                    return;
+                }
+                mutations.put(key.toString(), mutation);
+                details.add(entry(CropReloadReport.Kind.MUTATION, key, mutation.childPlantId(),
+                        CropReloadReport.Status.LOADED, ""));
             } catch (RuntimeException ex) {
-                LOG.error("Skipping invalid mutation {}: {}", entry.getKey(), ex.getMessage());
+                details.add(entry(CropReloadReport.Kind.MUTATION, key, "",
+                        CropReloadReport.Status.INVALID, ex.getMessage()));
             }
         });
 
-        // Exactly one volatile publication for plants, mutations and seed index.
-        registry.replaceAll(plants, mutations);
+        CropReloadReport report = new CropReloadReport(details);
+        registry.replaceAll(plants, mutations, report);
         AgriPlantsRegistry.Snapshot active = registry.snapshot();
-        if (!duplicates.isEmpty())
-            LOG.warn("Disabled {} conflicting plant IDs: {}", duplicates.size(), duplicates);
+
+        LOG.info("Crop datapack reload: {} plants, {} mutations, {} resources ({})",
+                active.plants().size(), active.mutations().size(), report.entries().size(),
+                report.totals());
+        for (CropReloadReport.Entry problem : report.entries()) {
+            if (problem.status() != CropReloadReport.Status.LOADED) {
+                LOG.warn("Crop data {} {} [{}]: {}",
+                        problem.kind(), problem.source(), problem.status(), problem.detail());
+            }
+        }
         if (!active.ambiguousSeedItems().isEmpty())
             LOG.warn("Ambiguous seed mappings disabled: {}", active.ambiguousSeedItems());
-        LOG.info("Crop datapack loaded: {} plants, {} mutations",
-                active.plants().size(), active.mutations().size());
     }
 
-    private boolean modsAvailable(JsonObject json) {
-        if (!json.has("mods")) return true;
-        for (JsonElement mod : json.getAsJsonArray("mods")) {
-            String id = mod.getAsString();
-            // AgriCraft data's self-dependency is now supplied by this mod.
-            if (!"agricraft".equals(id) && !loadedMod.test(id)) return false;
+    private static CropReloadReport.Entry entry(
+            CropReloadReport.Kind kind, ResourceLocation key, String id,
+            CropReloadReport.Status status, String reason) {
+        return new CropReloadReport.Entry(kind, key, id, status, reason);
+    }
+
+    /** Returns the first unmet dependency, or null if all requirements exist. */
+    private String missingMod(JsonObject json) {
+        if (!json.has("mods")) return null;
+        for (JsonElement element : json.getAsJsonArray("mods")) {
+            String modId = element.getAsString();
+            if (!"agricraft".equals(modId) && !loadedMod.test(modId)) return modId;
         }
-        return true;
+        return null;
     }
 
     public record Prepared(Map<ResourceLocation, JsonElement> plants,
-                           Map<ResourceLocation, JsonElement> mutations) {}
+                           Map<ResourceLocation, JsonElement> mutations,
+                           List<CropReloadReport.Entry> readErrors) {}
 }
