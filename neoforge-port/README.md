@@ -29,6 +29,9 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 
 The original AgriPlants directories are not automatically imported. Legacy soil chemistry, complex mutation predicates, special drops, model rendering, and modded crop hooks require dedicated migrations/adapters. The client visuals are **not automatically synchronized from server datapacks**.
 
+## Five-workstream gameplay reliability update (2026-11-15)
+The following source-only improvements are committed together: a staggered server BlockEntity ticker reconciles live crop stage metadata after datapack reload even with random ticks disabled; right-click harvest reconciles age before eligibility checking while block loot stays read-only; crossbreeding filters mutation species by actual destination soil and prefers a viable parent species if necessary; duplicate client visual species IDs are disabled with a predictable fallback; melon/pumpkin fruit placement now requires successful binding to an adjacent loaded parent crop. See `../temporary-research/CORE_GAMEPLAY_FIVE_WORKSTREAMS_2026_11_15.md`. **No builds or tests have run for these changes.** Ticker performance, API compilation, client visuals and fruit loot remain unverified.
+
 ## Validation state
 An earlier Java 21/NeoForge compilation of the foundational source code succeeded on GitHub Actions; the subsequent test compilation failed due to Gson missing from the test classpath, which was corrected. All later genetics/gameplay/renderer changes **have not been built or game-tested**. On the user's explicit request, the GitHub workflow was changed to **manual dispatch only**, and no new builds or tests have been run during these feature implementations.
 
