@@ -49,10 +49,11 @@ public final class GeneticGourdFruitBlock extends BaseEntityBlock {
 
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        // Delegate to the actual vanilla fruit's loot table, including tool
-        // enchantments, instead of independently minting a second fruit.
+        // BlockState#getDrops is public in 1.21.1 (Block#getDrops protected).
+        // Delegate to the real vanilla fruit's loot table with the original
+        // loot builder; this retains the tool and loot modifiers.
         BlockState vanilla = state.is(CropBlocks.GENETIC_MELON_FRUIT.get())
                 ? Blocks.MELON.defaultBlockState() : Blocks.PUMPKIN.defaultBlockState();
-        return vanilla.getBlock().getDrops(vanilla, builder);
+        return vanilla.getDrops(builder);
     }
 }
