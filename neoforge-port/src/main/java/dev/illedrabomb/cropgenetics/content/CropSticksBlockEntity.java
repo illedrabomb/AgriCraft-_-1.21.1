@@ -32,6 +32,37 @@ public final class CropSticksBlockEntity extends BlockEntity {
         super(CropBlocks.CROP_STICKS_ENTITY.get(), pos, state);
     }
 
+    /**
+     * Repair old stage metadata when a saved chunk enters the server world.
+     * Skip species that are currently unavailable (e.g. disabled datapack);
+     * their exact genome and age must remain intact until the species returns.
+     */
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (!(level instanceof ServerLevel) || genome == null) return;
+        PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
+        if (plant != null) reconcileLoadedStage(plant);
+    }
+
+    /**
+     * Also called by random ticks: a chunk can load before datapacks finish
+     * registering, so onLoad is not guaranteed to find this species yet.
+     */
+    public boolean reconcileLoadedStage(PlantDefinition plant) {
+        if (!(level instanceof ServerLevel) || genome == null
+                || !genome.plantId().equals(plant.id())) return false;
+        int targetTotal = plant.stages().size();
+        int clampedStage = Math.max(0, Math.min(growthStage, targetTotal - 1));
+        if (totalGrowthStages == targetTotal && growthStage == clampedStage) return false;
+
+        growthStage = clampedStage;
+        // syncState updates TotalGrowthStages, marks the chunk dirty, and
+        // sends the BlockEntity update even if the visual 0..7 state is equal.
+        syncState(plant);
+        return true;
+    }
+
     @Nullable public Genome genome() { return genome; }
     public int growthStage() { return growthStage; }
     public int totalGrowthStages() { return totalGrowthStages; }
