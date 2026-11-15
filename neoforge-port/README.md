@@ -23,6 +23,12 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 
 - Original AgriCraft asset reuse: the original wood crop-stick block/item textures and melon/pumpkin stage PNGs are copied unchanged from the legacy resources. The current crop-stick models and gourd visual JSONs reference them; other plants retain their existing Vanilla textures. The original MIT license is retained at `LICENSE`. See `../temporary-research/ORIGINAL_AGRICRAFT_TEXTURES_PORT.md`.
 
+## Vanilla visuals and analyzed genetic seed tooltips
+
+Vanilla Minecraft textures remain the **default** for Vanilla species, including melon and pumpkin; the copied original AgriCraft gourd PNGs are optional assets rather than active replacements. The original AgriCraft crop-stick textures remain in use because Crop Sticks have no equivalent Vanilla asset.
+
+Genetic seed stacks now support a persistent `cropgenetics:analyzed` Boolean component. Unanalyzed seeds do not reveal genes in their tooltip. Analyzed seeds show a Shift hint, and holding Shift reveals Growth/Gain/Strength plus Fertility/Mutativity alleles in the client-only tooltip event. The analyzer must call `CropItems.markAnalyzed(seedStack)` on the server after a successful analysis. The local analyzer item mentioned during development is not present in this branch's tracked files, so its hook still needs integrating after the local changes are synchronized. See `../temporary-research/VANILLA_TEXTURE_PRIORITY_AND_ANALYZED_SEED_SHIFT.md`.
+
 ## Important data locations
 - Server: `data/<namespace>/cropgenetics/plants/*.json`
 - Server: `data/<namespace>/cropgenetics/mutations/*.json`
