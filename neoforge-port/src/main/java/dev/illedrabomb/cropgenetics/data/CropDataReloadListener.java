@@ -52,7 +52,8 @@ public final class CropDataReloadListener extends
             List<CropReloadReport.Entry> errors) {
         Map<ResourceLocation, JsonElement> result = new HashMap<>();
         // listResources applies pack priority for each matching resource path.
-        manager.listResources(root, id -> id.getPath().endsWith(".json"))
+        manager.listResources(root, id -> id.getPath().startsWith(root + "/")
+                        && id.getPath().endsWith(".json"))
                 .entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
                     try (Reader reader = entry.getValue().openAsReader()) {
                         result.put(entry.getKey(), JsonParser.parseReader(reader));
