@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /** Reads the supported core of original AgriPlants 1.18.2 JSON without its Forge runtime. */
 public final class AgriPlantsParser {
@@ -43,7 +44,40 @@ public final class AgriPlantsParser {
         }
         return new PlantDefinition(id, mods, seeds, stages, json.get("harvestStage").getAsInt(),
                 json.get("growth_chance").getAsDouble(), json.get("growth_bonus").getAsDouble(),
-                json.get("cloneable").getAsBoolean(), json.get("spread_chance").getAsDouble(), products);
+                json.get("cloneable").getAsBoolean(), json.get("spread_chance").getAsDouble(),
+                products, requirements(json));
+    }
+
+    private static PlantRequirements requirements(JsonObject json) {
+        // The original 1.18.2 soil chemistry, seasons, biome and dimension rules
+        // cannot yet be represented. Do not pretend they are satisfied.
+        JsonObject legacy = json.getAsJsonObject("requirement");
+        if (legacy != null) {
+            for (String key : new String[]{"soil_humidity", "soil_acidity", "soil_nutrients",
+                    "biomes", "dimensions", "seasons", "conditions", "fluid"}) {
+                if (legacy.has(key)) {
+                    throw new JsonParseException("Legacy requirement '" + key
+                            + "' requires a migration/compatibility adapter");
+                }
+            }
+        }
+        JsonObject modern = json.getAsJsonObject("cropgenetics_requirements");
+        if (modern != null && legacy != null) {
+            throw new JsonParseException("Do not mix legacy and new crop requirements");
+        }
+        JsonObject input = modern == null ? legacy : modern;
+        if (input == null) return PlantRequirements.defaultFarmland();
+
+        int minLight = input.has("min_light") ? input.get("min_light").getAsInt() : 9;
+        int maxLight = input.has("max_light") ? input.get("max_light").getAsInt() : 15;
+        Optional<String> soilBlock = input.has("soil_block")
+                ? Optional.of(input.get("soil_block").getAsString()) : Optional.empty();
+        Optional<String> soilTag = input.has("soil_tag")
+                ? Optional.of(input.get("soil_tag").getAsString()) : Optional.empty();
+        if (soilBlock.isEmpty() && soilTag.isEmpty()) {
+            soilBlock = Optional.of("minecraft:farmland");
+        }
+        return new PlantRequirements(minLight, maxLight, soilBlock, soilTag);
     }
 
     public static MutationDefinition mutation(JsonObject json) {
