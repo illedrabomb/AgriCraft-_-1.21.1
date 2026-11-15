@@ -86,19 +86,30 @@ def convert_crop(source, config):
         raise ValueError("invalid harvest stage")
 
     texture = source.get("texture", {})
-    if texture.get("render_type") != "hash":
-        raise ValueError("only render_type=hash can be migrated")
+    geometry = texture.get("render_type")
+    if geometry not in ("hash", "plus", "gourd"):
+        raise ValueError("renderer requires an unsupported geometry")
     layers = texture.get("plant_textures")
     if not isinstance(layers, list) or not 1 <= len(layers) <= 64:
         raise ValueError("missing/too many texture layers")
     textures = []
     for layer in layers:
-        if not isinstance(layer, list) or len(layer) != 1:
-            raise ValueError("multi-layer stage requires special renderer")
-        t = check_id(layer[0], "texture")
-        if not t.split(":", 1)[1].startswith("block/"):
-            raise ValueError("non-block texture needs a renderer adapter")
-        textures.append(t)
+        if not isinstance(layer, list) or not (1 <= len(layer) <= 2):
+            raise ValueError("unsupported number of texture layers")
+        if len(layer) == 2 and geometry != "gourd":
+            raise ValueError("multi-layer stages supported only for gourd geometry")
+        stage = []
+        replacements = config.get("texture_replacements", {})
+        for original in layer:
+            t = check_id(replacements.get(original, original), "texture")
+            if not t.split(":", 1)[1].startswith(("block/", "plant/")):
+                raise ValueError("texture outside block/ or plant/ needs adapter")
+            # Legacy agricraft namespace will not exist in standalone port
+            # unless the manifest explicitly supplies 1.21.1 texture assets.
+            if t.startswith("agricraft:") and not config.get("acknowledge_agricraft_assets", False):
+                raise ValueError("legacy agricraft: texture needs asset approval or replacement")
+            stage.append(t)
+        textures.append(stage if len(stage) == 2 else stage[0])
 
     known = {"minecraft", "agricraft"}
     foreign_mods = [m for m in source.get("mods", []) if m not in known]
@@ -122,7 +133,8 @@ def convert_crop(source, config):
     }
     if not isinstance(plant["growth_bonus"], (int, float)) or plant["growth_bonus"] < 0:
         raise ValueError("invalid growth bonus")
-    return plant, {"plant": crop_id, "textures": textures}
+    return plant, {"plant": crop_id, "geometry": {"hash": "cross"}.get(geometry, geometry),
+                   "stages": textures}
 
 def output_file(root, relative, document):
     file = root / relative
