@@ -51,12 +51,16 @@ public final class AgriPlantsRegistry {
                            Map<String, MutationDefinition> inputMutations,
                            CropReloadReport report) {
         Map<String, PlantDefinition> plants = Map.copyOf(inputPlants);
-        Map<String, MutationDefinition> mutations = new HashMap<>();
-        inputMutations.forEach((id, mutation) -> {
-            if (plants.containsKey(mutation.parentA())
-                    && plants.containsKey(mutation.parentB())
-                    && plants.containsKey(mutation.childPlantId())) {
-                mutations.put(id, mutation);
+        Map<String, MutationDefinition> mutations = Map.copyOf(inputMutations);
+        // The combined reload listener has already validated references and
+        // recorded their diagnostics. Never silently remove a mutation here:
+        // that would make the published report disagree with the catalogue.
+        mutations.forEach((id, mutation) -> {
+            if (!plants.containsKey(mutation.parentA())
+                    || !plants.containsKey(mutation.parentB())
+                    || !plants.containsKey(mutation.childPlantId())) {
+                throw new IllegalArgumentException("Mutation " + id
+                        + " references a species absent from the new crop snapshot");
             }
         });
 
