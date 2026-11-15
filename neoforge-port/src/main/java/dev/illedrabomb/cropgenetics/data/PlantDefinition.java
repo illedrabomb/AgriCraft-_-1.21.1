@@ -20,6 +20,10 @@ public record PlantDefinition(
         Objects.requireNonNull(harvestMode);
         if (!Double.isFinite(fruitChance) || fruitChance < 0 || fruitChance > 1)
             throw new IllegalArgumentException("Invalid fruit chance");
+        if (harvestMode == HarvestMode.GOURD
+                && !id.equals("minecraft:melon_plant")
+                && !id.equals("minecraft:pumpkin_plant"))
+            throw new IllegalArgumentException("Physical gourd adapter only supports vanilla melon/pumpkin");
         if (harvestMode == HarvestMode.GOURD && (fruitChance <= 0 || stages.size() < 2))
             throw new IllegalArgumentException("Gourd requires positive fruit chance and regrowth stages");
         if (harvestMode != HarvestMode.GOURD && fruitChance != 0)
