@@ -36,6 +36,22 @@ public final class CropItems {
         return stack;
     }
 
+    /**
+     * Optional integration entry point: capture the exact original item at
+     * conversion time, even when no crop datapack adapter exists for it.
+     * The source stack is not consumed by this helper.
+     */
+    public static ItemStack seedWithGenome(Genome genome, ItemStack sourceSeed) {
+        ItemStack genetic = seedWithGenome(genome);
+        if (sourceSeed != null && !sourceSeed.isEmpty()
+                && !sourceSeed.is(GENETIC_SEED.get())
+                && sourceSeed.getItem() != Items.AIR) {
+            String originalId = BuiltInRegistries.ITEM.getKey(sourceSeed.getItem()).toString();
+            genetic.set(CropComponents.ORIGINAL_SEED.get(), originalId);
+        }
+        return genetic;
+    }
+
     /** Choose a registered original seed from the current species definition. */
     private static Optional<String> originalSeedId(Genome genome) {
         PlantDefinition plant = CropGeneticsMod.plants().snapshot().plants().get(genome.plantId());
