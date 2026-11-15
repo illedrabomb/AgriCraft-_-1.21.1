@@ -1,25 +1,37 @@
-# Crop Genetics — NeoForge 1.21.1 implementation
+# Crop Genetics — NeoForge 1.21.1 port
 
 **Development branch:** `feature/neoforge-1211-foundation`  
-**Target:** Minecraft 1.21.1 / NeoForge 21.1.265 / Java 21.  
-**Working name/ID:** Crop Genetics / `cropgenetics`.
+**Target:** Minecraft 1.21.1 / NeoForge 21.1.265 / Java 21  
+**Temporary mod ID:** `cropgenetics`
 
-This source root is separate from the preserved original Forge 1.18.2 root. The mod is **not yet gameplay-ready or build-verified**.
+This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root remains unchanged as the migration reference. This branch is **not a validated playable release**.
 
-## Implemented source
-- NeoForge ModDevGradle project and `@Mod` entrypoint.
-- Immutable `GenePair`, `Genome`, and `BreedingEngine`.
-- Original AgriPlants 1.18.2 core plant/mutation parser; server datapack reload listener.
-- Registered plant/mutation definitions accessible through `AgriPlantsRegistry`.
-- Example carrot definition and carrot mutation data, plus JUnit parser/genetics tests.
+## Features currently implemented as source code
+- Genetic genomes with dominant/recessive alleles, Growth/Gain/Strength and internal Fertility/Mutativity.
+- Persistent genetic seed items via Data Components and crop-stick BlockEntity genome state.
+- Crop sticks and double sticks: planting, server random tick growth, harvest products with Gain, offspring inheritance, simple mutation selection.
+- Simple Vanilla/mod seed conversion using an unambiguous AgriPlants item ID mapping.
+- Plant/environment requirements for explicit soil IDs/tags and light tolerance adjusted by Strength.
+- AgriPlants server datapack definitions for wheat, carrot, potato and a carrot species mutation.
+- **Client-side resource-pack crop renderer**: custom BlockEntityRenderer draws crop texture overlays keyed by Genome.plantId and BlockState.STAGE. A client reload listener reads `assets/<namespace>/cropgenetics/plant_visuals/*.json`. Included visuals for wheat/carrots/potatoes; unknown species use a fallback texture. Some old AgriPlants `texture.plant_textures` entries with one texture per stage can also be loaded if mirrored as client resources.
 
-## What data integration means now
-Place data into `data/<namespace>/cropgenetics/plants/*.json` or `data/<namespace>/cropgenetics/mutations/*.json`. The old AgriPlants JSON shapes for **basic seed items, harvest items, growth, and simple unconditional mutations** are accepted. Only the example carrot entries are included so far. This **does not yet make carrots grow, mutate, or produce drops in-game**.
+## Important data locations
+- Server: `data/<namespace>/cropgenetics/plants/*.json`
+- Server: `data/<namespace>/cropgenetics/mutations/*.json`
+- Client: `assets/<namespace>/cropgenetics/plant_visuals/*.json`
+- See `../temporary-research/DATA_DRIVEN_PLANT_RENDERER.md` and `../temporary-research/VANILLA_MOD_SEED_CONVERSION.md` for exact schema and tradeoffs.
 
-Current unsupported old JSON fields include soil/environment requirements, custom callbacks, special products, tag/NBT handling, special mutations, structure generation, rendering and advanced mod integrations. These must be deliberately implemented or rejected to avoid false compatibility. Vanilla/mod item IDs require later registry validation. Full AgriPlants import/conversion is pending.
+The original AgriPlants directories are not automatically imported. Legacy soil chemistry, complex mutation predicates, special drops, model rendering, and modded crop hooks require dedicated migrations/adapters. The client visuals are **not automatically synchronized from server datapacks**.
 
-## Still missing
-Actual seed items and Data Components, Crop Sticks/BlockEntity, crop tick/harvest logic, mutation application, UI, village buildings, extensive modpack adapters, complete import, tests in-game. Automated tests are authored but **not yet executed**. A matching Gradle wrapper must be added before a reproducible build.
+## Validation state
+An earlier Java 21/NeoForge compilation of the foundational source code succeeded on GitHub Actions; the subsequent test compilation failed due to Gson missing from the test classpath, which was corrected. All later genetics/gameplay/renderer changes **have not been built or game-tested**. On the user's explicit request, the GitHub workflow was changed to **manual dispatch only**, and no new builds or tests have been run during these feature implementations.
 
-## Attribution
-Derived from [AgriCraft](https://github.com/AgriCraft/AgriCraft) and AgriPlants/AgriCore, with their respective contributors and licenses. Original licensing/attribution notices must be retained for reused material. See `../docs/NEOFORGE_1.21.1_PLAN.md`.
+## Upcoming
+- Controlled bulk migration/conversion of AgriPlants definitions with logs and reference validation.
+- Complex visual variants and advanced soil/climate rules.
+- Genetics inspection/storage UI, breeder villager/profession, complete plant catalog.
+- Optional add-ons: irrigation, greenhouse, MineColonies.
+- Compilation, gameplay smoke tests, client/dedicated-server validation before any release, when testing is re-enabled.
+
+## License/credits
+Based on the AgriCraft project and data subprojects. Preserve MIT license and original authorship/copyright information for all reused code/assets.
