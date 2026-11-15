@@ -34,7 +34,11 @@ public final class GenomeCodecs {
     );
 
     private static void writeGenome(RegistryFriendlyByteBuf buf, Genome genome) {
-        buf.writeUtf(genome.plantId());
+        // Namespaced plant IDs are bounded on the wire to avoid unbounded strings.
+        if (genome.plantId().length() > 128) {
+            throw new IllegalArgumentException("Plant ID exceeds 128 characters");
+        }
+        buf.writeUtf(genome.plantId(), 128);
         writePair(buf, genome.growth());
         writePair(buf, genome.gain());
         writePair(buf, genome.strength());
@@ -43,7 +47,7 @@ public final class GenomeCodecs {
     }
 
     private static Genome readGenome(RegistryFriendlyByteBuf buf) {
-        return new Genome(buf.readUtf(), readPair(buf), readPair(buf), readPair(buf),
+        return new Genome(buf.readUtf(128), readPair(buf), readPair(buf), readPair(buf),
                 readPair(buf), readPair(buf));
     }
 
