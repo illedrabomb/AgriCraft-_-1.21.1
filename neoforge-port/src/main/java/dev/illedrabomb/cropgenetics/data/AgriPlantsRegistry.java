@@ -7,52 +7,69 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Server-side loaded datapack plant registry. The plant catalogue and its
- * reverse seed index are published together, avoiding stale seed mappings.
+ * Immutable server crop snapshot. Plant definitions, mutation definitions and
+ * the reverse seed index are published in a single volatile assignment.
  */
 public final class AgriPlantsRegistry {
-    private volatile PlantCatalogue catalogue = new PlantCatalogue(Map.of(), Map.of(), Set.of());
-    private volatile Map<String, MutationDefinition> mutations = Map.of();
+    public record Snapshot(Map<String, PlantDefinition> plants,
+                           Map<String, MutationDefinition> mutations,
+                           Map<String, String> seedToPlant,
+                           Set<String> ambiguousSeedItems) {
+        public Snapshot {
+            plants = Map.copyOf(plants);
+            mutations = Map.copyOf(mutations);
+            seedToPlant = Map.copyOf(seedToPlant);
+            ambiguousSeedItems = Set.copyOf(ambiguousSeedItems);
+        }
 
-    public Map<String, PlantDefinition> plants() { return catalogue.plants(); }
-    public Map<String, MutationDefinition> mutations() { return mutations; }
-
-    /**
-     * Return the plant mapped unambiguously to a plain vanilla/mod item.
-     * If multiple plant definitions claim the same item, refuse conversion
-     * rather than silently selecting the wrong species.
-     */
-    public Optional<PlantDefinition> plantForSeed(String itemId) {
-        PlantCatalogue current = catalogue;
-        String plantId = current.seedToPlant().get(itemId);
-        return plantId == null ? Optional.empty() : Optional.ofNullable(current.plants().get(plantId));
+        public Optional<PlantDefinition> plantForSeed(String itemId) {
+            String id = seedToPlant.get(itemId);
+            return id == null ? Optional.empty() : Optional.ofNullable(plants.get(id));
+        }
     }
 
-    public Set<String> ambiguousSeedItems() { return catalogue.ambiguousSeedItems(); }
+    private volatile Snapshot snapshot = new Snapshot(Map.of(), Map.of(), Map.of(), Set.of());
 
-    public void replacePlants(Map<String, PlantDefinition> next) {
-        Map<String, PlantDefinition> plants = Map.copyOf(next);
+    /** Capture once when one operation needs several related collections. */
+    public Snapshot snapshot() { return snapshot; }
+
+    public Map<String, PlantDefinition> plants() { return snapshot.plants(); }
+    public Map<String, MutationDefinition> mutations() { return snapshot.mutations(); }
+    public Optional<PlantDefinition> plantForSeed(String itemId) {
+        return snapshot.plantForSeed(itemId);
+    }
+    public Set<String> ambiguousSeedItems() { return snapshot.ambiguousSeedItems(); }
+
+    /**
+     * Construct everything locally, then publish it all at once. References
+     * to disabled plants cannot be activated by a stale mutation reload.
+     */
+    public void replaceAll(Map<String, PlantDefinition> inputPlants,
+                           Map<String, MutationDefinition> inputMutations) {
+        Map<String, PlantDefinition> plants = Map.copyOf(inputPlants);
+        Map<String, MutationDefinition> mutations = new HashMap<>();
+        inputMutations.forEach((id, mutation) -> {
+            if (plants.containsKey(mutation.parentA())
+                    && plants.containsKey(mutation.parentB())
+                    && plants.containsKey(mutation.childPlantId())) {
+                mutations.put(id, mutation);
+            }
+        });
+
         Map<String, String> reverse = new HashMap<>();
         Set<String> ambiguous = new HashSet<>();
-
-        // Sort for reproducibility; an ambiguous mapping is always excluded.
-        plants.values().stream().sorted(java.util.Comparator.comparing(PlantDefinition::id))
+        plants.values().stream()
+                .sorted(java.util.Comparator.comparing(PlantDefinition::id))
                 .forEach(plant -> {
                     for (String itemId : plant.seedItems()) {
                         if (ambiguous.contains(itemId)) continue;
-                        String previous = reverse.putIfAbsent(itemId, plant.id());
-                        if (previous != null && !previous.equals(plant.id())) {
+                        String prior = reverse.putIfAbsent(itemId, plant.id());
+                        if (prior != null && !prior.equals(plant.id())) {
                             reverse.remove(itemId);
                             ambiguous.add(itemId);
                         }
                     }
                 });
-        catalogue = new PlantCatalogue(plants, Map.copyOf(reverse), Set.copyOf(ambiguous));
+        snapshot = new Snapshot(plants, mutations, reverse, ambiguous);
     }
-
-    public void replaceMutations(Map<String, MutationDefinition> next) { mutations = Map.copyOf(next); }
-
-    private record PlantCatalogue(Map<String, PlantDefinition> plants,
-                                  Map<String, String> seedToPlant,
-                                  Set<String> ambiguousSeedItems) { }
 }
