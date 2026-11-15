@@ -23,6 +23,14 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 
 - Original AgriCraft asset reuse: wooden crop-stick block/item textures, legacy melon/pumpkin frames as **optional assets**, and the original magnifying-glass analyzer icon are retained. Vanilla plants, including melons and pumpkins, use Minecraft sprites by default. The original MIT license is retained at `LICENSE`. See `../temporary-research/ORIGINAL_AGRICRAFT_TEXTURES_PORT.md`.
 
+## Versioning and branch policy
+
+- `master`: pinned to commit `fe111987fb50759aa9607fc5b68f79430c124441`, the **0.1.0-alpha source revision reported as thoroughly tested locally with Codex**. A subsequently built and booted local analyzer variant was not identified by its own commit SHA and is **not** asserted to be present on `master`.
+- `entwicklung`: ongoing feature work, starting at `0.2.0-alpha`, not yet verified by a build or game test.
+- **Minor** milestone (`0.1.0-alpha` → `0.2.0-alpha`): increment when starting a substantial feature batch, not for every single commit.
+- **Patch** revision (`0.2.0-alpha.1`, etc.) may be used for specific alpha fixes/build candidates; avoid presenting an untested commit as a tested release.
+- Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
+
 ## Crafting-only recovery of original seeds
 
 One `cropgenetics:genetic_seed` **plus one paper** in any two crafting slots (2x2 inventory or 3x3 crafting table) yields exactly one plain original Minecraft/mod seed. The genetic seed is consumed; **the paper is returned as the crafting remainder** and is reusable. This is a special dynamic crafting recipe whose result is resolved from the seed's recorded `cropgenetics:original_seed` item ID, falling back to the current crop catalogue for older seeds. If the original item is unavailable or cannot be identified, the recipe does not match and nothing is consumed. There is no right-click recovery action. The returned plain seed intentionally loses all genetics and analysis data. See `src/main/java/dev/illedrabomb/cropgenetics/content/OriginalSeedRecoveryRecipe.java`. Source-only change; local crafting verification has not been performed.
