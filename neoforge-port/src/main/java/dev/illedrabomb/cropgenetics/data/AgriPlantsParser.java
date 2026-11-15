@@ -45,7 +45,10 @@ public final class AgriPlantsParser {
         return new PlantDefinition(id, mods, seeds, stages, json.get("harvestStage").getAsInt(),
                 json.get("growth_chance").getAsDouble(), json.get("growth_bonus").getAsDouble(),
                 json.get("cloneable").getAsBoolean(), json.get("spread_chance").getAsDouble(),
-                products, requirements(json));
+                products, requirements(json),
+                HarvestMode.parse(optionalString(json, "cropgenetics_harvest_mode", "standard")),
+                json.has("cropgenetics_fruit_chance")
+                        ? json.get("cropgenetics_fruit_chance").getAsDouble() : 0.0D);
     }
 
     private static PlantRequirements requirements(JsonObject json) {
