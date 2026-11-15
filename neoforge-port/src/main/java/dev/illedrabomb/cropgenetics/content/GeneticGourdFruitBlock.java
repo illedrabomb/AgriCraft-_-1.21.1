@@ -41,6 +41,8 @@ public final class GeneticGourdFruitBlock extends BaseEntityBlock {
                 && level instanceof ServerLevel server
                 && level.getBlockEntity(pos) instanceof GeneticGourdFruitBlockEntity fruit
                 && fruit.parentPos() != null && fruit.fruitToken() != null
+                // Never load the parent chunk just to notify removal.
+                && server.hasChunkAt(fruit.parentPos())
                 && level.getBlockEntity(fruit.parentPos()) instanceof CropSticksBlockEntity parent) {
             parent.onOwnedFruitRemoved(server, pos, fruit.fruitToken());
         }
