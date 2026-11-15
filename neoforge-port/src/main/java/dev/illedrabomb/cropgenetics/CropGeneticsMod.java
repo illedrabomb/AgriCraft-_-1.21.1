@@ -36,6 +36,8 @@ public final class CropGeneticsMod {
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:carrot_plant")));
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:wheat_plant")));
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:potato_plant")));
+            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:beet_root_plant")));
+            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:nether_wart_plant")));
             event.accept(CropItems.CROP_STICKS.get());
         }
     }
