@@ -66,7 +66,11 @@ public final class CropSticksBlock extends BaseEntityBlock {
 
     @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        return level.getBlockState(pos.below()).is(Blocks.FARMLAND);
+        // Vanilla farmland remains the baseline. Explicit modded soil rules
+        // can allow placement on other registered blocks/tags.
+        if (level.getBlockState(pos.below()).is(Blocks.FARMLAND)) return true;
+        return CropGeneticsMod.plants().plants().values().stream()
+                .anyMatch(plant -> CropConditions.matchesSoil(level, pos, plant.requirements()));
     }
 
     @Override
@@ -91,7 +95,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
             return;
         }
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
-        if (plant == null || crop.isMature(plant)) return;
+        if (plant == null || crop.isMature(plant) || !CropConditions.canGrow(level, pos, plant)) return;
         if (random.nextDouble() < CropGrowth.chance(plant, genome)) crop.advanceGrowth(plant);
     }
 
@@ -114,8 +118,10 @@ public final class CropSticksBlock extends BaseEntityBlock {
         // An existing genetic seed keeps its full genome; never reset its alleles.
         if (stack.is(CropItems.GENETIC_SEED.get()) && !state.getValue(CROSS)) {
             Genome genome = stack.get(CropComponents.GENOME.get());
-            if (genome == null || crop.genome() != null
-                    || !CropGeneticsMod.plants().plants().containsKey(genome.plantId())) {
+            PlantDefinition plant = genome == null ? null
+                    : CropGeneticsMod.plants().plants().get(genome.plantId());
+            if (plant == null || crop.genome() != null
+                    || !CropConditions.canGrow(level, pos, plant)) {
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
             if (!level.isClientSide && crop.plant(genome) && !player.isCreative()) stack.shrink(1);
@@ -129,7 +135,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
                 && stack.getComponentsPatch().isEmpty()) {
             String seedId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
             var plant = CropGeneticsMod.plants().plantForSeed(seedId);
-            if (plant.isPresent()) {
+            if (plant.isPresent() && CropConditions.canGrow(level, pos, plant.get())) {
                 if (!level.isClientSide) {
                     if (!crop.plant(Genome.basic(plant.get().id()))) {
                         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
