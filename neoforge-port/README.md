@@ -13,7 +13,7 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - Simple Vanilla/mod seed conversion using an unambiguous AgriPlants item ID mapping.
 - Plant/environment requirements for explicit soil IDs/tags and light tolerance adjusted by Strength.
 - AgriPlants server datapack definitions for wheat, carrot, potato, beetroot and nether wart, plus a carrot species mutation.
-- **Client-side resource-pack crop renderer**: custom BlockEntityRenderer draws crop texture overlays keyed by Genome.plantId and BlockState.STAGE. A client reload listener reads `assets/<namespace>/cropgenetics/plant_visuals/*.json`. Included visuals for wheat/carrots/potatoes/beetroot/nether wart; unknown species use a fallback texture. Some old AgriPlants `texture.plant_textures` entries with one texture per stage can also be loaded if mirrored as client resources.
+- **Client-side resource-pack crop renderer**: custom BlockEntityRenderer draws crop texture overlays keyed by Genome.plantId and BlockState.STAGE. A client reload listener reads `assets/<namespace>/cropgenetics/plant_visuals/*.json`. Included visuals for wheat/carrots/potatoes/beetroot/nether wart; unknown species use a fallback texture. The client visual loader now supports `cross`, `plus`, and approximated `gourd` geometry, including a second texture layer for gourd fruits. Selected old AgriPlants `texture.plant_textures` entries can also be loaded if mirrored as client resources.
 
 ## Important data locations
 - Server: `data/<namespace>/cropgenetics/plants/*.json`
@@ -28,7 +28,8 @@ An earlier Java 21/NeoForge compilation of the foundational source code succeede
 
 ## Upcoming
 - Conservative manifest-driven AgriPlants importer in `tools/migrate_agriplants.py` (written but not run). First two additional crops were ported manually; see `../temporary-research/AGRIPLANTS_MIGRATION_BATCH_01.md`. Further bulk migration and reference validation remain pending.
-- Complex visual variants and advanced soil/climate rules.
+- The `melon`, `pumpkin`, and `cornflower` visual JSON examples are **not playable crop definitions**; complete gourd gameplay and special crop adapters still need implementing. See `../temporary-research/SPECIAL_PLANT_RENDERING.md`.
+- More faithful gourd fruit geometry and advanced soil/climate rules.
 - Genetics inspection/storage UI, breeder villager/profession, complete plant catalog.
 - Optional add-ons: irrigation, greenhouse, MineColonies.
 - Compilation, gameplay smoke tests, client/dedicated-server validation before any release, when testing is re-enabled.
