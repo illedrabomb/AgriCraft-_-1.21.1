@@ -2,5 +2,12 @@
   "item.cropgenetics.genetic_seed": "Genetisches Saatgut",
   "block.cropgenetics.crop_sticks": "Pflanzenstäbe",
   "tooltip.cropgenetics.plant": "Pflanze: %s",
-  "tooltip.cropgenetics.stats": "Wachstum / Ertrag / Robustheit: %s"
+  "tooltip.cropgenetics.stats": "Wachstum / Ertrag / Robustheit: %s",
+  "tooltip.cropgenetics.analyzed_hint": "Analysiert – Shift halten für Genwerte",
+  "tooltip.cropgenetics.unanalyzed": "Nicht analysiert",
+  "tooltip.cropgenetics.growth": "Wachstum: %s / %s",
+  "tooltip.cropgenetics.gain": "Ertrag: %s / %s",
+  "tooltip.cropgenetics.strength": "Robustheit: %s / %s",
+  "tooltip.cropgenetics.fertility": "Fruchtbarkeit: %s / %s",
+  "tooltip.cropgenetics.mutativity": "Mutationsfreudigkeit: %s / %s"
 }
