@@ -11,15 +11,18 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.slf4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 /** Reads data/<namespace>/cropgenetics/mutations/*.json at server reload. */
 public final class MutationReloadListener extends SimpleJsonResourceReloadListener {
     private static final Logger LOG = LogUtils.getLogger();
     private final AgriPlantsRegistry registry;
+    private final Predicate<String> loadedMod;
 
-    public MutationReloadListener(AgriPlantsRegistry registry) {
+    public MutationReloadListener(AgriPlantsRegistry registry, Predicate<String> loadedMod) {
         super(new Gson(), "cropgenetics/mutations");
         this.registry = registry;
+        this.loadedMod = loadedMod;
     }
 
     @Override
@@ -29,6 +32,17 @@ public final class MutationReloadListener extends SimpleJsonResourceReloadListen
             try {
                 JsonObject json = element.getAsJsonObject();
                 if (!AgriPlantsParser.enabled(json)) return;
+                // Original AgriPlants mutations declare required mods just as
+                // plants do; never activate missing-mod recipes.
+                if (json.has("mods")) {
+                    for (JsonElement mod : json.getAsJsonArray("mods")) {
+                        String modId = mod.getAsString();
+                        if (!modId.equals("agricraft") && !loadedMod.test(modId)) {
+                            LOG.info("Skipping mutation {}: missing mod {}", key, modId);
+                            return;
+                        }
+                    }
+                }
                 MutationDefinition mutation = AgriPlantsParser.mutation(json);
                 // Reject references missing from the current enabled plant
                 // catalogue. Invalid datapack mutations must not silently
