@@ -34,6 +34,8 @@ public final class CropGeneticsMod {
     private void addCreativeSeeds(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:carrot_plant")));
+            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:wheat_plant")));
+            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:potato_plant")));
             event.accept(CropItems.CROP_STICKS.get());
         }
     }
