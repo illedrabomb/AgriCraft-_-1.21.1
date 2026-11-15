@@ -43,22 +43,29 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
         }
     }
 
-    private volatile Map<String, Visual> visuals = Map.of();
-    // Client-only file diagnostics, never mixed into server datapack status.
-    private volatile Map<String, List<ResourceLocation>> missingTextureFiles = Map.of();
+    /** One client resource generation: visuals and warnings never diverge. */
+    public record Snapshot(Map<String, Visual> visuals,
+                           Map<String, List<ResourceLocation>> missingTextureFiles) {
+        public Snapshot {
+            visuals = Map.copyOf(visuals);
+            missingTextureFiles = Map.copyOf(missingTextureFiles);
+        }
+    }
+
+    private volatile Snapshot snapshot = new Snapshot(Map.of(), Map.of());
 
     private PlantVisuals() {
         super(new Gson(), "cropgenetics/plant_visuals");
     }
 
     public Visual visual(String plantId) {
-        return visuals.getOrDefault(plantId,
+        return snapshot.visuals().getOrDefault(plantId,
                 new Visual(Geometry.CROSS, List.of(List.of(FALLBACK))));
     }
 
     /** Client resource lookup diagnostics for configured texture paths. */
     public Map<String, List<ResourceLocation>> missingTextureFiles() {
-        return missingTextureFiles;
+        return snapshot.missingTextureFiles();
     }
 
     @Override
@@ -136,11 +143,11 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
                 LOG.warn("Skipping invalid plant visuals {}: {}", source.getKey(), ex.getMessage());
             }
         });
-        // Publish diagnostic and visuals after the full resource scan.
-        missingTextureFiles = Map.copyOf(missing);
-        visuals = Map.copyOf(next);
+        // One volatile assignment prevents mixed generations on resource reload.
+        Snapshot updated = new Snapshot(next, missing);
+        snapshot = updated;
         LOG.info("Loaded {} plant visual definitions; {} have missing PNG references",
-                visuals.size(), missingTextureFiles.size());
+                updated.visuals().size(), updated.missingTextureFiles().size());
     }
 
     private static ResourceLocation parseTexture(String id) {
