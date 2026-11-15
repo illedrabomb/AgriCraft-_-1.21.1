@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "minecraft:block/oak_leaves",
+    "particle": "minecraft:block/oak_leaves"
+  }
+}
