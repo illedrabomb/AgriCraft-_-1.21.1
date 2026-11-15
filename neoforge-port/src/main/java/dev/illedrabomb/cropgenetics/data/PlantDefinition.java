@@ -18,7 +18,7 @@ public record PlantDefinition(
         if (!id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) throw new IllegalArgumentException("Invalid plant ID: " + id);
         if (stages.isEmpty() || harvestStage < 0 || harvestStage >= stages.size())
             throw new IllegalArgumentException("Invalid growth stages");
-        if (growthChance < 0 || growthBonus < 0 || spreadChance < 0 || spreadChance > 1)
+        if (!Double.isFinite(growthChance) || !Double.isFinite(growthBonus) || !Double.isFinite(spreadChance) || growthChance < 0 || growthBonus < 0 || spreadChance < 0 || spreadChance > 1)
             throw new IllegalArgumentException("Invalid growth/spread chance");
     }
 
@@ -26,7 +26,7 @@ public record PlantDefinition(
         public HarvestProduct {
             Objects.requireNonNull(itemId);
             if (!itemId.matches("[a-z0-9_.-]+:[a-z0-9_./-]+") ||
-                minimum < 0 || maximum < minimum || chance < 0 || chance > 1)
+                minimum < 0 || maximum < minimum || maximum > 4096 || !Double.isFinite(chance) || chance < 0 || chance > 1
                 throw new IllegalArgumentException("Invalid harvest product");
         }
     }
