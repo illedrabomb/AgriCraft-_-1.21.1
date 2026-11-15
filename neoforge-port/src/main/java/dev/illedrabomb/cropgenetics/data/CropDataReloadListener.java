@@ -122,8 +122,11 @@ public final class CropDataReloadListener extends
                     return;
                 }
                 firstPlantEntry.put(id, details.size());
+                List<String> tagWarnings = PlantRegistryValidator.tagWarnings(plant, manager);
                 details.add(entry(CropReloadReport.Kind.PLANT, key, id,
-                        CropReloadReport.Status.LOADED, ""));
+                        tagWarnings.isEmpty() ? CropReloadReport.Status.LOADED
+                                : CropReloadReport.Status.WARNING,
+                        String.join("; ", tagWarnings)));
             } catch (RuntimeException ex) {
                 details.add(entry(CropReloadReport.Kind.PLANT, key, id,
                         CropReloadReport.Status.INVALID, ex.getMessage()));
