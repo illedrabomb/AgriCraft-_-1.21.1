@@ -1,0 +1,14 @@
+{
+  "plant": "minecraft:sugar_cane_plant",
+  "geometry": "cross",
+  "stages": [
+    "minecraft:block/sugar_cane",
+    "minecraft:block/sugar_cane",
+    "minecraft:block/sugar_cane",
+    "minecraft:block/sugar_cane",
+    "minecraft:block/sugar_cane",
+    "minecraft:block/sugar_cane",
+    "minecraft:block/sugar_cane",
+    "minecraft:block/sugar_cane"
+  ]
+}

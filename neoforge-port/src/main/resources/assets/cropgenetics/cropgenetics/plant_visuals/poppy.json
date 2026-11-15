@@ -1,0 +1,14 @@
+{
+  "plant": "minecraft:poppy_plant",
+  "geometry": "plus",
+  "stages": [
+    "minecraft:block/poppy",
+    "minecraft:block/poppy",
+    "minecraft:block/poppy",
+    "minecraft:block/poppy",
+    "minecraft:block/poppy",
+    "minecraft:block/poppy",
+    "minecraft:block/poppy",
+    "minecraft:block/poppy"
+  ]
+}

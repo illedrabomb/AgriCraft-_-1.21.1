@@ -1,0 +1,14 @@
+{
+  "plant": "minecraft:dandelion_plant",
+  "geometry": "plus",
+  "stages": [
+    "minecraft:block/dandelion",
+    "minecraft:block/dandelion",
+    "minecraft:block/dandelion",
+    "minecraft:block/dandelion",
+    "minecraft:block/dandelion",
+    "minecraft:block/dandelion",
+    "minecraft:block/dandelion",
+    "minecraft:block/dandelion"
+  ]
+}
