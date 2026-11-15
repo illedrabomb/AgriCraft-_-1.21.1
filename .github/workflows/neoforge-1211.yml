@@ -1,12 +1,8 @@
 name: NeoForge 1.21.1 build and tests
 
+# Manual only: CI tests were paused on user request on 2026-11-15.
+# This workflow is retained for when the user wants to enable validation again.
 on:
-  push:
-    branches:
-      - feature/neoforge-1211-foundation
-    paths:
-      - "neoforge-port/**"
-      - ".github/workflows/neoforge-1211.yml"
   workflow_dispatch:
 
 permissions:

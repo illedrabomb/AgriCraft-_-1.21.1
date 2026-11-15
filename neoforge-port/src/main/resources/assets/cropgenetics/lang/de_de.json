@@ -1,0 +1,5 @@
+{
+  "item.cropgenetics.genetic_seed": "Genetisches Saatgut",
+  "tooltip.cropgenetics.plant": "Pflanze: %s",
+  "tooltip.cropgenetics.stats": "Wachstum / Ertrag / Robustheit: %s"
+}

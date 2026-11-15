@@ -1,0 +1,5 @@
+{
+  "item.cropgenetics.genetic_seed": "Genetic Seed",
+  "tooltip.cropgenetics.plant": "Plant: %s",
+  "tooltip.cropgenetics.stats": "Growth / Gain / Strength: %s"
+}
