@@ -6,7 +6,10 @@ import dev.illedrabomb.cropgenetics.content.CropSticksBlock;
 import dev.illedrabomb.cropgenetics.content.CropSticksBlockEntity;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -46,49 +49,55 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
     private static void drawLayer(ResourceLocation source, PlantVisuals.Geometry geometry,
                                   PoseStack poses, MultiBufferSource buffers, float min, float max,
                                   float y0, float y1, int light, int overlay) {
-        ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(
-                source.getNamespace(), "textures/" + source.getPath() + ".png");
-        VertexConsumer vertices = buffers.getBuffer(RenderType.entityCutoutNoCull(texture));
+        // Block textures belong to Minecraft's stitched atlas. The previous
+        // entityCutoutNoCull("textures/...png") path bypassed atlas sprites
+        // and would not reliably render vanilla or animated block textures.
+        TextureAtlasSprite sprite = Minecraft.getInstance()
+                .getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(source);
+        VertexConsumer vertices = buffers.getBuffer(Sheets.cutoutBlockSheet());
         PoseStack.Pose pose = poses.last();
 
         if (geometry == PlantVisuals.Geometry.PLUS) {
-            plane(vertices, pose, 0.5F, y0, min, 0.5F, y1, max, light, overlay);
-            plane(vertices, pose, min, y0, 0.5F, max, y1, 0.5F, light, overlay);
+            plane(vertices, pose, sprite, 0.5F, y0, min, 0.5F, y1, max, light, overlay);
+            plane(vertices, pose, sprite, min, y0, 0.5F, max, y1, 0.5F, light, overlay);
         } else {
             // Both CROSS and GOURD use crossed primary foliage.
-            plane(vertices, pose, min, y0, min, max, y1, max, light, overlay);
-            plane(vertices, pose, min, y0, max, max, y1, min, light, overlay);
+            plane(vertices, pose, sprite, min, y0, min, max, y1, max, light, overlay);
+            plane(vertices, pose, sprite, min, y0, max, max, y1, min, light, overlay);
         }
     }
 
     private static void plane(VertexConsumer consumer, PoseStack.Pose pose,
+                              TextureAtlasSprite sprite,
                               float x0, float y0, float z0, float x1, float y1, float z1,
                               int light, int overlay) {
-        // Vegetation quads are vertical. Correct face normals improve lighting
-        // compared with the previous unconditional upward-facing normal.
         float dx = x1 - x0;
         float dz = z1 - z0;
         float inverseLength = 1.0F / (float) Math.sqrt(dx * dx + dz * dz);
         float nx = dz * inverseLength;
         float nz = -dx * inverseLength;
 
-        vertex(consumer, pose, x0, y1, z0, 0, 0, light, overlay, nx, nz);
-        vertex(consumer, pose, x0, y0, z0, 0, 1, light, overlay, nx, nz);
-        vertex(consumer, pose, x1, y0, z1, 1, 1, light, overlay, nx, nz);
-        vertex(consumer, pose, x1, y1, z1, 1, 0, light, overlay, nx, nz);
+        vertex(consumer, pose, sprite, x0, y1, z0, 0, 0, light, overlay, nx, nz);
+        vertex(consumer, pose, sprite, x0, y0, z0, 0, 1, light, overlay, nx, nz);
+        vertex(consumer, pose, sprite, x1, y0, z1, 1, 1, light, overlay, nx, nz);
+        vertex(consumer, pose, sprite, x1, y1, z1, 1, 0, light, overlay, nx, nz);
 
-        vertex(consumer, pose, x1, y1, z1, 0, 0, light, overlay, -nx, -nz);
-        vertex(consumer, pose, x1, y0, z1, 0, 1, light, overlay, -nx, -nz);
-        vertex(consumer, pose, x0, y0, z0, 1, 1, light, overlay, -nx, -nz);
-        vertex(consumer, pose, x0, y1, z0, 1, 0, light, overlay, -nx, -nz);
+        vertex(consumer, pose, sprite, x1, y1, z1, 0, 0, light, overlay, -nx, -nz);
+        vertex(consumer, pose, sprite, x1, y0, z1, 0, 1, light, overlay, -nx, -nz);
+        vertex(consumer, pose, sprite, x0, y0, z0, 1, 1, light, overlay, -nx, -nz);
+        vertex(consumer, pose, sprite, x0, y1, z0, 1, 0, light, overlay, -nx, -nz);
     }
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose,
+                               TextureAtlasSprite sprite,
                                float x, float y, float z, float u, float v,
                                int packedLight, int packedOverlay, float nx, float nz) {
+        // The incoming UV coordinates are [0,1] relative to the sprite.
+        float atlasU = sprite.getU0() + u * (sprite.getU1() - sprite.getU0());
+        float atlasV = sprite.getV0() + v * (sprite.getV1() - sprite.getV0());
         consumer.addVertex(pose, x, y, z)
                 .setColor(255, 255, 255, 255)
-                .setUv(u, v)
+                .setUv(atlasU, atlasV)
                 .setOverlay(packedOverlay)
                 .setLight(packedLight)
                 .setNormal(pose, nx, 0, nz);
