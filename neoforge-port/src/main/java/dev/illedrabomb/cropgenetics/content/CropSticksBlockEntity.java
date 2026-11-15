@@ -82,7 +82,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (level == null) return;
         BlockState previous = getBlockState();
         BlockState updated = previous.setValue(CropSticksBlock.PLANTED, genome != null)
-                .setValue(CropSticksBlock.STAGE, CropGrowth.displayStage(growthStage, plant.stages().size()));
+                .setValue(CropSticksBlock.STAGE, CropGrowth.displayStage(growthStage, plant.stages().size()))
+                .setValue(CropSticksBlock.SPECIES, genome == null
+                        ? CropAppearance.GENERIC : CropAppearance.fromPlantId(genome.plantId()));
         if (!updated.equals(previous)) level.setBlock(worldPosition, updated, 3);
         level.sendBlockUpdated(worldPosition, previous, updated, 3);
     }
