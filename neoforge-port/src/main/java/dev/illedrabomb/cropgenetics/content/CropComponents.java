@@ -27,6 +27,14 @@ public final class CropComponents {
             COMPONENTS.registerComponentType("analyzed",
                     builder -> builder.persistent(Codec.BOOL));
 
+    /**
+     * The original item ID is stored on genetic seeds at creation time.
+     * Recovery can still work if an optional crop integration later vanishes.
+     */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> ORIGINAL_SEED =
+            COMPONENTS.registerComponentType("original_seed",
+                    builder -> builder.persistent(Codec.STRING));
+
     public static void register(IEventBus bus) {
         COMPONENTS.register(bus);
     }
