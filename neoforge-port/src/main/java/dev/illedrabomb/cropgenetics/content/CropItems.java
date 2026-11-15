@@ -59,14 +59,17 @@ public final class CropItems {
     private static Optional<String> originalSeedId(Genome genome) {
         PlantDefinition plant = CropGeneticsMod.plants().snapshot().plants().get(genome.plantId());
         if (plant == null) return Optional.empty();
+        String unique = null;
         for (String candidate : plant.seedItems()) {
             ResourceLocation id = ResourceLocation.tryParse(candidate);
-            if (id != null && BuiltInRegistries.ITEM.getOptional(id)
-                    .filter(item -> item != Items.AIR).isPresent()) {
-                return Optional.of(candidate);
-            }
+            if (id == null || BuiltInRegistries.ITEM.getOptional(id)
+                    .filter(item -> item != Items.AIR).isEmpty()) continue;
+            // If a species has multiple possible seed item types, guessing
+            // the first would risk turning one mod's item into another.
+            if (unique != null && !unique.equals(candidate)) return Optional.empty();
+            unique = candidate;
         }
-        return Optional.empty();
+        return Optional.ofNullable(unique);
     }
 
     /**
