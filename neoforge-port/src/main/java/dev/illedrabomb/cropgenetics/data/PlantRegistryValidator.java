@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics.data;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,5 +41,25 @@ public final class PlantRegistryValidator {
         });
 
         return List.copyOf(problems);
+    }
+
+    /**
+     * Advisory only. In 1.21.1 block tag JSON resides under tags/block/,
+     * not the pre-1.21 tags/blocks/ folder. Resource packs/mods may supply
+     * tags through custom mechanisms, so absence is not an invalid plant.
+     */
+    public static List<String> tagWarnings(PlantDefinition plant, ResourceManager manager) {
+        List<String> warnings = new ArrayList<>();
+        plant.requirements().soilTag().ifPresent(tag -> {
+            ResourceLocation id = ResourceLocation.tryParse(tag);
+            if (id == null) return; // PlantRequirements already validates syntax.
+            ResourceLocation file = ResourceLocation.fromNamespaceAndPath(
+                    id.getNamespace(), "tags/block/" + id.getPath() + ".json");
+            if (manager.getResource(file).isEmpty()) {
+                warnings.add("No block-tag JSON found for #" + tag
+                        + " (expected " + file + "; runtime tag may still exist)");
+            }
+        });
+        return List.copyOf(warnings);
     }
 }
