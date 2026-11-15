@@ -54,17 +54,36 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
         for (Map.Entry<ResourceLocation, JsonElement> source : sources.entrySet()) {
             try {
                 JsonObject json = source.getValue().getAsJsonObject();
-                String plantId = json.get("plant").getAsString();
+                // Modern resource-pack format, or a mirrored 1.18.2 AgriPlants
+                // entry with its original texture.plant_textures array.
+                String plantId = json.has("plant") ? json.get("plant").getAsString()
+                        : json.get("id").getAsString();
                 if (ResourceLocation.tryParse(plantId) == null) {
                     throw new IllegalArgumentException("Invalid plant ID");
                 }
-                JsonArray entries = json.getAsJsonArray("textures");
+                JsonObject legacyTexture = json.has("texture")
+                        ? json.getAsJsonObject("texture") : null;
+                if (legacyTexture != null && !"hash".equals(legacyTexture.get("render_type").getAsString())) {
+                    throw new IllegalArgumentException("Only legacy render_type=hash can be approximated");
+                }
+                JsonArray entries = legacyTexture != null
+                        ? legacyTexture.getAsJsonArray("plant_textures")
+                        : json.getAsJsonArray("textures");
                 if (entries == null || entries.isEmpty() || entries.size() > 64) {
                     throw new IllegalArgumentException("Expected 1..64 texture stages");
                 }
                 List<ResourceLocation> textures = new ArrayList<>();
                 for (JsonElement value : entries) {
-                    String id = value.getAsString();
+                    String id;
+                    if (legacyTexture != null) {
+                        JsonArray group = value.getAsJsonArray();
+                        if (group.size() != 1) {
+                            throw new IllegalArgumentException("Multi-layer textures require a dedicated renderer");
+                        }
+                        id = group.get(0).getAsString();
+                    } else {
+                        id = value.getAsString();
+                    }
                     ResourceLocation parsed = ResourceLocation.tryParse(id);
                     if (parsed == null || !parsed.getPath().startsWith("block/")) {
                         throw new IllegalArgumentException("Expected texture ID namespace:block/name");
