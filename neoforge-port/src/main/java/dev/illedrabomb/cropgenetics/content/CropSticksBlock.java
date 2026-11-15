@@ -185,6 +185,26 @@ public final class CropSticksBlock extends BaseEntityBlock {
             return ItemInteractionResult.SUCCESS;
         }
 
+        // A Vanilla/mod seed that was previously given its REAL genome
+        // by an analyzer must preserve that genome when planted. Only the
+        // species-matched, unambiguous seed mappings are accepted here.
+        if (!state.getValue(CROSS) && crop.genome() == null
+                && !stack.is(CropItems.GENETIC_SEED.get())
+                && CropItems.isGeneticSeedStack(stack)) {
+            Genome seedGenome = stack.get(CropComponents.GENOME.get());
+            PlantDefinition plant = seedGenome == null ? null
+                    : CropGeneticsMod.plants().plants().get(seedGenome.plantId());
+            if (plant != null && CropConditions.canGrow(level, pos, plant, seedGenome)) {
+                if (!level.isClientSide) {
+                    if (!crop.plant(seedGenome)) {
+                        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+                    }
+                    if (!player.isCreative()) stack.shrink(1);
+                }
+                return ItemInteractionResult.SUCCESS;
+            }
+        }
+
         // A vanilla/mod seed with *no custom component patch* starts as a 1/1/1
         // genome. Do not consume customized stacks or ambiguous modded seeds.
         if (!state.getValue(CROSS) && crop.genome() == null
