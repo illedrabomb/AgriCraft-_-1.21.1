@@ -10,5 +10,5 @@
   "tooltip.cropgenetics.strength": "Robustheit: %s / %s",
   "tooltip.cropgenetics.fertility": "Fruchtbarkeit: %s / %s",
   "tooltip.cropgenetics.mutativity": "Mutationsfreudigkeit: %s / %s",
-  "tooltip.cropgenetics.recover_hint": "Im Craftingfeld: zurück zu normalem Saatgut (Genwerte gehen verloren)"
+  "tooltip.cropgenetics.recover_hint": "Im Craftingfeld: Gen-Seed + Papier → normales Saatgut (Papier bleibt erhalten)"
 }
