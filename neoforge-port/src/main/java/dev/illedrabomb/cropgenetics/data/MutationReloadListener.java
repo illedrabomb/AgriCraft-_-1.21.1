@@ -30,6 +30,17 @@ public final class MutationReloadListener extends SimpleJsonResourceReloadListen
                 JsonObject json = element.getAsJsonObject();
                 if (!AgriPlantsParser.enabled(json)) return;
                 MutationDefinition mutation = AgriPlantsParser.mutation(json);
+                // Reject references missing from the current enabled plant
+                // catalogue. Invalid datapack mutations must not silently
+                // become active when their target is loaded later.
+                Map<String, PlantDefinition> plants = registry.plants();
+                if (!plants.containsKey(mutation.parentA())
+                        || !plants.containsKey(mutation.parentB())
+                        || !plants.containsKey(mutation.childPlantId())) {
+                    LOG.warn("Skipping mutation {}: unknown/disabled plant reference ({}, {}, {})",
+                            key, mutation.parentA(), mutation.parentB(), mutation.childPlantId());
+                    return;
+                }
                 String id = key.toString();
                 result.put(id, mutation);
             } catch (RuntimeException ex) {
