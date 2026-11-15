@@ -10,7 +10,7 @@
 - Master enthält derzeit alten **Forge 1.18.2**-Code, nicht bereits ein funktionsfähiges NeoForge-Projekt.
 - Kein Build/Integrationstest auf NeoForge 21.1.265 durchgeführt.
 - Der bestehende Code ist **Referenz für Algorithmen und Daten**, nicht ohne Anpassungen lauffähig.
-- Dokumentierte Entscheidungen aus dem Gespräch: Kreuzungen, 1–10-Genetik (Ziel 10/10/10), breitflächige Modpack-Samenunterstützung, Dorf-Züchterhaus und Villager-Handel, Samenanalyse/Saatgutlagerung. Bewässerung (Tank, Kanäle, Sprinkler) und Gewächshaus als **separate optionale Addons**, Weeds nicht als Kernfeature.
+- Dokumentierte Entscheidungen aus dem Gespräch: Kreuzungen, 1–10-Genetik (Ziel 10/10/10), breitflächige Modpack-Samenunterstützung, Dorf-Züchterhaus und Villager-Handel, Samenanalyse/Saatgutlagerung. Bewässerung (Tank, Kanäle, Sprinkler), Gewächshaus und **MineColonies-Unterstützung** als **separate optionale Addons**, Weeds nicht als Kernfeature.
 - Empfohlene hybride Samenarchitektur ist ein Vorschlag, noch keine endgültig technisch geprüfte Entscheidung.
 
 ## Arbeitsablauf
