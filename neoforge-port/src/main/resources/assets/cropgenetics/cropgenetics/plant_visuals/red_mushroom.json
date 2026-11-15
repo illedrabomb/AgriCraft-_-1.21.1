@@ -1,0 +1,14 @@
+{
+  "plant": "minecraft:red_mushroom_plant",
+  "geometry": "cross",
+  "stages": [
+    "minecraft:block/red_mushroom",
+    "minecraft:block/red_mushroom",
+    "minecraft:block/red_mushroom",
+    "minecraft:block/red_mushroom",
+    "minecraft:block/red_mushroom",
+    "minecraft:block/red_mushroom",
+    "minecraft:block/red_mushroom",
+    "minecraft:block/red_mushroom"
+  ]
+}

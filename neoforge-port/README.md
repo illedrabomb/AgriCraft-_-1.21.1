@@ -1,6 +1,6 @@
 # Crop Genetics — NeoForge 1.21.1 port
 
-**Development branch:** `feature/neoforge-1211-foundation`  
+**Development branch:** `entwicklung`  
 **Target:** Minecraft 1.21.1 / NeoForge 21.1.265 / Java 21  
 **Temporary mod ID:** `cropgenetics`
 
@@ -30,6 +30,20 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Minor** milestone (`0.1.0-alpha` → `0.2.0-alpha`): increase the middle number when starting a substantial feature batch, resetting the patch number to zero.
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
+
+## 0.2.6-alpha: brown and red mushroom crops
+
+Added `minecraft:brown_mushroom_plant` and `minecraft:red_mushroom_plant`
+as genetic Crop Sticks plants using the Vanilla mushroom items and block sprites.
+Their planting-site adapter accepts mycelium, podzol and Nether nylium at any
+light level, or dirt-family/farmland/moss at raw block brightness below 13.
+The shared site check applies to planting, normal growth and crossbreeding.
+Their datapack definitions use a 0..15 light range so the stricter light
+rule only applies to ordinary soils, not specialty mushroom substrates.
+
+The crops are intentionally **not** giant mushroom generators and do not
+emulate Vanilla random mushroom spread: they use normal Crop Sticks growth,
+genetic inheritance and harvesting. No builds or gameplay tests were run.
 
 ## 0.2.5-alpha: bamboo and sweet berry genetic crops
 

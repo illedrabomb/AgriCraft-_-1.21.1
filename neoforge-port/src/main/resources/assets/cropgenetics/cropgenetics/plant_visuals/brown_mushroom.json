@@ -1,0 +1,14 @@
+{
+  "plant": "minecraft:brown_mushroom_plant",
+  "geometry": "cross",
+  "stages": [
+    "minecraft:block/brown_mushroom",
+    "minecraft:block/brown_mushroom",
+    "minecraft:block/brown_mushroom",
+    "minecraft:block/brown_mushroom",
+    "minecraft:block/brown_mushroom",
+    "minecraft:block/brown_mushroom",
+    "minecraft:block/brown_mushroom",
+    "minecraft:block/brown_mushroom"
+  ]
+}

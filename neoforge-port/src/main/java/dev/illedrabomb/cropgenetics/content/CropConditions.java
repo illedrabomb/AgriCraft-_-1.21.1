@@ -85,6 +85,19 @@ public final class CropConditions {
                     || soil.is(Blocks.MOSS_BLOCK) || soil.is(Blocks.MUD)
                     || soil.is(Blocks.MUDDY_MANGROVE_ROOTS);
         }
+        if ("minecraft:brown_mushroom_plant".equals(plant.id())
+                || "minecraft:red_mushroom_plant".equals(plant.id())) {
+            BlockState soil = level.getBlockState(pos.below());
+            // Mycelium, podzol and Nether nylium support mushrooms regardless
+            // of sky light; ordinary soils need the classic low-light rule.
+            if (soil.is(Blocks.MYCELIUM) || soil.is(Blocks.PODZOL)
+                    || soil.is(Blocks.CRIMSON_NYLIUM) || soil.is(Blocks.WARPED_NYLIUM)) {
+                return true;
+            }
+            boolean ordinarySoil = soil.is(BlockTags.DIRT)
+                    || soil.is(Blocks.FARMLAND) || soil.is(Blocks.MOSS_BLOCK);
+            return ordinarySoil && level.getRawBrightness(pos, 0) < 13;
+        }
         return matchesSoil(level, pos, plant.requirements());
     }
 
