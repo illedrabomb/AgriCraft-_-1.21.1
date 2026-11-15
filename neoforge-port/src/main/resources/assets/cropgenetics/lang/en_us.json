@@ -2,5 +2,12 @@
   "item.cropgenetics.genetic_seed": "Genetic Seed",
   "block.cropgenetics.crop_sticks": "Crop Sticks",
   "tooltip.cropgenetics.plant": "Plant: %s",
-  "tooltip.cropgenetics.stats": "Growth / Gain / Strength: %s"
+  "tooltip.cropgenetics.stats": "Growth / Gain / Strength: %s",
+  "tooltip.cropgenetics.analyzed_hint": "Analyzed – hold Shift for genes",
+  "tooltip.cropgenetics.unanalyzed": "Not analyzed",
+  "tooltip.cropgenetics.growth": "Growth: %s / %s",
+  "tooltip.cropgenetics.gain": "Gain: %s / %s",
+  "tooltip.cropgenetics.strength": "Strength: %s / %s",
+  "tooltip.cropgenetics.fertility": "Fertility: %s / %s",
+  "tooltip.cropgenetics.mutativity": "Mutativity: %s / %s"
 }
