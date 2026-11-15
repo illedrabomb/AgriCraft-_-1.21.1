@@ -1,0 +1,13 @@
+{
+  "plant": "minecraft:wheat_plant",
+  "textures": [
+    "minecraft:block/wheat_stage0",
+    "minecraft:block/wheat_stage1",
+    "minecraft:block/wheat_stage2",
+    "minecraft:block/wheat_stage3",
+    "minecraft:block/wheat_stage4",
+    "minecraft:block/wheat_stage5",
+    "minecraft:block/wheat_stage6",
+    "minecraft:block/wheat_stage7"
+  ]
+}
