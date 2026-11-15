@@ -195,7 +195,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
         genome = null;
         if (tag.contains("Genome")) GenomeCodecs.GENOME.parse(NbtOps.INSTANCE, tag.get("Genome"))
                 .result().ifPresent(value -> genome = value);
-        if (genome == null) {
+        // Old saves may have FruitReady but no owner token. Such data is
+        // not an authoritative ownership claim; never keep a phantom fruit.
+        if (genome == null || fruitDirection == null || fruitToken == null || !fruitReady) {
             fruitReady = false;
             fruitDirection = null;
             fruitToken = null;
