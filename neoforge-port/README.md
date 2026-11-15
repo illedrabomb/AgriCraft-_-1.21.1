@@ -21,6 +21,8 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - AgriPlants server datapack definitions for wheat, carrot, potato, beetroot, nether wart, **melon and pumpkin**, plus a carrot species mutation.
 - **Client-side resource-pack crop renderer**: custom BlockEntityRenderer draws crop texture overlays keyed by Genome.plantId and BlockState.STAGE. A client reload listener reads `assets/<namespace>/cropgenetics/plant_visuals/*.json`. Included visuals for wheat/carrots/potatoes/beetroot/nether wart; unknown species use a fallback texture. The client visual loader supports `cross`, `plus`, and approximated `gourd` geometry; visuals and missing-PNG warnings now publish as one client resource snapshot. Plant quads now sample sprites from the Minecraft block atlas, and `assets/minecraft/atlases/blocks.json` declares `textures/plant/` atlas sources. Physical gourd fruits use their own block models, not the old virtual fruit texture. Selected old AgriPlants `texture.plant_textures` entries can also be loaded if mirrored as client resources.
 
+- Original AgriCraft asset reuse: the original wood crop-stick block/item textures and melon/pumpkin stage PNGs are copied unchanged from the legacy resources. The current crop-stick models and gourd visual JSONs reference them; other plants retain their existing Vanilla textures. The original MIT license is retained at `LICENSE`. See `../temporary-research/ORIGINAL_AGRICRAFT_TEXTURES_PORT.md`.
+
 ## Important data locations
 - Server: `data/<namespace>/cropgenetics/plants/*.json`
 - Server: `data/<namespace>/cropgenetics/mutations/*.json`
