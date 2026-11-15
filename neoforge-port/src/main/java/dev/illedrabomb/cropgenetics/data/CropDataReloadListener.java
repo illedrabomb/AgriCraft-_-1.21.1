@@ -106,6 +106,10 @@ public final class CropDataReloadListener extends
                             CropReloadReport.Status.CONFLICT, "Duplicate plant ID: " + id));
                     return;
                 }
+                // Complete all potentially failing checks BEFORE publishing this
+                // definition to the candidate map; an INVALID report must not
+                // coexist with an active plant for the same source file.
+                List<String> tagWarnings = PlantRegistryValidator.tagWarnings(plant, manager);
                 if (plants.putIfAbsent(id, plant) != null) {
                     plants.remove(id);
                     duplicates.add(id);
@@ -122,7 +126,6 @@ public final class CropDataReloadListener extends
                     return;
                 }
                 firstPlantEntry.put(id, details.size());
-                List<String> tagWarnings = PlantRegistryValidator.tagWarnings(plant, manager);
                 details.add(entry(CropReloadReport.Kind.PLANT, key, id,
                         tagWarnings.isEmpty() ? CropReloadReport.Status.LOADED
                                 : CropReloadReport.Status.WARNING,
