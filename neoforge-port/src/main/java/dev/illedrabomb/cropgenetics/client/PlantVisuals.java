@@ -83,6 +83,8 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
                          ProfilerFiller profiler) {
         Map<String, Visual> next = new HashMap<>();
         Map<String, List<ResourceLocation>> missing = new HashMap<>();
+        // Conflicting visual IDs should not depend on which resource sorts first.
+        Set<String> ambiguous = new HashSet<>();
         // Stable duplicate handling regardless of resource manager map order.
         sources.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(source -> {
             try {
@@ -129,8 +131,17 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
                     }
                     stages.add(List.copyOf(layers));
                 }
+                if (ambiguous.contains(plantId)) {
+                    LOG.warn("Ignoring visual {} from {}: species ID already ambiguous",
+                            plantId, source.getKey());
+                    return;
+                }
                 if (next.putIfAbsent(plantId, new Visual(geometry, stages)) != null) {
-                    LOG.warn("Duplicate plant visuals ID {} from {}", plantId, source.getKey());
+                    next.remove(plantId);
+                    missing.remove(plantId);
+                    ambiguous.add(plantId);
+                    LOG.error("Conflicting visual species ID {} at {}: using fallback for this species",
+                            plantId, source.getKey());
                 } else {
                     // Inspect the original PNGs in this active client resource
                     // manager. Missing files are advisory: generated or
@@ -156,8 +167,9 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
         // One volatile assignment prevents mixed generations on resource reload.
         Snapshot updated = new Snapshot(next, missing);
         snapshot = updated;
-        LOG.info("Loaded {} plant visual definitions; {} have missing PNG references",
-                updated.visuals().size(), updated.missingTextureFiles().size());
+        LOG.info("Loaded {} plant visual definitions; {} missing-PNG reports, {} ambiguous IDs",
+                updated.visuals().size(), updated.missingTextureFiles().size(),
+                ambiguous.size());
     }
 
     private static ResourceLocation parseTexture(String id) {
