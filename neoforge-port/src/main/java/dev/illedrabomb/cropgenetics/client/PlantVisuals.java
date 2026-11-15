@@ -32,13 +32,23 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
 
     public record Visual(Geometry geometry, List<List<ResourceLocation>> stages) {
         public Visual {
+            if (stages == null || stages.isEmpty() || stages.size() > 64
+                    || stages.stream().anyMatch(layers -> layers == null
+                            || layers.isEmpty() || layers.size() > 2)) {
+                throw new IllegalArgumentException("Expected 1..64 visual stages with 1..2 layers");
+            }
             stages = stages.stream().map(List::copyOf).toList();
         }
 
         public List<ResourceLocation> at(int stage, int totalStages) {
+            // BlockState.STAGE is a normalized 0..7 visual scale. Clamp
+            // malformed/out-of-range values before mapping onto the
+            // resource-pack-specific number of texture frames.
             int last = stages.size() - 1;
+            int maximum = Math.max(0, totalStages - 1);
+            int clampedStage = Math.max(0, Math.min(stage, maximum));
             int index = totalStages <= 1 ? last
-                    : Math.min(last, (int) ((long) Math.max(0, stage) * last / (totalStages - 1)));
+                    : (int) ((long) clampedStage * last / maximum);
             return stages.get(index);
         }
     }
