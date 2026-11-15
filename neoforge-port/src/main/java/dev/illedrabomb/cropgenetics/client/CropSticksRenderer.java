@@ -25,6 +25,11 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
                        MultiBufferSource buffers, int packedLight, int packedOverlay) {
         Genome genome = crop.genome();
         if (genome == null || !crop.getBlockState().getValue(CropSticksBlock.PLANTED)) return;
+        // The attached vanilla stem is drawn by the multipart blockstate.
+        // Do not draw the cross-plane stem over it a second time.
+        if (crop.getBlockState().getValue(CropSticksBlock.FRUIT)
+                && (genome.plantId().equals("minecraft:melon_plant")
+                || genome.plantId().equals("minecraft:pumpkin_plant"))) return;
 
         int stage = crop.getBlockState().getValue(CropSticksBlock.STAGE);
         PlantVisuals.Visual visual = PlantVisuals.INSTANCE.visual(genome.plantId());
