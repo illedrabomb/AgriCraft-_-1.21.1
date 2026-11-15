@@ -35,7 +35,8 @@ public final class CrossBreeding {
             Genome genome = source.genome();
             if (genome == null) continue;
             PlantDefinition plant = plants.get(genome.plantId());
-            if (plant == null || !source.isMature(plant)) continue;
+            if (plant == null || !source.isMature(plant)
+                    || !CropConditions.canGrow(level, position.relative(direction), plant)) continue;
 
             // Fertility is retained as a hidden statistic and affects breeding.
             double fertility = genome.fertility().expressed(GenePair.TraitMode.MAX) / 10.0D;
@@ -50,6 +51,7 @@ public final class CrossBreeding {
             Genome parent = parents.getFirst();
             PlantDefinition plant = plants.get(parent.plantId());
             if (plant != null && plant.cloneable()
+                    && CropConditions.canGrow(level, position, plant)
                     && random.nextDouble() < plant.spreadChance()) {
                 // Clone preserves the complete genotype; cloning is not recombination.
                 target.acceptCrossOffspring(parent, plant);
@@ -61,7 +63,7 @@ public final class CrossBreeding {
         Genome second = parents.get(1);
         String childId = chooseChildSpecies(first, second, registry, random);
         PlantDefinition childPlant = plants.get(childId);
-        if (childPlant == null) return;
+        if (childPlant == null || !CropConditions.canGrow(level, position, childPlant)) return;
 
         Genome offspring = BreedingEngine.combine(first, second, childId, inheritanceRandom);
         target.acceptCrossOffspring(offspring, childPlant);
