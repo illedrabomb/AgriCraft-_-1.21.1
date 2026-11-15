@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""Conservative offline migration of selected AgriPlants 1.18.2 crop records.
+
+Usage:
+  python3 tools/migrate_agriplants.py \
+    --source /path/to/AgriPlants \
+    --output src/main/resources \
+    --manifest tools/agriplants_migration_manifest.json
+
+The manifest explicitly opts into every migrated crop and its substituted soil
+and light rules. Unsupported semantics stop a record; they are never dropped
+silently. No dependencies beyond the Python standard library.
+"""
+import argparse
+import json
+import re
+from pathlib import Path
+
+ID = re.compile(r"^[a-z0-9_.-]+:[a-z0-9_./-]+$")
+
+def check_id(value, label):
+    if not isinstance(value, str) or not ID.fullmatch(value):
+        raise ValueError(f"invalid {label}: {value!r}")
+    return value
+
+def plain_item(entry, label):
+    if entry.get("type", "item") != "item" or entry.get("useTag", False):
+        raise ValueError(f"{label}: tag/non-item entry requires adapter")
+    # The legacy parser currently does not support custom item NBT.
+    if entry.get("nbt", ""):
+        raise ValueError(f"{label}: custom NBT requires adapter")
+    return check_id(entry["object"], label)
+
+def finite_chance(value, label):
+    if not isinstance(value, (int, float)) or not 0 <= value <= 1:
+        raise ValueError(f"{label}: chance outside 0..1")
+    return value
+
+def convert_crop(source, config):
+    crop_id = check_id(source["id"], "plant ID")
+    if not source.get("enabled", True):
+        raise ValueError("plant disabled upstream")
+    if source.get("callbacks"):
+        raise ValueError("callbacks not supported")
+    if source.get("clip_products", {}).get("products"):
+        raise ValueError("clip product rules need adapter")
+
+    requirements = source.get("requirement", {})
+    if requirements and not config.get("acknowledge_legacy_requirements", False):
+        raise ValueError("original soil/seasons/conditions need explicit migration approval")
+    for key in ("soil_block", "soil_tag"):
+        if key in config:
+            check_id(config[key], key)
+    if ("soil_block" in config) == ("soil_tag" in config):
+        raise ValueError("explicitly set exactly one soil_block or soil_tag")
+    min_light = config.get("min_light")
+    max_light = config.get("max_light")
+    if not all(isinstance(x, int) for x in (min_light, max_light)):
+        raise ValueError("explicit min_light and max_light required")
+    if not 0 <= min_light <= max_light <= 15:
+        raise ValueError("light range invalid (Minecraft 1.21.1 uses 0..15)")
+    tolerance = config.get("light_tolerance", 0)
+    if not isinstance(tolerance, int) or not 0 <= tolerance <= 15:
+        raise ValueError("light_tolerance outside 0..15")
+
+    seeds = [{"type": "item", "object": plain_item(e, "seed"), "useTag": False}
+             for e in source.get("seed_items", [])]
+    products = []
+    for e in source.get("products", {}).get("products", []):
+        item = plain_item(e, "harvest product")
+        minimum, maximum = e["min"], e["max"]
+        if not all(isinstance(x, int) for x in (minimum, maximum)):
+            raise ValueError("non-integer harvest counts")
+        if not 0 <= minimum <= maximum <= 4096:
+            raise ValueError("invalid harvest count")
+        if e.get("required") is False:
+            raise ValueError("optional/conditional product requires adapter")
+        products.append({"type": "item", "object": item, "min": minimum,
+                         "max": maximum, "chance": finite_chance(e["chance"], "product")})
+    stages = source["stages"]
+    if not isinstance(stages, list) or not stages or any(
+            not isinstance(v, int) or v < 0 for v in stages):
+        raise ValueError("unsupported stages")
+    harvest = source["harvestStage"]
+    if not isinstance(harvest, int) or not 0 <= harvest < len(stages):
+        raise ValueError("invalid harvest stage")
+
+    texture = source.get("texture", {})
+    if texture.get("render_type") != "hash":
+        raise ValueError("only render_type=hash can be migrated")
+    layers = texture.get("plant_textures")
+    if not isinstance(layers, list) or not 1 <= len(layers) <= 64:
+        raise ValueError("missing/too many texture layers")
+    textures = []
+    for layer in layers:
+        if not isinstance(layer, list) or len(layer) != 1:
+            raise ValueError("multi-layer stage requires special renderer")
+        t = check_id(layer[0], "texture")
+        if not t.split(":", 1)[1].startswith("block/"):
+            raise ValueError("non-block texture needs a renderer adapter")
+        textures.append(t)
+
+    known = {"minecraft", "agricraft"}
+    foreign_mods = [m for m in source.get("mods", []) if m not in known]
+    if foreign_mods and not config.get("allow_foreign_mods", False):
+        raise ValueError(f"foreign mod dependencies require approval: {foreign_mods}")
+
+    requirements_new = {"min_light": min_light, "max_light": max_light,
+                        "light_tolerance": tolerance}
+    requirements_new.update({k: config[k] for k in ("soil_block", "soil_tag") if k in config})
+
+    plant = {
+        "version": "1.21.1-compat", "enabled": True,
+        "mods": list(dict.fromkeys(["minecraft"] + foreign_mods)),
+        "id": crop_id, "seed_items": seeds, "stages": stages, "harvestStage": harvest,
+        "growth_chance": finite_chance(source["growth_chance"], "growth"),
+        "growth_bonus": source["growth_bonus"],
+        "cloneable": bool(source["cloneable"]),
+        "spread_chance": finite_chance(source["spread_chance"], "spread"),
+        "products": {"products": products},
+        "cropgenetics_requirements": requirements_new
+    }
+    if not isinstance(plant["growth_bonus"], (int, float)) or plant["growth_bonus"] < 0:
+        raise ValueError("invalid growth bonus")
+    return plant, {"plant": crop_id, "textures": textures}
+
+def output_file(root, relative, document):
+    file = root / relative
+    file.parent.mkdir(parents=True, exist_ok=True)
+    file.write_text(json.dumps(document, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--source", type=Path, required=True)
+    ap.add_argument("--output", type=Path, required=True)
+    ap.add_argument("--manifest", type=Path, required=True)
+    args = ap.parse_args()
+    manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+    report = []
+    successes = 0
+    for source_path, config in sorted(manifest["plants"].items()):
+        try:
+            normalized = Path(source_path)
+            if normalized.is_absolute() or ".." in normalized.parts or normalized.suffix != ".json":
+                raise ValueError("unsafe source file path")
+            src = json.loads((args.source / normalized).read_text(encoding="utf-8"))
+            plant, visuals = convert_crop(src, config)
+            name = normalized.stem
+            # Emit under this mod's own data/asset namespace.
+            output_file(args.output,
+                        Path("data/cropgenetics/cropgenetics/plants") / (name + ".json"), plant)
+            output_file(args.output,
+                        Path("assets/cropgenetics/cropgenetics/plant_visuals") / (name + ".json"), visuals)
+            report.append({"source": source_path, "plant": plant["id"], "status": "migrated"})
+            successes += 1
+        except (KeyError, TypeError, ValueError, OSError, json.JSONDecodeError) as exc:
+            report.append({"source": source_path, "status": "skipped", "reason": str(exc)})
+    print(json.dumps({"migrated": successes, "skipped": len(report) - successes,
+                      "items": report}, indent=2, ensure_ascii=False))
+    if successes != len(manifest["plants"]):
+        raise SystemExit("Some requested crops were skipped; review report before publishing")
+
+if __name__ == "__main__":
+    main()
