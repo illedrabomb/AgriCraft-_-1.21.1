@@ -7,7 +7,8 @@ import java.util.Objects;
 public record PlantDefinition(
         String id, List<String> requiredMods, List<String> seedItems, List<Integer> stages,
         int harvestStage, double growthChance, double growthBonus,
-        boolean cloneable, double spreadChance, List<HarvestProduct> harvestProducts
+        boolean cloneable, double spreadChance, List<HarvestProduct> harvestProducts,
+        PlantRequirements requirements
 ) {
     public PlantDefinition {
         Objects.requireNonNull(id);
@@ -15,6 +16,7 @@ public record PlantDefinition(
         seedItems = List.copyOf(seedItems);
         stages = List.copyOf(stages);
         harvestProducts = List.copyOf(harvestProducts);
+        Objects.requireNonNull(requirements);
         if (!id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) throw new IllegalArgumentException("Invalid plant ID: " + id);
         if (seedItems.stream().anyMatch(seed -> seed == null || !seed.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")))
             throw new IllegalArgumentException("Invalid seed item ID");
@@ -28,7 +30,7 @@ public record PlantDefinition(
         public HarvestProduct {
             Objects.requireNonNull(itemId);
             if (!itemId.matches("[a-z0-9_.-]+:[a-z0-9_./-]+") ||
-                minimum < 0 || maximum < minimum || maximum > 4096 || !Double.isFinite(chance) || chance < 0 || chance > 1
+                minimum < 0 || maximum < minimum || maximum > 4096 || !Double.isFinite(chance) || chance < 0 || chance > 1)
                 throw new IllegalArgumentException("Invalid harvest product");
         }
     }
