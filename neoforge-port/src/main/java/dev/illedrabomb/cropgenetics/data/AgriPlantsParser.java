@@ -17,6 +17,8 @@ public final class AgriPlantsParser {
         List<String> mods = strings(json.getAsJsonArray("mods"));
         List<String> seeds = new ArrayList<>();
         JsonArray seedItems = json.getAsJsonArray("seed_items");
+        if (seedItems != null && seedItems.size() > 64)
+            throw new JsonParseException(id + ": too many seed items (max 64)");
         if (seedItems != null) for (JsonElement element : seedItems) {
             JsonObject item = element.getAsJsonObject();
             if (!"item".equals(optionalString(item, "type", "item")) ||
@@ -27,11 +29,15 @@ public final class AgriPlantsParser {
         List<Integer> stages = new ArrayList<>();
         JsonArray stageData = json.getAsJsonArray("stages");
         if (stageData == null) throw new JsonParseException(id + ": stages missing");
+        if (stageData.size() < 1 || stageData.size() > 64)
+            throw new JsonParseException(id + ": expected 1..64 growth stages");
         for (JsonElement element : stageData) stages.add(element.getAsInt());
         if (stages.stream().anyMatch(x -> x < 0)) throw new JsonParseException(id + ": negative stage");
         List<PlantDefinition.HarvestProduct> products = new ArrayList<>();
         JsonObject productList = json.getAsJsonObject("products");
         if (productList != null && productList.getAsJsonArray("products") != null) {
+            if (productList.getAsJsonArray("products").size() > 64)
+                throw new JsonParseException(id + ": too many harvest products (max 64)");
             for (JsonElement element : productList.getAsJsonArray("products")) {
                 JsonObject entry = element.getAsJsonObject();
                 if (!"item".equals(optionalString(entry, "type", "item")) ||
@@ -105,6 +111,7 @@ public final class AgriPlantsParser {
 
     private static List<String> strings(JsonArray array) {
         if (array == null) return List.of();
+        if (array.size() > 64) throw new JsonParseException("Too many required mods (max 64)");
         List<String> strings = new ArrayList<>();
         for (JsonElement element : array) strings.add(element.getAsString());
         return strings;
