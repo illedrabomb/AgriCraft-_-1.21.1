@@ -4,8 +4,7 @@ import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
-import dev.illedrabomb.cropgenetics.data.MutationReloadListener;
-import dev.illedrabomb.cropgenetics.data.PlantReloadListener;
+import dev.illedrabomb.cropgenetics.data.CropDataReloadListener;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
@@ -45,7 +44,6 @@ public final class CropGeneticsMod {
     }
 
     private void registerReloadListeners(AddReloadListenerEvent event) {
-        event.addListener(new PlantReloadListener(PLANTS, mod -> ModList.get().isLoaded(mod)));
-        event.addListener(new MutationReloadListener(PLANTS, mod -> ModList.get().isLoaded(mod)));
+        event.addListener(new CropDataReloadListener(PLANTS, mod -> ModList.get().isLoaded(mod)));
     }
 }
