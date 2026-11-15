@@ -64,25 +64,33 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
     private static void plane(VertexConsumer consumer, PoseStack.Pose pose,
                               float x0, float y0, float z0, float x1, float y1, float z1,
                               int light, int overlay) {
-        vertex(consumer, pose, x0, y1, z0, 0, 0, light, overlay);
-        vertex(consumer, pose, x0, y0, z0, 0, 1, light, overlay);
-        vertex(consumer, pose, x1, y0, z1, 1, 1, light, overlay);
-        vertex(consumer, pose, x1, y1, z1, 1, 0, light, overlay);
+        // Vegetation quads are vertical. Correct face normals improve lighting
+        // compared with the previous unconditional upward-facing normal.
+        float dx = x1 - x0;
+        float dz = z1 - z0;
+        float inverseLength = 1.0F / (float) Math.sqrt(dx * dx + dz * dz);
+        float nx = dz * inverseLength;
+        float nz = -dx * inverseLength;
 
-        vertex(consumer, pose, x1, y1, z1, 0, 0, light, overlay);
-        vertex(consumer, pose, x1, y0, z1, 0, 1, light, overlay);
-        vertex(consumer, pose, x0, y0, z0, 1, 1, light, overlay);
-        vertex(consumer, pose, x0, y1, z0, 1, 0, light, overlay);
+        vertex(consumer, pose, x0, y1, z0, 0, 0, light, overlay, nx, nz);
+        vertex(consumer, pose, x0, y0, z0, 0, 1, light, overlay, nx, nz);
+        vertex(consumer, pose, x1, y0, z1, 1, 1, light, overlay, nx, nz);
+        vertex(consumer, pose, x1, y1, z1, 1, 0, light, overlay, nx, nz);
+
+        vertex(consumer, pose, x1, y1, z1, 0, 0, light, overlay, -nx, -nz);
+        vertex(consumer, pose, x1, y0, z1, 0, 1, light, overlay, -nx, -nz);
+        vertex(consumer, pose, x0, y0, z0, 1, 1, light, overlay, -nx, -nz);
+        vertex(consumer, pose, x0, y1, z0, 1, 0, light, overlay, -nx, -nz);
     }
 
     private static void vertex(VertexConsumer consumer, PoseStack.Pose pose,
                                float x, float y, float z, float u, float v,
-                               int packedLight, int packedOverlay) {
+                               int packedLight, int packedOverlay, float nx, float nz) {
         consumer.addVertex(pose, x, y, z)
                 .setColor(255, 255, 255, 255)
                 .setUv(u, v)
                 .setOverlay(packedOverlay)
                 .setLight(packedLight)
-                .setNormal(pose, 0, 1, 0);
+                .setNormal(pose, nx, 0, nz);
     }
 }
