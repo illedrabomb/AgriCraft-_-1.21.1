@@ -30,13 +30,16 @@ public final class CrossBreeding {
         List<Genome> parents = new ArrayList<>();
 
         for (Direction direction : Direction.Plane.HORIZONTAL) {
-            if (!(level.getBlockEntity(position.relative(direction)) instanceof CropSticksBlockEntity source)
+            BlockPos neighbor = position.relative(direction);
+            // Never force chunk loads during ordinary crop random ticks.
+            if (!level.hasChunkAt(neighbor)) continue;
+            if (!(level.getBlockEntity(neighbor) instanceof CropSticksBlockEntity source)
                     || source.getBlockState().getValue(CropSticksBlock.CROSS)) continue;
             Genome genome = source.genome();
             if (genome == null) continue;
             PlantDefinition plant = plants.get(genome.plantId());
             if (plant == null || !source.isMature(plant)
-                    || !CropConditions.canGrow(level, position.relative(direction), plant, genome)) continue;
+                    || !CropConditions.canGrow(level, neighbor, plant, genome)) continue;
 
             // Fertility is retained as a hidden statistic and affects breeding.
             double fertility = genome.fertility().expressed(GenePair.TraitMode.MAX) / 10.0D;
