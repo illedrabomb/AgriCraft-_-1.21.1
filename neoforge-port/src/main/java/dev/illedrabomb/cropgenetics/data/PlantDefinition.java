@@ -16,6 +16,8 @@ public record PlantDefinition(
         stages = List.copyOf(stages);
         harvestProducts = List.copyOf(harvestProducts);
         if (!id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) throw new IllegalArgumentException("Invalid plant ID: " + id);
+        if (seedItems.stream().anyMatch(seed -> seed == null || !seed.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")))
+            throw new IllegalArgumentException("Invalid seed item ID");
         if (stages.isEmpty() || harvestStage < 0 || harvestStage >= stages.size())
             throw new IllegalArgumentException("Invalid growth stages");
         if (!Double.isFinite(growthChance) || !Double.isFinite(growthBonus) || !Double.isFinite(spreadChance) || growthChance < 0 || growthBonus < 0 || spreadChance < 0 || spreadChance > 1)
