@@ -31,6 +31,20 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.13-alpha: attached-stem appearance and creative tab (Codex M3/N1)
+
+- **M3:** The attached melon and pumpkin stem multipart entries now reference
+  cropgenetics-owned model wrappers inheriting the Vanilla shapes but explicitly
+  setting `render_type: minecraft:cutout`. The client registers a block color
+  handler for the Crop Sticks block when physical fruit is present and delegates
+  the stem tint to the Vanilla attached stem handler. Normal Crop Sticks model
+  textures remain untinted. Actual appearance still needs a client test.
+- **N1:** A dedicated `cropgenetics:crop_genetics` CreativeModeTab contains Crop
+  Sticks, the Seed Analyzer and 16 usable genetic seed species with their
+  baseline genomes. These entries are no longer added to Vanilla Ingredients;
+  items remain registered normally and existing saved stacks are unchanged.
+- Version bump is included in this commit; no builds or game tests performed.
+
 ## 0.2.12-alpha: supporting soil and chunk-boundary checks (Codex M2/M4)
 
 - **M2:** When the block below Crop Sticks changes, a scheduled **server**

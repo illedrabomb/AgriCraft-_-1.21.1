@@ -23,7 +23,7 @@
         "facing": "north"
       },
       "apply": {
-        "model": "minecraft:block/attached_melon_stem",
+        "model": "cropgenetics:block/attached_melon_stem",
         "y": 0
       }
     },
@@ -34,7 +34,7 @@
         "facing": "east"
       },
       "apply": {
-        "model": "minecraft:block/attached_melon_stem",
+        "model": "cropgenetics:block/attached_melon_stem",
         "y": 90
       }
     },
@@ -45,7 +45,7 @@
         "facing": "south"
       },
       "apply": {
-        "model": "minecraft:block/attached_melon_stem",
+        "model": "cropgenetics:block/attached_melon_stem",
         "y": 180
       }
     },
@@ -56,7 +56,7 @@
         "facing": "west"
       },
       "apply": {
-        "model": "minecraft:block/attached_melon_stem",
+        "model": "cropgenetics:block/attached_melon_stem",
         "y": 270
       }
     },
@@ -67,7 +67,7 @@
         "facing": "north"
       },
       "apply": {
-        "model": "minecraft:block/attached_pumpkin_stem",
+        "model": "cropgenetics:block/attached_pumpkin_stem",
         "y": 0
       }
     },
@@ -78,7 +78,7 @@
         "facing": "east"
       },
       "apply": {
-        "model": "minecraft:block/attached_pumpkin_stem",
+        "model": "cropgenetics:block/attached_pumpkin_stem",
         "y": 90
       }
     },
@@ -89,7 +89,7 @@
         "facing": "south"
       },
       "apply": {
-        "model": "minecraft:block/attached_pumpkin_stem",
+        "model": "cropgenetics:block/attached_pumpkin_stem",
         "y": 180
       }
     },
@@ -100,7 +100,7 @@
         "facing": "west"
       },
       "apply": {
-        "model": "minecraft:block/attached_pumpkin_stem",
+        "model": "cropgenetics:block/attached_pumpkin_stem",
         "y": 270
       }
     }

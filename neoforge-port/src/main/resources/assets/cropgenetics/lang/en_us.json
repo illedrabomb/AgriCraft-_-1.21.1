@@ -16,5 +16,6 @@
   "message.cropgenetics.analyzer_success": "Seed analyzed – hold Shift to view genes",
   "message.cropgenetics.analyzer_unsupported": "Unknown or modified seed; cannot analyze",
   "message.cropgenetics.analyzer_crop_success": "Planted crop analyzed – seed genes will be visible with Shift",
-  "tooltip.cropgenetics.plant_on_sticks": "Plant on Crop Sticks to preserve these genes"
+  "tooltip.cropgenetics.plant_on_sticks": "Plant on Crop Sticks to preserve these genes",
+  "itemGroup.cropgenetics.crop_genetics": "Crop Genetics"
 }
