@@ -51,7 +51,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
      */
     public boolean finishHarvest(PlantDefinition plant) {
         if (level == null || level.isClientSide || !isMature(plant)) return false;
-        growthStage = Math.max(0, Math.min(plant.harvestStage(), plant.stages().size() - 1));
+        // A final-stage reset would allow unlimited repeated harvests without regrowth.
+        growthStage = plant.harvestStage() >= plant.stages().size() - 1
+                ? 0 : Math.max(0, plant.harvestStage());
         syncState(plant);
         return true;
     }
