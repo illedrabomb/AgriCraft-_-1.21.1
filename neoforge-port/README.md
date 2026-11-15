@@ -28,8 +28,8 @@ An earlier Java 21/NeoForge compilation of the foundational source code succeede
 
 ## Upcoming
 - Conservative manifest-driven AgriPlants importer in `tools/migrate_agriplants.py` (written but not run). First two additional crops were ported manually; see `../temporary-research/AGRIPLANTS_MIGRATION_BATCH_01.md`. Further bulk migration and reference validation remain pending.
-- Melon and pumpkin have a **separate one-fruit lifecycle**: a mature stem can now place a real adjacent vanilla melon/pumpkin block on suitable soil. Gain affects fruit formation, while the physical block uses Vanilla loot. The stem remembers fruit direction and reconciles removal on later random ticks. This is not full original AgriCraft fruit ownership/stem geometry. The cornflower JSON remains visual-only. See `../temporary-research/PHYSICAL_GOURD_FRUITS.md`.
-- Dedicated physical fruit ownership (rather than direction/type matching), connected stem orientation, immediate neighbor removal handling, and advanced soil/climate rules.
+- Melon and pumpkin have a **separate one-fruit lifecycle**: a mature stem can place an adjacent *custom owned fruit block* that uses the Vanilla melon/pumpkin model and delegates loot to Vanilla. Gain affects fruit formation. The fruit BlockEntity stores parent position and UUID; the stem stores the same UUID and direction. Removing the owned fruit immediately resets its stem, with random-tick reconciliation as a fallback. The model adds an oriented attached stem. The cornflower JSON remains visual-only. See `../temporary-research/OWNED_GOURD_FRUITS.md`.
+- Validate newly implemented unique fruit ownership, stem direction and removal behavior with actual game tests when permitted. Improve advanced soil/climate rules and custom gourd support.
 - Genetics inspection/storage UI, breeder villager/profession, complete plant catalog.
 - Optional add-ons: irrigation, greenhouse, MineColonies.
 - Compilation, gameplay smoke tests, client/dedicated-server validation before any release, when testing is re-enabled.
