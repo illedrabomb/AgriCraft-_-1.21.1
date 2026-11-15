@@ -63,8 +63,8 @@ public final class GourdFruits {
             UUID token = UUID.randomUUID();
             if (level.setBlock(target, fruit.defaultBlockState(), 3)) {
                 if (level.getBlockEntity(target) instanceof GeneticGourdFruitBlockEntity fruitEntity) {
-                    fruitEntity.bind(stem, token);
-                    if (crop.markPhysicalFruit(plant, direction, token)) return true;
+                    if (fruitEntity.bind(stem, token)
+                            && crop.markPhysicalFruit(plant, direction, token)) return true;
                 }
                 // On failed binding discard the new block without fruit drops.
                 level.removeBlock(target, false);
