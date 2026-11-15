@@ -30,6 +30,21 @@ public record PlantDefinition(
         }
         if (!Double.isFinite(fruitChance) || fruitChance < 0 || fruitChance > 1)
             throw new IllegalArgumentException("Invalid fruit chance");
+        // A one-stage STANDARD crop would be mature again immediately after
+        // every harvest, allowing unlimited drops without any growth ticks.
+        if (stages.size() < 2) {
+            throw new IllegalArgumentException(
+                    "Harvestable crops require at least two growth stages");
+        }
+        // Physical melon/pumpkin fruits hold ownership by stem position and
+        // UUID. Do not permit a datapack to switch those existing stems to
+        // STANDARD, which would duplicate rewards and orphan the fruit.
+        if ((id.equals("minecraft:melon_plant")
+                || id.equals("minecraft:pumpkin_plant"))
+                && harvestMode != HarvestMode.GOURD) {
+            throw new IllegalArgumentException(
+                    "Melon and pumpkin require gourd harvest mode to preserve physical fruit ownership");
+        }
         if (harvestMode == HarvestMode.GOURD
                 && !id.equals("minecraft:melon_plant")
                 && !id.equals("minecraft:pumpkin_plant"))

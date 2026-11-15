@@ -230,7 +230,11 @@ public final class CropSticksBlockEntity extends BlockEntity {
         // removed, so do not mutate block state as a side effect here.
         // Physical gourd blocks are harvested directly, not by right-clicking
         // the stem. Prevent duplicates through the stem's normal drop path.
-        return isMature(plant) && plant.harvestMode() != HarvestMode.GOURD;
+        // Even if a legacy save or an unsupported datapack transition has
+        // left ownership metadata behind, never pay a second stem harvest
+        // while a physical fruit still owns this growth cycle.
+        return isMature(plant) && plant.harvestMode() == HarvestMode.STANDARD
+                && !fruitReady && fruitDirection == null && fruitToken == null;
     }
 
     /**

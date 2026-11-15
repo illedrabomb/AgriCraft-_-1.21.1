@@ -31,6 +31,24 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.9-alpha: reject invalid harvest lifecycles (Codex K1/K2)
+
+- **K1:** Every harvestable crop definition now requires at least two growth
+  stages, including STANDARD crops. A one-stage plant that could be repeatedly
+  harvested with no growth tick is rejected as INVALID during datapack reload.
+- **K2:** The only species with owned physical fruit blocks, vanilla melon and
+  pumpkin, must continue to use `cropgenetics_harvest_mode: "gourd"`.
+  Datapack attempts to switch either existing species to STANDARD are rejected
+  as INVALID. This deliberately restricts that setting until an explicit
+  migration can safely handle live fruit ownership.
+- Defensive harvest guard: the standard stem-harvest path refuses to produce
+  items if any physical-fruit ownership metadata is still present, including
+  legacy/inconsistent loaded states.
+- Genome, analysis metadata, seed origins and existing eight-stage bundled
+  crop JSON files are unchanged. Invalid datapack definitions remain inactive
+  until corrected; no crop save is deliberately erased.
+- Source-only, not compiled or game-tested.
+
 ## 0.2.8-alpha: NeoForge 1.21.1 API compile fixes (Codex H1)
 
 - `CropSticksBlock` and `GeneticGourdFruitBlock`, both derived from
