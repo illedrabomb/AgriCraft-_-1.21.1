@@ -25,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -99,6 +100,51 @@ public final class CropSticksBlock extends BaseEntityBlock {
         if (level instanceof Level world && world.isClientSide) return true;
         return CropGeneticsMod.plants().plants().values().stream()
                 .anyMatch(plant -> CropConditions.matchesPlantingSite(level, pos, plant));
+    }
+
+    /**
+     * A removed or replaced supporting block schedules a single authoritative
+     * recheck. Never destroy crops directly from updateShape: neighbor updates
+     * can occur while a different block is still being modified.
+     */
+    @Override
+    protected BlockState updateShape(BlockState state, Direction direction,
+                                     BlockState neighborState, LevelAccessor level,
+                                     BlockPos pos, BlockPos neighborPos) {
+        if (direction == Direction.DOWN) level.scheduleTick(pos, this, 1);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        // A prior update may have replaced this block; only process our own
+        // still-present block and only while the supporting chunk is loaded.
+        if (!level.getBlockState(pos).is(this) || !level.hasChunkAt(pos.below())) return;
+        BlockState support = level.getBlockState(pos.below());
+        if (support.isAir() || !support.getFluidState().isEmpty()) {
+            level.destroyBlock(pos, true);
+            return;
+        }
+
+        // A missing datapack species is dormant, not invalid: do not erase
+        // its saved genotype merely because the crop registry was reloaded.
+        if (level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop
+                && crop.genome() != null) {
+            PlantDefinition plant = CropGeneticsMod.plants().plants()
+                    .get(crop.genome().plantId());
+            if (plant != null && !CropConditions.matchesSoil(level, pos, plant.requirements())) {
+                level.destroyBlock(pos, true);
+            }
+            return;
+        }
+        // Empty sticks have no species-specific soil. If any registered crop
+        // accepts this support, preserve them; missing catalogues are not a
+        // reason to break a solid supporting block.
+        if (!CropGeneticsMod.plants().plants().isEmpty()
+                && CropGeneticsMod.plants().plants().values().stream()
+                    .noneMatch(plant -> CropConditions.matchesSoil(level, pos, plant.requirements()))) {
+            level.destroyBlock(pos, true);
+        }
     }
 
     @Override

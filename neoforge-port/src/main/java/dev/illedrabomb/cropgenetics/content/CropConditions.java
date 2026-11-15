@@ -13,6 +13,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -23,6 +24,9 @@ public final class CropConditions {
     private CropConditions() {}
 
     public static boolean matchesSoil(LevelReader level, BlockPos pos, PlantRequirements requirements) {
+        // A crop may be at a chunk boundary; do not load a neighboring chunk
+        // just to inspect the soil during an ordinary random tick.
+        if (!isLoadedForSiteCheck(level, pos.below())) return false;
         BlockState soil = level.getBlockState(pos.below());
         if (requirements.soilBlock().isPresent()) {
             ResourceLocation id = ResourceLocation.tryParse(requirements.soilBlock().get());
@@ -34,6 +38,11 @@ public final class CropConditions {
             return id != null && soil.is(TagKey.create(Registries.BLOCK, id));
         }
         return false;
+    }
+
+    /** A missing neighbor means 'not currently growable', not 'load it'. */
+    private static boolean isLoadedForSiteCheck(LevelReader level, BlockPos pos) {
+        return !(level instanceof ServerLevel server) || server.hasChunkAt(pos);
     }
 
     /**
@@ -52,6 +61,7 @@ public final class CropConditions {
             // from the declared supporting soil.
             for (Direction direction : Direction.Plane.HORIZONTAL) {
                 BlockPos besideSoil = pos.below().relative(direction);
+                if (!isLoadedForSiteCheck(level, besideSoil)) continue;
                 if (level.getFluidState(besideSoil).is(FluidTags.WATER)
                         || level.getBlockState(besideSoil).is(Blocks.FROSTED_ICE)) {
                     return true;
@@ -64,6 +74,8 @@ public final class CropConditions {
             // a cactus-specific environmental constraint.
             for (Direction direction : Direction.Plane.HORIZONTAL) {
                 BlockPos neighbor = pos.relative(direction);
+                // Unknown neighboring space must not be treated as empty.
+                if (!isLoadedForSiteCheck(level, neighbor)) return false;
                 if (level.getBlockState(neighbor).isSolid()
                         || !level.getFluidState(neighbor).isEmpty()) return false;
             }

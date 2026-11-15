@@ -31,6 +31,26 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.12-alpha: supporting soil and chunk-boundary checks (Codex M2/M4)
+
+- **M2:** When the block below Crop Sticks changes, a scheduled **server**
+  tick checks their actual support. Air/fluid replacement removes the crop
+  sticks through one ordinary `destroyBlock(..., true)` drop path. If a
+  planted species is registered, its declared soil block/tag is also enforced.
+  This uses the soil restriction only, rather than full light/water/cactus
+  site rules, so temporary loss of water or lighting does not destroy an
+  existing crop. If its datapack definition is unavailable, a crop on a
+  physically present support remains dormant with its saved genome intact.
+- **M4:** The soil and additional horizontal sugar-cane/cactus checks first
+  verify the queried chunk is loaded when running on `ServerLevel`.
+  Unloaded neighbor positions cannot be read by these checks and will
+  postpone growth/planting until the relevant area is available. Water
+  search skips unloaded directions; cactus treats unknown neighbor space
+  as blocked. Crossbreeding already calls these common checks.
+- This is a source-only fix; no compilation, client/server launch or
+  gameplay test has been performed. The planned later test should cover
+  breaking dry farmland, border chunks and one-time seed/stick drops.
+
 ## 0.2.11-alpha: consistent datapack soils and seed prediction (Codex M1/M5)
 
 - **M1:** All crop-stick plants now enforce their declared `soil_block` or
