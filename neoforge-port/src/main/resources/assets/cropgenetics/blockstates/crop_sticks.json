@@ -1,100 +1,340 @@
 {
-  "variants": {
-    "cross=false,planted=false,stage=0": {
-      "model": "cropgenetics:block/crop_sticks"
+  "multipart": [
+    {
+      "when": {
+        "cross": "false"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_sticks"
+      }
     },
-    "cross=false,planted=true,stage=0": {
-      "model": "cropgenetics:block/crop_sticks_planted"
+    {
+      "when": {
+        "cross": "true"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_sticks_cross"
+      }
     },
-    "cross=true,planted=false,stage=0": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+    {
+      "when": {
+        "planted": "true",
+        "species": "wheat",
+        "stage": "0"
+      },
+      "apply": {
+        "model": "minecraft:block/wheat_stage0"
+      }
     },
-    "cross=true,planted=true,stage=0": {
-      "model": "cropgenetics:block/crop_sticks_cross_young"
+    {
+      "when": {
+        "planted": "true",
+        "species": "wheat",
+        "stage": "1"
+      },
+      "apply": {
+        "model": "minecraft:block/wheat_stage1"
+      }
     },
-    "cross=false,planted=false,stage=1": {
-      "model": "cropgenetics:block/crop_sticks"
+    {
+      "when": {
+        "planted": "true",
+        "species": "wheat",
+        "stage": "2"
+      },
+      "apply": {
+        "model": "minecraft:block/wheat_stage2"
+      }
     },
-    "cross=false,planted=true,stage=1": {
-      "model": "cropgenetics:block/crop_sticks_planted"
+    {
+      "when": {
+        "planted": "true",
+        "species": "wheat",
+        "stage": "3"
+      },
+      "apply": {
+        "model": "minecraft:block/wheat_stage3"
+      }
     },
-    "cross=true,planted=false,stage=1": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+    {
+      "when": {
+        "planted": "true",
+        "species": "wheat",
+        "stage": "4"
+      },
+      "apply": {
+        "model": "minecraft:block/wheat_stage4"
+      }
     },
-    "cross=true,planted=true,stage=1": {
-      "model": "cropgenetics:block/crop_sticks_cross_young"
+    {
+      "when": {
+        "planted": "true",
+        "species": "wheat",
+        "stage": "5"
+      },
+      "apply": {
+        "model": "minecraft:block/wheat_stage5"
+      }
     },
-    "cross=false,planted=false,stage=2": {
-      "model": "cropgenetics:block/crop_sticks"
+    {
+      "when": {
+        "planted": "true",
+        "species": "wheat",
+        "stage": "6"
+      },
+      "apply": {
+        "model": "minecraft:block/wheat_stage6"
+      }
     },
-    "cross=false,planted=true,stage=2": {
-      "model": "cropgenetics:block/crop_sticks_plant_mid"
+    {
+      "when": {
+        "planted": "true",
+        "species": "wheat",
+        "stage": "7"
+      },
+      "apply": {
+        "model": "minecraft:block/wheat_stage7"
+      }
     },
-    "cross=true,planted=false,stage=2": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+    {
+      "when": {
+        "planted": "true",
+        "species": "carrot",
+        "stage": "0"
+      },
+      "apply": {
+        "model": "minecraft:block/carrots_stage0"
+      }
     },
-    "cross=true,planted=true,stage=2": {
-      "model": "cropgenetics:block/crop_sticks_cross_young"
+    {
+      "when": {
+        "planted": "true",
+        "species": "carrot",
+        "stage": "1"
+      },
+      "apply": {
+        "model": "minecraft:block/carrots_stage0"
+      }
     },
-    "cross=false,planted=false,stage=3": {
-      "model": "cropgenetics:block/crop_sticks"
+    {
+      "when": {
+        "planted": "true",
+        "species": "carrot",
+        "stage": "2"
+      },
+      "apply": {
+        "model": "minecraft:block/carrots_stage1"
+      }
     },
-    "cross=false,planted=true,stage=3": {
-      "model": "cropgenetics:block/crop_sticks_plant_mid"
+    {
+      "when": {
+        "planted": "true",
+        "species": "carrot",
+        "stage": "3"
+      },
+      "apply": {
+        "model": "minecraft:block/carrots_stage1"
+      }
     },
-    "cross=true,planted=false,stage=3": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+    {
+      "when": {
+        "planted": "true",
+        "species": "carrot",
+        "stage": "4"
+      },
+      "apply": {
+        "model": "minecraft:block/carrots_stage2"
+      }
     },
-    "cross=true,planted=true,stage=3": {
-      "model": "cropgenetics:block/crop_sticks_cross_mid"
+    {
+      "when": {
+        "planted": "true",
+        "species": "carrot",
+        "stage": "5"
+      },
+      "apply": {
+        "model": "minecraft:block/carrots_stage2"
+      }
     },
-    "cross=false,planted=false,stage=4": {
-      "model": "cropgenetics:block/crop_sticks"
+    {
+      "when": {
+        "planted": "true",
+        "species": "carrot",
+        "stage": "6"
+      },
+      "apply": {
+        "model": "minecraft:block/carrots_stage3"
+      }
     },
-    "cross=false,planted=true,stage=4": {
-      "model": "cropgenetics:block/crop_sticks_plant_tall"
+    {
+      "when": {
+        "planted": "true",
+        "species": "carrot",
+        "stage": "7"
+      },
+      "apply": {
+        "model": "minecraft:block/carrots_stage3"
+      }
     },
-    "cross=true,planted=false,stage=4": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+    {
+      "when": {
+        "planted": "true",
+        "species": "potato",
+        "stage": "0"
+      },
+      "apply": {
+        "model": "minecraft:block/potatoes_stage0"
+      }
     },
-    "cross=true,planted=true,stage=4": {
-      "model": "cropgenetics:block/crop_sticks_cross_mid"
+    {
+      "when": {
+        "planted": "true",
+        "species": "potato",
+        "stage": "1"
+      },
+      "apply": {
+        "model": "minecraft:block/potatoes_stage0"
+      }
     },
-    "cross=false,planted=false,stage=5": {
-      "model": "cropgenetics:block/crop_sticks"
+    {
+      "when": {
+        "planted": "true",
+        "species": "potato",
+        "stage": "2"
+      },
+      "apply": {
+        "model": "minecraft:block/potatoes_stage1"
+      }
     },
-    "cross=false,planted=true,stage=5": {
-      "model": "cropgenetics:block/crop_sticks_plant_tall"
+    {
+      "when": {
+        "planted": "true",
+        "species": "potato",
+        "stage": "3"
+      },
+      "apply": {
+        "model": "minecraft:block/potatoes_stage1"
+      }
     },
-    "cross=true,planted=false,stage=5": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+    {
+      "when": {
+        "planted": "true",
+        "species": "potato",
+        "stage": "4"
+      },
+      "apply": {
+        "model": "minecraft:block/potatoes_stage2"
+      }
     },
-    "cross=true,planted=true,stage=5": {
-      "model": "cropgenetics:block/crop_sticks_cross_mid"
+    {
+      "when": {
+        "planted": "true",
+        "species": "potato",
+        "stage": "5"
+      },
+      "apply": {
+        "model": "minecraft:block/potatoes_stage2"
+      }
     },
-    "cross=false,planted=false,stage=6": {
-      "model": "cropgenetics:block/crop_sticks"
+    {
+      "when": {
+        "planted": "true",
+        "species": "potato",
+        "stage": "6"
+      },
+      "apply": {
+        "model": "minecraft:block/potatoes_stage3"
+      }
     },
-    "cross=false,planted=true,stage=6": {
-      "model": "cropgenetics:block/crop_sticks_plant_mature"
+    {
+      "when": {
+        "planted": "true",
+        "species": "potato",
+        "stage": "7"
+      },
+      "apply": {
+        "model": "minecraft:block/potatoes_stage3"
+      }
     },
-    "cross=true,planted=false,stage=6": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+    {
+      "when": {
+        "planted": "true",
+        "species": "generic",
+        "stage": "0"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_generic"
+      }
     },
-    "cross=true,planted=true,stage=6": {
-      "model": "cropgenetics:block/crop_sticks_cross_mature"
+    {
+      "when": {
+        "planted": "true",
+        "species": "generic",
+        "stage": "1"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_generic"
+      }
     },
-    "cross=false,planted=false,stage=7": {
-      "model": "cropgenetics:block/crop_sticks"
+    {
+      "when": {
+        "planted": "true",
+        "species": "generic",
+        "stage": "2"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_generic"
+      }
     },
-    "cross=false,planted=true,stage=7": {
-      "model": "cropgenetics:block/crop_sticks_plant_mature"
+    {
+      "when": {
+        "planted": "true",
+        "species": "generic",
+        "stage": "3"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_generic"
+      }
     },
-    "cross=true,planted=false,stage=7": {
-      "model": "cropgenetics:block/crop_sticks_cross"
+    {
+      "when": {
+        "planted": "true",
+        "species": "generic",
+        "stage": "4"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_generic"
+      }
     },
-    "cross=true,planted=true,stage=7": {
-      "model": "cropgenetics:block/crop_sticks_cross_mature"
+    {
+      "when": {
+        "planted": "true",
+        "species": "generic",
+        "stage": "5"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_generic"
+      }
+    },
+    {
+      "when": {
+        "planted": "true",
+        "species": "generic",
+        "stage": "6"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_generic"
+      }
+    },
+    {
+      "when": {
+        "planted": "true",
+        "species": "generic",
+        "stage": "7"
+      },
+      "apply": {
+        "model": "cropgenetics:block/crop_generic"
+      }
     }
-  }
+  ]
 }
