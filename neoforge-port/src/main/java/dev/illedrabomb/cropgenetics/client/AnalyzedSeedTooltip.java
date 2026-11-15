@@ -33,6 +33,8 @@ public final class AnalyzedSeedTooltip {
             event.getToolTip().add(Component.translatable(CropItems.isAnalyzed(stack)
                     ? "tooltip.cropgenetics.analyzed_hint"
                     : "tooltip.cropgenetics.unanalyzed"));
+            event.getToolTip().add(Component.translatable(
+                    "tooltip.cropgenetics.plant_on_sticks"));
         }
         if (!CropItems.isAnalyzed(stack) || !Screen.hasShiftDown()) return;
 

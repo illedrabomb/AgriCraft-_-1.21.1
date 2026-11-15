@@ -31,6 +31,12 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.4-alpha: avoid incorrect source seed restoration
+
+For original-seed recovery, a recorded `cropgenetics:original_seed` ID is **rejected** if the active plant catalogue maps that item to a different plant, or the item is marked ambiguous between species. If the original mod's integration has disappeared and the source item still exists without a conflicting mapping, its recorded ID remains usable. Legacy seeds lacking a recorded source only gain a fallback when exactly one registered, unambiguous seed item maps to their genome species. No genetic values are modified by the check.
+
+Attached-genome Vanilla/mod seeds now display a tooltip reminder to plant them on **Crop Sticks**. Ordinary Vanilla placement outside Crop Sticks does not have a genetic BlockEntity and will not preserve this mod's inherited genes. These are source-only changes, not yet built or game-tested.
+
 ## 0.2.3-alpha: Vanilla-style growing sites for cactus and sugar cane
 
 Crop-stick **sugar cane** now requires a Vanilla dirt-family block, sand/red sand or mud underneath and an adjacent water fluid (or frosted ice) at the **supporting soil's Y level**. Crop-stick **cactus** requires sand or red sand beneath and rejects solid horizontal neighbors or fluid in those spaces. This is checked when planting, during random-tick growth, and when selecting parent/mutation offspring sites. Neither crop now has an artificial minimum light requirement. These are crop-stick-site rules: they **do not** create multi-block Vanilla stems or implement every Vanilla survival/damage update. These source changes have not been built or game-tested.

@@ -64,6 +64,12 @@ public final class CropItems {
             ResourceLocation id = ResourceLocation.tryParse(candidate);
             if (id == null || BuiltInRegistries.ITEM.getOptional(id)
                     .filter(item -> item != Items.AIR).isEmpty()) continue;
+            // Never guess a seed used by multiple species, even if that seed
+            // appears as the only entry in this particular plant definition.
+            if (!CropGeneticsMod.plants().snapshot().plantForSeed(candidate)
+                    .map(found -> found.id().equals(genome.plantId())).orElse(false)) {
+                continue;
+            }
             // If a species has multiple possible seed item types, guessing
             // the first would risk turning one mod's item into another.
             if (unique != null && !unique.equals(candidate)) return Optional.empty();
@@ -86,6 +92,15 @@ public final class CropItems {
         String recorded = geneticSeed.get(CropComponents.ORIGINAL_SEED.get());
         String source = recorded != null ? recorded : originalSeedId(genome).orElse(null);
         if (source == null) return Optional.empty();
+        // A saved origin survives removal of an optional integration.
+        // However, once a currently active plant definition CLAIMS this item
+        // for another species, never silently turn the genome into that item.
+        var snapshot = CropGeneticsMod.plants().snapshot();
+        if (snapshot.ambiguousSeedItems().contains(source)) return Optional.empty();
+        Optional<PlantDefinition> mapped = snapshot.plantForSeed(source);
+        if (mapped.isPresent() && !mapped.get().id().equals(genome.plantId())) {
+            return Optional.empty();
+        }
         ResourceLocation id = ResourceLocation.tryParse(source);
         if (id == null) return Optional.empty();
         return BuiltInRegistries.ITEM.getOptional(id)
