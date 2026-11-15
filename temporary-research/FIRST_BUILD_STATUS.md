@@ -18,3 +18,10 @@ Stand: 2026-11-15.
 
 ## GitHub API Snapshot
 Am 2026-11-15 läuft ein Push-Run mit ID `43705289444`; Job-ID `132784938911`.
+
+## Erstes reales Ergebnis (nach ursprünglicher Notiz)
+- Run `43705289444`: **failed in :compileTestJava**, aber **:compileJava / :jar / :assemble erfolgreich**; dies bestätigt Kompilierbarkeit des aktuellen Hauptcodes auf NeoForge 21.1.265.
+- Konkrete Fehlermeldung: `package com.google.gson does not exist` beim JUnit-Test `AgriPlantsParserTest` (Gson war nicht auf dem separaten Test-Klassenpfad).
+- Fix im Branch: explizit `testImplementation 'com.google.code.gson:gson:2.11.0'` in `neoforge-port/build.gradle` ergänzt (Commit `45bc367cddf447cd96f591f33e84129a41bab3d9`).
+- Zweiter Workflow-Run: https://github.com/illedrabomb/AgriCraft-_-1.21.1/actions/runs/43705419243
+- Dessen Testergebnis noch separat abwarten/prüfen; niemals einen grünen Build vor dem tatsächlichen CI-Resultat behaupten.
