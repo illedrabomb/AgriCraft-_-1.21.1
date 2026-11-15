@@ -12,6 +12,8 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +44,8 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
     }
 
     private volatile Map<String, Visual> visuals = Map.of();
+    // Client-only file diagnostics, never mixed into server datapack status.
+    private volatile Map<String, List<ResourceLocation>> missingTextureFiles = Map.of();
 
     private PlantVisuals() {
         super(new Gson(), "cropgenetics/plant_visuals");
@@ -52,10 +56,16 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
                 new Visual(Geometry.CROSS, List.of(List.of(FALLBACK))));
     }
 
+    /** Client resource lookup diagnostics for configured texture paths. */
+    public Map<String, List<ResourceLocation>> missingTextureFiles() {
+        return missingTextureFiles;
+    }
+
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> sources, ResourceManager resourceManager,
                          ProfilerFiller profiler) {
         Map<String, Visual> next = new HashMap<>();
+        Map<String, List<ResourceLocation>> missing = new HashMap<>();
         // Stable duplicate handling regardless of resource manager map order.
         sources.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(source -> {
             try {
@@ -104,13 +114,33 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
                 }
                 if (next.putIfAbsent(plantId, new Visual(geometry, stages)) != null) {
                     LOG.warn("Duplicate plant visuals ID {} from {}", plantId, source.getKey());
+                } else {
+                    // Inspect the original PNGs in this active client resource
+                    // manager. Missing files are advisory: generated or
+                    // atlas-only sprite sources may still render correctly.
+                    Set<ResourceLocation> absent = new HashSet<>();
+                    for (List<ResourceLocation> layers : stages) for (ResourceLocation sprite : layers) {
+                        ResourceLocation png = ResourceLocation.fromNamespaceAndPath(
+                                sprite.getNamespace(), "textures/" + sprite.getPath() + ".png");
+                        if (resourceManager.getResource(png).isEmpty()) absent.add(png);
+                    }
+                    if (!absent.isEmpty()) {
+                        List<ResourceLocation> ordered = absent.stream().sorted().toList();
+                        missing.put(plantId, ordered);
+                        LOG.warn("Plant visuals {} from {} reference {} PNG files not found in "
+                                + "active client resources: {} (atlas-generated sprites may still work)",
+                                plantId, source.getKey(), ordered.size(), ordered);
+                    }
                 }
             } catch (RuntimeException ex) {
                 LOG.warn("Skipping invalid plant visuals {}: {}", source.getKey(), ex.getMessage());
             }
         });
+        // Publish diagnostic and visuals after the full resource scan.
+        missingTextureFiles = Map.copyOf(missing);
         visuals = Map.copyOf(next);
-        LOG.info("Loaded {} plant visual definitions", visuals.size());
+        LOG.info("Loaded {} plant visual definitions; {} have missing PNG references",
+                visuals.size(), missingTextureFiles.size());
     }
 
     private static ResourceLocation parseTexture(String id) {
