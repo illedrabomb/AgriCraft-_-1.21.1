@@ -84,8 +84,8 @@ public final class CrossBreeding {
                 .filter(entry -> snapshot.plants().containsKey(entry.getValue().childPlantId()))
                 // Do not consume a successful mutation roll on a child species
                 // that cannot grow on the actual destination soil.
-                .filter(entry -> CropConditions.matchesSoil(level, target,
-                        snapshot.plants().get(entry.getValue().childPlantId()).requirements()))
+                .filter(entry -> CropConditions.matchesPlantingSite(level, target,
+                        snapshot.plants().get(entry.getValue().childPlantId())))
                 .sorted(Comparator.comparing(Map.Entry::getKey))
                 .toList();
 
@@ -101,11 +101,11 @@ public final class CrossBreeding {
         String alternate = preferred.equals(first.plantId()) ? second.plantId() : first.plantId();
         PlantDefinition preferredPlant = snapshot.plants().get(preferred);
         if (preferredPlant != null
-                && CropConditions.matchesSoil(level, target, preferredPlant.requirements()))
+                && CropConditions.matchesPlantingSite(level, target, preferredPlant))
             return preferred;
         PlantDefinition otherPlant = snapshot.plants().get(alternate);
         if (otherPlant != null
-                && CropConditions.matchesSoil(level, target, otherPlant.requirements()))
+                && CropConditions.matchesPlantingSite(level, target, otherPlant))
             return alternate;
         return preferred; // caller still rejects unsuitable offspring safely
     }

@@ -31,6 +31,10 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.3-alpha: Vanilla-style growing sites for cactus and sugar cane
+
+Crop-stick **sugar cane** now requires a Vanilla dirt-family block, sand/red sand or mud underneath and an adjacent water fluid (or frosted ice) at the **supporting soil's Y level**. Crop-stick **cactus** requires sand or red sand beneath and rejects solid horizontal neighbors or fluid in those spaces. This is checked when planting, during random-tick growth, and when selecting parent/mutation offspring sites. Neither crop now has an artificial minimum light requirement. These are crop-stick-site rules: they **do not** create multi-block Vanilla stems or implement every Vanilla survival/damage update. These source changes have not been built or game-tested.
+
 ## 0.2.2-alpha: in-place planted crop analysis
 
 Use the `cropgenetics:seed_analyzer` on an occupied Crop Sticks block to mark the **planted** crop analyzed without harvesting it, altering its genome or consuming the analyzer. The BlockEntity saves and synchronizes the analysis state, so the seed dropped when the sticks are broken will display its genes with Shift. The analyzer still works on offhand seeds when used in the air. On clients, preexisting-genome ordinary seed stacks can predict placement without requiring the server-only crop catalogue; the server still authoritatively validates the species and growth conditions. Source-only changes; no build or gameplay test run.

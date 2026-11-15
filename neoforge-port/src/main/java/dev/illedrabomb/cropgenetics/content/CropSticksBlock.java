@@ -84,7 +84,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
         // can allow placement on other registered blocks/tags.
         if (level.getBlockState(pos.below()).is(Blocks.FARMLAND)) return true;
         return CropGeneticsMod.plants().plants().values().stream()
-                .anyMatch(plant -> CropConditions.matchesSoil(level, pos, plant.requirements()));
+                .anyMatch(plant -> CropConditions.matchesPlantingSite(level, pos, plant));
     }
 
     @Override
