@@ -15,6 +15,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
+import java.util.UUID;
 
 /** Owns the exact growth stage and the genome of a planted crop. */
 public final class CropSticksBlockEntity extends BlockEntity {
@@ -22,6 +23,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
     private int growthStage;
     private boolean fruitReady;
     @Nullable private Direction fruitDirection;
+    @Nullable private UUID fruitToken;
 
     public CropSticksBlockEntity(BlockPos pos, BlockState state) {
         super(CropBlocks.CROP_STICKS_ENTITY.get(), pos, state);
@@ -31,6 +33,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public int growthStage() { return growthStage; }
     public boolean fruitReady() { return fruitReady; }
     @Nullable public Direction fruitDirection() { return fruitDirection; }
+    @Nullable public UUID fruitToken() { return fruitToken; }
 
     public boolean plant(Genome seedGenome) {
         if (genome != null || seedGenome == null || level == null || level.isClientSide
@@ -41,6 +44,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         growthStage = 0;
         fruitReady = false;
         fruitDirection = null;
+        fruitToken = null;
         syncState(plant);
         return true;
     }
@@ -57,6 +61,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         growthStage = 0;
         fruitReady = false;
         fruitDirection = null;
+        fruitToken = null;
         syncState(plant);
         return true;
     }
@@ -74,12 +79,13 @@ public final class CropSticksBlockEntity extends BlockEntity {
      * Record the one physical fruit placed next to this mature stem.
      * This method must never create a second item or a virtual fruit.
      */
-    public boolean markPhysicalFruit(PlantDefinition plant, Direction direction) {
+    public boolean markPhysicalFruit(PlantDefinition plant, Direction direction, UUID token) {
         if (!(level instanceof ServerLevel server) || !isMature(plant)
                 || fruitReady || direction.getAxis().isVertical()
-                || !GourdFruits.matches(server, worldPosition, direction, plant)) return false;
+                || !GourdFruits.matches(server, worldPosition, direction, plant, token)) return false;
         fruitReady = true;
         fruitDirection = direction;
+        fruitToken = token;
         syncState(plant);
         return true;
     }
@@ -91,14 +97,30 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public boolean reconcilePhysicalFruit(PlantDefinition plant) {
         if (!(level instanceof ServerLevel server) || !isMature(plant)
                 || plant.harvestMode() != HarvestMode.GOURD || !fruitReady) return false;
-        if (fruitDirection != null
-                && GourdFruits.matches(server, worldPosition, fruitDirection, plant)) return false;
+        if (fruitDirection != null && fruitToken != null
+                && GourdFruits.matches(server, worldPosition, fruitDirection, plant, fruitToken)) return false;
+        clearFruit(plant);
+        return true;
+    }
+
+    /** Immediately react to removal of only our own exact physical fruit. */
+    public boolean onOwnedFruitRemoved(ServerLevel server, BlockPos fruitPos, UUID token) {
+        if (level != server || !fruitReady || fruitDirection == null || fruitToken == null
+                || !fruitToken.equals(token) || !worldPosition.relative(fruitDirection).equals(fruitPos)
+                || genome == null) return false;
+        PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
+        if (plant == null || plant.harvestMode() != HarvestMode.GOURD) return false;
+        clearFruit(plant);
+        return true;
+    }
+
+    private void clearFruit(PlantDefinition plant) {
         fruitReady = false;
         fruitDirection = null;
+        fruitToken = null;
         growthStage = plant.harvestStage() >= plant.stages().size() - 1
                 ? 0 : Math.max(0, plant.harvestStage());
         syncState(plant);
-        return true;
     }
 
     public boolean readyForHarvest(PlantDefinition plant) {
@@ -115,6 +137,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (level == null || level.isClientSide || !readyForHarvest(plant)) return false;
         fruitReady = false;
         fruitDirection = null;
+        fruitToken = null;
         // A final-stage reset would allow unlimited repeated harvests without regrowth.
         growthStage = plant.harvestStage() >= plant.stages().size() - 1
                 ? 0 : Math.max(0, plant.harvestStage());
@@ -134,6 +157,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         BlockState updated = previous.setValue(CropSticksBlock.PLANTED, genome != null)
                 .setValue(CropSticksBlock.STAGE, CropGrowth.displayStage(growthStage, plant.stages().size()))
                 .setValue(CropSticksBlock.FRUIT, fruitReady)
+                .setValue(CropSticksBlock.FACING, fruitDirection == null ? Direction.NORTH : fruitDirection)
                 .setValue(CropSticksBlock.SPECIES, genome == null
                         ? CropAppearance.GENERIC : CropAppearance.fromPlantId(genome.plantId()));
         if (!updated.equals(previous)) level.setBlock(worldPosition, updated, 3);
@@ -145,7 +169,10 @@ public final class CropSticksBlockEntity extends BlockEntity {
         super.saveAdditional(tag, registries);
         tag.putInt("GrowthStage", growthStage);
         tag.putBoolean("FruitReady", fruitReady);
-        if (fruitReady && fruitDirection != null) tag.putString("FruitDirection", fruitDirection.getName());
+        if (fruitReady && fruitDirection != null && fruitToken != null) {
+            tag.putString("FruitDirection", fruitDirection.getName());
+            tag.putUUID("FruitToken", fruitToken);
+        }
         if (genome != null) GenomeCodecs.GENOME.encodeStart(NbtOps.INSTANCE, genome)
                 .result().ifPresent(value -> tag.put("Genome", value));
     }
@@ -158,12 +185,14 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitDirection = tag.contains("FruitDirection")
                 ? Direction.byName(tag.getString("FruitDirection")) : null;
         if (fruitDirection != null && fruitDirection.getAxis().isVertical()) fruitDirection = null;
+        fruitToken = tag.hasUUID("FruitToken") ? tag.getUUID("FruitToken") : null;
         genome = null;
         if (tag.contains("Genome")) GenomeCodecs.GENOME.parse(NbtOps.INSTANCE, tag.get("Genome"))
                 .result().ifPresent(value -> genome = value);
         if (genome == null) {
             fruitReady = false;
             fruitDirection = null;
+            fruitToken = null;
         }
     }
 
