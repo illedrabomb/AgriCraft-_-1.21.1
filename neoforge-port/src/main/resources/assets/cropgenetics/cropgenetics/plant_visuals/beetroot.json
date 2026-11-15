@@ -1,0 +1,13 @@
+{
+  "plant": "minecraft:beet_root_plant",
+  "textures": [
+    "minecraft:block/beetroots_stage0",
+    "minecraft:block/beetroots_stage0",
+    "minecraft:block/beetroots_stage0",
+    "minecraft:block/beetroots_stage1",
+    "minecraft:block/beetroots_stage1",
+    "minecraft:block/beetroots_stage2",
+    "minecraft:block/beetroots_stage2",
+    "minecraft:block/beetroots_stage3"
+  ]
+}
