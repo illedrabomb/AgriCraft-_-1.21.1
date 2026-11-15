@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 /**
  * Interactions: first stick is the placed block, apply a second stick on
  * empty crop sticks to enable crossing, or plant a genetic seed on single
- * sticks. No growth or mutation ticks have been wired in yet.
+ * sticks. Empty crossing sticks discover neighboring mature crops on server ticks.
  */
 public final class CropSticksBlock extends BaseEntityBlock {
     public static final BooleanProperty CROSS = BooleanProperty.create("cross");
@@ -76,14 +76,19 @@ public final class CropSticksBlock extends BaseEntityBlock {
 
     @Override
     protected boolean isRandomlyTicking(BlockState state) {
-        return state.getValue(PLANTED) && !state.getValue(CROSS);
+        // Empty crosses must tick to discover parents; occupied crosses grow
+        // exactly like single crop sticks.
+        return state.getValue(CROSS) || state.getValue(PLANTED);
     }
 
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)) return;
         Genome genome = crop.genome();
-        if (genome == null) return;
+        if (genome == null) {
+            if (state.getValue(CROSS)) CrossBreeding.attempt(level, pos, crop, random);
+            return;
+        }
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
         if (plant == null || crop.isMature(plant)) return;
         if (random.nextDouble() < CropGrowth.chance(plant, genome)) crop.advanceGrowth(plant);
