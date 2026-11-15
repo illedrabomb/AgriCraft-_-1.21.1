@@ -20,6 +20,10 @@ public record PlantDefinition(
         Objects.requireNonNull(harvestMode);
         if (!Double.isFinite(fruitChance) || fruitChance < 0 || fruitChance > 1)
             throw new IllegalArgumentException("Invalid fruit chance");
+        if (harvestMode == HarvestMode.GOURD && (fruitChance <= 0 || stages.size() < 2))
+            throw new IllegalArgumentException("Gourd requires positive fruit chance and regrowth stages");
+        if (harvestMode != HarvestMode.GOURD && fruitChance != 0)
+            throw new IllegalArgumentException("Fruit chance is only defined for gourds");
         if (harvestMode == HarvestMode.GOURD && (harvestProducts.size() != 1
                 || harvestProducts.get(0).minimum() != 1 || harvestProducts.get(0).maximum() != 1
                 || harvestProducts.get(0).chance() != 1))
