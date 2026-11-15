@@ -23,6 +23,9 @@ public final class CropItems {
     public static final DeferredItem<GeneticSeedItem> GENETIC_SEED =
             ITEMS.registerItem("genetic_seed", GeneticSeedItem::new);
 
+    public static final DeferredItem<SeedAnalyzerItem> SEED_ANALYZER =
+            ITEMS.registerItem("seed_analyzer", SeedAnalyzerItem::new);
+
     public static final DeferredItem<Item> CROP_STICKS =
             ITEMS.registerSimpleBlockItem("crop_sticks", CropBlocks.CROP_STICKS);
 
@@ -94,6 +97,30 @@ public final class CropItems {
      */
     public static boolean markAnalyzed(ItemStack stack) {
         if (!isGeneticSeedStack(stack)) return false;
+        stack.set(CropComponents.ANALYZED.get(), true);
+        return true;
+    }
+
+    /**
+     * Analyze the actual seed in place, without overwriting existing alleles.
+     * A plain mapped seed receives the documented baseline 1/1/1 genome,
+     * while unsupported or ambiguous seed items remain untouched.
+     *
+     * Only call on the logical server, after the analyzer action succeeds.
+     */
+    public static boolean analyzeSeed(ItemStack stack) {
+        if (stack.isEmpty()) return false;
+        if (hasGenome(stack)) return markAnalyzed(stack);
+
+        if (stack.is(GENETIC_SEED.get()) || !stack.getComponentsPatch().isEmpty()) {
+            return false;
+        }
+        String itemId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+        Optional<PlantDefinition> plant = CropGeneticsMod.plants().plantForSeed(itemId);
+        if (plant.isEmpty()) return false;
+
+        stack.set(CropComponents.GENOME.get(), Genome.basic(plant.get().id()));
+        stack.set(CropComponents.ORIGINAL_SEED.get(), itemId);
         stack.set(CropComponents.ANALYZED.get(), true);
         return true;
     }
