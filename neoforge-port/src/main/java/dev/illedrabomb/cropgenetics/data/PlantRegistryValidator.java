@@ -2,6 +2,8 @@ package dev.illedrabomb.cropgenetics.data;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ public final class PlantRegistryValidator {
             ResourceLocation id = ResourceLocation.tryParse(seed);
             if (id == null || BuiltInRegistries.ITEM.getOptional(id).isEmpty()) {
                 problems.add("Unknown seed item: " + seed);
+            } else if (BuiltInRegistries.ITEM.getOptional(id).orElseThrow() == Items.AIR) {
+                problems.add("Seed item cannot be air: " + seed);
             }
         }
 
@@ -30,6 +34,8 @@ public final class PlantRegistryValidator {
             ResourceLocation id = ResourceLocation.tryParse(product.itemId());
             if (id == null || BuiltInRegistries.ITEM.getOptional(id).isEmpty()) {
                 problems.add("Unknown harvest item: " + product.itemId());
+            } else if (BuiltInRegistries.ITEM.getOptional(id).orElseThrow() == Items.AIR) {
+                problems.add("Harvest item cannot be air: " + product.itemId());
             }
         }
 
@@ -37,6 +43,8 @@ public final class PlantRegistryValidator {
             ResourceLocation id = ResourceLocation.tryParse(value);
             if (id == null || BuiltInRegistries.BLOCK.getOptional(id).isEmpty()) {
                 problems.add("Unknown soil block: " + value);
+            } else if (BuiltInRegistries.BLOCK.getOptional(id).orElseThrow() == Blocks.AIR) {
+                problems.add("Soil block cannot be air: " + value);
             }
         });
 
