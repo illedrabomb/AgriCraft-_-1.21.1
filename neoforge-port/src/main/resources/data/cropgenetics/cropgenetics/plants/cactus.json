@@ -41,7 +41,7 @@
   "cropgenetics_requirements": {
     "min_light": 0,
     "max_light": 15,
-    "soil_block": "minecraft:sand",
-    "light_tolerance": 0
+    "light_tolerance": 0,
+    "soil_tag": "cropgenetics:cactus_soils"
   }
 }

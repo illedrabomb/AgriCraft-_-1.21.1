@@ -10,7 +10,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.LevelReader;
@@ -43,62 +42,45 @@ public final class CropConditions {
      */
     public static boolean matchesPlantingSite(LevelReader level, BlockPos pos,
                                               PlantDefinition plant) {
+        // The active datapack ALWAYS chooses the allowed supporting blocks.
+        // Built-in soil families are represented by cropgenetics block tags;
+        // custom datapacks can replace the tag or specify a single soil_block.
+        if (!matchesSoil(level, pos, plant.requirements())) return false;
+
         if ("minecraft:sugar_cane_plant".equals(plant.id())) {
-            BlockState soil = level.getBlockState(pos.below());
-            boolean suitable = soil.is(BlockTags.DIRT) || soil.is(Blocks.SAND)
-                    || soil.is(Blocks.RED_SAND) || soil.is(Blocks.MUD);
-            if (!suitable) return false;
-            // The water must be horizontally adjacent to the supporting soil.
+            // The additional Vanilla-like water requirement is independent
+            // from the declared supporting soil.
             for (Direction direction : Direction.Plane.HORIZONTAL) {
-                BlockPos nextToSoil = pos.below().relative(direction);
-                if (level.getFluidState(nextToSoil).is(FluidTags.WATER)
-                        || level.getBlockState(nextToSoil).is(Blocks.FROSTED_ICE)) {
+                BlockPos besideSoil = pos.below().relative(direction);
+                if (level.getFluidState(besideSoil).is(FluidTags.WATER)
+                        || level.getBlockState(besideSoil).is(Blocks.FROSTED_ICE)) {
                     return true;
                 }
             }
             return false;
         }
         if ("minecraft:cactus_plant".equals(plant.id())) {
-            BlockState soil = level.getBlockState(pos.below());
-            if (!soil.is(Blocks.SAND) && !soil.is(Blocks.RED_SAND)) return false;
+            // Soil comes from the datapack; neighboring obstruction remains
+            // a cactus-specific environmental constraint.
             for (Direction direction : Direction.Plane.HORIZONTAL) {
                 BlockPos neighbor = pos.relative(direction);
-                BlockState block = level.getBlockState(neighbor);
-                if (block.isSolid() || !level.getFluidState(neighbor).isEmpty()) {
-                    return false;
-                }
+                if (level.getBlockState(neighbor).isSolid()
+                        || !level.getFluidState(neighbor).isEmpty()) return false;
             }
             return true;
-        }
-        if ("minecraft:bamboo_plant".equals(plant.id())) {
-            BlockState soil = level.getBlockState(pos.below());
-            // Mirrors the ordinary bamboo support family for 1.21.1 without
-            // assuming the precise tag members of a newer Minecraft version.
-            return soil.is(BlockTags.DIRT) || soil.is(Blocks.SAND)
-                    || soil.is(Blocks.RED_SAND) || soil.is(Blocks.GRAVEL)
-                    || soil.is(Blocks.MOSS_BLOCK) || soil.is(Blocks.MUD)
-                    || soil.is(Blocks.MUDDY_MANGROVE_ROOTS);
-        }
-        if ("minecraft:sweet_berry_plant".equals(plant.id())) {
-            BlockState soil = level.getBlockState(pos.below());
-            return soil.is(BlockTags.DIRT) || soil.is(Blocks.FARMLAND)
-                    || soil.is(Blocks.MOSS_BLOCK) || soil.is(Blocks.MUD)
-                    || soil.is(Blocks.MUDDY_MANGROVE_ROOTS);
         }
         if ("minecraft:brown_mushroom_plant".equals(plant.id())
                 || "minecraft:red_mushroom_plant".equals(plant.id())) {
             BlockState soil = level.getBlockState(pos.below());
-            // Mycelium, podzol and Nether nylium support mushrooms regardless
-            // of sky light; ordinary soils need the classic low-light rule.
-            if (soil.is(Blocks.MYCELIUM) || soil.is(Blocks.PODZOL)
-                    || soil.is(Blocks.CRIMSON_NYLIUM) || soil.is(Blocks.WARPED_NYLIUM)) {
-                return true;
-            }
-            boolean ordinarySoil = soil.is(BlockTags.DIRT)
-                    || soil.is(Blocks.FARMLAND) || soil.is(Blocks.MOSS_BLOCK);
-            return ordinarySoil && level.getRawBrightness(pos, 0) < 13;
+            // Bright-light exemption is limited to these known substrates.
+            // Other configured soils still require low light.
+            return soil.is(Blocks.MYCELIUM) || soil.is(Blocks.PODZOL)
+                    || soil.is(Blocks.CRIMSON_NYLIUM) || soil.is(Blocks.WARPED_NYLIUM)
+                    || level.getRawBrightness(pos, 0) < 13;
         }
-        return matchesSoil(level, pos, plant.requirements());
+        // Bamboo and berries have no extra environmental rule beyond their
+        // datapack soil and light restrictions.
+        return true;
     }
 
     /**

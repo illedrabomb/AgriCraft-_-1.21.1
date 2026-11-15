@@ -197,6 +197,14 @@ public final class CropSticksBlock extends BaseEntityBlock {
             return ItemInteractionResult.SUCCESS;
         }
 
+        // Client prediction cannot consult the server-only plant catalogue.
+        // Accept either attached-genome seed form locally; the server below
+        // still checks seed identity, species, soil and growth conditions.
+        if (level.isClientSide && !state.getValue(CROSS) && crop.genome() == null
+                && CropItems.hasGenome(stack)) {
+            return ItemInteractionResult.SUCCESS;
+        }
+
         // An existing genetic seed keeps its full genome; never reset its alleles.
         if (stack.is(CropItems.GENETIC_SEED.get()) && !state.getValue(CROSS)) {
             Genome genome = stack.get(CropComponents.GENOME.get());
@@ -207,15 +215,6 @@ public final class CropSticksBlock extends BaseEntityBlock {
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
             if (!level.isClientSide && crop.plant(genome, stack) && !player.isCreative()) stack.shrink(1);
-            return ItemInteractionResult.SUCCESS;
-        }
-
-        // Crop catalogue definitions are server-only. The client can predict
-        // the interaction using the attached Genome, while the server retains
-        // the final species, soil and permission checks below.
-        if (level.isClientSide && !state.getValue(CROSS) && crop.genome() == null
-                && !stack.is(CropItems.GENETIC_SEED.get())
-                && CropItems.hasGenome(stack)) {
             return ItemInteractionResult.SUCCESS;
         }
 

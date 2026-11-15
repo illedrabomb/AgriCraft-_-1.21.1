@@ -31,6 +31,24 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.11-alpha: consistent datapack soils and seed prediction (Codex M1/M5)
+
+- **M1:** All crop-stick plants now enforce their declared `soil_block` or
+  `soil_tag` first. For the six specialist species, shipped definitions
+  use dedicated block tags under `cropgenetics:*_soils` to retain their
+  default Vanilla-like allowed soil families. Datapacks can override those
+  tags or set a specific block to narrow the rule. Sugar cane still requires
+  adjacent water/frosted ice at the soil level, cactus still excludes solid
+  horizontal neighbors and fluids, and mushrooms still require low light on
+  soils other than mycelium, podzol and nylium. Standard configured light
+  requirements continue to apply.
+- **M5:** On the logical client, both `genetic_seed` and ordinary seed stacks
+  carrying a genome now predict Crop Sticks planting without consulting the
+  server-only catalogue. The logical server still validates the full action,
+  and invalid seeds are not consumed.
+- No version-specific block texture or genotype format was changed.
+- Source-only; compilation and game testing remain unperformed.
+
 ## 0.2.10-alpha: recipe, farmland and ID validation (Codex H2/H3/H4)
 
 - **H2:** `seed_analyzer.json` now uses Minecraft 1.21.1 Ingredient
