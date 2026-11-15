@@ -17,8 +17,8 @@ import java.util.UUID;
 
 /**
  * Physical fruit placement, deliberately restricted to the two supported
- * vanilla gourds. A fruit is a real melon/pumpkin block, with vanilla drops.
- * The stem stores its direction; no duplicate fruit items are minted by it.
+ * vanilla gourds. A fruit uses our owner-aware block and Minecraft's visual
+ * and loot behavior. Both sides store a UUID to prevent unrelated matches.
  */
 public final class GourdFruits {
     private GourdFruits() {}
