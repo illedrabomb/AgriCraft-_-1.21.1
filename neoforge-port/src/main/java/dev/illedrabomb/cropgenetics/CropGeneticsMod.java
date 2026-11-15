@@ -4,6 +4,7 @@ import dev.illedrabomb.cropgenetics.command.CropDataCommand;
 import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
+import dev.illedrabomb.cropgenetics.content.CropRecipes;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.CropDataReloadListener;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
@@ -28,6 +29,7 @@ public final class CropGeneticsMod {
         CropComponents.register(modBus);
         CropBlocks.register(modBus);
         CropItems.register(modBus);
+        CropRecipes.register(modBus);
         modBus.addListener(this::addCreativeSeeds);
         NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
