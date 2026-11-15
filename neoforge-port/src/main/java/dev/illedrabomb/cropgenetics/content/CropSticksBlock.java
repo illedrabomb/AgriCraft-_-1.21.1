@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -41,17 +42,19 @@ public final class CropSticksBlock extends BaseEntityBlock {
     public static final BooleanProperty CROSS = BooleanProperty.create("cross");
     public static final BooleanProperty PLANTED = BooleanProperty.create("planted");
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 7);
+    public static final EnumProperty<CropAppearance> SPECIES = EnumProperty.create("species", CropAppearance.class);
 
     private static final VoxelShape SHAPE = box(3, 0, 3, 13, 12, 13);
 
     public CropSticksBlock(Properties properties) {
         super(properties.randomTicks());
-        registerDefaultState(stateDefinition.any().setValue(CROSS, false).setValue(PLANTED, false).setValue(STAGE, 0));
+        registerDefaultState(stateDefinition.any().setValue(CROSS, false).setValue(PLANTED, false).setValue(STAGE, 0)
+                .setValue(SPECIES, CropAppearance.GENERIC));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
-        builder.add(CROSS, PLANTED, STAGE);
+        builder.add(CROSS, PLANTED, STAGE, SPECIES);
     }
 
     @Override
