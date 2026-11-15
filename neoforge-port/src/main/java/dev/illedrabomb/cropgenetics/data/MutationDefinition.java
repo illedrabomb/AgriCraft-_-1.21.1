@@ -8,6 +8,11 @@ public record MutationDefinition(String childPlantId, String parentA, String par
         Objects.requireNonNull(childPlantId);
         Objects.requireNonNull(parentA);
         Objects.requireNonNull(parentB);
+        for (String id : new String[] {childPlantId, parentA, parentB}) {
+            if (id.length() > 128 || !id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) {
+                throw new IllegalArgumentException("Invalid mutation plant ID: " + id);
+            }
+        }
         if (chance < 0 || chance > 1 || !Double.isFinite(chance)) {
             throw new IllegalArgumentException("Mutation chance must be in [0, 1]");
         }
