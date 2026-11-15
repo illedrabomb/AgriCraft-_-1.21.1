@@ -67,6 +67,12 @@ public final class AgriPlantsParser {
         }
         JsonObject input = modern == null ? legacy : modern;
         if (input == null) return PlantRequirements.defaultFarmland();
+        for (String key : input.keySet()) {
+            if (!key.equals("min_light") && !key.equals("max_light")
+                    && !key.equals("soil_block") && !key.equals("soil_tag")) {
+                throw new JsonParseException("Unsupported crop requirement: " + key);
+            }
+        }
 
         int minLight = input.has("min_light") ? input.get("min_light").getAsInt() : 9;
         int maxLight = input.has("max_light") ? input.get("max_light").getAsInt() : 15;
