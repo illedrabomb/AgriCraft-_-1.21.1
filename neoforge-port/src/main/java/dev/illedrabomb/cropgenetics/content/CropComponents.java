@@ -1,5 +1,6 @@
 package dev.illedrabomb.cropgenetics.content;
 
+import com.mojang.serialization.Codec;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.genetics.GenomeCodecs;
@@ -20,6 +21,11 @@ public final class CropComponents {
             COMPONENTS.registerComponentType("genome",
                     builder -> builder.persistent(GenomeCodecs.GENOME)
                             .networkSynchronized(GenomeCodecs.STREAM_CODEC));
+
+    /** The analyzer sets this on the specific seed stack, never on the species. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ANALYZED =
+            COMPONENTS.registerComponentType("analyzed",
+                    builder -> builder.persistent(Codec.BOOL));
 
     public static void register(IEventBus bus) {
         COMPONENTS.register(bus);
