@@ -19,7 +19,8 @@ public record Genome(
         GenePair mutativity
 ) {
     public Genome {
-        if (plantId == null || !plantId.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) {
+        if (plantId == null || plantId.length() > 128
+                || !plantId.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) {
             throw new IllegalArgumentException("Expected namespaced plant ID");
         }
         Objects.requireNonNull(growth);
