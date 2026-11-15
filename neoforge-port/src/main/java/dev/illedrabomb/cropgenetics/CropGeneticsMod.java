@@ -46,6 +46,6 @@ public final class CropGeneticsMod {
 
     private void registerReloadListeners(AddReloadListenerEvent event) {
         event.addListener(new PlantReloadListener(PLANTS, mod -> ModList.get().isLoaded(mod)));
-        event.addListener(new MutationReloadListener(PLANTS));
+        event.addListener(new MutationReloadListener(PLANTS, mod -> ModList.get().isLoaded(mod)));
     }
 }
