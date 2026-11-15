@@ -23,9 +23,22 @@ public final class CropBlocks {
             BLOCKS.registerBlock("crop_sticks", CropSticksBlock::new,
                     BlockBehaviour.Properties.of().noCollission().strength(0.5F).sound(SoundType.WOOD));
 
+    public static final DeferredBlock<GeneticGourdFruitBlock> GENETIC_MELON_FRUIT =
+            BLOCKS.registerBlock("genetic_melon_fruit", GeneticGourdFruitBlock::new,
+                    BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.MELON));
+
+    public static final DeferredBlock<GeneticGourdFruitBlock> GENETIC_PUMPKIN_FRUIT =
+            BLOCKS.registerBlock("genetic_pumpkin_fruit", GeneticGourdFruitBlock::new,
+                    BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.PUMPKIN));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CropSticksBlockEntity>>
             CROP_STICKS_ENTITY = BLOCK_ENTITIES.register("crop_sticks",
                     () -> BlockEntityType.Builder.of(CropSticksBlockEntity::new, CROP_STICKS.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GeneticGourdFruitBlockEntity>>
+            GOURD_FRUIT_ENTITY = BLOCK_ENTITIES.register("gourd_fruit",
+                    () -> BlockEntityType.Builder.of(GeneticGourdFruitBlockEntity::new,
+                            GENETIC_MELON_FRUIT.get(), GENETIC_PUMPKIN_FRUIT.get()).build(null));
 
     public static void register(IEventBus bus) {
         BLOCKS.register(bus);
