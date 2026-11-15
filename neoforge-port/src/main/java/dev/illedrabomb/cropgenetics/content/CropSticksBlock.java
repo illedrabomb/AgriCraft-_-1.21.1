@@ -1,6 +1,11 @@
 package dev.illedrabomb.cropgenetics.content;
 
 import dev.illedrabomb.cropgenetics.genetics.Genome;
+import dev.illedrabomb.cropgenetics.CropGeneticsMod;
+import dev.illedrabomb.cropgenetics.data.PlantDefinition;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -34,17 +39,18 @@ import javax.annotation.Nullable;
 public final class CropSticksBlock extends BaseEntityBlock {
     public static final BooleanProperty CROSS = BooleanProperty.create("cross");
     public static final BooleanProperty PLANTED = BooleanProperty.create("planted");
+    public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 7);
 
     private static final VoxelShape SHAPE = box(3, 0, 3, 13, 12, 13);
 
     public CropSticksBlock(Properties properties) {
-        super(properties);
-        registerDefaultState(stateDefinition.any().setValue(CROSS, false).setValue(PLANTED, false));
+        super(properties.randomTicks());
+        registerDefaultState(stateDefinition.any().setValue(CROSS, false).setValue(PLANTED, false).setValue(STAGE, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
-        builder.add(CROSS, PLANTED);
+        builder.add(CROSS, PLANTED, STAGE);
     }
 
     @Override
@@ -69,6 +75,21 @@ public final class CropSticksBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected boolean isRandomlyTicking(BlockState state) {
+        return state.getValue(PLANTED) && !state.getValue(CROSS);
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)) return;
+        Genome genome = crop.genome();
+        if (genome == null) return;
+        PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
+        if (plant == null || crop.isMature(plant)) return;
+        if (random.nextDouble() < CropGrowth.chance(plant, genome)) crop.advanceGrowth(plant);
+    }
+
+    @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level,
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)) {
@@ -87,7 +108,8 @@ public final class CropSticksBlock extends BaseEntityBlock {
         // Genetic seeds are consumed only if planting succeeded.
         if (stack.is(CropItems.GENETIC_SEED.get()) && !state.getValue(CROSS)) {
             Genome genome = stack.get(CropComponents.GENOME.get());
-            if (genome == null || crop.genome() != null) {
+            if (genome == null || crop.genome() != null
+                    || !CropGeneticsMod.plants().plants().containsKey(genome.plantId())) {
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
             if (!level.isClientSide && crop.plant(genome) && !player.isCreative()) stack.shrink(1);
