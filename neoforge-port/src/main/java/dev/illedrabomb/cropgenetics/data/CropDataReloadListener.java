@@ -69,8 +69,26 @@ public final class CropDataReloadListener extends
     protected void apply(Prepared input, ResourceManager manager, ProfilerFiller profiler) {
         List<CropReloadReport.Entry> details = new ArrayList<>(input.readErrors());
         Map<String, PlantDefinition> plants = new HashMap<>();
-        Map<String, Integer> firstPlantEntry = new HashMap<>();
+        // Detect ID collisions before validation. Otherwise an invalid SECOND
+        // definition can leave the FIRST active and hide an ambiguous species.
+        // Disabled files and files requiring absent mods do not claim IDs.
+        Map<String, List<ResourceLocation>> claimants = new HashMap<>();
+        input.plants().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(resource -> {
+            try {
+                JsonObject json = resource.getValue().getAsJsonObject();
+                if (!AgriPlantsParser.enabled(json) || missingMod(json) != null
+                        || !json.has("id")) return;
+                String candidate = json.get("id").getAsString();
+                claimants.computeIfAbsent(candidate, ignored -> new ArrayList<>())
+                        .add(resource.getKey());
+            } catch (RuntimeException ignored) {
+                // The full pass below records INVALID, including malformed IDs.
+            }
+        });
         Set<String> duplicates = new HashSet<>();
+        claimants.forEach((id, files) -> {
+            if (files.size() > 1) duplicates.add(id);
+        });
 
         input.plants().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(resource -> {
             ResourceLocation key = resource.getKey();
@@ -89,6 +107,12 @@ public final class CropDataReloadListener extends
                             CropReloadReport.Status.MISSING_MOD, "Missing mod: " + missing));
                     return;
                 }
+                if (duplicates.contains(id)) {
+                    details.add(entry(CropReloadReport.Kind.PLANT, key, id,
+                            CropReloadReport.Status.CONFLICT,
+                            "Duplicate plant ID: " + id + " in " + claimants.get(id)));
+                    return;
+                }
                 PlantDefinition plant = AgriPlantsParser.plant(json);
                 id = plant.id();
                 // The apply phase runs with live Minecraft registries available.
@@ -101,31 +125,9 @@ public final class CropDataReloadListener extends
                             String.join("; ", registryErrors)));
                     return;
                 }
-                if (duplicates.contains(id)) {
-                    details.add(entry(CropReloadReport.Kind.PLANT, key, id,
-                            CropReloadReport.Status.CONFLICT, "Duplicate plant ID: " + id));
-                    return;
-                }
-                // Complete all potentially failing checks BEFORE publishing this
-                // definition to the candidate map; an INVALID report must not
-                // coexist with an active plant for the same source file.
-                List<String> tagWarnings = PlantRegistryValidator.tagWarnings(plant, manager);
-                if (plants.putIfAbsent(id, plant) != null) {
-                    plants.remove(id);
-                    duplicates.add(id);
-                    // The FIRST definition is also unusable. Do not report it as loaded.
-                    Integer index = firstPlantEntry.remove(id);
-                    if (index != null) {
-                        CropReloadReport.Entry previous = details.get(index);
-                        details.set(index, entry(CropReloadReport.Kind.PLANT, previous.source(),
-                                id, CropReloadReport.Status.CONFLICT,
-                                "Duplicate plant ID: " + id));
-                    }
-                    details.add(entry(CropReloadReport.Kind.PLANT, key, id,
-                            CropReloadReport.Status.CONFLICT, "Duplicate plant ID: " + id));
-                    return;
-                }
-                firstPlantEntry.put(id, details.size());
+                // All checks succeeded. Conflicting IDs were already
+                // excluded in the prepass; insertion is now deterministic.
+                plants.put(id, plant);
                 details.add(entry(CropReloadReport.Kind.PLANT, key, id,
                         tagWarnings.isEmpty() ? CropReloadReport.Status.LOADED
                                 : CropReloadReport.Status.WARNING,
