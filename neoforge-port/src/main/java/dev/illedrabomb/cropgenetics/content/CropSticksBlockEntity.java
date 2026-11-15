@@ -180,11 +180,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
     }
 
     public boolean readyForHarvest(PlantDefinition plant) {
-        // Reconcile before any harvest check, including right-clicks and
-        // block loot. A datapack reload can change stage counts between ticks.
-        if (level instanceof ServerLevel && !stageMetadataMatches(plant)) {
-            reconcileLoadedStage(plant);
-        }
+        // Read-only: block loot can query this while the block is being
+        // removed, so do not mutate block state as a side effect here.
         // Physical gourd blocks are harvested directly, not by right-clicking
         // the stem. Prevent duplicates through the stem's normal drop path.
         return isMature(plant) && plant.harvestMode() != HarvestMode.GOURD;
