@@ -31,6 +31,20 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.10-alpha: recipe, farmland and ID validation (Codex H2/H3/H4)
+
+- **H2:** `seed_analyzer.json` now uses Minecraft 1.21.1 Ingredient
+  objects (`{"item":"minecraft:glass_pane"}` and `{"item":"minecraft:stick"}`)
+  rather than unsupported bare strings.
+- **H3:** Crop Sticks are added to the additive Vanilla block tag
+  `minecraft:maintains_farmland`. This prevents dry farmland under
+  crop sticks from reverting to dirt due solely to the absent block tag.
+- **H4:** AgriPlants definitions now reject plant species IDs longer
+  than 128 characters, matching the existing `Genome` constructor.
+  Invalid datapack definitions receive the existing reload INVALID report
+  rather than causing an exception later during normal seed analysis/planting.
+- Source-only corrections; no compilation or gameplay tests run.
+
 ## 0.2.9-alpha: reject invalid harvest lifecycles (Codex K1/K2)
 
 - **K1:** Every harvestable crop definition now requires at least two growth
