@@ -18,6 +18,16 @@ public record PlantDefinition(
         harvestProducts = List.copyOf(harvestProducts);
         Objects.requireNonNull(requirements);
         Objects.requireNonNull(harvestMode);
+        // Bound imported lists before the registry publishes a plant. Huge
+        // datapack arrays must not multiply later harvest/breeding work.
+        if (requiredMods.size() > 64 || seedItems.size() > 64
+                || stages.size() > 64 || harvestProducts.size() > 64) {
+            throw new IllegalArgumentException(
+                    "Too many required mods, seed items, growth stages or harvest products (max 64 each)");
+        }
+        if (stages.stream().anyMatch(stage -> stage < 0 || stage > 4096)) {
+            throw new IllegalArgumentException("Growth stage values must be within 0..4096");
+        }
         if (!Double.isFinite(fruitChance) || fruitChance < 0 || fruitChance > 1)
             throw new IllegalArgumentException("Invalid fruit chance");
         if (harvestMode == HarvestMode.GOURD
