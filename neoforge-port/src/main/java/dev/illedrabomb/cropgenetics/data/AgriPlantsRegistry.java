@@ -14,12 +14,14 @@ public final class AgriPlantsRegistry {
     public record Snapshot(Map<String, PlantDefinition> plants,
                            Map<String, MutationDefinition> mutations,
                            Map<String, String> seedToPlant,
-                           Set<String> ambiguousSeedItems) {
+                           Set<String> ambiguousSeedItems,
+                           CropReloadReport report) {
         public Snapshot {
             plants = Map.copyOf(plants);
             mutations = Map.copyOf(mutations);
             seedToPlant = Map.copyOf(seedToPlant);
             ambiguousSeedItems = Set.copyOf(ambiguousSeedItems);
+            java.util.Objects.requireNonNull(report);
         }
 
         public Optional<PlantDefinition> plantForSeed(String itemId) {
@@ -28,7 +30,7 @@ public final class AgriPlantsRegistry {
         }
     }
 
-    private volatile Snapshot snapshot = new Snapshot(Map.of(), Map.of(), Map.of(), Set.of());
+    private volatile Snapshot snapshot = new Snapshot(Map.of(), Map.of(), Map.of(), Set.of(), CropReloadReport.empty());
 
     /** Capture once when one operation needs several related collections. */
     public Snapshot snapshot() { return snapshot; }
@@ -39,13 +41,15 @@ public final class AgriPlantsRegistry {
         return snapshot.plantForSeed(itemId);
     }
     public Set<String> ambiguousSeedItems() { return snapshot.ambiguousSeedItems(); }
+    public CropReloadReport reloadReport() { return snapshot.report(); }
 
     /**
      * Construct everything locally, then publish it all at once. References
      * to disabled plants cannot be activated by a stale mutation reload.
      */
     public void replaceAll(Map<String, PlantDefinition> inputPlants,
-                           Map<String, MutationDefinition> inputMutations) {
+                           Map<String, MutationDefinition> inputMutations,
+                           CropReloadReport report) {
         Map<String, PlantDefinition> plants = Map.copyOf(inputPlants);
         Map<String, MutationDefinition> mutations = new HashMap<>();
         inputMutations.forEach((id, mutation) -> {
@@ -70,6 +74,6 @@ public final class AgriPlantsRegistry {
                         }
                     }
                 });
-        snapshot = new Snapshot(plants, mutations, reverse, ambiguous);
+        snapshot = new Snapshot(plants, mutations, reverse, ambiguous, report);
     }
 }
