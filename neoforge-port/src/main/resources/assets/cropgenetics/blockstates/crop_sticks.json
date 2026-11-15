@@ -1,8 +1,100 @@
 {
   "variants": {
-    "cross=false,planted=false": {"model": "cropgenetics:block/crop_sticks"},
-    "cross=false,planted=true": {"model": "cropgenetics:block/crop_sticks_planted"},
-    "cross=true,planted=false": {"model": "cropgenetics:block/crop_sticks_cross"},
-    "cross=true,planted=true": {"model": "cropgenetics:block/crop_sticks_cross"}
+    "cross=false,planted=false,stage=0": {
+      "model": "cropgenetics:block/crop_sticks"
+    },
+    "cross=false,planted=true,stage=0": {
+      "model": "cropgenetics:block/crop_sticks_planted"
+    },
+    "cross=true,planted=false,stage=0": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=true,planted=true,stage=0": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=false,planted=false,stage=1": {
+      "model": "cropgenetics:block/crop_sticks"
+    },
+    "cross=false,planted=true,stage=1": {
+      "model": "cropgenetics:block/crop_sticks_planted"
+    },
+    "cross=true,planted=false,stage=1": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=true,planted=true,stage=1": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=false,planted=false,stage=2": {
+      "model": "cropgenetics:block/crop_sticks"
+    },
+    "cross=false,planted=true,stage=2": {
+      "model": "cropgenetics:block/crop_sticks_plant_mid"
+    },
+    "cross=true,planted=false,stage=2": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=true,planted=true,stage=2": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=false,planted=false,stage=3": {
+      "model": "cropgenetics:block/crop_sticks"
+    },
+    "cross=false,planted=true,stage=3": {
+      "model": "cropgenetics:block/crop_sticks_plant_mid"
+    },
+    "cross=true,planted=false,stage=3": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=true,planted=true,stage=3": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=false,planted=false,stage=4": {
+      "model": "cropgenetics:block/crop_sticks"
+    },
+    "cross=false,planted=true,stage=4": {
+      "model": "cropgenetics:block/crop_sticks_plant_tall"
+    },
+    "cross=true,planted=false,stage=4": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=true,planted=true,stage=4": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=false,planted=false,stage=5": {
+      "model": "cropgenetics:block/crop_sticks"
+    },
+    "cross=false,planted=true,stage=5": {
+      "model": "cropgenetics:block/crop_sticks_plant_tall"
+    },
+    "cross=true,planted=false,stage=5": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=true,planted=true,stage=5": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=false,planted=false,stage=6": {
+      "model": "cropgenetics:block/crop_sticks"
+    },
+    "cross=false,planted=true,stage=6": {
+      "model": "cropgenetics:block/crop_sticks_plant_mature"
+    },
+    "cross=true,planted=false,stage=6": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=true,planted=true,stage=6": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=false,planted=false,stage=7": {
+      "model": "cropgenetics:block/crop_sticks"
+    },
+    "cross=false,planted=true,stage=7": {
+      "model": "cropgenetics:block/crop_sticks_plant_mature"
+    },
+    "cross=true,planted=false,stage=7": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    },
+    "cross=true,planted=true,stage=7": {
+      "model": "cropgenetics:block/crop_sticks_cross"
+    }
   }
 }
