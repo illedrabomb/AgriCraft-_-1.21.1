@@ -46,6 +46,17 @@ public final class CropSticksBlockEntity extends BlockEntity {
     }
 
     /**
+     * Read-only check used by the renderer and ticking code to determine
+     * whether the BlockEntity metadata matches the current crop catalogue.
+     * A reload may have changed stage count while this chunk stayed loaded.
+     */
+    public boolean stageMetadataMatches(PlantDefinition plant) {
+        return genome != null && genome.plantId().equals(plant.id())
+                && totalGrowthStages == plant.stages().size()
+                && growthStage >= 0 && growthStage < totalGrowthStages;
+    }
+
+    /**
      * Also called by random ticks: a chunk can load before datapacks finish
      * registering, so onLoad is not guaranteed to find this species yet.
      */
@@ -56,6 +67,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         int clampedStage = Math.max(0, Math.min(growthStage, targetTotal - 1));
         if (totalGrowthStages == targetTotal && growthStage == clampedStage) return false;
 
+        // Never silently delete the identity of an owned physical fruit.
+        // Age normalization is safe; fruit ownership is reconciled separately.
         growthStage = clampedStage;
         // syncState updates TotalGrowthStages, marks the chunk dirty, and
         // sends the BlockEntity update even if the visual 0..7 state is equal.
