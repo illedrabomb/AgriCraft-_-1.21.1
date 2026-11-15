@@ -18,6 +18,9 @@ public final class CropItems {
     public static final DeferredItem<GeneticSeedItem> GENETIC_SEED =
             ITEMS.registerItem("genetic_seed", GeneticSeedItem::new);
 
+    public static final DeferredItem<Item> CROP_STICKS =
+            ITEMS.registerSimpleBlockItem("crop_sticks", CropBlocks.CROP_STICKS);
+
     /** Creates a genetic seed without losing the inherited genome. */
     public static ItemStack seedWithGenome(Genome genome) {
         ItemStack stack = new ItemStack(GENETIC_SEED.get());

@@ -1,5 +1,6 @@
 {
   "item.cropgenetics.genetic_seed": "Genetic Seed",
+  "block.cropgenetics.crop_sticks": "Crop Sticks",
   "tooltip.cropgenetics.plant": "Plant: %s",
   "tooltip.cropgenetics.stats": "Growth / Gain / Strength: %s"
 }

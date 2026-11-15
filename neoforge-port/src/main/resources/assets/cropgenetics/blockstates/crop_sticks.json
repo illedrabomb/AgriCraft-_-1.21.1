@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "cross=false,planted=false": {"model": "cropgenetics:block/crop_sticks"},
+    "cross=false,planted=true": {"model": "cropgenetics:block/crop_sticks_planted"},
+    "cross=true,planted=false": {"model": "cropgenetics:block/crop_sticks_cross"},
+    "cross=true,planted=true": {"model": "cropgenetics:block/crop_sticks_cross"}
+  }
+}

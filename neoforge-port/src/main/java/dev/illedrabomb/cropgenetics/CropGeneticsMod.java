@@ -1,5 +1,6 @@
 package dev.illedrabomb.cropgenetics;
 
+import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
@@ -23,6 +24,7 @@ public final class CropGeneticsMod {
 
     public CropGeneticsMod(IEventBus modBus, ModContainer container) {
         CropComponents.register(modBus);
+        CropBlocks.register(modBus);
         CropItems.register(modBus);
         modBus.addListener(this::addCreativeSeeds);
         NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
@@ -31,6 +33,7 @@ public final class CropGeneticsMod {
     private void addCreativeSeeds(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:carrot_plant")));
+            event.accept(CropItems.CROP_STICKS.get());
         }
     }
 
