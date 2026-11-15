@@ -18,13 +18,25 @@ public final class GeneticGourdFruitBlockEntity extends BlockEntity {
         super(CropBlocks.GOURD_FRUIT_ENTITY.get(), pos, state);
     }
 
-    public void bind(BlockPos parent, UUID token) {
-        if (level == null || level.isClientSide || parentPos != null || fruitToken != null) return;
+    /**
+     * Bind only a horizontally adjacent, loaded crop stem. Returning false
+     * allows placement to roll back instead of leaving an ownerless fruit.
+     */
+    public boolean bind(BlockPos parent, UUID token) {
+        if (level == null || level.isClientSide || parent == null || token == null
+                || parentPos != null || fruitToken != null
+                || !level.hasChunkAt(parent)
+                || parent.getY() != worldPosition.getY()
+                || Math.abs(parent.getX() - worldPosition.getX())
+                        + Math.abs(parent.getZ() - worldPosition.getZ()) != 1
+                || !(level.getBlockEntity(parent) instanceof CropSticksBlockEntity stem)
+                || stem.genome() == null) return false;
         parentPos = parent.immutable();
         fruitToken = token;
         setChanged();
         BlockState state = getBlockState();
         level.sendBlockUpdated(worldPosition, state, state, 3);
+        return true;
     }
 
     public boolean ownedBy(BlockPos parent, UUID token) {
