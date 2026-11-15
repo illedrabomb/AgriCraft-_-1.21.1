@@ -81,6 +81,22 @@ public final class CropSticksBlockEntity extends BlockEntity {
 
     @Nullable public Genome genome() { return genome; }
     public boolean seedAnalyzed() { return seedAnalyzed; }
+
+    /**
+     * Inspect an already planted crop using the handheld analyzer.
+     * Never modifies the immutable Genome; only records that this crop's
+     * genotype was actually inspected. This state survives seed drops.
+     */
+    public boolean analyzePlantedCrop() {
+        if (!(level instanceof ServerLevel) || genome == null) return false;
+        if (!seedAnalyzed) {
+            seedAnalyzed = true;
+            setChanged();
+            BlockState state = getBlockState();
+            level.sendBlockUpdated(worldPosition, state, state, 3);
+        }
+        return true;
+    }
     @Nullable public String originalSeedId() { return originalSeedId; }
 
     /** Uprooted genetic seed retains the exact parent's metadata. */

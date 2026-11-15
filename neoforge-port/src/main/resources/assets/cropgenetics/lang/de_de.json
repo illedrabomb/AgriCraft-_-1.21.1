@@ -14,5 +14,6 @@
   "item.cropgenetics.seed_analyzer": "Saatgut-Analysator",
   "message.cropgenetics.analyzer_offhand": "Saatgut in die Nebenhand nehmen",
   "message.cropgenetics.analyzer_success": "Saatgut analysiert – für Genwerte Shift halten",
-  "message.cropgenetics.analyzer_unsupported": "Saatgut unbekannt oder bereits verändert; keine Analyse möglich"
+  "message.cropgenetics.analyzer_unsupported": "Saatgut unbekannt oder bereits verändert; keine Analyse möglich",
+  "message.cropgenetics.analyzer_crop_success": "Pflanze analysiert – nach dem Ausgraben Genwerte mit Shift anzeigen"
 }

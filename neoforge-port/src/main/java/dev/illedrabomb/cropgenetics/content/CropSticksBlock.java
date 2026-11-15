@@ -6,6 +6,7 @@ import dev.illedrabomb.cropgenetics.data.PlantDefinition;
 import dev.illedrabomb.cropgenetics.data.HarvestMode;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -163,6 +164,16 @@ public final class CropSticksBlock extends BaseEntityBlock {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
+        // Analyze a crop in place, without removing or changing its genome.
+        // A later seed drop retains this analysis marker.
+        if (stack.is(CropItems.SEED_ANALYZER.get()) && crop.genome() != null) {
+            if (!level.isClientSide && crop.analyzePlantedCrop()) {
+                player.displayClientMessage(
+                        Component.translatable("message.cropgenetics.analyzer_crop_success"), true);
+            }
+            return ItemInteractionResult.SUCCESS;
+        }
+
         // A second stick creates a cross-crop only when the position is empty.
         if (stack.is(CropItems.CROP_STICKS.get()) && !state.getValue(CROSS) && crop.genome() == null) {
             if (!level.isClientSide) {
@@ -182,6 +193,15 @@ public final class CropSticksBlock extends BaseEntityBlock {
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
             if (!level.isClientSide && crop.plant(genome, stack) && !player.isCreative()) stack.shrink(1);
+            return ItemInteractionResult.SUCCESS;
+        }
+
+        // Crop catalogue definitions are server-only. The client can predict
+        // the interaction using the attached Genome, while the server retains
+        // the final species, soil and permission checks below.
+        if (level.isClientSide && !state.getValue(CROSS) && crop.genome() == null
+                && !stack.is(CropItems.GENETIC_SEED.get())
+                && CropItems.hasGenome(stack)) {
             return ItemInteractionResult.SUCCESS;
         }
 
