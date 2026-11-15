@@ -69,7 +69,8 @@ public final class AgriPlantsParser {
         if (input == null) return PlantRequirements.defaultFarmland();
         for (String key : input.keySet()) {
             if (!key.equals("min_light") && !key.equals("max_light")
-                    && !key.equals("soil_block") && !key.equals("soil_tag")) {
+                    && !key.equals("soil_block") && !key.equals("soil_tag")
+                    && !key.equals("light_tolerance")) {
                 throw new JsonParseException("Unsupported crop requirement: " + key);
             }
         }
@@ -83,7 +84,8 @@ public final class AgriPlantsParser {
         if (soilBlock.isEmpty() && soilTag.isEmpty()) {
             soilBlock = Optional.of("minecraft:farmland");
         }
-        return new PlantRequirements(minLight, maxLight, soilBlock, soilTag);
+        int tolerance = input.has("light_tolerance") ? input.get("light_tolerance").getAsInt() : 0;
+        return new PlantRequirements(minLight, maxLight, soilBlock, soilTag, tolerance);
     }
 
     public static MutationDefinition mutation(JsonObject json) {
