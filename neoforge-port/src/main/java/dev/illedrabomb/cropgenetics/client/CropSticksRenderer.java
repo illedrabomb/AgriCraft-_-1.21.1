@@ -14,8 +14,8 @@ import java.util.List;
 
 /**
  * Client-only plant mesh. Crop sticks themselves remain ordinary block models.
- * Supports CROSS and PLUS plane arrangements, and an optional second gourd
- * fruit texture approximated with a crossed pair of broad quads.
+ * Supports CROSS and PLUS plane arrangements for stems and leaves.
+ * Gourd fruit blocks are rendered separately as real world blocks.
  */
 public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksBlockEntity> {
     public CropSticksRenderer(BlockEntityRendererProvider.Context context) {}
@@ -34,13 +34,8 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
         drawLayer(layers.get(0), visual.geometry(), poses, buffers,
                 0.08F, 0.92F, 0.02F, height, packedLight, packedOverlay);
 
-        // Only GOURD entries may have a second layer. Display it separately
-        // rather than interpreting multi-texture data as two ordinary crops.
-        if (visual.geometry() == PlantVisuals.Geometry.GOURD && layers.size() == 2
-                && crop.getBlockState().getValue(CropSticksBlock.FRUIT)) {
-            drawLayer(layers.get(1), PlantVisuals.Geometry.CROSS, poses, buffers,
-                    0.22F, 0.78F, 0.05F, 0.72F, packedLight, packedOverlay);
-        }
+        // Physical melon/pumpkin blocks are rendered by Minecraft itself.
+        // Do not draw the old virtual fruit overlay on the stem.
     }
 
     private static void drawLayer(ResourceLocation source, PlantVisuals.Geometry geometry,
