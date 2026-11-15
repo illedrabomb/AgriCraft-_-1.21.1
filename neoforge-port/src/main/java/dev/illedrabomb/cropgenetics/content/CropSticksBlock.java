@@ -4,6 +4,7 @@ import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.core.BlockPos;
@@ -110,7 +111,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
             return ItemInteractionResult.SUCCESS;
         }
 
-        // Genetic seeds are consumed only if planting succeeded.
+        // An existing genetic seed keeps its full genome; never reset its alleles.
         if (stack.is(CropItems.GENETIC_SEED.get()) && !state.getValue(CROSS)) {
             Genome genome = stack.get(CropComponents.GENOME.get());
             if (genome == null || crop.genome() != null
@@ -119,6 +120,24 @@ public final class CropSticksBlock extends BaseEntityBlock {
             }
             if (!level.isClientSide && crop.plant(genome) && !player.isCreative()) stack.shrink(1);
             return ItemInteractionResult.SUCCESS;
+        }
+
+        // A vanilla/mod seed with *no custom component patch* starts as a 1/1/1
+        // genome. Do not consume customized stacks or ambiguous modded seeds.
+        if (!state.getValue(CROSS) && crop.genome() == null
+                && !stack.isEmpty() && !stack.is(CropItems.GENETIC_SEED.get())
+                && stack.getComponentsPatch().isEmpty()) {
+            String seedId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
+            var plant = CropGeneticsMod.plants().plantForSeed(seedId);
+            if (plant.isPresent()) {
+                if (!level.isClientSide) {
+                    if (!crop.plant(Genome.basic(plant.get().id()))) {
+                        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+                    }
+                    if (!player.isCreative()) stack.shrink(1);
+                }
+                return ItemInteractionResult.SUCCESS;
+            }
         }
 
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
