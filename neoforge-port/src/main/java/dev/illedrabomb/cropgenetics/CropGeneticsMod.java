@@ -16,11 +16,12 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 
-/** Entry point for the AgriCraft-derived NeoForge implementation. */
 @Mod(CropGeneticsMod.MOD_ID)
 public final class CropGeneticsMod {
     public static final String MOD_ID = "cropgenetics";
-    private final AgriPlantsRegistry plants = new AgriPlantsRegistry();
+    private static final AgriPlantsRegistry PLANTS = new AgriPlantsRegistry();
+
+    public static AgriPlantsRegistry plants() { return PLANTS; }
 
     public CropGeneticsMod(IEventBus modBus, ModContainer container) {
         CropComponents.register(modBus);
@@ -38,7 +39,7 @@ public final class CropGeneticsMod {
     }
 
     private void registerReloadListeners(AddReloadListenerEvent event) {
-        event.addListener(new PlantReloadListener(plants, mod -> ModList.get().isLoaded(mod)));
-        event.addListener(new MutationReloadListener(plants));
+        event.addListener(new PlantReloadListener(PLANTS, mod -> ModList.get().isLoaded(mod)));
+        event.addListener(new MutationReloadListener(PLANTS));
     }
 }
