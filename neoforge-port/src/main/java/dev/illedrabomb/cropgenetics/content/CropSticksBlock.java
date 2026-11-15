@@ -83,6 +83,11 @@ public final class CropSticksBlock extends BaseEntityBlock {
         // Vanilla farmland remains the baseline. Explicit modded soil rules
         // can allow placement on other registered blocks/tags.
         if (level.getBlockState(pos.below()).is(Blocks.FARMLAND)) return true;
+        // The plant catalogue is server-side. Do not let an empty client-side
+        // registry reject legitimate placement or break predictions for
+        // crop sticks on sand, mycelium, dirt, mud or modded soils.
+        // The logical server still enforces the actual registered rules.
+        if (level instanceof Level world && world.isClientSide) return true;
         return CropGeneticsMod.plants().plants().values().stream()
                 .anyMatch(plant -> CropConditions.matchesPlantingSite(level, pos, plant));
     }

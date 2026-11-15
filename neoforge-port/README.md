@@ -31,6 +31,22 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.7-alpha: client-side survival prediction for specialty soils
+
+Confirmed that `PlantVisuals` accepts **both** the `textures` schema
+and the `stages` schema used by bamboo, berries and mushrooms. The files
+are not malformed merely because the newer crops use `stages`.
+
+Fixed the client-side `CropSticksBlock.canSurvive` path: its crop catalogue
+is server-side and can be empty on the client. A client is therefore
+permissive for non-farmland supports rather than predicting that valid
+sand, mud, mycelium or modded soil placement must fail. The logical
+server retains the authoritative registry-based soil and planting-site
+validation and rejects unsupported positions. This affects prediction,
+not the allowed server-side crop locations.
+
+Source-only change; no build, client launch or gameplay test performed.
+
 ## 0.2.6-alpha: brown and red mushroom crops
 
 Added `minecraft:brown_mushroom_plant` and `minecraft:red_mushroom_plant`
