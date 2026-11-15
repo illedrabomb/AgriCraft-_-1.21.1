@@ -1,0 +1,6 @@
+{
+  "version": "1.18.2", "enabled": true, "mods": ["minecraft", "agricraft"],
+  "chance": 0.75, "child": "minecraft:carrot_plant",
+  "parent1": "minecraft:wheat_plant", "parent2": "minecraft:potato_plant",
+  "conditions": []
+}
