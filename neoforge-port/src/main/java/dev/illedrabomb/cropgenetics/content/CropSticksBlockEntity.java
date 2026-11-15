@@ -21,6 +21,9 @@ import java.util.UUID;
 public final class CropSticksBlockEntity extends BlockEntity {
     @Nullable private Genome genome;
     private int growthStage;
+    // Also synced to clients: the client cannot read server datapack stage counts.
+    // Zero signals an older save that only has the 0..7 blockstate stage.
+    private int totalGrowthStages;
     private boolean fruitReady;
     @Nullable private Direction fruitDirection;
     @Nullable private UUID fruitToken;
@@ -31,6 +34,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
 
     @Nullable public Genome genome() { return genome; }
     public int growthStage() { return growthStage; }
+    public int totalGrowthStages() { return totalGrowthStages; }
     public boolean fruitReady() { return fruitReady; }
     @Nullable public Direction fruitDirection() { return fruitDirection; }
     @Nullable public UUID fruitToken() { return fruitToken; }
@@ -42,6 +46,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (plant == null) return false;
         genome = seedGenome;
         growthStage = 0;
+        totalGrowthStages = plant.stages().size();
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
@@ -59,6 +64,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 || !child.plantId().equals(plant.id())) return false;
         genome = child;
         growthStage = 0;
+        totalGrowthStages = plant.stages().size();
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
@@ -157,6 +163,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
     }
 
     private void syncState(PlantDefinition plant) {
+        totalGrowthStages = plant.stages().size();
         setChanged();
         if (level == null) return;
         BlockState previous = getBlockState();
@@ -174,6 +181,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putInt("GrowthStage", growthStage);
+        tag.putInt("TotalGrowthStages", totalGrowthStages);
         tag.putBoolean("FruitReady", fruitReady);
         if (fruitReady && fruitDirection != null && fruitToken != null) {
             tag.putString("FruitDirection", fruitDirection.getName());
@@ -187,6 +195,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         growthStage = Math.max(0, tag.getInt("GrowthStage"));
+        int savedTotal = tag.getInt("TotalGrowthStages");
+        totalGrowthStages = savedTotal >= 1 && savedTotal <= 64 ? savedTotal : 0;
         fruitReady = tag.getBoolean("FruitReady");
         fruitDirection = tag.contains("FruitDirection")
                 ? Direction.byName(tag.getString("FruitDirection")) : null;
