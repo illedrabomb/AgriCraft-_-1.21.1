@@ -10,5 +10,9 @@
   "tooltip.cropgenetics.strength": "Robustheit: %s / %s",
   "tooltip.cropgenetics.fertility": "Fruchtbarkeit: %s / %s",
   "tooltip.cropgenetics.mutativity": "Mutationsfreudigkeit: %s / %s",
-  "tooltip.cropgenetics.recover_hint": "Im Craftingfeld: Gen-Seed + Papier → normales Saatgut (Papier bleibt erhalten)"
+  "tooltip.cropgenetics.recover_hint": "Im Craftingfeld: Gen-Seed + Papier → normales Saatgut (Papier bleibt erhalten)",
+  "item.cropgenetics.seed_analyzer": "Saatgut-Analysator",
+  "message.cropgenetics.analyzer_offhand": "Saatgut in die Nebenhand nehmen",
+  "message.cropgenetics.analyzer_success": "Saatgut analysiert – für Genwerte Shift halten",
+  "message.cropgenetics.analyzer_unsupported": "Saatgut unbekannt oder bereits verändert; keine Analyse möglich"
 }
