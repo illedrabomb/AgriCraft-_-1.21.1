@@ -34,10 +34,18 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
                 && (genome.plantId().equals("minecraft:melon_plant")
                 || genome.plantId().equals("minecraft:pumpkin_plant"))) return;
 
-        int stage = crop.getBlockState().getValue(CropSticksBlock.STAGE);
+        // The BlockState keeps only 0..7 for model compatibility. Use the
+        // exact server-synced BlockEntity values for species with >8 stages.
+        // Older world saves without TotalGrowthStages retain the old mapping.
+        int totalStages = crop.totalGrowthStages();
+        int stage = totalStages > 0
+                ? Math.max(0, Math.min(crop.growthStage(), totalStages - 1))
+                : crop.getBlockState().getValue(CropSticksBlock.STAGE);
+        if (totalStages <= 0) totalStages = 8;
+
         PlantVisuals.Visual visual = PlantVisuals.INSTANCE.visual(genome.plantId());
-        List<ResourceLocation> layers = visual.at(stage, 8);
-        float height = Math.max(0.15F, (stage + 1) / 8.0F);
+        List<ResourceLocation> layers = visual.at(stage, totalStages);
+        float height = Math.max(0.15F, (stage + 1.0F) / totalStages);
 
         drawLayer(layers.get(0), visual.geometry(), poses, buffers,
                 0.08F, 0.92F, 0.02F, height, packedLight, packedOverlay);
