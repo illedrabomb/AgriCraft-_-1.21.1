@@ -23,6 +23,10 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 
 - Original AgriCraft asset reuse: the original wood crop-stick block/item textures and melon/pumpkin stage PNGs are copied unchanged from the legacy resources. The current crop-stick models and gourd visual JSONs reference them; other plants retain their existing Vanilla textures. The original MIT license is retained at `LICENSE`. See `../temporary-research/ORIGINAL_AGRICRAFT_TEXTURES_PORT.md`.
 
+## Crafting-only recovery of original seeds
+
+One `cropgenetics:genetic_seed` **plus one paper** in any two crafting slots (2x2 inventory or 3x3 crafting table) yields exactly one plain original Minecraft/mod seed. The genetic seed is consumed; **the paper is returned as the crafting remainder** and is reusable. This is a special dynamic crafting recipe whose result is resolved from the seed's recorded `cropgenetics:original_seed` item ID, falling back to the current crop catalogue for older seeds. If the original item is unavailable or cannot be identified, the recipe does not match and nothing is consumed. There is no right-click recovery action. The returned plain seed intentionally loses all genetics and analysis data. See `src/main/java/dev/illedrabomb/cropgenetics/content/OriginalSeedRecoveryRecipe.java`. Source-only change; local crafting verification has not been performed.
+
 ## Vanilla visuals and analyzed genetic seed tooltips
 
 Vanilla Minecraft textures remain the **default** for Vanilla species, including melon and pumpkin; the copied original AgriCraft gourd PNGs are optional assets rather than active replacements. The original AgriCraft crop-stick textures remain in use because Crop Sticks have no equivalent Vanilla asset.
