@@ -56,7 +56,12 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public boolean stageMetadataMatches(PlantDefinition plant) {
         return genome != null && genome.plantId().equals(plant.id())
                 && totalGrowthStages == plant.stages().size()
-                && growthStage >= 0 && growthStage < totalGrowthStages;
+                && growthStage >= 0 && growthStage < totalGrowthStages
+                && getBlockState().getValue(CropSticksBlock.PLANTED)
+                && getBlockState().getValue(CropSticksBlock.STAGE)
+                        == CropGrowth.displayStage(growthStage, totalGrowthStages)
+                && getBlockState().getValue(CropSticksBlock.SPECIES)
+                        == CropAppearance.fromPlantId(genome.plantId());
     }
 
     /**
@@ -68,7 +73,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 || !genome.plantId().equals(plant.id())) return false;
         int targetTotal = plant.stages().size();
         int clampedStage = Math.max(0, Math.min(growthStage, targetTotal - 1));
-        if (totalGrowthStages == targetTotal && growthStage == clampedStage) return false;
+        if (stageMetadataMatches(plant)) return false;
 
         // Never silently delete the identity of an owned physical fruit.
         // Age normalization is safe; fruit ownership is reconciled separately.
