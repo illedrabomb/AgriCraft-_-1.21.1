@@ -181,7 +181,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
                     || !CropConditions.canGrow(level, pos, plant, genome)) {
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
-            if (!level.isClientSide && crop.plant(genome) && !player.isCreative()) stack.shrink(1);
+            if (!level.isClientSide && crop.plant(genome, stack) && !player.isCreative()) stack.shrink(1);
             return ItemInteractionResult.SUCCESS;
         }
 
@@ -196,7 +196,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
                     : CropGeneticsMod.plants().plants().get(seedGenome.plantId());
             if (plant != null && CropConditions.canGrow(level, pos, plant, seedGenome)) {
                 if (!level.isClientSide) {
-                    if (!crop.plant(seedGenome)) {
+                    if (!crop.plant(seedGenome, stack)) {
                         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
                     }
                     if (!player.isCreative()) stack.shrink(1);
@@ -215,7 +215,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
             if (plant.isPresent() && CropConditions.canGrow(level, pos, plant.get(),
                     Genome.basic(plant.get().id()))) {
                 if (!level.isClientSide) {
-                    if (!crop.plant(Genome.basic(plant.get().id()))) {
+                    if (!crop.plant(Genome.basic(plant.get().id()), stack)) {
                         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
                     }
                     if (!player.isCreative()) stack.shrink(1);
@@ -261,7 +261,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
         BlockEntity entity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
         if (entity instanceof CropSticksBlockEntity crop && crop.genome() != null) {
             Genome genome = crop.genome();
-            drops.add(CropItems.seedWithGenome(genome));
+            drops.add(crop.seedDrop());
             PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
             // Normal breaking is destructive: keep the seed, and if mature add
             // products. Repeated calls are avoided through the usual block loot path.
