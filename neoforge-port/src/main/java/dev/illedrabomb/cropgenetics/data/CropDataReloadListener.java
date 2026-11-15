@@ -125,6 +125,8 @@ public final class CropDataReloadListener extends
                             String.join("; ", registryErrors)));
                     return;
                 }
+                // Complete diagnostics before staging an active definition.
+                List<String> tagWarnings = PlantRegistryValidator.tagWarnings(plant, manager);
                 // All checks succeeded. Conflicting IDs were already
                 // excluded in the prepass; insertion is now deterministic.
                 plants.put(id, plant);
