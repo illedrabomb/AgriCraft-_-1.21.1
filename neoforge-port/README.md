@@ -31,6 +31,24 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
 - Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
 
+## 0.2.14-alpha: reload fruit reconciliation and consistent support rules (Codex R1/R2/R3)
+
+- **R1:** The staggered server BlockEntity ticker reconciles owned physical
+  melon/pumpkin fruit as soon as the species is available again, even when
+  stage metadata already matches and `randomTickSpeed=0`. It uses the existing
+  ownership/UUID validation and loaded-chunk guard; unloaded adjacent fruit
+  chunks are not interpreted as harvested.
+- **R2:** The scheduled supporting-block check no longer rejects a block
+  solely for having nonempty fluid state. A configured waterlogged block or
+  block tag now follows the same soil matching rules for placement, growth
+  and scheduled removal. Air still causes a normal one-path block break.
+- **R3:** Empty Crop Sticks retain the existing Farmland baseline during
+  scheduled support rechecks, even if a restricted datapack contains no
+  Farmland-compatible crop and only the moisture state has changed.
+- All existing genome, analyzed, original-seed and physical-fruit ownership
+  serialization remains unchanged. Source-only update: no build, tests
+  or Minecraft launch has been performed.
+
 ## 0.2.13-alpha: attached-stem appearance and creative tab (Codex M3/N1)
 
 - **M3:** The attached melon and pumpkin stem multipart entries now reference

@@ -121,7 +121,10 @@ public final class CropSticksBlock extends BaseEntityBlock {
         // still-present block and only while the supporting chunk is loaded.
         if (!level.getBlockState(pos).is(this) || !level.hasChunkAt(pos.below())) return;
         BlockState support = level.getBlockState(pos.below());
-        if (support.isAir() || !support.getFluidState().isEmpty()) {
+        // A physically absent support always breaks the sticks. A fluid
+        // inside an otherwise valid waterloggable block is NOT an invalid
+        // support by itself: configured soil IDs/tags decide what is allowed.
+        if (support.isAir()) {
             level.destroyBlock(pos, true);
             return;
         }
@@ -140,7 +143,11 @@ public final class CropSticksBlock extends BaseEntityBlock {
         // Empty sticks have no species-specific soil. If any registered crop
         // accepts this support, preserve them; missing catalogues are not a
         // reason to break a solid supporting block.
-        if (!CropGeneticsMod.plants().plants().isEmpty()
+        // Keep the same catalog-independent farmland baseline as canSurvive.
+        // An otherwise restricted datapack must not uproot empty sticks
+        // when farmland merely changes its moisture BlockState.
+        if (!support.is(Blocks.FARMLAND)
+                && !CropGeneticsMod.plants().plants().isEmpty()
                 && CropGeneticsMod.plants().plants().values().stream()
                     .noneMatch(plant -> CropConditions.matchesSoil(level, pos, plant.requirements()))) {
             level.destroyBlock(pos, true);
@@ -170,8 +177,16 @@ public final class CropSticksBlock extends BaseEntityBlock {
                     if (currentGenome == null) return;
                     PlantDefinition currentPlant =
                             CropGeneticsMod.plants().plants().get(currentGenome.plantId());
-                    if (currentPlant != null && !crop.stageMetadataMatches(currentPlant)) {
+                    if (currentPlant == null) return;
+                    if (!crop.stageMetadataMatches(currentPlant)) {
                         crop.reconcileLoadedStage(currentPlant);
+                    }
+                    // A physical fruit may have been broken while its species
+                    // was absent from the datapack. Restore the fruit lifecycle
+                    // even with randomTickSpeed=0 and unchanged stage metadata.
+                    // reconcilePhysicalFruit does not load neighboring chunks.
+                    if (currentPlant.harvestMode() == HarvestMode.GOURD) {
+                        crop.reconcilePhysicalFruit(currentPlant);
                     }
                 });
     }
