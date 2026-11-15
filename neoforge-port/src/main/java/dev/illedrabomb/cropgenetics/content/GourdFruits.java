@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Physical fruit placement, deliberately restricted to the two supported
@@ -26,17 +27,20 @@ public final class GourdFruits {
     public static Block fruitBlock(PlantDefinition plant) {
         if (plant.harvestMode() != HarvestMode.GOURD) return null;
         return switch (plant.id()) {
-            case "minecraft:melon_plant" -> Blocks.MELON;
-            case "minecraft:pumpkin_plant" -> Blocks.PUMPKIN;
+            case "minecraft:melon_plant" -> CropBlocks.GENETIC_MELON_FRUIT.get();
+            case "minecraft:pumpkin_plant" -> CropBlocks.GENETIC_PUMPKIN_FRUIT.get();
             default -> null; // Other gourds require an explicit compatibility adapter.
         };
     }
 
     public static boolean matches(ServerLevel level, BlockPos stem,
-                                  Direction direction, PlantDefinition plant) {
+                                  Direction direction, PlantDefinition plant, UUID token) {
         Block block = fruitBlock(plant);
-        return block != null && direction.getAxis().isHorizontal()
-                && level.getBlockState(stem.relative(direction)).is(block);
+        if (block == null || direction.getAxis().isVertical()) return false;
+        BlockPos fruitPos = stem.relative(direction);
+        return level.getBlockState(fruitPos).is(block)
+                && level.getBlockEntity(fruitPos) instanceof GeneticGourdFruitBlockEntity fruit
+                && fruit.ownedBy(stem, token);
     }
 
     /** Places a real fruit only in empty space above an ordinary growable soil. */
@@ -56,9 +60,13 @@ public final class GourdFruits {
                     || ground.is(Blocks.GRASS_BLOCK) || ground.is(Blocks.COARSE_DIRT)
                     || ground.is(Blocks.PODZOL))) continue;
 
+            UUID token = UUID.randomUUID();
             if (level.setBlock(target, fruit.defaultBlockState(), 3)) {
-                if (crop.markPhysicalFruit(plant, direction)) return true;
-                // Roll back placement if the parent unexpectedly changed.
+                if (level.getBlockEntity(target) instanceof GeneticGourdFruitBlockEntity fruitEntity) {
+                    fruitEntity.bind(stem, token);
+                    if (crop.markPhysicalFruit(plant, direction, token)) return true;
+                }
+                // On failed binding discard the new block without fruit drops.
                 level.removeBlock(target, false);
             }
         }
