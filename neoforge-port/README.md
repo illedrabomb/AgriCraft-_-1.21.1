@@ -13,7 +13,7 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - Simple Vanilla/mod seed conversion using an unambiguous AgriPlants item ID mapping.
 - Plant/environment requirements for explicit soil IDs/tags and light tolerance adjusted by Strength.
 - AgriPlants server datapack definitions for wheat, carrot, potato, beetroot, nether wart, **melon and pumpkin**, plus a carrot species mutation.
-- **Client-side resource-pack crop renderer**: custom BlockEntityRenderer draws crop texture overlays keyed by Genome.plantId and BlockState.STAGE. A client reload listener reads `assets/<namespace>/cropgenetics/plant_visuals/*.json`. Included visuals for wheat/carrots/potatoes/beetroot/nether wart; unknown species use a fallback texture. The client visual loader now supports `cross`, `plus`, and approximated `gourd` geometry, including a second texture layer for gourd fruits. Selected old AgriPlants `texture.plant_textures` entries can also be loaded if mirrored as client resources.
+- **Client-side resource-pack crop renderer**: custom BlockEntityRenderer draws crop texture overlays keyed by Genome.plantId and BlockState.STAGE. A client reload listener reads `assets/<namespace>/cropgenetics/plant_visuals/*.json`. Included visuals for wheat/carrots/potatoes/beetroot/nether wart; unknown species use a fallback texture. The client visual loader supports `cross`, `plus`, and approximated `gourd` geometry. Plant quads now sample sprites from the Minecraft block atlas, and `assets/minecraft/atlases/blocks.json` declares `textures/plant/` atlas sources. Physical gourd fruits use their own block models, not the old virtual fruit texture. Selected old AgriPlants `texture.plant_textures` entries can also be loaded if mirrored as client resources.
 
 ## Important data locations
 - Server: `data/<namespace>/cropgenetics/plants/*.json`
@@ -29,7 +29,8 @@ An earlier Java 21/NeoForge compilation of the foundational source code succeede
 ## Upcoming
 - Conservative manifest-driven AgriPlants importer in `tools/migrate_agriplants.py` (written but not run). First two additional crops were ported manually; see `../temporary-research/AGRIPLANTS_MIGRATION_BATCH_01.md`. Further bulk migration and reference validation remain pending.
 - Melon and pumpkin have a **separate one-fruit lifecycle**: a mature stem can place an adjacent *custom owned fruit block* that uses the Vanilla melon/pumpkin model and delegates loot to Vanilla. Gain affects fruit formation. The fruit BlockEntity stores parent position and UUID; the stem stores the same UUID and direction. Removing the owned fruit immediately resets its stem, with random-tick reconciliation as a fallback. The model adds an oriented attached stem. The cornflower JSON remains visual-only. See `../temporary-research/OWNED_GOURD_FRUITS.md`.
-- Validate newly implemented unique fruit ownership, stem direction and removal behavior with actual game tests when permitted. Improve advanced soil/climate rules and custom gourd support.
+- Vanilla fruit loot delegation now supplies the matching Vanilla BLOCK_STATE while retaining other loot context. Validate actual Silk Touch/Fortune/modded loot behavior, unique fruit ownership, stem direction and client atlas rendering with game tests when permitted. See `../temporary-research/RENDER_ATLAS_AND_GOURD_LOOT_AUDIT.md`.
+- Improve advanced soil/climate rules and custom gourd support.
 - Genetics inspection/storage UI, breeder villager/profession, complete plant catalog.
 - Optional add-ons: irrigation, greenhouse, MineColonies.
 - Compilation, gameplay smoke tests, client/dedicated-server validation before any release, when testing is re-enabled.
