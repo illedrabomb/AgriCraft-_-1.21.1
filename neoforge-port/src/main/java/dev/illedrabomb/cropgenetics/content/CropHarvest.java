@@ -1,6 +1,7 @@
 package dev.illedrabomb.cropgenetics.content;
 
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
+import dev.illedrabomb.cropgenetics.data.HarvestMode;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,6 +21,16 @@ public final class CropHarvest {
 
     public static List<ItemStack> products(PlantDefinition plant, Genome genome, RandomSource random) {
         if (!plant.id().equals(genome.plantId())) return List.of();
+
+        // One fruit forms per gourd lifecycle. Gain speeds fruit formation,
+        // not the quantity harvested from that same single fruit.
+        if (plant.harvestMode() == HarvestMode.GOURD) {
+            PlantDefinition.HarvestProduct fruit = plant.harvestProducts().get(0);
+            ResourceLocation fruitId = ResourceLocation.tryParse(fruit.itemId());
+            if (fruitId == null) return List.of();
+            Item item = BuiltInRegistries.ITEM.getOptional(fruitId).orElse(null);
+            return item == null ? List.of() : List.of(new ItemStack(item));
+        }
 
         int gain = genome.gain().expressed(GenePair.TraitMode.MAX);
         int trials = (gain + 3) / 3;
