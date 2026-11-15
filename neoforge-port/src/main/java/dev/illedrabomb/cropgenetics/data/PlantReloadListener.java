@@ -42,6 +42,10 @@ public final class PlantReloadListener extends SimpleJsonResourceReloadListener 
             }
         });
         registry.replacePlants(result);
+        if (!registry.ambiguousSeedItems().isEmpty()) {
+            LOG.warn("Skipped {} ambiguous seed mappings (claimed by multiple plant species): {}",
+                    registry.ambiguousSeedItems().size(), registry.ambiguousSeedItems());
+        }
         LOG.info("Loaded {} crop definitions", result.size());
     }
 }
