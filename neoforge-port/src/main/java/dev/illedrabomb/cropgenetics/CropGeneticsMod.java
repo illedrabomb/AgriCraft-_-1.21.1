@@ -1,5 +1,6 @@
 package dev.illedrabomb.cropgenetics;
 
+import dev.illedrabomb.cropgenetics.command.CropDataCommand;
 import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
@@ -14,6 +15,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 @Mod(CropGeneticsMod.MOD_ID)
 public final class CropGeneticsMod {
@@ -28,6 +30,7 @@ public final class CropGeneticsMod {
         CropItems.register(modBus);
         modBus.addListener(this::addCreativeSeeds);
         NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
+        NeoForge.EVENT_BUS.addListener(this::registerCommands);
     }
 
     private void addCreativeSeeds(BuildCreativeModeTabContentsEvent event) {
@@ -41,6 +44,10 @@ public final class CropGeneticsMod {
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:pumpkin_plant")));
             event.accept(CropItems.CROP_STICKS.get());
         }
+    }
+
+    private void registerCommands(RegisterCommandsEvent event) {
+        CropDataCommand.register(event, PLANTS);
     }
 
     private void registerReloadListeners(AddReloadListenerEvent event) {
