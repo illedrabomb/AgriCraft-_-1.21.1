@@ -36,6 +36,20 @@ public final class CropSticksBlockEntity extends BlockEntity {
         return true;
     }
 
+    /**
+     * Double crop sticks accept offspring generated from neighboring parents.
+     * Never replace an existing genome, even when random ticks race with a player.
+     */
+    public boolean acceptCrossOffspring(Genome child, PlantDefinition plant) {
+        if (level == null || level.isClientSide || genome != null || child == null
+                || !getBlockState().getValue(CropSticksBlock.CROSS)
+                || !child.plantId().equals(plant.id())) return false;
+        genome = child;
+        growthStage = 0;
+        syncState(plant);
+        return true;
+    }
+
     public boolean advanceGrowth(PlantDefinition plant) {
         if (level == null || level.isClientSide || genome == null
                 || !genome.plantId().equals(plant.id())
