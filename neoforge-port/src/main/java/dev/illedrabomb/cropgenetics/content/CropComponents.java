@@ -5,6 +5,7 @@ import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.genetics.GenomeCodecs;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -25,7 +26,8 @@ public final class CropComponents {
     /** The analyzer sets this on the specific seed stack, never on the species. */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> ANALYZED =
             COMPONENTS.registerComponentType("analyzed",
-                    builder -> builder.persistent(Codec.BOOL));
+                    builder -> builder.persistent(Codec.BOOL)
+                            .networkSynchronized(ByteBufCodecs.BOOL));
 
     /**
      * The original item ID is stored on genetic seeds at creation time.
@@ -33,7 +35,8 @@ public final class CropComponents {
      */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> ORIGINAL_SEED =
             COMPONENTS.registerComponentType("original_seed",
-                    builder -> builder.persistent(Codec.STRING));
+                    builder -> builder.persistent(Codec.STRING)
+                            .networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
     public static void register(IEventBus bus) {
         COMPONENTS.register(bus);
