@@ -23,7 +23,7 @@ public final class AnalyzedSeedTooltip {
         ItemStack stack = event.getItemStack();
         // The same genome can be stored on an ordinary Vanilla seed after
         // an external analyzer has inspected it. These also need a tooltip.
-        if (!CropItems.isGeneticSeedStack(stack)) return;
+        if (!CropItems.hasGenome(stack)) return;
         boolean customItem = stack.is(CropItems.GENETIC_SEED.get());
         if (!customItem) {
             Genome attached = stack.get(CropComponents.GENOME.get());
