@@ -3,6 +3,13 @@ package dev.illedrabomb.cropgenetics.command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.CropReloadReport;
+import dev.illedrabomb.cropgenetics.data.PlantDefinition;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
+import java.util.ArrayList;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -37,6 +44,11 @@ public final class CropDataCommand {
                                 .executes(ctx -> list(ctx.getSource(), registry, true, 1))
                                 .then(Commands.argument("page", IntegerArgumentType.integer(1))
                                         .executes(ctx -> list(ctx.getSource(), registry, true,
+                                                IntegerArgumentType.getInteger(ctx, "page")))))
+                        .then(Commands.literal("tags")
+                                .executes(ctx -> tags(ctx.getSource(), registry, 1))
+                                .then(Commands.argument("page", IntegerArgumentType.integer(1))
+                                        .executes(ctx -> tags(ctx.getSource(), registry,
                                                 IntegerArgumentType.getInteger(ctx, "page")))))));
     }
 
@@ -59,7 +71,7 @@ public final class CropDataCommand {
         if (!snapshot.ambiguousSeedItems().isEmpty())
             tell(source, "  Ambiguous vanilla seed IDs: "
                     + snapshot.ambiguousSeedItems().size());
-        tell(source, "Use /cropgenetics data errors [page] or /cropgenetics data all [page].");
+        tell(source, "Use /cropgenetics data errors [page], all [page], or tags [page].");
         return report.entries().size();
     }
 
@@ -99,6 +111,52 @@ public final class CropDataCommand {
             tell(source, "[" + entry.status() + "] " + entry.kind() + " "
                     + entry.source() + description);
         }
+        return to - from;
+    }
+
+    /**
+     * Query the live bound BLOCK registry tags, not the datapack file list.
+     * A tag may be provided through built-in or generated data sources.
+     */
+    private static int tags(CommandSourceStack source, AgriPlantsRegistry registry, int page) {
+        AgriPlantsRegistry.Snapshot snapshot = registry.snapshot();
+        if (notLoaded(snapshot)) {
+            tell(source, "Crop Genetics: no datapack reload report available yet.");
+            return 0;
+        }
+
+        List<String> lines = new ArrayList<>();
+        snapshot.plants().values().stream()
+                .sorted(Comparator.comparing(PlantDefinition::id))
+                .forEach(plant -> plant.requirements().soilTag().ifPresent(value -> {
+                    ResourceLocation id = ResourceLocation.tryParse(value);
+                    if (id == null) {
+                        lines.add(plant.id() + ": INVALID tag ID " + value);
+                        return;
+                    }
+                    TagKey<Block> key = TagKey.create(Registries.BLOCK, id);
+                    var holders = BuiltInRegistries.BLOCK.getTag(key);
+                    if (holders.isEmpty()) {
+                        lines.add(plant.id() + ": UNBOUND #" + value);
+                    } else if (holders.get().size() == 0) {
+                        lines.add(plant.id() + ": EMPTY #" + value);
+                    } else {
+                        lines.add(plant.id() + ": #" + value + " (" + holders.get().size()
+                                + " registered blocks)");
+                    }
+                }));
+
+        int pages = Math.max(1, (lines.size() + PAGE_SIZE - 1) / PAGE_SIZE);
+        if (page > pages) {
+            tell(source, "Page " + page + " unavailable; valid pages: 1-" + pages + ".");
+            return 0;
+        }
+        tell(source, "Runtime soil tags - page " + page + "/" + pages
+                + " (" + lines.size() + " crop references):");
+        int from = (page - 1) * PAGE_SIZE;
+        int to = Math.min(lines.size(), from + PAGE_SIZE);
+        if (lines.isEmpty()) tell(source, "No active crops require a soil tag.");
+        for (int i = from; i < to; i++) tell(source, lines.get(i));
         return to - from;
     }
 
