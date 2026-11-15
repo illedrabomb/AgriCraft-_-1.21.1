@@ -28,8 +28,8 @@ An earlier Java 21/NeoForge compilation of the foundational source code succeede
 
 ## Upcoming
 - Conservative manifest-driven AgriPlants importer in `tools/migrate_agriplants.py` (written but not run). First two additional crops were ported manually; see `../temporary-research/AGRIPLANTS_MIGRATION_BATCH_01.md`. Further bulk migration and reference validation remain pending.
-- Melon and pumpkin now have playable crop definitions and a **separate one-fruit lifecycle**: the stem matures, then forms one harvestable fruit with a Gain-dependent chance. This is not full vanilla/original AgriCraft physical neighboring-fruit placement. The cornflower JSON remains visual-only. See `../temporary-research/GOURD_GAMEPLAY_IMPLEMENTATION.md`.
-- More faithful **physical adjacent gourd fruit blocks** and advanced soil/climate rules.
+- Melon and pumpkin have a **separate one-fruit lifecycle**: a mature stem can now place a real adjacent vanilla melon/pumpkin block on suitable soil. Gain affects fruit formation, while the physical block uses Vanilla loot. The stem remembers fruit direction and reconciles removal on later random ticks. This is not full original AgriCraft fruit ownership/stem geometry. The cornflower JSON remains visual-only. See `../temporary-research/PHYSICAL_GOURD_FRUITS.md`.
+- Dedicated physical fruit ownership (rather than direction/type matching), connected stem orientation, immediate neighbor removal handling, and advanced soil/climate rules.
 - Genetics inspection/storage UI, breeder villager/profession, complete plant catalog.
 - Optional add-ons: irrigation, greenhouse, MineColonies.
 - Compilation, gameplay smoke tests, client/dedicated-server validation before any release, when testing is re-enabled.
