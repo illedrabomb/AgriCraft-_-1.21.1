@@ -97,8 +97,14 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public boolean reconcilePhysicalFruit(PlantDefinition plant) {
         if (!(level instanceof ServerLevel server) || !isMature(plant)
                 || plant.harvestMode() != HarvestMode.GOURD || !fruitReady) return false;
-        if (fruitDirection != null && fruitToken != null
-                && GourdFruits.matches(server, worldPosition, fruitDirection, plant, fruitToken)) return false;
+        if (fruitDirection != null && fruitToken != null) {
+            BlockPos fruitPos = worldPosition.relative(fruitDirection);
+            // An unloaded neighboring chunk does not mean the fruit was harvested.
+            if (!server.hasChunkAt(fruitPos)) return false;
+            if (GourdFruits.matches(server, worldPosition, fruitDirection, plant, fruitToken)) {
+                return false;
+            }
+        }
         clearFruit(plant);
         return true;
     }
