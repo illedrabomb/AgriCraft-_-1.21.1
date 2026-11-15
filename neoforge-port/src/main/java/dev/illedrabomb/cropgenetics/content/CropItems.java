@@ -42,15 +42,25 @@ public final class CropItems {
 
     /** Analysis belongs to the individual stack and persists across saves. */
     public static boolean isAnalyzed(ItemStack stack) {
-        return isGeneticSeedStack(stack)
+        return hasGenome(stack)
                 && Boolean.TRUE.equals(stack.get(CropComponents.ANALYZED.get()));
     }
 
-    /** Whether an item is a mod seed or a supported Vanilla/mod seed with an actual genome. */
+    /**
+     * Client-safe: the full crop species catalogue is server-side only.
+     * The renderer/tooltip may read an already synchronized Genome directly.
+     */
+    public static boolean hasGenome(ItemStack stack) {
+        return !stack.isEmpty() && stack.get(CropComponents.GENOME.get()) != null;
+    }
+
+    /**
+     * Server-authoritative: accepts either our genetic seed or a registered
+     * Vanilla/mod seed with an unambiguous species matching its genome.
+     */
     public static boolean isGeneticSeedStack(ItemStack stack) {
-        if (stack.isEmpty()) return false;
+        if (!hasGenome(stack)) return false;
         Genome genome = stack.get(CropComponents.GENOME.get());
-        if (genome == null) return false;
         if (stack.is(GENETIC_SEED.get())) return true;
         String itemId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
         return CropGeneticsMod.plants().plantForSeed(itemId)
