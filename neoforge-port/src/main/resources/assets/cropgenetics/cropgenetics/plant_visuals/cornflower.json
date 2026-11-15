@@ -1,0 +1,14 @@
+{
+  "plant": "minecraft:cornflower_plant",
+  "geometry": "plus",
+  "stages": [
+    "minecraft:block/cornflower",
+    "minecraft:block/cornflower",
+    "minecraft:block/cornflower",
+    "minecraft:block/cornflower",
+    "minecraft:block/cornflower",
+    "minecraft:block/cornflower",
+    "minecraft:block/cornflower",
+    "minecraft:block/cornflower"
+  ]
+}
