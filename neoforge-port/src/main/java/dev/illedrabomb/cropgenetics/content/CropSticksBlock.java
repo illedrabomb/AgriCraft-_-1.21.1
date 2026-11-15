@@ -11,6 +11,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -44,6 +47,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
     public static final BooleanProperty CROSS = BooleanProperty.create("cross");
     public static final BooleanProperty PLANTED = BooleanProperty.create("planted");
     public static final BooleanProperty FRUIT = BooleanProperty.create("fruit");
+    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final IntegerProperty STAGE = IntegerProperty.create("stage", 0, 7);
     public static final EnumProperty<CropAppearance> SPECIES = EnumProperty.create("species", CropAppearance.class);
 
@@ -52,12 +56,13 @@ public final class CropSticksBlock extends BaseEntityBlock {
     public CropSticksBlock(Properties properties) {
         super(properties.randomTicks());
         registerDefaultState(stateDefinition.any().setValue(CROSS, false).setValue(PLANTED, false).setValue(STAGE, 0)
-                .setValue(SPECIES, CropAppearance.GENERIC).setValue(FRUIT, false));
+                .setValue(SPECIES, CropAppearance.GENERIC).setValue(FRUIT, false)
+                .setValue(FACING, Direction.NORTH));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
-        builder.add(CROSS, PLANTED, STAGE, SPECIES, FRUIT);
+        builder.add(CROSS, PLANTED, STAGE, SPECIES, FRUIT, FACING);
     }
 
     @Override
