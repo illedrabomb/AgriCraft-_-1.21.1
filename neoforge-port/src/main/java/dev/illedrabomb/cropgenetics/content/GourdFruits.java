@@ -38,7 +38,7 @@ public final class GourdFruits {
         Block block = fruitBlock(plant);
         if (block == null || direction.getAxis().isVertical()) return false;
         BlockPos fruitPos = stem.relative(direction);
-        return level.getBlockState(fruitPos).is(block)
+        return level.hasChunkAt(fruitPos) && level.getBlockState(fruitPos).is(block)
                 && level.getBlockEntity(fruitPos) instanceof GeneticGourdFruitBlockEntity fruit
                 && fruit.ownedBy(stem, token);
     }
@@ -54,7 +54,7 @@ public final class GourdFruits {
 
         for (Direction direction : candidates) {
             BlockPos target = stem.relative(direction);
-            if (!level.isEmptyBlock(target)) continue;
+            if (!level.hasChunkAt(target) || !level.isEmptyBlock(target)) continue;
             BlockState ground = level.getBlockState(target.below());
             if (!(ground.is(Blocks.FARMLAND) || ground.is(Blocks.DIRT)
                     || ground.is(Blocks.GRASS_BLOCK) || ground.is(Blocks.COARSE_DIRT)
