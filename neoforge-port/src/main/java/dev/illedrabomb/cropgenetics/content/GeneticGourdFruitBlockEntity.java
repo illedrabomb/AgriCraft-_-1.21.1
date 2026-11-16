@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics.content;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -41,6 +42,54 @@ public final class GeneticGourdFruitBlockEntity extends BlockEntity {
 
     public boolean ownedBy(BlockPos parent, UUID token) {
         return parentPos != null && parentPos.equals(parent) && token.equals(fruitToken);
+    }
+
+    /**
+     * When a stem is broken, leave its existing fruit as an ordinary
+     * harvestable world block, but remove the stale parent reference.
+     * Tokens must match so an unrelated/new stem cannot detach this fruit.
+     */
+    public boolean detachIfOwnedBy(BlockPos parent, UUID token) {
+        if (!(level instanceof ServerLevel) || !ownedBy(parent, token)) return false;
+        detachOwner();
+        return true;
+    }
+
+    /**
+     * Check ownership after both chunks are available. Never force a chunk
+     * load or detach while the parent chunk is absent; the fruit may still
+     * have a perfectly valid stem across the chunk boundary.
+     */
+    public boolean detachIfOrphaned(ServerLevel server) {
+        if (level != server || parentPos == null || fruitToken == null
+                || !server.hasChunkAt(parentPos)) return false;
+
+        if (server.getBlockState(parentPos).is(CropBlocks.CROP_STICKS.get())) {
+            // A crop-stick BE may not yet be available during chunk loading.
+            // Wait for a subsequent check rather than making a false orphan.
+            if (!(server.getBlockEntity(parentPos) instanceof CropSticksBlockEntity stem))
+                return false;
+            if (stem.fruitReady() && fruitToken.equals(stem.fruitToken())
+                    && stem.fruitDirection() != null && stem.genome() != null
+                    && parentPos.relative(stem.fruitDirection()).equals(worldPosition)
+                    && GourdFruits.matchesOwned(server, parentPos, stem.fruitDirection(),
+                            stem.genome().plantId(), fruitToken)) return false;
+        }
+
+        detachOwner();
+        return true;
+    }
+
+    private void detachOwner() {
+        parentPos = null;
+        fruitToken = null;
+        setChanged();
+        // This is a metadata-only change: no world-block replacement,
+        // no loot and no attempt to mutate a different stem.
+        if (level != null) {
+            BlockState state = getBlockState();
+            level.sendBlockUpdated(worldPosition, state, state, 3);
+        }
     }
 
     @Nullable public BlockPos parentPos() { return parentPos; }
