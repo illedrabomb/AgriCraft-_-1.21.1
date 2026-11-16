@@ -18,22 +18,58 @@
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "south": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "east": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "west": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "up": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "down": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         }
       }
     },
@@ -50,24 +86,61 @@
       ],
       "faces": {
         "north": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "south": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "east": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "west": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "up": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         },
         "down": {
-          "texture": "#wood"
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            4,
+            16
+          ]
         }
       }
     }
-  ]
+  ],
+  "render_type": "minecraft:cutout"
 }

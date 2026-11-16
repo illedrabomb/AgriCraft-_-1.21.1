@@ -1,0 +1,85 @@
+[
+  {
+    "command": "cropgenetics data pam",
+    "response": "Pam's HarvestCraft 2 Crops - last server reload:\n  Explicit plants loaded: 54\n  Auto-discovered species: 59\n  Auto candidates in conflict: 0\n  Configured pairs missing registered items: 0\n  Other auto diagnostics: 0\n  Auto-discovery suspended by invalid data/config: no\n  Total active species (all mods): 113\nDetails: /cropgenetics data errors [page] or all [page].\n"
+  },
+  {
+    "command": "cropgenetics data errors",
+    "response": "Crop Genetics issues - page 1/1 (0 entries):\nNo matching entries.\n"
+  },
+  {
+    "command": "data get block 12 101 0",
+    "response": "12, 101, 0 has the following block data: {FruitReady: 0b, x: 12, y: 101, z: 0, GrowthStage: 7, SeedAnalyzed: 1b, OriginalSeed: \"pamhc2crops:artichokeseeditem\", id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 1, recessive: 1}, strength: {dominant: 1, recessive: 1}, fertility: {dominant: 1, recessive: 1}, plant: \"pamhc2crops:artichoke_plant\", growth: {dominant: 1, recessive: 1}, gain: {dominant: 1, recessive: 1}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "reload",
+    "response": "Reloading!\n"
+  },
+  {
+    "command": "cropgenetics data pam",
+    "response": "Pam's HarvestCraft 2 Crops - last server reload:\n  Explicit plants loaded: 53\n  Auto-discovered species: 59\n  Auto candidates in conflict: 2\n  Configured pairs missing registered items: 0\n  Other auto diagnostics: 0\n  Auto-discovery suspended by invalid data/config: no\n  Total active species (all mods): 112\nDetails: /cropgenetics data errors [page] or all [page].\n"
+  },
+  {
+    "command": "cropgenetics data errors",
+    "response": "Crop Genetics issues - page 1/1 (2 entries):\n[CONFLICT] PLANT cropgenetics:auto_pam/artichoke.json - Ambiguous auto-discovery seed/produce item; candidate disabled\n[CONFLICT] PLANT cropgenetics:auto_pam/probe.json - Ambiguous auto-discovery seed/produce item; candidate disabled\n"
+  },
+  {
+    "command": "data get block 12 101 0",
+    "response": "12, 101, 0 has the following block data: {FruitReady: 0b, x: 12, y: 101, z: 0, GrowthStage: 7, SeedAnalyzed: 1b, OriginalSeed: \"pamhc2crops:artichokeseeditem\", id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 1, recessive: 1}, strength: {dominant: 1, recessive: 1}, fertility: {dominant: 1, recessive: 1}, plant: \"pamhc2crops:artichoke_plant\", growth: {dominant: 1, recessive: 1}, gain: {dominant: 1, recessive: 1}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "reload",
+    "response": "Reloading!\n"
+  },
+  {
+    "command": "cropgenetics data pam",
+    "response": "Pam's HarvestCraft 2 Crops - last server reload:\n  Explicit plants loaded: 53\n  Auto-discovered species: 60\n  Auto candidates in conflict: 0\n  Configured pairs missing registered items: 0\n  Other auto diagnostics: 0\n  Auto-discovery suspended by invalid data/config: no\n  Total active species (all mods): 113\nDetails: /cropgenetics data errors [page] or all [page].\n"
+  },
+  {
+    "command": "data get block 12 101 0",
+    "response": "12, 101, 0 has the following block data: {FruitReady: 0b, x: 12, y: 101, z: 0, GrowthStage: 7, SeedAnalyzed: 1b, OriginalSeed: \"pamhc2crops:artichokeseeditem\", id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 1, recessive: 1}, strength: {dominant: 1, recessive: 1}, fertility: {dominant: 1, recessive: 1}, plant: \"pamhc2crops:artichoke_plant\", growth: {dominant: 1, recessive: 1}, gain: {dominant: 1, recessive: 1}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "data get block 1 101 0",
+    "response": "1, 101, 0 has the following block data: {FruitReady: 0b, x: 1, y: 101, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 1, recessive: 1}, strength: {dominant: 6, recessive: 4}, fertility: {dominant: 10, recessive: 9}, plant: \"minecraft:carrot_plant\", growth: {dominant: 6, recessive: 2}, gain: {dominant: 3, recessive: 2}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "gamemode spectator Dev",
+    "response": "Set Dev's game mode to Spectator Mode\n"
+  },
+  {
+    "command": "gamerule spawnChunkRadius 0",
+    "response": "Gamerule spawnChunkRadius is now set to: 0\n"
+  },
+  {
+    "command": "forceload remove 0 0",
+    "response": "Unmarked chunk [0, 0] in Overworld for force loading\n"
+  },
+  {
+    "command": "tp Dev 1000 130 1000",
+    "response": "Teleported Dev to 1000.500000, 130.000000, 1000.500000\n"
+  },
+  {
+    "command": "execute if loaded 0 101 0 run data get block 12 101 0",
+    "response": ""
+  },
+  {
+    "chunk_unload_confirmed": true
+  },
+  {
+    "command": "tp Dev 12.5 101 2.5 180 33",
+    "response": "Teleported Dev to 12.500000, 101.000000, 2.500000\n"
+  },
+  {
+    "command": "data get block 12 101 0",
+    "response": "12, 101, 0 has the following block data: {FruitReady: 0b, x: 12, y: 101, z: 0, GrowthStage: 7, SeedAnalyzed: 1b, OriginalSeed: \"pamhc2crops:artichokeseeditem\", id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 1, recessive: 1}, strength: {dominant: 1, recessive: 1}, fertility: {dominant: 1, recessive: 1}, plant: \"pamhc2crops:artichoke_plant\", growth: {dominant: 1, recessive: 1}, gain: {dominant: 1, recessive: 1}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "data get block 1 101 0",
+    "response": "1, 101, 0 has the following block data: {FruitReady: 0b, x: 1, y: 101, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 1, recessive: 1}, strength: {dominant: 6, recessive: 4}, fertility: {dominant: 10, recessive: 9}, plant: \"minecraft:carrot_plant\", growth: {dominant: 6, recessive: 2}, gain: {dominant: 3, recessive: 2}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "save-all flush",
+    "response": "Saving the game (this may take a moment!)\nSaved the game\n"
+  }
+]

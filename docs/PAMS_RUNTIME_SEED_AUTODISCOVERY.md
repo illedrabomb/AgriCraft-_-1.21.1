@@ -1,5 +1,14 @@
 # Pam's HarvestCraft 2 – automatische Saatgut-Erkennung beim Datapack-Reload
 
+## Lokaler Runtime-Nachweis 16.11.2026
+
+Auf `integration/neoforge-1211-consolidation` wurde die echte NeoForge-1.21.1-JAR von Pam Crops 1.0.9 auf Client und Server geladen. Baseline: 113 aktive Arten (16 Vanilla, 37 explizite Pam, 60 Auto), 34 Mutationen. `/cropgenetics data pam` meldet 53 explizite Pflanzen **aller Mods**, nicht 53 explizite Pam-Arten. Ein echter Artischokensamen wurde mit dem Analyzer versehen und per Spielerinput gepflanzt.
+
+Explizite Item-Claims werden vor Auto-Kandidaten reserviert und reduzieren den Auto-Zaehler ohne CONFLICT-Diagnose. Eine zusaetzlich konfigurierte Probe mit denselben echten Items wie der natuerliche Auto-Kandidat erzeugte dagegen zwei CONFLICT-Diagnosen; beide Auto-Kandidaten blieben inaktiv. Entfernen der Testkonfiguration stellte die Baseline wieder her. Geladene Genomdaten blieben beim zeitweisen Art-Ausfall, Chunk-Wechsel und Neustart erhalten.
+
+Gesamtkompatibilitaet **nicht** fehlerfrei: Pams eigene rabbit_food-Datei enthaelt ungueltige IDs und erzeugt TagLoader-Fehler; grauer generischer Crop-Fallback ohne Laubtoenung bleibt offen. Keine Trees-Integration. Ausfuehrliche Methoden, Artefakt-Hash und Grenzen: [Playtest-Bericht](PLAYTEST_REPORT_2026-11-16.md). Aeltere Angaben "nicht runtime-geprueft" unten beziehen sich auf die vorangegangenen Implementierungsschritte.
+
+
 **Stand:** 16.11.2026 · **Branch:** `feature/neoforge-1211-foundation`  
 **Status:** Implementierung als Java-Quellcode gespeichert; **nicht kompiliert, getestet oder im Spiel validiert**.
 

@@ -1,0 +1,67 @@
+Local playtest on integration/neoforge-1211-consolidation
+Base HEAD 3ce9c03bd9a41f5d35391265bb1e6af133b06df0
+MC1.21.1 NeoForge21.1.265 Java21.0.12.1+1 Mod0.2.14-alpha
+Pam1.0.9 SHA256 ebdb8aaf2bda8d4a46fb655af57b546f285a1ff15411bba691c18420064b84b5
+All screenshots show actual local Minecraft client states. See report for SPIEL / BEFEHL / FIXTURE scope.
+
+playtest-uv-regression-before.log
+CropStickModelTest > woodFacesNeverSampleTransparentLegacySpritePixels() FAILED
+BUILD FAILED in 25s
+
+playtest-final-build.log
+BUILD SUCCESSFUL in 18s
+
+playtest-server.log
+[22:32:32] [Worker-Main-5/ERROR] [minecraft/TagLoader]: Couldn't read tag list minecraft:rabbit_food from minecraft:tags/item/rabbit_food.json in data pack mod/pamhc2crops
+[22:32:33] [main/INFO] [de.il.cr.da.CropDataReloadListener/]: Crop datapack reload: 113 plants, 34 mutations, 147 diagnostics ({INVALID=0, AUTO_DISCOVERED=60, MISSING_SPECIES=0, MISSING_MOD=0, WARNING=0, AUTO_MISSING_ITEM=0, CONFLICT=0, DISABLED=0, LOADED=87})
+[22:32:33] [main/INFO] [de.il.cr.da.CropDataReloadListener/]: Pam's Crops: 53 explicit loaded (all mods), 60 auto-discovered, 0 conflicts, 0 missing configured pairs, 0 other diagnostics; suspended=false
+[22:32:50] [Server thread/INFO] [minecraft/DedicatedServer]: Done (14.244s)! For help, type "help"
+[22:40:55] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22:40:57] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+BUILD SUCCESSFUL in 9m 13s
+
+playtest-server-fixed.log
+[22:41:46] [Worker-Main-12/ERROR] [minecraft/TagLoader]: Couldn't read tag list minecraft:rabbit_food from minecraft:tags/item/rabbit_food.json in data pack mod/pamhc2crops
+[22:41:46] [main/INFO] [de.il.cr.da.CropDataReloadListener/]: Crop datapack reload: 113 plants, 34 mutations, 147 diagnostics ({AUTO_DISCOVERED=60, MISSING_MOD=0, DISABLED=0, CONFLICT=0, INVALID=0, LOADED=87, AUTO_MISSING_ITEM=0, MISSING_SPECIES=0, WARNING=0})
+[22:41:46] [main/INFO] [de.il.cr.da.CropDataReloadListener/]: Pam's Crops: 53 explicit loaded (all mods), 60 auto-discovered, 0 conflicts, 0 missing configured pairs, 0 other diagnostics; suspended=false
+[22:41:49] [Server thread/INFO] [minecraft/DedicatedServer]: Done (1.851s)! For help, type "help"
+[22:54:47] [Worker-Main-8/ERROR] [minecraft/TagLoader]: Couldn't read tag list minecraft:rabbit_food from minecraft:tags/item/rabbit_food.json in data pack mod/pamhc2crops
+[22:54:48] [Server thread/INFO] [de.il.cr.da.CropDataReloadListener/]: Crop datapack reload: 113 plants, 34 mutations, 147 diagnostics ({AUTO_DISCOVERED=59, MISSING_MOD=0, DISABLED=0, CONFLICT=0, INVALID=0, LOADED=88, AUTO_MISSING_ITEM=0, MISSING_SPECIES=0, WARNING=0})
+[22:54:48] [Server thread/INFO] [de.il.cr.da.CropDataReloadListener/]: Pam's Crops: 54 explicit loaded (all mods), 59 auto-discovered, 0 conflicts, 0 missing configured pairs, 0 other diagnostics; suspended=false
+[22:55:38] [Worker-Main-15/ERROR] [minecraft/TagLoader]: Couldn't read tag list minecraft:rabbit_food from minecraft:tags/item/rabbit_food.json in data pack mod/pamhc2crops
+[22:55:39] [Server thread/INFO] [de.il.cr.da.CropDataReloadListener/]: Crop datapack reload: 112 plants, 34 mutations, 148 diagnostics ({AUTO_DISCOVERED=59, MISSING_MOD=0, DISABLED=0, CONFLICT=2, INVALID=0, LOADED=87, AUTO_MISSING_ITEM=0, MISSING_SPECIES=0, WARNING=0})
+[22:55:39] [Server thread/INFO] [de.il.cr.da.CropDataReloadListener/]: Pam's Crops: 53 explicit loaded (all mods), 59 auto-discovered, 2 conflicts, 0 missing configured pairs, 0 other diagnostics; suspended=false
+[22:55:46] [Worker-Main-16/ERROR] [minecraft/TagLoader]: Couldn't read tag list minecraft:rabbit_food from minecraft:tags/item/rabbit_food.json in data pack mod/pamhc2crops
+[22:55:46] [Server thread/INFO] [de.il.cr.da.CropDataReloadListener/]: Crop datapack reload: 113 plants, 34 mutations, 147 diagnostics ({AUTO_DISCOVERED=60, MISSING_MOD=0, DISABLED=0, CONFLICT=0, INVALID=0, LOADED=87, AUTO_MISSING_ITEM=0, MISSING_SPECIES=0, WARNING=0})
+[22:55:46] [Server thread/INFO] [de.il.cr.da.CropDataReloadListener/]: Pam's Crops: 53 explicit loaded (all mods), 60 auto-discovered, 0 conflicts, 0 missing configured pairs, 0 other diagnostics; suspended=false
+[22:56:08] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22:57:16] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22:57:33] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+BUILD SUCCESSFUL in 16m 37s
+
+playtest-server-final.log
+[22:58:19] [Worker-Main-2/ERROR] [minecraft/TagLoader]: Couldn't read tag list minecraft:rabbit_food from minecraft:tags/item/rabbit_food.json in data pack mod/pamhc2crops
+[22:58:20] [main/INFO] [de.il.cr.da.CropDataReloadListener/]: Crop datapack reload: 113 plants, 34 mutations, 147 diagnostics ({LOADED=87, AUTO_DISCOVERED=60, CONFLICT=0, WARNING=0, MISSING_MOD=0, DISABLED=0, INVALID=0, AUTO_MISSING_ITEM=0, MISSING_SPECIES=0})
+[22:58:20] [main/INFO] [de.il.cr.da.CropDataReloadListener/]: Pam's Crops: 53 explicit loaded (all mods), 60 auto-discovered, 0 conflicts, 0 missing configured pairs, 0 other diagnostics; suspended=false
+[22:58:23] [Server thread/INFO] [minecraft/DedicatedServer]: Done (1.406s)! For help, type "help"
+[22:59:43] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22:59:43] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+BUILD SUCCESSFUL in 2m 10s
+
+playtest-client-fixed.log
+[22:42:40] [Render thread/INFO] [de.il.cr.cl.PlantVisuals/]: Loaded 16 plant visual definitions; 0 missing-PNG reports, 0 ambiguous IDs
+[22:45:59] [Render thread/INFO] [de.il.cr.cl.PlantVisuals/]: Loaded 16 plant visual definitions; 0 missing-PNG reports, 0 ambiguous IDs
+BUILD SUCCESSFUL in 15m 39s
+
+playtest-client-final.log
+[22:58:48] [Render thread/INFO] [de.il.cr.cl.PlantVisuals/]: Loaded 16 plant visual definitions; 0 missing-PNG reports, 0 ambiguous IDs
+BUILD SUCCESSFUL in 1m 47s
+
+Final JUnit:
+{'name': 'dev.illedrabomb.cropgenetics.client.CropStickModelTest', 'tests': '1', 'failures': '0', 'errors': '0'}
+{'name': 'dev.illedrabomb.cropgenetics.content.CropGrowthRegressionTest', 'tests': '3', 'failures': '0', 'errors': '0'}
+{'name': 'dev.illedrabomb.cropgenetics.data.AgriPlantsParserTest', 'tests': '5', 'failures': '0', 'errors': '0'}
+{'name': 'dev.illedrabomb.cropgenetics.data.PamAutoDiscoverySettingsTest', 'tests': '4', 'failures': '0', 'errors': '0'}
+{'name': 'dev.illedrabomb.cropgenetics.genetics.GeneticsTest', 'tests': '4', 'failures': '0', 'errors': '0'}
+
+Crop Genetics normal JAR SHA256: 5c246d4ec19b601fdd0e6f578fa6d5e1c34a314b0afb9e3f1b04586999d0944e

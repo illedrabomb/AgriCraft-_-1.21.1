@@ -1,0 +1,18 @@
+[
+  {
+    "command": "gamerule randomTickSpeed 0",
+    "response": "Gamerule randomTickSpeed is now set to: 0\n"
+  },
+  {
+    "command": "data get block 12 101 0",
+    "response": "12, 101, 0 has the following block data: {FruitReady: 0b, x: 12, y: 101, z: 0, GrowthStage: 7, SeedAnalyzed: 1b, OriginalSeed: \"pamhc2crops:artichokeseeditem\", id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 1, recessive: 1}, strength: {dominant: 1, recessive: 1}, fertility: {dominant: 1, recessive: 1}, plant: \"pamhc2crops:artichoke_plant\", growth: {dominant: 1, recessive: 1}, gain: {dominant: 1, recessive: 1}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "reload",
+    "response": "Reloading!\n"
+  },
+  {
+    "command": "cropgenetics data pam",
+    "response": "Pam's HarvestCraft 2 Crops - last server reload:\n  Explicit plants loaded: 54\n  Auto-discovered species: 59\n  Auto candidates in conflict: 0\n  Configured pairs missing registered items: 0\n  Other auto diagnostics: 0\n  Auto-discovery suspended by invalid data/config: no\n  Total active species (all mods): 113\nDetails: /cropgenetics data errors [page] or all [page].\n"
+  }
+]

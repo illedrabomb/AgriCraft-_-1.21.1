@@ -1,5 +1,10 @@
 # Crop Genetics — NeoForge 1.21.1 port
 
+## Playtest 16.11.2026: Teilabnahme, offene Befunde
+
+Echte Client-Interaktionen auf dem Integrationsbranch durchgefuehrt; Build und 17 Unit-Tests bestehen. Schwarze Sticks durch falsche Holz-UVs behoben und nach Ressourcen-/Weltneustart visuell geprueft. Reales Pam Crops 1.0.9 geladen (113 Arten, 60 Auto-Arten); Prioritaet und echte Auto-Kollision getestet. Offen: zweiter Melonen-/Kuerbis-Fruchtzyklus, graue Stengel/Fallbacks und Pams eigener ungueltiger rabbit_food-Tag. Winterbiom/Frost als Umgebungsbedingung beruecksichtigt; Wachstum beschleunigt, teils Creative, teils Survival, teils Fixtures. **Keine vollstaendige Gameplay-Abnahme und keine Freigabe.** Keine Pushes/Branch-Uebernahmen. [Vollstaendiger Playtest-Bericht mit klarer Testabgrenzung](../docs/PLAYTEST_REPORT_2026-11-16.md).
+
+
 ## Konsolidierung abgeschlossen: lokaler Integrationsstand
 
 Branch `integration/neoforge-1211-consolidation`, Ausgang `d2c5e45c` plus `ec0666a8`; Mod-Metadaten **0.2.14-alpha**. Neun Konfliktdateien fachlich kombiniert. Build und **16 Unit-Tests PASS**; Dedicated-Start/Neustart, Genom-/Bodenpersistenz, Adminbefehle, Analyzer-Rezept, widerspruechliche Pflanzen und Stufen-Reloads geprueft. Melonen-Moduswechsel mit Fruchteigentum begrenzt runtime-geprueft. Client-/vollstaendige Gameplay-/echte Pam-Tests **nicht durchgefuehrt**. Bereit fuer diese naechste Testphase, **keine Produktivfreigabe**. Keine Pushes und keine Uebernahme nach entwicklung/testing/master. [Integrationsbericht](../docs/INTEGRATION_REPORT_2026-11-16.md). Die folgenden aelteren Eintraege dokumentieren die Ausgangsstaende.

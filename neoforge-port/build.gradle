@@ -9,15 +9,29 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 neoForge {
     version = project.neo_version
     runs {
-        client { client(); gameDirectory = file('run/validation-client') }
-        server { server(); gameDirectory = file('run/validation-server'); programArgument '--nogui' }
+        client {
+            client()
+            gameDirectory = file(project.hasProperty('playtest') ? 'run/playtest-client' : 'run/validation-client')
+            if (project.hasProperty('playtest')) {
+                programArgument '--quickPlayMultiplayer'
+                programArgument '127.0.0.1:25589'
+                programArgument '--width'
+                programArgument '1280'
+                programArgument '--height'
+                programArgument '720'
+            }
+        }
+        server { server(); gameDirectory = file(project.hasProperty('playtest') ? 'run/playtest-server' : 'run/validation-server'); programArgument '--nogui' }
     }
     mods {
         "${mod_id}" { sourceSet(sourceSets.main) }
     }
 }
 repositories { mavenCentral() }
-dependencies { testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'; testImplementation 'com.google.code.gson:gson:2.11.0'; testRuntimeOnly 'org.junit.platform:junit-platform-launcher' }
+dependencies {
+    // Local, opt-in test dependency; never bundled or downloaded by a normal build.
+    if (project.hasProperty('pamJar')) runtimeOnly files(project.property('pamJar'))
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'; testImplementation 'com.google.code.gson:gson:2.11.0'; testRuntimeOnly 'org.junit.platform:junit-platform-launcher' }
 tasks.named('test', Test) { useJUnitPlatform() }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 var metadata = tasks.register('generateModMetadata', ProcessResources) {
