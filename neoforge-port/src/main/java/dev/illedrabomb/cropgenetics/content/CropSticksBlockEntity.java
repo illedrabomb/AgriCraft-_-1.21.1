@@ -72,12 +72,17 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (!(level instanceof ServerLevel) || genome == null
                 || !genome.plantId().equals(plant.id())) return false;
         int targetTotal = plant.stages().size();
-        int clampedStage = Math.max(0, Math.min(growthStage, targetTotal - 1));
         if (stageMetadataMatches(plant)) return false;
 
-        // Never silently delete the identity of an owned physical fruit.
-        // Age normalization is safe; fruit ownership is reconciled separately.
-        growthStage = clampedStage;
+        // A datapack can change the number of stages while this crop is
+        // planted. Preserve relative growth instead of treating the old
+        // integer index as a stage in the new definition (8 -> 16, etc.).
+        // Mature plants remain mature; physical fruit ownership is untouched.
+        int adjustedStage = growthStage;
+        if (totalGrowthStages > 0 && totalGrowthStages != targetTotal) {
+            adjustedStage = CropGrowth.remapStage(growthStage, totalGrowthStages, targetTotal);
+        }
+        growthStage = Math.max(0, Math.min(adjustedStage, targetTotal - 1));
         // syncState updates TotalGrowthStages, marks the chunk dirty, and
         // sends the BlockEntity update even if the visual 0..7 state is equal.
         syncState(plant);
