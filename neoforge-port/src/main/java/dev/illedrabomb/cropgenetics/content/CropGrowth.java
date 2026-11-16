@@ -13,6 +13,19 @@ public final class CropGrowth {
         return Math.max(0D, Math.min(1D, plant.growthChance() + growth * plant.growthBonus()));
     }
 
+    /**
+     * Transfer growth progress between stage-count revisions of a species.
+     * Both endpoints are kept exact; interior stages use nearest rounding.
+     * An older single-stage species was always mature.
+     */
+    public static int remapStage(int age, int oldTotal, int newTotal) {
+        if (newTotal <= 1) return 0;
+        if (oldTotal <= 1) return newTotal - 1;
+        int boundedAge = Math.max(0, Math.min(age, oldTotal - 1));
+        return (int) (((long) boundedAge * (newTotal - 1)
+                + (oldTotal - 1) / 2L) / (oldTotal - 1));
+    }
+
     public static int displayStage(int age, int totalStages) {
         if (totalStages <= 1) return 7;
         return Math.max(0, Math.min(7, (int) ((long) age * 7 / (totalStages - 1))));
