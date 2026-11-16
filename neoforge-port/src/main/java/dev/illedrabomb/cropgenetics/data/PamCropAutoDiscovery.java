@@ -68,7 +68,11 @@ public final class PamCropAutoDiscovery {
         Map<String, Integer> seedClaims = new HashMap<>();
         Map<String, Integer> produceClaims = new HashMap<>();
         for (Candidate candidate : candidates) {
-            if (settings.excludedCrops().contains(candidate.crop())) continue;
+            String speciesId = NAMESPACE + ":" + candidate.crop() + "_plant";
+            if (settings.excludedCrops().contains(candidate.crop())
+                    || explicitSpecies.contains(speciesId)
+                    || plants.containsKey(speciesId)
+                    || reservedSeeds.contains(candidate.seed().toString())) continue;
             seedClaims.merge(candidate.seed().toString(), 1, Integer::sum);
             produceClaims.merge(candidate.produce().toString(), 1, Integer::sum);
         }
