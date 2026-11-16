@@ -47,6 +47,9 @@ The following source-only improvements are committed together: a staggered serve
 ## Legacy cactus contact adapter (source-only, 2026-11-16)
 The cactus server definition now enables `cropgenetics_contact_thorns`. A planted thorny species deals Vanilla cactus contact damage server-side via `CropSticksBlock.entityInside`; empty crop sticks are not hazardous. The offline AgriPlants importer can translate exactly `agricraft:thorns` with explicit manifest option `adapt_thorns: true`. Direct unsupported legacy callbacks are still rejected. See `../docs/CACTUS_THORNS_ADAPTER.md`. This adapter does **not** port cactus climate, greenhouse generation or special asset behavior. **No builds or tests have been run for this change.**
 
+## Biome and dimension location rules (source-only, 2026-11-16)
+Crop datapacks can now optionally list exact allowed/blocked biome and dimension IDs. These restrictions affect planting, growth and crossbreeding in addition to the existing soil/light conditions. Mutations may specify independent location restrictions. Empty lists preserve existing behavior. The controlled AgriPlants migration tool accepts explicit 1.21.1 list mappings but does not infer them from legacy blacklist/Strength rules. See `../docs/BIOME_DIMENSION_CROP_MUTATION_RULES.md`. **No builds or game tests have run for these additions; legacy chemistry and seasonal rules remain unsupported.**
+
 ## Validation state
 An earlier Java 21/NeoForge compilation of the foundational source code succeeded on GitHub Actions; the subsequent test compilation failed due to Gson missing from the test classpath, which was corrected. All later genetics/gameplay/renderer changes **have not been built or game-tested**. On the user's explicit request, the GitHub workflow was changed to **manual dispatch only**, and no new builds or tests have been run during these feature implementations.
 
