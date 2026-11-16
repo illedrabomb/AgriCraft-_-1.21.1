@@ -1,0 +1,7 @@
+{
+  "block": "minecraft:soul_sand",
+  "humidity": "arid",
+  "acidity": "neutral",
+  "nutrients": "high",
+  "growth_modifier": 0.8
+}

@@ -1,0 +1,13 @@
+{
+  "plant": "minecraft:carrot_plant",
+  "textures": [
+    "minecraft:block/carrots_stage0",
+    "minecraft:block/carrots_stage0",
+    "minecraft:block/carrots_stage1",
+    "minecraft:block/carrots_stage1",
+    "minecraft:block/carrots_stage2",
+    "minecraft:block/carrots_stage2",
+    "minecraft:block/carrots_stage3",
+    "minecraft:block/carrots_stage3"
+  ]
+}

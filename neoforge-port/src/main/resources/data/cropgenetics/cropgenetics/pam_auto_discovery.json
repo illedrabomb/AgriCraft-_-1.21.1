@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "max_plants": 512,
+  "min_light": 9,
+  "growth_chance": 0.75,
+  "growth_bonus": 0.025,
+  "harvest_maximum": 5,
+  "excluded_crops": [],
+  "item_pairs": {}
+}

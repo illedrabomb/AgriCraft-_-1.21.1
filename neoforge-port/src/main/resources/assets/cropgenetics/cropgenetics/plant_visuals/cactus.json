@@ -1,0 +1,14 @@
+{
+  "plant": "minecraft:cactus_plant",
+  "geometry": "cross",
+  "stages": [
+    "minecraft:block/cactus_side",
+    "minecraft:block/cactus_side",
+    "minecraft:block/cactus_side",
+    "minecraft:block/cactus_side",
+    "minecraft:block/cactus_side",
+    "minecraft:block/cactus_side",
+    "minecraft:block/cactus_side",
+    "minecraft:block/cactus_side"
+  ]
+}

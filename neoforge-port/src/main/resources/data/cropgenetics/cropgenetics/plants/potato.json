@@ -1,0 +1,42 @@
+{
+  "version": "1.18.2",
+  "enabled": true,
+  "mods": [
+    "minecraft",
+    "agricraft"
+  ],
+  "id": "minecraft:potato_plant",
+  "seed_items": [
+    {
+      "type": "item",
+      "object": "minecraft:potato",
+      "useTag": false
+    }
+  ],
+  "stages": [
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16
+  ],
+  "harvestStage": 4,
+  "growth_chance": 0.75,
+  "growth_bonus": 0.025,
+  "cloneable": true,
+  "spread_chance": 0.1,
+  "products": {
+    "products": [
+      {
+        "type": "item",
+        "object": "minecraft:potato",
+        "min": 1,
+        "max": 4,
+        "chance": 1
+      }
+    ]
+  }
+}

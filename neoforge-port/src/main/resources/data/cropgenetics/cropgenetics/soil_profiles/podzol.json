@@ -1,0 +1,7 @@
+{
+  "block": "minecraft:podzol",
+  "humidity": "damp",
+  "acidity": "slightly_acidic",
+  "nutrients": "very_high",
+  "growth_modifier": 1.1
+}

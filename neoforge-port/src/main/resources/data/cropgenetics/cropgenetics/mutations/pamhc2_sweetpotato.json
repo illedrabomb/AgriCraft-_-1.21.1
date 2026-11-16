@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "mods": [
+    "pamhc2crops"
+  ],
+  "chance": 0.5,
+  "child": "pamhc2crops:sweetpotato_plant",
+  "parent1": "minecraft:potato_plant",
+  "parent2": "minecraft:sugar_cane_plant"
+}

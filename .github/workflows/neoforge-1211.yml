@@ -1,0 +1,39 @@
+name: NeoForge 1.21.1 build and tests
+
+# Manual only: CI tests were paused on user request on 2026-11-15.
+# This workflow is retained for when the user wants to enable validation again.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compile and test NeoForge port
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.2.1"
+      - name: Compile and run unit tests
+        working-directory: neoforge-port
+        run: gradle --no-daemon --stacktrace build
+      - name: Upload tests and diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: neoforge-build-diagnostics
+          path: |
+            neoforge-port/build/reports/tests/**
+            neoforge-port/build/test-results/**
+            neoforge-port/build/reports/problems/**
+          if-no-files-found: ignore

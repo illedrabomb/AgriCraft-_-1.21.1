@@ -1,0 +1,7 @@
+{
+  "block": "minecraft:farmland",
+  "humidity": "wet",
+  "acidity": "slightly_acidic",
+  "nutrients": "high",
+  "growth_modifier": 1
+}

@@ -1,0 +1,25 @@
+{
+  "source_commit": "9444e75828f66bd40adabb4aeca2544765408f8a",
+  "notes": "Allowlist of intentionally simplified 1.21.1 compatibility rules. Soil chemistry, seasons and biome requirements are not preserved.",
+  "plants": {
+    "minecraft/plants/beet_root_plant.json": {
+      "acknowledge_legacy_requirements": true,
+      "soil_block": "minecraft:farmland",
+      "min_light": 10,
+      "max_light": 15,
+      "light_tolerance": 0,
+      "notes": "Legacy requires wet/slightly acidic/high nutrients and autumn; not implemented here. Vanilla planting override not imported; original village greenhouse generation not imported.",
+      "acknowledge_legacy_seed_override": true,
+      "acknowledge_legacy_structure_generation": true
+    },
+    "minecraft/plants/nether_wart_plant.json": {
+      "acknowledge_legacy_requirements": true,
+      "soil_block": "minecraft:soul_sand",
+      "min_light": 0,
+      "max_light": 8,
+      "light_tolerance": 0,
+      "notes": "Vanilla soul sand replaces old AgriCraft soil chemistry; all seasons allowed upstream. Vanilla planting override not imported.",
+      "acknowledge_legacy_seed_override": true
+    }
+  }
+}

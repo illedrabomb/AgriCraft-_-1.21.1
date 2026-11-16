@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "mods": [
+    "pamhc2crops"
+  ],
+  "chance": 0.5,
+  "child": "pamhc2crops:rye_plant",
+  "parent1": "pamhc2crops:barley_plant",
+  "parent2": "minecraft:wheat_plant"
+}

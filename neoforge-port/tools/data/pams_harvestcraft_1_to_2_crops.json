@@ -1,0 +1,541 @@
+{
+  "schema_version": 1,
+  "source": {
+    "mod": "Pam's HarvestCraft 1",
+    "minecraft": "1.12.2",
+    "namespace": "harvestcraft",
+    "repository": "MatrexsVigil/harvestcraft",
+    "file": "src/main/java/com/pam/harvestcraft/blocks/CropRegistry.java",
+    "rule": "CropRegistry.CROP_BLOCK_NAME/ITEM_NAME/SEED_ITEM_NAME; all listed crops occur in cropNames",
+    "warning": "Only confirmed ordinary crop names from original H1 CropRegistry; no world upgrade, NBT mapping or automated ItemStack conversion"
+  },
+  "target": {
+    "mod": "Pam's HarvestCraft 2 Crops",
+    "namespace": "pamhc2crops",
+    "repository": "AgriCraft/AgriPlants",
+    "commit": "9444e75828f66bd40adabb4aeca2544765408f8a",
+    "path": "mod_pamhc2crops/plants/",
+    "warning": "31 species are source-derived datapack candidates, not confirmed against the Pam's NeoForge 1.21.1 runtime item registry. Never auto-convert.",
+    "minecraft": "1.21.1",
+    "latest_release_verified": "pamhc2crops-NEOFORGE-1.21.1-1.0.9.jar",
+    "release_date": "2026-05-09",
+    "release_source": "https://www.curseforge.com/minecraft/mc-mods/pams-harvestcraft-2-crops",
+    "live_item_registry_status": "not_verified",
+    "local_cropgenetics_definitions_status": "available_for_read_only_verification_not_executed"
+  },
+  "rules": [
+    {
+      "crop": "tomato",
+      "from": {
+        "seed": "harvestcraft:tomatoseeditem",
+        "produce": "harvestcraft:tomatoitem",
+        "block": "harvestcraft:pamtomatocrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:tomatoseeditem",
+        "produce": "pamhc2crops:tomatoitem",
+        "species": "pamhc2crops:tomato_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "corn",
+      "from": {
+        "seed": "harvestcraft:cornseeditem",
+        "produce": "harvestcraft:cornitem",
+        "block": "harvestcraft:pamcorncrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:cornseeditem",
+        "produce": "pamhc2crops:cornitem",
+        "species": "pamhc2crops:corn_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "rice",
+      "from": {
+        "seed": "harvestcraft:riceseeditem",
+        "produce": "harvestcraft:riceitem",
+        "block": "harvestcraft:pamricecrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:riceseeditem",
+        "produce": "pamhc2crops:riceitem",
+        "species": "pamhc2crops:rice_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "oats",
+      "from": {
+        "seed": "harvestcraft:oatsseeditem",
+        "produce": "harvestcraft:oatsitem",
+        "block": "harvestcraft:pamoatscrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:oatsseeditem",
+        "produce": "pamhc2crops:oatsitem",
+        "species": "pamhc2crops:oats_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "rye",
+      "from": {
+        "seed": "harvestcraft:ryeseeditem",
+        "produce": "harvestcraft:ryeitem",
+        "block": "harvestcraft:pamryecrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:ryeseeditem",
+        "produce": "pamhc2crops:ryeitem",
+        "species": "pamhc2crops:rye_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "onion",
+      "from": {
+        "seed": "harvestcraft:onionseeditem",
+        "produce": "harvestcraft:onionitem",
+        "block": "harvestcraft:pamonioncrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:onionseeditem",
+        "produce": "pamhc2crops:onionitem",
+        "species": "pamhc2crops:onion_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "cabbage",
+      "from": {
+        "seed": "harvestcraft:cabbageseeditem",
+        "produce": "harvestcraft:cabbageitem",
+        "block": "harvestcraft:pamcabbagecrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:cabbageseeditem",
+        "produce": "pamhc2crops:cabbageitem",
+        "species": "pamhc2crops:cabbage_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "cotton",
+      "from": {
+        "seed": "harvestcraft:cottonseeditem",
+        "produce": "harvestcraft:cottonitem",
+        "block": "harvestcraft:pamcottoncrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:cottonseeditem",
+        "produce": "pamhc2crops:cottonitem",
+        "species": "pamhc2crops:cotton_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "bean",
+      "from": {
+        "seed": "harvestcraft:beanseeditem",
+        "produce": "harvestcraft:beanitem",
+        "block": "harvestcraft:pambeancrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:beanseeditem",
+        "produce": "pamhc2crops:beanitem",
+        "species": "pamhc2crops:bean_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "flax",
+      "from": {
+        "seed": "harvestcraft:flaxseeditem",
+        "produce": "harvestcraft:flaxitem",
+        "block": "harvestcraft:pamflaxcrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:flaxseeditem",
+        "produce": "pamhc2crops:flaxitem",
+        "species": "pamhc2crops:flax_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "okra",
+      "from": {
+        "seed": "harvestcraft:okraseeditem",
+        "produce": "harvestcraft:okraitem",
+        "block": "harvestcraft:pamokracrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:okraseeditem",
+        "produce": "pamhc2crops:okraitem",
+        "species": "pamhc2crops:okra_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "leek",
+      "from": {
+        "seed": "harvestcraft:leekseeditem",
+        "produce": "harvestcraft:leekitem",
+        "block": "harvestcraft:pamleekcrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:leekseeditem",
+        "produce": "pamhc2crops:leekitem",
+        "species": "pamhc2crops:leek_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "jute",
+      "from": {
+        "seed": "harvestcraft:juteseeditem",
+        "produce": "harvestcraft:juteitem",
+        "block": "harvestcraft:pamjutecrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:juteseeditem",
+        "produce": "pamhc2crops:juteitem",
+        "species": "pamhc2crops:jute_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "kiwi",
+      "from": {
+        "seed": "harvestcraft:kiwiseeditem",
+        "produce": "harvestcraft:kiwiitem",
+        "block": "harvestcraft:pamkiwicrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:kiwiseeditem",
+        "produce": "pamhc2crops:kiwiitem",
+        "species": "pamhc2crops:kiwi_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "taro",
+      "from": {
+        "seed": "harvestcraft:taroseeditem",
+        "produce": "harvestcraft:taroitem",
+        "block": "harvestcraft:pamtarocrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:taroseeditem",
+        "produce": "pamhc2crops:taroitem",
+        "species": "pamhc2crops:taro_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "kale",
+      "from": {
+        "seed": "harvestcraft:kaleseeditem",
+        "produce": "harvestcraft:kaleitem",
+        "block": "harvestcraft:pamkalecrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:kaleseeditem",
+        "produce": "pamhc2crops:kaleitem",
+        "species": "pamhc2crops:kale_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "peas",
+      "from": {
+        "seed": "harvestcraft:peasseeditem",
+        "produce": "harvestcraft:peasitem",
+        "block": "harvestcraft:pampeascrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:peasseeditem",
+        "produce": "pamhc2crops:peasitem",
+        "species": "pamhc2crops:peas_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "kenaf",
+      "from": {
+        "seed": "harvestcraft:kenafseeditem",
+        "produce": "harvestcraft:kenafitem",
+        "block": "harvestcraft:pamkenafcrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:kenafseeditem",
+        "produce": "pamhc2crops:kenafitem",
+        "species": "pamhc2crops:kenaf_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "grape",
+      "from": {
+        "seed": "harvestcraft:grapeseeditem",
+        "produce": "harvestcraft:grapeitem",
+        "block": "harvestcraft:pamgrapecrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:grapeseeditem",
+        "produce": "pamhc2crops:grapeitem",
+        "species": "pamhc2crops:grape_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "lettuce",
+      "from": {
+        "seed": "harvestcraft:lettuceseeditem",
+        "produce": "harvestcraft:lettuceitem",
+        "block": "harvestcraft:pamlettucecrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:lettuceseeditem",
+        "produce": "pamhc2crops:lettuceitem",
+        "species": "pamhc2crops:lettuce_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "strawberry",
+      "from": {
+        "seed": "harvestcraft:strawberryseeditem",
+        "produce": "harvestcraft:strawberryitem",
+        "block": "harvestcraft:pamstrawberrycrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:strawberryseeditem",
+        "produce": "pamhc2crops:strawberryitem",
+        "species": "pamhc2crops:strawberry_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "soybean",
+      "from": {
+        "seed": "harvestcraft:soybeanseeditem",
+        "produce": "harvestcraft:soybeanitem",
+        "block": "harvestcraft:pamsoybeancrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:soybeanseeditem",
+        "produce": "pamhc2crops:soybeanitem",
+        "species": "pamhc2crops:soybean_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "barley",
+      "from": {
+        "seed": "harvestcraft:barleyseeditem",
+        "produce": "harvestcraft:barleyitem",
+        "block": "harvestcraft:pambarleycrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:barleyseeditem",
+        "produce": "pamhc2crops:barleyitem",
+        "species": "pamhc2crops:barley_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "celery",
+      "from": {
+        "seed": "harvestcraft:celeryseeditem",
+        "produce": "harvestcraft:celeryitem",
+        "block": "harvestcraft:pamcelerycrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:celeryseeditem",
+        "produce": "pamhc2crops:celeryitem",
+        "species": "pamhc2crops:celery_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "broccoli",
+      "from": {
+        "seed": "harvestcraft:broccoliseeditem",
+        "produce": "harvestcraft:broccoliitem",
+        "block": "harvestcraft:pambroccolicrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:broccoliseeditem",
+        "produce": "pamhc2crops:broccoliitem",
+        "species": "pamhc2crops:broccoli_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "sweetpotato",
+      "from": {
+        "seed": "harvestcraft:sweetpotatoseeditem",
+        "produce": "harvestcraft:sweetpotatoitem",
+        "block": "harvestcraft:pamsweetpotatocrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:sweetpotatoseeditem",
+        "produce": "pamhc2crops:sweetpotatoitem",
+        "species": "pamhc2crops:sweetpotato_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "radish",
+      "from": {
+        "seed": "harvestcraft:radishseeditem",
+        "produce": "harvestcraft:radishitem",
+        "block": "harvestcraft:pamradishcrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:radishseeditem",
+        "produce": "pamhc2crops:radishitem",
+        "species": "pamhc2crops:radish_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "scallion",
+      "from": {
+        "seed": "harvestcraft:scallionseeditem",
+        "produce": "harvestcraft:scallionitem",
+        "block": "harvestcraft:pamscallioncrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:scallionseeditem",
+        "produce": "pamhc2crops:scallionitem",
+        "species": "pamhc2crops:scallion_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "cantaloupe",
+      "from": {
+        "seed": "harvestcraft:cantaloupeseeditem",
+        "produce": "harvestcraft:cantaloupeitem",
+        "block": "harvestcraft:pamcantaloupecrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:cantaloupeseeditem",
+        "produce": "pamhc2crops:cantaloupeitem",
+        "species": "pamhc2crops:cantaloupe_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "blueberry",
+      "from": {
+        "seed": "harvestcraft:blueberryseeditem",
+        "produce": "harvestcraft:blueberryitem",
+        "block": "harvestcraft:pamblueberrycrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:blueberryseeditem",
+        "produce": "pamhc2crops:blueberryitem",
+        "species": "pamhc2crops:blueberry_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "brusselsprout",
+      "from": {
+        "seed": "harvestcraft:brusselsproutseeditem",
+        "produce": "harvestcraft:brusselsproutitem",
+        "block": "harvestcraft:pambrusselsproutcrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:brusselsproutseeditem",
+        "produce": "pamhc2crops:brusselsproutitem",
+        "species": "pamhc2crops:brusselsprout_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    }
+  ],
+  "exceptions": [
+    {
+      "name": "coffeebean",
+      "source_seed": "harvestcraft:coffeeseeditem",
+      "note": "CropRegistry overrides ordinary generated seed ID; do not derive coffeebeanseeditem"
+    },
+    {
+      "name": "mustardseeds",
+      "source_seed": "harvestcraft:mustardseeditem",
+      "note": "CropRegistry overrides generated mustardseedsseeditem"
+    },
+    {
+      "name": "tealeaf",
+      "source_seed": "harvestcraft:teaseeditem",
+      "note": "CropRegistry overrides generated tealeafseeditem"
+    }
+  ]
+}
