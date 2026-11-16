@@ -38,6 +38,10 @@ In 1.12.2 gespeicherte Items, Samen, Ernteprodukte, die Crop-Arten und die entsp
 
 Die HarvestCraft-1-Migration ist **noch nicht implementiert**. Dieser Unterschied ist absichtlich Teil der Projektanforderung, nicht ein stillschweigender Verzicht auf Generation 1.
 
+## Update 16.11.2026: erste Legacy-Zuordnung umgesetzt
+
+Die `CropRegistry.java` der Originalmod HarvestCraft 1 (1.12.2) wurde unmittelbar gelesen und mit 22 bereits vorhandenen HarvestCraft-2-`AgriPlants`-Pflanzen verglichen. Die daraus abgeleiteten **22 eindeutigen, bewusst nur als Kandidaten bezeichneten ID-Maps** liegen unter `neoforge-port/tools/data/pams_harvestcraft_1_to_2_crops.json`. Das lesende Tool `neoforge-port/tools/pam_legacy_crosswalk.py` wurde hinzugefügt, aber **nicht ausgeführt**. Es gibt weiterhin **keine Weltmigration**. Besonders wichtig: alte Crop-Blöcke haben keine direkte Ziel-Block-ID; der Crosswalk nennt bei ihnen nur die zugehörige H2-Species. Weitere Details und die Kaffee-/Senf-/Tee-Namensausnahmen: `docs/PAMS_HARVESTCRAFT_1_LEGACY_ID_CROSSWALK.md`.
+
 ## Nächste konkrete Arbeit
 
 1. Aus den tatsächlichen HarvestCraft-1-1.12.2-Quelldaten eine **belegte Tabelle alter Crop-/Item-IDs** aufbauen; mit HarvestCraft-2-Crops-Registry abgleichen.
