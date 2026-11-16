@@ -113,7 +113,7 @@ public final class AgriPlantsParser {
                     && !key.equals("allowed_biomes") && !key.equals("blocked_biomes")
                     && !key.equals("allowed_dimensions") && !key.equals("blocked_dimensions")
                     && !key.equals("min_y") && !key.equals("max_y")
-                    && !key.equals("fluid_id")) {
+                    && !key.equals("fluid_id") && !key.equals("allowed_seasons")) {
                 throw new JsonParseException("Unsupported crop requirement: " + key);
             }
         }
@@ -133,7 +133,8 @@ public final class AgriPlantsParser {
                 strings(input.getAsJsonArray("blocked_biomes")),
                 strings(input.getAsJsonArray("allowed_dimensions")),
                 strings(input.getAsJsonArray("blocked_dimensions")),
-                environment(input, ""));
+                environment(input, ""),
+                new SeasonRule(strings(input.getAsJsonArray("allowed_seasons"))));
     }
 
     public static MutationDefinition mutation(JsonObject json) {
@@ -146,7 +147,8 @@ public final class AgriPlantsParser {
                 strings(json.getAsJsonArray("cropgenetics_blocked_biomes")),
                 strings(json.getAsJsonArray("cropgenetics_allowed_dimensions")),
                 strings(json.getAsJsonArray("cropgenetics_blocked_dimensions")),
-                environment(json, "cropgenetics_"));
+                environment(json, "cropgenetics_"),
+                new SeasonRule(strings(json.getAsJsonArray("cropgenetics_allowed_seasons"))));
     }
 
     /** Parse only explicit 1.21.1 environmental filters, never legacy fluid objects. */
