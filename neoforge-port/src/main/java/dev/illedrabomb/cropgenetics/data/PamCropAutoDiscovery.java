@@ -86,12 +86,14 @@ public final class PamCropAutoDiscovery {
             if (explicitSpecies.contains(speciesId) || plants.containsKey(speciesId)
                     || reservedSeeds.contains(seedId)) continue;
             if (seedClaims.getOrDefault(seedId, 0) > 1
-                    || produceClaims.getOrDefault(candidate.produce().toString(), 0) > 1) {
+                    || produceClaims.getOrDefault(candidate.produce().toString(), 0) > 1
+                    || produceClaims.containsKey(seedId)
+                    || seedClaims.containsKey(candidate.produce().toString())) {
                 diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
                         ResourceLocation.fromNamespaceAndPath("cropgenetics",
                                 "auto_pam/" + crop + ".json"),
                         speciesId, CropReloadReport.Status.CONFLICT,
-                        "Ambiguous auto-discovery seed or produce item; candidate disabled"));
+                        "Ambiguous auto-discovery seed/produce item (including cross-role reuse); candidate disabled"));
                 continue;
             }
 
