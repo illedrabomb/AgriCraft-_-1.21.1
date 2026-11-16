@@ -32,13 +32,15 @@ Dies sind **Feldbeispiele**, keine vollständigen Datapack-Dateien.
 - `CropConditions.growthFactor` prüft den neuen Filter zusätzlich zu Boden, Biomen, Dimensionen und Licht. Dadurch wirken die neuen Anforderungen bei Saatgutannahme, Pflanzenwachstum, Prüfung der Kreuzungseltern und Eignung einer Nachkommenart.
 - `CrossBreeding.chooseChildSpecies` prüft den **eigenen** Mutations-`EnvironmentFilter` am Ziel vor der zufälligen Mutationsauswahl. Die eigenständige `CropConditions.canGrow`-Prüfung für die Zielpflanze bleibt erhalten.
 - Die ursprünglichen Konstruktoren von `PlantRequirements` und `MutationDefinition` bleiben als Überladungen bestehen und verwenden `EnvironmentFilter.UNRESTRICTED`.
+- `data/PlantRegistryValidator.java`
+- `data/CropDataReloadListener.java`
 - `tools/migrate_agriplants.py` kann explizite neue Werte `min_y`, `max_y`, `fluid_id` aus dem Manifest übernehmen. Aus dem Legacy-AgriPlants-`requirement.fluid`-Objekt wird ausdrücklich nichts automatisch abgeleitet.
 
 ## Wichtige Grenzen
 
 1. **Fluidbedingungen sind noch kein Wasserpflanzen-Adapter:** Crop Sticks unterstützen hiermit nicht automatisch Waterlogging, Wasser-Platzierung oder Minecraft-Fluidphysik. Eine `minecraft:water`-Bedingung kann deshalb für einen gewöhnlichen Crop-Sticks-Block unerfüllbar sein; das ist kein Nachweis funktionierender Wasserpflanzen.
 2. **Keine ursprüngliche Bodenchemie:** `soil_humidity`, `soil_acidity`, `soil_nutrients`, Jahreszeiten und Legacy-Toleranzformeln bleiben weiterhin offen.
-3. **Keine Referenzprüfung der Fluid-IDs beim Reload**: Das Datenmodell validiert die ID-Syntax, nicht die Existenz. Eine unbekannte Fluid-ID passt zur Laufzeit nicht. Vor einem Release sollte der Datapack-Validator solche IDs melden.
+3. **Fluid-ID-Referenzen werden geprüft:** `PlantRegistryValidator` meldet unbekannte Flüssigkeiten in Pflanzenanforderungen; `CropDataReloadListener` weist Mutationen mit unbekannter Fluid-ID als ungültig zurück. Die Prüfung wurde nur im Code ergänzt und bislang nicht ausgeführt oder kompiliert.
 4. **Keine Build-/Gameplay-Bestätigung:** Java-Signaturen, Reload-Verhalten, dedicated server und Mod-Kompatibilität noch verifizieren.
 5. Die Unterstützung ist optional, datengesteuert und verändert keine mitgelieferten Vanilla-Pflanzendefinitionen, solange keine neuen Filter eingetragen werden.
 
@@ -54,4 +56,4 @@ Dies sind **Feldbeispiele**, keine vollständigen Datapack-Dateien.
 
 Alle Java-Pfade sind relativ zu `neoforge-port/src/main/java/dev/illedrabomb/cropgenetics/`; der Importer liegt unter `neoforge-port/tools/`.
 
-**Nächster Entwicklungsblock:** Fluid-ID-Referenzprüfung im Reload ergänzen, danach das ursprüngliche Bodenchemie-Modell und einen expliziten saisonalen Adapter konzipieren und implementieren. Testläufe weiterhin nur auf Nutzerfreigabe.
+**Nächster Entwicklungsblock:** Das ursprüngliche Bodenchemie-Modell und einen expliziten saisonalen Adapter konzipieren und implementieren. Testläufe weiterhin nur auf Nutzerfreigabe.
