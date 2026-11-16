@@ -13,12 +13,13 @@ public record PlantRequirements(int minLight, int maxLight, Optional<String> soi
                                 Optional<String> soilTag, int lightTolerance,
                                 List<String> allowedBiomes, List<String> blockedBiomes,
                                 List<String> allowedDimensions, List<String> blockedDimensions,
-                                EnvironmentFilter environment, SeasonRule seasonRule) {
+                                EnvironmentFilter environment, SeasonRule seasonRule,
+                                SoilChemistryRule soilChemistry) {
     /** Existing callers keep unrestricted biome/dimension behavior. */
     public PlantRequirements(int minLight, int maxLight, Optional<String> soilBlock,
                              Optional<String> soilTag, int lightTolerance) {
         this(minLight, maxLight, soilBlock, soilTag, lightTolerance,
-                List.of(), List.of(), List.of(), List.of(), EnvironmentFilter.UNRESTRICTED, SeasonRule.UNRESTRICTED);
+                List.of(), List.of(), List.of(), List.of(), EnvironmentFilter.UNRESTRICTED, SeasonRule.UNRESTRICTED, SoilChemistryRule.UNRESTRICTED);
     }
 
     /** Preserve constructor used by the existing biome/dimension datapack parser. */
@@ -38,10 +39,22 @@ public record PlantRequirements(int minLight, int maxLight, Optional<String> soi
                              EnvironmentFilter environment) {
         this(minLight, maxLight, soilBlock, soilTag, lightTolerance,
                 allowedBiomes, blockedBiomes, allowedDimensions, blockedDimensions,
-                environment, SeasonRule.UNRESTRICTED);
+                environment, SeasonRule.UNRESTRICTED, SoilChemistryRule.UNRESTRICTED);
+    }
+
+    /** Preserve the pre-chemistry constructor for existing datapacks and callers. */
+    public PlantRequirements(int minLight, int maxLight, Optional<String> soilBlock,
+                             Optional<String> soilTag, int lightTolerance,
+                             List<String> allowedBiomes, List<String> blockedBiomes,
+                             List<String> allowedDimensions, List<String> blockedDimensions,
+                             EnvironmentFilter environment, SeasonRule seasonRule) {
+        this(minLight, maxLight, soilBlock, soilTag, lightTolerance, allowedBiomes,
+                blockedBiomes, allowedDimensions, blockedDimensions, environment,
+                seasonRule, SoilChemistryRule.UNRESTRICTED);
     }
 
     public PlantRequirements {
+        Objects.requireNonNull(soilChemistry);
         Objects.requireNonNull(seasonRule);
         Objects.requireNonNull(environment);
         Objects.requireNonNull(soilBlock);
