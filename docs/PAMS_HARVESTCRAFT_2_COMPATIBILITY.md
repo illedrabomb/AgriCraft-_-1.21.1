@@ -74,6 +74,12 @@ Zusätzlich liegen **14 originale Mutations-Datapacks** vor: die bisherigen vier
 
 Die 30 vorhandenen optionalen Pam's-2-Crops wurden um **Rosenkohl (brusselsprout)** aus der belegten Original-AgriPlants-Datei erweitert: aktueller Stand **31 Pflanzen und 25 originale Mutationen**. Elf neue Mutationen (Zwiebel, Radieschen und neun explizit angepasste historische `vanilla:`-Elternrezepte) sind dokumentiert unter `docs/PAMS_VANILLA_SPECIES_ALIASES_AND_BRUSSELSPROUT.md`. Die HarvestCraft-1-Legacy-ID-Zuordnung ist ebenfalls auf 31 source-grounded Kandidaten gewachsen. Keine vollständige Spiel-/Client- oder Jar-Registry-Verifikation.
 
+## Verbindlicher Scope-Nachtrag: Pam's Trees ausgeschlossen (16.11.2026)
+
+Auf ausdrücklichen Nutzerwunsch bleibt die AgriCraft-Portierung **ausschließlich auf Crops/Saatgut/Crop Sticks** fokussiert. Pam's HarvestCraft 2 **Trees**, Setzlinge, Obstbäume, Baumgenetik und die frühere Adapterplanung sind **aus dem Umfang gestrichen**, nicht für diese Mod zurückgestellt. Frühere Verweise auf einen Trees-Adapter in diesem Dokument beschreiben überholte Vorschläge. Die konservative automatische Erkennung nutzt ausschließlich `pamhc2crops` und ein echtes Seed-/Produkt-Paar.
+
+Neu sind die direkt aus dem gepinnten AgriPlants-Original belegten Mutationen `mustardseeds` (Chili + Bohne) und `spinach` (Salat + Vanilla-Kaktus, explizit zu `minecraft:cactus_plant` normalisiert), jeweils mit historischer Chance 0.5. Beide werden nur dann geladen, wenn alle beteiligten Species wirklich registriert sind. **Aktuell 37 explizite Crops und 33 Originalmutations-Datapacks** im Quellcode; aktive Laufzeitzahl nicht getestet. Keine Builds, Tests oder Importer ausgeführt.
+
 ## Weitere Arbeit (Priorität)
 
 1. **Restliche originalen `mod_pamhc2crops/plants/`-Definitionen** systematisch übernehmen, mit Originalbedingungen, bestehenden Seed-/Crop-ID-Prüfungen und sauberer Diagnose. Der vorhandene Offline-Importer kann dies nach späterer expliziter Freigabe unterstützen; er wurde **nicht ausgeführt**.
