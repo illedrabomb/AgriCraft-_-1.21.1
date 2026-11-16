@@ -1,5 +1,13 @@
 # AgriCraft NeoForge 1.21.1 – Projektstatus und Übergabe
 
+## Saatgut-Provenienz: Genomkonflikte blockieren (16.11.2026)
+
+**Quellcodecommits `4972e65` und `2ea00aa`:** Bei `CropItems.seedWithGenome(Genome, ItemStack)` werden `ORIGINAL_SEED` und `ANALYZED` aus einem Ausgangsstack **nicht** auf das Ziel übertragen, falls der Ausgangsstack ein bereits vorhandenes, aber abweichendes Genom trägt. Der resultierende genetische Samen verwendet dann nur die sichere, unabhängige Herkunftsauflösung des neuen Zielgenoms. Das verhindert, dass eine Artenmutation beziehungsweise ein umkombinierter Nachkomme fälschlich die Saatgutidentität oder den Analysezustand einer Elternpflanze erbt. Bei unverändertem Genom bleibt die bisherige korrekte Konvertierung samt Metadaten erhalten; normale unanalysierte Vanilla-/Mod-Items bleiben für bisherige Integrationen zulässig.
+
+**Zusätzlicher Schutz:** `CropSticksBlockEntity.plant` weist jetzt explizit inkompatible Genome des tatsächlichen Source-ItemStacks ab, **bevor** Pflanzen-/Analyse-/OriginalSeed-Zustand gesetzt wird. Der delegierende `plant(Genome)`-Pfad mit leerem Source bleibt möglich. Ein optionaler `null`-Source führt nicht mehr zum Dereferenzierungsfehler. Diese Schutzprüfung ist unabhängig vom grafischen Seed-TODO.
+
+**Nicht geprüft:** Kein Build, kein Testlauf, kein Minecraft-Client/Server und keine GitHub-Actions-Ausführung. Beim gebündelten nächsten Codex-Lauf die Pflanzeninteraktion mit analysierten Vanilla-/Pam-Samen, korrekte OriginalSeed-Rückgewinnung, genetische Samen und abweichende Genome nachprüfen. Die zuvor bestandenen 17 Tests gelten ausdrücklich nicht als Bestätigung dieser Änderungen. PT-02, PT-03, PT-04 sowie kosmetische Seed-/Crop-Sticks-Visuals bleiben offen. `entwicklung`, `testing`, `master` unverändert.
+
 ## Saatgut-Konvertierung: Herkunft und Analysezustand erhalten (16.11.2026)
 
 **Quellcodecommit `7a9e8c3`:** In `CropItems.seedWithGenome(Genome, ItemStack)` wird beim bewussten Umwandeln eines bestehenden, bereits analysierten Saatgut-Stacks in einen genetischen Samen das `ANALYZED`-Flag jetzt erhalten – **aber nur**, wenn der tatsächliche Ausgangsgenomwert genau dem zu schreibenden Genom entspricht. Neukombinierte Nachkommen werden dadurch nicht fälschlich als analysiert markiert. Bereits vorhandene genetische Samen behalten außerdem ihre gespeicherte `ORIGINAL_SEED`-ID, statt bei einer Umwandlung auf `cropgenetics:genetic_seed` oder eine unsichere Standardherkunft zurückzufallen. Original-ItemStacks werden nicht verändert; Pflanzen-, Frucht-, Ernte-, Modell- und Spielregeln bleiben unverändert.
