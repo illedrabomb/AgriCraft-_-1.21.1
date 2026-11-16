@@ -13,9 +13,21 @@
 | `minecraft/plants/nether_wart_plant.json` | Datensatz + Visuals vorhanden | `hash`-Geometrie, `overridePlanting=true`, komplexe Umweltbedingungen | Vereinfachte Soul-Sand-/Licht-Bedingungen; Override nun explizit als ausgelassen freigegeben |
 | `minecraft/plants/melon_plant.json` | Physische Melonenfrucht im Port laut README vorhanden | `gourd`, zwei Texturebenen in letzter Stufe, Original-`agricraft:`-Texturen, `overridePlanting=true`, Strukturerzeugung | Angepasster eigener Frucht-Lebenszyklus statt identischer Legacy-Semantik; Assets/Render und Loot noch ungeprüft |
 | `minecraft/plants/cactus_plant.json` | Vereinfachte Kaktus-Pflanze laut README vorhanden | `hash`, `agricraft:`-Texturen, `agricraft:thorns`-Callback, Sommer-/Bodenchemie-Regeln, `overridePlanting=true`, Strukturerzeugung | **Nicht 1:1 portiert**; der Importer lehnt Callback ab und fordert für fehlende Texture-Assets Adapter/Freigabe |
-| `minecraft/plants/sugar_cane_plant.json` | Vereinfachtes Zuckerrohr laut README vorhanden | Der konkret angefragte Quellpfad wurde nicht gefunden; möglicherweise anderer Dateiname | **Originaldefinition noch nicht verifiziert**, keine Behauptung über genaue Regeln |
+| `minecraft/plants/pumpkin_plant.json` | Physische Kürbisfrucht laut README vorhanden | `gourd`, Vanilla-Kürbissamen, `overridePlanting=true`, eigene Texturen und Strukturerzeugung | Eigener Port-Fruchtlebenszyklus; keine verifizierte 1:1-Semantik oder Ingame-Bestätigung |\n| `minecraft/plants/sugar_cane_plant.json` | Vereinfachtes Zuckerrohr laut README vorhanden | Der konkret angefragte Quellpfad wurde nicht gefunden; möglicherweise anderer Dateiname | **Originaldefinition noch nicht verifiziert**, keine Behauptung über genaue Regeln |
 
 Alle Statusangaben zu bestehenden Port-Arten stammen aus `neoforge-port/README.md` und ersetzen keine vollständige Einzeldatei-Validierung.
+
+## Neue systematische Kataloganalyse (16.11.2026)
+
+Das neue, **noch nicht ausgeführte** Offline-Werkzeug `neoforge-port/tools/audit_agriplants.py` kann ein vollständiges lokales AgriPlants-Checkout durchgehen und eine JSON-Inventarliste erzeugen. Es klassifiziert u. a. Legacy-Umweltanforderungen, modabhängige Pflanzen, Callbacks, Clipping-Produkte, Pflanz-Overrides, Strukturerzeugung, Texturebenen und Sondergeometrie. Es **migriert nichts** und überprüft nicht, ob entsprechende NeoForge-Adapter bereits implementiert sind.
+
+Beispiel für einen späteren, explizit freizugebenden Aufruf nach lokalem Checkout des gepinnten Quellcommits:
+
+```sh
+python3 neoforge-port/tools/audit_agriplants.py --source /pfad/zu/AgriPlants --report /pfad/zu/agri-audit.json
+```
+
+Der Berichtspfad darf noch nicht existieren; das Tool überschreibt keine vorhandenen Reports. Die vollständige Katalogauswertung, die Zahl aller Arten und deren Abdeckung **sind weiterhin offen**. Der vorhandene Original-Kürbiseintrag `minecraft/plants/pumpkin_plant.json` wurde zusätzlich statisch eingesehen.
 
 ## Statisch bestätigte Lücken / nächste Adapter
 
@@ -37,4 +49,4 @@ Alle Statusangaben zu bestehenden Port-Arten stammen aus `neoforge-port/README.m
 - `temporary-research/AGRIPLANTS_MIGRATION_BATCH_01.md`
 - `neoforge-port/README.md`
 
-**Nächster Schritt:** Legacy-Katalog/Mutationen systematisch erfassen und den ersten echten Sonderregel-Adapter priorisieren; weiterhin ohne Builds und Tests bis zur Freigabe.
+**Nächster Schritt:** vollständigen Legacy-Katalog inklusive Mutationen systematisch erfassen und den ersten echten Sonderregel-Adapter priorisieren; weiterhin ohne Builds und Tests bis zur Freigabe.
