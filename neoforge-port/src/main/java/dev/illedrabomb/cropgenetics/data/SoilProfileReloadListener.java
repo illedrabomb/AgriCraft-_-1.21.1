@@ -21,7 +21,7 @@ import java.util.Set;
 
 /**
  * Server datapack profiles: data/<namespace>/cropgenetics/soil_profiles/*.json
- * Each record assigns exactly one known BLOCK ID to a qualitative soil sample.
+ * Each record assigns exactly one known BLOCK ID to chemistry and optional growth_modifier.
  * Duplicate target blocks are disabled rather than resolved arbitrarily.
  */
 public final class SoilProfileReloadListener
@@ -53,15 +53,18 @@ public final class SoilProfileReloadListener
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> input, ResourceManager manager,
                          ProfilerFiller profiler) {
-        Map<String, SoilChemistryAccess.Sample> profiles = new HashMap<>();
+        Map<String, SoilProfileRegistry.Profile> profiles = new HashMap<>();
         Set<String> conflicting = new HashSet<>();
         input.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
             try {
                 JsonObject json = entry.getValue().getAsJsonObject();
-                Set<String> allowedKeys = Set.of("block", "humidity", "acidity", "nutrients");
-                if (!json.keySet().equals(allowedKeys))
+                Set<String> requiredKeys = Set.of("block", "humidity", "acidity", "nutrients");
+                Set<String> allowedKeys = Set.of("block", "humidity", "acidity",
+                        "nutrients", "growth_modifier");
+                if (!json.keySet().containsAll(requiredKeys)
+                        || !allowedKeys.containsAll(json.keySet()))
                     throw new IllegalArgumentException(
-                            "Expected exactly block, humidity, acidity and nutrients");
+                            "Expected block, humidity, acidity, nutrients; optional growth_modifier");
                 String block = json.get("block").getAsString();
                 ResourceLocation key = ResourceLocation.tryParse(block);
                 if (key == null || BuiltInRegistries.BLOCK.getOptional(key).isEmpty()
@@ -74,8 +77,11 @@ public final class SoilProfileReloadListener
                                 json.get("acidity").getAsString()),
                         SoilChemistryRule.parse(SoilChemistryRule.Nutrients.class,
                                 json.get("nutrients").getAsString()));
+                double modifier = json.has("growth_modifier")
+                        ? json.get("growth_modifier").getAsDouble() : 1.0D;
+                SoilProfileRegistry.Profile profile = new SoilProfileRegistry.Profile(sample, modifier);
                 if (conflicting.contains(block)) return;
-                if (profiles.putIfAbsent(block, sample) != null) {
+                if (profiles.putIfAbsent(block, profile) != null) {
                     profiles.remove(block);
                     conflicting.add(block);
                 }
@@ -85,7 +91,7 @@ public final class SoilProfileReloadListener
         });
         for (String block : conflicting)
             LOG.warn("Conflicting soil profile declarations for block {}, disabled", block);
-        registry.replaceAll(profiles);
+        registry.replaceProfiles(profiles);
         LOG.info("Loaded {} explicit soil chemistry profiles ({} conflicts)",
                 registry.size(), conflicting.size());
     }
