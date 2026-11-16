@@ -7,6 +7,8 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import java.util.List;
@@ -32,6 +34,22 @@ public final class GeneticGourdFruitBlock extends BaseEntityBlock {
     @Nullable
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new GeneticGourdFruitBlockEntity(pos, state);
+    }
+
+    /**
+     * Recover orphaned fruits when their former stem was removed in another
+     * chunk. Stagger checks to avoid a large lookup on every game tick.
+     */
+    @Override
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level, BlockState state, BlockEntityType<T> type) {
+        if (level.isClientSide) return null;
+        return createTickerHelper(type, CropBlocks.GOURD_FRUIT_ENTITY.get(),
+                (world, pos, current, fruit) -> {
+                    if ((world.getGameTime() + pos.asLong()) % 100 != 0) return;
+                    if (world instanceof ServerLevel server) fruit.detachIfOrphaned(server);
+                });
     }
 
     @Override
