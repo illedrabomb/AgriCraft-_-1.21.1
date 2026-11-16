@@ -7,11 +7,13 @@ import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.content.CropRecipes;
 import dev.illedrabomb.cropgenetics.content.SoilChemistryAccess;
+import dev.illedrabomb.cropgenetics.content.SoilDynamics;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.CropDataReloadListener;
 import dev.illedrabomb.cropgenetics.data.SoilProfileRegistry;
 import dev.illedrabomb.cropgenetics.data.SoilOverrideSavedData;
 import dev.illedrabomb.cropgenetics.data.SoilProfileReloadListener;
+import dev.illedrabomb.cropgenetics.data.SoilDynamicsReloadListener;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
@@ -37,8 +39,8 @@ public final class CropGeneticsMod {
         CropBlocks.register(modBus);
         CropItems.register(modBus);
         CropRecipes.register(modBus);
-        // Explicit server soil profiles only: do not assign vanilla farmland
-        // any invented humidity/acidity/nutrient categories.
+        // Server datapack soil profiles (including imported originals) provide
+        // explicit chemistry; dimension-local overrides take precedence.
         SoilChemistryAccess.install((level, soilPos) -> {
             if (!level.hasChunkAt(soilPos)) return java.util.Optional.empty();
             // Overrides are persisted per dimension and per soil block. A
@@ -77,6 +79,7 @@ public final class CropGeneticsMod {
 
     private void registerReloadListeners(AddReloadListenerEvent event) {
         event.addListener(new SoilProfileReloadListener(SOIL_PROFILES));
+        event.addListener(new SoilDynamicsReloadListener(SoilDynamics::configure));
         event.addListener(new CropDataReloadListener(PLANTS, mod -> ModList.get().isLoaded(mod)));
     }
 }
