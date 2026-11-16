@@ -164,6 +164,16 @@ def convert_crop(source, config):
                         "light_tolerance": tolerance}
     requirements_new.update({k: config[k] for k in ("soil_block", "soil_tag") if k in config})
     requirements_new.update(location_lists(config))
+    for name in ("min_y", "max_y"):
+        if name in config:
+            if type(config[name]) is not int or not -2048 <= config[name] <= 2048:
+                raise ValueError(f"{name}: expected integer in -2048..2048")
+            requirements_new[name] = config[name]
+    if ("min_y" in config and "max_y" in config
+            and config["min_y"] > config["max_y"]):
+        raise ValueError("min_y exceeds max_y")
+    if "fluid_id" in config:
+        requirements_new["fluid_id"] = check_id(config["fluid_id"], "fluid_id")
 
     plant = {
         "version": "1.21.1-compat", "enabled": True,
