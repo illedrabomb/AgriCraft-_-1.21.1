@@ -43,7 +43,7 @@ public final class CropGeneticsMod {
             if (!level.hasChunkAt(soilPos)) return java.util.Optional.empty();
             // Overrides are persisted per dimension and per soil block. A
             // missing override falls back to a static datapack soil profile.
-            return SoilOverrideSavedData.get(level).sample(soilPos)
+            return SoilOverrideSavedData.get(level).sample(soilPos, level.getBlockState(soilPos))
                     .or(() -> SOIL_PROFILES.sample(level.getBlockState(soilPos)));
         });
         modBus.addListener(this::addCreativeSeeds);
