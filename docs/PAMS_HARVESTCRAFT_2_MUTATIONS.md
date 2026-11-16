@@ -53,6 +53,14 @@ Die insgesamt **14** Dateien befinden sich unter `data/cropgenetics/cropgenetics
 
 Pam's HarvestCraft 2 Crops hat eine veröffentlichte NeoForge-1.21.1-Version. Die genaue Registry-Identität aller Crop-Items dieser Version wurde bislang **nicht** durch einen direkten Bytecode-/JAR- oder Laufzeitaudit bestätigt. Die Datenpakete validieren Item-IDs später beim normalen Server-Reload; diese Laufzeitvalidierung wurde noch nicht durchgeführt.
 
+## Aktualisierung 16.11.2026: insgesamt 25 Mutationen und 31 Pam's-Crops
+
+`brusselsprout` wurde aus der originalen AgriPlants-Pflanzendatei als neue optionale Crop-Sticks-Spezies importiert. Die beiden bislang gesperrten Originalmutationen **Zwiebel = Sellerie + Rosenkohl** und **Radieschen = Tomate + Rosenkohl** sind damit vollständig referenzierbar und als Datapacks aufgenommen.
+
+Außerdem wurden **neun** weitere Originalmutationen portiert, nachdem sechs historische `vanilla:`-Eltern-IDs mit **exakt geprüften vorhandenen** `minecraft:`-Species abgeglichen worden waren. Alle Originalmutationen behalten Elternkombination und `chance: 0.5`; es wurden keine unbelegten Rezepte ergänzt. Damit sind jetzt **31 optionale Pflanzen** und **25 originale Pam's-2-Mutationsrezepte** als Quellcode vorhanden. Alte Abschnitte dieser Datei, die 14 Mutationen und fehlende Rosenkohl-/Vanilla-Eltern nennen, sind **historische Zwischenstände** und werden durch diesen Nachtrag abgelöst.
+
+Maßgebliche Einzelquellen, Zuordnungstabelle und Grenzen: `docs/PAMS_VANILLA_SPECIES_ALIASES_AND_BRUSSELSPROUT.md`. Die konkreten Item-Registrierungen der Pam's-2-NeoForge-1.21.1-JAR sind weiterhin unbestätigt. **Keine Builds, Tests oder Skripte ausgeführt.**
+
 ## Nächste Schritte
 
 1. Die noch fehlenden Originalpflanzen wie `brusselsprout` systematisch prüfen; später weitere Pam's-Arten und Mutationsketten aus Originaldaten ergänzen.
