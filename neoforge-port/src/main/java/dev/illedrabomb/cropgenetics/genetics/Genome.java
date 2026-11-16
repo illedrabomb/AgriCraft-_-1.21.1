@@ -35,6 +35,14 @@ public record Genome(
         return new Genome(plantId, initial, initial, initial, initial, initial);
     }
 
+    /**
+     * Change the inherited crop species without rolling a second genotype.
+     * Used by species-mutation selection after numeric allele inheritance.
+     */
+    public Genome withPlantId(String newPlantId) {
+        return new Genome(newPlantId, growth, gain, strength, fertility, mutativity);
+    }
+
     public boolean isPerfectVisible(GenePair.TraitMode mode) {
         return growth.expressed(mode) == 10
                 && gain.expressed(mode) == 10
