@@ -274,11 +274,17 @@ public final class CropDataReloadListener extends
         registry.replaceAll(plants, mutations, report);
         AgriPlantsRegistry.Snapshot active = registry.snapshot();
 
-        LOG.info("Crop datapack reload: {} plants, {} mutations, {} resources ({})",
+        CropReloadReport.PamDiscoveryStats pam = report.pamDiscoveryStats();
+        LOG.info("Crop datapack reload: {} plants, {} mutations, {} diagnostics ({})",
                 active.plants().size(), active.mutations().size(), report.entries().size(),
                 report.totals());
+        LOG.info("Pam's Crops: {} explicit loaded (all mods), {} auto-discovered, "
+                        + "{} conflicts, {} missing configured pairs, {} other diagnostics; suspended={}",
+                pam.explicitLoaded(), pam.autoDiscovered(), pam.autoConflicts(),
+                pam.autoMissingItems(), pam.autoWarnings(), pam.suspended());
         for (CropReloadReport.Entry problem : report.entries()) {
-            if (problem.status() != CropReloadReport.Status.LOADED) {
+            if (problem.status() != CropReloadReport.Status.LOADED
+                    && problem.status() != CropReloadReport.Status.AUTO_DISCOVERED) {
                 LOG.warn("Crop data {} {} [{}]: {}",
                         problem.kind(), problem.source(), problem.status(), problem.detail());
             }
