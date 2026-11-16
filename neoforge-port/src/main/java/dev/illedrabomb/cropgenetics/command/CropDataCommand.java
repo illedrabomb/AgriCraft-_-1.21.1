@@ -141,9 +141,35 @@ public final class CropDataCommand {
                 * factor;
         tell(source, "Gourd diagnostic at " + pos.toShortString()
                 + " (read-only, current loaded chunks):");
+        int randomTickSpeed = level.getGameRules().getInt(
+                net.minecraft.world.level.GameRules.RULE_RANDOMTICKING);
+        boolean ticking = crop.getBlockState().isRandomlyTicking();
         tell(source, "  growthFactor=" + factor + ", fruitChancePerRandomTick="
                 + Math.max(0D, Math.min(1D, chance))
                 + ", brightness=" + level.getRawBrightness(pos, 0));
+        tell(source, "  randomTickSpeed=" + randomTickSpeed
+                + ", blockRandomlyTicks=" + ticking
+                + ", activeFruitAttemptPossible="
+                + (factor > 0D && randomTickSpeed > 0 && ticking
+                    && crop.isMature(plant) && !crop.fruitReady()
+                    && plant.harvestMode() == dev.illedrabomb.cropgenetics.data.HarvestMode.GOURD));
+        int strength = genome.strength().expressed(
+                dev.illedrabomb.cropgenetics.genetics.GenePair.TraitMode.MAX);
+        var requirements = plant.requirements();
+        tell(source, "  conditions: plantingSite="
+                + CropConditions.matchesPlantingSite(level, pos, plant)
+                + ", location=" + CropConditions.matchesLocation(level, pos, requirements)
+                + ", environment=" + CropConditions.matchesEnvironment(
+                        level, pos, requirements.environment())
+                + ", season=" + CropConditions.matchesSeason(
+                        level, pos, requirements.seasonRule().allowedSeasons())
+                + ", chemistry=" + CropConditions.matchesChemistry(
+                        level, pos, requirements.soilChemistry(), strength));
+        tell(source, "  light preferred=" + requirements.minLight() + ".."
+                + requirements.maxLight() + ", tolerance=" + requirements.lightTolerance()
+                + ", soilGrowthModifier="
+                + dev.illedrabomb.cropgenetics.CropGeneticsMod.soilProfiles()
+                        .growthModifier(level.getBlockState(pos.below())));
         GourdFruits.placementDiagnostics(level, pos, plant, crop)
                 .forEach(line -> tell(source, "  " + line));
         return 1;
