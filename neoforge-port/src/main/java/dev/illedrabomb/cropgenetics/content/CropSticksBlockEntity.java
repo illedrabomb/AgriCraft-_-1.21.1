@@ -170,7 +170,10 @@ public final class CropSticksBlockEntity extends BlockEntity {
      * This method must never create a second item or a virtual fruit.
      */
     public boolean markPhysicalFruit(PlantDefinition plant, Direction direction, UUID token) {
-        if (!(level instanceof ServerLevel server) || !isMature(plant)
+        if (!(level instanceof ServerLevel server) || isRemoved()
+                || level.getBlockEntity(worldPosition) != this
+                || !getBlockState().is(CropBlocks.CROP_STICKS.get())
+                || plant.harvestMode() != HarvestMode.GOURD || !isMature(plant)
                 || fruitReady || direction.getAxis().isVertical()
                 || !GourdFruits.matches(server, worldPosition, direction, plant, token)) return false;
         fruitReady = true;
