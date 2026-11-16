@@ -1,5 +1,7 @@
 package dev.illedrabomb.cropgenetics.content;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -21,10 +23,10 @@ import javax.annotation.Nullable;
  * to preserve ordinary Silk Touch and melon-slice behavior.
  */
 public final class GeneticGourdFruitBlock extends BaseEntityBlock {
-    public static final com.mojang.serialization.MapCodec<GeneticGourdFruitBlock> CODEC = simpleCodec(GeneticGourdFruitBlock::new);
+    public static final MapCodec<GeneticGourdFruitBlock> CODEC = simpleCodec(GeneticGourdFruitBlock::new);
 
     @Override
-    protected com.mojang.serialization.MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends GeneticGourdFruitBlock> codec() {
         return CODEC;
     }
 

@@ -1,11 +1,16 @@
 # Crop Genetics — NeoForge 1.21.1 port
 
+## Konsolidierung abgeschlossen: lokaler Integrationsstand
+
+Branch `integration/neoforge-1211-consolidation`, Ausgang `d2c5e45c` plus `ec0666a8`; Mod-Metadaten **0.2.14-alpha**. Neun Konfliktdateien fachlich kombiniert. Build und **16 Unit-Tests PASS**; Dedicated-Start/Neustart, Genom-/Bodenpersistenz, Adminbefehle, Analyzer-Rezept, widerspruechliche Pflanzen und Stufen-Reloads geprueft. Melonen-Moduswechsel mit Fruchteigentum begrenzt runtime-geprueft. Client-/vollstaendige Gameplay-/echte Pam-Tests **nicht durchgefuehrt**. Bereit fuer diese naechste Testphase, **keine Produktivfreigabe**. Keine Pushes und keine Uebernahme nach entwicklung/testing/master. [Integrationsbericht](../docs/INTEGRATION_REPORT_2026-11-16.md). Die folgenden aelteren Eintraege dokumentieren die Ausgangsstaende.
+
+
 ## Lokale Validierung 16.11.2026: keine Freigabe
 
 Feature-Ausgang `7ebf33de`, Metadaten **0.1.0-alpha**; MC 1.21.1 / NeoForge 21.1.265 / Java 21. Nach Korrekturen bestehen Build und 11 Unit-Tests. Isolierter Dedicated-Start, einfacher Reload und Genom-Erhalt nach Serverneustart bestanden. Analyzer-Rezept korrigiert und ohne Ladefehler erneut getestet. Eigener Kreativ-Tab registriert, Client-Sichttest fehlt. **Integration gestoppt:** Merge-Vorschau mit `entwicklung` zeigt Konflikte; Gameplay-/Client-/Pam-Abnahme unvollstaendig. Keine Uebernahme nach entwicklung, testing oder master und keine Pushes. [Testmatrix und Belege](../docs/VALIDATION_2026-11-16.md).
 
 
-**Development branch:** `feature/neoforge-1211-foundation`  
+**Development branch:** `integration/neoforge-1211-consolidation`
 **Target:** Minecraft 1.21.1 / NeoForge 21.1.265 / Java 21  
 **Temporary mod ID:** `cropgenetics`
 
@@ -27,6 +32,186 @@ This is the NEW codebase in `neoforge-port/`. The original Forge 1.18.2 root rem
 - **Client-side resource-pack crop renderer**: custom BlockEntityRenderer draws crop texture overlays keyed by Genome.plantId and BlockState.STAGE. A client reload listener reads `assets/<namespace>/cropgenetics/plant_visuals/*.json`. Included visuals for wheat/carrots/potatoes/beetroot/nether wart; unknown species use a fallback texture. The client visual loader supports `cross`, `plus`, and approximated `gourd` geometry; visuals and missing-PNG warnings now publish as one client resource snapshot. Plant quads now sample sprites from the Minecraft block atlas, and `assets/minecraft/atlases/blocks.json` declares `textures/plant/` atlas sources. Physical gourd fruits use their own block models, not the old virtual fruit texture. Selected old AgriPlants `texture.plant_textures` entries can also be loaded if mirrored as client resources.
 
 - Original AgriCraft asset reuse: wooden crop-stick block/item textures, legacy melon/pumpkin frames as **optional assets**, and the original magnifying-glass analyzer icon are retained. Vanilla plants, including melons and pumpkins, use Minecraft sprites by default. The original MIT license is retained at `LICENSE`. See `../temporary-research/ORIGINAL_AGRICRAFT_TEXTURES_PORT.md`.
+
+## Versioning and branch policy
+
+- `master`: pinned to commit `fe111987fb50759aa9607fc5b68f79430c124441`, the **0.1.0-alpha source revision reported as thoroughly tested locally with Codex**. A subsequently built and booted local analyzer variant was not identified by its own commit SHA and is **not** asserted to be present on `master`.
+- `entwicklung`: ongoing feature work; the current mod version is increased with each commit (starting with `0.2.1-alpha`), and new code remains unverified until explicitly tested.
+- **Minor** milestone (`0.1.0-alpha` → `0.2.0-alpha`): increase the middle number when starting a substantial feature batch, resetting the patch number to zero.
+- **Every commit on `entwicklung` increments the third number** (`0.2.0-alpha` → `0.2.1-alpha` → `0.2.2-alpha`); include the updated `mod_version` in the SAME commit. This applies to docs, fixes and features alike, without an extra version-only commit. The `-alpha` suffix is preserved, and a version bump does not imply a successful build or test.
+- Only promote a specific, identified and verified commit from `entwicklung` to `master` after the agreed validation gate. Keep the working branch for ongoing changes.
+
+## 0.2.14-alpha: reload fruit reconciliation and consistent support rules (Codex R1/R2/R3)
+
+- **R1:** The staggered server BlockEntity ticker reconciles owned physical
+  melon/pumpkin fruit as soon as the species is available again, even when
+  stage metadata already matches and `randomTickSpeed=0`. It uses the existing
+  ownership/UUID validation and loaded-chunk guard; unloaded adjacent fruit
+  chunks are not interpreted as harvested.
+- **R2:** The scheduled supporting-block check no longer rejects a block
+  solely for having nonempty fluid state. A configured waterlogged block or
+  block tag now follows the same soil matching rules for placement, growth
+  and scheduled removal. Air still causes a normal one-path block break.
+- **R3:** Empty Crop Sticks retain the existing Farmland baseline during
+  scheduled support rechecks, even if a restricted datapack contains no
+  Farmland-compatible crop and only the moisture state has changed.
+- All existing genome, analyzed, original-seed and physical-fruit ownership
+  serialization remains unchanged. Source-only update: no build, tests
+  or Minecraft launch has been performed.
+
+## 0.2.13-alpha: attached-stem appearance and creative tab (Codex M3/N1)
+
+- **M3:** The attached melon and pumpkin stem multipart entries now reference
+  cropgenetics-owned model wrappers inheriting the Vanilla shapes but explicitly
+  setting `render_type: minecraft:cutout`. The client registers a block color
+  handler for the Crop Sticks block when physical fruit is present and delegates
+  the stem tint to the Vanilla attached stem handler. Normal Crop Sticks model
+  textures remain untinted. Actual appearance still needs a client test.
+- **N1:** A dedicated `cropgenetics:crop_genetics` CreativeModeTab contains Crop
+  Sticks, the Seed Analyzer and 16 usable genetic seed species with their
+  baseline genomes. These entries are no longer added to Vanilla Ingredients;
+  items remain registered normally and existing saved stacks are unchanged.
+- Version bump is included in this commit; no builds or game tests performed.
+
+## 0.2.12-alpha: supporting soil and chunk-boundary checks (Codex M2/M4)
+
+- **M2:** When the block below Crop Sticks changes, a scheduled **server**
+  tick checks their actual support. Air/fluid replacement removes the crop
+  sticks through one ordinary `destroyBlock(..., true)` drop path. If a
+  planted species is registered, its declared soil block/tag is also enforced.
+  This uses the soil restriction only, rather than full light/water/cactus
+  site rules, so temporary loss of water or lighting does not destroy an
+  existing crop. If its datapack definition is unavailable, a crop on a
+  physically present support remains dormant with its saved genome intact.
+- **M4:** The soil and additional horizontal sugar-cane/cactus checks first
+  verify the queried chunk is loaded when running on `ServerLevel`.
+  Unloaded neighbor positions cannot be read by these checks and will
+  postpone growth/planting until the relevant area is available. Water
+  search skips unloaded directions; cactus treats unknown neighbor space
+  as blocked. Crossbreeding already calls these common checks.
+- This is a source-only fix; no compilation, client/server launch or
+  gameplay test has been performed. The planned later test should cover
+  breaking dry farmland, border chunks and one-time seed/stick drops.
+
+## 0.2.11-alpha: consistent datapack soils and seed prediction (Codex M1/M5)
+
+- **M1:** All crop-stick plants now enforce their declared `soil_block` or
+  `soil_tag` first. For the six specialist species, shipped definitions
+  use dedicated block tags under `cropgenetics:*_soils` to retain their
+  default Vanilla-like allowed soil families. Datapacks can override those
+  tags or set a specific block to narrow the rule. Sugar cane still requires
+  adjacent water/frosted ice at the soil level, cactus still excludes solid
+  horizontal neighbors and fluids, and mushrooms still require low light on
+  soils other than mycelium, podzol and nylium. Standard configured light
+  requirements continue to apply.
+- **M5:** On the logical client, both `genetic_seed` and ordinary seed stacks
+  carrying a genome now predict Crop Sticks planting without consulting the
+  server-only catalogue. The logical server still validates the full action,
+  and invalid seeds are not consumed.
+- No version-specific block texture or genotype format was changed.
+- Source-only; compilation and game testing remain unperformed.
+
+## 0.2.10-alpha: recipe, farmland and ID validation (Codex H2/H3/H4)
+
+- **H2:** `seed_analyzer.json` now uses Minecraft 1.21.1 Ingredient
+  objects (`{"item":"minecraft:glass_pane"}` and `{"item":"minecraft:stick"}`)
+  rather than unsupported bare strings.
+- **H3:** Crop Sticks are added to the additive Vanilla block tag
+  `minecraft:maintains_farmland`. This prevents dry farmland under
+  crop sticks from reverting to dirt due solely to the absent block tag.
+- **H4:** AgriPlants definitions now reject plant species IDs longer
+  than 128 characters, matching the existing `Genome` constructor.
+  Invalid datapack definitions receive the existing reload INVALID report
+  rather than causing an exception later during normal seed analysis/planting.
+- Source-only corrections; no compilation or gameplay tests run.
+
+## 0.2.9-alpha: reject invalid harvest lifecycles (Codex K1/K2)
+
+- **K1:** Every harvestable crop definition now requires at least two growth
+  stages, including STANDARD crops. A one-stage plant that could be repeatedly
+  harvested with no growth tick is rejected as INVALID during datapack reload.
+- **K2 (superseded by consolidation):** The earlier development branch rejected
+  changing melon/pumpkin to STANDARD. The integration retains the feature's
+  token-based ownership reconciliation across harvest-mode reloads instead:
+  existing physical fruit blocks normal stem rewards until removed. New
+  physical fruit still requires GOURD mode. See the integration report.
+- Defensive harvest guard: the standard stem-harvest path refuses to produce
+  items if any physical-fruit ownership metadata is still present, including
+  legacy/inconsistent loaded states.
+- Genome, analysis metadata, seed origins and existing eight-stage bundled
+  crop JSON files are unchanged. Invalid datapack definitions remain inactive
+  until corrected; no crop save is deliberately erased.
+- Source-only, not compiled or game-tested.
+
+## 0.2.8-alpha: NeoForge 1.21.1 API compile fixes (Codex H1)
+
+- `CropSticksBlock` and `GeneticGourdFruitBlock`, both derived from
+  `BaseEntityBlock`, now implement its required `codec()` method using
+  `MapCodec` plus the Vanilla `simpleCodec(Properties constructor)` helper.
+- The `CropItems.CROP_STICKS` registration is typed
+  `DeferredItem<BlockItem>` to match NeoForge's `registerSimpleBlockItem`
+  return type, instead of the incompatible `DeferredItem<Item>`.
+- No gameplay or resource behavior was intentionally changed in this commit.
+- **Source-level fix only**: no compile, tests or game launch were authorized.
+  Further compile issues, if any, remain to be found by a later authorized build.
+
+## 0.2.7-alpha: client-side survival prediction for specialty soils
+
+Confirmed that `PlantVisuals` accepts **both** the `textures` schema
+and the `stages` schema used by bamboo, berries and mushrooms. The files
+are not malformed merely because the newer crops use `stages`.
+
+Fixed the client-side `CropSticksBlock.canSurvive` path: its crop catalogue
+is server-side and can be empty on the client. A client is therefore
+permissive for non-farmland supports rather than predicting that valid
+sand, mud, mycelium or modded soil placement must fail. The logical
+server retains the authoritative registry-based soil and planting-site
+validation and rejects unsupported positions. This affects prediction,
+not the allowed server-side crop locations.
+
+Source-only change; no build, client launch or gameplay test performed.
+
+## 0.2.6-alpha: brown and red mushroom crops
+
+Added `minecraft:brown_mushroom_plant` and `minecraft:red_mushroom_plant`
+as genetic Crop Sticks plants using the Vanilla mushroom items and block sprites.
+Their planting-site adapter accepts mycelium, podzol and Nether nylium at any
+light level, or dirt-family/farmland/moss at raw block brightness below 13.
+The shared site check applies to planting, normal growth and crossbreeding.
+Their datapack definitions use a 0..15 light range so the stricter light
+rule only applies to ordinary soils, not specialty mushroom substrates.
+
+The crops are intentionally **not** giant mushroom generators and do not
+emulate Vanilla random mushroom spread: they use normal Crop Sticks growth,
+genetic inheritance and harvesting. No builds or gameplay tests were run.
+
+## 0.2.5-alpha: bamboo and sweet berry genetic crops
+
+Two more Minecraft crop-stick plants have been added, using Vanilla items and sprite references:
+`minecraft:bamboo_plant` (seed and harvest `minecraft:bamboo`) and
+`minecraft:sweet_berry_plant` (seed and harvest `minecraft:sweet_berries`).
+Their block-site restrictions are implemented by `CropConditions.matchesPlantingSite`,
+shared by planting, growth and mutation selection. Bamboo accepts dirt-family,
+sand, red sand, gravel, moss, mud and muddy mangrove roots. Sweet berry bushes
+accept dirt-family, farmland, moss, mud and muddy mangrove roots.
+Both require their defined minimum light level to grow. Berry visual frames
+use the four default Vanilla bush stages; bamboo uses Vanilla bamboo sprites.
+These remain *crop-stick crops*, not native bamboo columns or damaging bushes.
+No external mod dependency is introduced. No build or test has run.
+
+## 0.2.4-alpha: avoid incorrect source seed restoration
+
+For original-seed recovery, a recorded `cropgenetics:original_seed` ID is **rejected** if the active plant catalogue maps that item to a different plant, or the item is marked ambiguous between species. If the original mod's integration has disappeared and the source item still exists without a conflicting mapping, its recorded ID remains usable. Legacy seeds lacking a recorded source only gain a fallback when exactly one registered, unambiguous seed item maps to their genome species. No genetic values are modified by the check.
+
+Attached-genome Vanilla/mod seeds now display a tooltip reminder to plant them on **Crop Sticks**. Ordinary Vanilla placement outside Crop Sticks does not have a genetic BlockEntity and will not preserve this mod's inherited genes. These are source-only changes, not yet built or game-tested.
+
+## 0.2.3-alpha: Vanilla-style growing sites for cactus and sugar cane
+
+Crop-stick **sugar cane** now requires a Vanilla dirt-family block, sand/red sand or mud underneath and an adjacent water fluid (or frosted ice) at the **supporting soil's Y level**. Crop-stick **cactus** requires sand or red sand beneath and rejects solid horizontal neighbors or fluid in those spaces. This is checked when planting, during random-tick growth, and when selecting parent/mutation offspring sites. Neither crop now has an artificial minimum light requirement. These are crop-stick-site rules: they **do not** create multi-block Vanilla stems or implement every Vanilla survival/damage update. These source changes have not been built or game-tested.
+
+## 0.2.2-alpha: in-place planted crop analysis
+
+Use the `cropgenetics:seed_analyzer` on an occupied Crop Sticks block to mark the **planted** crop analyzed without harvesting it, altering its genome or consuming the analyzer. The BlockEntity saves and synchronizes the analysis state, so the seed dropped when the sticks are broken will display its genes with Shift. The analyzer still works on offhand seeds when used in the air. On clients, preexisting-genome ordinary seed stacks can predict placement without requiring the server-only crop catalogue; the server still authoritatively validates the species and growth conditions. Source-only changes; no build or gameplay test run.
 
 ## Crafting-only recovery of original seeds
 

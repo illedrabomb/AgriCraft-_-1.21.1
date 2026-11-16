@@ -39,9 +39,9 @@
     ]
   },
   "cropgenetics_requirements": {
-    "min_light": 9,
+    "min_light": 0,
     "max_light": 15,
-    "soil_block": "minecraft:dirt",
-    "light_tolerance": 2
+    "light_tolerance": 0,
+    "soil_tag": "cropgenetics:sugar_cane_soils"
   }
 }

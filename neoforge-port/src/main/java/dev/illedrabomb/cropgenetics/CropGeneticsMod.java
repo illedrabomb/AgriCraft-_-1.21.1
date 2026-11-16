@@ -4,6 +4,7 @@ import dev.illedrabomb.cropgenetics.command.CropDataCommand;
 import dev.illedrabomb.cropgenetics.command.SoilCommand;
 import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
+import dev.illedrabomb.cropgenetics.content.CropCreativeTabs;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.content.CropRecipes;
 import dev.illedrabomb.cropgenetics.content.SoilChemistryAccess;
@@ -15,30 +16,17 @@ import dev.illedrabomb.cropgenetics.data.SoilProfileRegistry;
 import dev.illedrabomb.cropgenetics.data.SoilOverrideSavedData;
 import dev.illedrabomb.cropgenetics.data.SoilProfileReloadListener;
 import dev.illedrabomb.cropgenetics.data.SoilDynamicsReloadListener;
-import dev.illedrabomb.cropgenetics.genetics.Genome;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 @Mod(CropGeneticsMod.MOD_ID)
 public final class CropGeneticsMod {
     public static final String MOD_ID = "cropgenetics";
-    private static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
-    private static final java.util.function.Supplier<CreativeModeTab> TAB =
-            CREATIVE_TABS.register("cropgenetics", () -> CreativeModeTab.builder()
-                    .title(Component.literal("Crop Genetics"))
-                    .icon(() -> new net.minecraft.world.item.ItemStack(CropItems.CROP_STICKS.get()))
-                    .build());
     private static final AgriPlantsRegistry PLANTS = new AgriPlantsRegistry();
     private static final SoilProfileRegistry SOIL_PROFILES = new SoilProfileRegistry();
 
@@ -46,7 +34,6 @@ public final class CropGeneticsMod {
     public static SoilProfileRegistry soilProfiles() { return SOIL_PROFILES; }
 
     public CropGeneticsMod(IEventBus modBus, ModContainer container) {
-        CREATIVE_TABS.register(modBus);
         CropComponents.register(modBus);
         CropBlocks.register(modBus);
         CropItems.register(modBus);
@@ -60,32 +47,13 @@ public final class CropGeneticsMod {
             return SoilOverrideSavedData.get(level).sample(soilPos, level.getBlockState(soilPos))
                     .or(() -> SOIL_PROFILES.sample(level.getBlockState(soilPos)));
         });
-        modBus.addListener(this::addCreativeSeeds);
+        CropCreativeTabs.register(modBus);
         NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
         NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onBreak);
         NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onPlace);
         NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onMultiPlace);
         NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onLevelTickPost);
-    }
-
-    private void addCreativeSeeds(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTab() == TAB.get()) {
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:carrot_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:wheat_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:potato_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:beet_root_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:nether_wart_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:melon_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:pumpkin_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:cornflower_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:poppy_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:dandelion_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:cactus_plant")));
-            event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:sugar_cane_plant")));
-            event.accept(CropItems.SEED_ANALYZER.get());
-            event.accept(CropItems.CROP_STICKS.get());
-        }
     }
 
     private void registerCommands(RegisterCommandsEvent event) {

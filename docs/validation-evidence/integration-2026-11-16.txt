@@ -1,0 +1,36 @@
+Integration: feature d2c5e45cd23d969e717b6f9bb6c92b27648fdd4d + entwicklung ec0666a816116cd6db4f28c92bdf07867634cc83
+Minecraft 1.21.1 / NeoForge 21.1.265 / Java 21.0.12.1+1 / Gradle 9.2.1
+Mod metadata 0.2.14-alpha; LOCAL ONLY
+
+integration-build.log
+BUILD SUCCESSFUL in 45s
+
+integration-server.log
+[22:19:40] [main/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+[22:19:51] [Server thread/INFO] [minecraft/DedicatedServer]: Done (8.976s)! For help, type "help"
+[22:20:35] [Server thread/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+[22:20:42] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22:20:43] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+BUILD SUCCESSFUL in 1m 51s
+
+integration-restart.log
+[22:21:38] [main/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+[22:21:41] [Server thread/INFO] [minecraft/DedicatedServer]: Done (1.888s)! For help, type "help"
+[22:22:16] [Server thread/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+[22:22:24] [Server thread/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+[22:23:06] [Server thread/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+[22:23:13] [Server thread/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+[22:23:20] [Server thread/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+[22:23:27] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22:23:27] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+BUILD SUCCESSFUL in 2m 27s
+
+JUnit:
+{'name': 'dev.illedrabomb.cropgenetics.content.CropGrowthRegressionTest', 'tests': '3', 'failures': '0', 'errors': '0'}
+{'name': 'dev.illedrabomb.cropgenetics.data.AgriPlantsParserTest', 'tests': '5', 'failures': '0', 'errors': '0'}
+{'name': 'dev.illedrabomb.cropgenetics.data.PamAutoDiscoverySettingsTest', 'tests': '4', 'failures': '0', 'errors': '0'}
+{'name': 'dev.illedrabomb.cropgenetics.genetics.GeneticsTest', 'tests': '4', 'failures': '0', 'errors': '0'}
+
+Source method-name audit (not a behavior proof):
+d2c5e45c: [('neoforge-port/src/main/java/dev/illedrabomb/cropgenetics/CropGeneticsMod.java', ['addCreativeSeeds'])]
+origin/entwicklung: []

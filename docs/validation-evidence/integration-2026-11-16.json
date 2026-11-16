@@ -1,0 +1,118 @@
+[
+  {
+    "command": "cropgenetics data",
+    "response": "Crop Genetics datapack: 16 plants, 1 mutations, 87 resource files.\n  Pam's auto crops: 0, explicit plant files loaded (all mods): 16 - details: /cropgenetics data pam\n  LOADED: 17\n  MISSING_MOD: 70\nUse /cropgenetics data errors [page], all [page], or tags [page].\n"
+  },
+  {
+    "command": "cropgenetics data pam",
+    "response": "Pam's HarvestCraft 2 Crops - last server reload:\n  Explicit plants loaded: 16\n  Auto-discovered species: 0\n  Auto candidates in conflict: 0\n  Configured pairs missing registered items: 0\n  Other auto diagnostics: 0\n  Auto-discovery suspended by invalid data/config: no\n  Total active species (all mods): 16\nDetails: /cropgenetics data errors [page] or all [page].\n"
+  },
+  {
+    "command": "cropgenetics data errors",
+    "response": "Crop Genetics issues - page 1/9 (70 entries):\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_asparagus.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_barley.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_bean.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_blueberry.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_broccoli.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_brusselsprout.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_cabbage.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_cantaloupe.json - Missing mod: pamhc2crops\n"
+  },
+  {
+    "command": "cropgenetics data all",
+    "response": "Crop Genetics all entries - page 1/11 (87 entries):\n[LOADED] MUTATION cropgenetics:cropgenetics/mutations/carrot.json\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_asparagus.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_barley.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_bean.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_blueberry.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_broccoli.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_brusselsprout.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_cabbage.json - Missing mod: pamhc2crops\n"
+  },
+  {
+    "command": "cropgenetics data tags",
+    "response": "Runtime soil tags - page 1/1 (6 crop references):\nminecraft:bamboo_plant: #cropgenetics:bamboo_soils (12 registered blocks)\nminecraft:brown_mushroom_plant: #cropgenetics:mushroom_soils (12 registered blocks)\nminecraft:cactus_plant: #cropgenetics:cactus_soils (2 registered blocks)\nminecraft:red_mushroom_plant: #cropgenetics:mushroom_soils (12 registered blocks)\nminecraft:sugar_cane_plant: #cropgenetics:sugar_cane_soils (11 registered blocks)\nminecraft:sweet_berry_plant: #cropgenetics:sweet_berry_soils (10 registered blocks)\n"
+  },
+  {
+    "command": "gamerule randomTickSpeed 0",
+    "response": "Gamerule randomTickSpeed is now set to: 0\n"
+  },
+  {
+    "command": "gamerule doMobSpawning false",
+    "response": "Gamerule doMobSpawning is now set to: false\n"
+  },
+  {
+    "command": "forceload add 0 0",
+    "response": "No chunks were marked for force loading\n"
+  },
+  {
+    "command": "fill 0 99 0 12 99 3 minecraft:farmland[moisture=7]",
+    "response": "No blocks were filled\n"
+  },
+  {
+    "command": "setblock 0 100 0 cropgenetics:crop_sticks[planted=true]{GrowthStage:3,TotalGrowthStages:8,SeedAnalyzed:1b,Genome:{plant:\"minecraft:wheat_plant\",growth:{dominant:9,recessive:2},gain:{dominant:9,recessive:2},strength:{dominant:9,recessive:2},fertility:{dominant:9,recessive:2},mutativity:{dominant:9,recessive:2}}}",
+    "response": "Changed the block at 0, 100, 0\n"
+  },
+  {
+    "command": "cropgenetics soil show 0 99 0",
+    "response": "Soil 0, 99, 0 [datapack profile]: wet, slightly_acidic, high\n"
+  },
+  {
+    "command": "cropgenetics soil set 0 99 0 damp neutral high",
+    "response": "Saved soil override for 0, 99, 0; values are dimension-specific and survive restarts.\n"
+  },
+  {
+    "command": "cropgenetics soil show 0 99 0",
+    "response": "Soil 0, 99, 0 [saved override]: damp, neutral, high\n"
+  },
+  {
+    "command": "cropgenetics soil set 4 99 0 damp neutral medium",
+    "response": "Saved soil override for 4, 99, 0; values are dimension-specific and survive restarts.\n"
+  },
+  {
+    "command": "cropgenetics soil clear 4 99 0",
+    "response": "Cleared soil override at 4, 99, 0; any static datapack profile applies again.\n"
+  },
+  {
+    "command": "setblock 2 100 0 cropgenetics:crop_sticks[planted=true]{GrowthStage:7,TotalGrowthStages:8,FruitReady:1b,FruitDirection:\"east\",FruitToken:[I;1,2,3,4],Genome:{plant:\"minecraft:melon_plant\",growth:{dominant:9,recessive:2},gain:{dominant:9,recessive:2},strength:{dominant:9,recessive:2},fertility:{dominant:9,recessive:2},mutativity:{dominant:9,recessive:2}}}",
+    "response": "Changed the block at 2, 100, 0\n"
+  },
+  {
+    "command": "setblock 3 100 0 cropgenetics:genetic_melon_fruit{ParentX:2,ParentY:100,ParentZ:0,FruitToken:[I;1,2,3,4]}",
+    "response": "Changed the block at 3, 100, 0\n"
+  },
+  {
+    "command": "setblock 10 100 0 minecraft:chest",
+    "response": "Changed the block at 10, 100, 0\n"
+  },
+  {
+    "command": "data get block 2 100 0",
+    "response": "2, 100, 0 has the following block data: {FruitReady: 1b, x: 2, FruitToken: [I; 1, 2, 3, 4], y: 100, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:melon_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, FruitDirection: \"east\", TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "reload",
+    "response": "Reloading!\n"
+  },
+  {
+    "command": "cropgenetics data",
+    "response": "Crop Genetics datapack: 16 plants, 1 mutations, 87 resource files.\n  Pam's auto crops: 0, explicit plant files loaded (all mods): 16 - details: /cropgenetics data pam\n  LOADED: 17\n  MISSING_MOD: 70\nUse /cropgenetics data errors [page], all [page], or tags [page].\n"
+  },
+  {
+    "command": "data get block 2 100 0",
+    "response": "2, 100, 0 has the following block data: {FruitReady: 1b, x: 2, FruitToken: [I; 1, 2, 3, 4], y: 100, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:melon_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, FruitDirection: \"east\", TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "loot replace block 10 100 0 container.0 mine 2 100 0",
+    "response": "Dropped 2 items from loot table cropgenetics:blocks/crop_sticks\n"
+  },
+  {
+    "command": "data get block 10 100 0",
+    "response": "10, 100, 0 has the following block data: {x: 10, y: 100, Items: [{count: 1, Slot: 0b, id: \"cropgenetics:crop_sticks\"}, {count: 1, Slot: 1b, components: {\"cropgenetics:original_seed\": \"minecraft:melon_seeds\", \"cropgenetics:genome\": {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:melon_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}}, id: \"cropgenetics:genetic_seed\"}], z: 0, id: \"minecraft:chest\"}\n"
+  },
+  {
+    "command": "setblock 3 100 0 air",
+    "response": "Changed the block at 3, 100, 0\n"
+  },
+  {
+    "command": "data get block 2 100 0",
+    "response": "2, 100, 0 has the following block data: {FruitReady: 0b, x: 2, y: 100, z: 0, GrowthStage: 4, SeedAnalyzed: 0b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:melon_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "data get block 0 100 0",
+    "response": "0, 100, 0 has the following block data: {FruitReady: 0b, x: 0, y: 100, z: 0, GrowthStage: 3, SeedAnalyzed: 1b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:wheat_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "save-all flush",
+    "response": "Saving the game (this may take a moment!)\nSaved the game\n"
+  },
+  {
+    "command": "stop",
+    "response": "Stopping the server\n"
+  }
+]

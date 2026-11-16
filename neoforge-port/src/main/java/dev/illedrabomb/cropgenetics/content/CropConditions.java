@@ -7,12 +7,16 @@ import dev.illedrabomb.cropgenetics.data.SoilChemistryRule;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
@@ -23,6 +27,9 @@ public final class CropConditions {
     private CropConditions() {}
 
     public static boolean matchesSoil(LevelReader level, BlockPos pos, PlantRequirements requirements) {
+        // A crop may be at a chunk boundary; do not load a neighboring chunk
+        // just to inspect the soil during an ordinary random tick.
+        if (!isLoadedForSiteCheck(level, pos.below())) return false;
         BlockState soil = level.getBlockState(pos.below());
         if (requirements.soilBlock().isPresent()) {
             ResourceLocation id = ResourceLocation.tryParse(requirements.soilBlock().get());
@@ -34,6 +41,61 @@ public final class CropConditions {
             return id != null && soil.is(TagKey.create(Registries.BLOCK, id));
         }
         return false;
+    }
+
+    /** A missing neighbor means 'not currently growable', not 'load it'. */
+    private static boolean isLoadedForSiteCheck(LevelReader level, BlockPos pos) {
+        return !(level instanceof ServerLevel server) || server.hasChunkAt(pos);
+    }
+
+    /**
+     * Species-specific Vanilla planting rules within our crop-stick system.
+     * These do not emulate stacked Vanilla blocks, only their growing sites.
+     */
+    public static boolean matchesPlantingSite(LevelReader level, BlockPos pos,
+                                              PlantDefinition plant) {
+        // The active datapack ALWAYS chooses the allowed supporting blocks.
+        // Built-in soil families are represented by cropgenetics block tags;
+        // custom datapacks can replace the tag or specify a single soil_block.
+        if (!matchesSoil(level, pos, plant.requirements())) return false;
+
+        if ("minecraft:sugar_cane_plant".equals(plant.id())) {
+            // The additional Vanilla-like water requirement is independent
+            // from the declared supporting soil.
+            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                BlockPos besideSoil = pos.below().relative(direction);
+                if (!isLoadedForSiteCheck(level, besideSoil)) continue;
+                if (level.getFluidState(besideSoil).is(FluidTags.WATER)
+                        || level.getBlockState(besideSoil).is(Blocks.FROSTED_ICE)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if ("minecraft:cactus_plant".equals(plant.id())) {
+            // Soil comes from the datapack; neighboring obstruction remains
+            // a cactus-specific environmental constraint.
+            for (Direction direction : Direction.Plane.HORIZONTAL) {
+                BlockPos neighbor = pos.relative(direction);
+                // Unknown neighboring space must not be treated as empty.
+                if (!isLoadedForSiteCheck(level, neighbor)) return false;
+                if (level.getBlockState(neighbor).isSolid()
+                        || !level.getFluidState(neighbor).isEmpty()) return false;
+            }
+            return true;
+        }
+        if ("minecraft:brown_mushroom_plant".equals(plant.id())
+                || "minecraft:red_mushroom_plant".equals(plant.id())) {
+            BlockState soil = level.getBlockState(pos.below());
+            // Bright-light exemption is limited to these known substrates.
+            // Other configured soils still require low light.
+            return soil.is(Blocks.MYCELIUM) || soil.is(Blocks.PODZOL)
+                    || soil.is(Blocks.CRIMSON_NYLIUM) || soil.is(Blocks.WARPED_NYLIUM)
+                    || level.getRawBrightness(pos, 0) < 13;
+        }
+        // Bamboo and berries have no extra environmental rule beyond their
+        // datapack soil and light restrictions.
+        return true;
     }
 
     /**
@@ -119,7 +181,7 @@ public final class CropConditions {
                                       PlantDefinition plant, Genome genome) {
         PlantRequirements requirements = plant.requirements();
         int strength = genome.strength().expressed(GenePair.TraitMode.MAX);
-        if (!matchesSoil(level, pos, requirements)
+        if (!matchesPlantingSite(level, pos, plant)
                 || !matchesLocation(level, pos, requirements)
                 || !matchesEnvironment(level, pos, requirements.environment())
                 || !matchesSeason(level, pos, requirements.seasonRule().allowedSeasons())

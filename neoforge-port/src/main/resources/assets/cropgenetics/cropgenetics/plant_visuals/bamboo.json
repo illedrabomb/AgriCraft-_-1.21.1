@@ -1,0 +1,14 @@
+{
+  "plant": "minecraft:bamboo_plant",
+  "geometry": "cross",
+  "stages": [
+    "minecraft:block/bamboo_stage0",
+    "minecraft:block/bamboo_stage0",
+    "minecraft:block/bamboo_stalk",
+    "minecraft:block/bamboo_stalk",
+    "minecraft:block/bamboo_stalk",
+    "minecraft:block/bamboo_stalk",
+    "minecraft:block/bamboo_stalk",
+    "minecraft:block/bamboo_stalk"
+  ]
+}

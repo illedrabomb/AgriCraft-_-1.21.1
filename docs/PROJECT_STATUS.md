@@ -1,12 +1,17 @@
 # AgriCraft NeoForge 1.21.1 – Projektstatus und Übergabe
 
+## Konsolidierung abgeschlossen: lokaler Integrationsstand
+
+Branch `integration/neoforge-1211-consolidation`, Ausgang `d2c5e45c` plus `ec0666a8`; Mod-Metadaten **0.2.14-alpha**. Neun Konfliktdateien fachlich kombiniert. Build und **16 Unit-Tests PASS**; Dedicated-Start/Neustart, Genom-/Bodenpersistenz, Adminbefehle, Analyzer-Rezept, widerspruechliche Pflanzen und Stufen-Reloads geprueft. Melonen-Moduswechsel mit Fruchteigentum begrenzt runtime-geprueft. Client-/vollstaendige Gameplay-/echte Pam-Tests **nicht durchgefuehrt**. Bereit fuer diese naechste Testphase, **keine Produktivfreigabe**. Keine Pushes und keine Uebernahme nach entwicklung/testing/master. [Integrationsbericht](INTEGRATION_REPORT_2026-11-16.md). Die folgenden aelteren Eintraege dokumentieren die Ausgangsstaende.
+
+
 ## Lokale Validierung 16.11.2026: keine Freigabe
 
 Feature-Ausgang `7ebf33de`, Metadaten **0.1.0-alpha**; MC 1.21.1 / NeoForge 21.1.265 / Java 21. Nach Korrekturen bestehen Build und 11 Unit-Tests. Isolierter Dedicated-Start, einfacher Reload und Genom-Erhalt nach Serverneustart bestanden. Analyzer-Rezept korrigiert und ohne Ladefehler erneut getestet. Eigener Kreativ-Tab registriert, Client-Sichttest fehlt. **Integration gestoppt:** Merge-Vorschau mit `entwicklung` zeigt Konflikte; Gameplay-/Client-/Pam-Abnahme unvollstaendig. Keine Uebernahme nach entwicklung, testing oder master und keine Pushes. [Testmatrix und Belege](VALIDATION_2026-11-16.md).
 
 
 **Stand:** 2026-11-16  
-**Aktiver Entwicklungsbranch:** `feature/neoforge-1211-foundation`  
+**Aktiver Entwicklungsbranch:** `integration/neoforge-1211-consolidation`
 **Codebasis:** `neoforge-port/` (nicht das alte Forge-1.18.2-Rootprojekt)  
 **Zielplattform:** Minecraft 1.21.1, NeoForge 21.1.265, Java 21  
 **Aktuelle Mod-ID:** `cropgenetics` (vorläufig)  

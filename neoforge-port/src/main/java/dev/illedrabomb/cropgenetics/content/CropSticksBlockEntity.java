@@ -91,6 +91,22 @@ public final class CropSticksBlockEntity extends BlockEntity {
 
     @Nullable public Genome genome() { return genome; }
     public boolean seedAnalyzed() { return seedAnalyzed; }
+
+    /**
+     * Inspect an already planted crop using the handheld analyzer.
+     * Never modifies the immutable Genome; only records that this crop's
+     * genotype was actually inspected. This state survives seed drops.
+     */
+    public boolean analyzePlantedCrop() {
+        if (!(level instanceof ServerLevel) || genome == null) return false;
+        if (!seedAnalyzed) {
+            seedAnalyzed = true;
+            setChanged();
+            BlockState state = getBlockState();
+            level.sendBlockUpdated(worldPosition, state, state, 3);
+        }
+        return true;
+    }
     @Nullable public String originalSeedId() { return originalSeedId; }
 
     /** Uprooted genetic seed retains the exact parent's metadata. */
@@ -229,10 +245,11 @@ public final class CropSticksBlockEntity extends BlockEntity {
         // removed, so do not mutate block state as a side effect here.
         // Physical gourd blocks are harvested directly, not by right-clicking
         // the stem. Prevent duplicates through the stem's normal drop path.
-        // A fruit created before a GOURD -> STANDARD reload is still a real
-        // world block with its own drops. Do not also harvest the stem.
-        return isMature(plant) && plant.harvestMode() != HarvestMode.GOURD
-                && !fruitReady;
+        // Even if a legacy save or an unsupported datapack transition has
+        // left ownership metadata behind, never pay a second stem harvest
+        // while a physical fruit still owns this growth cycle.
+        return isMature(plant) && plant.harvestMode() == HarvestMode.STANDARD
+                && !fruitReady && fruitDirection == null && fruitToken == null;
     }
 
     /**

@@ -1,5 +1,10 @@
 # Schutz bei HarvestMode-Wechsel durch Datapack-Reload
 
+## Aktualisierung: lokale Konsolidierung 16.11.2026
+
+Die Integration behaelt diese Eigentums-Migration und kombiniert sie mit dem strengeren STANDARD-Ernteguard aus entwicklung (keine Frucht-, Richtungs- oder Token-Metadaten). Das fruehere pauschale Verbot eines Moduswechsels wird damit ersetzt. Ein begrenzter Dedicated-Test bestaetigt Fruchteigentum nach STANDARD-Reload, unterdrueckten zusaetzlichen Stamm-Loot sowie Regrowth nach Entfernung der eigenen Frucht. Aktives Test-Datapack durch anschliessenden STANDARD-Loot bestaetigt. Vollstaendige Chunkgrenzen-/Gameplay-Abnahme steht aus. Details: [Integrationsbericht](../docs/INTEGRATION_REPORT_2026-11-16.md). Die folgenden Nicht-Test-Aussagen beziehen sich auf die damalige Feature-Implementierung vor dieser Konsolidierung.
+
+
 Datum: 2026-11-16. Branch `feature/neoforge-1211-foundation`.
 
 ## Problem

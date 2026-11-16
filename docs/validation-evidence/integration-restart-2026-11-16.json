@@ -1,0 +1,54 @@
+[
+  {
+    "command": "datapack list enabled",
+    "response": "There are 3 data pack(s) enabled: [vanilla (built-in)], [mod_data], [file/integration-regression (world)]\n"
+  },
+  {
+    "command": "data get block 0 100 0",
+    "response": "0, 100, 0 has the following block data: {FruitReady: 0b, x: 0, y: 100, z: 0, GrowthStage: 3, SeedAnalyzed: 1b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:wheat_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "cropgenetics soil show 0 99 0",
+    "response": "Soil 0, 99, 0 [saved override]: damp, neutral, high\n"
+  },
+  {
+    "command": "data merge block 2 100 0 {GrowthStage:7}",
+    "response": "Modified block data of 2, 100, 0\n"
+  },
+  {
+    "command": "loot replace block 10 100 0 container.0 mine 2 100 0",
+    "response": "Dropped 6 items from loot table cropgenetics:blocks/crop_sticks\n"
+  },
+  {
+    "command": "data get block 10 100 0",
+    "response": "10, 100, 0 has the following block data: {x: 10, y: 100, Items: [{count: 1, Slot: 0b, id: \"cropgenetics:crop_sticks\"}, {count: 1, Slot: 1b, components: {\"cropgenetics:original_seed\": \"minecraft:melon_seeds\", \"cropgenetics:genome\": {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:melon_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}}, id: \"cropgenetics:genetic_seed\"}, {count: 1, Slot: 2b, id: \"minecraft:melon\"}, {count: 1, Slot: 3b, id: \"minecraft:melon\"}, {count: 1, Slot: 4b, id: \"minecraft:melon\"}, {count: 1, Slot: 5b, id: \"minecraft:melon\"}], z: 0, id: \"minecraft:chest\"}\n"
+  },
+  {
+    "command": "reload",
+    "response": "Reloading!\n"
+  },
+  {
+    "command": "cropgenetics data",
+    "response": "Crop Genetics datapack: 15 plants, 0 mutations, 88 resource files.\n  Pam's auto crops: 0, explicit plant files loaded (all mods): 15 - details: /cropgenetics data pam\n  LOADED: 15\n  MISSING_MOD: 70\n  CONFLICT: 2\n  MISSING_SPECIES: 1\nUse /cropgenetics data errors [page], all [page], or tags [page].\n"
+  },
+  {
+    "command": "cropgenetics data errors",
+    "response": "Crop Genetics issues - page 1/10 (73 entries):\n[MISSING_SPECIES] MUTATION cropgenetics:cropgenetics/mutations/carrot.json - Unknown or disabled species: minecraft:wheat_plant\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_asparagus.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_barley.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_bean.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_blueberry.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_broccoli.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_brusselsprout.json - Missing mod: pamhc2crops\n[MISSING_MOD] MUTATION cropgenetics:cropgenetics/mutations/pamhc2_cabbage.json - Missing mod: pamhc2crops\n"
+  },
+  {
+    "command": "data get block 0 100 0",
+    "response": "0, 100, 0 has the following block data: {FruitReady: 0b, x: 0, y: 100, z: 0, GrowthStage: 3, SeedAnalyzed: 1b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:wheat_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "reload",
+    "response": "Reloading!\n"
+  },
+  {
+    "command": "cropgenetics data",
+    "response": "Crop Genetics datapack: 16 plants, 1 mutations, 87 resource files.\n  Pam's auto crops: 0, explicit plant files loaded (all mods): 16 - details: /cropgenetics data pam\n  LOADED: 17\n  MISSING_MOD: 70\nUse /cropgenetics data errors [page], all [page], or tags [page].\n"
+  },
+  {
+    "command": "data get block 0 100 0",
+    "response": "0, 100, 0 has the following block data: {FruitReady: 0b, x: 0, y: 100, z: 0, GrowthStage: 3, SeedAnalyzed: 1b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:wheat_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, TotalGrowthStages: 8}\n"
+  }
+]

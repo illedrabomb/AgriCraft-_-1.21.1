@@ -47,4 +47,19 @@ class AgriPlantsParserTest {
             "conditions":[{"type":"biome"}]}
             """).getAsJsonObject()));
     }
+
+    @Test
+    void oneStageRepeatHarvestExploitIsRejected() {
+        String single = CARROT.replace("[2,4,6,8,10,12,14,16]", "[2]")
+                .replace("\"harvestStage\":4", "\"harvestStage\":0");
+        assertThrows(IllegalArgumentException.class,
+                () -> AgriPlantsParser.plant(JsonParser.parseString(single).getAsJsonObject()));
+    }
+
+    @Test
+    void plantIdMatchesGenomeWireLimit() {
+        String tooLong = "example:" + "x".repeat(121);
+        assertThrows(IllegalArgumentException.class, () -> AgriPlantsParser.plant(
+                JsonParser.parseString(CARROT.replace("minecraft:carrot_plant", tooLong)).getAsJsonObject()));
+    }
 }

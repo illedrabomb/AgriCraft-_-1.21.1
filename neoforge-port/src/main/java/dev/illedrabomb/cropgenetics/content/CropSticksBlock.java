@@ -1,11 +1,14 @@
 package dev.illedrabomb.cropgenetics.content;
 
+import com.mojang.serialization.MapCodec;
+
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
 import dev.illedrabomb.cropgenetics.data.HarvestMode;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -24,6 +27,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
@@ -48,10 +52,10 @@ import javax.annotation.Nullable;
  * sticks. Empty crossing sticks discover neighboring mature crops on server ticks.
  */
 public final class CropSticksBlock extends BaseEntityBlock {
-    public static final com.mojang.serialization.MapCodec<CropSticksBlock> CODEC = simpleCodec(CropSticksBlock::new);
+    public static final MapCodec<CropSticksBlock> CODEC = simpleCodec(CropSticksBlock::new);
 
     @Override
-    protected com.mojang.serialization.MapCodec<? extends BaseEntityBlock> codec() {
+    protected MapCodec<? extends CropSticksBlock> codec() {
         return CODEC;
     }
 
@@ -91,8 +95,65 @@ public final class CropSticksBlock extends BaseEntityBlock {
         // Vanilla farmland remains the baseline. Explicit modded soil rules
         // can allow placement on other registered blocks/tags.
         if (level.getBlockState(pos.below()).is(Blocks.FARMLAND)) return true;
+        // The plant catalogue is server-side. Do not let an empty client-side
+        // registry reject legitimate placement or break predictions for
+        // crop sticks on sand, mycelium, dirt, mud or modded soils.
+        // The logical server still enforces the actual registered rules.
+        if (level instanceof Level world && world.isClientSide) return true;
         return CropGeneticsMod.plants().plants().values().stream()
-                .anyMatch(plant -> CropConditions.matchesSoil(level, pos, plant.requirements()));
+                .anyMatch(plant -> CropConditions.matchesPlantingSite(level, pos, plant));
+    }
+
+    /**
+     * A removed or replaced supporting block schedules a single authoritative
+     * recheck. Never destroy crops directly from updateShape: neighbor updates
+     * can occur while a different block is still being modified.
+     */
+    @Override
+    protected BlockState updateShape(BlockState state, Direction direction,
+                                     BlockState neighborState, LevelAccessor level,
+                                     BlockPos pos, BlockPos neighborPos) {
+        if (direction == Direction.DOWN) level.scheduleTick(pos, this, 1);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    @Override
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        // A prior update may have replaced this block; only process our own
+        // still-present block and only while the supporting chunk is loaded.
+        if (!level.getBlockState(pos).is(this) || !level.hasChunkAt(pos.below())) return;
+        BlockState support = level.getBlockState(pos.below());
+        // A physically absent support always breaks the sticks. A fluid
+        // inside an otherwise valid waterloggable block is NOT an invalid
+        // support by itself: configured soil IDs/tags decide what is allowed.
+        if (support.isAir()) {
+            level.destroyBlock(pos, true);
+            return;
+        }
+
+        // A missing datapack species is dormant, not invalid: do not erase
+        // its saved genotype merely because the crop registry was reloaded.
+        if (level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop
+                && crop.genome() != null) {
+            PlantDefinition plant = CropGeneticsMod.plants().plants()
+                    .get(crop.genome().plantId());
+            if (plant != null && !CropConditions.matchesSoil(level, pos, plant.requirements())) {
+                level.destroyBlock(pos, true);
+            }
+            return;
+        }
+        // Empty sticks have no species-specific soil. If any registered crop
+        // accepts this support, preserve them; missing catalogues are not a
+        // reason to break a solid supporting block.
+        // Keep the same catalog-independent farmland baseline as canSurvive.
+        // An otherwise restricted datapack must not uproot empty sticks
+        // when farmland merely changes its moisture BlockState.
+        if (!support.is(Blocks.FARMLAND)
+                && !CropGeneticsMod.plants().plants().isEmpty()
+                && CropGeneticsMod.plants().plants().values().stream()
+                    .noneMatch(plant -> CropConditions.matchesSoil(level, pos, plant.requirements()))) {
+            level.destroyBlock(pos, true);
+        }
     }
 
     @Override
@@ -122,9 +183,11 @@ public final class CropSticksBlock extends BaseEntityBlock {
                     if (!crop.stageMetadataMatches(currentPlant)) {
                         crop.reconcileLoadedStage(currentPlant);
                     }
-                    // Resolve fruit removal after a GOURD -> STANDARD reload
-                    // even when randomTickSpeed=0 or the stem is not mature.
-                    if (crop.fruitReady()) crop.reconcilePhysicalFruit(currentPlant);
+                    // Reconcile real fruit ownership even after a harvest-mode reload.
+                    // No neighboring chunks are loaded by this check.
+                    if (crop.fruitReady() || currentPlant.harvestMode() == HarvestMode.GOURD) {
+                        crop.reconcilePhysicalFruit(currentPlant);
+                    }
                 });
     }
 
@@ -198,6 +261,15 @@ public final class CropSticksBlock extends BaseEntityBlock {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
+        // Analyze in place without consuming the crop or altering its genome.
+        if (stack.is(CropItems.SEED_ANALYZER.get()) && crop.genome() != null) {
+            if (!level.isClientSide && crop.analyzePlantedCrop()) {
+                player.displayClientMessage(
+                        Component.translatable("message.cropgenetics.analyzer_crop_success"), true);
+            }
+            return ItemInteractionResult.SUCCESS;
+        }
+
         // Optional, player-driven soil care. Only soil with an explicitly
         // configured datapack profile or existing saved override is treatable.
         // Ordinary seeds, crop-stick stacking and harvesting remain unaffected.
@@ -228,6 +300,14 @@ public final class CropSticksBlock extends BaseEntityBlock {
                 level.setBlock(pos, state.setValue(CROSS, true), 3);
                 if (!player.isCreative()) stack.shrink(1);
             }
+            return ItemInteractionResult.SUCCESS;
+        }
+
+        // Client prediction cannot consult the server-only plant catalogue.
+        // Accept either attached-genome seed form locally; the server below
+        // still checks seed identity, species, soil and growth conditions.
+        if (level.isClientSide && !state.getValue(CROSS) && crop.genome() == null
+                && CropItems.hasGenome(stack)) {
             return ItemInteractionResult.SUCCESS;
         }
 

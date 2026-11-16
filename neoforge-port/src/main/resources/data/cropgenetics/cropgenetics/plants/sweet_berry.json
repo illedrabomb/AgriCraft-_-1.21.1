@@ -1,0 +1,47 @@
+{
+  "version": "1.21.1-compat",
+  "enabled": true,
+  "mods": [
+    "minecraft"
+  ],
+  "id": "minecraft:sweet_berry_plant",
+  "seed_items": [
+    {
+      "type": "item",
+      "object": "minecraft:sweet_berries",
+      "useTag": false
+    }
+  ],
+  "stages": [
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16
+  ],
+  "harvestStage": 4,
+  "growth_chance": 0.65,
+  "growth_bonus": 0.025,
+  "cloneable": true,
+  "spread_chance": 0.1,
+  "products": {
+    "products": [
+      {
+        "type": "item",
+        "object": "minecraft:sweet_berries",
+        "min": 1,
+        "max": 2,
+        "chance": 1
+      }
+    ]
+  },
+  "cropgenetics_requirements": {
+    "min_light": 10,
+    "max_light": 15,
+    "light_tolerance": 0,
+    "soil_tag": "cropgenetics:sweet_berry_soils"
+  }
+}

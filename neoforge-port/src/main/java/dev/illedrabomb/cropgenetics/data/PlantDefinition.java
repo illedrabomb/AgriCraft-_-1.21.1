@@ -41,6 +41,12 @@ public record PlantDefinition(
         }
         if (!Double.isFinite(fruitChance) || fruitChance < 0 || fruitChance > 1)
             throw new IllegalArgumentException("Invalid fruit chance");
+        // A one-stage STANDARD crop would be mature again immediately after
+        // every harvest, allowing unlimited drops without any growth ticks.
+        if (stages.size() < 2) {
+            throw new IllegalArgumentException(
+                    "Harvestable crops require at least two growth stages");
+        }
         if (harvestMode == HarvestMode.GOURD
                 && !id.equals("minecraft:melon_plant")
                 && !id.equals("minecraft:pumpkin_plant"))
@@ -53,7 +59,11 @@ public record PlantDefinition(
                 || harvestProducts.get(0).minimum() != 1 || harvestProducts.get(0).maximum() != 1
                 || harvestProducts.get(0).chance() != 1))
             throw new IllegalArgumentException("Gourd requires one guaranteed single fruit product");
-        if (!id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) throw new IllegalArgumentException("Invalid plant ID: " + id);
+        // Keep the datapack registry within the same ID bound as Genome.
+        // Long IDs must be diagnosed at reload, not throw later on seed use.
+        if (id.length() > 128 || !id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) {
+            throw new IllegalArgumentException("Invalid plant ID (max 128 characters): " + id);
+        }
         if (seedItems.stream().anyMatch(seed -> seed == null || !seed.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")))
             throw new IllegalArgumentException("Invalid seed item ID");
         if (stages.isEmpty() || harvestStage < 0 || harvestStage >= stages.size())
