@@ -23,14 +23,15 @@ import java.util.Set;
 public final class PamCropAutoDiscovery {
     private static final String NAMESPACE = "pamhc2crops";
     private static final String SEED_SUFFIX = "seeditem";
-    private static final int MAX_DISCOVERED = 512;
 
     private PamCropAutoDiscovery() {}
 
     public static void addMissing(Map<String, PlantDefinition> plants,
                                   Set<String> explicitSpecies,
                                   Set<String> explicitSeedClaims,
-                                  List<CropReloadReport.Entry> diagnostics) {
+                                  List<CropReloadReport.Entry> diagnostics,
+                                  PamAutoDiscoverySettings settings) {
+        if (!settings.enabled() || settings.maxPlants() == 0) return;
         Set<String> reservedSeeds = new HashSet<>(explicitSeedClaims);
         for (PlantDefinition plant : plants.values()) reservedSeeds.addAll(plant.seedItems());
 
@@ -42,7 +43,8 @@ public final class PamCropAutoDiscovery {
                     || !seedKey.getPath().endsWith(SEED_SUFFIX)) continue;
             String crop = seedKey.getPath().substring(0,
                     seedKey.getPath().length() - SEED_SUFFIX.length());
-            if (crop.isEmpty() || !crop.matches("[a-z][a-z0-9_]*")) continue;
+            if (crop.isEmpty() || !crop.matches("[a-z][a-z0-9_]*")
+                    || settings.excludedCrops().contains(crop)) continue;
 
             String speciesId = NAMESPACE + ":" + crop + "_plant";
             String seedId = seedKey.toString();
@@ -57,21 +59,23 @@ public final class PamCropAutoDiscovery {
                     || BuiltInRegistries.ITEM.get(seedKey) == Items.AIR
                     || BuiltInRegistries.ITEM.get(productKey) == Items.AIR) continue;
 
-            if (added >= MAX_DISCOVERED) {
+            if (added >= settings.maxPlants()) {
                 diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
                         ResourceLocation.fromNamespaceAndPath("cropgenetics",
                                 "auto_pam/discovery_limit"),
                         "", CropReloadReport.Status.WARNING,
-                        "Pam's auto-discovery capped at " + MAX_DISCOVERED));
+                        "Pam's auto-discovery capped at " + settings.maxPlants()));
                 break;
             }
             PlantDefinition plant = new PlantDefinition(
                     speciesId, List.of(NAMESPACE), List.of(seedId),
                     List.of(2, 4, 6, 8, 10, 12, 14, 16),
-                    4, 0.75D, 0.025D, true, 0.1D,
+                    4, settings.growthChance(), settings.growthBonus(), true, 0.1D,
                     List.of(new PlantDefinition.HarvestProduct(
-                            productKey.toString(), 1, 5, 0.9D)),
-                    PlantRequirements.defaultFarmland(), HarvestMode.STANDARD, 0.0D);
+                            productKey.toString(), 1, settings.harvestMaximum(), 0.9D)),
+                    new PlantRequirements(settings.minLight(), 15,
+                            java.util.Optional.of("minecraft:farmland"),
+                            java.util.Optional.empty(), 0), HarvestMode.STANDARD, 0.0D);
             List<String> errors = PlantRegistryValidator.errors(plant);
             if (!errors.isEmpty()) continue;
 
@@ -83,7 +87,7 @@ public final class PamCropAutoDiscovery {
                             "auto_pam/" + crop + ".json"),
                     speciesId, CropReloadReport.Status.WARNING,
                     "Auto-discovered registered Pam's seed/produce pair; "
-                            + "generic farmland/growth values, NOT original AgriPlants parity"));
+                            + "configurable fallback farmland/growth values, NOT original AgriPlants parity"));
         }
     }
 }
