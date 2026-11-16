@@ -65,16 +65,19 @@ public final class CrossBreeding {
 
         Genome first = parents.get(0);
         Genome second = parents.get(1);
-        String childId = chooseChildSpecies(first, second, snapshot, level, position, random);
+        // Numeric alleles are inherited exactly once. Species choice must use
+        // the offspring's actual Strength, not either parent's Strength.
+        Genome inherited = BreedingEngine.combine(first, second, first.plantId(), inheritanceRandom);
+        String childId = chooseChildSpecies(first, second, inherited, snapshot, level, position, random);
         PlantDefinition childPlant = plants.get(childId);
         if (childPlant == null) return;
 
-        Genome offspring = BreedingEngine.combine(first, second, childId, inheritanceRandom);
+        Genome offspring = inherited.withPlantId(childId);
         if (!CropConditions.canGrow(level, position, childPlant, offspring)) return;
         target.acceptCrossOffspring(offspring, childPlant);
     }
 
-    private static String chooseChildSpecies(Genome first, Genome second,
+    private static String chooseChildSpecies(Genome first, Genome second, Genome inherited,
                                              AgriPlantsRegistry.Snapshot snapshot,
                                              ServerLevel level, BlockPos target, RandomSource random) {
         // Sort by datapack ID for deterministic iteration regardless of Map ordering.
@@ -82,10 +85,10 @@ public final class CrossBreeding {
                 .stream()
                 .filter(entry -> entry.getValue().matchesParents(first.plantId(), second.plantId()))
                 .filter(entry -> snapshot.plants().containsKey(entry.getValue().childPlantId()))
-                // Do not consume a successful mutation roll on a child species
-                // that cannot grow on the actual destination soil.
-                .filter(entry -> CropConditions.matchesSoil(level, target,
-                        snapshot.plants().get(entry.getValue().childPlantId()).requirements()))
+                // Do not consume a mutation roll for species that cannot
+                // grow under the actual soil and lighting with inherited Strength.
+                .filter(entry -> CropConditions.canGrow(level, target,
+                        snapshot.plants().get(entry.getValue().childPlantId()), inherited))
                 .sorted(Comparator.comparing(Map.Entry::getKey))
                 .toList();
 
@@ -94,18 +97,17 @@ public final class CrossBreeding {
                 return entry.getValue().childPlantId();
             }
         }
-        // No matching/successful species mutation: pick a parent species
-        // that supports the target soil, rather than wasting this breeding
-        // attempt on a species that could never take root there.
+        // With no viable mutation, prefer a parent species that the actual
+        // inherited genome can grow at this destination (soil and lighting).
         String preferred = random.nextBoolean() ? first.plantId() : second.plantId();
         String alternate = preferred.equals(first.plantId()) ? second.plantId() : first.plantId();
         PlantDefinition preferredPlant = snapshot.plants().get(preferred);
         if (preferredPlant != null
-                && CropConditions.matchesSoil(level, target, preferredPlant.requirements()))
+                && CropConditions.canGrow(level, target, preferredPlant, inherited))
             return preferred;
         PlantDefinition otherPlant = snapshot.plants().get(alternate);
         if (otherPlant != null
-                && CropConditions.matchesSoil(level, target, otherPlant.requirements()))
+                && CropConditions.canGrow(level, target, otherPlant, inherited))
             return alternate;
         return preferred; // caller still rejects unsuitable offspring safely
     }
