@@ -87,6 +87,16 @@ public final class CropConditions {
         return true;
     }
 
+    /** No provider means seasons do not restrict crops; authoritative check is server-side. */
+    public static boolean matchesSeason(LevelReader level, BlockPos pos,
+                                        java.util.List<String> allowedSeasons) {
+        if (allowedSeasons.isEmpty()) return true;
+        if (level instanceof net.minecraft.server.level.ServerLevel server)
+            return SeasonAccess.matches(server, pos, allowedSeasons);
+        // Avoid client false negatives when the season provider is server-only.
+        return SeasonAccess.matchesClient(allowedSeasons);
+    }
+
     /**
      * 0.0 blocks growth; 1.0 has no penalty. A plant with Strength 1 has
      * no tolerance. Strength 10 reaches the configured maximum light deficit.
@@ -97,7 +107,8 @@ public final class CropConditions {
         PlantRequirements requirements = plant.requirements();
         if (!matchesSoil(level, pos, requirements)
                 || !matchesLocation(level, pos, requirements)
-                || !matchesEnvironment(level, pos, requirements.environment())) return 0.0D;
+                || !matchesEnvironment(level, pos, requirements.environment())
+                || !matchesSeason(level, pos, requirements.seasonRule().allowedSeasons())) return 0.0D;
 
         int light = level.getRawBrightness(pos, 0);
         int deficit = Math.max(0, Math.max(requirements.minLight() - light,
