@@ -45,6 +45,8 @@ public final class CropDataCommand {
                                 .then(Commands.argument("page", IntegerArgumentType.integer(1))
                                         .executes(ctx -> list(ctx.getSource(), registry, true,
                                                 IntegerArgumentType.getInteger(ctx, "page")))))
+                        .then(Commands.literal("pam")
+                                .executes(ctx -> pamSummary(ctx.getSource(), registry)))
                         .then(Commands.literal("tags")
                                 .executes(ctx -> tags(ctx.getSource(), registry, 1))
                                 .then(Commands.argument("page", IntegerArgumentType.integer(1))
@@ -63,6 +65,10 @@ public final class CropDataCommand {
         tell(source, "Crop Genetics datapack: " + snapshot.plants().size() + " plants, "
                 + snapshot.mutations().size() + " mutations, "
                 + report.entries().size() + " resource files.");
+        CropReloadReport.PamDiscoveryStats pam = report.pamDiscoveryStats();
+        tell(source, "  Pam's auto crops: " + pam.autoDiscovered()
+                + ", explicit plant files loaded (all mods): " + pam.explicitLoaded()
+                + " - details: /cropgenetics data pam");
         Map<CropReloadReport.Status, Integer> totals = report.totals();
         for (CropReloadReport.Status status : CropReloadReport.Status.values()) {
             int count = totals.getOrDefault(status, 0);
@@ -75,6 +81,27 @@ public final class CropDataCommand {
         return report.entries().size();
     }
 
+    /** Read-only breakdown from the same immutable snapshot as /data. */
+    private static int pamSummary(CommandSourceStack source, AgriPlantsRegistry registry) {
+        AgriPlantsRegistry.Snapshot snapshot = registry.snapshot();
+        if (notLoaded(snapshot)) {
+            tell(source, "Crop Genetics: no datapack reload report available yet.");
+            return 0;
+        }
+        CropReloadReport.PamDiscoveryStats stats = snapshot.report().pamDiscoveryStats();
+        tell(source, "Pam's HarvestCraft 2 Crops - last server reload:");
+        tell(source, "  Explicit plants loaded: " + stats.explicitLoaded());
+        tell(source, "  Auto-discovered species: " + stats.autoDiscovered());
+        tell(source, "  Auto candidates in conflict: " + stats.autoConflicts());
+        tell(source, "  Configured pairs missing registered items: " + stats.autoMissingItems());
+        tell(source, "  Other auto diagnostics: " + stats.autoWarnings());
+        tell(source, "  Auto-discovery suspended by invalid data/config: "
+                + (stats.suspended() ? "yes" : "no"));
+        tell(source, "  Total active species (all mods): " + snapshot.plants().size());
+        tell(source, "Details: /cropgenetics data errors [page] or all [page].");
+        return stats.autoDiscovered();
+    }
+
     private static int list(CommandSourceStack source, AgriPlantsRegistry registry,
                             boolean includeLoaded, int page) {
         AgriPlantsRegistry.Snapshot snapshot = registry.snapshot();
@@ -85,7 +112,8 @@ public final class CropDataCommand {
 
         List<CropReloadReport.Entry> entries = snapshot.report().entries().stream()
                 .filter(entry -> includeLoaded
-                        || entry.status() != CropReloadReport.Status.LOADED)
+                        || (entry.status() != CropReloadReport.Status.LOADED
+                            && entry.status() != CropReloadReport.Status.AUTO_DISCOVERED))
                 .sorted(Comparator.comparing((CropReloadReport.Entry e) -> e.kind().name())
                         .thenComparing(e -> e.source().toString()))
                 .toList();
@@ -95,7 +123,7 @@ public final class CropDataCommand {
             tell(source, "Page " + page + " unavailable; valid pages: 1-" + pages + ".");
             return 0;
         }
-        tell(source, "Crop Genetics " + (includeLoaded ? "all files" : "issues")
+        tell(source, "Crop Genetics " + (includeLoaded ? "all entries" : "issues")
                 + " - page " + page + "/" + pages + " (" + entries.size() + " entries):");
         // Bounds checked before multiplication: a huge page argument must not overflow.
         int from = (page - 1) * PAGE_SIZE;
