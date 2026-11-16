@@ -103,6 +103,22 @@ Der Scanner nutzt weiterhin ausschließlich die Mod-ID `pamhc2crops`, niemals `p
 
 Der gleiche konservative Grundsatz gilt für spätere Saatgut-Mods: Erweiterung nur über geprüfte, bewusst gewählte Mod-IDs und Item-Schemata sowie klare Nutzerfreigabe. Diese Ausweitung wird **hier nicht als bereits implementiert behauptet**.
 
+## Nachtrag 16.11.2026: Konflikte zwischen Saatgut- und Ernte-IDs
+
+Die automatische Pam's-Crops-Erkennung schützt jetzt **auch Ernteprodukt-IDs**, nicht nur Saatgutnamen oder Species-Namen. Ein Registry-Eintrag kann in ungewöhnlich konfigurierten Modpacks ansonsten mehreren Auto-Species zugeordnet werden und das Ergebnis von der Iterationsreihenfolge abhängen lassen.
+
+- `PamAutoDiscoverySettings` verwirft die komplette manuelle `item_pairs`-Konfiguration bei **doppelten Seed-IDs**, **doppelten Produce-IDs** und **Seed-/Produce-Überlappungen zwischen mehreren Paaren**. Die bestehende fail-closed-Konfigurationsbehandlung verhindert, dass solche fehlerhaften Einstellungen neue Arten erzeugen.
+- `CropDataReloadListener` sammelt vor der Auto-Erkennung die in **allen expliziten Pflanzen-Datapacks** belegten Species-, Saatgut- und nun auch **Ernteprodukt-IDs**. Das schließt deaktivierte und wegen anderer Prüfungen inaktive Definitionen ein, soweit ihre JSON-Felder lesbar sind.
+- `PamCropAutoDiscovery` reserviert auch alle Ernteprodukt-IDs der bereits erfolgreich geladenen Pflanzen. Ein Fallback darf weder eine reservierte Saatgut- noch eine reservierte Produkt-ID erneut beanspruchen. Explizite Definitionen bleiben maßgeblich.
+- Vor der Veröffentlichung zählt der Scanner Seed- und Produce-Ansprüche **aller noch zulässigen Auto-Kandidaten**. Wenn mehrere Kandidaten ein Item in der gleichen Rolle beanspruchen oder ein Item bei einer Art als Saat und bei einer anderen als Ernte auftauchen soll, werden **alle betroffenen Kandidaten** mit `CONFLICT` übersprungen. Ein alphabetisch früherer Crop gewinnt ausdrücklich nicht.
+- Die Konfliktprüfung ignoriert bereits ausgeschlossene, explizit definierte und reservierte Kandidaten, damit diese nicht nachträglich andere gültige Fallbacks unnötig blockieren. Sortierung und `max_plants` bleiben unverändert.
+
+**Grenzen der Source-Prüfung:** Wenn ein explizites JSON noch vor dem Parsing nicht gelesen werden kann, lässt sich daraus keine verlässliche Species-/Seed-/Produce-ID ableiten. Der defekte Datapack-Eintrag wird als `INVALID` protokolliert. Für solche Fälle ist noch ein gesonderter Fail-closed-Ansatz auf Dateipfad-/Pack-Ebene zu prüfen. Die hier implementierten Schutzregeln sind **Quellcodeänderungen**, nicht durch Builds, Unit-Tests oder einen Server-Reload bestätigt.
+
+**Beispielkonflikte:** Zwei `item_pairs` mit identischem `produce` invalidieren die Einstellungen; eine konfigurierbare Spezialpflanze, deren Saatgut bereits von einer anderen Auto-Art beansprucht wird, deaktiviert beide betroffenen Auto-Arten; ein definiertes Crop-Datapack mit demselben Ernte-Item verhindert den Auto-Fallback.
+
+**Pam's Trees bleibt ausdrücklich ausgeschlossen.** Es wird ausschließlich `pamhc2crops` betrachtet, keine Setzlings- oder Baumregistrierung.
+
 ## HarvestCraft 1 – klare Grenze
 
 **HarvestCraft 1** ist keine offizielle NeoForge-1.21.1-Laufzeitmod. Sie wird durch diese Laufzeit-Erkennung **nicht** automatisch geladen, und es wird kein fiktiver `harvestcraft`-Registry-Eintrag erzeugt. Die Legacy-1→2-ID-Zuordnungen verbleiben im eigenständigen, nur als Daten vorliegenden Crosswalk. Eine spätere Item-/Weltmigration benötigt getrennte, ausdrücklich freigegebene Logik.
