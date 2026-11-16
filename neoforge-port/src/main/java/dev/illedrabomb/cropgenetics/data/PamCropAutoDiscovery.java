@@ -29,6 +29,14 @@ public final class PamCropAutoDiscovery {
 
     private PamCropAutoDiscovery() {}
 
+    /** Validate against actual registered items before collision counting. */
+    private static boolean registeredPair(Candidate pair) {
+        return BuiltInRegistries.ITEM.containsKey(pair.seed())
+                && BuiltInRegistries.ITEM.containsKey(pair.produce())
+                && BuiltInRegistries.ITEM.get(pair.seed()) != Items.AIR
+                && BuiltInRegistries.ITEM.get(pair.produce()) != Items.AIR;
+    }
+
     public static void addMissing(Map<String, PlantDefinition> plants,
                                   Set<String> explicitSpecies,
                                   Set<String> explicitSeedClaims,
@@ -79,7 +87,10 @@ public final class PamCropAutoDiscovery {
                     || explicitSpecies.contains(speciesId)
                     || plants.containsKey(speciesId)
                     || reservedSeeds.contains(candidate.seed().toString())
-                    || reservedProducts.contains(candidate.produce().toString())) continue;
+                    || reservedProducts.contains(candidate.produce().toString())
+                    || reservedProducts.contains(candidate.seed().toString())
+                    || reservedSeeds.contains(candidate.produce().toString())
+                    || !registeredPair(candidate)) continue;
             seedClaims.merge(candidate.seed().toString(), 1, Integer::sum);
             produceClaims.merge(candidate.produce().toString(), 1, Integer::sum);
         }
@@ -92,7 +103,9 @@ public final class PamCropAutoDiscovery {
             String seedId = candidate.seed().toString();
             if (explicitSpecies.contains(speciesId) || plants.containsKey(speciesId)
                     || reservedSeeds.contains(seedId)
-                    || reservedProducts.contains(candidate.produce().toString())) continue;
+                    || reservedProducts.contains(candidate.produce().toString())
+                    || reservedProducts.contains(seedId)
+                    || reservedSeeds.contains(candidate.produce().toString())) continue;
             if (seedClaims.getOrDefault(seedId, 0) > 1
                     || produceClaims.getOrDefault(candidate.produce().toString(), 0) > 1
                     || produceClaims.containsKey(seedId)
@@ -105,10 +118,7 @@ public final class PamCropAutoDiscovery {
                 continue;
             }
 
-            if (!BuiltInRegistries.ITEM.containsKey(candidate.seed())
-                    || !BuiltInRegistries.ITEM.containsKey(candidate.produce())
-                    || BuiltInRegistries.ITEM.get(candidate.seed()) == Items.AIR
-                    || BuiltInRegistries.ITEM.get(candidate.produce()) == Items.AIR) {
+            if (!registeredPair(candidate)) {
                 if (candidate.configured()) {
                     diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
                             ResourceLocation.fromNamespaceAndPath("cropgenetics",
