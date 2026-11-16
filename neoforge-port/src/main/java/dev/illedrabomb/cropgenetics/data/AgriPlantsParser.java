@@ -113,7 +113,8 @@ public final class AgriPlantsParser {
                     && !key.equals("allowed_biomes") && !key.equals("blocked_biomes")
                     && !key.equals("allowed_dimensions") && !key.equals("blocked_dimensions")
                     && !key.equals("min_y") && !key.equals("max_y")
-                    && !key.equals("fluid_id") && !key.equals("allowed_seasons")) {
+                    && !key.equals("fluid_id") && !key.equals("allowed_seasons")
+                    && !key.equals("soil_chemistry")) {
                 throw new JsonParseException("Unsupported crop requirement: " + key);
             }
         }
@@ -134,7 +135,8 @@ public final class AgriPlantsParser {
                 strings(input.getAsJsonArray("allowed_dimensions")),
                 strings(input.getAsJsonArray("blocked_dimensions")),
                 environment(input, ""),
-                new SeasonRule(strings(input.getAsJsonArray("allowed_seasons"))));
+                new SeasonRule(strings(input.getAsJsonArray("allowed_seasons"))),
+                chemistry(input, "soil_chemistry"));
     }
 
     public static MutationDefinition mutation(JsonObject json) {
@@ -148,7 +150,45 @@ public final class AgriPlantsParser {
                 strings(json.getAsJsonArray("cropgenetics_allowed_dimensions")),
                 strings(json.getAsJsonArray("cropgenetics_blocked_dimensions")),
                 environment(json, "cropgenetics_"),
-                new SeasonRule(strings(json.getAsJsonArray("cropgenetics_allowed_seasons"))));
+                new SeasonRule(strings(json.getAsJsonArray("cropgenetics_allowed_seasons"))),
+                chemistry(json, "cropgenetics_soil_chemistry"));
+    }
+
+    /**
+     * Explicit 1.21.1 qualitative soil rules, not historical tolerance_factor
+     * semantics. Each entry provides category and comparison.
+     */
+    private static SoilChemistryRule chemistry(JsonObject input, String field) {
+        if (!input.has(field)) return SoilChemistryRule.UNRESTRICTED;
+        JsonObject data = input.getAsJsonObject(field);
+        for (String key : data.keySet()) {
+            if (!key.equals("humidity") && !key.equals("acidity") && !key.equals("nutrients"))
+                throw new JsonParseException("Unsupported chemistry dimension: " + key);
+        }
+        return new SoilChemistryRule(
+                chemistryCondition(data, "humidity"),
+                chemistryCondition(data, "acidity"),
+                chemistryCondition(data, "nutrients"));
+    }
+
+    private static Optional<SoilChemistryRule.Condition> chemistryCondition(
+            JsonObject data, String name) {
+        if (!data.has(name)) return Optional.empty();
+        JsonObject rule = data.getAsJsonObject(name);
+        for (String key : rule.keySet()) {
+            if (!key.equals("category") && !key.equals("comparison"))
+                throw new JsonParseException("Unsupported " + name + " chemistry key: " + key);
+        }
+        if (!rule.has("category") || !rule.has("comparison"))
+            throw new JsonParseException(name + " chemistry requires category and comparison");
+        try {
+            return Optional.of(new SoilChemistryRule.Condition(
+                    rule.get("category").getAsString(),
+                    SoilChemistryRule.Comparison.valueOf(
+                            rule.get("comparison").getAsString().toUpperCase(java.util.Locale.ROOT))));
+        } catch (IllegalArgumentException ex) {
+            throw new JsonParseException("Invalid " + name + " chemistry condition", ex);
+        }
     }
 
     /** Parse only explicit 1.21.1 environmental filters, never legacy fluid objects. */
