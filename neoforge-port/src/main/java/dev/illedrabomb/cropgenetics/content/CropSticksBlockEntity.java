@@ -241,8 +241,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
-        growthStage = plant.harvestStage() >= plant.stages().size() - 1
-                ? 0 : Math.max(0, plant.harvestStage());
+        growthStage = CropGrowth.regrowthStage(plant);
         syncState(plant);
     }
 
@@ -268,8 +267,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitDirection = null;
         fruitToken = null;
         // A final-stage reset would allow unlimited repeated harvests without regrowth.
-        growthStage = plant.harvestStage() >= plant.stages().size() - 1
-                ? 0 : Math.max(0, plant.harvestStage());
+        growthStage = CropGrowth.regrowthStage(plant);
         syncState(plant);
         return true;
     }
