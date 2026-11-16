@@ -10,7 +10,8 @@
     "vanilla:wheat_plant": "minecraft:wheat_plant",
     "vanilla:sugarcane_plant": "minecraft:sugar_cane_plant",
     "vanilla:melon_plant": "minecraft:melon_plant",
-    "vanilla:pumpkin_plant": "minecraft:pumpkin_plant"
+    "vanilla:pumpkin_plant": "minecraft:pumpkin_plant",
+    "vanilla:cactus_plant": "minecraft:cactus_plant"
   },
-  "warning": "Only these six explicitly source- and target-reviewed aliases. They are not a general namespace translation and do not convert item stacks or saved worlds."
+  "warning": "Only these seven explicit source- and target-reviewed aliases. Not a general namespace translation or world/item migration."
 }
