@@ -31,7 +31,15 @@ public final class GeneticGourdFruitBlockEntity extends BlockEntity {
                 || Math.abs(parent.getX() - worldPosition.getX())
                         + Math.abs(parent.getZ() - worldPosition.getZ()) != 1
                 || !(level.getBlockEntity(parent) instanceof CropSticksBlockEntity stem)
-                || stem.genome() == null) return false;
+                || stem.genome() == null || stem.fruitReady()
+                || !stem.getBlockState().is(CropBlocks.CROP_STICKS.get())) return false;
+        // A misplaced fruit must never claim an unrelated melon/pumpkin
+        // stem. Both the species and the physical fruit block must agree.
+        String species = stem.genome().plantId();
+        boolean isMelon = getBlockState().is(CropBlocks.GENETIC_MELON_FRUIT.get());
+        boolean isPumpkin = getBlockState().is(CropBlocks.GENETIC_PUMPKIN_FRUIT.get());
+        if (!(isMelon && species.equals("minecraft:melon_plant"))
+                && !(isPumpkin && species.equals("minecraft:pumpkin_plant"))) return false;
         parentPos = parent.immutable();
         fruitToken = token;
         setChanged();
