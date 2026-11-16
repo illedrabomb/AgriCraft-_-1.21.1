@@ -8,8 +8,19 @@ public record PlantDefinition(
         String id, List<String> requiredMods, List<String> seedItems, List<Integer> stages,
         int harvestStage, double growthChance, double growthBonus,
         boolean cloneable, double spreadChance, List<HarvestProduct> harvestProducts,
-        PlantRequirements requirements, HarvestMode harvestMode, double fruitChance
+        PlantRequirements requirements, HarvestMode harvestMode, double fruitChance,
+        boolean contactThorns
 ) {
+    /** Preserve the existing constructor for older callers and data fixtures. */
+    public PlantDefinition(
+            String id, List<String> requiredMods, List<String> seedItems, List<Integer> stages,
+            int harvestStage, double growthChance, double growthBonus,
+            boolean cloneable, double spreadChance, List<HarvestProduct> harvestProducts,
+            PlantRequirements requirements, HarvestMode harvestMode, double fruitChance) {
+        this(id, requiredMods, seedItems, stages, harvestStage, growthChance, growthBonus,
+                cloneable, spreadChance, harvestProducts, requirements, harvestMode, fruitChance, false);
+    }
+
     public PlantDefinition {
         Objects.requireNonNull(id);
         requiredMods = List.copyOf(requiredMods);
