@@ -8,6 +8,7 @@ import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.content.CropRecipes;
 import dev.illedrabomb.cropgenetics.content.SoilChemistryAccess;
 import dev.illedrabomb.cropgenetics.content.SoilDynamics;
+import dev.illedrabomb.cropgenetics.content.SoilOverrideInvalidation;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.CropDataReloadListener;
 import dev.illedrabomb.cropgenetics.data.SoilProfileRegistry;
@@ -51,6 +52,10 @@ public final class CropGeneticsMod {
         modBus.addListener(this::addCreativeSeeds);
         NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
+        NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onBreak);
+        NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onPlace);
+        NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onMultiPlace);
+        NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onLevelTickPost);
     }
 
     private void addCreativeSeeds(BuildCreativeModeTabContentsEvent event) {
