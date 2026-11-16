@@ -176,7 +176,8 @@ public final class AgriPlantsParser {
         if (!data.has(name)) return Optional.empty();
         JsonObject rule = data.getAsJsonObject(name);
         for (String key : rule.keySet()) {
-            if (!key.equals("category") && !key.equals("comparison"))
+            if (!key.equals("category") && !key.equals("comparison")
+                    && !key.equals("tolerance_factor"))
                 throw new JsonParseException("Unsupported " + name + " chemistry key: " + key);
         }
         if (!rule.has("category") || !rule.has("comparison"))
@@ -185,7 +186,9 @@ public final class AgriPlantsParser {
             return Optional.of(new SoilChemistryRule.Condition(
                     rule.get("category").getAsString(),
                     SoilChemistryRule.Comparison.valueOf(
-                            rule.get("comparison").getAsString().toUpperCase(java.util.Locale.ROOT))));
+                            rule.get("comparison").getAsString().toUpperCase(java.util.Locale.ROOT)),
+                    rule.has("tolerance_factor")
+                            ? rule.get("tolerance_factor").getAsDouble() : 0.0D));
         } catch (IllegalArgumentException ex) {
             throw new JsonParseException("Invalid " + name + " chemistry condition", ex);
         }
