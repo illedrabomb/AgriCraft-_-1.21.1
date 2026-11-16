@@ -9,10 +9,12 @@ Usage:
 
 The manifest explicitly opts into every migrated crop and its substituted soil
 and light rules. Unsupported semantics stop a record; they are never dropped
-silently. No dependencies beyond the Python standard library.
+silently. Preflight checks every record before writing any resources, and
+existing output files are never overwritten. No dependencies beyond the Python standard library.
 """
 import argparse
 import json
+import math
 import re
 from pathlib import Path
 
@@ -32,7 +34,7 @@ def plain_item(entry, label):
     return check_id(entry["object"], label)
 
 def finite_chance(value, label):
-    if not isinstance(value, (int, float)) or not 0 <= value <= 1:
+    if type(value) not in (int, float) or not math.isfinite(value) or not 0 <= value <= 1:
         raise ValueError(f"{label}: chance outside 0..1")
     return value
 
@@ -55,12 +57,12 @@ def convert_crop(source, config):
         raise ValueError("explicitly set exactly one soil_block or soil_tag")
     min_light = config.get("min_light")
     max_light = config.get("max_light")
-    if not all(isinstance(x, int) for x in (min_light, max_light)):
+    if not all(type(x) is int for x in (min_light, max_light)):
         raise ValueError("explicit min_light and max_light required")
     if not 0 <= min_light <= max_light <= 15:
         raise ValueError("light range invalid (Minecraft 1.21.1 uses 0..15)")
     tolerance = config.get("light_tolerance", 0)
-    if not isinstance(tolerance, int) or not 0 <= tolerance <= 15:
+    if type(tolerance) is not int or not 0 <= tolerance <= 15:
         raise ValueError("light_tolerance outside 0..15")
 
     seeds = [{"type": "item", "object": plain_item(e, "seed"), "useTag": False}
@@ -69,7 +71,7 @@ def convert_crop(source, config):
     for e in source.get("products", {}).get("products", []):
         item = plain_item(e, "harvest product")
         minimum, maximum = e["min"], e["max"]
-        if not all(isinstance(x, int) for x in (minimum, maximum)):
+        if not all(type(x) is int for x in (minimum, maximum)):
             raise ValueError("non-integer harvest counts")
         if not 0 <= minimum <= maximum <= 4096:
             raise ValueError("invalid harvest count")
@@ -79,10 +81,10 @@ def convert_crop(source, config):
                          "max": maximum, "chance": finite_chance(e["chance"], "product")})
     stages = source["stages"]
     if not isinstance(stages, list) or not stages or any(
-            not isinstance(v, int) or v < 0 for v in stages):
+            type(v) is not int or v < 0 for v in stages):
         raise ValueError("unsupported stages")
     harvest = source["harvestStage"]
-    if not isinstance(harvest, int) or not 0 <= harvest < len(stages):
+    if type(harvest) is not int or not 0 <= harvest < len(stages):
         raise ValueError("invalid harvest stage")
 
     texture = source.get("texture", {})
@@ -131,7 +133,7 @@ def convert_crop(source, config):
         "products": {"products": products},
         "cropgenetics_requirements": requirements_new
     }
-    if not isinstance(plant["growth_bonus"], (int, float)) or plant["growth_bonus"] < 0:
+    if type(plant["growth_bonus"]) not in (int, float) or not math.isfinite(plant["growth_bonus"]) or plant["growth_bonus"] < 0:
         raise ValueError("invalid growth bonus")
     return plant, {"plant": crop_id, "geometry": {"hash": "cross"}.get(geometry, geometry),
                    "stages": textures}
@@ -141,6 +143,16 @@ def output_file(root, relative, document):
     file.parent.mkdir(parents=True, exist_ok=True)
     file.write_text(json.dumps(document, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
+def safe_target(root, relative):
+    """Reject pre-existing targets and paths escaping the output directory."""
+    base = root.resolve()
+    target = root / relative
+    if not target.resolve().is_relative_to(base):
+        raise ValueError(f"output path escapes directory: {relative}")
+    if target.exists() or target.is_symlink():
+        raise ValueError(f"output exists (never overwrite): {relative}")
+    return relative
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--source", type=Path, required=True)
@@ -148,29 +160,49 @@ def main():
     ap.add_argument("--manifest", type=Path, required=True)
     args = ap.parse_args()
     manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
+    if not isinstance(manifest.get("plants"), dict) or not manifest["plants"]:
+        raise SystemExit("Manifest must contain a nonempty plants object")
     report = []
-    successes = 0
+    staged = []
+    seen_species = set()
+    seen_targets = set()
     for source_path, config in sorted(manifest["plants"].items()):
         try:
             normalized = Path(source_path)
             if normalized.is_absolute() or ".." in normalized.parts or normalized.suffix != ".json":
                 raise ValueError("unsafe source file path")
+            if not isinstance(config, dict):
+                raise ValueError("manifest crop configuration must be an object")
             src = json.loads((args.source / normalized).read_text(encoding="utf-8"))
             plant, visuals = convert_crop(src, config)
+            if plant["id"] in seen_species:
+                raise ValueError(f"duplicate plant ID in manifest: {plant['id']}")
             name = normalized.stem
-            # Emit under this mod's own data/asset namespace.
-            output_file(args.output,
-                        Path("data/cropgenetics/cropgenetics/plants") / (name + ".json"), plant)
-            output_file(args.output,
-                        Path("assets/cropgenetics/cropgenetics/plant_visuals") / (name + ".json"), visuals)
-            report.append({"source": source_path, "plant": plant["id"], "status": "migrated"})
-            successes += 1
+            targets = [
+                (Path("data/cropgenetics/cropgenetics/plants") / (name + ".json"), plant),
+                (Path("assets/cropgenetics/cropgenetics/plant_visuals") / (name + ".json"), visuals)
+            ]
+            for relative, document in targets:
+                safe_target(args.output, relative)
+                if relative in seen_targets:
+                    raise ValueError(f"duplicate output path: {relative}")
+            seen_species.add(plant["id"])
+            seen_targets.update(relative for relative, _ in targets)
+            staged.extend(targets)
+            report.append({"source": source_path, "plant": plant["id"], "status": "ready"})
         except (KeyError, TypeError, ValueError, OSError, json.JSONDecodeError) as exc:
             report.append({"source": source_path, "status": "skipped", "reason": str(exc)})
-    print(json.dumps({"migrated": successes, "skipped": len(report) - successes,
+    print(json.dumps({"ready": len(report) - sum(r["status"] == "skipped" for r in report),
+                      "skipped": sum(r["status"] == "skipped" for r in report),
                       "items": report}, indent=2, ensure_ascii=False))
-    if successes != len(manifest["plants"]):
-        raise SystemExit("Some requested crops were skipped; review report before publishing")
+    if any(r["status"] == "skipped" for r in report):
+        raise SystemExit("Preflight failed; no output files written")
+    # Recheck immediately before writing to limit accidental overwrites.
+    for relative, _ in staged:
+        safe_target(args.output, relative)
+    for relative, document in staged:
+        output_file(args.output, relative, document)
+    print(f"Wrote {len(staged)} new resource files; review Git diff before publishing")
 
 if __name__ == "__main__":
     main()
