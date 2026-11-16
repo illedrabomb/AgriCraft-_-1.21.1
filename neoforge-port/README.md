@@ -58,3 +58,4 @@ An earlier Java 21/NeoForge compilation of the foundational source code succeede
 
 ## License/credits
 Based on the AgriCraft project and data subprojects. Preserve MIT license and original authorship/copyright information for all reused code/assets.
+- Datapack stage-count migration: planted crops keep proportional growth progress when a reloaded species changes its number of growth stages (including exact maturity at both endpoints). The existing on-load/periodic reconciliation handles both loaded and re-entering chunks without changing genetics or physical fruit ownership. See `../temporary-research/CROP_DATAPACK_STAGE_REMAP.md`.
