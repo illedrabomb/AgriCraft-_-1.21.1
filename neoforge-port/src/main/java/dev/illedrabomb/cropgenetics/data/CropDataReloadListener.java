@@ -168,6 +168,7 @@ public final class CropDataReloadListener extends
         if (loadedMod.test("pamhc2crops")) {
             Set<String> explicitSpecies = new HashSet<>();
             Set<String> explicitSeedClaims = new HashSet<>();
+            Set<String> explicitProduceClaims = new HashSet<>();
             input.plants().values().forEach(element -> {
                 try {
                     JsonObject json = element.getAsJsonObject();
@@ -180,12 +181,25 @@ public final class CropDataReloadListener extends
                             }
                         }
                     }
+                    if (json.has("products") && json.get("products").isJsonObject()) {
+                        JsonObject products = json.getAsJsonObject("products");
+                        if (products.has("products") && products.get("products").isJsonArray()) {
+                            for (JsonElement product : products.getAsJsonArray("products")) {
+                                if (product.isJsonObject()
+                                        && product.getAsJsonObject().has("object")) {
+                                    explicitProduceClaims.add(
+                                            product.getAsJsonObject().get("object").getAsString());
+                                }
+                            }
+                        }
+                    }
                 } catch (RuntimeException ignored) {
                     // Invalid explicit files retain their normal reload errors.
                 }
             });
             PamCropAutoDiscovery.addMissing(
-                    plants, explicitSpecies, explicitSeedClaims, details, input.pamSettings());
+                    plants, explicitSpecies, explicitSeedClaims, explicitProduceClaims,
+                    details, input.pamSettings());
         }
 
         Map<String, MutationDefinition> mutations = new HashMap<>();
