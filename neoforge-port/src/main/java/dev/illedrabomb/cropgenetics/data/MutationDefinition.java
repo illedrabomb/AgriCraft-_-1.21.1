@@ -1,24 +1,54 @@
 package dev.illedrabomb.cropgenetics.data;
 
+import java.util.List;
 import java.util.Objects;
 
-/** Species mutation definition, independent from the numeric-gene mutator. */
-public record MutationDefinition(String childPlantId, String parentA, String parentB, double chance) {
+/** Species mutation, independent from numeric gene inheritance. */
+public record MutationDefinition(String childPlantId, String parentA, String parentB,
+                                 double chance, List<String> allowedBiomes,
+                                 List<String> blockedBiomes, List<String> allowedDimensions,
+                                 List<String> blockedDimensions) {
+    /** Existing unconditional mutations retain their original behavior. */
+    public MutationDefinition(String childPlantId, String parentA, String parentB, double chance) {
+        this(childPlantId, parentA, parentB, chance, List.of(), List.of(), List.of(), List.of());
+    }
+
     public MutationDefinition {
         Objects.requireNonNull(childPlantId);
         Objects.requireNonNull(parentA);
         Objects.requireNonNull(parentB);
         for (String id : new String[] {childPlantId, parentA, parentB}) {
-            if (id.length() > 128 || !id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) {
-                throw new IllegalArgumentException("Invalid mutation plant ID: " + id);
-            }
+            checkId(id);
         }
-        if (chance < 0 || chance > 1 || !Double.isFinite(chance)) {
+        if (chance < 0 || chance > 1 || !Double.isFinite(chance))
             throw new IllegalArgumentException("Mutation chance must be in [0, 1]");
-        }
+        allowedBiomes = List.copyOf(allowedBiomes);
+        blockedBiomes = List.copyOf(blockedBiomes);
+        allowedDimensions = List.copyOf(allowedDimensions);
+        blockedDimensions = List.copyOf(blockedDimensions);
+        validate(allowedBiomes, "allowed_biomes");
+        validate(blockedBiomes, "blocked_biomes");
+        validate(allowedDimensions, "allowed_dimensions");
+        validate(blockedDimensions, "blocked_dimensions");
+        if (allowedBiomes.stream().anyMatch(blockedBiomes::contains)
+                || allowedDimensions.stream().anyMatch(blockedDimensions::contains))
+            throw new IllegalArgumentException("Mutation location allow/block lists overlap");
+    }
+
+    private static void validate(List<String> list, String name) {
+        if (list.size() > 64 || list.stream().distinct().count() != list.size())
+            throw new IllegalArgumentException(name + " requires <=64 distinct values");
+        list.forEach(MutationDefinition::checkId);
+    }
+
+    private static void checkId(String id) {
+        if (id == null || id.length() > 128
+                || !id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+"))
+            throw new IllegalArgumentException("Invalid mutation identifier: " + id);
     }
 
     public boolean matchesParents(String a, String b) {
-        return (parentA.equals(a) && parentB.equals(b)) || (parentA.equals(b) && parentB.equals(a));
+        return (parentA.equals(a) && parentB.equals(b))
+                || (parentA.equals(b) && parentB.equals(a));
     }
 }
