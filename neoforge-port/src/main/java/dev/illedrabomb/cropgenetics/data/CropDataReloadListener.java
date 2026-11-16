@@ -142,6 +142,33 @@ public final class CropDataReloadListener extends
             }
         });
 
+        // Discover only as a fallback. Every explicit datapack file reserves
+        // its species and seed IDs, including disabled, invalid and missing-mod
+        // definitions, so the automatic layer cannot bypass an admin's choice.
+        // No synthetic crossbreeding recipes are invented.
+        if (loadedMod.test("pamhc2crops")) {
+            Set<String> explicitSpecies = new HashSet<>();
+            Set<String> explicitSeedClaims = new HashSet<>();
+            input.plants().values().forEach(element -> {
+                try {
+                    JsonObject json = element.getAsJsonObject();
+                    if (json.has("id")) explicitSpecies.add(json.get("id").getAsString());
+                    if (json.has("seed_items") && json.get("seed_items").isJsonArray()) {
+                        for (JsonElement seed : json.getAsJsonArray("seed_items")) {
+                            if (seed.isJsonObject() && seed.getAsJsonObject().has("object")) {
+                                explicitSeedClaims.add(
+                                        seed.getAsJsonObject().get("object").getAsString());
+                            }
+                        }
+                    }
+                } catch (RuntimeException ignored) {
+                    // Invalid explicit files retain their normal reload errors.
+                }
+            });
+            PamCropAutoDiscovery.addMissing(
+                    plants, explicitSpecies, explicitSeedClaims, details);
+        }
+
         Map<String, MutationDefinition> mutations = new HashMap<>();
         input.mutations().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(resource -> {
             ResourceLocation key = resource.getKey();
