@@ -60,24 +60,25 @@ def location_lists(config):
     return result
 
 def explicit_chemistry(config):
-    """Strict, manual 1.21.1 chemical rules; never infer legacy tolerance."""
+    """Manual canonical AgriCraft scales and bounded optional tolerance; never infer legacy input."""
     if "soil_chemistry" not in config:
         return None
     rules = config["soil_chemistry"]
     if not isinstance(rules, dict) or not rules:
         raise ValueError("soil_chemistry must be a nonempty object")
     categories = {
-        "humidity": {"arid", "dry", "normal", "wet", "saturated"},
-        "acidity": {"acidic", "slightly_acidic", "neutral",
-                    "slightly_alkaline", "alkaline"},
-        "nutrients": {"low", "medium", "high"}
+        "humidity": {"arid", "dry", "damp", "wet", "watery", "flooded"},
+        "acidity": {"highly_acidic", "acidic", "slightly_acidic", "neutral",
+                    "slightly_alkaline", "alkaline", "highly_alkaline"},
+        "nutrients": {"none", "very_low", "low", "medium", "high", "very_high"}
     }
     output = {}
     for name, condition in rules.items():
         if name not in categories or not isinstance(condition, dict):
             raise ValueError(f"unsupported soil_chemistry dimension: {name}")
-        if set(condition) != {"category", "comparison"}:
-            raise ValueError(f"{name}: expected category and comparison")
+        if not {"category", "comparison"} <= set(condition) or (
+                set(condition) - {"category", "comparison", "tolerance_factor"}):
+            raise ValueError(f"{name}: requires category/comparison; optional tolerance_factor")
         if (type(condition["category"]) is not str
                 or condition["category"] not in categories[name]):
             raise ValueError(f"{name}: unsupported chemistry category")
@@ -85,6 +86,10 @@ def explicit_chemistry(config):
                 or condition["comparison"] not in
                 {"equal", "equal_or_higher", "equal_or_lower"}):
             raise ValueError(f"{name}: unsupported chemistry comparison")
+        if "tolerance_factor" in condition:
+            value = condition["tolerance_factor"]
+            if type(value) not in (int, float) or not math.isfinite(value) or not 0 <= value <= 1:
+                raise ValueError(f"{name}: tolerance_factor must be within 0..1")
         output[name] = dict(condition)
     return output
 
