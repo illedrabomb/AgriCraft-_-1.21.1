@@ -2,6 +2,10 @@ package dev.illedrabomb.cropgenetics.data;
 
 import dev.illedrabomb.cropgenetics.content.SoilChemistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Map;
@@ -20,10 +24,21 @@ public final class SoilProfileRegistry {
         }
     }
 
-    private volatile Map<String, Profile> profiles = Map.of();
+    /** Both maps publish together to avoid partial reload states. */
+    private record Snapshot(Map<String, Profile> blocks, Map<String, Profile> tags) {
+        private Snapshot {
+            blocks = Map.copyOf(blocks);
+            tags = Map.copyOf(tags);
+        }
+    }
+    private volatile Snapshot snapshot = new Snapshot(Map.of(), Map.of());
 
     public void replaceProfiles(Map<String, Profile> incoming) {
-        profiles = Map.copyOf(incoming);
+        replaceProfiles(incoming, Map.of());
+    }
+
+    public void replaceProfiles(Map<String, Profile> blocks, Map<String, Profile> tags) {
+        snapshot = new Snapshot(blocks, tags);
     }
 
     /** Existing API: replace chemistry alone, without a growth penalty/bonus. */
@@ -34,12 +49,26 @@ public final class SoilProfileRegistry {
     }
 
     public int size() {
-        return profiles.size();
+        Snapshot active = snapshot;
+        return active.blocks().size() + active.tags().size();
     }
 
     public Optional<Profile> profile(BlockState soil) {
+        Snapshot active = snapshot;
         String blockId = BuiltInRegistries.BLOCK.getKey(soil.getBlock()).toString();
-        return Optional.ofNullable(profiles.get(blockId));
+        Profile exact = active.blocks().get(blockId);
+        if (exact != null) return Optional.of(exact);
+
+        // A block can belong to several common tags. Never choose an
+        // arbitrary profile when more than one configured tag matches.
+        Profile result = null;
+        for (Map.Entry<String, Profile> entry : active.tags().entrySet()) {
+            ResourceLocation id = ResourceLocation.tryParse(entry.getKey());
+            if (id == null || !soil.is(TagKey.create(Registries.BLOCK, id))) continue;
+            if (result != null) return Optional.empty();
+            result = entry.getValue();
+        }
+        return Optional.ofNullable(result);
     }
 
     public Optional<SoilChemistryAccess.Sample> sample(BlockState soil) {
