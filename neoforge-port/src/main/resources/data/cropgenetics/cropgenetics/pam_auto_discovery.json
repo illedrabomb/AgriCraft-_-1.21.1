@@ -5,5 +5,6 @@
   "growth_chance": 0.75,
   "growth_bonus": 0.025,
   "harvest_maximum": 5,
-  "excluded_crops": []
+  "excluded_crops": [],
+  "item_pairs": {}
 }
