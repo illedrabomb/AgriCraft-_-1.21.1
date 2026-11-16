@@ -1,6 +1,13 @@
 package dev.illedrabomb.cropgenetics.command;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import dev.illedrabomb.cropgenetics.content.CropConditions;
+import dev.illedrabomb.cropgenetics.content.CropSticksBlockEntity;
+import dev.illedrabomb.cropgenetics.content.GourdFruits;
+import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.CropReloadReport;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
@@ -47,6 +54,10 @@ public final class CropDataCommand {
                                                 IntegerArgumentType.getInteger(ctx, "page")))))
                         .then(Commands.literal("pam")
                                 .executes(ctx -> pamSummary(ctx.getSource(), registry)))
+                        .then(Commands.literal("gourd")
+                                .then(Commands.argument("pos", BlockPosArgument.blockPos())
+                                        .executes(ctx -> gourd(ctx.getSource(), registry,
+                                                BlockPosArgument.getLoadedBlockPos(ctx, "pos")))))
                         .then(Commands.literal("tags")
                                 .executes(ctx -> tags(ctx.getSource(), registry, 1))
                                 .then(Commands.argument("page", IntegerArgumentType.integer(1))
@@ -100,6 +111,42 @@ public final class CropDataCommand {
         tell(source, "  Total active species (all mods): " + snapshot.plants().size());
         tell(source, "Details: /cropgenetics data errors [page] or all [page].");
         return stats.autoDiscovered();
+    }
+
+    /**
+     * Diagnose fruit chance, growth conditions, and all four placement sites
+     * without rolling randomness or modifying the world.
+     */
+    private static int gourd(CommandSourceStack source, AgriPlantsRegistry registry,
+                             BlockPos pos) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        ServerLevel level = source.getLevel();
+        if (!(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)) {
+            tell(source, "No planted Crop Sticks block entity at " + pos.toShortString());
+            return 0;
+        }
+        Genome genome = crop.genome();
+        if (genome == null) {
+            tell(source, "Crop Sticks at " + pos.toShortString() + " are empty.");
+            return 0;
+        }
+        PlantDefinition plant = registry.snapshot().plants().get(genome.plantId());
+        if (plant == null) {
+            tell(source, "Species missing from active datapack: " + genome.plantId());
+            return 0;
+        }
+        double factor = CropConditions.growthFactor(level, pos, plant, genome);
+        double chance = plant.fruitChance() * (1.0D
+                + (genome.gain().expressed(
+                        dev.illedrabomb.cropgenetics.genetics.GenePair.TraitMode.MAX) - 1) / 10.0D)
+                * factor;
+        tell(source, "Gourd diagnostic at " + pos.toShortString()
+                + " (read-only, current loaded chunks):");
+        tell(source, "  growthFactor=" + factor + ", fruitChancePerRandomTick="
+                + Math.max(0D, Math.min(1D, chance))
+                + ", brightness=" + level.getRawBrightness(pos, 0));
+        GourdFruits.placementDiagnostics(level, pos, plant, crop)
+                .forEach(line -> tell(source, "  " + line));
+        return 1;
     }
 
     private static int list(CommandSourceStack source, AgriPlantsRegistry registry,
