@@ -1,5 +1,6 @@
 package dev.illedrabomb.cropgenetics.content;
 
+import dev.illedrabomb.cropgenetics.data.EnvironmentFilter;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
 import dev.illedrabomb.cropgenetics.data.PlantRequirements;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
@@ -75,6 +76,17 @@ public final class CropConditions {
         return true;
     }
 
+    /** Apply exact fluid-state ID and inclusive Y bounds at the crop position. */
+    public static boolean matchesEnvironment(LevelReader level, BlockPos pos, EnvironmentFilter filter) {
+        if (filter.minY().isPresent() && pos.getY() < filter.minY().get()) return false;
+        if (filter.maxY().isPresent() && pos.getY() > filter.maxY().get()) return false;
+        if (filter.fluidId().isPresent()) {
+            ResourceLocation actual = BuiltInRegistries.FLUID.getKey(level.getFluidState(pos).getType());
+            return actual != null && filter.fluidId().get().equals(actual.toString());
+        }
+        return true;
+    }
+
     /**
      * 0.0 blocks growth; 1.0 has no penalty. A plant with Strength 1 has
      * no tolerance. Strength 10 reaches the configured maximum light deficit.
@@ -84,7 +96,8 @@ public final class CropConditions {
                                       PlantDefinition plant, Genome genome) {
         PlantRequirements requirements = plant.requirements();
         if (!matchesSoil(level, pos, requirements)
-                || !matchesLocation(level, pos, requirements)) return 0.0D;
+                || !matchesLocation(level, pos, requirements)
+                || !matchesEnvironment(level, pos, requirements.environment())) return 0.0D;
 
         int light = level.getRawBrightness(pos, 0);
         int deficit = Math.max(0, Math.max(requirements.minLight() - light,
