@@ -48,6 +48,13 @@ public final class PlantRegistryValidator {
             }
         });
 
+        plant.requirements().environment().fluidId().ifPresent(value -> {
+            ResourceLocation id = ResourceLocation.tryParse(value);
+            if (id == null || BuiltInRegistries.FLUID.getOptional(id).isEmpty()) {
+                problems.add("Unknown required fluid: " + value);
+            }
+        });
+
         return List.copyOf(problems);
     }
 
