@@ -19,20 +19,20 @@ public final class AgriPlantsParser {
         for (String field : new String[]{"callbacks", "structure_generation",
                 "particle_effects"}) {
             JsonArray legacyRules = json.getAsJsonArray(field);
-            if (legacyRules != null && !legacyRules.isEmpty())
+            if (legacyRules != null && legacyRules.size() > 0)
                 throw new JsonParseException(id + ": unsupported legacy " + field
                         + " requires a compatibility adapter");
         }
         JsonObject clips = json.getAsJsonObject("clip_products");
         if (clips != null && clips.has("products")
-                && !clips.getAsJsonArray("products").isEmpty())
+                && clips.getAsJsonArray("products").size() > 0)
             throw new JsonParseException(id + ": legacy clipping products require an adapter");
-        if (json.has("grass_drop_chance")
-                && json.get("grass_drop_chance").getAsDouble() != 0D
-                || json.has("seed_drop_chance")
-                && json.get("seed_drop_chance").getAsDouble() != 1D
-                || json.has("seed_drop_bonus")
-                && json.get("seed_drop_bonus").getAsDouble() != 0D)
+        if ((json.has("grass_drop_chance")
+                && json.get("grass_drop_chance").getAsDouble() != 0D)
+                || (json.has("seed_drop_chance")
+                && json.get("seed_drop_chance").getAsDouble() != 1D)
+                || (json.has("seed_drop_bonus")
+                && json.get("seed_drop_bonus").getAsDouble() != 0D))
             throw new JsonParseException(id + ": nondefault legacy seed drops require an adapter");
         List<String> mods = strings(json.getAsJsonArray("mods"));
         List<String> seeds = new ArrayList<>();
