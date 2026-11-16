@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -13,9 +15,34 @@ import java.util.Set;
 public record PamAutoDiscoverySettings(boolean enabled, int maxPlants,
                                        int minLight, double growthChance,
                                        double growthBonus, int harvestMaximum,
-                                       Set<String> excludedCrops) {
+                                       Set<String> excludedCrops,
+                                       Map<String, ItemPair> itemPairs) {
     public static final PamAutoDiscoverySettings DEFAULT =
-            new PamAutoDiscoverySettings(true, 512, 9, 0.75D, 0.025D, 5, Set.of());
+            new PamAutoDiscoverySettings(true, 512, 9, 0.75D, 0.025D, 5, Set.of(), Map.of());
+
+    /** Keep previous settings constructor for callers that do not use custom pairs. */
+    public PamAutoDiscoverySettings(boolean enabled, int maxPlants, int minLight,
+                                    double growthChance, double growthBonus,
+                                    int harvestMaximum, Set<String> excludedCrops) {
+        this(enabled, maxPlants, minLight, growthChance, growthBonus,
+                harvestMaximum, excludedCrops, Map.of());
+    }
+
+    /** Explicitly reviewed item identities, never inferred from crop names. */
+    public record ItemPair(String seed, String produce) {
+        public ItemPair {
+            checkPamItem(seed);
+            checkPamItem(produce);
+            if (seed.equals(produce))
+                throw new IllegalArgumentException("Seed and produce cannot be identical");
+        }
+    }
+
+    private static void checkPamItem(String id) {
+        if (id == null || id.length() > 128
+                || !id.matches("pamhc2crops:[a-z0-9_./-]+"))
+            throw new IllegalArgumentException("Expected Pam's Crops item ID: " + id);
+    }
 
     public PamAutoDiscoverySettings {
         if (maxPlants < 0 || maxPlants > 512)
@@ -32,11 +59,17 @@ public record PamAutoDiscoverySettings(boolean enabled, int maxPlants,
         if (excludedCrops.size() > 512 || excludedCrops.stream().anyMatch(
                 crop -> !crop.matches("[a-z][a-z0-9_]*") || crop.length() > 80))
             throw new IllegalArgumentException("excluded_crops: up to 512 valid crop names");
+        itemPairs = Map.copyOf(itemPairs);
+        if (itemPairs.size() > 128 || itemPairs.keySet().stream().anyMatch(
+                crop -> !crop.matches("[a-z][a-z0-9_]*") || crop.length() > 80))
+            throw new IllegalArgumentException("item_pairs: up to 128 valid crop names");
+        if (itemPairs.values().stream().map(ItemPair::seed).distinct().count() != itemPairs.size())
+            throw new IllegalArgumentException("item_pairs contains duplicate seed IDs");
     }
 
     public static PamAutoDiscoverySettings parse(JsonObject json) {
         Set<String> allowed = Set.of("enabled", "max_plants", "min_light",
-                "growth_chance", "growth_bonus", "harvest_maximum", "excluded_crops");
+                "growth_chance", "growth_bonus", "harvest_maximum", "excluded_crops", "item_pairs");
         if (!allowed.containsAll(json.keySet()))
             throw new JsonParseException("Unknown Pam's discovery setting");
         Set<String> exclusions = new HashSet<>();
@@ -49,14 +82,35 @@ public record PamAutoDiscoverySettings(boolean enabled, int maxPlants,
                     throw new JsonParseException("Duplicate excluded crop: " + crop);
             });
         }
+        Map<String, ItemPair> pairs = new HashMap<>();
+        if (json.has("item_pairs")) {
+            JsonObject input = json.getAsJsonObject("item_pairs");
+            if (input.size() > 128) throw new JsonParseException("Too many item_pairs");
+            for (String name : input.keySet()) {
+                JsonObject pair = input.getAsJsonObject(name);
+                if (!pair.keySet().equals(Set.of("seed", "produce")))
+                    throw new JsonParseException("item_pairs." + name
+                            + " requires exactly seed and produce");
+                pairs.put(name, new ItemPair(
+                        pair.get("seed").getAsString(), pair.get("produce").getAsString()));
+            }
+        }
         return new PamAutoDiscoverySettings(
-                json.has("enabled") ? json.get("enabled").getAsBoolean() : DEFAULT.enabled(),
+                bool(json, "enabled", DEFAULT.enabled()),
                 integer(json, "max_plants", DEFAULT.maxPlants()),
                 integer(json, "min_light", DEFAULT.minLight()),
                 number(json, "growth_chance", DEFAULT.growthChance()),
                 number(json, "growth_bonus", DEFAULT.growthBonus()),
                 integer(json, "harvest_maximum", DEFAULT.harvestMaximum()),
-                exclusions);
+                exclusions, pairs);
+    }
+
+    private static boolean bool(JsonObject json, String key, boolean fallback) {
+        if (!json.has(key)) return fallback;
+        var value = json.get(key);
+        if (!value.isJsonPrimitive() || !value.getAsJsonPrimitive().isBoolean())
+            throw new JsonParseException(key + " must be boolean");
+        return value.getAsBoolean();
     }
 
     private static int integer(JsonObject json, String key, int fallback) {
