@@ -15,7 +15,13 @@
     "repository": "AgriCraft/AgriPlants",
     "commit": "9444e75828f66bd40adabb4aeca2544765408f8a",
     "path": "mod_pamhc2crops/plants/",
-    "warning": "Target ids cross-referenced to AgriPlants crop definitions; validate against installed NeoForge 1.21.1 registry before any conversion"
+    "warning": "Targets derive from pinned AgriPlants 1.18.2; current NeoForge 1.21.1-1.0.9 item registrations are not independently verified. Never auto-convert items or blocks.",
+    "minecraft": "1.21.1",
+    "latest_release_verified": "pamhc2crops-NEOFORGE-1.21.1-1.0.9.jar",
+    "release_date": "2026-05-09",
+    "release_source": "https://www.curseforge.com/minecraft/mc-mods/pams-harvestcraft-2-crops",
+    "live_item_registry_status": "not_verified",
+    "local_cropgenetics_definitions_status": "available_for_read_only_verification_not_executed"
   },
   "rules": [
     {
