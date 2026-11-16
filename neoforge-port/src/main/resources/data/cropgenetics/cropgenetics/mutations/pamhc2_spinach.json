@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "mods": [
+    "pamhc2crops"
+  ],
+  "chance": 0.5,
+  "child": "pamhc2crops:spinach_plant",
+  "parent1": "pamhc2crops:lettuce_plant",
+  "parent2": "minecraft:cactus_plant"
+}
