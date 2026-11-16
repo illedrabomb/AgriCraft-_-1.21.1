@@ -7,13 +7,22 @@ import java.util.Objects;
 public record MutationDefinition(String childPlantId, String parentA, String parentB,
                                  double chance, List<String> allowedBiomes,
                                  List<String> blockedBiomes, List<String> allowedDimensions,
-                                 List<String> blockedDimensions) {
+                                 List<String> blockedDimensions, EnvironmentFilter environment) {
     /** Existing unconditional mutations retain their original behavior. */
     public MutationDefinition(String childPlantId, String parentA, String parentB, double chance) {
-        this(childPlantId, parentA, parentB, chance, List.of(), List.of(), List.of(), List.of());
+        this(childPlantId, parentA, parentB, chance, List.of(), List.of(), List.of(), List.of(), EnvironmentFilter.UNRESTRICTED);
+    }
+
+    /** Preserve existing location-only constructor. */
+    public MutationDefinition(String childPlantId, String parentA, String parentB, double chance,
+                              List<String> allowedBiomes, List<String> blockedBiomes,
+                              List<String> allowedDimensions, List<String> blockedDimensions) {
+        this(childPlantId, parentA, parentB, chance, allowedBiomes, blockedBiomes,
+                allowedDimensions, blockedDimensions, EnvironmentFilter.UNRESTRICTED);
     }
 
     public MutationDefinition {
+        Objects.requireNonNull(environment);
         Objects.requireNonNull(childPlantId);
         Objects.requireNonNull(parentA);
         Objects.requireNonNull(parentB);
