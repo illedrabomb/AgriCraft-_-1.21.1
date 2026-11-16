@@ -70,6 +70,10 @@ Nach dem ursprünglichen 8er- und 14er-Pflanzensatz wurden weitere **8 aus den g
 
 Zusätzlich liegen **14 originale Mutations-Datapacks** vor: die bisherigen vier sowie zehn neue, deren Eltern durch die neuen Species vollständig referenzierbar sind. Details zu den echten Original-Eltern, -Chancen und zurückgestellten Rezepten: `docs/PAMS_HARVESTCRAFT_2_MUTATIONS.md`. Die Legacy-1-zu-2-Crosswalk-Kandidaten sind parallel auf **30** erweitert worden, aber die NeoForge-1.21.1-Pam's-Registry wurde noch nicht unabhängig verifiziert.
 
+## Nachtrag 16.11.2026: Rosenkohl und Vanilla-Parent-Mutationen
+
+Die 30 vorhandenen optionalen Pam's-2-Crops wurden um **Rosenkohl (brusselsprout)** aus der belegten Original-AgriPlants-Datei erweitert: aktueller Stand **31 Pflanzen und 25 originale Mutationen**. Elf neue Mutationen (Zwiebel, Radieschen und neun explizit angepasste historische `vanilla:`-Elternrezepte) sind dokumentiert unter `docs/PAMS_VANILLA_SPECIES_ALIASES_AND_BRUSSELSPROUT.md`. Die HarvestCraft-1-Legacy-ID-Zuordnung ist ebenfalls auf 31 source-grounded Kandidaten gewachsen. Keine vollständige Spiel-/Client- oder Jar-Registry-Verifikation.
+
 ## Weitere Arbeit (Priorität)
 
 1. **Restliche originalen `mod_pamhc2crops/plants/`-Definitionen** systematisch übernehmen, mit Originalbedingungen, bestehenden Seed-/Crop-ID-Prüfungen und sauberer Diagnose. Der vorhandene Offline-Importer kann dies nach späterer expliziter Freigabe unterstützen; er wurde **nicht ausgeführt**.
