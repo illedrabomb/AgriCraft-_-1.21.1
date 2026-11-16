@@ -52,9 +52,13 @@ Unterstützte Kategorien entsprechen `docs/SOIL_CHEMISTRY_ARCHITECTURE.md`. Der 
 
 Java-Quellen liegen unter `neoforge-port/src/main/java/dev/illedrabomb/cropgenetics/`.
 
+## Ergänzung: Spieler-Bodenpflege (16.11.2026)
+
+Das optionale `SoilTreatment`-Modul und die Item-Interaktion von `CropSticksBlock` erlauben im **ungetesteten Quellcode** eine Änderung vorhandener Bodenchemie: Wassereimer erhöht Feuchtigkeit um eine Stufe, Knochenmehl erhöht Nährstoffe um eine Stufe. Die Werte werden über die hier dokumentierten SavedData-Overrides gespeichert; ohne explizites Ausgangsprofil keine Änderung. Vollständige Semantik, Materialverbrauch, Grenzen und spätere Validierung: `docs/SOIL_TREATMENTS.md`.
+
 ## Noch nicht umgesetzt
 
-1. **Automatische Bewässerung, Dünger, Verbrauch/Regeneration von Nährstoffen, Wetter oder Nachbarblockeffekte**. Dynamisch bedeutet aktuell *positionsbezogen veränderbar und persistent*, nicht zeitabhängig simuliert.
+1. **Automatische Bewässerung, Regen, Nährstoffverbrauch/-regeneration und Nachbarblockeffekte** fehlen weiterhin. Wassereimer und Knochenmehl erlauben lediglich explizite Spielerinteraktionen auf Profilböden. Dynamisch bedeutet aktuell *positionsbezogen veränderbar und persistent*, nicht zeitabhängig simuliert.
 2. Eigenes Werkzeug/UI zur Bodenbearbeitung, Berechtigungen für Nicht-Administratoren und spätere Integration in MineColonies.
 3. Automatisches Löschen bei Blockabbau **im selben Tick**: abweichende Blocktypen werden erst bei der nächsten Abfrage bemerkt; ein Ersatz durch denselben Blocktyp kann weiterhin den alten Wert übernehmen, bis eine gesonderte Blockänderungs-Ereignisbehandlung implementiert wird.
 4. Historische AgriCore-Bodenphysik, Strength-Toleranzformeln und Originalwerte: erst quellenbezogen analysieren, nicht durch erfundene Vanilla-Werte ersetzen.
