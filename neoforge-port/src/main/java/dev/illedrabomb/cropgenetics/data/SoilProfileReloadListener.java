@@ -21,7 +21,7 @@ import java.util.Set;
 
 /**
  * Server datapack profiles: data/<namespace>/cropgenetics/soil_profiles/*.json
- * Each record assigns exactly one known BLOCK ID to chemistry and optional growth_modifier.
+ * Each record targets exactly one block ID OR block tag for chemistry and growth_modifier.
  * Duplicate target blocks are disabled rather than resolved arbitrarily.
  */
 public final class SoilProfileReloadListener
@@ -54,22 +54,26 @@ public final class SoilProfileReloadListener
     protected void apply(Map<ResourceLocation, JsonElement> input, ResourceManager manager,
                          ProfilerFiller profiler) {
         Map<String, SoilProfileRegistry.Profile> profiles = new HashMap<>();
+        Map<String, SoilProfileRegistry.Profile> tagged = new HashMap<>();
         Set<String> conflicting = new HashSet<>();
+        Set<String> conflictingTags = new HashSet<>();
         input.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
             try {
                 JsonObject json = entry.getValue().getAsJsonObject();
-                Set<String> requiredKeys = Set.of("block", "humidity", "acidity", "nutrients");
-                Set<String> allowedKeys = Set.of("block", "humidity", "acidity",
+                Set<String> requiredKeys = Set.of("humidity", "acidity", "nutrients");
+                Set<String> allowedKeys = Set.of("block", "block_tag", "humidity", "acidity",
                         "nutrients", "growth_modifier");
                 if (!json.keySet().containsAll(requiredKeys)
-                        || !allowedKeys.containsAll(json.keySet()))
+                        || !allowedKeys.containsAll(json.keySet())
+                        || json.has("block") == json.has("block_tag"))
                     throw new IllegalArgumentException(
-                            "Expected block, humidity, acidity, nutrients; optional growth_modifier");
-                String block = json.get("block").getAsString();
+                            "Expected exactly one of block/block_tag, plus humidity/acidity/nutrients");
+                boolean isTag = json.has("block_tag");
+                String block = json.get(isTag ? "block_tag" : "block").getAsString();
                 ResourceLocation key = ResourceLocation.tryParse(block);
-                if (key == null || BuiltInRegistries.BLOCK.getOptional(key).isEmpty()
-                        || BuiltInRegistries.BLOCK.getOptional(key).orElseThrow() == Blocks.AIR)
-                    throw new IllegalArgumentException("Unknown or air block: " + block);
+                if (key == null || (!isTag && (BuiltInRegistries.BLOCK.getOptional(key).isEmpty()
+                        || BuiltInRegistries.BLOCK.getOptional(key).orElseThrow() == Blocks.AIR)))
+                    throw new IllegalArgumentException("Invalid block/tag ID: " + block);
                 SoilChemistryAccess.Sample sample = new SoilChemistryAccess.Sample(
                         SoilChemistryRule.parse(SoilChemistryRule.Humidity.class,
                                 json.get("humidity").getAsString()),
@@ -80,10 +84,12 @@ public final class SoilProfileReloadListener
                 double modifier = json.has("growth_modifier")
                         ? json.get("growth_modifier").getAsDouble() : 1.0D;
                 SoilProfileRegistry.Profile profile = new SoilProfileRegistry.Profile(sample, modifier);
-                if (conflicting.contains(block)) return;
-                if (profiles.putIfAbsent(block, profile) != null) {
-                    profiles.remove(block);
-                    conflicting.add(block);
+                Map<String, SoilProfileRegistry.Profile> target = isTag ? tagged : profiles;
+                Set<String> duplicates = isTag ? conflictingTags : conflicting;
+                if (duplicates.contains(block)) return;
+                if (target.putIfAbsent(block, profile) != null) {
+                    target.remove(block);
+                    duplicates.add(block);
                 }
             } catch (RuntimeException ex) {
                 LOG.warn("Invalid soil profile {}: {}", entry.getKey(), ex.getMessage());
@@ -91,8 +97,10 @@ public final class SoilProfileReloadListener
         });
         for (String block : conflicting)
             LOG.warn("Conflicting soil profile declarations for block {}, disabled", block);
-        registry.replaceProfiles(profiles);
-        LOG.info("Loaded {} explicit soil chemistry profiles ({} conflicts)",
-                registry.size(), conflicting.size());
+        for (String tag : conflictingTags)
+            LOG.warn("Conflicting soil profile declarations for tag #{}, disabled", tag);
+        registry.replaceProfiles(profiles, tagged);
+        LOG.info("Loaded {} soil chemistry profiles ({} conflicting blocks, {} conflicting tags)",
+                registry.size(), conflicting.size(), conflictingTags.size());
     }
 }
