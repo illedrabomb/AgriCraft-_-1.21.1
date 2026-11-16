@@ -161,45 +161,68 @@ public final class CropDataReloadListener extends
             }
         });
 
-        // Discover only as a fallback. Every explicit datapack file reserves
-        // its species and seed IDs, including disabled, invalid and missing-mod
-        // definitions, so the automatic layer cannot bypass an admin's choice.
-        // No synthetic crossbreeding recipes are invented.
-        if (loadedMod.test("pamhc2crops")) {
+        // If any explicit plant resource could not be read, its species/seed/
+        // harvest claims are unknown. Fail closed for automatic discovery
+        // rather than silently replacing an administrator's broken override.
+        // Explicitly valid plants and mutations still load as usual.
+        boolean unsafeAutoClaims = input.readErrors().stream().anyMatch(error ->
+                error.kind() == CropReloadReport.Kind.PLANT
+                        && error.source().getPath().startsWith(PLANTS + "/"));
+        if (loadedMod.test("pamhc2crops") && input.pamSettings().enabled()) {
             Set<String> explicitSpecies = new HashSet<>();
             Set<String> explicitSeedClaims = new HashSet<>();
             Set<String> explicitProduceClaims = new HashSet<>();
-            input.plants().values().forEach(element -> {
+            for (Map.Entry<ResourceLocation, JsonElement> resource : input.plants().entrySet()) {
                 try {
-                    JsonObject json = element.getAsJsonObject();
-                    if (json.has("id")) explicitSpecies.add(json.get("id").getAsString());
-                    if (json.has("seed_items") && json.get("seed_items").isJsonArray()) {
+                    JsonObject json = resource.getValue().getAsJsonObject();
+                    // Every explicit plant must identify its own species.
+                    // Without an ID, we cannot guarantee it does not claim
+                    // an automatically inferred Pam's species.
+                    if (!json.has("id") || !json.get("id").isJsonPrimitive()) {
+                        unsafeAutoClaims = true;
+                        continue;
+                    }
+                    explicitSpecies.add(json.get("id").getAsString());
+                    if (json.has("seed_items")) {
                         for (JsonElement seed : json.getAsJsonArray("seed_items")) {
-                            if (seed.isJsonObject() && seed.getAsJsonObject().has("object")) {
-                                explicitSeedClaims.add(
-                                        seed.getAsJsonObject().get("object").getAsString());
+                            JsonObject object = seed.getAsJsonObject();
+                            if (!object.has("object") || !object.get("object").isJsonPrimitive()) {
+                                unsafeAutoClaims = true;
+                                continue;
                             }
+                            explicitSeedClaims.add(object.get("object").getAsString());
                         }
                     }
-                    if (json.has("products") && json.get("products").isJsonObject()) {
+                    if (json.has("products")) {
                         JsonObject products = json.getAsJsonObject("products");
-                        if (products.has("products") && products.get("products").isJsonArray()) {
-                            for (JsonElement product : products.getAsJsonArray("products")) {
-                                if (product.isJsonObject()
-                                        && product.getAsJsonObject().has("object")) {
-                                    explicitProduceClaims.add(
-                                            product.getAsJsonObject().get("object").getAsString());
-                                }
+                        if (!products.has("products") || !products.get("products").isJsonArray()) {
+                            unsafeAutoClaims = true;
+                            continue;
+                        }
+                        for (JsonElement product : products.getAsJsonArray("products")) {
+                            JsonObject object = product.getAsJsonObject();
+                            if (!object.has("object") || !object.get("object").isJsonPrimitive()) {
+                                unsafeAutoClaims = true;
+                                continue;
                             }
+                            explicitProduceClaims.add(object.get("object").getAsString());
                         }
                     }
                 } catch (RuntimeException ignored) {
-                    // Invalid explicit files retain their normal reload errors.
+                    // Malformed claims are not safe to infer or replace.
+                    unsafeAutoClaims = true;
                 }
-            });
-            PamCropAutoDiscovery.addMissing(
-                    plants, explicitSpecies, explicitSeedClaims, explicitProduceClaims,
-                    details, input.pamSettings());
+            }
+            if (unsafeAutoClaims) {
+                details.add(entry(CropReloadReport.Kind.PLANT, PAM_SETTINGS, "",
+                        CropReloadReport.Status.WARNING,
+                        "Pam's automatic discovery disabled for this reload: "
+                                + "unreadable/malformed explicit plant identity or item claims"));
+            } else {
+                PamCropAutoDiscovery.addMissing(
+                        plants, explicitSpecies, explicitSeedClaims, explicitProduceClaims,
+                        details, input.pamSettings());
+            }
         }
 
         Map<String, MutationDefinition> mutations = new HashMap<>();
