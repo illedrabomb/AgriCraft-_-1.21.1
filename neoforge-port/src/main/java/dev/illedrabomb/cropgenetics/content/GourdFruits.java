@@ -62,7 +62,12 @@ public final class GourdFruits {
     public static boolean tryPlace(ServerLevel level, BlockPos stem, PlantDefinition plant,
                                    CropSticksBlockEntity crop, RandomSource random) {
         Block fruit = fruitBlock(plant);
-        if (fruit == null || crop.fruitReady()) return false;
+        // Placement happens on the server thread. Recheck the exact stem
+        // before touching an adjacent block: block callbacks can replace it.
+        if (fruit == null || crop.isRemoved() || crop.fruitReady()
+                || level.getBlockEntity(stem) != crop
+                || !level.getBlockState(stem).is(CropBlocks.CROP_STICKS.get())
+                || !crop.isMature(plant)) return false;
         List<Direction> candidates = new ArrayList<>(List.of(
                 Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST));
         Collections.shuffle(candidates, new java.util.Random(random.nextLong()));
@@ -77,12 +82,18 @@ public final class GourdFruits {
 
             UUID token = UUID.randomUUID();
             if (level.setBlock(target, fruit.defaultBlockState(), 3)) {
-                if (level.getBlockEntity(target) instanceof GeneticGourdFruitBlockEntity fruitEntity) {
-                    if (fruitEntity.bind(stem, token)
-                            && crop.markPhysicalFruit(plant, direction, token)) return true;
+                // Save the entity observed immediately after placement. On a
+                // failed bind only roll back if the same block/entity remains;
+                // never delete an unrelated block installed by a callback.
+                var placedEntity = level.getBlockEntity(target);
+                if (placedEntity instanceof GeneticGourdFruitBlockEntity fruitEntity
+                        && fruitEntity.bind(stem, token)
+                        && crop.markPhysicalFruit(plant, direction, token)) return true;
+
+                if (level.getBlockState(target).is(fruit)
+                        && level.getBlockEntity(target) == placedEntity) {
+                    level.removeBlock(target, false);
                 }
-                // On failed binding discard the new block without fruit drops.
-                level.removeBlock(target, false);
             }
         }
         return false;
