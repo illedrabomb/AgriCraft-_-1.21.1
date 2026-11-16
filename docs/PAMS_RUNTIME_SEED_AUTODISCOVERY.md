@@ -31,6 +31,37 @@ Es gelten folgende Regeln:
 
 **Nicht behauptet oder automatisch rekonstruiert:** Originale Feuchtigkeits-/Säure-/Nährstoffanforderungen, Jahreszeiten, Wachstumstoleranzen, Render-Texturen, individuelle Drop-Logik, Samen-Pflanzungsüberschreibung, Mod-Kulturpflanzenblöcke oder genetische Mutationsrezepte. Solche Eigenschaften bleiben **expliziten Datapack-Definitionen** vorbehalten und werden nicht aus Item-Namen geraten.
 
+## Nachtrag: konfigurierbare automatische Erkennung (16.11.2026)
+
+Das automatische Ergänzen unbekannter Pam's-Crops ist jetzt per Server-Datapack steuerbar. Mitgelieferter, durch höhere Datapack-Priorität überschreibbarer Pfad:
+
+`data/cropgenetics/cropgenetics/pam_auto_discovery.json`
+
+```json
+{
+  "enabled": true,
+  "max_plants": 512,
+  "min_light": 9,
+  "growth_chance": 0.75,
+  "growth_bonus": 0.025,
+  "harvest_maximum": 5,
+  "excluded_crops": []
+}
+```
+
+- `enabled` deaktiviert die **automatische Erkennung**, nicht die explizit definierten Originalpflanzen.
+- `max_plants`: höchstens 0..512 automatisch neu eingefügte Arten je Reload; **0** bedeutet keine neuen Arten.
+- `excluded_crops`: bis zu 512 eindeutige gültige interne Pam's-Crop-Namen, z. B. `["tomato", "rice"]`. Der Ausschluss gilt nur für **automatisch** entdeckte Arten; bereits vorhandene explizite Datapacks behalten ihre eigenen `enabled`-Regeln.
+- `min_light`: 0..15; die Obergrenze bleibt 15.
+- `growth_chance` und `growth_bonus`: endliche Zahlen 0..1.
+- `harvest_maximum`: 1..64; das Ernteminimum bleibt 1 und die generische Erntechance bleibt 0.9.
+
+Die übrigen Auto-Werte (acht Stufen, harvestStage 4, cloneable=true, spreadChance 0.1, Vanilla-Farmland) bleiben als **Port-Fallback** fest. Sie sind **keine Originalwerte für jede unbekannte Pflanze**. Auch eine geänderte Konfiguration erfindet keine Mutationsrezepte, Jahreszeiten oder Pflanzen-Texturen.
+
+Die Datapack-Datei wird im selben serverseitigen `CropDataReloadListener.prepare` wie die Pflanzen- und Mutationsdaten gelesen. **Fehlt** sie vollständig, gelten die oben angegebenen Defaults. **Ist** sie vorhanden, aber ungültig (falsche Typen, unbekannte Keys, Werte außerhalb der Grenzen, doppelte Ausnahmen), wird die Autodiscovery **für diesen Reload vollständig deaktiviert** und ein `INVALID`-Diagnoseeintrag erzeugt; die expliziten Pflanzendateien werden davon nicht blockiert. Nach erfolgreichem Reload werden Regeln, automatisch ergänzte Arten und Mutationen in einem Katalog veröffentlicht.
+
+**Wichtige Grenze:** Mehr Licht-/Ernteoptionen oder ein neues automatisch erkanntes Saatgut bedeuten nicht, dass die Pam's-Crops-1.21.1-JAR erfolgreich validiert wurde. Diese Datapack-Erweiterung ist implementiert, aber unkompiliert und ungetestet. Vor `testing` sind insbesondere der `SimplePreparableReloadListener`-Pfad, Priorität verschiedener Datapacks, `enabled=false`, Ausschlusslisten, ungültige Werte und Restart-Semantik zu prüfen.
+
 ## HarvestCraft 1 – klare Grenze
 
 **HarvestCraft 1** ist keine offizielle NeoForge-1.21.1-Laufzeitmod. Sie wird durch diese Laufzeit-Erkennung **nicht** automatisch geladen, und es wird kein fiktiver `harvestcraft`-Registry-Eintrag erzeugt. Die Legacy-1→2-ID-Zuordnungen verbleiben im eigenständigen, nur als Daten vorliegenden Crosswalk. Eine spätere Item-/Weltmigration benötigt getrennte, ausdrücklich freigegebene Logik.
