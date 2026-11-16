@@ -50,7 +50,7 @@
 
 ## Nächster konkreter Entwicklungsschritt
 
-Nach den im Quellcode ergänzten, optionalen Fluid-ID- und Höhenfiltern für Pflanzen und Mutationen (siehe `docs/FLUID_HEIGHT_ENVIRONMENT_RULES.md`) soll das **Bodenchemie- und Saisonmodell** geplant und schrittweise implementiert werden. Achtung: Die neue Fluid-ID prüft den tatsächlichen FluidState **im Crop-Sticks-Block**; dies implementiert **noch keine** wasserlogbaren Crop Sticks oder Vanilla-/Legacy-Wasserpflanzen. Für Legacy-AgriPlants-`requirement.fluid` erfolgt keine automatische Übernahme. Bestehende Datensätze bleiben mangels neuer Felder ohne Einschränkung. **Keine Builds, Tests, Minecraft-Starts oder Importer-Aufrufe ohne Freigabe.**
+**Saisonale Regeln wurden im Quellcode vorbereitet und an den Wachstums-/Mutationspfad angeschlossen**, jedoch **ohne tatsächliche Serene-Seasons-Integration**. Dokumentation: `docs/OPTIONAL_SEASONS_ARCHITECTURE.md`. Nächstes größeres Paket: originale AgriCraft-Bodenchemie (Feuchtigkeit/Säure/Nährstoffe, Operatoren und Strength-Toleranzen) quellengetreu modellieren, eine Bodenwert-Quelle samt klarer Fallback-Semantik entwerfen und die tatsächliche Serene-Seasons-API/Version für Minecraft 1.21.1 NeoForge überprüfen. **Keine Builds, Tests, Minecraft-Starts oder Tool-Ausführungen ohne Freigabe.**
 
 ## Übergabe beim nächsten Chat
 
@@ -67,6 +67,8 @@ Nach den im Quellcode ergänzten, optionalen Fluid-ID- und Höhenfiltern für Pf
 - **Nächste Schritte:** optionale Datapack-Saison-Felder modellieren, eine entkoppelte Server-Saison-Schnittstelle vorsehen, die konkrete Mod-API vor Integration überprüfen und erst nach Freigabe kompilieren/testen.
 
 ## Änderungsprotokoll
+
+- **2026-11-16 – Optionale Jahreszeitenregeln (Commits `f4fef33`, `27eb471`, `8da564c`, `e9e640b`, `a417016`, `6a97536`, `c3dccba`, `f75821f`; Doku `4837749`):** Neues validiertes `SeasonRule`-Modell für `spring/summer/autumn/winter`, optionales `SeasonAccess.Provider`-Interface ohne Kalender und ohne harte Mod-Abhängigkeit, Saisonfelder für Pflanzen (`allowed_seasons`) und Mutationen (`cropgenetics_allowed_seasons`). `CropConditions` und `CrossBreeding` prüfen Saisonregeln serverseitig, **wenn ein Provider installiert wurde**; ohne Provider wird das saisonale Limit ignoriert. Unbekannte Saison eines registrierten Providers sperrt saisongebundene Regeln. Der Offline-Importer akzeptiert nur explizite Saisonfreigaben aus dem Manifest; keine automatische Legacy-Zuordnung. **Noch kein Serene-Seasons-Adapter, keine Bodenchemie-Implementierung**; hierfür getrenntes Modell vorgesehen (siehe `docs/OPTIONAL_SEASONS_ARCHITECTURE.md`). **Keine Builds/Tests/Spielstarts/Importer-Läufe**, API-/Gameplay-Funktion unbestätigt. Nächster Schritt: Bodenchemie und konkrete Adapter-API prüfen.
 
 - **2026-11-16 – Jahreszeiten-Architektur festgelegt:** Mit dem Nutzer abgestimmt, dass saisonale Pflanzregeln unterstützt werden, aber **kein eigener Jahreszeitenzyklus** gebaut wird. Optionaler Anbieter (z. B. Serene Seasons), keine harte Mod-Abhängigkeit; ohne Anbieter saisonale Regeln ignorieren. **Nur Dokumentation geändert, kein Code und keine Tests.**
 
