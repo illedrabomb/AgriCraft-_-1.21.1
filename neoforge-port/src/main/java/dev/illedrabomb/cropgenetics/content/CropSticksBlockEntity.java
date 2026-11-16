@@ -181,17 +181,19 @@ public final class CropSticksBlockEntity extends BlockEntity {
     }
 
     /**
-     * Called from stem random ticks. A broken/removed fruit is harvested via
-     * vanilla block drops; the stem only restarts its growth cycle.
+     * Reconcile a previously owned fruit even if a datapack reload changed
+     * this species from GOURD to STANDARD. Never erase an owned physical
+     * fruit's identity while its neighboring chunk is unavailable.
      */
     public boolean reconcilePhysicalFruit(PlantDefinition plant) {
-        if (!(level instanceof ServerLevel server) || !isMature(plant)
-                || plant.harvestMode() != HarvestMode.GOURD || !fruitReady) return false;
+        if (!(level instanceof ServerLevel server) || genome == null
+                || !genome.plantId().equals(plant.id()) || !fruitReady) return false;
         if (fruitDirection != null && fruitToken != null) {
             BlockPos fruitPos = worldPosition.relative(fruitDirection);
             // An unloaded neighboring chunk does not mean the fruit was harvested.
             if (!server.hasChunkAt(fruitPos)) return false;
-            if (GourdFruits.matches(server, worldPosition, fruitDirection, plant, fruitToken)) {
+            if (GourdFruits.matchesOwned(server, worldPosition, fruitDirection,
+                    plant.id(), fruitToken)) {
                 return false;
             }
         }
@@ -205,7 +207,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 || !fruitToken.equals(token) || !worldPosition.relative(fruitDirection).equals(fruitPos)
                 || genome == null) return false;
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
-        if (plant == null || plant.harvestMode() != HarvestMode.GOURD) return false;
+        if (plant == null) return false;
         clearFruit(plant);
         return true;
     }
@@ -224,7 +226,10 @@ public final class CropSticksBlockEntity extends BlockEntity {
         // removed, so do not mutate block state as a side effect here.
         // Physical gourd blocks are harvested directly, not by right-clicking
         // the stem. Prevent duplicates through the stem's normal drop path.
-        return isMature(plant) && plant.harvestMode() != HarvestMode.GOURD;
+        // A fruit created before a GOURD -> STANDARD reload is still a real
+        // world block with its own drops. Do not also harvest the stem.
+        return isMature(plant) && plant.harvestMode() != HarvestMode.GOURD
+                && !fruitReady;
     }
 
     /**
