@@ -42,6 +42,10 @@ Die HarvestCraft-1-Migration ist **noch nicht implementiert**. Dieser Unterschie
 
 Die `CropRegistry.java` der Originalmod HarvestCraft 1 (1.12.2) wurde unmittelbar gelesen und mit 22 bereits vorhandenen HarvestCraft-2-`AgriPlants`-Pflanzen verglichen. Die daraus abgeleiteten **22 eindeutigen, bewusst nur als Kandidaten bezeichneten ID-Maps** liegen unter `neoforge-port/tools/data/pams_harvestcraft_1_to_2_crops.json`. Das lesende Tool `neoforge-port/tools/pam_legacy_crosswalk.py` wurde hinzugefügt, aber **nicht ausgeführt**. Es gibt weiterhin **keine Weltmigration**. Besonders wichtig: alte Crop-Blöcke haben keine direkte Ziel-Block-ID; der Crosswalk nennt bei ihnen nur die zugehörige H2-Species. Weitere Details und die Kaffee-/Senf-/Tee-Namensausnahmen: `docs/PAMS_HARVESTCRAFT_1_LEGACY_ID_CROSSWALK.md`.
 
+## Nachtrag 16.11.2026: 30 Crop-Species und 30 H1-Migrationskandidaten
+
+Nach acht weiteren aus den AgriPlants-Vorlagen abgeleiteten Pam's-2-Pflanzen (Gerste, Sellerie, Brokkoli, Süßkartoffel, Radieschen, Frühlingszwiebel, Cantaloupe, Heidelbeere) liegen jetzt **30 optionale H2-Crops** und **14 originale Mutationsdefinitionen** vor. Der H1-ID-Crosswalk wurde um dieselben acht Original-H1-Cropnamen aus `CropRegistry.cropNames` auf **30** Kandidaten erweitert. Die bereits bestehenden Abschnitte mit 22 Einträgen beschreiben den damaligen Zwischenstand; aktuell sind 30 maßgeblich. Das Skript wurde nicht ausgeführt. H1 ist keine direkte 1.21.1-Laufzeitmod, und die tatsächliche neue Pam's-Crops-1.21.1-Item-Registry bleibt unabhängig zu verifizieren. Einzelheiten: `docs/PAMS_HARVESTCRAFT_2_MUTATIONS.md` und `docs/PAMS_HARVESTCRAFT_1_LEGACY_ID_CROSSWALK.md`.
+
 ## Nächste konkrete Arbeit
 
 1. Aus den tatsächlichen HarvestCraft-1-1.12.2-Quelldaten eine **belegte Tabelle alter Crop-/Item-IDs** aufbauen; mit HarvestCraft-2-Crops-Registry abgleichen.
