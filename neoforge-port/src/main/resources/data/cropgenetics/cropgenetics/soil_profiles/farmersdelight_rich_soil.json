@@ -1,0 +1,8 @@
+{
+  "required_mod": "farmersdelight",
+  "block": "farmersdelight:rich_soil",
+  "humidity": "damp",
+  "acidity": "neutral",
+  "nutrients": "very_high",
+  "growth_modifier": 1.8
+}
