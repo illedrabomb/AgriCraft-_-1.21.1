@@ -1,5 +1,15 @@
 # AgriCraft NeoForge 1.21.1 – Projektstatus und Übergabe
 
+## Gemeinsame Fruchtchance und Regrowth-Regeln – PT-02-Vorbereitung (16.11.2026)
+
+**Quellcodeänderungen:** Neue reine Hilfsklasse `GourdFruitRules` (Commit `a1f8ea0`) bündelt die bisher doppelte Fruchtwahrscheinlichkeit `baseChance * (1 + (Gain - 1)/10) * growthFactor` mit Begrenzung auf 0..1 und konservativer Nullbehandlung für ungültige Umgebungsfaktoren. `CropSticksBlock.randomTick` verwendet die gemeinsame Regel für echte Fruchtversuche (Commit `3698b80`), `CropDataCommand.gourd` dieselbe Regel für Diagnoseausgaben (Commit `1af9ffd`). Somit können Diagnosetool und Server-Fruchtversuch durch spätere Einzeländerungen nicht mehr unterschiedliche Formeln nutzen.
+
+**Wachstumsreset:** `CropGrowth.regrowthStage(PlantDefinition)` fasst die vorhandene Resetregel zusammen (Commit `1f0c5b0`). Sowohl `CropSticksBlockEntity.clearFruit` nach Entfernung einer echten Frucht als auch `finishHarvest` nach normaler Ernte rufen sie auf (Commit `b0f0d5f`). Bei `harvestStage` auf oder oberhalb der Endstufe fällt der Reset auf 0 zurück, andernfalls bleibt die deklarierte Regrowth-Stufe erhalten. **Keine absichtliche Änderung am Gameplay, an Fruchtchance, Genom, Token, Besitzprüfung, Fruchtplatzierung oder Loot.** Die unveränderte Gleichheit der Berechnung gilt für bislang gültige Faktoren.
+
+**Regressionstests als Quellcode:** `GourdFruitRulesTest` (Commit `33ff9f1`) prüft Basischance, Gain, Soil-Multiplikator, Clamping und blockierte/ungültige Faktoren. `GourdDefinitionRegressionTest` ergänzt einen Reset-Test einschließlich Endstufen-Exploit-Guard (Commit `edd30b2`). **Diese Tests wurden NICHT ausgeführt; kein Build, Minecraft-Start, Skriptlauf oder CI.** PT-02 (keine zweite Melonen-/Kürbisfrucht) ist weiterhin **nicht behoben/abgenommen**. Beim nächsten gebündelten Playtest den tatsächlichen Fruchtversuch mit `/cropgenetics data gourd <x> <y> <z>` kontrollieren. PT-03 visuell und PT-04 bzgl. Fremdtag getrennt nachtesten. Die Seed-/Beeren- und Vier-Stäbe-Grafikpunkte bleiben niedrig priorisiert.
+
+**Branches:** Änderungen ausschließlich auf `integration/neoforge-1211-consolidation`, keine Übernahme nach `entwicklung`, `testing` oder `master`. Nächster Schritt: weitere quellcodebasierte Absicherungen ohne Codex oder später gemeinsamer lokaler Testlauf.
+
 ## Saatgut-Provenienz: Genomkonflikte blockieren (16.11.2026)
 
 **Quellcodecommits `4972e65` und `2ea00aa`:** Bei `CropItems.seedWithGenome(Genome, ItemStack)` werden `ORIGINAL_SEED` und `ANALYZED` aus einem Ausgangsstack **nicht** auf das Ziel übertragen, falls der Ausgangsstack ein bereits vorhandenes, aber abweichendes Genom trägt. Der resultierende genetische Samen verwendet dann nur die sichere, unabhängige Herkunftsauflösung des neuen Zielgenoms. Das verhindert, dass eine Artenmutation beziehungsweise ein umkombinierter Nachkomme fälschlich die Saatgutidentität oder den Analysezustand einer Elternpflanze erbt. Bei unverändertem Genom bleibt die bisherige korrekte Konvertierung samt Metadaten erhalten; normale unanalysierte Vanilla-/Mod-Items bleiben für bisherige Integrationen zulässig.
