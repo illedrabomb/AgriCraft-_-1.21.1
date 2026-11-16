@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "purpose": "Explicit historical AgriPlants vanilla species aliases for SOURCE-ONLY mutation migration; not runtime remaps",
+  "source": "AgriCraft/AgriPlants@9444e75828f66bd40adabb4aeca2544765408f8a",
+  "target": "neoforge-port/src/main/resources/data/cropgenetics/cropgenetics/plants",
+  "automatic_world_conversion": false,
+  "aliases": {
+    "vanilla:carrot_plant": "minecraft:carrot_plant",
+    "vanilla:potato_plant": "minecraft:potato_plant",
+    "vanilla:wheat_plant": "minecraft:wheat_plant",
+    "vanilla:sugarcane_plant": "minecraft:sugar_cane_plant",
+    "vanilla:melon_plant": "minecraft:melon_plant",
+    "vanilla:pumpkin_plant": "minecraft:pumpkin_plant"
+  },
+  "warning": "Only these six explicitly source- and target-reviewed aliases. They are not a general namespace translation and do not convert item stacks or saved worlds."
+}
