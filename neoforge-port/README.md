@@ -50,6 +50,9 @@ The cactus server definition now enables `cropgenetics_contact_thorns`. A plante
 ## Biome and dimension location rules (source-only, 2026-11-16)
 Crop datapacks can now optionally list exact allowed/blocked biome and dimension IDs. These restrictions affect planting, growth and crossbreeding in addition to the existing soil/light conditions. Mutations may specify independent location restrictions. Empty lists preserve existing behavior. The controlled AgriPlants migration tool accepts explicit 1.21.1 list mappings but does not infer them from legacy blacklist/Strength rules. See `../docs/BIOME_DIMENSION_CROP_MUTATION_RULES.md`. **No builds or game tests have run for these additions; legacy chemistry and seasonal rules remain unsupported.**
 
+## Optional fluid and altitude rules (source-only, 2026-11-16)
+Plant and mutation definitions now support inclusive crop-position `min_y` / `max_y` and an exact `fluid_id` registry match; mutations use the `cropgenetics_` field prefix. These filters apply to planting, growth and crossbreeding without changing existing definitions when unset. The server datapack validation now rejects unknown fluid references. The migration importer accepts explicit manifest mapping only, and **does not translate original AgriPlants fluid predicates**. No waterlogging, aquatic crop adapter, seasonal integration or soil chemistry is implied. See `../docs/FLUID_HEIGHT_ENVIRONMENT_RULES.md`. **Not built or tested.**
+
 ## Validation state
 An earlier Java 21/NeoForge compilation of the foundational source code succeeded on GitHub Actions; the subsequent test compilation failed due to Gson missing from the test classpath, which was corrected. All later genetics/gameplay/renderer changes **have not been built or game-tested**. On the user's explicit request, the GitHub workflow was changed to **manual dispatch only**, and no new builds or tests have been run during these feature implementations.
 
