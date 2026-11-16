@@ -1,5 +1,12 @@
 # AgriCraft NeoForge 1.21.1 – Projektstatus und Übergabe
 
+## TODO – Saatgut-/Seed-Icons, insbesondere Beeren (niedrige Priorität)
+
+**Visueller Befund vom 16.11.2026:** Die Darstellung einzelner Seed-Items ist im Inventar bzw. als Item nicht korrekt; auffällig sind insbesondere **Beeren-/Sweet-Berry-Samen**. Noch nicht geklärt ist, ob es sich um das generische `cropgenetics:genetic_seed`-Item-Modell, das verwendete Vanilla-/Mod-Originalitem, einen Modell-/Texture-Lookup oder einen unterschiedlichen Renderpfad handelt. Diese Ursache **nicht ungeprüft behaupten**.
+
+**Später umsetzen:** Reale Screenshots mit Item-ID, Item-Komponenten, OriginalSeed und betroffenem Kontext (Inventar, Hotbar, Item-Entity, Tooltip, Creative Tab) abgleichen; Originalitem vs. genetische Saat unterscheiden und die Item-Modelle/Texture-Zuordnung je Artenfamilie verbessern. Beeren dürfen nicht wie ein falscher Seed-Typ aussehen. Bestehende Genom-, Analyse- und Saatgutrückgewinnungsdaten und Vanilla-/Pam-Item-Identität beibehalten. **Optischer TODO, keine Freigabesperre**; nicht mit PT-02 vermischen.
+
+
 ## Vorbereitung ohne Codex – Regressionstests für physische Kürbis-/Melonenfrüchte (16.11.2026)
 
 **Commit `59adb9b`:** Vier JUnit-Tests in `neoforge-port/src/test/java/dev/illedrabomb/cropgenetics/data/GourdDefinitionRegressionTest.java` hinzugefügt. Sie kontrollieren die bereits vorhandenen `PlantDefinition`-Invarianten: unterstützte Vanilla-Melonen-/Kürbisarten mit regenerierbarer Stufe, Ablehnung fremder Arten im physischen GOURD-Modus, ausschließlich positive/endliche/zulässige Fruchtwahrscheinlichkeiten und exakt ein garantierter physischer Fruchtprodukteintrag. **Keine Veränderung der Fruchtchance, Reife, Fruchtplatzierung, Loot-Regeln oder Dateninhalte.**
