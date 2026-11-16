@@ -111,7 +111,9 @@ public final class AgriPlantsParser {
                     && !key.equals("soil_block") && !key.equals("soil_tag")
                     && !key.equals("light_tolerance")
                     && !key.equals("allowed_biomes") && !key.equals("blocked_biomes")
-                    && !key.equals("allowed_dimensions") && !key.equals("blocked_dimensions")) {
+                    && !key.equals("allowed_dimensions") && !key.equals("blocked_dimensions")
+                    && !key.equals("min_y") && !key.equals("max_y")
+                    && !key.equals("fluid_id")) {
                 throw new JsonParseException("Unsupported crop requirement: " + key);
             }
         }
@@ -130,7 +132,8 @@ public final class AgriPlantsParser {
                 strings(input.getAsJsonArray("allowed_biomes")),
                 strings(input.getAsJsonArray("blocked_biomes")),
                 strings(input.getAsJsonArray("allowed_dimensions")),
-                strings(input.getAsJsonArray("blocked_dimensions")));
+                strings(input.getAsJsonArray("blocked_dimensions")),
+                environment(input, ""));
     }
 
     public static MutationDefinition mutation(JsonObject json) {
@@ -142,7 +145,19 @@ public final class AgriPlantsParser {
                 strings(json.getAsJsonArray("cropgenetics_allowed_biomes")),
                 strings(json.getAsJsonArray("cropgenetics_blocked_biomes")),
                 strings(json.getAsJsonArray("cropgenetics_allowed_dimensions")),
-                strings(json.getAsJsonArray("cropgenetics_blocked_dimensions")));
+                strings(json.getAsJsonArray("cropgenetics_blocked_dimensions")),
+                environment(json, "cropgenetics_"));
+    }
+
+    /** Parse only explicit 1.21.1 environmental filters, never legacy fluid objects. */
+    private static EnvironmentFilter environment(JsonObject input, String prefix) {
+        String min = prefix + "min_y";
+        String max = prefix + "max_y";
+        String fluid = prefix + "fluid_id";
+        return new EnvironmentFilter(
+                input.has(min) ? Optional.of(input.get(min).getAsInt()) : Optional.empty(),
+                input.has(max) ? Optional.of(input.get(max).getAsInt()) : Optional.empty(),
+                input.has(fluid) ? Optional.of(input.get(fluid).getAsString()) : Optional.empty());
     }
 
     public static boolean enabled(JsonObject json) {
