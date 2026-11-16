@@ -7,7 +7,7 @@
     "repository": "MatrexsVigil/harvestcraft",
     "file": "src/main/java/com/pam/harvestcraft/blocks/CropRegistry.java",
     "rule": "CropRegistry.CROP_BLOCK_NAME/ITEM_NAME/SEED_ITEM_NAME; all listed crops occur in cropNames",
-    "warning": "Only ordinary crop items with default zero metadata and no custom NBT; not a Minecraft world upgrader"
+    "warning": "Only confirmed ordinary crop names from original H1 CropRegistry; no world upgrade, NBT mapping or automated ItemStack conversion"
   },
   "target": {
     "mod": "Pam's HarvestCraft 2 Crops",
@@ -15,7 +15,7 @@
     "repository": "AgriCraft/AgriPlants",
     "commit": "9444e75828f66bd40adabb4aeca2544765408f8a",
     "path": "mod_pamhc2crops/plants/",
-    "warning": "Targets derive from pinned AgriPlants 1.18.2; current NeoForge 1.21.1-1.0.9 item registrations are not independently verified. Never auto-convert items or blocks.",
+    "warning": "30 species have source-derived datapack candidates, not confirmed against the Pam's NeoForge 1.21.1 runtime item registry. Never auto-convert.",
     "minecraft": "1.21.1",
     "latest_release_verified": "pamhc2crops-NEOFORGE-1.21.1-1.0.9.jar",
     "release_date": "2026-05-09",
@@ -371,6 +371,134 @@
         "seed": "pamhc2crops:soybeanseeditem",
         "produce": "pamhc2crops:soybeanitem",
         "species": "pamhc2crops:soybean_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "barley",
+      "from": {
+        "seed": "harvestcraft:barleyseeditem",
+        "produce": "harvestcraft:barleyitem",
+        "block": "harvestcraft:pambarleycrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:barleyseeditem",
+        "produce": "pamhc2crops:barleyitem",
+        "species": "pamhc2crops:barley_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "celery",
+      "from": {
+        "seed": "harvestcraft:celeryseeditem",
+        "produce": "harvestcraft:celeryitem",
+        "block": "harvestcraft:pamcelerycrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:celeryseeditem",
+        "produce": "pamhc2crops:celeryitem",
+        "species": "pamhc2crops:celery_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "broccoli",
+      "from": {
+        "seed": "harvestcraft:broccoliseeditem",
+        "produce": "harvestcraft:broccoliitem",
+        "block": "harvestcraft:pambroccolicrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:broccoliseeditem",
+        "produce": "pamhc2crops:broccoliitem",
+        "species": "pamhc2crops:broccoli_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "sweetpotato",
+      "from": {
+        "seed": "harvestcraft:sweetpotatoseeditem",
+        "produce": "harvestcraft:sweetpotatoitem",
+        "block": "harvestcraft:pamsweetpotatocrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:sweetpotatoseeditem",
+        "produce": "pamhc2crops:sweetpotatoitem",
+        "species": "pamhc2crops:sweetpotato_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "radish",
+      "from": {
+        "seed": "harvestcraft:radishseeditem",
+        "produce": "harvestcraft:radishitem",
+        "block": "harvestcraft:pamradishcrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:radishseeditem",
+        "produce": "pamhc2crops:radishitem",
+        "species": "pamhc2crops:radish_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "scallion",
+      "from": {
+        "seed": "harvestcraft:scallionseeditem",
+        "produce": "harvestcraft:scallionitem",
+        "block": "harvestcraft:pamscallioncrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:scallionseeditem",
+        "produce": "pamhc2crops:scallionitem",
+        "species": "pamhc2crops:scallion_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "cantaloupe",
+      "from": {
+        "seed": "harvestcraft:cantaloupeseeditem",
+        "produce": "harvestcraft:cantaloupeitem",
+        "block": "harvestcraft:pamcantaloupecrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:cantaloupeseeditem",
+        "produce": "pamhc2crops:cantaloupeitem",
+        "species": "pamhc2crops:cantaloupe_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "blueberry",
+      "from": {
+        "seed": "harvestcraft:blueberryseeditem",
+        "produce": "harvestcraft:blueberryitem",
+        "block": "harvestcraft:pamblueberrycrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:blueberryseeditem",
+        "produce": "pamhc2crops:blueberryitem",
+        "species": "pamhc2crops:blueberry_plant"
       },
       "metadata": 0,
       "automatic": false,
