@@ -64,7 +64,7 @@ public final class SoilCommand {
     private static int show(CommandSourceStack source, BlockPos pos, SoilProfileRegistry profiles) {
         if (!validTarget(source, pos)) return 0;
         ServerLevel level = source.getLevel();
-        Optional<SoilChemistryAccess.Sample> override = SoilOverrideSavedData.get(level).sample(pos);
+        Optional<SoilChemistryAccess.Sample> override = SoilOverrideSavedData.get(level).sample(pos, level.getBlockState(pos));
         Optional<SoilChemistryAccess.Sample> profile =
                 profiles.sample(level.getBlockState(pos));
         Optional<SoilChemistryAccess.Sample> effective = override.isPresent() ? override : profile;
@@ -90,7 +90,8 @@ public final class SoilCommand {
                     SoilChemistryRule.parse(SoilChemistryRule.Humidity.class, humidity),
                     SoilChemistryRule.parse(SoilChemistryRule.Acidity.class, acidity),
                     SoilChemistryRule.parse(SoilChemistryRule.Nutrients.class, nutrients));
-            if (!SoilOverrideSavedData.get(source.getLevel()).put(pos, sample)) {
+            if (!SoilOverrideSavedData.get(source.getLevel()).put(pos,
+                    source.getLevel().getBlockState(pos), sample)) {
                 reply(source, "Too many saved soil overrides in this dimension (limit 65536).");
                 return 0;
             }
