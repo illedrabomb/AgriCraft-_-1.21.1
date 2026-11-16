@@ -89,6 +89,8 @@ public final class CrossBreeding {
                         entry.getValue().allowedDimensions(), entry.getValue().blockedDimensions()))
                 .filter(entry -> CropConditions.matchesEnvironment(level, target,
                         entry.getValue().environment()))
+                .filter(entry -> CropConditions.matchesSeason(level, target,
+                        entry.getValue().seasonRule().allowedSeasons()))
                 .filter(entry -> snapshot.plants().containsKey(entry.getValue().childPlantId()))
                 // Do not consume a mutation roll for species that cannot
                 // grow under the actual soil and lighting with inherited Strength.
