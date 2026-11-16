@@ -41,15 +41,31 @@ public final class CropItems {
     }
 
     /**
-     * Optional integration entry point: capture the exact original item at
-     * conversion time, even when no crop datapack adapter exists for it.
-     * The source stack is not consumed by this helper.
+     * Optional integration entry point: preserve the actual source item and
+     * its analysis metadata during a lossless conversion to a genetic seed.
+     * The source stack is never consumed or mutated.
+     *
+     * A pre-analyzed source is trusted only when the source genome exactly
+     * matches the genome being written. Inheritance creates a NEW genome and
+     * must never accidentally inherit a parent's analyzed flag.
      */
     public static ItemStack seedWithGenome(Genome genome, ItemStack sourceSeed) {
         ItemStack genetic = seedWithGenome(genome);
-        if (sourceSeed != null && !sourceSeed.isEmpty()
-                && !sourceSeed.is(GENETIC_SEED.get())
-                && sourceSeed.getItem() != Items.AIR) {
+        if (sourceSeed == null || sourceSeed.isEmpty()) return genetic;
+
+        Genome sourceGenome = sourceSeed.get(CropComponents.GENOME.get());
+        if (genome.equals(sourceGenome) && isAnalyzed(sourceSeed)) {
+            genetic.set(CropComponents.ANALYZED.get(), true);
+        }
+
+        // A genetic seed is not its own historical Vanilla/mod source. Keep
+        // its explicitly recorded origin, never substitute cropgenetics:genetic_seed.
+        if (sourceSeed.is(GENETIC_SEED.get())) {
+            String recorded = sourceSeed.get(CropComponents.ORIGINAL_SEED.get());
+            if (recorded != null) {
+                genetic.set(CropComponents.ORIGINAL_SEED.get(), recorded);
+            }
+        } else if (sourceSeed.getItem() != Items.AIR) {
             String originalId = BuiltInRegistries.ITEM.getKey(sourceSeed.getItem()).toString();
             genetic.set(CropComponents.ORIGINAL_SEED.get(), originalId);
         }
