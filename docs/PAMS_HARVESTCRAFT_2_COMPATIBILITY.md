@@ -64,6 +64,12 @@ Auf ausdrücklichen Nutzerwunsch umfasst die Zielplanung jetzt **HarvestCraft 1 
 
 Seit diesem Nachtrag enthalten die `pamhc2_*.json`-Definitionen außerdem **14 zusätzliche, aus gepinnten AgriPlants-Dateien abgeleitete Pflanzen**: Bean, Flax, Okra, Leek, Jute, Kiwi, Taro, Kale, Peas, Kenaf, Grape, Lettuce, Strawberry und Soybean. Zusammen **22 HarvestCraft-2-Pflanzendefinitionen**; alle weiterhin source-only, nicht kompiliert/validiert. `Agave` und `Sisal` mit ariden Anforderungen werden erst mit passender Boden-/Anbauortstrategie übernommen. Die ältere Aussage zu ausschließlich acht Pflanzen bezeichnet den früheren Stand.
 
+## Nachtrag 16.11.2026: 30 Pflanzen, 14 Originalmutationen
+
+Nach dem ursprünglichen 8er- und 14er-Pflanzensatz wurden weitere **8 aus den gepinnten AgriPlants-Originaldateien belegte Kulturen** übernommen: Gerste, Sellerie, Brokkoli, Süßkartoffel, Radieschen, Frühlingszwiebel, Cantaloupe und Heidelbeere. Damit sind **30** optionale `pamhc2crops`-Crop-Sticks-Species als Daten vorhanden; alle weiterhin unkompiliert und ungetestet. Die übrigen bekannten Port-Abweichungen (Historische `overridePlanting`-Hooks, Seasons-Provider, Lichtobergrenze, Fluidfilter, Texturen) bleiben unverändert.
+
+Zusätzlich liegen **14 originale Mutations-Datapacks** vor: die bisherigen vier sowie zehn neue, deren Eltern durch die neuen Species vollständig referenzierbar sind. Details zu den echten Original-Eltern, -Chancen und zurückgestellten Rezepten: `docs/PAMS_HARVESTCRAFT_2_MUTATIONS.md`. Die Legacy-1-zu-2-Crosswalk-Kandidaten sind parallel auf **30** erweitert worden, aber die NeoForge-1.21.1-Pam's-Registry wurde noch nicht unabhängig verifiziert.
+
 ## Weitere Arbeit (Priorität)
 
 1. **Restliche originalen `mod_pamhc2crops/plants/`-Definitionen** systematisch übernehmen, mit Originalbedingungen, bestehenden Seed-/Crop-ID-Prüfungen und sauberer Diagnose. Der vorhandene Offline-Importer kann dies nach späterer expliziter Freigabe unterstützen; er wurde **nicht ausgeführt**.
