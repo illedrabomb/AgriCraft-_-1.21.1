@@ -59,6 +59,35 @@ def location_lists(config):
         raise ValueError("dimension allow/block lists overlap")
     return result
 
+def explicit_chemistry(config):
+    """Strict, manual 1.21.1 chemical rules; never infer legacy tolerance."""
+    if "soil_chemistry" not in config:
+        return None
+    rules = config["soil_chemistry"]
+    if not isinstance(rules, dict) or not rules:
+        raise ValueError("soil_chemistry must be a nonempty object")
+    categories = {
+        "humidity": {"arid", "dry", "normal", "wet", "saturated"},
+        "acidity": {"acidic", "slightly_acidic", "neutral",
+                    "slightly_alkaline", "alkaline"},
+        "nutrients": {"low", "medium", "high"}
+    }
+    output = {}
+    for name, condition in rules.items():
+        if name not in categories or not isinstance(condition, dict):
+            raise ValueError(f"unsupported soil_chemistry dimension: {name}")
+        if set(condition) != {"category", "comparison"}:
+            raise ValueError(f"{name}: expected category and comparison")
+        if (type(condition["category"]) is not str
+                or condition["category"] not in categories[name]):
+            raise ValueError(f"{name}: unsupported chemistry category")
+        if (type(condition["comparison"]) is not str
+                or condition["comparison"] not in
+                {"equal", "equal_or_higher", "equal_or_lower"}):
+            raise ValueError(f"{name}: unsupported chemistry comparison")
+        output[name] = dict(condition)
+    return output
+
 def convert_crop(source, config):
     crop_id = check_id(source["id"], "plant ID")
     if not source.get("enabled", True):
@@ -164,6 +193,9 @@ def convert_crop(source, config):
                         "light_tolerance": tolerance}
     requirements_new.update({k: config[k] for k in ("soil_block", "soil_tag") if k in config})
     requirements_new.update(location_lists(config))
+    chemistry = explicit_chemistry(config)
+    if chemistry is not None:
+        requirements_new["soil_chemistry"] = chemistry
     # Seasonal rules are copied only when deliberately approved per crop.
     # No season provider is bundled in the core; restrictions are inactive
     # until a verified optional integration installs a provider.
