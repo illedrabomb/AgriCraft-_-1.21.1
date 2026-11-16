@@ -68,6 +68,8 @@ def lookup(data: dict, source_id: str, *, metadata: int = 0, has_nbt: bool = Fal
                     "target_kind": target_kind,
                     "target_id": rule["to"][target_kind],
                     "status": "candidate_not_verified_in_target_registry",
+                    "direct_item_replacement": source_kind != "block",
+                    "warning": "Legacy crop BLOCK cannot be replaced by a species ID; requires a separate world migration adapter" if source_kind == "block" else "Do not convert without registry validation and user authorization",
                     "automatic": False
                 }
     return None
