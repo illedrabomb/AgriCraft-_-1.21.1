@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Server datapack profiles: data/<namespace>/cropgenetics/soil_profiles/*.json
@@ -29,9 +30,11 @@ public final class SoilProfileReloadListener
     private static final Logger LOG = LogUtils.getLogger();
     private static final String ROOT = "cropgenetics/soil_profiles";
     private final SoilProfileRegistry registry;
+    private final Predicate<String> isModLoaded;
 
-    public SoilProfileReloadListener(SoilProfileRegistry registry) {
-        this.registry = registry;
+    public SoilProfileReloadListener(SoilProfileRegistry registry, Predicate<String> isModLoaded) {
+        this.registry = java.util.Objects.requireNonNull(registry);
+        this.isModLoaded = java.util.Objects.requireNonNull(isModLoaded);
     }
 
     @Override
@@ -62,12 +65,21 @@ public final class SoilProfileReloadListener
                 JsonObject json = entry.getValue().getAsJsonObject();
                 Set<String> requiredKeys = Set.of("humidity", "acidity", "nutrients");
                 Set<String> allowedKeys = Set.of("block", "block_tag", "humidity", "acidity",
-                        "nutrients", "growth_modifier");
+                        "nutrients", "growth_modifier", "required_mod");
                 if (!json.keySet().containsAll(requiredKeys)
                         || !allowedKeys.containsAll(json.keySet())
                         || json.has("block") == json.has("block_tag"))
                     throw new IllegalArgumentException(
                             "Expected exactly one of block/block_tag, plus humidity/acidity/nutrients");
+                // Optional integrations are inert when the target mod is absent.
+                // Do this before checking target block registration so a
+                // missing dependency never poisons the reload diagnostics.
+                if (json.has("required_mod")) {
+                    String modId = json.get("required_mod").getAsString();
+                    if (!modId.matches("[a-z][a-z0-9_]{1,63}"))
+                        throw new IllegalArgumentException("Invalid required_mod: " + modId);
+                    if (!isModLoaded.test(modId)) return;
+                }
                 boolean isTag = json.has("block_tag");
                 String block = json.get(isTag ? "block_tag" : "block").getAsString();
                 ResourceLocation key = ResourceLocation.tryParse(block);
