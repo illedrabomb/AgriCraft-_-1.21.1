@@ -50,12 +50,26 @@ Nach acht weiteren aus den AgriPlants-Vorlagen abgeleiteten Pam's-2-Pflanzen (Ge
 
 Neuer Stand: **31 optionale Pam's-2-Pflanzen, 25 Originalmutationen und 31 HarvestCraft-1-zu-2-ID-Migrationskandidaten**. Die neu portierte Rosenkohl-Art ermöglicht zwei Originalmutationen; neun weitere wurden durch **sechs explizite historische `vanilla:` → vorhandene `minecraft:`-Species-Zuordnungen** ermöglicht. Diese Zuordnungen ändern keine Runtime-Item-IDs und sind keine automatische Weltmigration. Details: `docs/PAMS_VANILLA_SPECIES_ALIASES_AND_BRUSSELSPROUT.md`. Die früher genannten Mengen (22 und 30) sind dokumentierte Zwischenstände. **Unkompiliert und ungetestet.**
 
+## Verbindliche Projektentscheidung: keine Pam's Trees Integration (16.11.2026)
+
+**Vom Nutzer präzisiert:** AgriCraft soll Kulturpflanzen aus Saatgut über Crop Sticks und genetische Züchtung unterstützen, **nicht** Bäume. Deshalb wird **Pam's HarvestCraft 2 Trees nicht in die AgriCraft-Portierung integriert**. Setzlinge sind keine Saatgut-Items im Sinne der Crop-Sticks-Mechanik. Es werden weder Fruchtbaumadapter, Baumzucht, Baumgenetik noch automatische Trees-Item-Erkennung implementiert.
+
+Die frühere Planung mit einem separat zu entwickelnden Trees-Adapter ist hiermit **ausdrücklich überholt und gestrichen**. Wenn später unabhängig eine Baumgenetik-Mod gewünscht wird, wäre das ein eigenständiges Projekt mit eigener ausdrücklicher Anforderung, nicht ein AgriCraft-Pflichtfeature.
+
+**Aktiver Umfang:**
+- HarvestCraft **2 Crops**: vorhandene konkrete AgriPlants-Pflanzen, belegte Mutationsrezepte und konservative Auto-Erkennung registrierter Crops-Saatgut-/Produkt-Paare mit konfigurierbaren Ausnahmen.
+- HarvestCraft **1**: historischer, derzeit rein vorbereiteter ID-Crosswalk für die Crops, **keine** Laufzeitunterstützung und keine Baum-/Weltkonvertierung.
+- Andere zukünftige Saatgut-Mods: nur nach separatem Mod-ID-/Item-Paar-/Pflanzenprüfverfahren; keine globale Annahme, dass ein Item mit `seed` im Namen automatisch eine Crop-Sticks-Pflanze ist.
+- **Trees, Setzlinge, natürliche Fruchtbäume und deren Fruchtblöcke: ausdrücklich nicht Teil des Umfangs.**
+
+**Aktueller source-only Zwischenstand:** 37 explizite Pam's-2-Pflanzendefinitionen und 31 ursprüngliche Mutationsrezepte, plus eine konfigurierbare, bisher **nicht zur Laufzeit geprüfte** Auto-Erkennung. Neu erkannte Arten können ohne freigegebenen Reload nicht gezählt werden.
+
 ## Nächste konkrete Arbeit
 
 1. Aus den tatsächlichen HarvestCraft-1-1.12.2-Quelldaten eine **belegte Tabelle alter Crop-/Item-IDs** aufbauen; mit HarvestCraft-2-Crops-Registry abgleichen.
 2. Nur eindeutig belegte 1→2-Mappings als prüfbare, optionale JSON-Migrationsdefinitionen anlegen; nie erfundene IDs verwenden.
 3. Die restlichen AgriPlants-`mod_pamhc2crops/plants/`-Pflanzen und vorhandene Mutationen weiter katalogisieren.
-4. Für Trees/Fruit Trees den eigenen Wachstums-/Fruchtadapter entwerfen (keine Gleichsetzung mit normalen Crop Sticks).
+4. Nur Pam's HarvestCraft 2 **Crops** automatisieren; **Trees/Setzlinge/Baumfrüchte bleiben ausdrücklich außerhalb von AgriCraft**. Kein Baumadapter und keine Baumgenetik als Teil dieser Portierung.
 5. Nach ausdrücklicher Freigabe Kompilierung, Item-/Block-Registry-Checks und Ingame-Tests auf `testing`.
 
 `entwicklung`, `testing` und `master` bleiben bis zur ausdrücklich gewünschten Integration/Abnahme unverändert.
