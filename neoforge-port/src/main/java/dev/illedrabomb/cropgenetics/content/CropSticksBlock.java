@@ -258,6 +258,28 @@ public final class CropSticksBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
+    /**
+     * A destroyed stem cannot own a physical fruit any longer. Detach only
+     * the fruit with the exact stored position/token and only when its chunk
+     * is already loaded. Unloaded fruit chunks recover on their own ticker.
+     */
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos,
+                            BlockState replacement, boolean movedByPiston) {
+        if (!state.is(replacement.getBlock()) && level instanceof ServerLevel server
+                && server.getBlockEntity(pos) instanceof CropSticksBlockEntity stem
+                && stem.fruitReady() && stem.fruitDirection() != null
+                && stem.fruitToken() != null) {
+            BlockPos fruitPos = pos.relative(stem.fruitDirection());
+            if (server.hasChunkAt(fruitPos)
+                    && server.getBlockEntity(fruitPos)
+                            instanceof GeneticGourdFruitBlockEntity fruit) {
+                fruit.detachIfOwnedBy(pos, stem.fruitToken());
+            }
+        }
+        super.onRemove(state, level, pos, replacement, movedByPiston);
+    }
+
     @Override
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
         List<ItemStack> drops = new ArrayList<>();
