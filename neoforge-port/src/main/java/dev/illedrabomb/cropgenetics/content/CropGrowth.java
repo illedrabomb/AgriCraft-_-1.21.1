@@ -26,6 +26,18 @@ public final class CropGrowth {
                 + (oldTotal - 1) / 2L) / (oldTotal - 1));
     }
 
+    /**
+     * A harvested crop must resume below maturity. This is shared by
+     * ordinary harvests and removal of an owned physical melon/pumpkin.
+     * If a datapack chooses its last stage as harvestStage, start at zero
+     * rather than allowing an immediate second harvest without regrowth.
+     */
+    public static int regrowthStage(PlantDefinition plant) {
+        int matureStage = plant.stages().size() - 1;
+        return plant.harvestStage() >= matureStage
+                ? 0 : Math.max(0, plant.harvestStage());
+    }
+
     public static int displayStage(int age, int totalStages) {
         if (totalStages <= 1) return 7;
         return Math.max(0, Math.min(7, (int) ((long) age * 7 / (totalStages - 1))));
