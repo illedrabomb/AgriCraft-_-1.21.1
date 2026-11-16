@@ -14,15 +14,17 @@ import java.util.Set;
 /**
  * Conservative Pam's HarvestCraft 2 Crops registry discovery.
  *
- * Only a pair of registered item IDs ("<crop>seeditem" and "<crop>item")
- * qualifies. This is a generic Crop Sticks fallback, NOT an AgriPlants
- * original definition. Explicit datapack species and their seed claims
- * always take precedence, including disabled/invalid explicit files.
- * No mutation, crop block, texture, season or soil chemistry is inferred.
+ * Registered pairs under the historical <crop>seeditem / <crop>item schema
+ * are recognized automatically. Administrators may also explicitly specify
+ * uncommon pair IDs in a server datapack. Neither route guesses mutations,
+ * crop blocks, textures, soil chemistry, seasons or other original gameplay.
  */
 public final class PamCropAutoDiscovery {
     private static final String NAMESPACE = "pamhc2crops";
     private static final String SEED_SUFFIX = "seeditem";
+
+    private record Candidate(String crop, ResourceLocation seed,
+                             ResourceLocation produce, boolean configured) {}
 
     private PamCropAutoDiscovery() {}
 
@@ -35,34 +37,56 @@ public final class PamCropAutoDiscovery {
         Set<String> reservedSeeds = new HashSet<>(explicitSeedClaims);
         for (PlantDefinition plant : plants.values()) reservedSeeds.addAll(plant.seedItems());
 
+        // Configured pairs come first: a special seed can also accidentally
+        // match the generic suffix scheme, so explicit pairs win deterministically.
+        List<Candidate> candidates = new ArrayList<>();
+        settings.itemPairs().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> candidates.add(new Candidate(entry.getKey(),
+                        ResourceLocation.parse(entry.getValue().seed()),
+                        ResourceLocation.parse(entry.getValue().produce()), true)));
+
+        // Registered standard pairs are eligible only when the crop has no
+        // custom pair. Iteration order is stable regardless of registry order.
         List<ResourceLocation> keys = new ArrayList<>(BuiltInRegistries.ITEM.keySet());
         keys.sort(Comparator.comparing(ResourceLocation::toString));
-        int added = 0;
-        for (ResourceLocation seedKey : keys) {
-            if (!NAMESPACE.equals(seedKey.getNamespace())
-                    || !seedKey.getPath().endsWith(SEED_SUFFIX)) continue;
-            String crop = seedKey.getPath().substring(0,
-                    seedKey.getPath().length() - SEED_SUFFIX.length());
+        for (ResourceLocation seed : keys) {
+            if (!NAMESPACE.equals(seed.getNamespace())
+                    || !seed.getPath().endsWith(SEED_SUFFIX)) continue;
+            String crop = seed.getPath().substring(0,
+                    seed.getPath().length() - SEED_SUFFIX.length());
             if (crop.isEmpty() || !crop.matches("[a-z][a-z0-9_]*")
-                    || settings.excludedCrops().contains(crop)) continue;
+                    || settings.itemPairs().containsKey(crop)) continue;
+            candidates.add(new Candidate(crop, seed,
+                    ResourceLocation.fromNamespaceAndPath(NAMESPACE, crop + "item"), false));
+        }
 
+        int added = 0;
+        for (Candidate candidate : candidates) {
+            String crop = candidate.crop();
+            if (settings.excludedCrops().contains(crop)) continue;
             String speciesId = NAMESPACE + ":" + crop + "_plant";
-            String seedId = seedKey.toString();
+            String seedId = candidate.seed().toString();
             if (explicitSpecies.contains(speciesId) || plants.containsKey(speciesId)
                     || reservedSeeds.contains(seedId)) continue;
 
-            ResourceLocation productKey = ResourceLocation.fromNamespaceAndPath(
-                    NAMESPACE, crop + "item");
-            // Registered paired items only. Never manufacture a missing
-            // product, use AIR or infer a world crop block from naming.
-            if (!BuiltInRegistries.ITEM.containsKey(productKey)
-                    || BuiltInRegistries.ITEM.get(seedKey) == Items.AIR
-                    || BuiltInRegistries.ITEM.get(productKey) == Items.AIR) continue;
+            if (!BuiltInRegistries.ITEM.containsKey(candidate.seed())
+                    || !BuiltInRegistries.ITEM.containsKey(candidate.produce())
+                    || BuiltInRegistries.ITEM.get(candidate.seed()) == Items.AIR
+                    || BuiltInRegistries.ITEM.get(candidate.produce()) == Items.AIR) {
+                if (candidate.configured()) {
+                    diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
+                            ResourceLocation.fromNamespaceAndPath("cropgenetics",
+                                    "auto_pam/" + crop + ".json"),
+                            speciesId, CropReloadReport.Status.WARNING,
+                            "Configured Pam's seed/produce pair does not exist in item registry; skipped"));
+                }
+                continue;
+            }
 
             if (added >= settings.maxPlants()) {
                 diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
-                        ResourceLocation.fromNamespaceAndPath("cropgenetics",
-                                "auto_pam/discovery_limit"),
+                        ResourceLocation.fromNamespaceAndPath("cropgenetics", "auto_pam/discovery_limit"),
                         "", CropReloadReport.Status.WARNING,
                         "Pam's auto-discovery capped at " + settings.maxPlants()));
                 break;
@@ -72,12 +96,21 @@ public final class PamCropAutoDiscovery {
                     List.of(2, 4, 6, 8, 10, 12, 14, 16),
                     4, settings.growthChance(), settings.growthBonus(), true, 0.1D,
                     List.of(new PlantDefinition.HarvestProduct(
-                            productKey.toString(), 1, settings.harvestMaximum(), 0.9D)),
+                            candidate.produce().toString(), 1, settings.harvestMaximum(), 0.9D)),
                     new PlantRequirements(settings.minLight(), 15,
                             java.util.Optional.of("minecraft:farmland"),
-                            java.util.Optional.empty(), 0), HarvestMode.STANDARD, 0.0D);
+                            java.util.Optional.empty(), 0),
+                    HarvestMode.STANDARD, 0.0D);
             List<String> errors = PlantRegistryValidator.errors(plant);
-            if (!errors.isEmpty()) continue;
+            if (!errors.isEmpty()) {
+                diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
+                        ResourceLocation.fromNamespaceAndPath("cropgenetics",
+                                "auto_pam/" + crop + ".json"),
+                        speciesId, CropReloadReport.Status.WARNING,
+                        "Auto-discovered Pam's crop failed registry validation: "
+                                + String.join("; ", errors)));
+                continue;
+            }
 
             plants.put(speciesId, plant);
             reservedSeeds.add(seedId);
@@ -86,8 +119,8 @@ public final class PamCropAutoDiscovery {
                     ResourceLocation.fromNamespaceAndPath("cropgenetics",
                             "auto_pam/" + crop + ".json"),
                     speciesId, CropReloadReport.Status.WARNING,
-                    "Auto-discovered registered Pam's seed/produce pair; "
-                            + "configurable fallback farmland/growth values, NOT original AgriPlants parity"));
+                    (candidate.configured() ? "Configured item pair" : "Detected standard item pair")
+                            + "; generic growth and farmland ONLY, no original AgriPlants parity"));
         }
     }
 }
