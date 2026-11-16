@@ -1,5 +1,11 @@
 # AgriCraft NeoForge 1.21.1 – Projektstatus und Übergabe
 
+## TODO – Crop-Sticks-Modell (niedrige Priorität)
+
+**Visueller Befund vom 16.11.2026:** Die Crop Sticks wirken im Spiel derzeit wie **zwei gekreuzte Balken** statt wie **vier einzelne Stängel/Stäbe**. Die bisherige UV-Korrektur beseitigt lediglich schwarze Texturflächen und erfüllt diese geometrische Anforderung noch nicht.
+
+**Später umsetzen:** Blockmodell/-geometrie für normale und doppelte Crop Sticks so anpassen, dass vier einzelne Holzstäbe klar erkennbar sind. Bestehende Kollisionsform, Interaktionen, Pflanzen-BER, Textur-/Cutout-Rendering und angehängte Fruchtmodelle nicht versehentlich verändern; anschließend im Client visuell prüfen. **Kosmetisch, keine Freigabeblockade**. PT-02 (zweiter Fruchtzyklus) bleibt wichtiger. Keine Änderungen an Spielmechaniken in diesem Schritt.
+
 ## Playtest 16.11.2026: Teilabnahme, offene Befunde
 
 Echte Client-Interaktionen auf dem Integrationsbranch durchgefuehrt; Build und 17 Unit-Tests bestehen. Schwarze Sticks durch falsche Holz-UVs behoben und nach Ressourcen-/Weltneustart visuell geprueft. Reales Pam Crops 1.0.9 geladen (113 Arten, 60 Auto-Arten); Prioritaet und echte Auto-Kollision getestet. Offen: zweiter Melonen-/Kuerbis-Fruchtzyklus, graue Stengel/Fallbacks und Pams eigener ungueltiger rabbit_food-Tag. Winterbiom/Frost als Umgebungsbedingung beruecksichtigt; Wachstum beschleunigt, teils Creative, teils Survival, teils Fixtures. **Keine vollstaendige Gameplay-Abnahme und keine Freigabe.** Keine Pushes/Branch-Uebernahmen. [Vollstaendiger Playtest-Bericht mit klarer Testabgrenzung](PLAYTEST_REPORT_2026-11-16.md).
