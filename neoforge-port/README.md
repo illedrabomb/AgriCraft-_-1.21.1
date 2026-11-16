@@ -1,3 +1,7 @@
+## Post-playtest fixes and diagnostics – 2026-11-16 (source-only)
+
+On `integration/neoforge-1211-consolidation`, `CropSticksRenderer` now resolves age-based Vanilla melon/pumpkin stem tint and the Vanilla oak-leaf fallback tint through Minecraft's client block-color registry instead of always drawing white-tinted vegetation. **PT-03 is changed in source but still needs a real client visual retest.** To investigate **PT-02**, the read-only permission-level-2 command `/cropgenetics data gourd <x> <y> <z>` prints the exact current growth multiplier, effective per-random-tick fruit chance, fruit ownership state, brightness, and four neighboring fruit site/soil eligibility results. The underlying placement and diagnostic code share the same predicate, without changing fruit balance or forcing chunks to load. The **second fruit cycle remains unverified and is NOT considered fixed**. For **PT-04**, the invalid rabbit_food tag was found inside the unchanged Pam's Crops 1.0.9 external JAR; no global tag override or foreign JAR patch was added. Details: `../docs/POST_PLAYTEST_PT02_PT03_PT04_2026-11-16.md`. No build/tests/game launches of these newer commits, no merges/releases; previous successful 17 unit tests apply only to the earlier playtest commit. Trees and saplings remain out of scope.
+
 # Crop Genetics — NeoForge 1.21.1 port
 
 ## Playtest 16.11.2026: Teilabnahme, offene Befunde
