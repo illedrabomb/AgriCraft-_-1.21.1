@@ -42,8 +42,10 @@ def convert_crop(source, config):
     crop_id = check_id(source["id"], "plant ID")
     if not source.get("enabled", True):
         raise ValueError("plant disabled upstream")
-    if source.get("callbacks"):
-        raise ValueError("callbacks not supported")
+    callbacks = source.get("callbacks", [])
+    if callbacks and (callbacks != ["agricraft:thorns"]
+                      or config.get("adapt_thorns") is not True):
+        raise ValueError("unsupported callbacks; agricraft:thorns needs adapt_thorns=true")
     if source.get("particle_effects"):
         raise ValueError("legacy particle effects require adapter")
     if source.get("clip_products", {}).get("products"):
@@ -152,6 +154,8 @@ def convert_crop(source, config):
         "products": {"products": products},
         "cropgenetics_requirements": requirements_new
     }
+    if callbacks == ["agricraft:thorns"]:
+        plant["cropgenetics_contact_thorns"] = True
     if type(plant["growth_bonus"]) not in (int, float) or not math.isfinite(plant["growth_bonus"]) or plant["growth_bonus"] < 0:
         raise ValueError("invalid growth bonus")
     return plant, {"plant": crop_id, "geometry": {"hash": "cross"}.get(geometry, geometry),
