@@ -58,6 +58,45 @@ public final class GourdFruits {
                 && fruit.ownedBy(stem, token);
     }
 
+    /**
+     * Read-only placement diagnostics. Does not roll fruit chances, create
+     * blocks, mutate genome metadata or load neighboring chunks.
+     */
+    public static List<String> placementDiagnostics(ServerLevel level, BlockPos stem,
+                                                     PlantDefinition plant,
+                                                     CropSticksBlockEntity crop) {
+        List<String> lines = new ArrayList<>();
+        Block fruit = fruitBlock(plant);
+        lines.add("species=" + plant.id() + ", harvestMode=" + plant.harvestMode()
+                + ", growthStage=" + crop.growthStage() + "/" + plant.stages().size()
+                + ", mature=" + crop.isMature(plant)
+                + ", fruitReady=" + crop.fruitReady()
+                + ", physicalBlock=" + (fruit == null ? "unsupported" : "registered"));
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            BlockPos target = stem.relative(direction);
+            if (!level.hasChunkAt(target) || !level.hasChunkAt(target.below())) {
+                lines.add(direction.getName() + ": neighboring chunk not loaded");
+                continue;
+            }
+            BlockState at = level.getBlockState(target);
+            BlockState ground = level.getBlockState(target.below());
+            lines.add(direction.getName() + ": " + (at.isAir() ? "air" : at.getBlock().toString())
+                    + ", ground=" + ground.getBlock()
+                    + ", eligible=" + placeable(level, target));
+        }
+        return List.copyOf(lines);
+    }
+
+    /** Shared eligibility predicate: the diagnostic must mirror placement. */
+    private static boolean placeable(ServerLevel level, BlockPos target) {
+        if (!level.hasChunkAt(target) || !level.hasChunkAt(target.below())
+                || !level.isEmptyBlock(target)) return false;
+        BlockState ground = level.getBlockState(target.below());
+        return ground.is(Blocks.FARMLAND) || ground.is(Blocks.DIRT)
+                || ground.is(Blocks.GRASS_BLOCK) || ground.is(Blocks.COARSE_DIRT)
+                || ground.is(Blocks.PODZOL);
+    }
+
     /** Places a real fruit only in empty space above an ordinary growable soil. */
     public static boolean tryPlace(ServerLevel level, BlockPos stem, PlantDefinition plant,
                                    CropSticksBlockEntity crop, RandomSource random) {
@@ -74,11 +113,7 @@ public final class GourdFruits {
 
         for (Direction direction : candidates) {
             BlockPos target = stem.relative(direction);
-            if (!level.hasChunkAt(target) || !level.isEmptyBlock(target)) continue;
-            BlockState ground = level.getBlockState(target.below());
-            if (!(ground.is(Blocks.FARMLAND) || ground.is(Blocks.DIRT)
-                    || ground.is(Blocks.GRASS_BLOCK) || ground.is(Blocks.COARSE_DIRT)
-                    || ground.is(Blocks.PODZOL))) continue;
+            if (!placeable(level, target)) continue;
 
             UUID token = UUID.randomUUID();
             if (level.setBlock(target, fruit.defaultBlockState(), 3)) {
