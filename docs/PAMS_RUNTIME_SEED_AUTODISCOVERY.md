@@ -119,6 +119,19 @@ Die automatische Pam's-Crops-Erkennung schützt jetzt **auch Ernteprodukt-IDs**,
 
 **Pam's Trees bleibt ausdrücklich ausgeschlossen.** Es wird ausschließlich `pamhc2crops` betrachtet, keine Setzlings- oder Baumregistrierung.
 
+## Nachtrag 16.11.2026: beschädigte Pflanzen-Datapacks deaktivieren den Auto-Fallback
+
+Die frühere offene Sicherheitsfrage zu **nicht lesbarem JSON** ist jetzt mit einem bewusst konservativen **Fail-closed-Verfahren** im `CropDataReloadListener` behandelt:
+
+1. Fehler beim tatsächlichen Lesen oder Parsen einer Ressource unter `cropgenetics/plants/*.json` werden weiterhin als `INVALID` dokumentiert. Zusätzlich wird für denselben Reload die automatische Pam's-Crops-Erkennung deaktiviert. Ohne lesbaren Datensatz sind die dort eventuell reservierten Arten-/Saatgut-/Produktnamen nicht verlässlich bestimmbar.
+2. Auch bei formal lesbarem JSON müssen die **`id`-Artidentität** und gegebenenfalls vorhandene `seed_items`-/`products.products`-Elemente ausreichend auswertbar sein, um Ansprüche auf Art-, Saatgut- und Ernte-IDs zu reservieren. Fehlende `id`, ungültige Typen oder nicht auswertbare Item-`object`-Felder verhindern den Auto-Fallback. Gültige ausdrücklich angegebene Item-Ansprüche aus anderen Dateien werden wie bisher gesammelt.
+3. Die Blockierung erhält eine eigene `WARNING`-Diagnose an `cropgenetics:cropgenetics/pam_auto_discovery.json`. **Gültige explizite Pflanzen und Mutationen werden trotzdem weitergeladen**; der gesamte Datapack-Reload wird nicht verworfen.
+4. Nach Korrektur der defekten Datei kann die automatische Erkennung bei einem späteren regulären Reload wieder arbeiten. Ein defekter Eintrag darf **nicht** dadurch umgangen werden, dass die Automatik eine ähnliche Art neu herstellt.
+
+Die besondere Behandlung gilt **nur für den automatischen Pam's-Crops-Fallback** und verändert weder die HarvestCraft-1-Legacy-Migration noch die ursprünglichen 37 expliziten Pam's-2-Pflanzen und 33 Originalmutationsdateien. **Pam's Trees bleibt ausgeschlossen.**
+
+**Offene Abnahme:** Es wurden weder Unit-Tests noch Java-Kompilierung, Dedicated-Server-Reload oder Minecraft-Starts ausgeführt. Zu prüfen sind später insbesondere beschädigtes JSON, JSON-Typfehler, `enabled=false`, Datapack-Prioritäten, Sonderpaar-Konfigurationen und die Reaktivierung nach Reparatur.
+
 ## HarvestCraft 1 – klare Grenze
 
 **HarvestCraft 1** ist keine offizielle NeoForge-1.21.1-Laufzeitmod. Sie wird durch diese Laufzeit-Erkennung **nicht** automatisch geladen, und es wird kein fiktiver `harvestcraft`-Registry-Eintrag erzeugt. Die Legacy-1→2-ID-Zuordnungen verbleiben im eigenständigen, nur als Daten vorliegenden Crosswalk. Eine spätere Item-/Weltmigration benötigt getrennte, ausdrücklich freigegebene Logik.
