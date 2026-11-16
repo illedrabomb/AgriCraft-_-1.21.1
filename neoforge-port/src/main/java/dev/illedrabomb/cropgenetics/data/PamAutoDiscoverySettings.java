@@ -63,8 +63,20 @@ public record PamAutoDiscoverySettings(boolean enabled, int maxPlants,
         if (itemPairs.size() > 128 || itemPairs.keySet().stream().anyMatch(
                 crop -> !crop.matches("[a-z][a-z0-9_]*") || crop.length() > 80))
             throw new IllegalArgumentException("item_pairs: up to 128 valid crop names");
+        // If a seed or product is claimed by more than one configured
+        // species, no unambiguous fallback can be inferred. Reject it.
         if (itemPairs.values().stream().map(ItemPair::seed).distinct().count() != itemPairs.size())
             throw new IllegalArgumentException("item_pairs contains duplicate seed IDs");
+        if (itemPairs.values().stream().map(ItemPair::produce).distinct().count() != itemPairs.size())
+            throw new IllegalArgumentException("item_pairs contains duplicate produce IDs");
+        Set<String> configuredSeeds = new HashSet<>();
+        Set<String> configuredProducts = new HashSet<>();
+        itemPairs.values().forEach(pair -> {
+            configuredSeeds.add(pair.seed());
+            configuredProducts.add(pair.produce());
+        });
+        if (configuredProducts.stream().anyMatch(configuredSeeds::contains))
+            throw new IllegalArgumentException("item_pairs seed/produce IDs overlap across crops");
     }
 
     public static PamAutoDiscoverySettings parse(JsonObject json) {
