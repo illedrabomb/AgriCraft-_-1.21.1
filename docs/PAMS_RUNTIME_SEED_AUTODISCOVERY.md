@@ -62,6 +62,39 @@ Die Datapack-Datei wird im selben serverseitigen `CropDataReloadListener.prepare
 
 **Wichtige Grenze:** Mehr Licht-/Ernteoptionen oder ein neues automatisch erkanntes Saatgut bedeuten nicht, dass die Pam's-Crops-1.21.1-JAR erfolgreich validiert wurde. Diese Datapack-Erweiterung ist implementiert, aber unkompiliert und ungetestet. Vor `testing` sind insbesondere der `SimplePreparableReloadListener`-Pfad, Priorität verschiedener Datapacks, `enabled=false`, Ausschlusslisten, ungültige Werte und Restart-Semantik zu prüfen.
 
+## Nachtrag 16.11.2026: Sondernamen mit expliziten Item-Paaren
+
+Für registrierte Pam's-2-Saatgut-/Ernte-Items, die **nicht** zum Standardschema `<crop>seeditem` + `<crop>item` passen, unterstützt die Server-Konfiguration jetzt das zusätzliche optionale Feld `item_pairs`. Die mitgelieferte Default-Datei enthält **`"item_pairs": {}`** und erfindet keine Ausnahmen. Ein Modpack kann bei **nachgewiesenen** Spezialfällen z. B. folgendes Schema ergänzen (**nur demonstrative IDs; kein behauptetes Pam's-Release-Item**):
+
+```json
+{
+  "enabled": true,
+  "item_pairs": {
+    "examplecrop": {
+      "seed": "pamhc2crops:example_seed",
+      "produce": "pamhc2crops:example_food"
+    }
+  }
+}
+```
+
+Dies ist eine Einstellung für **die Artidentität** `pamhc2crops:examplecrop_plant`, die zu einem konkret angegebenen `seed`- und `produce`-Item gehört. Es entsteht erst eine Pflanze, wenn **beide IDs tatsächlich in der Server-Item-Registry registriert und nicht AIR** sind. Fehlende konfigurierte Items erzeugen einen **WARNING**-Eintrag und werden übersprungen. **Maximal 128** solche Paare; die Cropnamen sind auf ein überschaubares gültiges Format, die beiden Items auf den Namespace `pamhc2crops:` begrenzt. Doppelt genannte Saatgut-IDs zwischen konfigurierten Paaren machen die Konfiguration ungültig und deaktivieren die automatische Erkennung für den betroffenen Reload; gleichlautendes `seed` und `produce` ist verboten.
+
+**Priorität (höchste zuerst):**
+
+1. Eine **explizite** Crop-Datapack-Art einschließlich deaktivierter, ungültiger oder fehlender-Mod-Definitionen und ihrer Saatgutansprüche blockiert Auto-Erkennung.
+2. Die konfigurierten `item_pairs` werden nach Cropnamen sortiert und **vor** den regulär erkannten `seeditem`-Paaren verarbeitet; ein konfiguriertes Paar für eine Art ersetzt den automatischen Namensfallback dieser Art.
+3. Erst danach kommen normale Pam's-Saatgut-/Erntepaare aus der Registry. Eine bereits beanspruchte Saatgut-ID wird nicht nochmals für eine neue Spezies verwendet.
+4. `excluded_crops` und die Obergrenze `max_plants` gelten **für beide** Erkennungswege.
+
+### Historische Sondernamen sind keine automatischen Runtime-Aliasse
+
+In der ursprünglichen HarvestCraft-1-Registry sind z. B. die Saatgutnamen `harvestcraft:coffeeseeditem`, `harvestcraft:mustardseeditem` und `harvestcraft:teaseeditem` ausdrücklich als Legacy-Ausnahmen belegt. Die eingesehenen **älteren** HarvestCraft-2-Crops-Quellen nennen dagegen `pamhc2crops:coffeebeanseeditem`, `pamhc2crops:mustardseedsseeditem` und `pamhc2crops:tealeafseeditem` – diese folgen dem Standardschema der jeweiligen neuen Crop-Art. Deshalb werden **keine** historischen H1-IDs als moderne Items angenommen und keine Alias-Umleitung eingebaut. Die Existenz der genannten alten H2-Quell-IDs ersetzt **nicht** die noch ausstehende Prüfung der tatsächlichen NeoForge-1.21.1-Registry.
+
+**Grenzen:** `item_pairs` ergänzt nur die generische Fallback-Species. Es erstellt keine Originalmutationen, keine korrekten Spezial-Bodenregeln, keine Pam's-1-Migration, keine Client-Texturen und keinen Baumadapter. Die 37 bereits expliziten Crop-Sticks-Arten und 31 originalen Mutationsdefinitionen werden nicht verändert oder überschrieben.
+
+**Validierungsstand:** Die Java-Dateien und Datapacks sind gespeichert, aber **nicht kompiliert/getestet**. Ein später genehmigter Lauf muss insbesondere konfigurierte Paare mit fehlenden Items, doppelte Seed-IDs, `excluded_crops`, explizite `enabled=false`-Datapacks, Restart und `/reload` überprüfen.
+
 ## HarvestCraft 1 – klare Grenze
 
 **HarvestCraft 1** ist keine offizielle NeoForge-1.21.1-Laufzeitmod. Sie wird durch diese Laufzeit-Erkennung **nicht** automatisch geladen, und es wird kein fiktiver `harvestcraft`-Registry-Eintrag erzeugt. Die Legacy-1→2-ID-Zuordnungen verbleiben im eigenständigen, nur als Daten vorliegenden Crosswalk. Eine spätere Item-/Weltmigration benötigt getrennte, ausdrücklich freigegebene Logik.
