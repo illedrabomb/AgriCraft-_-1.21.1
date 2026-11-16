@@ -7,10 +7,11 @@ import java.util.Objects;
 public record MutationDefinition(String childPlantId, String parentA, String parentB,
                                  double chance, List<String> allowedBiomes,
                                  List<String> blockedBiomes, List<String> allowedDimensions,
-                                 List<String> blockedDimensions, EnvironmentFilter environment) {
+                                 List<String> blockedDimensions, EnvironmentFilter environment,
+                                 SeasonRule seasonRule) {
     /** Existing unconditional mutations retain their original behavior. */
     public MutationDefinition(String childPlantId, String parentA, String parentB, double chance) {
-        this(childPlantId, parentA, parentB, chance, List.of(), List.of(), List.of(), List.of(), EnvironmentFilter.UNRESTRICTED);
+        this(childPlantId, parentA, parentB, chance, List.of(), List.of(), List.of(), List.of(), EnvironmentFilter.UNRESTRICTED, SeasonRule.UNRESTRICTED);
     }
 
     /** Preserve existing location-only constructor. */
@@ -18,10 +19,20 @@ public record MutationDefinition(String childPlantId, String parentA, String par
                               List<String> allowedBiomes, List<String> blockedBiomes,
                               List<String> allowedDimensions, List<String> blockedDimensions) {
         this(childPlantId, parentA, parentB, chance, allowedBiomes, blockedBiomes,
-                allowedDimensions, blockedDimensions, EnvironmentFilter.UNRESTRICTED);
+                allowedDimensions, blockedDimensions, EnvironmentFilter.UNRESTRICTED, SeasonRule.UNRESTRICTED);
+    }
+
+    /** Preserve callers that use location and fluid/height constraints. */
+    public MutationDefinition(String childPlantId, String parentA, String parentB, double chance,
+                              List<String> allowedBiomes, List<String> blockedBiomes,
+                              List<String> allowedDimensions, List<String> blockedDimensions,
+                              EnvironmentFilter environment) {
+        this(childPlantId, parentA, parentB, chance, allowedBiomes, blockedBiomes,
+                allowedDimensions, blockedDimensions, environment, SeasonRule.UNRESTRICTED);
     }
 
     public MutationDefinition {
+        Objects.requireNonNull(seasonRule);
         Objects.requireNonNull(environment);
         Objects.requireNonNull(childPlantId);
         Objects.requireNonNull(parentA);
