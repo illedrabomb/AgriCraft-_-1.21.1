@@ -46,6 +46,10 @@ Die `CropRegistry.java` der Originalmod HarvestCraft 1 (1.12.2) wurde unmittelba
 
 Nach acht weiteren aus den AgriPlants-Vorlagen abgeleiteten Pam's-2-Pflanzen (Gerste, Sellerie, Brokkoli, Süßkartoffel, Radieschen, Frühlingszwiebel, Cantaloupe, Heidelbeere) liegen jetzt **30 optionale H2-Crops** und **14 originale Mutationsdefinitionen** vor. Der H1-ID-Crosswalk wurde um dieselben acht Original-H1-Cropnamen aus `CropRegistry.cropNames` auf **30** Kandidaten erweitert. Die bereits bestehenden Abschnitte mit 22 Einträgen beschreiben den damaligen Zwischenstand; aktuell sind 30 maßgeblich. Das Skript wurde nicht ausgeführt. H1 ist keine direkte 1.21.1-Laufzeitmod, und die tatsächliche neue Pam's-Crops-1.21.1-Item-Registry bleibt unabhängig zu verifizieren. Einzelheiten: `docs/PAMS_HARVESTCRAFT_2_MUTATIONS.md` und `docs/PAMS_HARVESTCRAFT_1_LEGACY_ID_CROSSWALK.md`.
 
+## Nachtrag 16.11.2026: Rosenkohl und exakt freigegebene Vanilla-Eltern
+
+Neuer Stand: **31 optionale Pam's-2-Pflanzen, 25 Originalmutationen und 31 HarvestCraft-1-zu-2-ID-Migrationskandidaten**. Die neu portierte Rosenkohl-Art ermöglicht zwei Originalmutationen; neun weitere wurden durch **sechs explizite historische `vanilla:` → vorhandene `minecraft:`-Species-Zuordnungen** ermöglicht. Diese Zuordnungen ändern keine Runtime-Item-IDs und sind keine automatische Weltmigration. Details: `docs/PAMS_VANILLA_SPECIES_ALIASES_AND_BRUSSELSPROUT.md`. Die früher genannten Mengen (22 und 30) sind dokumentierte Zwischenstände. **Unkompiliert und ungetestet.**
+
 ## Nächste konkrete Arbeit
 
 1. Aus den tatsächlichen HarvestCraft-1-1.12.2-Quelldaten eine **belegte Tabelle alter Crop-/Item-IDs** aufbauen; mit HarvestCraft-2-Crops-Registry abgleichen.
