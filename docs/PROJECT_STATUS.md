@@ -7,6 +7,10 @@
 **Aktuelle Mod-ID:** `cropgenetics` (vorläufig)  
 **Status:** fortgeschrittene Quellcode-Implementierung; **kein validierter spielbarer Release**.
 
+## Branch- und Freigabepolitik
+
+Seit dem 16.11.2026 existiert ein gesonderter **`testing`-Branch** (Ausgangsbasis `entwicklung`). Der Arbeitsfluss ist **`feature/*` → `entwicklung` → `testing` → `master`**. Die Integrations-, Test- und Freigabeschritte sind ausdrücklich getrennt. **Ein Branchname oder Commit ist keine Testfreigabe**; ohne erneute Zustimmung keine Builds, Tests, CI-Starts oder Minecraft-Starts. Auf `entwicklung` gilt weiterhin der Versionsbump pro Commit. Verbindliche Details: `docs/BRANCH_WORKFLOW.md`.
+
 ## Regeln für die laufende Dokumentation
 
 1. Nach **jedem abgeschlossenen Entwicklungs-/Änderungsschritt** diese Datei mit Datum, vorgenommenen Änderungen, betroffenen Dateien, offenen Punkten und konkretem nächsten Schritt aktualisieren. Größere Entscheidungen zusätzlich in dauerhaften technischen Dokumenten festhalten.
@@ -71,6 +75,8 @@
 - **Nächste Schritte:** optionale Datapack-Saison-Felder modellieren, eine entkoppelte Server-Saison-Schnittstelle vorsehen, die konkrete Mod-API vor Integration überprüfen und erst nach Freigabe kompilieren/testen.
 
 ## Änderungsprotokoll
+
+- **2026-11-16 – Testbranch `testing` eingerichtet (Branch-Neuanlage, Doku-Commit `382ef49`):** Auf Wunsch des Nutzers wurde ein **separater `testing`-Branch aus `entwicklung`** erstellt. Branch-Aufgaben sind in `docs/BRANCH_WORKFLOW.md` dauerhaft dokumentiert: `feature/*` isolierte Programmierung, `entwicklung` Integration/Versionierung, `testing` Test und Abnahme, `master` ausschließlich bestätigter stabiler Stand. Die bisherige Regel, `mod_version` bei jedem Commit auf `entwicklung` im selben Commit anzuheben, bleibt bestehen. Der neue Branch enthält **nicht automatisch** die jüngsten ungetesteten Feature-Commits von `feature/neoforge-1211-foundation`. **Keine Builds, Tests, Actions oder Minecraft-Starts ausgeführt.** Vor zukünftiger Abnahme einen expliziten SHA von `entwicklung` nach `testing` übernehmen und Testläufe gesondert autorisieren.
 
 - **2026-11-16 – Originale Bodenskalen/Strength-Toleranz und erste Regendynamik (Commits `3063923`, `4b2683b`, `1304e4c`, `e52551e`, `01921cd`, `f8499d4`, `cf336d0`, `4bb2453`, `a75d57a`; Doku `450b7e2`, ergänzt `de91066`, `8118a22`, `874ebdb`):** Aus offizieller AgriCraft-1.18-Dokumentation verifiziert: 6 Feuchtigkeits-, 7 Säure-, 6 Nährstoffkategorien und `tolerance_factor × Strength` als Vergleichstoleranz. `SoilChemistryRule` nutzt nun diese Werte, alte NeoForge-Aliase bleiben lesbar. `SoilChemistryAccess` und `CropConditions` verwenden die tatsächlich exprimierte Strength; bei Mutation wird die bereits geerbte Nachkommen-Strength verwendet. `AgriPlantsParser` erlaubt einen optionalen validierten Faktor; der Offline-Importer übernimmt nur ausdrücklich konfigurierte kanonische Kategorien/Faktoren, keine automatische Legacy-Umdeutung. `SoilDynamics` ergänzt Regen auf profilierten Böden (+1 Feuchtigkeitsstufe mit 1/16 Chance pro bepflanztem Crop-Random-Tick) und Nährstoffverbrauch (-1 Stufe mit 1/8 Chance nach erfolgreicher Wachstumsstufe). **Raten neu definiert, nicht als originale AgriCore-Werte belegt; keine Bodenbeeinflussung ohne Profil.** Keine eigenständigen Bewässerungsblöcke, keine Verdunstung oder Nährstoffregeneration. Vollständige Details und Quellen: `docs/AGRICORE_SOIL_PARITY_AND_EVOLUTION.md`. **Kein Build, keine Tests, kein Spielstart; API-/Gameplay-Funktion unbestätigt.** Nächster Schritt: Originalprofile und steuerbare Regeln.
 
