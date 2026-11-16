@@ -38,6 +38,27 @@ def finite_chance(value, label):
         raise ValueError(f"{label}: chance outside 0..1")
     return value
 
+def location_lists(config):
+    """Explicit 1.21.1 ID lists, never guessed from legacy blacklist logic."""
+    fields = ("allowed_biomes", "blocked_biomes",
+              "allowed_dimensions", "blocked_dimensions")
+    result = {}
+    for field in fields:
+        value = config.get(field, [])
+        if not isinstance(value, list) or len(value) > 64:
+            raise ValueError(f"{field}: expected up to 64 identifiers")
+        for entry in value:
+            check_id(entry, field)
+        if len(value) != len(set(value)):
+            raise ValueError(f"{field}: duplicate identifier")
+        if value:
+            result[field] = value
+    if set(result.get("allowed_biomes", [])) & set(result.get("blocked_biomes", [])):
+        raise ValueError("biome allow/block lists overlap")
+    if set(result.get("allowed_dimensions", [])) & set(result.get("blocked_dimensions", [])):
+        raise ValueError("dimension allow/block lists overlap")
+    return result
+
 def convert_crop(source, config):
     crop_id = check_id(source["id"], "plant ID")
     if not source.get("enabled", True):
@@ -142,6 +163,7 @@ def convert_crop(source, config):
     requirements_new = {"min_light": min_light, "max_light": max_light,
                         "light_tolerance": tolerance}
     requirements_new.update({k: config[k] for k in ("soil_block", "soil_tag") if k in config})
+    requirements_new.update(location_lists(config))
 
     plant = {
         "version": "1.21.1-compat", "enabled": True,
