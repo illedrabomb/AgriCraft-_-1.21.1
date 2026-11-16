@@ -54,9 +54,10 @@ An earlier Java 21/NeoForge compilation of the foundational source code succeede
 - Improve advanced soil/climate rules and custom gourd support.
 - Genetics inspection/storage UI, breeder villager/profession, complete plant catalog.
 - Optional add-ons: irrigation, greenhouse, MineColonies.
+- Datapack stage-count migration: planted crops keep proportional growth progress when a reloaded species changes its number of growth stages (including exact maturity at both endpoints). The existing on-load/periodic reconciliation handles both loaded and re-entering chunks without changing genetics or physical fruit ownership. See `../temporary-research/CROP_DATAPACK_STAGE_REMAP.md`.
+- Harvest-mode reload safety: existing owned melon/pumpkin fruit remains tracked across a GOURD-to-STANDARD datapack change, and STANDARD stem harvest is suppressed until that physical fruit is removed or verified absent. Periodic reconciliation works with random ticks disabled. See `../temporary-research/GOURD_HARVEST_MODE_RELOAD_SAFETY.md`.
+- Orphaned physical fruit safety: destroying a crop stem detaches any matching already-loaded fruit without deleting its block or creating drops; unloaded fruit chunks reconcile ownership with a staggered server ticker after both chunks are present. Existing melon/pumpkin loot is unchanged. See `../temporary-research/ORPHAN_GOURD_FRUIT_LIFECYCLE.md`.
 - Compilation, gameplay smoke tests, client/dedicated-server validation before any release, when testing is re-enabled.
 
 ## License/credits
 Based on the AgriCraft project and data subprojects. Preserve MIT license and original authorship/copyright information for all reused code/assets.
-- Datapack stage-count migration: planted crops keep proportional growth progress when a reloaded species changes its number of growth stages (including exact maturity at both endpoints). The existing on-load/periodic reconciliation handles both loaded and re-entering chunks without changing genetics or physical fruit ownership. See `../temporary-research/CROP_DATAPACK_STAGE_REMAP.md`.
-- Harvest-mode reload safety: existing owned melon/pumpkin fruit remains tracked across a GOURD-to-STANDARD datapack change, and STANDARD stem harvest is suppressed until that physical fruit is removed or verified absent. Periodic reconciliation works with random ticks disabled. See `../temporary-research/GOURD_HARVEST_MODE_RELOAD_SAFETY.md`.
