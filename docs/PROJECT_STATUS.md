@@ -54,11 +54,11 @@ Seit dem 16.11.2026 existiert ein gesonderter **`testing`-Branch** (Ausgangsbasi
 
 ## Nächster konkreter Entwicklungsschritt
 
-**Neu: Die Bodenchemie-Skalen und die dokumentierte Original-Strength-Toleranzformel wurden korrigiert, und erste automatische Bodenänderungen wurden an die Crop-Random-Ticks angeschlossen.** Die Originalkategorien umfassen Feuchtigkeit (6 Stufen), Säure (7 Stufen) und Nährstoffe (6 Stufen); frühere Port-Aliase `normal`/`saturated` sind beim Laden kompatibel. `tolerance_factor` (0..1) wird aus expliziten Pflanzen-/Mutations-Datapack-Feldern gelesen und beim Vergleich um `tolerance_factor × tatsächlich vererbte Strength` erweitert. Dokumentierte Quellen und exakte Abweichungen: `docs/AGRICORE_SOIL_PARITY_AND_EVOLUTION.md`.
+Am 16.11.2026 wurden acht belegte Vanilla-Bodenprofile aus AgriPlants 1.18.2 als Server-Datapacks übernommen, darunter die Originalwerte für Feuchtigkeit, Säure, Nährstoffe und `growth_modifier`. Das alte `forge:sand`-Tag wird vorläufig durch zwei konkrete Block-IDs (`minecraft:sand` und `minecraft:red_sand`) dargestellt. Der neue Wachstumsmodifikator wirkt im `CropConditions.growthFactor` auf Pflanzen und Fruchtbildung; gespeicherte Chemiewert-Overrides ändern den Blockmodifikator nicht.
 
-`SoilDynamics` kann bei Regen auf einen bepflanzten Crop-Sticks-Random-Tick (1/16 Chance) die Feuchtigkeit eines **explizit profilierten Bodens** erhöhen; nach erfolgreicher Wachstumsstufe wird gelegentlich (1/8 Chance) die Nährstoffstufe reduziert. Beide Änderungen sind persistent, begrenzt und **neue Gameplay-Standardraten, keine bestätigten AgriCore-Werte**. Keine Vanilla-Bodenchemie wird ohne Profil angenommen. Die bisherigen Spieler-Behandlungsaktionen und statischen Profile bleiben erhalten.
+Regendynamik und Nährstoffverbrauch sind jetzt in `cropgenetics/soil_dynamics.json` über `rain_tick_chance` und `growth_nutrient_chance` steuerbar (0 deaktiviert, 1..100000 Nenner, Defaults 16/8). Diese Raten sind Port-Design, keine nachgewiesenen Originalraten. Vollständige Quellen, Werte und Grenzen: `docs/ORIGINAL_SOIL_PROFILES_AND_DYNAMICS_CONFIG.md`.
 
-**Als nächstes:** umfassende Original-AgriSoils-Basisprofile/Blockstate-Varianten katalogisieren, Einfluss von `growth_modifier` prüfen, Regen-/Nährstoff-Wahrscheinlichkeiten datengesteuert konfigurierbar machen und verlässliche Blockwechsel-Invalidierung umsetzen. Separat die spätere optionale Serene-Seasons-Integration fortsetzen. **Weiterhin keine Builds, Tests, Minecraft-Starts, Importer-Aufrufe oder GitHub-Actions ohne ausdrückliche Freigabe.** Implementierung im Quellcode ist kein bestätigtes Gameplay.
+Als nächstes: originale Tag-/Mod-Varianten und Wachstumsmultiplikation weiter überprüfen, Blockwechsel-Invalidierung ergänzen und die AgriPlants-Datenmigration fortsetzen. **Nicht kompiliert, nicht getestet.** Keine Builds, Tests, Minecraft-Starts, GitHub Actions oder Importer-Läufe ohne Freigabe.
 
 ## Übergabe beim nächsten Chat
 
