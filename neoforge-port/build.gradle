@@ -31,6 +31,10 @@ repositories { mavenCentral() }
 dependencies {
     // Local, opt-in test dependency; never bundled or downloaded by a normal build.
     if (project.hasProperty('pamJar')) runtimeOnly files(project.property('pamJar'))
+    // Optional local playtest-only HUD / recipe browsers. Never bundled
+    // and never resolved as mandatory production dependencies.
+    if (project.hasProperty('identifyJar')) runtimeOnly files(project.property('identifyJar'))
+    if (project.hasProperty('jeiJar')) runtimeOnly files(project.property('jeiJar'))
     testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'; testImplementation 'com.google.code.gson:gson:2.11.0'; testRuntimeOnly 'org.junit.platform:junit-platform-launcher' }
 tasks.named('test', Test) { useJUnitPlatform() }
 tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
