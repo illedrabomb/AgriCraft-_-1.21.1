@@ -1,5 +1,11 @@
 # AgriCraft NeoForge 1.21.1 – Projektstatus und Übergabe
 
+## Vorbereitung ohne Codex – Regressionstests für physische Kürbis-/Melonenfrüchte (16.11.2026)
+
+**Commit `59adb9b`:** Vier JUnit-Tests in `neoforge-port/src/test/java/dev/illedrabomb/cropgenetics/data/GourdDefinitionRegressionTest.java` hinzugefügt. Sie kontrollieren die bereits vorhandenen `PlantDefinition`-Invarianten: unterstützte Vanilla-Melonen-/Kürbisarten mit regenerierbarer Stufe, Ablehnung fremder Arten im physischen GOURD-Modus, ausschließlich positive/endliche/zulässige Fruchtwahrscheinlichkeiten und exakt ein garantierter physischer Fruchtprodukteintrag. **Keine Veränderung der Fruchtchance, Reife, Fruchtplatzierung, Loot-Regeln oder Dateninhalte.**
+
+**Teststatus:** Tests sind **nur geschrieben, nicht ausgeführt**. Es erfolgte kein Build, Minecraft-Start, CI-Lauf oder Codex-Aufruf. Der zweite Fruchtzyklus (PT-02) ist durch diese statischen Datentests **nicht** bestätigt; dafür bleibt der gezielte Ingame-Nachtest mit `/cropgenetics data gourd <x> <y> <z>` erforderlich. PT-03-Client-Farbkorrektur wartet ebenfalls auf Sichtprüfung. Der kosmetische Vier-Stäbe-Crop-Sticks-Umbau bleibt niedrige Priorität. `entwicklung`, `testing`, `master` unverändert. Nächster Schritt: weitere sichere Quellcodearbeiten ohne lokales Testbudget oder gebündelter lokaler Build/Playtest, sobald wieder möglich.
+
 ## TODO – Crop-Sticks-Modell (niedrige Priorität)
 
 **Visueller Befund vom 16.11.2026:** Die Crop Sticks wirken im Spiel derzeit wie **zwei gekreuzte Balken** statt wie **vier einzelne Stängel/Stäbe**. Die bisherige UV-Korrektur beseitigt lediglich schwarze Texturflächen und erfüllt diese geometrische Anforderung noch nicht.
