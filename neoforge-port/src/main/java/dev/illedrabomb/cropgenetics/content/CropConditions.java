@@ -100,14 +100,14 @@ public final class CropConditions {
 
     /** Soil chemistry is sampled from the supporting block, never guessed from farmland. */
     public static boolean matchesChemistry(LevelReader level, BlockPos pos,
-                                           SoilChemistryRule rule) {
+                                           SoilChemistryRule rule, int strength) {
         if (!rule.configured()) return true;
         if (!(level instanceof net.minecraft.server.level.ServerLevel server)) {
             // Client cannot authorize a chemistry-dependent placement.
             // The server remains authoritative and rejects missing samples.
             return true;
         }
-        return SoilChemistryAccess.matches(server, pos.below(), rule);
+        return SoilChemistryAccess.matches(server, pos.below(), rule, strength);
     }
 
     /**
@@ -118,18 +118,18 @@ public final class CropConditions {
     public static double growthFactor(LevelReader level, BlockPos pos,
                                       PlantDefinition plant, Genome genome) {
         PlantRequirements requirements = plant.requirements();
+        int strength = genome.strength().expressed(GenePair.TraitMode.MAX);
         if (!matchesSoil(level, pos, requirements)
                 || !matchesLocation(level, pos, requirements)
                 || !matchesEnvironment(level, pos, requirements.environment())
                 || !matchesSeason(level, pos, requirements.seasonRule().allowedSeasons())
-                || !matchesChemistry(level, pos, requirements.soilChemistry())) return 0.0D;
+                || !matchesChemistry(level, pos, requirements.soilChemistry(), strength)) return 0.0D;
 
         int light = level.getRawBrightness(pos, 0);
         int deficit = Math.max(0, Math.max(requirements.minLight() - light,
                 light - requirements.maxLight()));
         if (deficit == 0) return 1.0D;
 
-        int strength = genome.strength().expressed(GenePair.TraitMode.MAX);
         int allowed = (requirements.lightTolerance() * (strength - 1)) / 9;
         if (allowed <= 0 || deficit > allowed) return 0.0D;
 
