@@ -48,6 +48,13 @@ import javax.annotation.Nullable;
  * sticks. Empty crossing sticks discover neighboring mature crops on server ticks.
  */
 public final class CropSticksBlock extends BaseEntityBlock {
+    public static final com.mojang.serialization.MapCodec<CropSticksBlock> CODEC = simpleCodec(CropSticksBlock::new);
+
+    @Override
+    protected com.mojang.serialization.MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
+    }
+
     public static final BooleanProperty CROSS = BooleanProperty.create("cross");
     public static final BooleanProperty PLANTED = BooleanProperty.create("planted");
     public static final BooleanProperty FRUIT = BooleanProperty.create("fruit");

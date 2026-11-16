@@ -1,5 +1,10 @@
 # AgriCraft NeoForge 1.21.1 – Projektstatus und Übergabe
 
+## Lokale Validierung 16.11.2026: keine Freigabe
+
+Feature-Ausgang `7ebf33de`, Metadaten **0.1.0-alpha**; MC 1.21.1 / NeoForge 21.1.265 / Java 21. Nach Korrekturen bestehen Build und 11 Unit-Tests. Isolierter Dedicated-Start, einfacher Reload und Genom-Erhalt nach Serverneustart bestanden. Analyzer-Rezept korrigiert und ohne Ladefehler erneut getestet. Eigener Kreativ-Tab registriert, Client-Sichttest fehlt. **Integration gestoppt:** Merge-Vorschau mit `entwicklung` zeigt Konflikte; Gameplay-/Client-/Pam-Abnahme unvollstaendig. Keine Uebernahme nach entwicklung, testing oder master und keine Pushes. [Testmatrix und Belege](VALIDATION_2026-11-16.md).
+
+
 **Stand:** 2026-11-16  
 **Aktiver Entwicklungsbranch:** `feature/neoforge-1211-foundation`  
 **Codebasis:** `neoforge-port/` (nicht das alte Forge-1.18.2-Rootprojekt)  

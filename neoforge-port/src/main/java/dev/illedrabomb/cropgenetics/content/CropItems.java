@@ -26,7 +26,7 @@ public final class CropItems {
     public static final DeferredItem<SeedAnalyzerItem> SEED_ANALYZER =
             ITEMS.registerItem("seed_analyzer", SeedAnalyzerItem::new);
 
-    public static final DeferredItem<Item> CROP_STICKS =
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> CROP_STICKS =
             ITEMS.registerSimpleBlockItem("crop_sticks", CropBlocks.CROP_STICKS);
 
     /** Creates a genetic seed without losing the inherited genome. */

@@ -6,8 +6,12 @@
     "S "
   ],
   "key": {
-    "G": "minecraft:glass_pane",
-    "S": "minecraft:stick"
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
   },
   "result": {
     "id": "cropgenetics:seed_analyzer",

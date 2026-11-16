@@ -1,0 +1,77 @@
+Feature base: 7ebf33de5f6842c944bde77ccb12de8577582ac4
+MC1.21.1 NeoForge21.1.265 Java21.0.12.1+1 Gradle9.2.1
+JUnit: GeneticsTest=4; AgriPlantsParserTest=3; PamAutoDiscoverySettingsTest=4; failures=0; errors=0
+
+first-build.log
+BUILD FAILED in 1m 6s
+
+final-build.log
+BUILD SUCCESSFUL in 17s
+
+server-validation.log
+[21:42:48] [main/ERROR] [minecraft/RecipeManager]: Parsing error loading recipe cropgenetics:seed_analyzer
+[21:42:48] [main/INFO] [minecraft/RecipeManager]: Loaded 1291 recipes
+[21:43:00] [Server thread/INFO] [minecraft/DedicatedServer]: Done (10.377s)! For help, type "help"
+[21:43:23] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[21:43:23] [Server thread/ERROR] [minecraft/RecipeManager]: Parsing error loading recipe cropgenetics:seed_analyzer
+[21:43:23] [Server thread/INFO] [minecraft/RecipeManager]: Loaded 1291 recipes
+[21:43:32] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+BUILD SUCCESSFUL in 1m 40s
+
+server-retest.log
+[21:44:51] [main/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+[21:44:55] [Server thread/INFO] [minecraft/DedicatedServer]: Done (1.892s)! For help, type "help"
+[21:46:22] [Server thread/INFO] [minecraft/RecipeManager]: Loaded 1292 recipes
+
+run/baseline-results.json
+[
+  {
+    "command": "cropgenetics data",
+    "response": "Crop Genetics datapack: 12 plants, 1 mutations, 83 resource files.\n  Pam's auto crops: 0, explicit plant files loaded (all mods): 12 - details: /cropgenetics data pam\n  LOADED: 13\n  MISSING_MOD: 70\nUse /cropgenetics data errors [page], all [page], or tags [page].\n"
+  },
+  {
+    "command": "cropgenetics data pam",
+    "response": "Pam's HarvestCraft 2 Crops - last server reload:\n  Explicit plants loaded: 12\n  Auto-discovered species: 0\n  Auto candidates in conflict: 0\n  Configured pairs missing registered items: 0\n  Other auto diagnostics: 0\n  Auto-discovery suspended by invalid data/config: no\n  Total active species (all mods): 12\nDetails: /cropgenetics data errors [page] or all [page].\n"
+  },
+  {
+    "command": "gamerule randomTickSpeed 0",
+    "response": "Gamerule randomTickSpeed is now set to: 0\n"
+  },
+  {
+    "command": "forceload add 0 0",
+    "response": "Marked chunk [0, 0] in Overworld to be force loaded\n"
+  },
+  {
+    "command": "setblock 0 99 0 minecraft:farmland[moisture=7]",
+    "response": "Changed the block at 0, 99, 0\n"
+  },
+  {
+    "command": "setblock 0 100 0 cropgenetics:crop_sticks[planted=true]{GrowthStage:3,TotalGrowthStages:8,SeedAnalyzed:1b,Genome:{plant:\"minecraft:wheat_plant\",growth:{dominant:9,recessive:2},gain:{dominant:9,recessive:2},strength:{dominant:9,recessive:2},fertility:{dominant:9,recessive:2},mutativity:{dominant:9,recessive:2}}}",
+    "response": "Changed the block at 0, 100, 0\n"
+  },
+  {
+    "command": "data get block 0 100 0",
+    "response": "0, 100, 0 has the following block data: {FruitReady: 0b, x: 0, y: 100, z: 0, GrowthStage: 3, SeedAnalyzed: 1b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:wheat_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, TotalGrowthStages: 8}\n"
+  },
+  {
+    "command": "save-all flush",
+    "response": "Saving the game (this may take a moment!)\nSaved the game\n"
+  },
+  {
+    "command": "reload",
+    "response": "Reloading!\n"
+  }
+]
+
+run/reload-results.jsonl
+{"command": "data get block 0 100 0", "response": "0, 100, 0 has the following block data: {FruitReady: 0b, x: 0, y: 100, z: 0, GrowthStage: 3, SeedAnalyzed: 1b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:wheat_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, TotalGrowthStages: 8}\n"}
+{"command": "cropgenetics data", "response": "Crop Genetics datapack: 12 plants, 1 mutations, 83 resource files.\n  Pam's auto crops: 0, explicit plant files loaded (all mods): 12 - details: /cropgenetics data pam\n  LOADED: 13\n  MISSING_MOD: 70\nUse /cropgenetics data errors [page], all [page], or tags [page].\n"}
+{"command": "stop", "response": "Stopping the server\n"}
+
+
+run/restart-results.jsonl
+{"command": "data get block 0 100 0", "response": "0, 100, 0 has the following block data: {FruitReady: 0b, x: 0, y: 100, z: 0, GrowthStage: 3, SeedAnalyzed: 1b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:wheat_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, TotalGrowthStages: 8}\n"}
+{"command": "cropgenetics data", "response": "Crop Genetics datapack: 12 plants, 1 mutations, 83 resource files.\n  Pam's auto crops: 0, explicit plant files loaded (all mods): 12 - details: /cropgenetics data pam\n  LOADED: 13\n  MISSING_MOD: 70\nUse /cropgenetics data errors [page], all [page], or tags [page].\n"}
+{"command": "reload", "response": "Reloading!\n"}
+{"command": "data get block 0 100 0", "response": "0, 100, 0 has the following block data: {FruitReady: 0b, x: 0, y: 100, z: 0, GrowthStage: 3, SeedAnalyzed: 1b, id: \"cropgenetics:crop_sticks\", Genome: {mutativity: {dominant: 9, recessive: 2}, strength: {dominant: 9, recessive: 2}, fertility: {dominant: 9, recessive: 2}, plant: \"minecraft:wheat_plant\", growth: {dominant: 9, recessive: 2}, gain: {dominant: 9, recessive: 2}}, TotalGrowthStages: 8}\n"}
+{"command": "stop", "response": "Stopping the server\n"}

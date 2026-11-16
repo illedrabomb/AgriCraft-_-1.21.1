@@ -16,7 +16,10 @@ import dev.illedrabomb.cropgenetics.data.SoilOverrideSavedData;
 import dev.illedrabomb.cropgenetics.data.SoilProfileReloadListener;
 import dev.illedrabomb.cropgenetics.data.SoilDynamicsReloadListener;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
-import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
@@ -29,6 +32,13 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 @Mod(CropGeneticsMod.MOD_ID)
 public final class CropGeneticsMod {
     public static final String MOD_ID = "cropgenetics";
+    private static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+    private static final java.util.function.Supplier<CreativeModeTab> TAB =
+            CREATIVE_TABS.register("cropgenetics", () -> CreativeModeTab.builder()
+                    .title(Component.literal("Crop Genetics"))
+                    .icon(() -> new net.minecraft.world.item.ItemStack(CropItems.CROP_STICKS.get()))
+                    .build());
     private static final AgriPlantsRegistry PLANTS = new AgriPlantsRegistry();
     private static final SoilProfileRegistry SOIL_PROFILES = new SoilProfileRegistry();
 
@@ -36,6 +46,7 @@ public final class CropGeneticsMod {
     public static SoilProfileRegistry soilProfiles() { return SOIL_PROFILES; }
 
     public CropGeneticsMod(IEventBus modBus, ModContainer container) {
+        CREATIVE_TABS.register(modBus);
         CropComponents.register(modBus);
         CropBlocks.register(modBus);
         CropItems.register(modBus);
@@ -59,7 +70,7 @@ public final class CropGeneticsMod {
     }
 
     private void addCreativeSeeds(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
+        if (event.getTab() == TAB.get()) {
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:carrot_plant")));
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:wheat_plant")));
             event.accept(CropItems.seedWithGenome(Genome.basic("minecraft:potato_plant")));

@@ -9,8 +9,8 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 neoForge {
     version = project.neo_version
     runs {
-        client { client() }
-        server { server(); programArgument '--nogui' }
+        client { client(); gameDirectory = file('run/validation-client') }
+        server { server(); gameDirectory = file('run/validation-server'); programArgument '--nogui' }
     }
     mods {
         "${mod_id}" { sourceSet(sourceSets.main) }
