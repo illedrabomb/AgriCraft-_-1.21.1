@@ -1,0 +1,65 @@
+{
+  "enabled": true,
+  "mods": [
+    "pamhc2crops"
+  ],
+  "id": "pamhc2crops:scallion_plant",
+  "seed_items": [
+    {
+      "type": "item",
+      "object": "pamhc2crops:scallionseeditem",
+      "useTag": false
+    }
+  ],
+  "stages": [
+    2,
+    4,
+    6,
+    8,
+    10,
+    12,
+    14,
+    16
+  ],
+  "harvestStage": 4,
+  "growth_chance": 0.75,
+  "growth_bonus": 0.025,
+  "cloneable": true,
+  "spread_chance": 0.1,
+  "products": {
+    "products": [
+      {
+        "type": "item",
+        "object": "pamhc2crops:scallionitem",
+        "min": 1,
+        "max": 5,
+        "chance": 0.9
+      }
+    ]
+  },
+  "cropgenetics_requirements": {
+    "soil_block": "minecraft:farmland",
+    "min_light": 10,
+    "max_light": 15,
+    "allowed_seasons": [
+      "spring"
+    ],
+    "soil_chemistry": {
+      "humidity": {
+        "category": "wet",
+        "comparison": "equal",
+        "tolerance_factor": 0.15
+      },
+      "acidity": {
+        "category": "slightly_acidic",
+        "comparison": "equal",
+        "tolerance_factor": 0.2
+      },
+      "nutrients": {
+        "category": "high",
+        "comparison": "equal_or_higher",
+        "tolerance_factor": 0.1
+      }
+    }
+  }
+}
