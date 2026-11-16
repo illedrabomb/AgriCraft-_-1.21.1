@@ -138,7 +138,11 @@ public final class AgriPlantsParser {
             throw new JsonParseException("Conditional mutations need a dedicated adapter");
         return new MutationDefinition(requiredString(json, "child"),
                 requiredString(json, "parent1"), requiredString(json, "parent2"),
-                json.get("chance").getAsDouble());
+                json.get("chance").getAsDouble(),
+                strings(json.getAsJsonArray("cropgenetics_allowed_biomes")),
+                strings(json.getAsJsonArray("cropgenetics_blocked_biomes")),
+                strings(json.getAsJsonArray("cropgenetics_allowed_dimensions")),
+                strings(json.getAsJsonArray("cropgenetics_blocked_dimensions")));
     }
 
     public static boolean enabled(JsonObject json) {
