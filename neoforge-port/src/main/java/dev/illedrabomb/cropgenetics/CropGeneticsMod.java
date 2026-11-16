@@ -5,8 +5,11 @@ import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.content.CropRecipes;
+import dev.illedrabomb.cropgenetics.content.SoilChemistryAccess;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.CropDataReloadListener;
+import dev.illedrabomb.cropgenetics.data.SoilProfileRegistry;
+import dev.illedrabomb.cropgenetics.data.SoilProfileReloadListener;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.IEventBus;
@@ -22,14 +25,20 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 public final class CropGeneticsMod {
     public static final String MOD_ID = "cropgenetics";
     private static final AgriPlantsRegistry PLANTS = new AgriPlantsRegistry();
+    private static final SoilProfileRegistry SOIL_PROFILES = new SoilProfileRegistry();
 
     public static AgriPlantsRegistry plants() { return PLANTS; }
+    public static SoilProfileRegistry soilProfiles() { return SOIL_PROFILES; }
 
     public CropGeneticsMod(IEventBus modBus, ModContainer container) {
         CropComponents.register(modBus);
         CropBlocks.register(modBus);
         CropItems.register(modBus);
         CropRecipes.register(modBus);
+        // Explicit server soil profiles only: do not assign vanilla farmland
+        // any invented humidity/acidity/nutrient categories.
+        SoilChemistryAccess.install((level, soilPos) ->
+                SOIL_PROFILES.sample(level.getBlockState(soilPos)));
         modBus.addListener(this::addCreativeSeeds);
         NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
@@ -59,6 +68,7 @@ public final class CropGeneticsMod {
     }
 
     private void registerReloadListeners(AddReloadListenerEvent event) {
+        event.addListener(new SoilProfileReloadListener(SOIL_PROFILES));
         event.addListener(new CropDataReloadListener(PLANTS, mod -> ModList.get().isLoaded(mod)));
     }
 }
