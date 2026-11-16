@@ -88,3 +88,7 @@ Getestetes Artefakt: `build/libs/cropgenetics-0.2.14-alpha.jar`, SHA256 `d4391ff
 Kein offener Compiler-/Serverstartfehler aus diesem Durchlauf. Veraltete EventBus-API-Warnungen und Entwicklungsumgebungswarnungen zu PerfOS/union-Ressourcen bleiben; sie führten nicht zum Abbruch. Rendering, kreative Inventarinhalte und echte Spielerabläufe sind nicht runtime-validiert. Die begrenzte Melonenprüfung ersetzt keine Prüfung aller Chunkgrenzen, Explosionen, Fremd-Lootmodifikationen und Früchte. Optionale Saison-/Mod-Provider und Pam müssen mit tatsächlich geladenen Mods getestet werden.
 
 Nächster Schritt: gezielte Client-/Gameplay-Testphase auf genau diesem Integrationsstand. MineColonies-Addon wurde nicht implementiert. Keine Änderung an entwicklung/testing/master, keine Actions, kein Release und kein Push. Integrationscommit wird im abschließenden Commitnachweis dieses Berichts festgehalten; ein nachfolgender Dokumentationscommit ändert keine getesteten Mod-Dateien.
+
+## Commitnachweis
+
+Lokaler Integrations-/Mergecommit mit den getesteten Mod-Dateien: **`5790dae5295c9117420d4b682eb6a592d3154712`**. Eltern: `d2c5e45cd23d969e717b6f9bb6c92b27648fdd4d` und `ec0666a816116cd6db4f28c92bdf07867634cc83`. Der unmittelbar folgende reine Dokumentationscommit traegt diesen nachtraeglich ermittelten Commitnachweis ein; er aendert keine Mod-Dateien und ist der abschliessende lokale Branch-HEAD. Seine ID ist mit `git log -1 --format=%H integration/neoforge-1211-consolidation` abrufbar und wird im Abschlussbericht genannt.
