@@ -48,14 +48,18 @@ Eigenständige optionale Bedingung auf Mutation-Top-Level:
 
 Diese Ausschnitte sind bewusst keine vollständigen Pflanzen- oder Mutationsdefinitionen. Ungültige Kategorien/Vergleiche oder unbekannte Felder werden beim Einlesen zurückgewiesen. Fehlt die Chemiebedingung, ändert sich das Verhalten bestehender Pflanzen nicht.
 
+## Aktualisierung 16.11.2026: Originale Bodenprofile importiert
+
+Die ersten acht belegten Vanilla-Blockprofile aus dem gepinnten AgriPlants-1.18.2-Datensatz sind inzwischen unter `neoforge-port/src/main/resources/data/cropgenetics/cropgenetics/soil_profiles/` enthalten. `SoilProfileRegistry` trägt nun auch den `growth_modifier` und `CropConditions.growthFactor` berücksichtigt ihn. Die Regen-/Wachstums-Nährstoffraten sind über `cropgenetics/soil_dynamics.json` konfigurierbar. **Die früheren Angaben weiter unten, dass keine Profile standardmäßig mitgeliefert würden, beschreiben den Stand vor diesem Update und gelten nicht mehr.** Maßgebliche aktuelle Dokumentation: `docs/ORIGINAL_SOIL_PROFILES_AND_DYNAMICS_CONFIG.md`. Alle Änderungen sind unkompiliert/ungeprüft.
+
 ## Bodenprobe und Spielmechanik
 
 `SoilChemistryAccess.Provider` bietet `Optional<Sample> sample(ServerLevel, BlockPos soilPos)`. Der übergebene Block ist **die Bodenposition direkt unter den Crop Sticks**. Das Sample enthält eine qualitative Feuchtigkeits-, Säure- und Nährstoffstufe.
 
-**Aktualisierung: Ein konkreter Datapack-Bodenprofilanbieter ist inzwischen registriert.** `SoilProfileRegistry` verwaltet explizite statische Bodenprofile je Block-ID. `SoilProfileReloadListener` liest die Profile beim Server-Datapack-Reload; `CropGeneticsMod` installiert einen `SoilChemistryAccess.Provider`, der das aktuelle Bodenblockprofil liefert. **Es werden keine Profile mitgeliefert oder automatische Vanilla-Farmland-Eigenschaften als Chemiewerte abgeleitet.**
+**Aktualisierung: Ein konkreter Datapack-Bodenprofilanbieter ist inzwischen registriert.** `SoilProfileRegistry` verwaltet explizite statische Bodenprofile je Block-ID. `SoilProfileReloadListener` liest die Profile beim Server-Datapack-Reload; `CropGeneticsMod` installiert einen `SoilChemistryAccess.Provider`, der das aktuelle Bodenblockprofil liefert. **Seit dem Originalprofil-Import werden acht aus AgriPlants belegte Vanilla-Blockprofile mitgeliefert; keine weiteren Werte werden frei erfunden.**
 
 - Ohne `soil_chemistry`-Regel: Die übrigen Umweltbedingungen gelten wie zuvor, **auch wenn kein Provider existiert**.
-- Mit Chemiebedingung, aber **ohne passenden Bodenprofil-Eintrag oder Sample**: Die Regel gilt serverseitig als **nicht erfüllt**, statt Werte zu erfinden. Ein leerer Datapack-Profilkatalog ist möglich.
+- Mit Chemiebedingung, aber **ohne passenden Bodenprofil-Eintrag oder Sample**: Die Regel gilt serverseitig als **nicht erfüllt**, statt Werte zu erfinden. Für nicht definierte Blöcke bleibt der Profilkatalog leer; Modpacks können eingebaute Profile über identische Ressourcenpfade überschreiben.
 - Mit Provider und Sample: Die drei optionalen Vergleiche werden gemeinsam geprüft (logisches UND). Dies ist an `CropConditions.growthFactor` angeschlossen und beeinflusst dadurch Pflanzung, Wachstum, Auswahl von Kreuzungseltern und Eignung von Nachkommen.
 - `MutationDefinition` besitzt unabhängig von der Zielpflanze dieselbe optionale Bedingung; `CrossBreeding` prüft sie **vor** dem Mutationszufallswurf.
 - Der Server entscheidet. Ohne Zugriff auf einen `ServerLevel` wird clientseitig kein historischer Bodenwert simuliert.
@@ -76,7 +80,7 @@ Beispiel einer **frei gewählten, nicht automatisch ausgelieferten** Zuordnung:
 }
 ```
 
-Dieses Beispiel legt nur die Syntax fest, **keinen behaupteten realen Originalwert für Minecraft-Farmland**. Die drei vollständigen Felder sind zwingend nötig, weitere Felder werden zurückgewiesen. Der Block muss zur Ladezeit registriert sein und darf nicht `minecraft:air` sein. Kategorien werden beim Laden überprüft. Doppelte Profile für dieselbe Block-ID werden **alle für diesen Block deaktiviert**, statt eine willkürliche Reihenfolge zu bevorzugen. Ungültige JSON-Ressourcen werden mit Warnung übersprungen; ein Reload erzeugt eine neue unveränderliche Profilzuordnung.
+Dieses Beispiel erläutert nur die Syntax und weicht vom jetzt mitgelieferten Original-Farmlandprofil ab. Die tatsächlichen Originalwerte stehen in `docs/ORIGINAL_SOIL_PROFILES_AND_DYNAMICS_CONFIG.md`. Die drei vollständigen Felder sind zwingend nötig, weitere Felder werden zurückgewiesen. Der Block muss zur Ladezeit registriert sein und darf nicht `minecraft:air` sein. Kategorien werden beim Laden überprüft. Doppelte Profile für dieselbe Block-ID werden **alle für diesen Block deaktiviert**, statt eine willkürliche Reihenfolge zu bevorzugen. Ungültige JSON-Ressourcen werden mit Warnung übersprungen; ein Reload erzeugt eine neue unveränderliche Profilzuordnung.
 
 Statische Datapack-Profile gelten für **alle BlockStates eines Blocktyps gleich**. Seitdem ergänzte positionsbezogene Overrides und Regen-/Nährstoffänderungen sind weiter unten beschrieben; Vanilla-Farmland-BlockStates werden weiterhin nicht automatisch in echte Bodenchemie übersetzt.
 
@@ -92,7 +96,7 @@ Neben den statischen Blockprofilen existiert inzwischen `SoilOverrideSavedData`,
 
 1. Die dokumentierten Original-Kategorien und die Strength-Toleranzformel sind übernommen; die konkrete historische AgriCore-Implementierung, Bodenvarianten und Wachstumsmodifikatoren sind noch abzugleichen.
 2. **Statische Profile, gespeicherte Positions-Overrides, Itembehandlung und einfache Regen-/Nährstoffveränderungen sind implementiert**; noch offen sind komplexe Hydrologie, Verdunstung, Bodenverbreitung, Nährstoffregeneration und originalgetreue Umweltregeln. Vanilla-Hydration darf nicht stillschweigend als vollständige Chemie gelten.
-3. Serverseitige Probe bei Datapack-Reload, Welt-/Chunkwechsel und großen Farmen effizient behandeln. Anbieter-Lifecycle und mögliche externe Integrationen festlegen.
+3. Serverseitige Probe, `growth_modifier`, Regen- und Nährstoffraten bei Datapack-Reload, Welt-/Chunkwechsel und großen Farmen effizient und korrekt behandeln. Anbieter-Lifecycle und mögliche externe Integrationen festlegen.
 4. Die Core-Logik und Gson/NeoForge-APIs kompilieren sowie Client, Dedicated Server, Multiplayer und Kreuzungs-Gameplay prüfen – **erst nach ausdrücklicher Testfreigabe**.
 5. Die originale AgriPlants-Landschaft/Mutationen weiter klassifizieren. Das geplante MineColonies-Addon soll später eine saubere Schnittstelle zum Bodensystem verwenden können.
 
