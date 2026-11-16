@@ -13,6 +13,7 @@ import re
 from pathlib import Path
 
 MANIFEST = Path(__file__).parent / "data" / "pams_harvestcraft_1_to_2_crops.json"
+PLANTS_DIR = Path(__file__).parent.parent / "src" / "main" / "resources" / "data" / "cropgenetics" / "cropgenetics" / "plants"
 ID = re.compile(r"^[a-z0-9_.-]+:[a-z0-9_./-]+$")
 
 def load_manifest(path: Path = MANIFEST) -> dict:
@@ -54,6 +55,36 @@ def load_manifest(path: Path = MANIFEST) -> dict:
             seen_targets.add(value)
     return data
 
+def verify_our_definitions(data: dict, directory: Path = PLANTS_DIR) -> list[str]:
+    """Statically compare exact target IDs against our OWN server datapack JSON.
+
+    This does not inspect the installed Pam's NeoForge jar or its live registry.
+    Missing/mismatched files are reported as failures, not guessed or repaired.
+    """
+    errors: list[str] = []
+    for rule in data["rules"]:
+        name = rule["crop"]
+        candidate = directory / f"pamhc2_{name}.json"
+        if not candidate.is_file():
+            errors.append(f"{name}: missing {candidate.name}")
+            continue
+        try:
+            plant = json.loads(candidate.read_text(encoding="utf-8"))
+            seeds = plant["seed_items"]
+            products = plant["products"]["products"]
+            if plant.get("id") != rule["to"]["species"]:
+                errors.append(f"{name}: species ID differs")
+            if plant.get("mods") != ["pamhc2crops"]:
+                errors.append(f"{name}: missing exact optional pamhc2crops dependency")
+            if len(seeds) != 1 or seeds[0].get("object") != rule["to"]["seed"]:
+                errors.append(f"{name}: seed ID differs")
+            if len(products) != 1 or products[0].get("object") != rule["to"]["produce"]:
+                errors.append(f"{name}: produce ID differs")
+        except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
+            errors.append(f"{name}: invalid plant JSON ({exc})")
+    return errors
+
+
 def lookup(data: dict, source_id: str, *, metadata: int = 0, has_nbt: bool = False) -> dict | None:
     """Never guess: only exact, metadata-zero, NBT-free seed/produce/block IDs."""
     if metadata != 0 or has_nbt or not ID.fullmatch(source_id):
@@ -68,8 +99,8 @@ def lookup(data: dict, source_id: str, *, metadata: int = 0, has_nbt: bool = Fal
                     "target_kind": target_kind,
                     "target_id": rule["to"][target_kind],
                     "status": "candidate_not_verified_in_target_registry",
-                    "direct_item_replacement": source_kind != "block",
-                    "warning": "Legacy crop BLOCK cannot be replaced by a species ID; requires a separate world migration adapter" if source_kind == "block" else "Do not convert without registry validation and user authorization",
+                    "direct_item_replacement": False,
+                    "warning": "Legacy crop BLOCK cannot be replaced by a species ID; requires a separate world migration adapter" if source_kind == "block" else "Candidate only: no automatic item replacement, current NeoForge target registry still unverified",
                     "automatic": False
                 }
     return None
@@ -80,9 +111,18 @@ def main() -> None:
     parser.add_argument("--lookup", metavar="HARVESTCRAFT:ITEM_OR_BLOCK")
     parser.add_argument("--metadata", type=int, default=0)
     parser.add_argument("--has-nbt", action="store_true")
+    parser.add_argument("--verify-own-definitions", action="store_true",
+                        help="Read-only check against current local cropgenetics datapack JSON")
     args = parser.parse_args()
     data = load_manifest(args.manifest)
-    if args.lookup:
+    if args.verify_own_definitions:
+        problems = verify_our_definitions(data)
+        print(json.dumps({"local_datapack_checks": len(data["rules"]),
+                          "errors": problems,
+                          "current_pams_neoforge_registry_verified": False}, indent=2))
+        if problems:
+            raise SystemExit(1)
+    elif args.lookup:
         print(json.dumps(lookup(data, args.lookup, metadata=args.metadata,
                                 has_nbt=args.has_nbt), indent=2))
     else:
