@@ -40,7 +40,8 @@ public final class SoilChemistryAccess {
         provider = null;
     }
 
-    public static boolean matches(ServerLevel level, BlockPos soilPos, SoilChemistryRule rule) {
+    public static boolean matches(ServerLevel level, BlockPos soilPos,
+                                  SoilChemistryRule rule, int strength) {
         if (!rule.configured()) return true;
         Provider active = provider;
         if (active == null) return false; // Unknown chemistry is NOT success.
@@ -48,10 +49,10 @@ public final class SoilChemistryAccess {
         if (result == null || result.isEmpty()) return false;
         Sample sample = result.get();
         return rule.humidity().map(c -> SoilChemistryRule.matches(
-                    SoilChemistryRule.Humidity.class, sample.humidity(), c)).orElse(true)
+                    SoilChemistryRule.Humidity.class, sample.humidity(), c, strength)).orElse(true)
                 && rule.acidity().map(c -> SoilChemistryRule.matches(
-                    SoilChemistryRule.Acidity.class, sample.acidity(), c)).orElse(true)
+                    SoilChemistryRule.Acidity.class, sample.acidity(), c, strength)).orElse(true)
                 && rule.nutrients().map(c -> SoilChemistryRule.matches(
-                    SoilChemistryRule.Nutrients.class, sample.nutrients(), c)).orElse(true);
+                    SoilChemistryRule.Nutrients.class, sample.nutrients(), c, strength)).orElse(true);
     }
 }
