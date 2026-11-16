@@ -11,7 +11,7 @@ Die bisherige `SoilProfileRegistry` definiert **statische, optionale Datapack-Pr
 2. Statisches Datapack-Profil des vorhandenen Blocktyps.
 3. Kein Sample: ausdrücklich chemieabhängige Wachstums-/Mutationsbedingungen bleiben serverseitig **unerfüllt**.
 
-Ein gespeicherter Override wird verworfen, sobald beim nächsten Zugriff ein **anderer Blocktyp** an dieser Position erkannt wird; er wird nicht für einen neu gesetzten Blocktyp wiederverwendet. Änderungen des BlockStates **innerhalb desselben Blocktyps** ändern den Override zunächst nicht automatisch. Die ursprünglichen AgriCraft-`tolerance_factor`-/Strength-Regeln sind weiterhin nicht verifiziert/portiert.
+Ein gespeicherter Override wird verworfen, sobald beim nächsten Zugriff ein **anderer Blocktyp** an dieser Position erkannt wird; er wird nicht für einen neu gesetzten Blocktyp wiederverwendet. Änderungen des BlockStates **innerhalb desselben Blocktyps** ändern den Override zunächst nicht automatisch. Die dokumentierte AgriCraft-1.18-Strength-Toleranzformel wurde inzwischen umgesetzt; die tatsächliche AgriCore-Runtime bleibt unbestätigt (siehe `docs/AGRICORE_SOIL_PARITY_AND_EVOLUTION.md`).
 
 ## Speicherung
 
@@ -58,10 +58,10 @@ Das optionale `SoilTreatment`-Modul und die Item-Interaktion von `CropSticksBloc
 
 ## Noch nicht umgesetzt
 
-1. **Automatische Bewässerung, Regen, Nährstoffverbrauch/-regeneration und Nachbarblockeffekte** fehlen weiterhin. Wassereimer und Knochenmehl erlauben lediglich explizite Spielerinteraktionen auf Profilböden. Dynamisch bedeutet aktuell *positionsbezogen veränderbar und persistent*, nicht zeitabhängig simuliert.
+1. Einfache Regen-Feuchtigkeitserhöhung und Nährstoffverbrauch bei erfolgreicher Wachstumsstufe sind nun über `SoilDynamics` vorhanden. **Verdunstung, Regeneration, echte Bewässerungsnetze, Nachbarblockeffekte und vollständige AgriCore-Physik fehlen.** Alle automatischen Änderungen sind auf explizit profilierte Böden unter bepflanzten Crop Sticks begrenzt.
 2. Eigenes Werkzeug/UI zur Bodenbearbeitung, Berechtigungen für Nicht-Administratoren und spätere Integration in MineColonies.
 3. Automatisches Löschen bei Blockabbau **im selben Tick**: abweichende Blocktypen werden erst bei der nächsten Abfrage bemerkt; ein Ersatz durch denselben Blocktyp kann weiterhin den alten Wert übernehmen, bis eine gesonderte Blockänderungs-Ereignisbehandlung implementiert wird.
-4. Historische AgriCore-Bodenphysik, Strength-Toleranzformeln und Originalwerte: erst quellenbezogen analysieren, nicht durch erfundene Vanilla-Werte ersetzen.
+4. Die dokumentierten Originalkategorien und `tolerance_factor × Strength` sind übernommen; AgriCore-Bodenphysik, vollständige Originalprofile und World-State-Mechanik bleiben offen.
 5. Java-/NeoForge-API-Kompilierung, SavedData-Roundtrip, Permissions, Dimensionen/Chunkgrenzen, Serverneustart und Multiplayer **noch nicht getestet**.
 
 ## Nächster Schritt
