@@ -54,7 +54,12 @@ public final class CropItems {
         if (sourceSeed == null || sourceSeed.isEmpty()) return genetic;
 
         Genome sourceGenome = sourceSeed.get(CropComponents.GENOME.get());
-        if (genome.equals(sourceGenome) && isAnalyzed(sourceSeed)) {
+        // A source already carrying a DIFFERENT species or genotype cannot
+        // lend its original item ID or analysis flag to this new seed.
+        // Otherwise a mutation/cross could be wrongly recoverable as its
+        // parent's seed after a datapack adapter is removed.
+        if (sourceGenome != null && !genome.equals(sourceGenome)) return genetic;
+        if (sourceGenome != null && isAnalyzed(sourceSeed)) {
             genetic.set(CropComponents.ANALYZED.get(), true);
         }
 
