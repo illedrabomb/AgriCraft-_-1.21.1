@@ -3,6 +3,7 @@ package dev.illedrabomb.cropgenetics.client;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
+import dev.illedrabomb.cropgenetics.content.GeneticDisclosure;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.client.gui.screens.Screen;
@@ -36,10 +37,9 @@ public final class AnalyzedSeedTooltip {
             event.getToolTip().add(Component.translatable(
                     "tooltip.cropgenetics.plant_on_sticks"));
         }
-        if (!CropItems.isAnalyzed(stack) || !Screen.hasShiftDown()) return;
-
         Genome genome = stack.get(CropComponents.GENOME.get());
-        if (genome == null) return;
+        if (!GeneticDisclosure.mayShowGenes(genome, CropItems.isAnalyzed(stack))
+                || !Screen.hasShiftDown()) return;
         event.getToolTip().add(Component.translatable("tooltip.cropgenetics.stats",
                 genome.displayedStats(GenePair.TraitMode.MAX)));
         event.getToolTip().add(Component.translatable("tooltip.cropgenetics.growth",
