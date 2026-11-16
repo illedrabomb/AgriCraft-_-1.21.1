@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import dev.illedrabomb.cropgenetics.content.CropConditions;
 import dev.illedrabomb.cropgenetics.content.CropSticksBlockEntity;
 import dev.illedrabomb.cropgenetics.content.GourdFruits;
+import dev.illedrabomb.cropgenetics.content.GourdFruitRules;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.CropReloadReport;
@@ -135,17 +136,17 @@ public final class CropDataCommand {
             return 0;
         }
         double factor = CropConditions.growthFactor(level, pos, plant, genome);
-        double chance = plant.fruitChance() * (1.0D
-                + (genome.gain().expressed(
-                        dev.illedrabomb.cropgenetics.genetics.GenePair.TraitMode.MAX) - 1) / 10.0D)
-                * factor;
+        double chance = GourdFruitRules.chance(plant.fruitChance(),
+                genome.gain().expressed(
+                        dev.illedrabomb.cropgenetics.genetics.GenePair.TraitMode.MAX),
+                factor);
         tell(source, "Gourd diagnostic at " + pos.toShortString()
                 + " (read-only, current loaded chunks):");
         int randomTickSpeed = level.getGameRules().getInt(
                 net.minecraft.world.level.GameRules.RULE_RANDOMTICKING);
         boolean ticking = crop.getBlockState().isRandomlyTicking();
         tell(source, "  growthFactor=" + factor + ", fruitChancePerRandomTick="
-                + Math.max(0D, Math.min(1D, chance))
+                + chance
                 + ", brightness=" + level.getRawBrightness(pos, 0));
         tell(source, "  randomTickSpeed=" + randomTickSpeed
                 + ", blockRandomlyTicks=" + ticking
