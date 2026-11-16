@@ -97,6 +97,12 @@ Seit dem 16.11.2026 existiert ein gesonderter **`testing`-Branch** (Ausgangsbasi
 - **Status: Entscheidung dokumentiert, noch keine Implementierung einer Jahreszeiten-Anbindung und keine Validierung.**
 - **Nächste Schritte:** optionale Datapack-Saison-Felder modellieren, eine entkoppelte Server-Saison-Schnittstelle vorsehen, die konkrete Mod-API vor Integration überprüfen und erst nach Freigabe kompilieren/testen.
 
+## PT-02-Fortsetzung – spezifische Wachstumsbedingungen und Random-Tick-Zustand (16.11.2026)
+
+**Beobachtung des bisherigen Playtests:** Melone und Kürbis erreichen nach Entfernen der ersten physischen Frucht erneut Reife (Stufe 7), doch die nächste Frucht wurde nicht beobachtet. **PT-02 weiterhin offen, Ursache nicht nachgewiesen.** Ein bloßes Erhöhen der Fruchtchance wäre unbegründet. Zusätzlich zum bereits vorhandenen `/cropgenetics data gourd <x> <y> <z>` zeigt der read-only Befehl jetzt die einzelnen Standort-, Biome/Dimensions-, Umwelt-, Saison- und Chemiebedingungen, Lichtbereich/Toleranz, Soil-Growth-Multiplikator, tatsächlichen `randomTickSpeed`, ob der Crop-Sticks-Block zufällig tickt, sowie eine zusammenfassende Angabe, ob ein Fruchtversuch in diesem Zustand überhaupt möglich ist. Quellcodecommit `e7c216e`, Details `docs/POST_PLAYTEST_PT02_PT03_PT04_2026-11-16.md`.
+
+**Wichtig:** Es wurden **keine** Welt-, Wachstums-, Loot-, Wahrscheinlichkeit- oder Eigentumsregeln auf Verdacht verändert. Weiterhin **keine neuen Builds, Tests, Client-/Serverstarts oder Skripte**. Bei Codex gezielt mit echtem Minecraft 1.21.1 + NeoForge 21.1.265 auf dem Integrationsbranch prüfen und erst nach bestätigter Ursache korrigieren. Priorität PT-02 vor kosmetischer Crop-Sticks-Geometrie, die separat als niedrig priorisiertes TODO erfasst ist. `entwicklung`, `testing`, `master` unverändert.
+
 ## Nachbearbeitung Playtest 16.11.2026 – PT-02 / PT-03 / PT-04 (GitHub-Quellcode)
 
 **Integrationsbranch:** `integration/neoforge-1211-consolidation` ab gepushtem Ausgang `ec8e15775391f69e5270820706601181043b02f4`; **keine Änderungen an `entwicklung`, `testing` oder `master`**.
