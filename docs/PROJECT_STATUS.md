@@ -41,7 +41,7 @@
 
 ## Offene Arbeiten, vorgeschlagene Priorität
 
-1. **AgriPlants-Datenmigration:** `tools/migrate_agriplants.py` existiert, wurde laut README aber nicht ausgeführt. Vorhandene Definitionen, Mutationen, besondere Drops, Boden-/Klima-Prädikate, Sonderpflanzen sowie Referenzvalidierung vervollständigen. AgriPlants muss nicht zwingend als separate Laufzeit-Mod portiert werden; die alten Daten und Regeln benötigen stattdessen eine geprüfte Migration/Adapter.
+1. **AgriPlants-Datenmigration:** `tools/migrate_agriplants.py` existiert und wurde am 16.11.2026 um Batch-Preflight und bestehenden-Datei-Schutz erweitert; wurde weiterhin nicht ausgeführt. Vorhandene Definitionen, Mutationen, besondere Drops, Boden-/Klima-Prädikate, Sonderpflanzen sowie Referenzvalidierung vervollständigen. AgriPlants muss nicht zwingend als separate Laufzeit-Mod portiert werden; die alten Daten und Regeln benötigen stattdessen eine geprüfte Migration/Adapter.
 2. **Gameplay-Abdeckung:** vererbte Eigenschaften, Zucht, Ertrag, Umweltregeln und Sonderfälle systematisch vervollständigen, ohne vorzeitige Testfreigaben zu unterstellen.
 3. **Bedienung/Genetik-UI:** Analyzer-/Inspektions- und mögliche Aufbewahrungsoberflächen erweitern.
 4. **Pflanzenzüchter-Villager („Breeder Villager“):** bislang **nur geplant**, nicht als implementiert darstellen. Gemeint ist ein eigener pflanzenzüchtender Dorfbewohnerberuf, **nicht** Villager-Vermehrung. Mögliche Funktionen: Handel mit genetischem Saatgut, Analyse oder aktive Pflanzenkreuzung. Umfang noch nicht festgelegt. Zuchtlogik wiederverwendbar für künftiges MineColonies-Addon entwickeln.
@@ -50,12 +50,14 @@
 
 ## Nächster konkreter Entwicklungsschritt
 
-Die vorhandene `tools/migrate_agriplants.py` und bereits migrierte Pflanzen gegen den Legacy-AgriPlants-Katalog **statisch** prüfen, eine Matrix „vorhanden / teilweise / fehlt“ erstellen und die fehlenden Definitionen und Adapter schrittweise implementieren. Ergebnisse und neue Commits hier protokollieren. Keine Builds/Tests automatisch starten.
+Den Original-AgriPlants-Katalog anhand der gepinnten Quelle `9444e75828f66bd40adabb4aeca2544765408f8a` weiter **statisch** klassifizieren; eine Matrix „vorhanden / teilweise / fehlt“ erstellen und fehlende Definitionen/Adapter schrittweise implementieren. Die Importer-Ausgabe weiterhin nicht ausführen, bis der Nutzer dies freigibt. Ergebnisse und neue Commits hier protokollieren. Keine Builds/Tests automatisch starten.
 
 ## Übergabe beim nächsten Chat
 
 > Wir arbeiten an `illedrabomb/AgriCraft-_-1.21.1`, Branch `feature/neoforge-1211-foundation`, neuer NeoForge-Code in `neoforge-port/`. Bitte zuerst `docs/PROJECT_STATUS.md`, `neoforge-port/README.md`, jüngste Commits und relevante `temporary-research/`-Dokumente lesen. Den bestätigten Ist-Stand von ungeprüften Implementierungen trennen. Nach **jedem Entwicklungsschritt** die Projektstatus-Datei aktualisieren, Änderungen committen und konkrete nächste Aufgaben aufführen. Keine Tests/Builds ohne Freigabe. MineColonies-Addon für später einplanen.
 
 ## Änderungsprotokoll
+
+- **2026-11-16 – AgriPlants-Importer abgesichert (Commit `03ad5b0`):** In `neoforge-port/tools/migrate_agriplants.py` wird nun die gesamte Manifest-Auswahl vor dem Schreiben verarbeitet. Doppelte Pflanzen-IDs, doppelte Zielpfade, vorhandene Ausgabedateien und aus dem Ausgabeverzeichnis ausbrechende Ziele werden zurückgewiesen. Bei einem fachlichen Preflight-Fehler wird **keine** Ausgabedatei geschrieben; bestehende Dateien werden niemals absichtlich überschrieben. Zahlenwerte werden strikter auf Typ und Endlichkeit geprüft, damit Boolean- und NaN-/Infinity-Eingaben nicht als gültige Zahlen akzeptiert werden. **Einschränkung:** Dies ist keine transaktionale Dateisystem-Operation: Schreib-/IO-Fehler nach bestandenem Preflight könnten teilweise neue Dateien hinterlassen; es gibt keine automatischen Rollbacks, und keine Builds, Tests oder Ausführung des Importers fanden statt. Die vorhandenen Beetroot-/Netherwart-Dateien werden beim direkten Import in `src/main/resources` nun bewusst als Konflikt gemeldet; für einen späteren Vergleich separates leeres Ausgabeverzeichnis verwenden. **Nächster Schritt:** Quellkatalog klassifizieren und Sonderregel-Adapter priorisieren.
 
 - **2026-11-16:** Dauerhafte Status-/Übergabedatei erstellt; Stand aus Branch-README, Forschungsdokument vom 15.11. und GitHub-Commits zusammengetragen; Begriff „Breeder Villager“ als geplanter Pflanzenzüchter klargestellt; Dokumentationskonvention und Weitergabe an neue Chats aufgenommen. **Keine Codeänderung und keine Testläufe.**
