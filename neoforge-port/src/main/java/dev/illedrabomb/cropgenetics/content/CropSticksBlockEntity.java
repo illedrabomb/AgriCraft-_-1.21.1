@@ -92,6 +92,11 @@ public final class CropSticksBlockEntity extends BlockEntity {
     @Nullable public Genome genome() { return genome; }
     public boolean seedAnalyzed() { return seedAnalyzed; }
 
+    /** Safe presentation gate for future optional overlay integrations. */
+    public boolean mayShowGenes() {
+        return GeneticDisclosure.mayShowGenes(genome, seedAnalyzed);
+    }
+
     /**
      * Inspect an already planted crop using the handheld analyzer.
      * Never modifies the immutable Genome; only records that this crop's
