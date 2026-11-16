@@ -44,6 +44,8 @@ def convert_crop(source, config):
         raise ValueError("plant disabled upstream")
     if source.get("callbacks"):
         raise ValueError("callbacks not supported")
+    if source.get("particle_effects"):
+        raise ValueError("legacy particle effects require adapter")
     if source.get("clip_products", {}).get("products"):
         raise ValueError("clip product rules need adapter")
     # Legacy planting override and village generation have no equivalents in
@@ -101,6 +103,10 @@ def convert_crop(source, config):
         raise ValueError("invalid harvest stage")
 
     texture = source.get("texture", {})
+    if texture.get("plant_models"):
+        raise ValueError("legacy custom plant models require renderer adapter")
+    if texture.get("journal_overrides"):
+        raise ValueError("legacy journal visual overrides require adapter")
     geometry = texture.get("render_type")
     if geometry not in ("hash", "plus", "gourd"):
         raise ValueError("renderer requires an unsupported geometry")
