@@ -164,6 +164,19 @@ def convert_crop(source, config):
                         "light_tolerance": tolerance}
     requirements_new.update({k: config[k] for k in ("soil_block", "soil_tag") if k in config})
     requirements_new.update(location_lists(config))
+    # Seasonal rules are copied only when deliberately approved per crop.
+    # No season provider is bundled in the core; restrictions are inactive
+    # until a verified optional integration installs a provider.
+    if "allowed_seasons" in config:
+        seasons = config["allowed_seasons"]
+        if (not isinstance(seasons, list) or len(seasons) > 4
+                or any(type(v) is not str or v not in
+                       ("spring", "summer", "autumn", "winter") for v in seasons)
+                or len(set(seasons)) != len(seasons)):
+            raise ValueError("allowed_seasons must contain unique canonical season names")
+        if seasons:
+            requirements_new["allowed_seasons"] = seasons
+
     for name in ("min_y", "max_y"):
         if name in config:
             if type(config[name]) is not int or not -2048 <= config[name] <= 2048:
