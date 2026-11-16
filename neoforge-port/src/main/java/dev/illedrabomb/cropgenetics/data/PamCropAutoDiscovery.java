@@ -32,11 +32,17 @@ public final class PamCropAutoDiscovery {
     public static void addMissing(Map<String, PlantDefinition> plants,
                                   Set<String> explicitSpecies,
                                   Set<String> explicitSeedClaims,
+                                  Set<String> explicitProduceClaims,
                                   List<CropReloadReport.Entry> diagnostics,
                                   PamAutoDiscoverySettings settings) {
         if (!settings.enabled() || settings.maxPlants() == 0) return;
         Set<String> reservedSeeds = new HashSet<>(explicitSeedClaims);
         for (PlantDefinition plant : plants.values()) reservedSeeds.addAll(plant.seedItems());
+        Set<String> reservedProducts = new HashSet<>(explicitProduceClaims);
+        for (PlantDefinition plant : plants.values()) {
+            for (PlantDefinition.HarvestProduct product : plant.harvestProducts())
+                reservedProducts.add(product.itemId());
+        }
 
         // Configured pairs come first: a special seed can also accidentally
         // match the generic suffix scheme, so explicit pairs win deterministically.
@@ -72,7 +78,8 @@ public final class PamCropAutoDiscovery {
             if (settings.excludedCrops().contains(candidate.crop())
                     || explicitSpecies.contains(speciesId)
                     || plants.containsKey(speciesId)
-                    || reservedSeeds.contains(candidate.seed().toString())) continue;
+                    || reservedSeeds.contains(candidate.seed().toString())
+                    || reservedProducts.contains(candidate.produce().toString())) continue;
             seedClaims.merge(candidate.seed().toString(), 1, Integer::sum);
             produceClaims.merge(candidate.produce().toString(), 1, Integer::sum);
         }
@@ -84,7 +91,8 @@ public final class PamCropAutoDiscovery {
             String speciesId = NAMESPACE + ":" + crop + "_plant";
             String seedId = candidate.seed().toString();
             if (explicitSpecies.contains(speciesId) || plants.containsKey(speciesId)
-                    || reservedSeeds.contains(seedId)) continue;
+                    || reservedSeeds.contains(seedId)
+                    || reservedProducts.contains(candidate.produce().toString())) continue;
             if (seedClaims.getOrDefault(seedId, 0) > 1
                     || produceClaims.getOrDefault(candidate.produce().toString(), 0) > 1
                     || produceClaims.containsKey(seedId)
@@ -141,6 +149,7 @@ public final class PamCropAutoDiscovery {
 
             plants.put(speciesId, plant);
             reservedSeeds.add(seedId);
+            reservedProducts.add(candidate.produce().toString());
             added++;
             diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
                     ResourceLocation.fromNamespaceAndPath("cropgenetics",
