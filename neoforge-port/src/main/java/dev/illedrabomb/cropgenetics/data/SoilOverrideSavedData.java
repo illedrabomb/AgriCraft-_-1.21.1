@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.HashMap;
@@ -21,7 +23,8 @@ import java.util.Optional;
 public final class SoilOverrideSavedData extends SavedData {
     private static final String FILE_NAME = "cropgenetics_soil_overrides";
     private static final int MAX_ENTRIES = 65536;
-    private final Map<Long, SoilChemistryAccess.Sample> values = new HashMap<>();
+    private record Entry(String blockId, SoilChemistryAccess.Sample sample) {}
+    private final Map<Long, Entry> values = new HashMap<>();
 
     private SoilOverrideSavedData() {}
 
@@ -31,16 +34,28 @@ public final class SoilOverrideSavedData extends SavedData {
                 FILE_NAME);
     }
 
-    public Optional<SoilChemistryAccess.Sample> sample(BlockPos soilPos) {
-        return Optional.ofNullable(values.get(soilPos.asLong()));
+    public Optional<SoilChemistryAccess.Sample> sample(BlockPos soilPos, BlockState currentSoil) {
+        Entry entry = values.get(soilPos.asLong());
+        if (entry == null) return Optional.empty();
+        String currentBlockId = BuiltInRegistries.BLOCK.getKey(currentSoil.getBlock()).toString();
+        if (!entry.blockId().equals(currentBlockId)) {
+            // Do not apply old chemistry to a different block later placed at
+            // the same coordinates; discard stale overrides permanently.
+            remove(soilPos);
+            return Optional.empty();
+        }
+        return Optional.of(entry.sample());
     }
 
     /** Only explicit server-side calls can mutate soil chemistry. */
-    public boolean put(BlockPos soilPos, SoilChemistryAccess.Sample sample) {
+    public boolean put(BlockPos soilPos, BlockState currentSoil,
+                       SoilChemistryAccess.Sample sample) {
         if (!values.containsKey(soilPos.asLong()) && values.size() >= MAX_ENTRIES)
             return false;
-        SoilChemistryAccess.Sample old = values.put(soilPos.asLong(), sample);
-        if (!sample.equals(old)) setDirty();
+        Entry replacement = new Entry(
+                BuiltInRegistries.BLOCK.getKey(currentSoil.getBlock()).toString(), sample);
+        Entry old = values.put(soilPos.asLong(), replacement);
+        if (!replacement.equals(old)) setDirty();
         return true;
     }
 
@@ -68,9 +83,12 @@ public final class SoilOverrideSavedData extends SavedData {
                                 row.getString("acidity")),
                         SoilChemistryRule.parse(SoilChemistryRule.Nutrients.class,
                                 row.getString("nutrients")));
+                String blockId = row.getString("block");
+                if (blockId.isBlank() || net.minecraft.resources.ResourceLocation.tryParse(blockId) == null)
+                    continue;
                 // Avoid corrupt rows and duplicate positions from overwriting a
                 // previously valid entry during deserialization.
-                data.values.putIfAbsent(position, sample);
+                data.values.putIfAbsent(position, new Entry(blockId, sample));
             } catch (IllegalArgumentException ignored) {
                 // Invalid saved rows do not prevent loading the remaining entries.
             }
@@ -84,9 +102,10 @@ public final class SoilOverrideSavedData extends SavedData {
         values.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
             CompoundTag row = new CompoundTag();
             row.putLong("position", entry.getKey());
-            row.putString("humidity", entry.getValue().humidity().name().toLowerCase(java.util.Locale.ROOT));
-            row.putString("acidity", entry.getValue().acidity().name().toLowerCase(java.util.Locale.ROOT));
-            row.putString("nutrients", entry.getValue().nutrients().name().toLowerCase(java.util.Locale.ROOT));
+            row.putString("block", entry.getValue().blockId());
+            row.putString("humidity", entry.getValue().sample().humidity().name().toLowerCase(java.util.Locale.ROOT));
+            row.putString("acidity", entry.getValue().sample().acidity().name().toLowerCase(java.util.Locale.ROOT));
+            row.putString("nutrients", entry.getValue().sample().nutrients().name().toLowerCase(java.util.Locale.ROOT));
             entries.add(row);
         });
         tag.put("entries", entries);
