@@ -41,25 +41,35 @@ public final class CropConditions {
      */
     public static boolean matchesLocation(LevelReader level, BlockPos pos,
                                           PlantRequirements requirements) {
-        boolean checkBiome = !requirements.allowedBiomes().isEmpty()
-                || !requirements.blockedBiomes().isEmpty();
+        return matchesLocation(level, pos,
+                requirements.allowedBiomes(), requirements.blockedBiomes(),
+                requirements.allowedDimensions(), requirements.blockedDimensions());
+    }
+
+    /** Reusable exact location predicate for conditional mutation definitions. */
+    public static boolean matchesLocation(LevelReader level, BlockPos pos,
+                                          java.util.List<String> allowedBiomes,
+                                          java.util.List<String> blockedBiomes,
+                                          java.util.List<String> allowedDimensions,
+                                          java.util.List<String> blockedDimensions) {
+        boolean checkBiome = !allowedBiomes.isEmpty() || !blockedBiomes.isEmpty();
         if (checkBiome) {
             String biomeId = level.getBiome(pos).unwrapKey()
                     .map(key -> key.location().toString()).orElse(null);
             if (biomeId == null
-                    || (!requirements.allowedBiomes().isEmpty()
-                            && !requirements.allowedBiomes().contains(biomeId))
-                    || requirements.blockedBiomes().contains(biomeId))
+                    || (!allowedBiomes.isEmpty()
+                            && !allowedBiomes.contains(biomeId))
+                    || blockedBiomes.contains(biomeId))
                 return false;
         }
-        boolean checkDimension = !requirements.allowedDimensions().isEmpty()
-                || !requirements.blockedDimensions().isEmpty();
+        boolean checkDimension = !allowedDimensions.isEmpty()
+                || !blockedDimensions.isEmpty();
         if (checkDimension) {
             if (!(level instanceof Level world)) return false;
             String dimensionId = world.dimension().location().toString();
-            if ((!requirements.allowedDimensions().isEmpty()
-                    && !requirements.allowedDimensions().contains(dimensionId))
-                    || requirements.blockedDimensions().contains(dimensionId))
+            if ((!allowedDimensions.isEmpty()
+                    && !allowedDimensions.contains(dimensionId))
+                    || blockedDimensions.contains(dimensionId))
                 return false;
         }
         return true;
