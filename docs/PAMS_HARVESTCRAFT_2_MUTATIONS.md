@@ -49,6 +49,25 @@ Die insgesamt **14** Dateien befinden sich unter `data/cropgenetics/cropgenetics
 
 **Wichtig:** Die frühere Tabelle fehlender Arten in älteren Projektstatus-Einträgen ist historisch; die 8 neu aufgenommenen Species sind inzwischen vorhanden. Die Namenszuordnung von alten zu neuen HarvestCraft-1-Items ist dagegen weiterhin ein nur vorbereiteter Crosswalk, keine Item-/Weltmigration.
 
+## 16.11.2026 – Zwei Originalrezepte durch dynamisch erkannte Pflanzen vorbereitet
+
+**Keine Trees-Integration:** Auf ausdrücklichen Nutzerwunsch werden Pam's Trees, Setzlinge, Obstbäume und Baumgenetik aus dem AgriCraft-Projektumfang gestrichen. Nur HarvestCraft 2 **Crops** wird unterstützt.
+
+Zu den zuvor **31** vorhandenen Originalmutationen kommen zwei weitere, aus dem gepinnten AgriPlants-Commit direkt belegte Datapacks hinzu:
+
+| Ergebnis | Eltern im Port | Originalchance | Besondere Voraussetzung |
+|---|---|---|---|
+| Senfsaat `pamhc2crops:mustardseeds_plant` | `pamhc2crops:chilipepper_plant` + `pamhc2crops:bean_plant` | 0.5 | Chiliart noch nicht als explizites Crop-JSON vorhanden; muss durch bestehende **Crops-only**-Registry-Autodiscovery als tatsächliches Saatgut-/Erntepaar erkannt oder später explizit definiert werden |
+| Spinat `pamhc2crops:spinach_plant` | `pamhc2crops:lettuce_plant` + `minecraft:cactus_plant` | 0.5 | Spinatart wird nur aktiv, wenn das entsprechende reale Pam's-Seed-/Produce-Paar erkannt oder explizit definiert ist |
+
+Das originale `vanilla:cactus_plant` wurde nicht blind übernommen: `neoforge-port/src/main/resources/data/cropgenetics/cropgenetics/plants/cactus.json` enthält tatsächlich die im Port verwendete ID `minecraft:cactus_plant`. Der explizite Quell-/Ziel-Alias wurde deshalb in `neoforge-port/tools/data/agriplants_vanilla_species_aliases.json` aufgenommen. Die Aliasliste enthält damit **7** geprüfte Einträge.
+
+**Neuer Gesamtstand: 33 originale Pam's-2-Mutations-Datapacks** bei weiterhin **37 expliziten Pam's-2-Pflanzen-Datapacks**. Zusätzlich können unter der vorhandenen Autodiscovery noch weitere Pam's-Crops entstehen; ihre Anzahl ist unbekannt, da keine Laufzeitprüfung stattgefunden hat.
+
+Bei einem Reload wird eine Mutation nur registriert, wenn **beide Eltern und das Kind** als tatsächliche Species im aktiven Katalog vorhanden sind. Fehlen Chili oder Spinat, erhält die betreffende Mutation `MISSING_SPECIES`; es werden keine erfundenen Pflanzen, keine ungeprüften Items und keine ersatzweise veränderten Eltern eingeführt. Eine gespeicherte Definition ist daher **keine Garantie ihrer Laufzeitaktivierung**.
+
+Originalquellen: `AgriCraft/AgriPlants` @ `9444e75828f66bd40adabb4aeca2544765408f8a`, `mod_pamhc2crops/mutations/mustardseeds_mutation.json` und `spinach_mutation.json`. **Weder Code noch Datapacks wurden gebaut oder getestet.**
+
 ## Ziel-Registry-Status
 
 Pam's HarvestCraft 2 Crops hat eine veröffentlichte NeoForge-1.21.1-Version. Die genaue Registry-Identität aller Crop-Items dieser Version wurde bislang **nicht** durch einen direkten Bytecode-/JAR- oder Laufzeitaudit bestätigt. Die Datenpakete validieren Item-IDs später beim normalen Server-Reload; diese Laufzeitvalidierung wurde noch nicht durchgeführt.
