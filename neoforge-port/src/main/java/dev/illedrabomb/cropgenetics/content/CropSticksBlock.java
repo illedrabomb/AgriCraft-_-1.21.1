@@ -155,6 +155,9 @@ public final class CropSticksBlock extends BaseEntityBlock {
         }
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
         if (plant == null) return;
+        // Rain changes only explicitly profiled soil; do this BEFORE growth
+        // requirements so rain can restore a previously unsuitable bed.
+        SoilDynamics.onRandomTick(level, pos, random);
         // Retry migration if this chunk was loaded before the datapack
         // catalogue was available. Does not advance normal growth.
         crop.reconcileLoadedStage(plant);
@@ -176,6 +179,8 @@ public final class CropSticksBlock extends BaseEntityBlock {
         }
         if (random.nextDouble() < CropGrowth.chance(plant, genome) * factor) {
             crop.advanceGrowth(plant);
+            // Never debit nutrients for failed rolls or mature idle crops.
+            SoilDynamics.onGrowth(level, pos, random);
         }
     }
 
