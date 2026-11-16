@@ -109,7 +109,9 @@ public final class AgriPlantsParser {
         for (String key : input.keySet()) {
             if (!key.equals("min_light") && !key.equals("max_light")
                     && !key.equals("soil_block") && !key.equals("soil_tag")
-                    && !key.equals("light_tolerance")) {
+                    && !key.equals("light_tolerance")
+                    && !key.equals("allowed_biomes") && !key.equals("blocked_biomes")
+                    && !key.equals("allowed_dimensions") && !key.equals("blocked_dimensions")) {
                 throw new JsonParseException("Unsupported crop requirement: " + key);
             }
         }
@@ -124,7 +126,11 @@ public final class AgriPlantsParser {
             soilBlock = Optional.of("minecraft:farmland");
         }
         int tolerance = input.has("light_tolerance") ? input.get("light_tolerance").getAsInt() : 0;
-        return new PlantRequirements(minLight, maxLight, soilBlock, soilTag, tolerance);
+        return new PlantRequirements(minLight, maxLight, soilBlock, soilTag, tolerance,
+                strings(input.getAsJsonArray("allowed_biomes")),
+                strings(input.getAsJsonArray("blocked_biomes")),
+                strings(input.getAsJsonArray("allowed_dimensions")),
+                strings(input.getAsJsonArray("blocked_dimensions")));
     }
 
     public static MutationDefinition mutation(JsonObject json) {
