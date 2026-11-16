@@ -80,6 +80,10 @@ Dieses Beispiel legt nur die Syntax fest, **keinen behaupteten realen Originalwe
 
 Profile gelten zunächst für **alle BlockStates eines Blocktyps gleich**; keine Bodenfeuchte-Stufe von Vanilla-Farmland, keine dynamischen Feuchtigkeitsänderungen, keine Düngemittel, keine getrennten Chemiewerte pro Position. Diese Funktionen benötigen eine spätere Erweiterung, etwa einen Weltzustand-/BlockEntity- oder Capability-Adapter.
 
+### Positionsbezogene Overrides (Update 16.11.2026)
+
+Neben den statischen Blockprofilen existiert inzwischen `SoilOverrideSavedData`, das konkrete Feuchtigkeit-/Säure-/Nährstoffwerte **pro Bodenblockposition und Dimension persistent** speichert. Die Abfragereihenfolge lautet **SavedData-Override → statisches Datapack-Profil → kein Sample**. Gespeicherte Profile sind über die Level-2-Administratorbefehle `/cropgenetics soil set|show|clear` bearbeitbar; Änderungen durch Bewässerung und Dünger erfolgen **noch nicht automatisch**. Der Override wird mit dem Blocktyp gespeichert und bei einer späteren Abfrage mit abweichendem Blocktyp verworfen. Limits und bekannte Sonderfälle: `docs/DYNAMIC_SOIL_CHEMISTRY.md`. Keine Kompilierung oder Ingame-Tests erfolgt.
+
 ### Offline-Migration
 
 `neoforge-port/tools/migrate_agriplants.py` erlaubt ein **ausdrücklich** eingetragenes `soil_chemistry`-Objekt im per-Pflanze-Manifest, einschließlich strikter Kategorien-/Vergleichsprüfung. Alte `soil_humidity`, `soil_acidity`, `soil_nutrients` samt `tolerance_factor` werden **nicht automatisch kopiert oder interpretiert**. Die bisher verlangte Freigabe für Legacy-Umweltvereinfachung bleibt bestehen. Importer wurde nicht ausgeführt.
@@ -87,7 +91,7 @@ Profile gelten zunächst für **alle BlockStates eines Blocktyps gleich**; keine
 ## Offene Arbeitspakete
 
 1. Die originalen AgriCore-Typen, Werte und Toleranz-/Strength-Formeln aus der gepinnten Quelle analysieren; ordinales Verhalten danach nötigenfalls ändern.
-2. **Statische Datapack-Bodenprofile sind implementiert**; noch offen sind realistische dynamische Bodenproben pro Position, ggf. eigener Boden-/Nährstoffspeicher und Änderungen durch Bewässerung/Dünger. Vanilla-Hydration darf nicht stillschweigend als vollständige Chemie gelten.
+2. **Statische Datapack-Bodenprofile und gespeicherte Positions-Overrides sind implementiert**; noch offen sind automatisch durch Wetter, Bewässerung oder Dünger veränderte Werte, Übertragung zwischen Bodenpositionen sowie Originalformeln. Vanilla-Hydration darf nicht stillschweigend als vollständige Chemie gelten.
 3. Serverseitige Probe bei Datapack-Reload, Welt-/Chunkwechsel und großen Farmen effizient behandeln. Anbieter-Lifecycle und mögliche externe Integrationen festlegen.
 4. Die Core-Logik und Gson/NeoForge-APIs kompilieren sowie Client, Dedicated Server, Multiplayer und Kreuzungs-Gameplay prüfen – **erst nach ausdrücklicher Testfreigabe**.
 5. Die originale AgriPlants-Landschaft/Mutationen weiter klassifizieren. Das geplante MineColonies-Addon soll später eine saubere Schnittstelle zum Bodensystem verwenden können.
@@ -95,6 +99,8 @@ Profile gelten zunächst für **alle BlockStates eines Blocktyps gleich**; keine
 ## Geänderte Quelldateien
 
 - `data/SoilChemistryRule.java` (neu)
+- `data/SoilOverrideSavedData.java` (positionsbezogene Persistenz)
+- `command/SoilCommand.java` (Administratorbefehle)
 - `data/SoilProfileRegistry.java` (neu)
 - `data/SoilProfileReloadListener.java` (neu)
 - `content/SoilChemistryAccess.java` (neu)
