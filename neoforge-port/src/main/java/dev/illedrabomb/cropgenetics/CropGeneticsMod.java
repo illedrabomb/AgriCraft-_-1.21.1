@@ -1,6 +1,7 @@
 package dev.illedrabomb.cropgenetics;
 
 import dev.illedrabomb.cropgenetics.command.CropDataCommand;
+import dev.illedrabomb.cropgenetics.command.SoilCommand;
 import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
@@ -9,6 +10,7 @@ import dev.illedrabomb.cropgenetics.content.SoilChemistryAccess;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.CropDataReloadListener;
 import dev.illedrabomb.cropgenetics.data.SoilProfileRegistry;
+import dev.illedrabomb.cropgenetics.data.SoilOverrideSavedData;
 import dev.illedrabomb.cropgenetics.data.SoilProfileReloadListener;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -37,8 +39,13 @@ public final class CropGeneticsMod {
         CropRecipes.register(modBus);
         // Explicit server soil profiles only: do not assign vanilla farmland
         // any invented humidity/acidity/nutrient categories.
-        SoilChemistryAccess.install((level, soilPos) ->
-                SOIL_PROFILES.sample(level.getBlockState(soilPos)));
+        SoilChemistryAccess.install((level, soilPos) -> {
+            if (!level.hasChunkAt(soilPos)) return java.util.Optional.empty();
+            // Overrides are persisted per dimension and per soil block. A
+            // missing override falls back to a static datapack soil profile.
+            return SoilOverrideSavedData.get(level).sample(soilPos)
+                    .or(() -> SOIL_PROFILES.sample(level.getBlockState(soilPos)));
+        });
         modBus.addListener(this::addCreativeSeeds);
         NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
@@ -65,6 +72,7 @@ public final class CropGeneticsMod {
 
     private void registerCommands(RegisterCommandsEvent event) {
         CropDataCommand.register(event, PLANTS);
+        SoilCommand.register(event, SOIL_PROFILES);
     }
 
     private void registerReloadListeners(AddReloadListenerEvent event) {
