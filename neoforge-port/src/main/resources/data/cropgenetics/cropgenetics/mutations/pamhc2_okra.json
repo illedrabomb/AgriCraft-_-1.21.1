@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "mods": [
+    "pamhc2crops"
+  ],
+  "child": "pamhc2crops:okra_plant",
+  "parent1": "pamhc2crops:bean_plant",
+  "parent2": "pamhc2crops:leek_plant",
+  "chance": 0.5
+}
