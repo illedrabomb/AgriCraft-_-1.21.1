@@ -111,7 +111,7 @@ public final class CropConditions {
     }
 
     /**
-     * 0.0 blocks growth; 1.0 has no penalty. A plant with Strength 1 has
+     * 0.0 blocks growth; values above 1.0 may boost growth. A plant with Strength 1 has
      * no tolerance. Strength 10 reaches the configured maximum light deficit.
      * Soil remains a hard condition regardless of strength.
      */
@@ -128,14 +128,19 @@ public final class CropConditions {
         int light = level.getRawBrightness(pos, 0);
         int deficit = Math.max(0, Math.max(requirements.minLight() - light,
                 light - requirements.maxLight()));
-        if (deficit == 0) return 1.0D;
+        // Original AgriPlants soil growth_modifier is a multiplier, applied
+        // even when light is optimal. Per-position chemistry overrides do not
+        // overwrite this block-type growth property.
+        double soilModifier = dev.illedrabomb.cropgenetics.CropGeneticsMod.soilProfiles()
+                .growthModifier(level.getBlockState(pos.below()));
+        if (deficit == 0) return soilModifier;
 
         int allowed = (requirements.lightTolerance() * (strength - 1)) / 9;
         if (allowed <= 0 || deficit > allowed) return 0.0D;
 
         // Even tolerated conditions are suboptimal; high-strength plants
         // grow more slowly outside their preferred lighting.
-        return (allowed + 1.0D - deficit) / (allowed + 1.0D);
+        return soilModifier * (allowed + 1.0D - deficit) / (allowed + 1.0D);
     }
 
     public static boolean canGrow(LevelReader level, BlockPos pos,
