@@ -52,14 +52,33 @@ Diese Ausschnitte sind bewusst keine vollständigen Pflanzen- oder Mutationsdefi
 
 `SoilChemistryAccess.Provider` bietet `Optional<Sample> sample(ServerLevel, BlockPos soilPos)`. Der übergebene Block ist **die Bodenposition direkt unter den Crop Sticks**. Das Sample enthält eine qualitative Feuchtigkeits-, Säure- und Nährstoffstufe.
 
-**Wichtig: Es wurde noch kein konkreter Bodenprobe-Provider registriert.**
+**Aktualisierung: Ein konkreter Datapack-Bodenprofilanbieter ist inzwischen registriert.** `SoilProfileRegistry` verwaltet explizite statische Bodenprofile je Block-ID. `SoilProfileReloadListener` liest die Profile beim Server-Datapack-Reload; `CropGeneticsMod` installiert einen `SoilChemistryAccess.Provider`, der das aktuelle Bodenblockprofil liefert. **Es werden keine Profile mitgeliefert oder automatische Vanilla-Farmland-Eigenschaften als Chemiewerte abgeleitet.**
 
 - Ohne `soil_chemistry`-Regel: Die übrigen Umweltbedingungen gelten wie zuvor, **auch wenn kein Provider existiert**.
-- Mit Chemiebedingung, aber **ohne Provider oder ohne Sample**: Die Regel gilt serverseitig als **nicht erfüllt**, statt Werte zu erfinden.
+- Mit Chemiebedingung, aber **ohne passenden Bodenprofil-Eintrag oder Sample**: Die Regel gilt serverseitig als **nicht erfüllt**, statt Werte zu erfinden. Ein leerer Datapack-Profilkatalog ist möglich.
 - Mit Provider und Sample: Die drei optionalen Vergleiche werden gemeinsam geprüft (logisches UND). Dies ist an `CropConditions.growthFactor` angeschlossen und beeinflusst dadurch Pflanzung, Wachstum, Auswahl von Kreuzungseltern und Eignung von Nachkommen.
 - `MutationDefinition` besitzt unabhängig von der Zielpflanze dieselbe optionale Bedingung; `CrossBreeding` prüft sie **vor** dem Mutationszufallswurf.
 - Der Server entscheidet. Ohne Zugriff auf einen `ServerLevel` wird clientseitig kein historischer Bodenwert simuliert.
 - `PlantRequirements` und `MutationDefinition` behalten Konstruktoren ohne Chemieparameter, die `UNRESTRICTED` einsetzen.
+
+### Explizite Bodenprofile über Server-Datapacks
+
+Dateipfad: `data/<namespace>/cropgenetics/soil_profiles/<dateiname>.json` (Katalog-Verzeichnis in der Ressourcenverwaltung: `cropgenetics/soil_profiles/`).
+
+Beispiel einer **frei gewählten, nicht automatisch ausgelieferten** Zuordnung:
+
+```json
+{
+  "block": "minecraft:farmland",
+  "humidity": "wet",
+  "acidity": "neutral",
+  "nutrients": "medium"
+}
+```
+
+Dieses Beispiel legt nur die Syntax fest, **keinen behaupteten realen Originalwert für Minecraft-Farmland**. Die drei vollständigen Felder sind zwingend nötig, weitere Felder werden zurückgewiesen. Der Block muss zur Ladezeit registriert sein und darf nicht `minecraft:air` sein. Kategorien werden beim Laden überprüft. Doppelte Profile für dieselbe Block-ID werden **alle für diesen Block deaktiviert**, statt eine willkürliche Reihenfolge zu bevorzugen. Ungültige JSON-Ressourcen werden mit Warnung übersprungen; ein Reload erzeugt eine neue unveränderliche Profilzuordnung.
+
+Profile gelten zunächst für **alle BlockStates eines Blocktyps gleich**; keine Bodenfeuchte-Stufe von Vanilla-Farmland, keine dynamischen Feuchtigkeitsänderungen, keine Düngemittel, keine getrennten Chemiewerte pro Position. Diese Funktionen benötigen eine spätere Erweiterung, etwa einen Weltzustand-/BlockEntity- oder Capability-Adapter.
 
 ### Offline-Migration
 
@@ -68,7 +87,7 @@ Diese Ausschnitte sind bewusst keine vollständigen Pflanzen- oder Mutationsdefi
 ## Offene Arbeitspakete
 
 1. Die originalen AgriCore-Typen, Werte und Toleranz-/Strength-Formeln aus der gepinnten Quelle analysieren; ordinales Verhalten danach nötigenfalls ändern.
-2. Reale Bodenproben bereitstellen: datengesteuerte Bodenprofile, ggf. eigener Boden-/Nährstoffspeicher und Änderung durch Bewässerung/Dünger. Vanilla-Hydration darf nicht stillschweigend als vollständige Chemie gelten.
+2. **Statische Datapack-Bodenprofile sind implementiert**; noch offen sind realistische dynamische Bodenproben pro Position, ggf. eigener Boden-/Nährstoffspeicher und Änderungen durch Bewässerung/Dünger. Vanilla-Hydration darf nicht stillschweigend als vollständige Chemie gelten.
 3. Serverseitige Probe bei Datapack-Reload, Welt-/Chunkwechsel und großen Farmen effizient behandeln. Anbieter-Lifecycle und mögliche externe Integrationen festlegen.
 4. Die Core-Logik und Gson/NeoForge-APIs kompilieren sowie Client, Dedicated Server, Multiplayer und Kreuzungs-Gameplay prüfen – **erst nach ausdrücklicher Testfreigabe**.
 5. Die originale AgriPlants-Landschaft/Mutationen weiter klassifizieren. Das geplante MineColonies-Addon soll später eine saubere Schnittstelle zum Bodensystem verwenden können.
@@ -76,7 +95,10 @@ Diese Ausschnitte sind bewusst keine vollständigen Pflanzen- oder Mutationsdefi
 ## Geänderte Quelldateien
 
 - `data/SoilChemistryRule.java` (neu)
+- `data/SoilProfileRegistry.java` (neu)
+- `data/SoilProfileReloadListener.java` (neu)
 - `content/SoilChemistryAccess.java` (neu)
+- `CropGeneticsMod.java` (Provider/Reload-Registrierung)
 - `data/PlantRequirements.java`
 - `data/MutationDefinition.java`
 - `data/AgriPlantsParser.java`
