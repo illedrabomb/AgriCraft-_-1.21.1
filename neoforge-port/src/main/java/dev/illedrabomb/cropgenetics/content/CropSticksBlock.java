@@ -109,9 +109,13 @@ public final class CropSticksBlock extends BaseEntityBlock {
                     if (currentGenome == null) return;
                     PlantDefinition currentPlant =
                             CropGeneticsMod.plants().plants().get(currentGenome.plantId());
-                    if (currentPlant != null && !crop.stageMetadataMatches(currentPlant)) {
+                    if (currentPlant == null) return;
+                    if (!crop.stageMetadataMatches(currentPlant)) {
                         crop.reconcileLoadedStage(currentPlant);
                     }
+                    // Resolve fruit removal after a GOURD -> STANDARD reload
+                    // even when randomTickSpeed=0 or the stem is not mature.
+                    if (crop.fruitReady()) crop.reconcilePhysicalFruit(currentPlant);
                 });
     }
 
@@ -137,7 +141,7 @@ public final class CropSticksBlock extends BaseEntityBlock {
         crop.reconcileLoadedStage(plant);
         // Reconcile even under bad lighting so removed fruit never stays
         // "ready" indefinitely or gets duplicated through stem harvesting.
-        if (plant.harvestMode() == HarvestMode.GOURD && crop.reconcilePhysicalFruit(plant)) return;
+        if (crop.fruitReady() && crop.reconcilePhysicalFruit(plant)) return;
         double factor = CropConditions.growthFactor(level, pos, plant, genome);
         if (factor <= 0D) return;
         if (crop.isMature(plant)) {
