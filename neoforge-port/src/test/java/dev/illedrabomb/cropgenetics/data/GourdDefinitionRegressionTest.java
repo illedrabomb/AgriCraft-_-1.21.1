@@ -1,6 +1,7 @@
 package dev.illedrabomb.cropgenetics.data;
 
 import org.junit.jupiter.api.Test;
+import dev.illedrabomb.cropgenetics.content.CropGrowth;
 
 import java.util.List;
 
@@ -35,6 +36,19 @@ class GourdDefinitionRegressionTest {
             assertTrue(gourd.harvestStage() < gourd.stages().size() - 1,
                     "Regrowth age must be below maturity for " + id);
         }
+    }
+
+    @Test
+    void ownedFruitRemovalAndOrdinaryHarvestUseSameRegrowthPolicy() {
+        PlantDefinition melon = plant("minecraft:melon_plant", HarvestMode.GOURD, 0.2,
+                oneMelon(), 4);
+        assertEquals(4, CropGrowth.regrowthStage(melon));
+        assertTrue(CropGrowth.regrowthStage(melon) < melon.stages().size() - 1);
+
+        PlantDefinition matureHarvest = plant("minecraft:melon_plant", HarvestMode.GOURD,
+                0.2, oneMelon(), 7);
+        // A final-stage harvest index must not create an instant-repeat exploit.
+        assertEquals(0, CropGrowth.regrowthStage(matureHarvest));
     }
 
     @Test
