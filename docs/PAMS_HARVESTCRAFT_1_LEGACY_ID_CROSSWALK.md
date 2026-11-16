@@ -63,6 +63,10 @@ Die nachträglich eingefügten Originalnamen `barley`, `celery`, `broccoli`, `sw
 - **Keine Weltkonvertierung ohne eigene Implementierung und Zustimmung.** Die Migration von 1.12.2-NBT, Minecraft-BlockIDs, DataFixer/ItemStack-Komponenten und möglicherweise gelöschten IDs ist ein eigener, besonders sorgfältig zu behandelnder Arbeitsbereich.
 - **Unbekannte oder doppeldeutige Datensätze werden nicht geraten**; spätere Vergleichsdaten sollen versioniert und geprüft werden.
 
+## Nachtrag 16.11.2026: 31 explizite Legacy-Kandidaten
+
+Ein weiterer Originalname **brusselsprout** wurde auf Basis von HarvestCraft-1-`CropRegistry.cropNames` und der dazugehörigen AgriPlants-2-Pflanzendefinition in das H1→H2-Manifest aufgenommen. Die Crosswalk-Datei enthält somit **31** statt 30 Einträge. Sämtliche zuvor genannten Zahlen mit 22/30 waren historische Zwischenstände. Die Abfragen bleiben **rein lesend und nicht ausgeführt**. Ziel-JAR-Registrierungen sind unbestätigt; `direct_item_replacement: false` bleibt gesetzt und die H1-World-Migration ist weiterhin nicht implementiert. Separates Alias-/Mutationspapier: `docs/PAMS_VANILLA_SPECIES_ALIASES_AND_BRUSSELSPROUT.md`.
+
 ## Nächste Schritte
 
 1. Weitere originale HarvestCraft-1-Kulturen einschließlich Namensausnahmen prüfen und in die Quell-/Zielmatrix einordnen; nur bestätigte Zielarten aktivieren.
