@@ -46,6 +46,25 @@ public final class RegisteredSeedCropDiscovery {
                 throw new IllegalArgumentException("Invalid crop fallback limits");
             excludedCrops = Set.copyOf(excludedCrops);
             itemPairs = Map.copyOf(itemPairs);
+            if (itemPairs.size() > 128
+                    || itemPairs.keySet().stream().anyMatch(crop ->
+                            crop.length() > 80 || !crop.matches("[a-z][a-z0-9_]*"))
+                    || excludedCrops.size() > 512)
+                throw new IllegalArgumentException("Unbounded or invalid discovery crop names");
+            Set<String> seeds = new HashSet<>();
+            Set<String> products = new HashSet<>();
+            for (ItemPair pair : itemPairs.values()) {
+                ResourceLocation seed = ResourceLocation.tryParse(pair.seed());
+                ResourceLocation produce = ResourceLocation.tryParse(pair.produce());
+                if (seed == null || produce == null
+                        || !seed.getNamespace().equals(modId)
+                        || !produce.getNamespace().equals(modId)
+                        || !seeds.add(pair.seed()) || !products.add(pair.produce())
+                        || pair.seed().equals(pair.produce()))
+                    throw new IllegalArgumentException("Invalid or ambiguous approved item pair");
+            }
+            if (products.stream().anyMatch(seeds::contains))
+                throw new IllegalArgumentException("Item pair seed/produce roles overlap");
         }
     }
 
