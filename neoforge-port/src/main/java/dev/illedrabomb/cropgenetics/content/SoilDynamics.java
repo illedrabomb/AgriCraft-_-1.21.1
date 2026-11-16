@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics.content;
 
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.data.SoilChemistryRule;
+import dev.illedrabomb.cropgenetics.data.SoilDynamicsSettings;
 import dev.illedrabomb.cropgenetics.data.SoilOverrideSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -18,19 +19,25 @@ import java.util.Optional;
 public final class SoilDynamics {
     private SoilDynamics() {}
 
-    private static final int RAIN_TICK_CHANCE = 16;
-    private static final int GROWTH_DEPLETION_CHANCE = 8;
+    private static volatile SoilDynamicsSettings settings = SoilDynamicsSettings.DEFAULT;
 
-    /** Rain raises humidity one category on average every 16 crop random ticks. */
+    /** Atomically replace the server settings after a successful datapack reload. */
+    public static void configure(SoilDynamicsSettings updated) {
+        settings = java.util.Objects.requireNonNull(updated);
+    }
+
+    /** Rain may raise humidity according to the loaded server datapack rate. */
     public static void onRandomTick(ServerLevel level, BlockPos cropPos, RandomSource random) {
-        if (!level.isRainingAt(cropPos.above()) || random.nextInt(RAIN_TICK_CHANCE) != 0)
-            return;
+        int chance = settings.rainTickChance();
+        if (chance == 0 || !level.isRainingAt(cropPos.above())
+                || random.nextInt(chance) != 0) return;
         change(level, cropPos.below(), true);
     }
 
     /** Successful growth may reduce nutrients one level, never below NONE. */
     public static void onGrowth(ServerLevel level, BlockPos cropPos, RandomSource random) {
-        if (random.nextInt(GROWTH_DEPLETION_CHANCE) == 0)
+        int chance = settings.growthNutrientChance();
+        if (chance > 0 && random.nextInt(chance) == 0)
             change(level, cropPos.below(), false);
     }
 
