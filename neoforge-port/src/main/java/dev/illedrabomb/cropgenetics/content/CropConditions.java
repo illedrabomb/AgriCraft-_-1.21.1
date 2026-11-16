@@ -3,6 +3,7 @@ package dev.illedrabomb.cropgenetics.content;
 import dev.illedrabomb.cropgenetics.data.EnvironmentFilter;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
 import dev.illedrabomb.cropgenetics.data.PlantRequirements;
+import dev.illedrabomb.cropgenetics.data.SoilChemistryRule;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.core.BlockPos;
@@ -97,6 +98,18 @@ public final class CropConditions {
         return SeasonAccess.matchesClient(allowedSeasons);
     }
 
+    /** Soil chemistry is sampled from the supporting block, never guessed from farmland. */
+    public static boolean matchesChemistry(LevelReader level, BlockPos pos,
+                                           SoilChemistryRule rule) {
+        if (!rule.configured()) return true;
+        if (!(level instanceof net.minecraft.server.level.ServerLevel server)) {
+            // Client cannot authorize a chemistry-dependent placement.
+            // The server remains authoritative and rejects missing samples.
+            return true;
+        }
+        return SoilChemistryAccess.matches(server, pos.below(), rule);
+    }
+
     /**
      * 0.0 blocks growth; 1.0 has no penalty. A plant with Strength 1 has
      * no tolerance. Strength 10 reaches the configured maximum light deficit.
@@ -108,7 +121,8 @@ public final class CropConditions {
         if (!matchesSoil(level, pos, requirements)
                 || !matchesLocation(level, pos, requirements)
                 || !matchesEnvironment(level, pos, requirements.environment())
-                || !matchesSeason(level, pos, requirements.seasonRule().allowedSeasons())) return 0.0D;
+                || !matchesSeason(level, pos, requirements.seasonRule().allowedSeasons())
+                || !matchesChemistry(level, pos, requirements.soilChemistry())) return 0.0D;
 
         int light = level.getRawBrightness(pos, 0);
         int deficit = Math.max(0, Math.max(requirements.minLight() - light,
