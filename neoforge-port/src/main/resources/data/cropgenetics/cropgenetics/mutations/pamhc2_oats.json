@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "mods": [
+    "pamhc2crops"
+  ],
+  "child": "pamhc2crops:oats_plant",
+  "parent1": "pamhc2crops:corn_plant",
+  "parent2": "pamhc2crops:rice_plant",
+  "chance": 0.5
+}
