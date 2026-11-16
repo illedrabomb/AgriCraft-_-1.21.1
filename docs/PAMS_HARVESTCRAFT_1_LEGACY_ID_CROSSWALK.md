@@ -41,6 +41,17 @@ Diese Ausnahmen besitzen aktuell **keine freigegebenen HarvestCraft-2-Zielzuordn
 
 Die Auskunft hat den Status `candidate_not_verified_in_target_registry`. Selbst bei einem Treffer bedeutet dies **keine automatische Freigabe**, kein gültiges 1.21.1-Item-Objekt und keine Sicherheitsgarantie für eine Weltmigration.
 
+## Nachtrag: aktuelle 1.21.1-Version und Prüfschranke (16.11.2026)
+
+Die offizielle CurseForge-Veröffentlichung bestätigt die NeoForge-1.21.1-Variante `pamhc2crops-NEOFORGE-1.21.1-1.0.9.jar` vom **09.05.2026**:
+https://www.curseforge.com/minecraft/mc-mods/pams-harvestcraft-2-crops
+
+WICHTIG: **Veröffentlichung bestätigt nicht einzelne Item-IDs**. Der alte H1-`CropRegistry.java`-Code und die gepinnten AgriPlants-1.18.2-Pflanzen sind überprüfte historische Quellen; die tatsächlichen Item-Registrierungen der 1.21.1-1.0.9-JAR wurden bislang **nicht** überprüft. Es wäre falsch, die 22 Kandidaten bereits als vollständig migrationsfähig zu deklarieren.
+
+Das Prüfwerkzeug `neoforge-port/tools/pam_legacy_crosswalk.py` kann zusätzlich mit `--verify-own-definitions` die **lokalen neuen `pamhc2_*.json`** auf exakte Übereinstimmung mit den gespeicherten 22 Crosswalk-Ziel-IDs prüfen. Es liest lediglich eigene Datapack-Dateien, prüft Spezies-, Saatgut-, Produkt-ID und `mods: ["pamhc2crops"]`, meldet fehlende/ungültige Werte und scheitert bei Fehlern. **Diese Prüfung wurde nicht ausgeführt**; selbst bei Erfolg wäre ausschließlich die interne Datapack-Konsistenz bestätigt, **nicht** die reale NeoForge-Item-Registry.
+
+Ein `lookup`-Ergebnis enthält jetzt für alle Typen explizit `direct_item_replacement: false`. Unbekannte Metadaten (ungleich 0) oder NBT führen weiterhin zu keinem Kandidaten. Ein Pflanzenblock-Mapping beschreibt weiterhin nur eine **Artbeziehung**, keinen Zielblock. Es gibt weiterhin **keine Welt- oder Item-Konvertierung** und keine heimliche Änderung von Spielständen.
+
 ## Integrationsentscheidung
 
 - **HarvestCraft 2:** direkte optionale NeoForge-Laufzeitkompatibilität über die bereits angelegten `pamhc2_*.json`-Pflanzen.
