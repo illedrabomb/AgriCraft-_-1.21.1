@@ -123,7 +123,7 @@ public final class PamCropAutoDiscovery {
                     diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
                             ResourceLocation.fromNamespaceAndPath("cropgenetics",
                                     "auto_pam/" + crop + ".json"),
-                            speciesId, CropReloadReport.Status.WARNING,
+                            speciesId, CropReloadReport.Status.AUTO_MISSING_ITEM,
                             "Configured Pam's seed/produce pair does not exist in item registry; skipped"));
                 }
                 continue;
@@ -164,7 +164,7 @@ public final class PamCropAutoDiscovery {
             diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
                     ResourceLocation.fromNamespaceAndPath("cropgenetics",
                             "auto_pam/" + crop + ".json"),
-                    speciesId, CropReloadReport.Status.WARNING,
+                    speciesId, CropReloadReport.Status.AUTO_DISCOVERED,
                     (candidate.configured() ? "Configured item pair" : "Detected standard item pair")
                             + "; generic growth and farmland ONLY, no original AgriPlants parity"));
         }
