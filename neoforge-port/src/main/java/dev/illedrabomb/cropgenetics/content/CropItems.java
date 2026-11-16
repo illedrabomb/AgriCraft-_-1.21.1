@@ -167,8 +167,9 @@ public final class CropItems {
 
     /** Analysis belongs to the individual stack and persists across saves. */
     public static boolean isAnalyzed(ItemStack stack) {
-        return hasGenome(stack)
-                && Boolean.TRUE.equals(stack.get(CropComponents.ANALYZED.get()));
+        return GeneticDisclosure.mayShowGenes(
+                stack.isEmpty() ? null : stack.get(CropComponents.GENOME.get()),
+                Boolean.TRUE.equals(stack.get(CropComponents.ANALYZED.get())));
     }
 
     /**
