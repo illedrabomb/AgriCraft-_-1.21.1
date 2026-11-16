@@ -91,9 +91,17 @@ Dies ist eine Einstellung für **die Artidentität** `pamhc2crops:examplecrop_pl
 
 In der ursprünglichen HarvestCraft-1-Registry sind z. B. die Saatgutnamen `harvestcraft:coffeeseeditem`, `harvestcraft:mustardseeditem` und `harvestcraft:teaseeditem` ausdrücklich als Legacy-Ausnahmen belegt. Die eingesehenen **älteren** HarvestCraft-2-Crops-Quellen nennen dagegen `pamhc2crops:coffeebeanseeditem`, `pamhc2crops:mustardseedsseeditem` und `pamhc2crops:tealeafseeditem` – diese folgen dem Standardschema der jeweiligen neuen Crop-Art. Deshalb werden **keine** historischen H1-IDs als moderne Items angenommen und keine Alias-Umleitung eingebaut. Die Existenz der genannten alten H2-Quell-IDs ersetzt **nicht** die noch ausstehende Prüfung der tatsächlichen NeoForge-1.21.1-Registry.
 
-**Grenzen:** `item_pairs` ergänzt nur die generische Fallback-Species. Es erstellt keine Originalmutationen, keine korrekten Spezial-Bodenregeln, keine Pam's-1-Migration, keine Client-Texturen und keinen Baumadapter. Die 37 bereits expliziten Crop-Sticks-Arten und 31 originalen Mutationsdefinitionen werden nicht verändert oder überschrieben.
+**Grenzen:** `item_pairs` ergänzt nur die generische Fallback-Species. Es erstellt keine Originalmutationen, keine korrekten Spezial-Bodenregeln, keine Pam's-1-Migration, keine Client-Texturen und ausdrücklich keine Baum-/Trees-Integration. Die 37 bereits expliziten Crop-Sticks-Arten und 31 originalen Mutationsdefinitionen werden nicht verändert oder überschrieben.
 
 **Validierungsstand:** Die Java-Dateien und Datapacks sind gespeichert, aber **nicht kompiliert/getestet**. Ein später genehmigter Lauf muss insbesondere konfigurierte Paare mit fehlenden Items, doppelte Seed-IDs, `excluded_crops`, explizite `enabled=false`-Datapacks, Restart und `/reload` überprüfen.
+
+## Verbindliche Crops-only-Abgrenzung (16.11.2026)
+
+Der Nutzer hat entschieden: **Pam's HarvestCraft 2 Trees wird nicht in AgriCraft integriert.** Bäume, Setzlinge, Baumfrüchte und Fruchtbaumwachstum sind nicht Teil der Crop-Sticks-/Saatgut-Kompatibilität. Die frühere Idee eines Baumadapters ist gestrichen.
+
+Der Scanner nutzt weiterhin ausschließlich die Mod-ID `pamhc2crops`, niemals `pamhc2trees` oder eine andere Mod-ID, und benötigt für eine Art nachweislich ein Saatgut-/Ernte-Item-Paar. `item_pairs` akzeptiert ebenfalls nur ausdrücklich konfigurierte Items aus `pamhc2crops:`. Damit gibt es **keinen globalen Scanner für alle Items mit »seed« im Namen** und keine automatische Erkennung von Setzlingen. Die konkrete Eignung automatisch erkannter Items für Crop Sticks muss bei später freigegebenen Tests bestätigt werden.
+
+Der gleiche konservative Grundsatz gilt für spätere Saatgut-Mods: Erweiterung nur über geprüfte, bewusst gewählte Mod-IDs und Item-Schemata sowie klare Nutzerfreigabe. Diese Ausweitung wird **hier nicht als bereits implementiert behauptet**.
 
 ## HarvestCraft 1 – klare Grenze
 
