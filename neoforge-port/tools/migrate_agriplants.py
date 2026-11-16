@@ -46,6 +46,19 @@ def convert_crop(source, config):
         raise ValueError("callbacks not supported")
     if source.get("clip_products", {}).get("products"):
         raise ValueError("clip product rules need adapter")
+    # Legacy planting override and village generation have no equivalents in
+    # this importer; allow explicit, per-crop compatibility deviations only.
+    if any(e.get("overridePlanting", False) for e in source.get("seed_items", [])):
+        if not config.get("acknowledge_legacy_seed_override", False):
+            raise ValueError("legacy overridePlanting needs explicit approval or adapter")
+    if source.get("structure_generation") and not config.get(
+            "acknowledge_legacy_structure_generation", False):
+        raise ValueError("legacy greenhouse/structure generation needs explicit approval or adapter")
+    # Non-default seed drops are actual gameplay rules, not harmless metadata.
+    if (source.get("grass_drop_chance", 0) != 0
+            or source.get("seed_drop_chance", 1) != 1
+            or source.get("seed_drop_bonus", 0) != 0):
+        raise ValueError("legacy custom seed/grass drop rules require adapter")
 
     requirements = source.get("requirement", {})
     if requirements and not config.get("acknowledge_legacy_requirements", False):
