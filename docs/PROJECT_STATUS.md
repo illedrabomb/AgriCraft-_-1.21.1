@@ -10,6 +10,16 @@
 
 **Branches:** Änderungen ausschließlich auf `integration/neoforge-1211-consolidation`, keine Übernahme nach `entwicklung`, `testing` oder `master`. Nächster Schritt: weitere quellcodebasierte Absicherungen ohne Codex oder später gemeinsamer lokaler Testlauf.
 
+## Optionaler Identify-/JEI-Playtest und sichtbarkeitsgeprüfte Gene (17.11.2026)
+
+**Gewählte Hilfsmods:** Identify – What Am I Looking At? 0.4.0 (NeoForge 1.21–1.21.1) und JEI 19.64.0.455 (NeoForge 1.21.1). Diese Mods bleiben **optional**, werden weder in unsere JAR gepackt noch als notwendige Projektabhängigkeiten festgelegt. `neoforge-port/build.gradle` akzeptiert lokale Pfadparameter `-PidentifyJar` und `-PjeiJar`, zusätzlich zu bestehendem `-PpamJar` (Commit `1e1b3f6`).
+
+**Genetik-Sichtbarkeitsregel:** Neue reine `GeneticDisclosure.mayShowGenes(Genome, analyzed)`-Funktion (`9ff84dc`): Genpaare nur bei existierendem Genom **und** explizitem Analyseflag. `AnalyzedSeedTooltip` benutzt diese Regel vor Shift-Statistiken (`f4f8805`), `CropItems.isAnalyzed` ebenso (`b36dc72`), `CropSticksBlockEntity.mayShowGenes()` stellt dieselbe Schranke für spätere Overlay-Adapter bereit (`c02802c`). Zwei reine JUnit-Quelltests in `GeneticDisclosureTest` (`86c5ca5`) prüfen unanalysierte/analysierte Samen und leere Genome.
+
+**Grenze:** Es wurde **keine** spekulative Identify- oder JEI-API-Anbindung eingebaut. Identify zeigt zunächst gewöhnliche Blockinformationen; JEI Standard-Rezepte. Fremdmods können möglicherweise direkte synchronisierte Genome-Data-Components oder BlockEntity-Update-NBT auslesen, weshalb der UI-Gate **keine absolute Datengeheimhaltung garantieren kann**. Dafür wäre eine serverseitig gefilterte Synchronisierung nötig. Visuellen Befund beim ersten Playtest mit beiden Mods dokumentieren.
+
+**Anleitung/Testmatrix:** `docs/IDENTIFY_JEI_PLAYTEST_2026-11-17.md` (Commit `bd0f697`). Noch kein neuer Build, Test, Gradle-/CI-Lauf oder Minecraft-Start; Verträglichkeit noch **nicht verifiziert**. Kosmetische Seed-/Beeren- und Vier-Stäbe-TODOs bleiben offen, ebenso PT-02/03/04. Alle Änderungen nur auf `integration/neoforge-1211-consolidation`, andere Branches unverändert.
+
 ## Saatgut-Provenienz: Genomkonflikte blockieren (16.11.2026)
 
 **Quellcodecommits `4972e65` und `2ea00aa`:** Bei `CropItems.seedWithGenome(Genome, ItemStack)` werden `ORIGINAL_SEED` und `ANALYZED` aus einem Ausgangsstack **nicht** auf das Ziel übertragen, falls der Ausgangsstack ein bereits vorhandenes, aber abweichendes Genom trägt. Der resultierende genetische Samen verwendet dann nur die sichere, unabhängige Herkunftsauflösung des neuen Zielgenoms. Das verhindert, dass eine Artenmutation beziehungsweise ein umkombinierter Nachkomme fälschlich die Saatgutidentität oder den Analysezustand einer Elternpflanze erbt. Bei unverändertem Genom bleibt die bisherige korrekte Konvertierung samt Metadaten erhalten; normale unanalysierte Vanilla-/Mod-Items bleiben für bisherige Integrationen zulässig.
