@@ -133,11 +133,17 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 || getBlockState().getValue(CropSticksBlock.CROSS)) return false;
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(seedGenome.plantId());
         if (plant == null) return false;
+        // The seed's own genome is authoritative. Never store another
+        // stack's analysis or OriginalSeed metadata on an unrelated crop.
+        if (sourceSeed != null && !sourceSeed.isEmpty()) {
+            Genome attached = sourceSeed.get(CropComponents.GENOME.get());
+            if (attached != null && !attached.equals(seedGenome)) return false;
+        }
         genome = seedGenome;
-        seedAnalyzed = CropItems.isAnalyzed(sourceSeed);
-        originalSeedId = sourceSeed.isEmpty() ? null
+        seedAnalyzed = sourceSeed != null && CropItems.isAnalyzed(sourceSeed);
+        originalSeedId = sourceSeed == null || sourceSeed.isEmpty() ? null
                 : sourceSeed.get(CropComponents.ORIGINAL_SEED.get());
-        if (originalSeedId == null && !sourceSeed.isEmpty()
+        if (originalSeedId == null && sourceSeed != null && !sourceSeed.isEmpty()
                 && !sourceSeed.is(CropItems.GENETIC_SEED.get())) {
             originalSeedId = net.minecraft.core.registries.BuiltInRegistries.ITEM
                     .getKey(sourceSeed.getItem()).toString();
