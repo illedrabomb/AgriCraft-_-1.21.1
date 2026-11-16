@@ -56,7 +56,19 @@ Nach den im Quellcode ergänzten, optionalen Fluid-ID- und Höhenfiltern für Pf
 
 > Wir arbeiten an `illedrabomb/AgriCraft-_-1.21.1`, Branch `feature/neoforge-1211-foundation`, neuer NeoForge-Code in `neoforge-port/`. Bitte zuerst `docs/PROJECT_STATUS.md`, `neoforge-port/README.md`, jüngste Commits und relevante `temporary-research/`-Dokumente lesen. Den bestätigten Ist-Stand von ungeprüften Implementierungen trennen. Nach **jedem Entwicklungsschritt** die Projektstatus-Datei aktualisieren, Änderungen committen und konkrete nächste Aufgaben aufführen. Keine Tests/Builds ohne Freigabe. MineColonies-Addon für später einplanen.
 
+## Architekturentscheidung: Jahreszeiten (2026-11-16)
+
+- **Kein eigener Jahreszeitenkalender** und keine eigenständige Jahreszeitensimulation im AgriCraft-Kern.
+- Der Kern soll **optionale saisonale Wachstumsbedingungen** aus Pflanzen-JSONs darstellen können.
+- Die aktuelle Jahreszeit kommt ausschließlich über eine **optionale Integration mit einer unterstützten Jahreszeiten-Mod**, z. B. Serene Seasons, sofern deren NeoForge-1.21.1-Kompatibilität und API tatsächlich geklärt sind. Ohne Integration darf die Mod keine Pflichtabhängigkeit erhalten.
+- **Fallback ohne Jahreszeiten-Mod:** Saisonale Pflanzenregeln werden nicht angewendet; Boden-, Licht-, Biome-, Dimensions-, Höhen- und Fluidregeln bleiben wirksam.
+- Bei aktivierter Integration benötigen sowohl Wachstum/Pflanzung als auch Kreuzung und Mutation eine konsistente serverseitige Abfrage. Verhalten bei unbekannten Jahreszeiten, Reload und Mod-Deinstallation vor Umsetzung definieren.
+- **Status: Entscheidung dokumentiert, noch keine Implementierung einer Jahreszeiten-Anbindung und keine Validierung.**
+- **Nächste Schritte:** optionale Datapack-Saison-Felder modellieren, eine entkoppelte Server-Saison-Schnittstelle vorsehen, die konkrete Mod-API vor Integration überprüfen und erst nach Freigabe kompilieren/testen.
+
 ## Änderungsprotokoll
+
+- **2026-11-16 – Jahreszeiten-Architektur festgelegt:** Mit dem Nutzer abgestimmt, dass saisonale Pflanzregeln unterstützt werden, aber **kein eigener Jahreszeitenzyklus** gebaut wird. Optionaler Anbieter (z. B. Serene Seasons), keine harte Mod-Abhängigkeit; ohne Anbieter saisonale Regeln ignorieren. **Nur Dokumentation geändert, kein Code und keine Tests.**
 
 - **2026-11-16 – Fluid-/Höhenbedingungen für Pflanzen und Mutationen (Commits `01d7a73`, `6d11344`, `041dfd2`, `092a2ad`, `0e9631c`, `20df684`, `bd4ee7b`, `05a2b6a`, `6615309`; Dokumentation `277431b`, aktualisiert `8972cff`):** Neuer optionaler `EnvironmentFilter` mit inklusiven Y-Grenzen und exakter Fluid-Registry-ID am Pflanzenblock. `PlantRequirements` und `MutationDefinition` besitzen ihn mit rückwärtskompatiblen Konstruktoren. `AgriPlantsParser` liest `min_y`, `max_y`, `fluid_id` in `cropgenetics_requirements` sowie entsprechende `cropgenetics_*`-Felder bei Mutationen. `CropConditions` und `CrossBreeding` berücksichtigen die Regeln bei Wachstum, Pflanzung und Kreuzungen. Der Offline-Importer kann neue Werte **nur ausdrücklich** aus dem Manifest übernehmen. `PlantRegistryValidator` und `CropDataReloadListener` lehnen unbekannte Fluid-IDs für Pflanzen bzw. Mutationen ab. **Kein Wasserpflanzen-/Waterlogging-Adapter; keine alte Bodenchemie, Jahreszeiten oder Legacy-Fluidsemantik.** Vollständige technische Details in `docs/FLUID_HEIGHT_ENVIRONMENT_RULES.md`. **Keine Ausführung, Kompilierung, Tests oder Minecraft-Starts.** Nächster Schritt: Bodenchemie/Saisonbedingungen entwickeln.
 
