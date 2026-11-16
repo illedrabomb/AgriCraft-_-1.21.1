@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
@@ -158,6 +159,15 @@ public final class CropDataReloadListener extends
                     return;
                 }
                 MutationDefinition mutation = AgriPlantsParser.mutation(json);
+                if (mutation.environment().fluidId().isPresent()) {
+                    String fluidId = mutation.environment().fluidId().get();
+                    ResourceLocation fluidKey = ResourceLocation.tryParse(fluidId);
+                    if (fluidKey == null || BuiltInRegistries.FLUID.getOptional(fluidKey).isEmpty()) {
+                        details.add(entry(CropReloadReport.Kind.MUTATION, key, mutation.childPlantId(),
+                                CropReloadReport.Status.INVALID, "Unknown mutation fluid: " + fluidId));
+                        return;
+                    }
+                }
                 List<String> missingSpecies = new ArrayList<>();
                 if (!plants.containsKey(mutation.parentA())) missingSpecies.add(mutation.parentA());
                 if (!plants.containsKey(mutation.parentB())) missingSpecies.add(mutation.parentB());
