@@ -9,6 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -34,6 +35,37 @@ public final class CropConditions {
     }
 
     /**
+     * Exact biome and dimension IDs are optional and intentionally strict.
+     * Missing/unresolved biome IDs and non-Level readers are not treated as a
+     * positive match when restrictions are configured.
+     */
+    public static boolean matchesLocation(LevelReader level, BlockPos pos,
+                                          PlantRequirements requirements) {
+        boolean checkBiome = !requirements.allowedBiomes().isEmpty()
+                || !requirements.blockedBiomes().isEmpty();
+        if (checkBiome) {
+            String biomeId = level.getBiome(pos).unwrapKey()
+                    .map(key -> key.location().toString()).orElse(null);
+            if (biomeId == null
+                    || (!requirements.allowedBiomes().isEmpty()
+                            && !requirements.allowedBiomes().contains(biomeId))
+                    || requirements.blockedBiomes().contains(biomeId))
+                return false;
+        }
+        boolean checkDimension = !requirements.allowedDimensions().isEmpty()
+                || !requirements.blockedDimensions().isEmpty();
+        if (checkDimension) {
+            if (!(level instanceof Level world)) return false;
+            String dimensionId = world.dimension().location().toString();
+            if ((!requirements.allowedDimensions().isEmpty()
+                    && !requirements.allowedDimensions().contains(dimensionId))
+                    || requirements.blockedDimensions().contains(dimensionId))
+                return false;
+        }
+        return true;
+    }
+
+    /**
      * 0.0 blocks growth; 1.0 has no penalty. A plant with Strength 1 has
      * no tolerance. Strength 10 reaches the configured maximum light deficit.
      * Soil remains a hard condition regardless of strength.
@@ -41,7 +73,8 @@ public final class CropConditions {
     public static double growthFactor(LevelReader level, BlockPos pos,
                                       PlantDefinition plant, Genome genome) {
         PlantRequirements requirements = plant.requirements();
-        if (!matchesSoil(level, pos, requirements)) return 0.0D;
+        if (!matchesSoil(level, pos, requirements)
+                || !matchesLocation(level, pos, requirements)) return 0.0D;
 
         int light = level.getRawBrightness(pos, 0);
         int deficit = Math.max(0, Math.max(requirements.minLight() - light,
