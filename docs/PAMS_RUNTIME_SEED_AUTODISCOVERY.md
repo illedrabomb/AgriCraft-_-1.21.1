@@ -145,6 +145,24 @@ Die Schutzregeln beeinflussen die **generisch automatisch ergänzten** Species, 
 
 **Keine Builds, Tests, Minecraft-Starts, Importer, Shell-Skripte oder GitHub Actions ausgeführt.** Das Verhalten ist im Source implementiert, aber noch nicht runtime-validiert. **Pam's Trees bleibt ausgeschlossen.**
 
+## Nachtrag 16.11.2026: getrennte Laufzeitdiagnose und Admin-Befehl
+
+Nach der nächsten **genehmigten** Spiel-/Server-Ausführung zeigt `/cropgenetics data pam` eine **nur lesende** Übersicht des letzten serverseitigen Crop-Datapack-Reloads. Der bereits existierende Befehl `/cropgenetics data summary` erhält eine kurze Pam's-Zeile. Für Einzelheiten bleiben `/cropgenetics data errors [page]` und `/cropgenetics data all [page]` verfügbar.
+
+Die Zahlen werden aus den bereits gemeinsam veröffentlichten, **unveränderlichen** `CropReloadReport.Entry`-Datensätzen berechnet und nicht aus veralteten Dateien, historischen Zählungen oder einem erneuten Item-Scan. Neue, explizite Statuswerte ermöglichen die Unterscheidung:
+- **`AUTO_DISCOVERED`**: erfolgreiche neue Fallback-Pflanze (virtueller Diagnosepfad `cropgenetics:auto_pam/<crop>.json`); im detaillierten `all` sichtbar, nicht als Fehler in `errors` oder als Warn-Spam im Serverlog
+- **`AUTO_MISSING_ITEM`**: konfiguriertes Paar, dessen Saatgut-/Ernte-Item nicht beide in der aktuellen Item-Registry gefunden wurden
+- **`CONFLICT`** unter dem virtuellen `auto_pam/`-Pfad: mehrdeutige Auto-Kandidaten
+- **Sonstige Auto-Diagnosen**: etwa die konfigurierte Maximalanzahl oder ein fehlgeschlagener Registrierungsvalidator
+- **Auto-Erkennung ausgesetzt:** Fehler der `pam_auto_discovery.json`-Konfiguration oder der Schutz gegen beschädigte explizite Pflanzenansprüche
+- **Explizit geladene Pflanzen:** Definitionen mit `LOADED` oder `WARNING` und realem Pfad `cropgenetics/plants/`; **dies ist derzeit eine Zahl aller geladenen expliziten Pflanzen der Mod, nicht ausschließlich Pam's-Crops**
+
+Die Zahl der **aktiven Species aller Mods** wird separat angezeigt. Auf diese Weise wird die Zahl aus originalen, manuell portierten Pam's-Datapacks nicht mit den zur Laufzeit tatsächlich erfolgreich nachgeladenen Auto-Arten verwechselt. Im Repository vorhandene Dateien müssen nicht aktiv sein, beispielsweise bei fehlender `pamhc2crops`-Mod oder unbestätigten Item-IDs.
+
+**Wichtige Grenzen:** Der Befehl startet **keinen** Reload, scannt **keine** Items erneut und verändert **keine** Spielewelt. Die virtualisierten `auto_pam/`-Ressourcen sind **keine echten JSON-Dateien**. Außerdem gibt es noch keine historisierte Reload-Statistik über mehrere Sitzungen; angezeigt wird der letzte Snapshot. Die aktuelle NeoForge-1.21.1-JAR-Item-Registry ist weiterhin nicht unabhängig auditiert.
+
+**Stand:** Java-Quellcode und Dokumentation gespeichert. **Nicht kompiliert, nicht getestet und nicht im Spiel ausgeführt.** Bei später genehmigten Prüfungen müssen insbesondere Befehlssyntax, Berechtigungslevel 2, unterschiedliche Fehlertypen, `/reload`-Aktualisierung und Server-Logausgaben verifiziert werden. Pam's Trees bleibt ausgeschlossen.
+
 ## HarvestCraft 1 – klare Grenze
 
 **HarvestCraft 1** ist keine offizielle NeoForge-1.21.1-Laufzeitmod. Sie wird durch diese Laufzeit-Erkennung **nicht** automatisch geladen, und es wird kein fiktiver `harvestcraft`-Registry-Eintrag erzeugt. Die Legacy-1→2-ID-Zuordnungen verbleiben im eigenständigen, nur als Daten vorliegenden Crosswalk. Eine spätere Item-/Weltmigration benötigt getrennte, ausdrücklich freigegebene Logik.
