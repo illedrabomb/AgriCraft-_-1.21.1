@@ -7,6 +7,7 @@ import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,6 +62,17 @@ public final class PamCropAutoDiscovery {
                     ResourceLocation.fromNamespaceAndPath(NAMESPACE, crop + "item"), false));
         }
 
+        // Do not let iteration order decide which crop owns a seed/produce
+        // that multiple candidate species claim. Treat ALL claimants as
+        // ambiguous, including configured-vs-standard naming collisions.
+        Map<String, Integer> seedClaims = new HashMap<>();
+        Map<String, Integer> produceClaims = new HashMap<>();
+        for (Candidate candidate : candidates) {
+            if (settings.excludedCrops().contains(candidate.crop())) continue;
+            seedClaims.merge(candidate.seed().toString(), 1, Integer::sum);
+            produceClaims.merge(candidate.produce().toString(), 1, Integer::sum);
+        }
+
         int added = 0;
         for (Candidate candidate : candidates) {
             String crop = candidate.crop();
@@ -69,6 +81,15 @@ public final class PamCropAutoDiscovery {
             String seedId = candidate.seed().toString();
             if (explicitSpecies.contains(speciesId) || plants.containsKey(speciesId)
                     || reservedSeeds.contains(seedId)) continue;
+            if (seedClaims.getOrDefault(seedId, 0) > 1
+                    || produceClaims.getOrDefault(candidate.produce().toString(), 0) > 1) {
+                diagnostics.add(new CropReloadReport.Entry(CropReloadReport.Kind.PLANT,
+                        ResourceLocation.fromNamespaceAndPath("cropgenetics",
+                                "auto_pam/" + crop + ".json"),
+                        speciesId, CropReloadReport.Status.CONFLICT,
+                        "Ambiguous auto-discovery seed or produce item; candidate disabled"));
+                continue;
+            }
 
             if (!BuiltInRegistries.ITEM.containsKey(candidate.seed())
                     || !BuiltInRegistries.ITEM.containsKey(candidate.produce())
