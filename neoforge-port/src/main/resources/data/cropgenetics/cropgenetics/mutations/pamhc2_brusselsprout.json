@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "mods": [
+    "pamhc2crops"
+  ],
+  "chance": 0.5,
+  "child": "pamhc2crops:brusselsprout_plant",
+  "parent1": "pamhc2crops:cabbage_plant",
+  "parent2": "pamhc2crops:peas_plant"
+}
