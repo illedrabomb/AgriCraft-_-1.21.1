@@ -132,6 +132,19 @@ Die besondere Behandlung gilt **nur für den automatischen Pam's-Crops-Fallback*
 
 **Offene Abnahme:** Es wurden weder Unit-Tests noch Java-Kompilierung, Dedicated-Server-Reload oder Minecraft-Starts ausgeführt. Zu prüfen sind später insbesondere beschädigtes JSON, JSON-Typfehler, `enabled=false`, Datapack-Prioritäten, Sonderpaar-Konfigurationen und die Reaktivierung nach Reparatur.
 
+## Nachtrag 16.11.2026: Registry-basierte Konfliktprüfung präzisiert
+
+Bei einer erneuten **Quellcodeprüfung ohne Ausführung** wurden zwei weitere Probleme mit dem Auto-Fallback identifiziert und im `PamCropAutoDiscovery.java` korrigiert:
+
+1. Vor der Kandidaten-Konfliktzählung wird nun mit `registeredPair` kontrolliert, ob **beide Items tatsächlich in `BuiltInRegistries.ITEM` existieren und nicht AIR sind**. Ein nur konfiguriertes, aber fehlendes Item-Paar darf keine andere, tatsächlich registrierte Crop-Art blockieren. Die normale WARNING-Diagnose für fehlende konfigurierte Paare bleibt erhalten.
+2. Die reservierten Identitäten expliziter Datapacks werden **rollenübergreifend** geschützt. Eine automatische Saat darf auch **kein explizit reserviertes Ernteprodukt** sein, und das Auto-Ernteprodukt darf **kein explizit reservierter Seed** sein. Die bestehende Konfliktprüfung zwischen Auto-Kandidaten bleibt bestehen.
+
+Die Schutzregeln beeinflussen die **generisch automatisch ergänzten** Species, nicht die ursprünglichen expliziten Pflanzen oder ihre Mutationstabellen. Sie ändern nichts an den aus historischen AgriPlants-Daten stammenden Wachstums-/Chemieanforderungen.
+
+**Quellenstatus der Pam's-2-1.21.1-Registry:** Die offizielle CurseForge-Dateiliste bestätigt `pamhc2crops-NEOFORGE-1.21.1-1.0.9.jar` vom 09.05.2026 (https://www.curseforge.com/minecraft/mc-mods/pams-harvestcraft-2-crops/files/all). Der auf CurseForge verlinkte öffentliche Source-Repository `MatrexsVigil/phc2crops` zeigt historische Item-Registrierungen, aber keine separat belegte aktuelle 1.21.1-1.0.9-Registry. **Die aktuellen Item-IDs sind weiterhin nicht statisch gegen genau diese Version bestätigt.** Die Erkennung nutzt darum ausschließlich Item-IDs, die in der tatsächlichen geladenen Registry existieren. Es wurden keine externen JAR-Dateien, Assets oder fremder Quellcode kopiert.
+
+**Keine Builds, Tests, Minecraft-Starts, Importer, Shell-Skripte oder GitHub Actions ausgeführt.** Das Verhalten ist im Source implementiert, aber noch nicht runtime-validiert. **Pam's Trees bleibt ausgeschlossen.**
+
 ## HarvestCraft 1 – klare Grenze
 
 **HarvestCraft 1** ist keine offizielle NeoForge-1.21.1-Laufzeitmod. Sie wird durch diese Laufzeit-Erkennung **nicht** automatisch geladen, und es wird kein fiktiver `harvestcraft`-Registry-Eintrag erzeugt. Die Legacy-1→2-ID-Zuordnungen verbleiben im eigenständigen, nur als Daten vorliegenden Crosswalk. Eine spätere Item-/Weltmigration benötigt getrennte, ausdrücklich freigegebene Logik.
