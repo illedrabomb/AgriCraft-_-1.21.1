@@ -8,7 +8,9 @@
       "min_light": 10,
       "max_light": 15,
       "light_tolerance": 0,
-      "notes": "Legacy requires wet/slightly acidic/high nutrients and autumn; not implemented here."
+      "notes": "Legacy requires wet/slightly acidic/high nutrients and autumn; not implemented here. Vanilla planting override not imported; original village greenhouse generation not imported.",
+      "acknowledge_legacy_seed_override": true,
+      "acknowledge_legacy_structure_generation": true
     },
     "minecraft/plants/nether_wart_plant.json": {
       "acknowledge_legacy_requirements": true,
@@ -16,7 +18,8 @@
       "min_light": 0,
       "max_light": 8,
       "light_tolerance": 0,
-      "notes": "Vanilla soul sand replaces old AgriCraft soil chemistry; all seasons allowed upstream."
+      "notes": "Vanilla soul sand replaces old AgriCraft soil chemistry; all seasons allowed upstream. Vanilla planting override not imported.",
+      "acknowledge_legacy_seed_override": true
     }
   }
 }
