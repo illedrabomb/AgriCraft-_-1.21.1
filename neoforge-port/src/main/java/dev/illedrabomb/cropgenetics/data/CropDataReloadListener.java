@@ -29,6 +29,8 @@ public final class CropDataReloadListener extends
     private static final Logger LOG = LogUtils.getLogger();
     private static final String PLANTS = "cropgenetics/plants";
     private static final String MUTATIONS = "cropgenetics/mutations";
+    private static final ResourceLocation PAM_SETTINGS = ResourceLocation.fromNamespaceAndPath(
+            "cropgenetics", "cropgenetics/pam_auto_discovery.json");
 
     private final AgriPlantsRegistry registry;
     private final Predicate<String> loadedMod;
@@ -45,7 +47,24 @@ public final class CropDataReloadListener extends
                 readJson(manager, PLANTS, CropReloadReport.Kind.PLANT, errors);
         Map<ResourceLocation, JsonElement> mutations =
                 readJson(manager, MUTATIONS, CropReloadReport.Kind.MUTATION, errors);
-        return new Prepared(plants, mutations, List.copyOf(errors));
+        // Parse only the selected highest-priority server resource. A bad
+        // policy fails closed rather than unexpectedly enabling unknown crops.
+        PamAutoDiscoverySettings policy = PamAutoDiscoverySettings.DEFAULT;
+        var config = manager.getResource(PAM_SETTINGS);
+        if (config.isPresent()) {
+            try (Reader reader = config.get().openAsReader()) {
+                policy = PamAutoDiscoverySettings.parse(
+                        JsonParser.parseReader(reader).getAsJsonObject());
+            } catch (Exception ex) {
+                policy = new PamAutoDiscoverySettings(false, 0, 9, 0.75D,
+                        0.025D, 5, Set.of());
+                errors.add(entry(CropReloadReport.Kind.PLANT, PAM_SETTINGS,
+                        "", CropReloadReport.Status.INVALID,
+                        "Invalid auto-discovery settings; discovery disabled: "
+                                + ex.getMessage()));
+            }
+        }
+        return new Prepared(plants, mutations, List.copyOf(errors), policy);
     }
 
     private static Map<ResourceLocation, JsonElement> readJson(
@@ -166,7 +185,7 @@ public final class CropDataReloadListener extends
                 }
             });
             PamCropAutoDiscovery.addMissing(
-                    plants, explicitSpecies, explicitSeedClaims, details);
+                    plants, explicitSpecies, explicitSeedClaims, details, input.pamSettings());
         }
 
         Map<String, MutationDefinition> mutations = new HashMap<>();
@@ -249,5 +268,6 @@ public final class CropDataReloadListener extends
 
     public record Prepared(Map<ResourceLocation, JsonElement> plants,
                            Map<ResourceLocation, JsonElement> mutations,
-                           List<CropReloadReport.Entry> readErrors) {}
+                           List<CropReloadReport.Entry> readErrors,
+                           PamAutoDiscoverySettings pamSettings) {}
 }
