@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -117,6 +118,23 @@ public final class CropSticksBlock extends BaseEntityBlock {
                     // even when randomTickSpeed=0 or the stem is not mature.
                     if (crop.fruitReady()) crop.reconcilePhysicalFruit(currentPlant);
                 });
+    }
+
+    /**
+     * Datapack-opted cactus-like thorn contact. Only an actual planted crop
+     * with an active registered species can hurt entities; empty sticks and
+     * removed/disabled plant definitions never cause contact damage.
+     */
+    @Override
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (level.isClientSide || !state.getValue(PLANTED)) return;
+        if (!(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)) return;
+        Genome genome = crop.genome();
+        if (genome == null) return;
+        PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
+        if (plant != null && plant.contactThorns()) {
+            entity.hurt(level.damageSources().cactus(), 1.0F);
+        }
     }
 
     @Override
