@@ -12,15 +12,26 @@ import java.util.Optional;
 public record PlantRequirements(int minLight, int maxLight, Optional<String> soilBlock,
                                 Optional<String> soilTag, int lightTolerance,
                                 List<String> allowedBiomes, List<String> blockedBiomes,
-                                List<String> allowedDimensions, List<String> blockedDimensions) {
+                                List<String> allowedDimensions, List<String> blockedDimensions,
+                                EnvironmentFilter environment) {
     /** Existing callers keep unrestricted biome/dimension behavior. */
     public PlantRequirements(int minLight, int maxLight, Optional<String> soilBlock,
                              Optional<String> soilTag, int lightTolerance) {
         this(minLight, maxLight, soilBlock, soilTag, lightTolerance,
-                List.of(), List.of(), List.of(), List.of());
+                List.of(), List.of(), List.of(), List.of(), EnvironmentFilter.UNRESTRICTED);
+    }
+
+    /** Preserve constructor used by the existing biome/dimension datapack parser. */
+    public PlantRequirements(int minLight, int maxLight, Optional<String> soilBlock,
+                             Optional<String> soilTag, int lightTolerance,
+                             List<String> allowedBiomes, List<String> blockedBiomes,
+                             List<String> allowedDimensions, List<String> blockedDimensions) {
+        this(minLight, maxLight, soilBlock, soilTag, lightTolerance, allowedBiomes,
+                blockedBiomes, allowedDimensions, blockedDimensions, EnvironmentFilter.UNRESTRICTED);
     }
 
     public PlantRequirements {
+        Objects.requireNonNull(environment);
         Objects.requireNonNull(soilBlock);
         Objects.requireNonNull(soilTag);
         allowedBiomes = List.copyOf(allowedBiomes);
