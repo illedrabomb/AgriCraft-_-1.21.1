@@ -91,6 +91,18 @@ Seit dem 16.11.2026 existiert ein gesonderter **`testing`-Branch** (Ausgangsbasi
 - **Status: Entscheidung dokumentiert, noch keine Implementierung einer Jahreszeiten-Anbindung und keine Validierung.**
 - **Nächste Schritte:** optionale Datapack-Saison-Felder modellieren, eine entkoppelte Server-Saison-Schnittstelle vorsehen, die konkrete Mod-API vor Integration überprüfen und erst nach Freigabe kompilieren/testen.
 
+## Nachbearbeitung Playtest 16.11.2026 – PT-02 / PT-03 / PT-04 (GitHub-Quellcode)
+
+**Integrationsbranch:** `integration/neoforge-1211-consolidation` ab gepushtem Ausgang `ec8e15775391f69e5270820706601181043b02f4`; **keine Änderungen an `entwicklung`, `testing` oder `master`**.
+
+- **PT-03 (graue Pflanzen):** Im clientseitigen BER-Renderer erhalten Vanilla-Melonen-/Kürbisstängel altersabhängige Vanilla-Blockfärbung, der Oak-Leaves-Fallback die entsprechende Vanilla-Laubfärbung statt pauschal weißer Vertexfarben. Commit `8b7e2b1`. **Korrektur im Source; Client-Sichtprüfung noch offen**.
+- **PT-02 (zweiter Fruchtzyklus):** Ursache noch nicht sicher nachgewiesen. `GourdFruits` nutzt jetzt dasselbe Platzierungsprädikat für tatsächliche Fruchtversuche und read-only Diagnose (Commit `e8268ee`). Neuer Berechtigungslevel-2-Befehl `/cropgenetics data gourd <x> <y> <z>` zeigt Wachstumsfaktor, Chance, Alter, Fruchtstatus, Licht und Nachbarplatzierungen ohne Weltänderung (Commit `ee703ec`). **Keine Gameplay-Korrektur behauptet; gezielter Nachtest nötig**.
+- **PT-04 (Pam's-1.0.9-Rabbit-Food-Tag):** Als Fehler in der unveränderten Fremd-JAR klassifiziert; **kein** unkontrollierter Override des globalen `minecraft:rabbit_food`-Tags und keine Fremd-JAR-Patches. Version-/Kompatibilitätsentscheidung nach separater Ressourcenprüfung.
+- Gesamtdokumentation: `docs/POST_PLAYTEST_PT02_PT03_PT04_2026-11-16.md`. Die ursprünglich im Playtest belegten **17 PASS-Unit-Tests, 113 Arten und 34 Mutationen** gelten für den älteren Stand `ec8e1577`, **nicht** als neue Bestätigung dieser Quellcode-Korrekturen.
+- **Freigabestatus:** keine neue Kompilierung, Unit-Tests, Server-/Clientstarts oder Skriptläufe. Kein Merge, Push eines Produktivbranches oder Release. Bäume/Setzlinge ausgeschlossen, MineColonies-Addon erst später.
+
+**Nächster Schritt:** Codex soll den aktualisierten Integrationsbranch lokal holen, Java-Build/Unit-Tests ausführen, PT-03 im Client visuell prüfen und mit `/cropgenetics data gourd` die genaue Ursache von PT-02 unter dokumentierten Umgebungsbedingungen eingrenzen. PT-04 erst nach Fremdmod-/Datapack-Prioritätstest als gelöst betrachten.
+
 ## Änderungsprotokoll
 
 - **2026-11-16 – Registry-Saatguterkennung zu kontrollierter, wiederverwendbarer Engine refaktoriert (Commits `1c0c709`, `dc09ef1`, `8cc78bc`; Architekturpapier `30d993e`):** `RegisteredSeedCropDiscovery` bietet eine mit Namespace, konkreten Suffixen, Diagnosepfad und begrenzten Fallback-Werten parametrisierte Engine; `PamCropAutoDiscovery` delegiert als **einziger** bestehender Crops-Adapter. Konfigurierte Item-Paare werden auf richtiges Namespace und Seed-/Ernte-Konflikte geprüft. Keine fremden Mods, keine Trees/Setzlinge, keine Mutation-Rezepte automatisch eingeführt. Pam-Datapack und Reload-Aufruf bleiben gleich. **37 explizite H2-Crops, 33 originale Mutationsdatapacks, 31 H1-Legacy-Kandidaten unverändert. Source-only, nicht kompiliert/getestet.**
