@@ -14,6 +14,26 @@ public final class AgriPlantsParser {
 
     public static PlantDefinition plant(JsonObject json) {
         String id = requiredString(json, "id");
+        // Legacy-only gameplay rules must not disappear merely because a
+        // datapack was loaded directly instead of through the offline importer.
+        for (String field : new String[]{"callbacks", "structure_generation",
+                "particle_effects"}) {
+            JsonArray legacyRules = json.getAsJsonArray(field);
+            if (legacyRules != null && !legacyRules.isEmpty())
+                throw new JsonParseException(id + ": unsupported legacy " + field
+                        + " requires a compatibility adapter");
+        }
+        JsonObject clips = json.getAsJsonObject("clip_products");
+        if (clips != null && clips.has("products")
+                && !clips.getAsJsonArray("products").isEmpty())
+            throw new JsonParseException(id + ": legacy clipping products require an adapter");
+        if (json.has("grass_drop_chance")
+                && json.get("grass_drop_chance").getAsDouble() != 0D
+                || json.has("seed_drop_chance")
+                && json.get("seed_drop_chance").getAsDouble() != 1D
+                || json.has("seed_drop_bonus")
+                && json.get("seed_drop_bonus").getAsDouble() != 0D)
+            throw new JsonParseException(id + ": nondefault legacy seed drops require an adapter");
         List<String> mods = strings(json.getAsJsonArray("mods"));
         List<String> seeds = new ArrayList<>();
         JsonArray seedItems = json.getAsJsonArray("seed_items");
@@ -24,6 +44,10 @@ public final class AgriPlantsParser {
             if (!"item".equals(optionalString(item, "type", "item")) ||
                     item.has("useTag") && item.get("useTag").getAsBoolean())
                 throw new JsonParseException(id + ": tag/non-item seeds need a crop adapter");
+            if (item.has("nbt") && !item.get("nbt").getAsString().isEmpty())
+                throw new JsonParseException(id + ": custom seed NBT requires an adapter");
+            if (item.has("overridePlanting") && item.get("overridePlanting").getAsBoolean())
+                throw new JsonParseException(id + ": legacy seed planting override requires an adapter");
             seeds.add(requiredString(item, "object"));
         }
         List<Integer> stages = new ArrayList<>();
@@ -43,6 +67,10 @@ public final class AgriPlantsParser {
                 if (!"item".equals(optionalString(entry, "type", "item")) ||
                         entry.has("useTag") && entry.get("useTag").getAsBoolean())
                     throw new JsonParseException(id + ": non-item product needs a crop adapter");
+                if (entry.has("nbt") && !entry.get("nbt").getAsString().isEmpty())
+                    throw new JsonParseException(id + ": custom harvest NBT requires an adapter");
+                if (entry.has("required") && !entry.get("required").getAsBoolean())
+                    throw new JsonParseException(id + ": optional harvest product requires an adapter");
                 products.add(new PlantDefinition.HarvestProduct(requiredString(entry, "object"),
                         entry.get("min").getAsInt(), entry.get("max").getAsInt(),
                         entry.get("chance").getAsDouble()));
