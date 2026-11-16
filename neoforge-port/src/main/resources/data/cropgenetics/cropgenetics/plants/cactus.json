@@ -43,5 +43,6 @@
     "max_light": 15,
     "soil_block": "minecraft:sand",
     "light_tolerance": 2
-  }
+  },
+  "cropgenetics_contact_thorns": true
 }
