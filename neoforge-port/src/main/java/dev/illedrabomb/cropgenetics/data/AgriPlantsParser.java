@@ -82,7 +82,9 @@ public final class AgriPlantsParser {
                 products, requirements(json),
                 HarvestMode.parse(optionalString(json, "cropgenetics_harvest_mode", "standard")),
                 json.has("cropgenetics_fruit_chance")
-                        ? json.get("cropgenetics_fruit_chance").getAsDouble() : 0.0D);
+                        ? json.get("cropgenetics_fruit_chance").getAsDouble() : 0.0D,
+                json.has("cropgenetics_contact_thorns")
+                        && json.get("cropgenetics_contact_thorns").getAsBoolean());
     }
 
     private static PlantRequirements requirements(JsonObject json) {
