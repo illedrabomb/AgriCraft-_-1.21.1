@@ -15,7 +15,7 @@
     "repository": "AgriCraft/AgriPlants",
     "commit": "9444e75828f66bd40adabb4aeca2544765408f8a",
     "path": "mod_pamhc2crops/plants/",
-    "warning": "30 species have source-derived datapack candidates, not confirmed against the Pam's NeoForge 1.21.1 runtime item registry. Never auto-convert.",
+    "warning": "31 species are source-derived datapack candidates, not confirmed against the Pam's NeoForge 1.21.1 runtime item registry. Never auto-convert.",
     "minecraft": "1.21.1",
     "latest_release_verified": "pamhc2crops-NEOFORGE-1.21.1-1.0.9.jar",
     "release_date": "2026-05-09",
@@ -499,6 +499,22 @@
         "seed": "pamhc2crops:blueberryseeditem",
         "produce": "pamhc2crops:blueberryitem",
         "species": "pamhc2crops:blueberry_plant"
+      },
+      "metadata": 0,
+      "automatic": false,
+      "confidence": "source-matched-names-not-runtime-verified"
+    },
+    {
+      "crop": "brusselsprout",
+      "from": {
+        "seed": "harvestcraft:brusselsproutseeditem",
+        "produce": "harvestcraft:brusselsproutitem",
+        "block": "harvestcraft:pambrusselsproutcrop"
+      },
+      "to": {
+        "seed": "pamhc2crops:brusselsproutseeditem",
+        "produce": "pamhc2crops:brusselsproutitem",
+        "species": "pamhc2crops:brusselsprout_plant"
       },
       "metadata": 0,
       "automatic": false,
