@@ -20,6 +20,7 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -183,6 +184,30 @@ public final class CropSticksBlock extends BaseEntityBlock {
             BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+
+        // Optional, player-driven soil care. Only soil with an explicitly
+        // configured datapack profile or existing saved override is treatable.
+        // Ordinary seeds, crop-stick stacking and harvesting remain unaffected.
+        boolean water = stack.is(Items.WATER_BUCKET);
+        boolean fertilizer = stack.is(Items.BONE_MEAL);
+        if (water || fertilizer) {
+            if (level instanceof ServerLevel server) {
+                boolean changed = SoilTreatment.apply(server, pos.below(),
+                        water ? SoilTreatment.Treatment.WATER
+                              : SoilTreatment.Treatment.FERTILIZER);
+                if (!changed) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+                if (!player.isCreative()) {
+                    if (water) {
+                        // A water bucket is unstackable; avoid consuming the
+                        // bucket itself as an ingredient.
+                        player.setItemInHand(hand, new ItemStack(Items.BUCKET));
+                    } else {
+                        stack.shrink(1);
+                    }
+                }
+            }
+            return ItemInteractionResult.SUCCESS;
         }
 
         // A second stick creates a cross-crop only when the position is empty.
