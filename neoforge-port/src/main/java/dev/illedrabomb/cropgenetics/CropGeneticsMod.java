@@ -83,7 +83,7 @@ public final class CropGeneticsMod {
     }
 
     private void registerReloadListeners(AddReloadListenerEvent event) {
-        event.addListener(new SoilProfileReloadListener(SOIL_PROFILES));
+        event.addListener(new SoilProfileReloadListener(SOIL_PROFILES, mod -> ModList.get().isLoaded(mod)));
         event.addListener(new SoilDynamicsReloadListener(SoilDynamics::configure));
         event.addListener(new CropDataReloadListener(PLANTS, mod -> ModList.get().isLoaded(mod)));
     }
