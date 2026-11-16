@@ -26,7 +26,16 @@ public final class GourdFruits {
     @Nullable
     public static Block fruitBlock(PlantDefinition plant) {
         if (plant.harvestMode() != HarvestMode.GOURD) return null;
-        return switch (plant.id()) {
+        return fruitBlockForSpecies(plant.id());
+    }
+
+    /**
+     * Previously placed fruits keep their identity when /reload changes the
+     * species' harvest mode. Only placement requires GOURD mode.
+     */
+    @Nullable
+    private static Block fruitBlockForSpecies(String speciesId) {
+        return switch (speciesId) {
             case "minecraft:melon_plant" -> CropBlocks.GENETIC_MELON_FRUIT.get();
             case "minecraft:pumpkin_plant" -> CropBlocks.GENETIC_PUMPKIN_FRUIT.get();
             default -> null; // Other gourds require an explicit compatibility adapter.
@@ -35,7 +44,13 @@ public final class GourdFruits {
 
     public static boolean matches(ServerLevel level, BlockPos stem,
                                   Direction direction, PlantDefinition plant, UUID token) {
-        Block block = fruitBlock(plant);
+        return matchesOwned(level, stem, direction, plant.id(), token);
+    }
+
+    /** Match an existing owned fruit regardless of the active harvest mode. */
+    public static boolean matchesOwned(ServerLevel level, BlockPos stem,
+                                       Direction direction, String speciesId, UUID token) {
+        Block block = fruitBlockForSpecies(speciesId);
         if (block == null || direction.getAxis().isVertical()) return false;
         BlockPos fruitPos = stem.relative(direction);
         return level.hasChunkAt(fruitPos) && level.getBlockState(fruitPos).is(block)
