@@ -1,5 +1,11 @@
 # AgriCraft NeoForge 1.21.1 – Projektstatus und Übergabe
 
+## Saatgut-Konvertierung: Herkunft und Analysezustand erhalten (16.11.2026)
+
+**Quellcodecommit `7a9e8c3`:** In `CropItems.seedWithGenome(Genome, ItemStack)` wird beim bewussten Umwandeln eines bestehenden, bereits analysierten Saatgut-Stacks in einen genetischen Samen das `ANALYZED`-Flag jetzt erhalten – **aber nur**, wenn der tatsächliche Ausgangsgenomwert genau dem zu schreibenden Genom entspricht. Neukombinierte Nachkommen werden dadurch nicht fälschlich als analysiert markiert. Bereits vorhandene genetische Samen behalten außerdem ihre gespeicherte `ORIGINAL_SEED`-ID, statt bei einer Umwandlung auf `cropgenetics:genetic_seed` oder eine unsichere Standardherkunft zurückzufallen. Original-ItemStacks werden nicht verändert; Pflanzen-, Frucht-, Ernte-, Modell- und Spielregeln bleiben unverändert.
+
+**Grenzen:** Diese Hilfsfunktionsänderung ist bislang **nur geschrieben, nicht gebaut oder getestet**. Beim nächsten Codex-Testlauf gezielt OriginalSeed-/Analyse-Daten auf einem analysierten Vanilla- bzw. Pam-Samen und auf einem bestehenden genetischen Samen prüfen; eine neue Artenkombination darf das Analyse-Flag nicht übernehmen. Seed-Icons (besonders Beeren) bleiben ein unabhängiges kosmetisches TODO. PT-02 und PT-03 unverändert offen. Keine Änderungen an `entwicklung`, `testing`, `master`.
+
 ## TODO – Saatgut-/Seed-Icons, insbesondere Beeren (niedrige Priorität)
 
 **Visueller Befund vom 16.11.2026:** Die Darstellung einzelner Seed-Items ist im Inventar bzw. als Item nicht korrekt; auffällig sind insbesondere **Beeren-/Sweet-Berry-Samen**. Noch nicht geklärt ist, ob es sich um das generische `cropgenetics:genetic_seed`-Item-Modell, das verwendete Vanilla-/Mod-Originalitem, einen Modell-/Texture-Lookup oder einen unterschiedlichen Renderpfad handelt. Diese Ursache **nicht ungeprüft behaupten**.
