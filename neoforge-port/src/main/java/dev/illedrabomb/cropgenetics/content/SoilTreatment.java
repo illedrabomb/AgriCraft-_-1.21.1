@@ -10,8 +10,8 @@ import java.util.Optional;
 
 /**
  * Deliberately simple first playable treatment:
- * - water bucket: humidity +1 qualitative level, capped at SATURATED;
- * - bone meal: nutrients +1 qualitative level, capped at HIGH.
+ * - water bucket: humidity +1 qualitative level, capped at FLOODED;
+ * - bone meal: nutrients +1 qualitative level, capped at VERY_HIGH.
  * No implicit base chemistry and no claim of AgriCore parity.
  */
 public final class SoilTreatment {
