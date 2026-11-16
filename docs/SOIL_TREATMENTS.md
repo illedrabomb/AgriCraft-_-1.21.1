@@ -11,11 +11,11 @@ Ein Spieler soll den Crop-Sticks-Block mit einem der folgenden Vanilla-Items ben
 
 | Item | Veränderung des Bodenprofils | Maximalwert | Verbrauch bei erfolgreicher Änderung |
 |---|---|---|---|
-| `minecraft:water_bucket` | Feuchtigkeit um genau eine qualitative Stufe erhöhen | `saturated` | Wassereimer wird im verwendeten Hand-Slot zu leerem Eimer; Creative unverändert |
-| `minecraft:bone_meal` | Nährstoffe um genau eine qualitative Stufe erhöhen | `high` | 1 Knochenmehl; Creative unverändert |
+| `minecraft:water_bucket` | Feuchtigkeit um genau eine qualitative Stufe erhöhen | `flooded` | Wassereimer wird im verwendeten Hand-Slot zu leerem Eimer; Creative unverändert |
+| `minecraft:bone_meal` | Nährstoffe um genau eine qualitative Stufe erhöhen | `very_high` | 1 Knochenmehl; Creative unverändert |
 
-Reihenfolge Feuchtigkeit: `arid` → `dry` → `normal` → `wet` → `saturated`.  
-Reihenfolge Nährstoffe: `low` → `medium` → `high`.
+Reihenfolge Feuchtigkeit: `arid` → `dry` → `damp` → `wet` → `watery` → `flooded`.  
+Reihenfolge Nährstoffe: `none` → `very_low` → `low` → `medium` → `high` → `very_high`.
 
 `SoilTreatment.apply(ServerLevel, BlockPos, Treatment)` verarbeitet ausschließlich geladene, innerhalb der Weltgrenzen liegende Positionen. Es verwendet zunächst einen gespeicherten Positions-Override, sonst ein explizites **statisches Datapack-Profil** des Bodenblocktyps. **Ohne eines dieser Profile wird nichts verändert**: Vanilla-Farmland bekommt nicht ungefragt erfundene Chemiewerte.
 
@@ -30,10 +30,10 @@ Die Operation schreibt bei erfolgreicher tatsächlicher Änderung über `SoilOve
 
 ## Grenzen / offene Entscheidungen
 
-1. Das System enthält **keine automatische Feuchtigkeitsabnahme**, Regen-, Wetter-, Pfützen- oder Nachbarwasser-Erkennung, keine automatische Nährstoffentnahme bei Ernte und keine Bodenausbreitung. Die Werte werden nur durch explizite Behandlung oder bestehende Administratorbefehle verändert.
+1. Seit dem Folgeschritt existiert **eine einfache Regen-Feuchtigkeitserhöhung** und gelegentlicher **Nährstoffverbrauch bei erfolgreicher Wachstumsstufe** (`SoilDynamics`, `docs/AGRICORE_SOIL_PARITY_AND_EVOLUTION.md`). Weiterhin fehlen Verdunstung, Pfützen-/Nachbarwasser-Modell, präzise Nährstoffentnahme bei Ernte und Bodenausbreitung.
 2. Die Behandlung funktioniert nur mit **im Datapack ausdrücklich definierten** Bodenprofilen oder zuvor gespeicherten Overrides. Es werden **noch keine Standard-Bodenprofile mitgeliefert**.
 3. Die Wirkung von Wassereimer und Knochenmehl am Crop-Sticks-Block sowie die exakten NeoForge-/Minecraft-Interaktionsprioritäten sind **nicht kompiliert oder im Spiel geprüft**. Insbesondere Item-Use-Präzedenz, Rückfallverhalten und Creative-/Offhand-Verbrauch müssen vor Release validiert werden.
-4. Die ursprünglichen AgriCraft-/AgriCore-`tolerance_factor`-/Strength-Formeln bleiben offen. Ebenso die Invalidierung bei Ersatz durch denselben Blocktyp.
+4. Die dokumentierte AgriCraft-1.18-`tolerance_factor × Strength`-Bedingung ist im Kern implementiert; die Original-AgriCore-Codeimplementierung und Bodenphysik bleiben zu prüfen. Ebenso die Invalidierung bei Ersatz durch denselben Blocktyp.
 5. Spätere Mods (u. a. Bewässerung, Gewächshäuser und das geplante MineColonies-Addon) können die gemeinsame `SoilOverrideSavedData`-Datenebene nutzen, sollten die Item-/Gameplay-Regeln aber nicht stillschweigend umgehen.
 
 ## Nächster Schritt
