@@ -25,6 +25,10 @@ Alle **acht Vanilla-Blockdateien** liegen unter `neoforge-port/src/main/resource
 
 **Änderung gegenüber früheren Etappen:** Es werden ab jetzt **belegte Originalprofile** als Daten ausgeliefert, statt überhaupt keine Profile mitzuliefern. Die Aussage „kein automatisch zugewiesener Vanilla-Wert“ aus älteren Entwicklungsständen ist damit historisch und nicht mehr der aktuelle Stand. Dennoch werden keine willkürlichen Werte erfunden.
 
+## Nachtrag 16.11.2026 – gemeinsames Sand-Blocktag
+
+Seit dem späteren Entwicklungsschritt unterstützt der Profil-Loader `block_tag` zusätzlich zur exakten `block`-ID. Die Ressource `sand_tag.json` für `c:sands` ergänzt die acht zuvor importierten Einzelblockprofile. Ein exaktes Blockprofil hat Vorrang vor passenden Tagprofilen. Für mehrdeutige Tagtreffer gibt es bewusst **keine** automatische Auswahl. Damit erfasst die Portierung auch andere Blöcke, die beim aktuell geladenen Server in `c:sands` enthalten sind; es wird **keine** exakte Gleichheit mit dem historischen `forge:sand`-Tag behauptet. Details: `docs/SOIL_TAGS_AND_BLOCK_INVALIDATION.md`. Dieses Paket wurde weiterhin nicht kompiliert oder getestet.
+
 ## growth_modifier im Wachstumspfad
 
 `SoilProfileRegistry.Profile` speichert `SoilChemistryAccess.Sample` und `growthModifier` **im selben atomaren Registry-Snapshot**.
