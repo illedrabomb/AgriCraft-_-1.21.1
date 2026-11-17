@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics;
 
 import dev.illedrabomb.cropgenetics.command.CropDataCommand;
 import dev.illedrabomb.cropgenetics.command.SoilCommand;
+import dev.illedrabomb.cropgenetics.config.CropBalanceConfig;
 import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropCreativeTabs;
@@ -18,6 +19,7 @@ import dev.illedrabomb.cropgenetics.data.SoilProfileReloadListener;
 import dev.illedrabomb.cropgenetics.data.SoilDynamicsReloadListener;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
@@ -34,6 +36,7 @@ public final class CropGeneticsMod {
     public static SoilProfileRegistry soilProfiles() { return SOIL_PROFILES; }
 
     public CropGeneticsMod(IEventBus modBus, ModContainer container) {
+        container.registerConfig(ModConfig.Type.SERVER, CropBalanceConfig.SPEC);
         CropComponents.register(modBus);
         CropBlocks.register(modBus);
         CropItems.register(modBus);
