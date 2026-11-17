@@ -1,3 +1,13 @@
+## Gebündelter UI-/Render-/Kompatibilitätsdurchlauf (17.11.2026, ohne Ingame-Test)
+
+**Stand:** Nach den vom Nutzer gemeldeten manuellen Befunden wurden Crop-Sticks-Geometrie (vier Ecken), artspezifische Saatgut-Itemmodelle (16 integrierte Arten), vierseitige `HASH`-Feldfruchtmodelle (Weizen, Karotten, Kartoffeln, Rote Bete), Knochenmehl-Stufenfortschritt, ein unabhängiges Crop-Info-HUD und eine optionale JEI-Anbindung auf `integration/neoforge-1211-consolidation` umgesetzt. Testmod-JARs können mit `-PloadTestMods` aus `neoforge-port/test-mods` geladen werden. Die JEI-API wird mit `compileOnly` eingebunden; der erste Build braucht deshalb gegebenenfalls Maven-Zugriff.
+
+**Technische Nacharbeit:** Der vorherige gemeinsame Höhenwert 0,28–0,78 wurde im Commit `04e089e` auf die vier `HASH`-Feldfrüchte eingeschränkt; alle anderen Pflanzen behalten ihre alte Höhenkurve. Damit soll keine unbeabsichtigte Verkleinerung von Gourd- oder Spezialpflanzen entstehen.
+
+**Identify-Grenze:** Identify 0.4.0 hat keinen unterstützten öffentlichen Hook zum Ersetzen seiner Titelzeile. Die Arten- und Stufeninformation wird deshalb zusätzlich vom eigenen Crop-Genetics-HUD eingeblendet. Unanalysierte Gene werden von dieser UI nicht dargestellt. Fremd-Apps können synchronisierte interne Genome weiterhin direkt einsehen; eine absolute Geheimhaltung ist nicht umgesetzt.
+
+**Noch nicht freigegeben:** Weder neuer Build noch Client- oder Serverlauf. Ob frühe Wachstumsstufen hinreichend unterschiedlich aussehen, JEI 16 Arten wirklich separat auflistet, der HUD mit Identify kollisionsfrei erscheint und Weizen farblich passt, bleibt bis zum einzigen gebündelten Retest offen. PT-02 (zweiter Gourd-Fruchtzyklus), PT-03 (Stängel-/Fallback-Farbe), PT-04 (externe Pam-Tag-Datei) sind weiter zu prüfen. Kein Merge nach `entwicklung`, `testing` oder `master`.
+
 # AgriCraft NeoForge 1.21.1 – Projektstatus und Übergabe
 
 ## Gemeinsame Fruchtchance und Regrowth-Regeln – PT-02-Vorbereitung (16.11.2026)
