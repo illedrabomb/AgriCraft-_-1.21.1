@@ -1,3 +1,15 @@
+## Chat-Übergabe: Arbeitsstand 17.11.2026 – PT-02-Diagnose ohne Test
+
+**Aktueller Branch:** `integration/neoforge-1211-consolidation`. Keine Änderungen auf `entwicklung`, `testing`, `master`. Letzte drei PT-02-Änderungen: `1f90b88`, `2b19f21`, `ba58758`.
+
+**Konkret:** `CropSticksBlockEntity` hat jetzt persistente, serverseitige Zähler `fruitChanceRolls`, `fruitChancePassed` und `fruitPlacementSucceeded`, die beim Pflanzen/Erzeugen eines neuen Nachkommen zurückgesetzt werden. Der Mature-Gourd-Random-Tick zeichnet jeden Fruchtchancenwurf auf und zählt erfolgreiche physische Platzierungen. `/cropgenetics data gourd <x> <y> <z>` meldet die drei Werte und die Differenz aus Passed und Placed. Zähler werden in BlockEntity-NBT gespeichert, sodass sie Weltneustarts überstehen. Die eigentliche Fruchtchance, die Nachbarregeln und der Regrowth-Algorithmus bleiben unverändert. **Diese Änderungen sind nicht gebaut oder getestet.**
+
+**PT-02 weiterhin offen:** Nach erstem Fruchtabbau entstand im ursprünglichen Playtest keine zweite Melone/Kürbisfrucht. Der Code beweist bisher keinen eindeutigen Auslöser. Im nächsten späteren Ingame-Test nach Fruchtabbau und erneutem Reifwerden den Gourd-Befehl zweimal aufrufen: keine Rolls bedeutet fehlende Random-Tick-Bedingung, Rolls mit null Passed sprechen für Zufall/Chance, Passed ohne erfolgreiche Placement für Platzierungs-/Ownership-Problem. Vorläufige Zählerdiagnose ist kein Ersatz für den eigentlichen Gameplay-Test.
+
+**Gebündelte offene Validierung:** JEI-API-Build und 16 Itemvarianten, unabhängiges Pflanzen-HUD neben Identify, 4 Holzstäbe und neue HASH-Vegetation, Knochenmehl, Stufe-0-Optik, Weizenfarbgebung, Save-/Reload-Verhalten und PT-02/03/04. Nutzer möchte **erst alle Themen bearbeiten, dann wieder gemeinsam testen**. Nicht behaupten, die neuen Features seien bereits erfolgreich geprüft.
+
+**Zur Übergabe in neuen Chat:** Zuerst diese Datei lesen, danach `docs/PLAYTEST_FINDINGS_2026-11-17_RENDERING.md`, `docs/PLAYTEST_REPORT_2026-11-16.md` und `docs/IDENTIFY_JEI_PLAYTEST_2026-11-17.md`. Aktuelle Änderungen ausschließlich über GitHub-Branch. Ziel: vorhandene Arbeit fortführen, Änderungen dokumentieren, keinen Test starten, solange der Nutzer ihn nicht wünscht.
+
 ## Gebündelter UI-/Render-/Kompatibilitätsdurchlauf (17.11.2026, ohne Ingame-Test)
 
 **Stand:** Nach den vom Nutzer gemeldeten manuellen Befunden wurden Crop-Sticks-Geometrie (vier Ecken), artspezifische Saatgut-Itemmodelle (16 integrierte Arten), vierseitige `HASH`-Feldfruchtmodelle (Weizen, Karotten, Kartoffeln, Rote Bete), Knochenmehl-Stufenfortschritt, ein unabhängiges Crop-Info-HUD und eine optionale JEI-Anbindung auf `integration/neoforge-1211-consolidation` umgesetzt. Testmod-JARs können mit `-PloadTestMods` aus `neoforge-port/test-mods` geladen werden. Die JEI-API wird mit `compileOnly` eingebunden; der erste Build braucht deshalb gegebenenfalls Maven-Zugriff.
