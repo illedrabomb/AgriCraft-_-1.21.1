@@ -43,4 +43,21 @@ class RowEvolutionInheritanceTest {
                 parent.plantId(), new ImprovementRolls());
         assertEquals(parent, child);
     }
+    @Test
+    void disablingRowMutationStillInheritsButNeverCreatesBonusGenes() {
+        Genome baseline = Genome.basic("minecraft:wheat_plant");
+        Genome child = BreedingEngine.combine(baseline, baseline,
+                baseline.plantId(), new ImprovementRolls(), 0.0D);
+        assertEquals(baseline, child);
+    }
+
+    @Test
+    void configurableRowMutationChanceCanBeIncreased() {
+        Genome baseline = Genome.basic("minecraft:wheat_plant");
+        Genome child = BreedingEngine.combine(baseline, baseline,
+                baseline.plantId(), new ImprovementRolls(), 5.0D);
+        assertEquals(new GenePair(2, 2), child.growth());
+        assertEquals(new GenePair(2, 2), child.mutativity());
+    }
+
 }
