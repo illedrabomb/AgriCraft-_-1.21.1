@@ -9,5 +9,6 @@
     "minecraft:block/potatoes_stage2",
     "minecraft:block/potatoes_stage3",
     "minecraft:block/potatoes_stage3"
-  ]
+  ],
+  "geometry": "hash"
 }
