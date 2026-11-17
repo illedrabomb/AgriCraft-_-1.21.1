@@ -46,8 +46,13 @@ public final class BreedingEngine {
 
     private static int mutate(int allele, int mutativity, RandomGenerator random,
                               double mutationMultiplier) {
-        if (mutationMultiplier > 0D
-                && random.nextDouble() < Math.min(1D, mutativity * mutationMultiplier / 10D)) {
+        // Preserve the historical seeded RNG sequence at the default setting.
+        // Non-default settings use a scaled 0..1 probability.
+        boolean shouldMutate = mutationMultiplier == 1.0D
+                ? random.nextInt(10) < mutativity
+                : mutationMultiplier > 0D
+                        && random.nextDouble() < Math.min(1D, mutativity * mutationMultiplier / 10D);
+        if (shouldMutate) {
             allele += random.nextInt(10) < (10 + mutativity) / 2 ? 1 : -1;
         }
         return Math.max(GenePair.MIN, Math.min(GenePair.MAX, allele));
