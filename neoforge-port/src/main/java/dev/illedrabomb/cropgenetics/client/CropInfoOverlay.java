@@ -12,6 +12,7 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
 /**
@@ -27,6 +28,9 @@ public final class CropInfoOverlay {
 
     @SubscribeEvent
     public static void onRenderGui(RenderGuiEvent.Post event) {
+        // Jade renders these same details in its native look-at panel.
+        // Avoid a duplicate standalone HUD when the optional mod is loaded.
+        if (ModList.get().isLoaded("jade")) return;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null || minecraft.player == null || minecraft.options.hideGui
                 || !(minecraft.hitResult instanceof BlockHitResult hit)
