@@ -42,9 +42,10 @@ public final class CrossBreeding {
             if (plant == null || !source.isMature(plant)
                     || !CropConditions.canGrow(level, neighbor, plant, genome)) continue;
 
-            // Fertility is retained as a hidden statistic and affects breeding.
-            double fertility = genome.fertility().expressed(GenePair.TraitMode.MAX) / 10.0D;
-            if (random.nextDouble() < fertility) parents.add(genome);
+            // Gather eligible parents BEFORE rolling fertility. Requiring two
+            // independent fertility successes makes a 1/1 parent pair breed
+            // at only 1% per random tick (0.1 * 0.1).
+            parents.add(genome);
         }
 
         if (parents.isEmpty()) return;
@@ -54,9 +55,11 @@ public final class CrossBreeding {
         if (parents.size() == 1) {
             Genome parent = parents.getFirst();
             PlantDefinition plant = plants.get(parent.plantId());
+            // One-parent spreading is a clone, not a genetic cross.
+            double fertility = fertilityChance(parent);
             if (plant != null && plant.cloneable()
                     && CropConditions.canGrow(level, position, plant, parent)
-                    && random.nextDouble() < plant.spreadChance()) {
+                    && random.nextDouble() < fertility * plant.spreadChance()) {
                 // Clone preserves the complete genotype; cloning is not recombination.
                 target.acceptCrossOffspring(parent, plant);
             }
@@ -65,6 +68,9 @@ public final class CrossBreeding {
 
         Genome first = parents.get(0);
         Genome second = parents.get(1);
+        // One pair roll preserves fertility influence without multiplying two
+        // low baseline chances. Higher-fertility pairs still cross more often.
+        if (random.nextDouble() >= pairFertilityChance(first, second)) return;
         // Numeric alleles are inherited exactly once. Species choice must use
         // the offspring's actual Strength, not either parent's Strength.
         Genome inherited = BreedingEngine.combine(first, second, first.plantId(), inheritanceRandom);
@@ -75,6 +81,15 @@ public final class CrossBreeding {
         Genome offspring = inherited.withPlantId(childId);
         if (!CropConditions.canGrow(level, position, childPlant, offspring)) return;
         target.acceptCrossOffspring(offspring, childPlant);
+    }
+
+    private static double fertilityChance(Genome genome) {
+        return genome.fertility().expressed(GenePair.TraitMode.MAX) / 10.0D;
+    }
+
+    /** Average expressed fertility (1..10), one roll per mature parent pair. */
+    static double pairFertilityChance(Genome first, Genome second) {
+        return (fertilityChance(first) + fertilityChance(second)) / 2.0D;
     }
 
     private static String chooseChildSpecies(Genome first, Genome second, Genome inherited,
