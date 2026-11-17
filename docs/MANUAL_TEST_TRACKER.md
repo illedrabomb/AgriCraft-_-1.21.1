@@ -120,16 +120,26 @@ Im hochgeladenen Ergebnisexport stehen `FRU-01`, `FRU-02` und `FRU-04` auf `fail
 
 **Späterer Nachtest:** Je ein Feld mit genau einem und mit genau zwei reifen Eltern vergleichen, beide auf zulässigem Boden; Start-/Endzustand und real verstrichene Zeit erfassen. Der echte Zufallstakt hängt auch von `randomTickSpeed`, geladenen Chunks und Pflanzenbedingungen ab. Die geplante optionale **Evolution bei Reihenanbau** ist eine **getrennte, noch nicht implementierte** Funktion und wird nicht mit dieser Kreuzungs-Chance vermischt.
 
-## Evolution beim Reihenanbau – tatsächlicher Implementierungsstand (17.11.2026)
+## Reihen-Kreuzung und konfigurierbare Evolution (Testerentscheidung 17.11.2026)
 
-Die Bitte um „Evolution von Samen in einer Reihe“ wurde mit dem bestehenden `CrossBreeding`- und `BreedingEngine`-Code abgeglichen:
+**Verbindliche Regel des Testers:** **Keine zusätzlichen Bonus-Samen bei normalem Wachstum oder bei der Ernte.** Evolution betrifft ausschließlich den **einen Nachkommen**, der bei erfolgreicher Vermehrung auf einem doppelt gesteckten Kreuzungsfeld entsteht. Die beiden Eltern und ihr Genom bleiben unverändert. Ein direkt bepflanztes Feld mit einem Crop Stick produziert durch reines Reihenwachstum **keine** neue Saatgutgeneration.
 
-- Ein **gekreuztes, zunächst leeres Zielfeld** zwischen bzw. neben **mindestens zwei reifen Elternpflanzen** ist bereits ein Zwei-Eltern-Vererbungsfall. `BreedingEngine.combine` übernimmt pro Gen je ein Allel beider Eltern und führt abhängig von Mutativity eine ±1-Mutation im Bereich 1..10 aus. Bei zwei Eltern **derselben Art** können so über Generationen verbesserte Werte entstehen. Der zuletzt korrigierte Fertilitätswurf erhöht nur die Chance, dass diese echte Kreuzung stattfindet.
-- Bei **nur einem Elternteil** wird nach `cloneable` und `spreadChance` eine genaue Genomkopie weitergegeben, **ohne Evolution**. Ein per Hand gesetzter Seed wächst ganz normal und verändert seine Gene während des Wachstums nicht.
-- **Automatische Evolution auf gewöhnlichen, direkt bepflanzten Sticks ohne Kreuzungsfeld** ist **nicht implementiert**. Ebenso gibt es bislang **keinen expliziten Schalter** für eine zusätzliche Reihen-Evolutionsmechanik. Das nicht ohne konkrete Produktentscheidung aktivieren: Der Benutzer hat ausdrücklich getrennte Zustände für 1 Stick (manuelles Säen) und 2 Sticks (Kreuzung) festgelegt.
-- Neuer Test `RowEvolutionInheritanceTest` prüft deterministisch, dass zwei gleichartige Eltern ein verbessertes Nachkommen-Genom erzeugen können, Eltern unverändert bleiben und der Maximalwert 10 eingehalten wird. **Test nicht ausgeführt.**
+Die bisherige Vererbungsfunktion `BreedingEngine.combine` kann beim Kreuzen Gene bereits mit Mutativity-abhängigen ±1-Schritten mutieren. Neu wird ein **gerader Reihen-Kreuzungsfall** gesondert erkannt: Zwei geeignete Eltern derselben Art stehen auf entgegengesetzten Seiten des gekreuzten Zielfelds (N/S oder E/W). Für **nur diesen Fall** kann die Mutationschance über eine NeoForge-Serverkonfiguration verändert oder ausgeschaltet werden. Andere zulässige Kreuzungen verwenden weiterhin die bisherige allgemeine Vererbungsregel; ein einzelner Elternteil bleibt auf dem separaten Klonpfad ohne neue Mutation.
 
-**Status:** Die bereits vorhandene genetische Evolution durch Kreuzung ist nun dokumentiert und durch zusätzlichen Quelltest abgesichert; ob eine **weitere**, separat konfigurierbare Reihenregel gewünscht ist, bleibt eine offene Funktionsentscheidung und ist nicht als erledigte Neuentwicklung markiert.
+### Servereinstellungen
+
+`CropBalanceConfig` wird als `ModConfig.Type.SERVER` registriert. Die konkreten Einstellungen werden beim Start in der NeoForge-Serverkonfiguration der Welt verwaltet (typischerweise `<Welt>/serverconfig/cropgenetics-server.toml`).
+
+| Einstellung | Standard | Bereich | Bedeutung |
+| --- | ---: | ---: | --- |
+| `breeding.rowCrossEvolution` | `true` | `true/false` | Mutationen beim geraden Kreuzungsfall gleicher Art aktivieren/deaktivieren |
+| `breeding.rowEvolutionMutationMultiplier` | `1.0` | `0.0–5.0` | Mutation-Chance des Reihen-Nachkommens skalieren |
+| `breeding.crossFertilityMultiplier` | `1.0` | `0.1–5.0` | Zwei-Eltern-Kreuzungshäufigkeit skalieren (auf 100 % begrenzt) |
+| `gourds.fruitChanceMultiplier` | `1.0` | `0.1–5.0` | Fruchtversuche reifer Melonen-/Kürbispflanzen skalieren |
+
+Mit Standardwerten bleiben die bisherige Mutations- und Fruchtchance erhalten; die bereits korrigierte einzelne Fruchtbarkeitsprobe für Elternpaare bleibt die Ausgangsbasis. Alle Gene sind weiterhin auf 1..10 begrenzt; der Erfolg eines Random Ticks wird nicht garantiert.
+
+**Regression:** `RowEvolutionInheritanceTest` prüft ±1-Werte, Grenzen und ausgeschaltete/erhöhte Mutationschance. `CrossBreedingFertilityTest` prüft die unveränderte Basiswahrscheinlichkeit der Elternpaare. **Die Konfiguration, Compilation und Gameplaysimulation sind noch nicht gebaut/ausgeführt.** Beim späteren Test immer mit frischer geeigneter Konfiguration und beiden Elternpaar-Anordnungen (gerade vs. Ecke) vergleichen.
 
 ## Wasserkanne/Wachstumstools: Standard-Bonemeal-Schnittstelle (17.11.2026)
 
