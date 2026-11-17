@@ -11,7 +11,7 @@ class CropGrowthStageReloadTest {
         // after a datapack replaces its definition with four stages.
         assertFalse(CropGrowth.isMatureAtStage(4, 8, 4));
         assertTrue(CropGrowth.isMatureAtStage(7, 8, 4));
-        assertTrue(CropGrowth.isMatureAtStage(3, 4, 8) == false);
+        assertFalse(CropGrowth.isMatureAtStage(2, 4, 8));
         assertTrue(CropGrowth.isMatureAtStage(3, 4, 4));
     }
 
