@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – PT-02 fehlgeschlagene Fruchtplatzierungen trennen (Quellcode, ungetestet)
+
+**Branch:** ausschließlich `integration/neoforge-1211-consolidation`. Commits `c02420b`, `6ba5419`, `9c90385`.
+
+**Quellcode:** `CropSticksBlockEntity` speichert zwei weitere serverseitige PT-02-Zähler `fruitPlacementNoEligibleTarget` und `fruitPlacementEligibleFailed` mit NBT, setzt sie bei Neupflanzung und Kreuzungsnachkommen zurück und meldet sie durch Getter. `GourdFruits.tryPlace` klassifiziert nach einem erfolgreichen Fruchtwahrscheinlichkeitswurf einen tatsächlich erfolglosen Platzierungsdurchlauf: kein einziges im Moment des Versuchs gültiges Ziel gegenüber mindestens einem gültigen Ziel, dessen Block-Setzen/Frucht-Bindung nicht gelang. `/cropgenetics data gourd <x> <y> <z>` gibt dazu `noEligibleTarget` und `eligibleTargetButPlacementFailed` aus.
+
+**Abgrenzung:** Der erfolgreiche Platzierungspfad, Zufallswurf, Kandidatenreihenfolge, Nachbar-Eignung, Eigentumsprüfung und Gameplay-Chance wurden nicht verändert. Die beiden neuen Zähler werden nur nach vollständig durchlaufenem `tryPlace` erhöht. Ein **früher Abbruch an dessen Eingangswachen** ist nicht als eine dieser beiden Kategorien erfasst; die ältere Differenz `rollsPassed - placementsSucceeded` kann deshalb größer als ihre Summe sein. Bestehende Saves beginnen bei den beiden neuen Zählern mit 0; ältere Zähler bleiben erhalten. Für den späteren Test vor und nach mehreren Random-Tick-Fenstern Werte vergleichen, insbesondere an den Tagen nach erstem Fruchtabbau und erneutem Reifwerden.
+
+**Keine Validierung:** Kein Gradle, Build, Unit-Test, CI oder Minecraft-Start. PT-02 weiterhin **nicht als behoben** markiert, da der zweite Fruchtzyklus real nicht neu geprüft wurde. Weitere offene Client-/JEI-/Identify-/Pam-Themen bleiben für den vereinbarten gebündelten Test. Andere Branches unverändert.
+
 ## Chat-Fortsetzung 17.11.2026 – Ernte nach Stage-Reload und optische Ressourcen (nur Quellcode)
 
 **Arbeitsbranch:** `integration/neoforge-1211-consolidation`; keine Änderungen an `entwicklung`, `testing` oder `master`. Quellcodecommits: `2fe96cb`, `254c6f5`, `7e2d493`, `166cc86`, `3054e61`, `bbe2d6c`.
