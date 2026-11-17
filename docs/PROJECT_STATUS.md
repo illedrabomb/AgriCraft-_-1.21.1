@@ -1,3 +1,11 @@
+## Chat-Fortsetzung 17.11.2026 – Gradle-9.2.1-Abhängigkeit des Windows-Testsystems dokumentiert
+
+**Branch:** ausschließlich `integration/neoforge-1211-consolidation`. Dokumentation in `docs/VALIDATION_GATE_2026-11-17.md` (Commits `c4ea355`, `91026b4`).
+
+**Vom Testsystem bestätigt:** Im separaten Repository `D:\guthub repositorys\Minecraft_mods\Lena\villagerfamilytree_1.21.1` liegt `gradlew.bat`; dessen `gradle/wrapper/gradle-wrapper.properties` referenziert `gradle-9.2.1-bin.zip`. Das ist die bekannte Quelle für **Gradle 9.2.1** im lokalen Windows-Setup. Beim AgriCraft-Validierungsskript wurde zuvor `Gradle missing on PATH` gemeldet. Die Wrapper-Referenz belegt noch **keine** installierte Gradle-Distribution oder erfolgreiche Build-Ausführung. Die Doku enthält den PowerShell-Befehl zum Auffinden einer entpackten Distribution im Standard-Wrapper-Cache und zum temporären Setzen von `PATH`. Das Villager-Projekt bleibt unverändert; Java-21- und Gradle-Versionsprüfung bleiben erforderlich.
+
+**Status:** Nur Dokumentation; noch kein neuer Build/Test/CI/Minecraft-Lauf gemeldet. Keine anderen Branches geändert.
+
 ## Chat-Fortsetzung 17.11.2026 – Build-Skript vor Ausführung statisch korrigiert
 
 **Branch:** nur `integration/neoforge-1211-consolidation`. Commit `77ba882`.
