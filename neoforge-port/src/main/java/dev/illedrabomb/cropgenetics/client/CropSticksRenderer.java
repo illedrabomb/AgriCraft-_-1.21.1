@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * Client-only plant mesh. Crop sticks themselves remain ordinary block models.
- * Supports CROSS and PLUS plane arrangements for stems and leaves.
+ * Supports CROSS, PLUS and four-sided HASH plane arrangements for stems and leaves.
  * Gourd fruit blocks are rendered separately as real world blocks.
  */
 public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksBlockEntity> {
@@ -47,7 +47,9 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
 
         PlantVisuals.Visual visual = PlantVisuals.INSTANCE.visual(genome.plantId());
         List<ResourceLocation> layers = visual.at(stage, totalStages);
-        float height = Math.max(0.15F, (stage + 1.0F) / totalStages);
+        // Keep seedlings visible while containing mature field crops within the sticks.
+        float growth = totalStages <= 1 ? 1.0F : (float) stage / (totalStages - 1);
+        float height = 0.28F + 0.50F * growth;
 
         // The BER renders atlas sprites directly. Unlike vanilla block
         // models, they do not receive tintindex colors automatically.
@@ -97,7 +99,16 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
         VertexConsumer vertices = buffers.getBuffer(Sheets.cutoutBlockSheet());
         PoseStack.Pose pose = poses.last();
 
-        if (geometry == PlantVisuals.Geometry.PLUS) {
+        if (geometry == PlantVisuals.Geometry.HASH) {
+            // Four parallel faces around a centered square, viewed as a # from above.
+            // Unlike diagonal CROSS planes these keep foliage inside the crop sticks.
+            float innerMin = 0.27F;
+            float innerMax = 0.73F;
+            plane(vertices, pose, sprite, innerMin, y0, innerMin, innerMax, y1, innerMin, light, overlay, tint);
+            plane(vertices, pose, sprite, innerMin, y0, innerMax, innerMax, y1, innerMax, light, overlay, tint);
+            plane(vertices, pose, sprite, innerMin, y0, innerMin, innerMin, y1, innerMax, light, overlay, tint);
+            plane(vertices, pose, sprite, innerMax, y0, innerMin, innerMax, y1, innerMax, light, overlay, tint);
+        } else if (geometry == PlantVisuals.Geometry.PLUS) {
             plane(vertices, pose, sprite, 0.5F, y0, min, 0.5F, y1, max, light, overlay, tint);
             plane(vertices, pose, sprite, min, y0, 0.5F, max, y1, 0.5F, light, overlay, tint);
         } else {
