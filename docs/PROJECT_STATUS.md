@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – Knochenmehl respektiert Wachstumsbedingungen und Reload-Stufen (Quellcode, ungetestet)
+
+**Branch:** `integration/neoforge-1211-consolidation`; ausschließlich dort geändert. Quellcode-Commit: `1d3e753`.
+
+**Befund:** `CropSticksBlock.useItemOn` konnte per Knochenmehl eine unreife Pflanze fortschreiben, obwohl `CropConditions.growthFactor`/ `canGrow` wegen ungültigem Boden, Licht, Standort, Jahreszeit oder Bodenchemie kein normales Wachstum erlaubt. Bei geändertem Stufenkatalog nach `/reload` fehlte außerdem unmittelbar vor Knochenmehl die sonst beim Random-/Periodic-Tick verwendete `reconcileLoadedStage`-Angleichung.
+
+**Korrektur:** Auf dem logischen Server zuerst `crop.reconcileLoadedStage(growing)`; nur bei weiterhin unreifem Stamm und `CropConditions.canGrow(level, pos, growing, crop.genome())` genau eine Stufe mit `advanceGrowth` erhöhen. Knochenmehl umgeht nur den normalen Zufallswurf, nicht harte Umgebungsbedingungen. Verbrauch und Wachstumspartikel erfolgen weiterhin **nur nach erfolgreichem** Fortschritt. Wenn keine Wachstumsstufe fortschreitet, greift die bereits bestehende optionale `SoilTreatment.FERTILIZER`-Behandlung für profilierte Böden; auf nicht behandelbarem Boden kein serverseitiger Verbrauch. Das ist eine gezielte Gameplay-Regelkorrektur, nicht bloß Diagnostik.
+
+**Prüfgrenze:** Kein Build, kein JUnit-/CI-Lauf und kein Minecraft-Start. Beim späteren Bündeltest Knochenmehl an wachsender Pflanze mit gültigen Bedingungen, blockiertem Licht/Boden, reifer Pflanze sowie unmittelbar nach `/reload` prüfen; sicherstellen, dass höchstens eine Stufe voranschreitet und Itemverbrauch korrekt ist. Bestehende Ergebnisse aus früheren Spieltests werden nicht auf diese Änderung übertragen. PT-02/03/04, JEI und Clientrendering bleiben ungeprüft.
+
 ## Chat-Fortsetzung 17.11.2026 – HUD-Begrenzung und HASH-Ressourcenregression (Quellcode, ungetestet)
 
 **Branch:** `integration/neoforge-1211-consolidation`, ohne Änderungen anderer Branches. Commits: `c0b098b`, `c2ba3ab`.
