@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – technisches Validierungstor vorbereitet, Ausführung noch ausstehend
+
+**Branch:** ausschließlich `integration/neoforge-1211-consolidation`. Dokumentationscommit `0d18105`. Vollständiges Runbook: [`docs/VALIDATION_GATE_2026-11-17.md`](VALIDATION_GATE_2026-11-17.md).
+
+**Ergebnis der Machbarkeitsprüfung:** In dieser GitHub-Verbindung stehen Lese-/Commit- und Statusabfragen, aber kein Gradle-Prozessstart und keine neue GitHub-Actions-Workflow-Dispatch-Funktion zur Verfügung. Für den geprüften Quellstand `09f8fad` wurden **keine** Commit-Statusmeldungen und keine zugehörigen Pull-Request-Workflow-Runs gefunden. Die letzten dokumentierten 17 Unit-Test-PASS stammen von älteren Commits und dürfen nicht auf die seitdem eingebrachten Änderungen übertragen werden.
+
+**Konkreter nächster Schritt:** Validierung mit Java 21, Gradle 9.2.1 und `gradle --no-daemon test build` im Ordner `neoforge-port`; dabei Branch, SHA, Gradle-Exitcode, Test-XML und JAR-Ausgabe dokumentieren. Diese Prüfung startet keinen Client/Server. Im Unterordner liegt kein eigener Gradle-Wrapper; die bereits etablierte lokale Gradle-Installation verwenden. Optional installierte Testmods nicht in den regulären Build laden.
+
+**Status:** Nur vorbereitete Dokumentation; **weder Build noch Unit-Tests noch CI noch Minecraft durchgeführt**. Keine Validierungsfreigabe. Keine anderen Branches verändert. Erst auf Grundlage tatsächlicher Ergebnisse offene JEI-/Rendering-/Frucht- oder Packagingfehler korrigieren.
+
 ## Chat-Fortsetzung 17.11.2026 – JEI-Schnittstellensichtung und Client-Fallback-Optimierung (nur Quellcode)
 
 **Branch:** ausschließlich `integration/neoforge-1211-consolidation`. Quellcode-Commit `0b92e50`.
