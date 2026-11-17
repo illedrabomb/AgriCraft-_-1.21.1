@@ -275,6 +275,22 @@ public final class CropSticksBlock extends BaseEntityBlock {
         // Ordinary seeds, crop-stick stacking and harvesting remain unaffected.
         boolean water = stack.is(Items.WATER_BUCKET);
         boolean fertilizer = stack.is(Items.BONE_MEAL);
+        // On a growing crop, bone meal advances the actual server-owned stage
+        // before considering the separate, opt-in soil fertilizer mechanic.
+        // Never advance a mature plant or consume an item for a failed action.
+        if (fertilizer && crop.genome() != null) {
+            PlantDefinition growing = CropGeneticsMod.plants().plants()
+                    .get(crop.genome().plantId());
+            if (growing != null && !crop.isMature(growing)) {
+                if (!level.isClientSide) {
+                    if (crop.advanceGrowth(growing)) {
+                        if (!player.isCreative()) stack.shrink(1);
+                        level.levelEvent(1505, pos, 0);
+                    }
+                }
+                return ItemInteractionResult.SUCCESS;
+            }
+        }
         if (water || fertilizer) {
             if (level instanceof ServerLevel server) {
                 boolean changed = SoilTreatment.apply(server, pos.below(),
