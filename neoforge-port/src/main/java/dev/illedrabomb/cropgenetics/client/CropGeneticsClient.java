@@ -2,6 +2,13 @@ package dev.illedrabomb.cropgenetics.client;
 
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.content.CropBlocks;
+import dev.illedrabomb.cropgenetics.content.CropCreativeTabs;
+import dev.illedrabomb.cropgenetics.content.CropItems;
+import dev.illedrabomb.cropgenetics.content.CropComponents;
+import dev.illedrabomb.cropgenetics.genetics.Genome;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -15,6 +22,20 @@ import net.minecraft.world.level.block.Blocks;
         bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class CropGeneticsClient {
     private CropGeneticsClient() {}
+
+    @SubscribeEvent
+    public static void registerSeedItemVariants(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> ItemProperties.register(
+                CropItems.GENETIC_SEED.get(),
+                ResourceLocation.fromNamespaceAndPath(CropGeneticsMod.MOD_ID, "seed_species"),
+                (stack, level, entity, seed) -> {
+                    Genome genome = stack.get(CropComponents.GENOME.get());
+                    if (genome == null) return 0.0F;
+                    int index = CropCreativeTabs.DEFAULT_SPECIES.indexOf(genome.plantId());
+                    return index < 0 ? 0.0F
+                            : (float) index / CropCreativeTabs.DEFAULT_SPECIES.size();
+                }));
+    }
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
