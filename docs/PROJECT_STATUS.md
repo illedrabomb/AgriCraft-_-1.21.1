@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – JEI-Seedkatalog entkoppelt, Modellzuordnung abgesichert (Quellcode, ungetestet)
+
+**Branch:** `integration/neoforge-1211-consolidation` (keine anderen Branches). Commits: `cc0c62d`, `172bb4d`, `deebb15`, `4d9e2f7`, `459a37f`.
+
+**Änderung:** `SeedSpeciesCatalog.DEFAULT_SPECIES` kapselt nun die bereits vorhandene Reihenfolge der **16** eingebauten Arten in einer Java-Klasse ohne NeoForge-/CreativeTab-Abhängigkeiten. `CropCreativeTabs.DEFAULT_SPECIES` bleibt als kompatibler Alias erhalten; Creative Tab, clientseitiges `seed_species`-Item-Prädikat und JEI-Plugin greifen auf dieselbe Liste zu. Insbesondere benötigt die JEI-Plugin-Registrierung dafür nicht mehr die Initialisierung der `CropCreativeTabs`-Klasse. Die angezeigten 16 Arten, die Modell-Schwellen und die Subtypenlogik wurden nicht absichtlich verändert. Datapack-Erweiterungsarten bleiben außerhalb dieser statischen Liste; die bisherige grafische Default-Wheat-Icon-Grenze ist unverändert.
+
+**Regressionstest als Quellcode:** `SeedSpeciesCatalogTest` prüft eindeutige 16 Arten, ihre Reihenfolge, sämtliche 15 Modell-Override-Schwellen, Modellpfade und Vorhandensein von Layer-0-Texturverweisen. Er nutzt JSON-Ressourcen und die reine Listendefinition, ohne Minecraft oder JEI starten zu müssen. Dies ist eine zusätzliche statische Absicherung, **kein Nachweis**, dass JEI im Client 16 Einträge zeigt oder die 1.21.1-API vollständig kompatibel ist.
+
+**Validierungsgrenze:** Keine Builds, Tests, CI, Gradle-Auflösung oder Minecraft-Starts ausgeführt. JEI-API-Auflösung, tatsächliche JEI-Subtypenanzeige, clientseitige Itemmodelle und HUD bleiben für den gebündelten Test offen. PT-02/03/04 unverändert nicht abgenommen. Nächster Entwicklungsschritt: restliche Quellcode-Schnittstellen auf konkrete Probleme prüfen, ohne dokumentierte Features erneut zu implementieren.
+
 ## Chat-Fortsetzung 17.11.2026 – PT-02-Mature-Tick-Diagnose (Quellcode, ungetestet)
 
 **Branch:** `integration/neoforge-1211-consolidation` (andere Branches unverändert). Commits: `0129d7a`, `aa7fdd8`, `a0cb5f8`, `2abfb54`.
