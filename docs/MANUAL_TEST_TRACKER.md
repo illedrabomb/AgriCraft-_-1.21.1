@@ -108,6 +108,18 @@ Im hochgeladenen Ergebnisexport stehen `FRU-01`, `FRU-02` und `FRU-04` auf `fail
 - **`VIS-07`:** Der Seed-Itemname war bisher generell `Genetic Seed`; die Art stand nur in der Tooltip-Zeile. Jetzt verwendet `GeneticSeedItem.getName(ItemStack)` die synchronisierte `Genome.plantId()` und übersetzte Artbezeichnungen aus `CropSpeciesNames` (z. B. `Wheat Genetic Seed` oder deutsch `Weizen-Saatgut (genetisch)`). Unbekannte Datapack-Arten erhalten einen lesbaren ID-Fallback. Die Crop-Info-Zeile nutzt dieselbe Namensquelle. Der redundante Crafting-Grid-Hinweis wurde aus dem generischen Seed-Tooltip entfernt. **Noch nicht gebaut/ingame bestätigt**; das eigentliche JEI-Rezept-Thema bleibt offen.
 - **Nachtest:** Verschiedene genetische Seeds (Weizen, Karotte, Melone) in Inventar und JEI auf Artname prüfen; bei unanalysierten Seeds dürfen keine Genpaare sichtbar werden; mit Analyzer + Shift die Sichtbarkeit erneut kontrollieren. Identify weiterhin separat als offenes Integrationsziel erfassen.
 
+## Kreuzungsgeschwindigkeit – nachvollziehbarer Codefix (17.11.2026)
+
+**Testerbefund:** In `END-01` des 30-Fälle-Exports wurden nur etwa zwei von vier besetzten Nachbar-Kreuzungsfeldern nach 20 Minuten gemeldet. Das ist ein Beobachtungswert, noch keine allgemeine zeitliche Erfolgsgarantie.
+
+**Ursache:** `CrossBreeding.attempt` zog zuvor bei zwei reifen Nachbarpflanzen für **jede Elternpflanze separat** eine Fertilitätsprobe. Bei Basisgenom 1/1 (= 0,1 pro Probe) war die Wahrscheinlichkeit, im selben Ziel-Random-Tick **beide** Eltern zu erhalten, nur `0,1 × 0,1 = 0,01` (= 1 %). Andernfalls fiel die Logik häufig auf den Ein-Eltern-Klonpfad zurück. Darauf kamen die ohnehin seltenen Minecraft-Random-Ticks.
+
+**Änderung (Commit `a88fcff`):** Erst alle berechtigten reifen Nachbarn ermitteln, danach bei mindestens zwei Nachbarn **eine gemeinsame Fruchtbarkeitsprobe** anhand des Mittelwerts der ausgedrückten Eltern-Fertilität (1/1 + 1/1 ⇒ 10 % pro Ziel-Random-Tick). Eltern werden weiterhin zufällig ausgewählt; Mutation, Biome, Boden, Gene, Kandidatenfilter und Ziel-Validierung bleiben bestehen. Bei nur einem reifen Nachbarn bleibt Klonen separat und erfordert Fertilität × `spreadChance`. Ein vollständiges Gameplay-Balancing oder eine garantierte Mindestdauer folgt daraus nicht.
+
+**Regression:** `CrossBreedingFertilityTest` prüft 1/1 ⇒ 10 %, 10/10 ⇒ 100 %, gemischt ⇒ 55 % und Dominanz 8/5 ⇒ 65 %. **Tests noch nicht ausgeführt.**
+
+**Späterer Nachtest:** Je ein Feld mit genau einem und mit genau zwei reifen Eltern vergleichen, beide auf zulässigem Boden; Start-/Endzustand und real verstrichene Zeit erfassen. Der echte Zufallstakt hängt auch von `randomTickSpeed`, geladenen Chunks und Pflanzenbedingungen ab. Die geplante optionale **Evolution bei Reihenanbau** ist eine **getrennte, noch nicht implementierte** Funktion und wird nicht mit dieser Kreuzungs-Chance vermischt.
+
 ## Die 30 vorgesehenen AgriCraft-Testfälle
 
 | Bereich | Anzahl | Inhalte |
