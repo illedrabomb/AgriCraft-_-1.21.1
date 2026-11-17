@@ -221,6 +221,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
+        matureFruitTicks = 0;
+        matureFruitTicksBlocked = 0;
         fruitChanceRolls = 0;
         fruitChancePassed = 0;
         fruitPlacementSucceeded = 0;
