@@ -11,7 +11,6 @@
   "tooltip.cropgenetics.strength": "Strength: %s / %s",
   "tooltip.cropgenetics.fertility": "Fertility: %s / %s",
   "tooltip.cropgenetics.mutativity": "Mutativity: %s / %s",
-  "tooltip.cropgenetics.recover_hint": "Crafting grid: genetic seed + paper → plain seed (paper is returned)",
   "item.cropgenetics.seed_analyzer": "Seed Analyzer",
   "message.cropgenetics.analyzer_offhand": "Hold a seed in your offhand",
   "message.cropgenetics.analyzer_success": "Seed analyzed – hold Shift to view genes",
