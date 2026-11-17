@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
+import dev.illedrabomb.cropgenetics.config.CropBalanceConfig;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
 import dev.illedrabomb.cropgenetics.data.HarvestMode;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
@@ -288,7 +289,8 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
             if (plant.harvestMode() == HarvestMode.GOURD && !crop.fruitReady()) {
                 int gain = genome.gain().expressed(GenePair.TraitMode.MAX);
                 double fruitChance = GourdFruitRules.chance(
-                        plant.fruitChance(), gain, factor);
+                        plant.fruitChance(), gain,
+                        factor * CropBalanceConfig.GOURD_FRUIT_CHANCE_MULTIPLIER.get());
                 boolean chancePassed = random.nextDouble() < fruitChance;
                 crop.recordFruitChanceRoll(chancePassed);
                 if (chancePassed && GourdFruits.tryPlace(level, pos, plant, crop, random)) {
