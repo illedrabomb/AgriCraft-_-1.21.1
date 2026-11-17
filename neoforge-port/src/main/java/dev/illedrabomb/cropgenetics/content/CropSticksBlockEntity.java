@@ -37,6 +37,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
     private long fruitChanceRolls;
     private long fruitChancePassed;
     private long fruitPlacementSucceeded;
+    private long fruitPlacementNoEligibleTarget;
+    private long fruitPlacementEligibleFailed;
 
     public CropSticksBlockEntity(BlockPos pos, BlockState state) {
         super(CropBlocks.CROP_STICKS_ENTITY.get(), pos, state);
@@ -137,6 +139,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public long fruitChanceRolls() { return fruitChanceRolls; }
     public long fruitChancePassed() { return fruitChancePassed; }
     public long fruitPlacementSucceeded() { return fruitPlacementSucceeded; }
+    public long fruitPlacementNoEligibleTarget() { return fruitPlacementNoEligibleTarget; }
+    public long fruitPlacementEligibleFailed() { return fruitPlacementEligibleFailed; }
 
     /** Count mature gourd ticks before the environmental factor can reject a roll. */
     public void recordMatureFruitTick(boolean environmentEligible) {
@@ -159,6 +163,17 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public void recordFruitPlacementSuccess() {
         if (!(level instanceof ServerLevel) || !fruitReady) return;
         if (fruitPlacementSucceeded < Long.MAX_VALUE) fruitPlacementSucceeded++;
+        setChanged();
+    }
+
+    /** Classify a passed fruit roll that failed placement without changing world state. */
+    public void recordFruitPlacementFailure(boolean hadEligibleTarget) {
+        if (!(level instanceof ServerLevel) || genome == null) return;
+        if (hadEligibleTarget) {
+            if (fruitPlacementEligibleFailed < Long.MAX_VALUE) fruitPlacementEligibleFailed++;
+        } else {
+            if (fruitPlacementNoEligibleTarget < Long.MAX_VALUE) fruitPlacementNoEligibleTarget++;
+        }
         setChanged();
     }
 
@@ -200,6 +215,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitChanceRolls = 0;
         fruitChancePassed = 0;
         fruitPlacementSucceeded = 0;
+        fruitPlacementNoEligibleTarget = 0;
+        fruitPlacementEligibleFailed = 0;
         syncState(plant);
         return true;
     }
@@ -226,6 +243,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitChanceRolls = 0;
         fruitChancePassed = 0;
         fruitPlacementSucceeded = 0;
+        fruitPlacementNoEligibleTarget = 0;
+        fruitPlacementEligibleFailed = 0;
         syncState(plant);
         return true;
     }
@@ -358,6 +377,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         tag.putLong("FruitChanceRolls", fruitChanceRolls);
         tag.putLong("FruitChancePassed", fruitChancePassed);
         tag.putLong("FruitPlacementSucceeded", fruitPlacementSucceeded);
+        tag.putLong("FruitPlacementNoEligibleTarget", fruitPlacementNoEligibleTarget);
+        tag.putLong("FruitPlacementEligibleFailed", fruitPlacementEligibleFailed);
         if (fruitReady && fruitDirection != null && fruitToken != null) {
             tag.putString("FruitDirection", fruitDirection.getName());
             tag.putUUID("FruitToken", fruitToken);
@@ -381,6 +402,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitChanceRolls = Math.max(0L, tag.getLong("FruitChanceRolls"));
         fruitChancePassed = Math.max(0L, tag.getLong("FruitChancePassed"));
         fruitPlacementSucceeded = Math.max(0L, tag.getLong("FruitPlacementSucceeded"));
+        fruitPlacementNoEligibleTarget = Math.max(0L, tag.getLong("FruitPlacementNoEligibleTarget"));
+        fruitPlacementEligibleFailed = Math.max(0L, tag.getLong("FruitPlacementEligibleFailed"));
         fruitDirection = tag.contains("FruitDirection")
                 ? Direction.byName(tag.getString("FruitDirection")) : null;
         if (fruitDirection != null && fruitDirection.getAxis().isVertical()) fruitDirection = null;
