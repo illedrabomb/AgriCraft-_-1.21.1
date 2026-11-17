@@ -354,7 +354,11 @@ public final class CropSticksBlockEntity extends BlockEntity {
         setChanged();
         if (level == null) return;
         BlockState previous = getBlockState();
-        BlockState updated = previous.setValue(CropSticksBlock.PLANTED, genome != null)
+        // Successful crossbreeding consumes the extra upper sticks: once a genome
+                // exists, the block remains planted on its single lower stick layer.
+        BlockState updated = previous.setValue(CropSticksBlock.CROSS,
+                        genome == null && previous.getValue(CropSticksBlock.CROSS))
+                .setValue(CropSticksBlock.PLANTED, genome != null)
                 .setValue(CropSticksBlock.STAGE, CropGrowth.displayStage(growthStage, plant.stages().size()))
                 .setValue(CropSticksBlock.FRUIT, fruitReady)
                 .setValue(CropSticksBlock.FACING, fruitDirection == null ? Direction.NORTH : fruitDirection)
