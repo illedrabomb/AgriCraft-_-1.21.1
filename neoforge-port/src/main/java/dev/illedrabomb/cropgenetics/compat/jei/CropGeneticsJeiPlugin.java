@@ -71,6 +71,13 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
         List<RecipeHolder<CraftingRecipe>> displays = new ArrayList<>();
         for (String id : SeedSpeciesCatalog.DEFAULT_SPECIES) {
             ItemStack genetic = CropItems.seedWithGenome(Genome.basic(id));
+            // JEI runs on the client, where the authoritative plant catalogue
+            // is not guaranteed to be loaded. Use only known vanilla source
+            // item IDs as display candidates, then ask the real recovery logic
+            // whether that conversion is allowed in the current context.
+            String original = vanillaSeedForSpecies(id);
+            if (original == null) continue;
+            genetic.set(CropComponents.ORIGINAL_SEED.get(), original);
             var recovered = CropItems.recoverOriginalSeed(genetic);
             if (recovered.isEmpty()) continue;
             NonNullList<Ingredient> inputs = NonNullList.withSize(2, Ingredient.EMPTY);
@@ -88,6 +95,28 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
         if (!displays.isEmpty()) {
             registration.addRecipes(RecipeTypes.CRAFTING, displays);
         }
+    }
+
+    private static String vanillaSeedForSpecies(String id) {
+        return switch (id) {
+            case "minecraft:wheat_plant" -> "minecraft:wheat_seeds";
+            case "minecraft:carrot_plant" -> "minecraft:carrot";
+            case "minecraft:potato_plant" -> "minecraft:potato";
+            case "minecraft:beet_root_plant" -> "minecraft:beetroot_seeds";
+            case "minecraft:nether_wart_plant" -> "minecraft:nether_wart";
+            case "minecraft:melon_plant" -> "minecraft:melon_seeds";
+            case "minecraft:pumpkin_plant" -> "minecraft:pumpkin_seeds";
+            case "minecraft:cornflower_plant" -> "minecraft:cornflower";
+            case "minecraft:poppy_plant" -> "minecraft:poppy";
+            case "minecraft:dandelion_plant" -> "minecraft:dandelion";
+            case "minecraft:cactus_plant" -> "minecraft:cactus";
+            case "minecraft:sugar_cane_plant" -> "minecraft:sugar_cane";
+            case "minecraft:bamboo_plant" -> "minecraft:bamboo";
+            case "minecraft:sweet_berry_plant" -> "minecraft:sweet_berries";
+            case "minecraft:brown_mushroom_plant" -> "minecraft:brown_mushroom";
+            case "minecraft:red_mushroom_plant" -> "minecraft:red_mushroom";
+            default -> null;
+        };
     }
 
     @Override
