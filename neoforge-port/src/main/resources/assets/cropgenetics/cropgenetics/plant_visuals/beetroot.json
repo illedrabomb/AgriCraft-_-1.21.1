@@ -9,5 +9,6 @@
     "minecraft:block/beetroots_stage2",
     "minecraft:block/beetroots_stage2",
     "minecraft:block/beetroots_stage3"
-  ]
+  ],
+  "geometry": "hash"
 }
