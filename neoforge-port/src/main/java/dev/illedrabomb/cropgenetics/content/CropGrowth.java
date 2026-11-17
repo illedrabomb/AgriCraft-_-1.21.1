@@ -27,6 +27,18 @@ public final class CropGrowth {
     }
 
     /**
+     * Read-only effective maturity after a stage-count datapack reload.
+     * Loot queries must not mutate the BlockEntity to reconcile its age.
+     * Legacy saves with unknown total keep the existing direct-age fallback.
+     */
+    public static boolean isMatureAtStage(int age, int savedTotal, int activeTotal) {
+        if (activeTotal < 1) return false;
+        int effectiveAge = savedTotal > 0 && savedTotal != activeTotal
+                ? remapStage(age, savedTotal, activeTotal) : age;
+        return effectiveAge >= activeTotal - 1;
+    }
+
+    /**
      * A harvested crop must resume below maturity. This is shared by
      * ordinary harvests and removal of an owned physical melon/pumpkin.
      * If a datapack chooses its last stage as harvestStage, start at zero
