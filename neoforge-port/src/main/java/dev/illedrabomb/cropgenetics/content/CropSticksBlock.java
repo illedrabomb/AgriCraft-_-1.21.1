@@ -407,6 +407,15 @@ public final class CropSticksBlock extends BaseEntityBlock {
         if (!(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)) {
             return InteractionResult.PASS;
         }
+        // Empty crossed sticks are reserved for breeding: remove the upper
+        // layer with an empty-hand right-click before planting a seed.
+        if (crop.genome() == null && state.getValue(CROSS)) {
+            if (!level.isClientSide) {
+                level.setBlock(pos, state.setValue(CROSS, false), 3);
+                popResource(level, pos, new ItemStack(CropItems.CROP_STICKS.get()));
+            }
+            return InteractionResult.SUCCESS;
+        }
         Genome genome = crop.genome();
         if (genome == null) return InteractionResult.PASS;
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
