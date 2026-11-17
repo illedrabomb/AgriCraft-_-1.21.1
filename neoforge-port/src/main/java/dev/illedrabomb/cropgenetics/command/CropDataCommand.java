@@ -161,6 +161,8 @@ public final class CropDataCommand {
                 + ", placementsSucceeded=" + crop.fruitPlacementSucceeded()
                 + ", placementFailuresAfterPassedRoll="
                 + Math.max(0L, crop.fruitChancePassed() - crop.fruitPlacementSucceeded()));
+        tell(source, "  noEligibleTarget=" + crop.fruitPlacementNoEligibleTarget()
+                + ", eligibleTargetButPlacementFailed=" + crop.fruitPlacementEligibleFailed());
         int strength = genome.strength().expressed(
                 dev.illedrabomb.cropgenetics.genetics.GenePair.TraitMode.MAX);
         var requirements = plant.requirements();
