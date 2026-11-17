@@ -409,7 +409,8 @@ public final class CropSticksBlock extends BaseEntityBlock {
         }
         // Empty crossed sticks are reserved for breeding: remove the upper
         // layer with an empty-hand right-click before planting a seed.
-        if (crop.genome() == null && state.getValue(CROSS)) {
+        if (crop.genome() == null && state.getValue(CROSS)
+                && player.getMainHandItem().isEmpty()) {
             if (!level.isClientSide) {
                 level.setBlock(pos, state.setValue(CROSS, false), 3);
                 popResource(level, pos, new ItemStack(CropItems.CROP_STICKS.get()));
