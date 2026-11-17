@@ -59,7 +59,7 @@ public final class CrossBreeding {
             Genome parent = parents.getFirst().genome();
             PlantDefinition plant = plants.get(parent.plantId());
             // One-parent spreading is a clone, not a genetic cross.
-            double fertility = fertilityChance(parent);
+            double fertility = CrossFertilityRules.fertilityChance(parent);
             if (plant != null && plant.cloneable()
                     && CropConditions.canGrow(level, position, plant, parent)
                     && random.nextDouble() < fertility * plant.spreadChance()) {
@@ -75,7 +75,7 @@ public final class CrossBreeding {
         Genome second = secondParent.genome();
         // Keep the one-roll fertility fix while exposing a server-side
         // multiplier for players who prefer faster or slower breeding.
-        double chance = Math.min(1.0D, pairFertilityChance(first, second)
+        double chance = Math.min(1.0D, CrossFertilityRules.pairFertilityChance(first, second)
                 * CropBalanceConfig.CROSS_FERTILITY_MULTIPLIER.get());
         if (random.nextDouble() >= chance) return;
 
@@ -98,15 +98,6 @@ public final class CrossBreeding {
         Genome offspring = inherited.withPlantId(childId);
         if (!CropConditions.canGrow(level, position, childPlant, offspring)) return;
         target.acceptCrossOffspring(offspring, childPlant);
-    }
-
-    private static double fertilityChance(Genome genome) {
-        return genome.fertility().expressed(GenePair.TraitMode.MAX) / 10.0D;
-    }
-
-    /** Average expressed fertility (1..10), one roll per mature parent pair. */
-    static double pairFertilityChance(Genome first, Genome second) {
-        return (fertilityChance(first) + fertilityChance(second)) / 2.0D;
     }
 
     private static String chooseChildSpecies(Genome first, Genome second, Genome inherited,
