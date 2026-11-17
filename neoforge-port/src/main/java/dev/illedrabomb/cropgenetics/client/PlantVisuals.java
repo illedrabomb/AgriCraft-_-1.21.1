@@ -27,6 +27,8 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
     public static final PlantVisuals INSTANCE = new PlantVisuals();
     private static final ResourceLocation FALLBACK =
             ResourceLocation.withDefaultNamespace("block/oak_leaves");
+    // Shared immutable fallback: a BER lookup happens for every visible crop
+    // on every render frame, so do not allocate another Visual each time.
 
     public enum Geometry { CROSS, PLUS, HASH, GOURD }
 
@@ -62,6 +64,9 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
         }
     }
 
+    private static final Visual FALLBACK_VISUAL =
+            new Visual(Geometry.CROSS, List.of(List.of(FALLBACK)));
+
     private volatile Snapshot snapshot = new Snapshot(Map.of(), Map.of());
 
     private PlantVisuals() {
@@ -69,8 +74,7 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
     }
 
     public Visual visual(String plantId) {
-        return snapshot.visuals().getOrDefault(plantId,
-                new Visual(Geometry.CROSS, List.of(List.of(FALLBACK))));
+        return snapshot.visuals().getOrDefault(plantId, FALLBACK_VISUAL);
     }
 
     /** Client resource lookup diagnostics for configured texture paths. */
