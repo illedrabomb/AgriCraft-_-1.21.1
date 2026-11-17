@@ -1,5 +1,19 @@
 # Technisches Validierungstor vor dem nächsten manuellen Minecraft-Test
 
+## Bequemer lokaler Einstieg (17.11.2026 nachgereicht)
+
+Im Repository liegt jetzt das PowerShell-Skript `neoforge-port/scripts/validate-build.ps1` (Commit `73febc6`). Es prüft den aktiven Integrationsbranch, zeichnet den vollständigen Commit-SHA und die erkannten Java-/Gradle-Versionen auf, führt **nur** `gradle --no-daemon test build` im richtigen Unterprojekt aus und erstellt ein datiertes Build-Log sowie eine Zusammenfassung unter `neoforge-port/build/validation-logs/`.
+
+Aus dem **Repository-Hauptverzeichnis** in PowerShell aufrufen:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\neoforge-port\scripts\validate-build.ps1
+```
+
+Den tatsächlichen Java-21-/Gradle-9.2.1-Stand in der Zusammenfassung kontrollieren; das Skript installiert keine Toolchains und startet keinen Server/Client. **Das Skript wurde hier weder lokal ausgeführt noch technisch validiert**, weil kein vollständiger Repository-Checkout/keine Gradle-Installation verfügbar ist. Bei Fehlern zuerst Log und Summary aus `validation-logs` übergeben.
+
+
+
 **Stand:** 17.11.2026 · **Branch:** `integration/neoforge-1211-consolidation` · **Status:** vorbereitet, **nicht ausgeführt**.
 
 ## Warum der Build jetzt der nächste notwendige Schritt ist
