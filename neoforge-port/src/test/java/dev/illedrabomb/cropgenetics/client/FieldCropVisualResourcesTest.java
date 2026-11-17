@@ -34,6 +34,27 @@ class FieldCropVisualResourcesTest {
     }
 
     @Test
+    void wheatAndCarrotFirstStagesUseDifferentSpriteIds() throws Exception {
+        String wheat = firstTexture("wheat");
+        String carrot = firstTexture("carrot");
+        assertEquals("minecraft:block/wheat_stage0", wheat);
+        assertEquals("minecraft:block/carrots_stage0", carrot);
+        assertNotEquals(wheat, carrot,
+                "Both first stages must not point to the same generic texture");
+    }
+
+    private static String firstTexture(String crop) throws Exception {
+        String path = "assets/cropgenetics/cropgenetics/plant_visuals/" + crop + ".json";
+        try (var stream = FieldCropVisualResourcesTest.class.getClassLoader()
+                .getResourceAsStream(path)) {
+            assertNotNull(stream, "Missing plant visual " + crop);
+            return JsonParser.parseReader(
+                    new InputStreamReader(stream, StandardCharsets.UTF_8))
+                    .getAsJsonObject().getAsJsonArray("textures").get(0).getAsString();
+        }
+    }
+
+    @Test
     void wheatUsesDistinctFirstAndLastFrames() throws Exception {
         String path = "assets/cropgenetics/cropgenetics/plant_visuals/wheat.json";
         try (var stream = getClass().getClassLoader().getResourceAsStream(path)) {
