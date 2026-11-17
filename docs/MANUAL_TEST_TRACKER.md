@@ -2,6 +2,8 @@
 
 **Stand:** 17.11.2026 · **Projekt:** AgriCraft / CropGenetics, Minecraft 1.21.1, NeoForge · **Integrationsbranch:** `integration/neoforge-1211-consolidation`
 
+**Allgemeines Tracker-Repository:** [Mod-Test-Tracker-Minecraft](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft) – allgemeiner Ablauf und bisher bekannte JSON-Importanforderung werden im [README](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft/blob/main/README.md) dokumentiert. Die Webseite selbst ist dort aktuell noch nicht versioniert; ihre genaue Schema-Implementierung ist noch zu prüfen.
+
 ## Zweck und Arbeitsablauf
 
 Der **Minecraft Mod – Test Tracker** ist die vom Tester verwendete lokale Webseite für strukturierte **manuelle Ingame-Tests**. Die Testdefinition wird als JSON-Datei bereitgestellt; der Tester lädt sie in die Webseite, führt die beschriebenen Schritte in Minecraft aus, hakt die Fälle ab und notiert Beobachtungen. Anschließend stellt er eine **Ergebnisdatei** für die Auswertung im Entwicklungs-Chat bereit. Ziel ist, den Testablauf zwischen Tester und Entwickler/KI reproduzierbar zu halten, ohne jede Testanweisung einzeln im Chat durchzugehen.
