@@ -14,6 +14,7 @@ class RowEvolutionInheritanceTest {
     private static final class ImprovementRolls extends Random {
         @Override public boolean nextBoolean() { return true; }
         @Override public int nextInt(int bound) { return 0; }
+        @Override public double nextDouble() { return 0.0D; }
     }
 
     @Test
