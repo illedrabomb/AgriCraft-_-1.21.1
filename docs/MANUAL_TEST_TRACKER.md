@@ -131,6 +131,16 @@ Die Bitte um „Evolution von Samen in einer Reihe“ wurde mit dem bestehenden 
 
 **Status:** Die bereits vorhandene genetische Evolution durch Kreuzung ist nun dokumentiert und durch zusätzlichen Quelltest abgesichert; ob eine **weitere**, separat konfigurierbare Reihenregel gewünscht ist, bleibt eine offene Funktionsentscheidung und ist nicht als erledigte Neuentwicklung markiert.
 
+## Wasserkanne/Wachstumstools: Standard-Bonemeal-Schnittstelle (17.11.2026)
+
+**Testerbefund `GRO-02`:** Direkt benutztes Knochenmehl ließ die AgriCraft-Pflanze wachsen, eine separate Gießkanne (im Test-Modset `Watering Cans 1.0.6`) dagegen nicht. Die genaue technische Implementation dieser Drittanbieter-Gießkanne ist bislang **nicht** verifiziert; nicht alle Mod-Gießkannen verwenden dieselbe API.
+
+**Quellcode-Ursache/Änderung:** `CropSticksBlock` hatte bislang nur eine spezielle `Items.BONE_MEAL`-Rechtsklick-Behandlung, implementierte aber **nicht** `net.minecraft.world.level.block.BonemealableBlock`. Viele kompatible Wachstums-Items fragen diese Standard-Schnittstelle ab. Commit `e350da8` implementiert `isValidBonemealTarget`, `isBonemealSuccess` und `performBonemeal`: nur bepflanzte, nicht reife Sticks, serverseitig aktive Pflanzendefinition und alle Boden-/Umweltbedingungen; pro erfolgreicher Anwendung genau ein Stufenschritt. Bei falschem Boden, reifer Pflanze und leeren Kreuzungs-Sticks kein Wachstum. Keine Genomänderung oder zusätzliche Drops. Die vorhandene explizite Knochenmehl- und optionale Bodenpflege-Interaktion bleibt erhalten.
+
+**Grenze:** Die Schnittstelle ist eine allgemeine Kompatibilitätsverbesserung, **keine nachgewiesene Fehlerbehebung für eine konkrete Watering-Cans-1.0.6-JAR**. Mods, die ausschließlich Vanilla-`CropBlock` unterstützen, benötigt eventuell einen separaten Adapter. Ebenso kann ein Mod nur Bodenbewässerung statt direktes Pflanzenwachstum anbieten.
+
+**Nachtest:** Bone Meal, die konkrete Gießkanne und mindestens einen weiteren kompatiblen Bonemealable-Wachstumsgegenstand auf gleichen, noch nicht reifen Crop-Stick-Pflanzen prüfen; vor/nach Wachstumstufe, Itemverbrauch, zulässigen Boden und ausgereifte Pflanzen vergleichen. **Kein Build-/Minecraft-PASS für diesen Commit.**
+
 ## Die 30 vorgesehenen AgriCraft-Testfälle
 
 | Bereich | Anzahl | Inhalte |
