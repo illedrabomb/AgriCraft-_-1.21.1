@@ -312,7 +312,14 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
-        growthStage = CropGrowth.regrowthStage(plant);
+        // Vanilla-like gourds keep their mature stem after fruit harvesting.
+        // Resetting the stem to stage zero would force a complete second
+        // growth cycle before the next fruit probability roll can even occur.
+        // If a datapack changed the crop away from GOURD, retain the existing
+        // ordinary-harvest regrowth behavior.
+        if (plant.harvestMode() != HarvestMode.GOURD) {
+            growthStage = CropGrowth.regrowthStage(plant);
+        }
         syncState(plant);
     }
 
