@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – Ernte nach Stage-Reload und optische Ressourcen (nur Quellcode)
+
+**Arbeitsbranch:** `integration/neoforge-1211-consolidation`; keine Änderungen an `entwicklung`, `testing` oder `master`. Quellcodecommits: `2fe96cb`, `254c6f5`, `7e2d493`, `166cc86`, `3054e61`, `bbe2d6c`.
+
+**Ernte-Regressionskorrektur:** `CropGrowth.isMatureAtStage(age, savedTotal, activeTotal)` remappt eine gespeicherte Wachstumsstufe nur für eine **lesende** Reifeprüfung, wenn ein Datapack die Stufenanzahl inzwischen geändert hat. `CropSticksBlockEntity.isMature(plant)` nutzt diesen Vergleich, wodurch unter anderem `readyForHarvest` bei Block-Loot unmittelbar nach `/reload` nicht mehr anhand einer falschen absoluten Stufe entscheiden soll. Bestehende blockzustands- und serverseitige Reconciliation bleibt erhalten; Ernte-/Dropmenge und Regrowth-Reset wurden nicht geändert. Neue ungestartete `CropGrowthStageReloadTest`-Fälle decken verkürzte/verlängerte Stufenzahlen, reife Endpunkte und alten Null-Gesamtstufen-Fallback ab.
+
+**Optische Sichtung und Quellenabsicherung:** Die Ressourcen `crop_sticks.json` enthalten genau vier einzelne Eckstäbe (und `crop_sticks_cross.json` dieselben vier plus Verbindungsstreben), nicht zwei breite Platten. `CropStickGeometryRegressionTest` prüft die Eckpositionen und Ausmaße; er ist nicht ausgeführt. Weizen-Stufe 0 nutzt `minecraft:block/wheat_stage0`, Karotte-Stufe 0 `minecraft:block/carrots_stage0`; `FieldCropVisualResourcesTest` kontrolliert jetzt ausdrücklich, dass beide unterschiedliche Sprite-IDs referenzieren. Dass die Sprites bei früher Stufe trotzdem ähnlich aussehen, ist damit **nicht** behoben oder visuell ausgeschlossen. Die bekannten 16 Saatgut-Itemmodelle sind weiterhin eigenständig zu überprüfen; zusätzliche freie Datapack-Arten verwenden weiterhin die generische Fallback-Optik.
+
+**Keine kosmetische Behauptung ohne Bildprüfung:** Sichtbare Unterschiede, die Stärke der Weizenfärbung, Ausrichtung/Größe im Client, tatsächliche Form der Holzstäbe und optionale JEI-/Identify-Anzeigen bleiben ungeprüft. Es wurden **keine Builds, Tests, CI, Minecraft-Starts oder manuellen Spieltests** ausgeführt. Nächster Schritt: weitere nachvollziehbare Quellcode-Lücken bearbeiten, dann ein gemeinsamer gebündelter Sicht-/Gameplay-Test.
+
 ## Chat-Fortsetzung 17.11.2026 – Knochenmehl respektiert Wachstumsbedingungen und Reload-Stufen (Quellcode, ungetestet)
 
 **Branch:** `integration/neoforge-1211-consolidation`; ausschließlich dort geändert. Quellcode-Commit: `1d3e753`.
