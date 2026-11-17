@@ -241,8 +241,10 @@ public final class CropSticksBlock extends BaseEntityBlock {
                 int gain = genome.gain().expressed(GenePair.TraitMode.MAX);
                 double fruitChance = GourdFruitRules.chance(
                         plant.fruitChance(), gain, factor);
-                if (random.nextDouble() < fruitChance) {
-                    GourdFruits.tryPlace(level, pos, plant, crop, random);
+                boolean chancePassed = random.nextDouble() < fruitChance;
+                crop.recordFruitChanceRoll(chancePassed);
+                if (chancePassed && GourdFruits.tryPlace(level, pos, plant, crop, random)) {
+                    crop.recordFruitPlacementSuccess();
                 }
             }
             return;
