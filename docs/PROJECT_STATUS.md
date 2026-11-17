@@ -1,3 +1,11 @@
+## Chat-Fortsetzung 17.11.2026 – Build-Skript vor Ausführung statisch korrigiert
+
+**Branch:** nur `integration/neoforge-1211-consolidation`. Commit `77ba882`.
+
+**Gefundener Skriptfehler:** Die Übergabe der Git-/Gradle-Argumentlisten an `Invoke-ToolLines` verwendete anfangs positionsbasiertes Array-Splatting auf eine Funktion mit zwei Parametern. Das kann in Windows PowerShell zur falschen Argumentbindung führen. Alle drei Aufrufe nutzen jetzt eindeutig benannte Parameter (`-exe`, `-toolArgs`). Zusätzlich fängt der Helfer native `stderr`-Ausgabe auch für `java -version` auf, prüft den nativen Exitcode und verweigert den Build bei nicht passendem Java-21-/Gradle-9.2.1-Stand. Exitcode-Fehler werden über stderr gemeldet, ohne durch PowerShell-`Write-Error` einen neuen `Stop`-Fehler auszulösen.
+
+**Status:** Ausschließlich statische Quellcodeprüfung und Skriptkorrektur. Dieses PowerShell-Skript wurde **nicht ausgeführt**; ebenso kein Build, Test, CI oder Minecraft. Für den nächsten lokalen Lauf zuerst den neuesten Integrationsbranch synchronisieren, dann `neoforge-port/scripts/validate-build.ps1` starten und dessen Log/Ergebnis zurückmelden. Keine anderen Branches geändert.
+
 ## Chat-Fortsetzung 17.11.2026 – Ein-Kommando-Buildvalidierung als PowerShell-Skript (nicht ausgeführt)
 
 **Branch:** `integration/neoforge-1211-consolidation` exklusiv. Commits: `73febc6`, `79d156a`.
