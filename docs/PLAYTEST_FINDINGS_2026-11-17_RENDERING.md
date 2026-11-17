@@ -24,3 +24,20 @@ Source: user-supplied `mod-test-results-2026-11-17.json`, with follow-up clarifi
 - JEI ingredient variants for genetic seeds.
 - Bone meal behavior and updated crop tint.
 - Compile and playtest all changes; the above client renderer edits have not been built or tested.
+
+## Consolidated implementation after first rendering patch (still untested)
+
+- Crop stick and crossed stick block models now have four separate corner rods instead of plate geometry.
+- Bone meal advances one actual server-side plant stage for immature planted crops; configured soil treatment remains available as a fallback for mature crops/otherwise treatable soil.
+- A standalone `CropInfoOverlay` displays plant species and exact stage/total, without displaying genetic alleles. Identify 0.4.0's client-side source does not expose a supported general-purpose public overlay integration; the Crop Genetics display therefore works independently alongside Identify. Its exact HUD positioning must be tested.
+- JEI: optional compile-only dependency on JEI 19.64.0.455 API; a `@JeiPlugin` class registers each built-in genetic seed species as a distinct subtype and extra ingredient without copying genetic trait values to an unanalysed UI.
+- The genetic seed has species-specific item-model overrides, matching the same built-in species ordering used by the Creative inventory and JEI integration. Unsupported datapack-added species currently fall back to the wheat-seed icon.
+- `-PloadTestMods` now includes all JARs from `neoforge-port/test-mods` as opt-in runtime dependencies.
+
+## Remaining verification and limitations
+
+- **No Gradle build or in-game test performed yet** for these changes; compile and optional-mod combinations are not certified.
+- Original AgriCraft exact 1:1 visuals, precise seedling textures, and reported slightly-dark wheat coloration require side-by-side visual verification. The new hash geometry does not promise pixel-level parity.
+- The optional JEI API requires resolution from BlameJared Maven on the first Gradle build. Actual JEI 19.64.0.455 integration remains unconfirmed until launch.
+- Identify cannot replace its own crop-sticks title using a stable external extension API; the separate Crop Genetics HUD is a deliberate fallback.
+- Pam's Crops was not installed in the first user test; do not mark it PASS.
