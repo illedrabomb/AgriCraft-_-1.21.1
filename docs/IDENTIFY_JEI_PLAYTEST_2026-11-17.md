@@ -28,6 +28,16 @@ Zusätzlich zu Jade steht ein WTHIT-Adapter für Minecraft 1.21.1 / NeoForge ber
 
 **Nachtest:** Nach gemeinsamem Gradle-Build WTHIT NeoForge 12.5.3 + kompatibles Bad Packets lokal in `test-mods` laden, auf bepflanzte Crop Sticks zeigen, Art/Stufe im **WTHIT-Panel** prüfen, keine zweite Standalone-HUD-Zeile, keine Genwerte an unanalysierten Pflanzen. Jade und WTHIT zunächst getrennt testen; nicht beide gleichzeitig erzwingen. **Aktuell kein Build-/Client-PASS.**
 
+## JEI-Anzeigerezepte für dynamische Saatgut-Rückgewinnung (17.11.2026, ungetesteter Quellcode)
+
+**Ursache der fehlenden Anzeige:** Das echte Rezept `cropgenetics:original_seed_recovery` ist ein `CustomRecipe`/`SimpleCraftingRecipeSerializer`: Ein genetischer Seed plus Papier ergeben das ursprüngliche Vanilla-/Mod-Saatgut; das Papier wird als verbleibender Gegenstand zurückgegeben. Weil der Output vom jeweiligen `ORIGINAL_SEED`-Dateneintrag abhängt, ist er kein festes JSON-Rezeptergebnis und war in JEI bisher nicht aussagekräftig dargestellt.
+
+**Quellcode-Ergänzung:** `CropGeneticsJeiPlugin.registerRecipes` registriert **nur in JEI** ein konkret benanntes Shapeless-Crafting-Anzeigebeispiel je bekannter Vanilla-Art, **sofern** `CropItems.recoverOriginalSeed` für den Beispielstack einen zulässigen Original-Seed liefert. Vanilla-Source-IDs werden auf dem Client explizit mitgeführt, da der serverseitige Pflanzenkatalog dort fehlen kann. Die Beispiele haben eigene `cropgenetics:jei_recover_...`-IDs und sind **keine neuen echten Crafting-Rezepte**. Die Implementierung des echten Rezeptes sowie Input-, Output- und Paper-Rest-Logik wurden nicht verändert.
+
+**Darstellungsgrenze:** JEIs gewöhnliche Shapeless-Rezeptgrafik zeigt beide Zutaten, modelliert aber die Besonderheit „Papier wird zurückgegeben“ nicht als eigenen Rest-Item-Effekt. Der Nutzerhinweis wurde bewusst aus dem normalen genetischen Seed-Tooltip entfernt; ein zusätzlicher JEI-spezifischer Rest-Item-Hinweis oder eigene Rezeptkategorie wäre eine mögliche weitere Verbesserung. In besonderen Datapacks können Beispielrezepte von aktivierten oder gesperrten Rezepten abweichen; deshalb beim Nachtest unbedingt die tatsächliche Rückwandlung im Craftingfeld kontrollieren.
+
+**Nachtest:** JEI 19.64.0.455 laden, mit mindestens Weizen-/Karotten-/Melonen-Gen-Saatgut JEI-Rezeptansicht öffnen, angezeigte Inputs/Outputs auf korrekte Arten prüfen. Echte Herstellung durchführen: genau ein genetischer Seed muss verbraucht werden, ein normaler Ursprungsseed entstehen und das Papier erhalten bleiben. Die 16 JEI-Seedvarianten separat prüfen. **Kein Build oder Minecraft-Test wurde für diesen Stand ausgeführt.**
+
 ## Technischer Stand
 
 - `neoforge-port/build.gradle`: die bisherigen `-PpamJar=<Pfad>`-Lokaldateioptionen wurden um `-PidentifyJar=<Pfad>` und `-PjeiJar=<Pfad>` ergänzt (beide `runtimeOnly files(...)`). Sie werden **nur bei gesetzter Gradle-Property** in die Runtime aufgenommen. Ohne Pfadangaben lädt ein normaler Build diese Mods **nicht** herunter.
