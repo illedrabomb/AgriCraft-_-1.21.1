@@ -1,4 +1,98 @@
 {
   "parent": "minecraft:item/generated",
-  "textures": {"layer0": "minecraft:item/wheat_seeds"}
+  "textures": {
+    "layer0": "minecraft:item/wheat_seeds"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.0625
+      },
+      "model": "cropgenetics:item/genetic_seed_carrot"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.125
+      },
+      "model": "cropgenetics:item/genetic_seed_potato"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.1875
+      },
+      "model": "cropgenetics:item/genetic_seed_beetroot"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.25
+      },
+      "model": "cropgenetics:item/genetic_seed_nether_wart"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.3125
+      },
+      "model": "cropgenetics:item/genetic_seed_melon"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.375
+      },
+      "model": "cropgenetics:item/genetic_seed_pumpkin"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.4375
+      },
+      "model": "cropgenetics:item/genetic_seed_cornflower"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.5
+      },
+      "model": "cropgenetics:item/genetic_seed_poppy"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.5625
+      },
+      "model": "cropgenetics:item/genetic_seed_dandelion"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.625
+      },
+      "model": "cropgenetics:item/genetic_seed_cactus"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.6875
+      },
+      "model": "cropgenetics:item/genetic_seed_sugar_cane"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.75
+      },
+      "model": "cropgenetics:item/genetic_seed_bamboo"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.8125
+      },
+      "model": "cropgenetics:item/genetic_seed_sweet_berry"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.875
+      },
+      "model": "cropgenetics:item/genetic_seed_brown_mushroom"
+    },
+    {
+      "predicate": {
+        "cropgenetics:seed_species": 0.9375
+      },
+      "model": "cropgenetics:item/genetic_seed_red_mushroom"
+    }
+  ]
 }
