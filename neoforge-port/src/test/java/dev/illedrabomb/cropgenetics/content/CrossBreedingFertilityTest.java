@@ -16,21 +16,21 @@ class CrossBreedingFertilityTest {
 
     @Test
     void twoBaselineParentsUseOneTenPercentRollNotTwoOnePercentRolls() {
-        assertEquals(0.1D, CrossBreeding.pairFertilityChance(
+        assertEquals(0.1D, CrossFertilityRules.pairFertilityChance(
                 withFertility(1, 1), withFertility(1, 1)), 1.0E-10);
     }
 
     @Test
     void highFertilityParentsHaveHigherSuccessProbability() {
-        assertEquals(1.0D, CrossBreeding.pairFertilityChance(
+        assertEquals(1.0D, CrossFertilityRules.pairFertilityChance(
                 withFertility(10, 10), withFertility(10, 10)), 1.0E-10);
-        assertEquals(0.55D, CrossBreeding.pairFertilityChance(
+        assertEquals(0.55D, CrossFertilityRules.pairFertilityChance(
                 withFertility(1, 1), withFertility(10, 10)), 1.0E-10);
     }
 
     @Test
     void expressedDominantFertilityIsUsed() {
-        assertEquals(0.65D, CrossBreeding.pairFertilityChance(
+        assertEquals(0.65D, CrossFertilityRules.pairFertilityChance(
                 withFertility(8, 2), withFertility(5, 1)), 1.0E-10);
     }
 }
