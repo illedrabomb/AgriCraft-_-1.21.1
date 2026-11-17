@@ -1,3 +1,11 @@
+## Chat-Fortsetzung 17.11.2026 – manueller Minecraft Mod – Test Tracker dokumentiert
+
+Der Tester verwendet eine lokale Webseite „Minecraft Mod – Test Tracker“ für das Abarbeiten manueller Ingame-Prüfungen per JSON-Testsuite, Checkboxen/Status, Kommentaren und geplantem Ergebnisexport für die spätere KI-Auswertung. Das zugehörige Runbook ist jetzt in [`docs/MANUAL_TEST_TRACKER.md`](MANUAL_TEST_TRACKER.md) dokumentiert (Commit `704c0ba`). Die Testdefinition umfasst 30 Fälle, gruppiert nach Vorbereitung, Crop-Sticks-/Pflanzenoptik, Wachstum/Ernte, Fruchtzyklen, HUD/Identify/JEI und Kompatibilität.
+
+**Nachgewiesene Import-Anforderung:** Eine erste generierte JSON-Datei ohne `suiteId` wurde vom Tracker mit „Ungültige tests.json: suiteId und nichtleere tests-Liste erforderlich“ abgewiesen. Die korrigierte Datei enthält `suiteId: agricraft-neoforge-1211-manual-20261117` und 30 Tests; eine erfolgreiche tatsächliche Importierung ist noch nicht zurückgemeldet. Die genaue Implementierung und das Exportformat der Webseite sind nicht eingesehen worden. Bei weiteren Problemen das tatsächliche Website-Schema vergleichen, nicht die Datenstruktur blind erraten.
+
+**Nächster Arbeitsschritt:** Testdatei in den Tracker importieren, echte Minecraft-Tests durchführen, Status/Kommentare/Belege erfassen und Ergebnisdatei zur Analyse bereitstellen. Bis dahin keine Gameplay-Freigabe aus dem Build-/JUnit-PASS ableiten. Andere Branches unverändert.
+
 ## Chat-Fortsetzung 17.11.2026 – JUnit-Bericht bestätigt 36/36 Tests erfolgreich
 
 **Hochgeladener Nachweis:** `neoforge-port/build/reports/tests/test/index.html`, erzeugt laut Gradle-9.2.1-Berichtsfuß am **17.11.2026 um 13:13:28**. 36 Tests, **0 Fehler**, **0 ignoriert**, **100 % erfolgreich**, gemeldete Gesamtdauer **0,285 s**.
