@@ -14,23 +14,7 @@ public final class CropCreativeTabs {
     private CropCreativeTabs() {}
 
     /** Client-visible catalog for the built-in seed variants and JEI extras. */
-    public static final java.util.List<String> DEFAULT_SPECIES = java.util.List.of(
-            "minecraft:wheat_plant",
-            "minecraft:carrot_plant",
-            "minecraft:potato_plant",
-            "minecraft:beet_root_plant",
-            "minecraft:nether_wart_plant",
-            "minecraft:melon_plant",
-            "minecraft:pumpkin_plant",
-            "minecraft:cornflower_plant",
-            "minecraft:poppy_plant",
-            "minecraft:dandelion_plant",
-            "minecraft:cactus_plant",
-            "minecraft:sugar_cane_plant",
-            "minecraft:bamboo_plant",
-            "minecraft:sweet_berry_plant",
-            "minecraft:brown_mushroom_plant",
-            "minecraft:red_mushroom_plant");
+    public static final java.util.List<String> DEFAULT_SPECIES = SeedSpeciesCatalog.DEFAULT_SPECIES;
 
     private static final DeferredRegister<CreativeModeTab> TABS =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, CropGeneticsMod.MOD_ID);
