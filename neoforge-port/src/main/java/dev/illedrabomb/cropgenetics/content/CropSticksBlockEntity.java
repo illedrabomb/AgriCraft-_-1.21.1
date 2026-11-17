@@ -32,6 +32,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
     @Nullable private UUID fruitToken;
     // Server-only diagnostics for PT-02. Persist across save/reload so a
     // failed second fruit cycle can be examined without relying on log spam.
+    private long matureFruitTicks;
+    private long matureFruitTicksBlocked;
     private long fruitChanceRolls;
     private long fruitChancePassed;
     private long fruitPlacementSucceeded;
@@ -130,9 +132,20 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public int growthStage() { return growthStage; }
     public int totalGrowthStages() { return totalGrowthStages; }
     public boolean fruitReady() { return fruitReady; }
+    public long matureFruitTicks() { return matureFruitTicks; }
+    public long matureFruitTicksBlocked() { return matureFruitTicksBlocked; }
     public long fruitChanceRolls() { return fruitChanceRolls; }
     public long fruitChancePassed() { return fruitChancePassed; }
     public long fruitPlacementSucceeded() { return fruitPlacementSucceeded; }
+
+    /** Count mature gourd ticks before the environmental factor can reject a roll. */
+    public void recordMatureFruitTick(boolean environmentEligible) {
+        if (!(level instanceof ServerLevel) || genome == null) return;
+        if (matureFruitTicks < Long.MAX_VALUE) matureFruitTicks++;
+        if (!environmentEligible && matureFruitTicksBlocked < Long.MAX_VALUE)
+            matureFruitTicksBlocked++;
+        setChanged();
+    }
 
     /** Count one mature-stem probability roll, then record whether it passed. */
     public void recordFruitChanceRoll(boolean passed) {
@@ -182,6 +195,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
+        matureFruitTicks = 0;
+        matureFruitTicksBlocked = 0;
         fruitChanceRolls = 0;
         fruitChancePassed = 0;
         fruitPlacementSucceeded = 0;
@@ -335,6 +350,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (originalSeedId != null) tag.putString("OriginalSeed", originalSeedId);
         tag.putInt("TotalGrowthStages", totalGrowthStages);
         tag.putBoolean("FruitReady", fruitReady);
+        tag.putLong("MatureFruitTicks", matureFruitTicks);
+        tag.putLong("MatureFruitTicksBlocked", matureFruitTicksBlocked);
         tag.putLong("FruitChanceRolls", fruitChanceRolls);
         tag.putLong("FruitChancePassed", fruitChancePassed);
         tag.putLong("FruitPlacementSucceeded", fruitPlacementSucceeded);
@@ -356,6 +373,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         int savedTotal = tag.getInt("TotalGrowthStages");
         totalGrowthStages = savedTotal >= 1 && savedTotal <= 64 ? savedTotal : 0;
         fruitReady = tag.getBoolean("FruitReady");
+        matureFruitTicks = Math.max(0L, tag.getLong("MatureFruitTicks"));
+        matureFruitTicksBlocked = Math.max(0L, tag.getLong("MatureFruitTicksBlocked"));
         fruitChanceRolls = Math.max(0L, tag.getLong("FruitChanceRolls"));
         fruitChancePassed = Math.max(0L, tag.getLong("FruitChancePassed"));
         fruitPlacementSucceeded = Math.max(0L, tag.getLong("FruitPlacementSucceeded"));
