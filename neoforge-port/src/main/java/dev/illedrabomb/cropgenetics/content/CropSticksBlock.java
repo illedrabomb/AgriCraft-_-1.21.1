@@ -289,14 +289,21 @@ public final class CropSticksBlock extends BaseEntityBlock {
         if (fertilizer && crop.genome() != null) {
             PlantDefinition growing = CropGeneticsMod.plants().plants()
                     .get(crop.genome().plantId());
-            if (growing != null && !crop.isMature(growing)) {
-                if (!level.isClientSide) {
-                    if (crop.advanceGrowth(growing)) {
-                        if (!player.isCreative()) stack.shrink(1);
-                        level.levelEvent(1505, pos, 0);
-                    }
+            if (growing != null && !level.isClientSide) {
+                // A reload can change the species' stage count before the
+                // periodic ticker has a chance to reconcile this plant.
+                crop.reconcileLoadedStage(growing);
+                // Bone meal skips the random chance, not hard planting,
+                // climate, lighting or soil-chemistry requirements.
+                if (!crop.isMature(growing)
+                        && CropConditions.canGrow(level, pos, growing, crop.genome())
+                        && crop.advanceGrowth(growing)) {
+                    if (!player.isCreative()) stack.shrink(1);
+                    level.levelEvent(1505, pos, 0);
+                    return ItemInteractionResult.SUCCESS;
                 }
-                return ItemInteractionResult.SUCCESS;
+                // No growth: allow the existing nutrient treatment fallback
+                // to run, rather than consuming bone meal for no effect.
             }
         }
         if (water || fertilizer) {
