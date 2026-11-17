@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * Resource-pack plant visuals, independently reloadable from server crop data.
- * Supports cross / plus / gourd-style vegetation with up to two texture layers.
+ * Supports cross / plus / hash / gourd-style vegetation with up to two texture layers.
  * These are approximations, not the original AgriCraft model renderer.
  */
 public final class PlantVisuals extends SimpleJsonResourceReloadListener {
@@ -28,7 +28,7 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
     private static final ResourceLocation FALLBACK =
             ResourceLocation.withDefaultNamespace("block/oak_leaves");
 
-    public enum Geometry { CROSS, PLUS, GOURD }
+    public enum Geometry { CROSS, PLUS, HASH, GOURD }
 
     public record Visual(Geometry geometry, List<List<ResourceLocation>> stages) {
         public Visual {
@@ -100,7 +100,8 @@ public final class PlantVisuals extends SimpleJsonResourceReloadListener {
                         ? legacy.get("render_type").getAsString()
                         : json.has("geometry") ? json.get("geometry").getAsString() : "cross";
                 Geometry geometry = switch (geometryName) {
-                    case "cross", "hash" -> Geometry.CROSS;
+                    case "cross" -> Geometry.CROSS;
+                    case "hash" -> Geometry.HASH;
                     case "plus" -> Geometry.PLUS;
                     case "gourd" -> Geometry.GOURD;
                     default -> throw new IllegalArgumentException("Unsupported geometry: " + geometryName);
