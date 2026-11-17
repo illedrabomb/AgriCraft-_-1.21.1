@@ -15,6 +15,19 @@ Nach dem Ingame-Befund, dass Identify kein AgriCraft-spezifisches Pflanzenoverla
 
 **Nachtest nach gemeinsamem Build:** Jade 15.10.6 NeoForge 1.21.1 als optionale lokale Test-JAR unter `neoforge-port/test-mods` bereitstellen und mit `-PloadTestMods` starten; auf Crop Sticks zielen; Pflanzenart + Stufe **innerhalb des Jade-Panels** prüfen; keine doppelte HUD-Zeile; leere Crop Sticks, nicht analysierte Gene und Jade-Abwesenheit separat testen. Es gibt **noch keinen Build-/Gameplay-PASS** für diese Integration. Bitte keine automatische Jade-Abhängigkeit zur Release-Modliste hinzufügen.
 
+## Neue optionale WTHIT-Integration (17.11.2026, ungetesteter Quellcode)
+
+Zusätzlich zu Jade steht ein WTHIT-Adapter für Minecraft 1.21.1 / NeoForge bereit:
+
+- Nur `compileOnly 'mcp.mobius.waila:wthit-api:neo-12.5.3'` aus dem offiziellen Maven-Repository `https://maven2.bai.lol`. WTHIT und seine Laufzeitabhängigkeit Bad Packets sind **nicht** automatisch im normalen Mod-JAR enthalten. Eine installierte kompatible WTHIT-Version bleibt optional.
+- `compat/wthit/CropGeneticsWthitPlugin.java` registriert `IBlockComponentProvider.appendBody` ausschließlich für `CropSticksBlock`. Es zeigt Artname und Wachstumsstufe, **keine Genwerte**.
+- `src/main/resources/wthit_plugins.json` aktiviert die clientseitige Plugin-Initialisierung nur bei vorhandener `wthit`-Mod.
+- Das selbst gezeichnete `CropInfoOverlay` bleibt sowohl bei Jade als auch bei WTHIT ausgeschaltet, damit keine zwei Anzeigen entstehen; ohne beide bleibt der Fallback bestehen.
+
+**Referenzen:** Offizielles Plugin-Setup https://github.com/badasintended/wthit/blob/dev/master/docs/plugin/getting_started.md ; kompatible Version https://modrinth.com/mod/wthit/version/neo-12.5.3. Die aktuell publizierten 20.x-API-Javadoc-Seiten bestätigen die Form von `IClientRegistrar`/`appendBody`, sind aber kein Ersatz für einen tatsächlichen Build gegen die gewählte 12.5.3-API.
+
+**Nachtest:** Nach gemeinsamem Gradle-Build WTHIT NeoForge 12.5.3 + kompatibles Bad Packets lokal in `test-mods` laden, auf bepflanzte Crop Sticks zeigen, Art/Stufe im **WTHIT-Panel** prüfen, keine zweite Standalone-HUD-Zeile, keine Genwerte an unanalysierten Pflanzen. Jade und WTHIT zunächst getrennt testen; nicht beide gleichzeitig erzwingen. **Aktuell kein Build-/Client-PASS.**
+
 ## Technischer Stand
 
 - `neoforge-port/build.gradle`: die bisherigen `-PpamJar=<Pfad>`-Lokaldateioptionen wurden um `-PidentifyJar=<Pfad>` und `-PjeiJar=<Pfad>` ergänzt (beide `runtimeOnly files(...)`). Sie werden **nur bei gesetzter Gradle-Property** in die Runtime aufgenommen. Ohne Pfadangaben lädt ein normaler Build diese Mods **nicht** herunter.
