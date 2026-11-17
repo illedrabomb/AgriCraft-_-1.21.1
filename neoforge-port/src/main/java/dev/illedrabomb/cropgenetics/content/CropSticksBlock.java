@@ -235,6 +235,12 @@ public final class CropSticksBlock extends BaseEntityBlock {
         // "ready" indefinitely or gets duplicated through stem harvesting.
         if (crop.fruitReady() && crop.reconcilePhysicalFruit(plant)) return;
         double factor = CropConditions.growthFactor(level, pos, plant, genome);
+        // Count mature gourd ticks even when the environment prevents a chance roll.
+        // This distinguishes a blocked growth factor from absent random ticks in PT-02.
+        if (plant.harvestMode() == HarvestMode.GOURD && !crop.fruitReady()
+                && crop.isMature(plant)) {
+            crop.recordMatureFruitTick(factor > 0D);
+        }
         if (factor <= 0D) return;
         if (crop.isMature(plant)) {
             if (plant.harvestMode() == HarvestMode.GOURD && !crop.fruitReady()) {
