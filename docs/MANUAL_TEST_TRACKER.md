@@ -81,6 +81,16 @@ Nur diese internen Werte sind erlaubt:
 
 Es gibt **keinen** Status `skipped` und keine deutschen Statuswerte im Export. Die Webseite setzt unbekannte Statuswerte beim Import auf `open`. Der interne `updatedAt` wird beim Export nicht ausgegeben. Der Ergebnisimport ignoriert Test-IDs, die in der aktuell geladenen Suite fehlen, und vergleicht **nur `suiteId`**, nicht den Inhalt der Tests.
 
+## Neuer Testbefund: obere Kreuzungs-Crop-Sticks bleiben nach erfolgreicher Kreuzung bestehen (17.11.2026)
+
+**Quelle:** Testerbericht mit zwei Ingame-Screenshots und Ergebnisexport `mod-test-results-2026-11-17 (2).json` (`suiteId: agricraft-neoforge-1211-manual-30-20261117`, Export 19:36:44 UTC). Der Screenshot einer bepflanzten Melonen-/Kürbisfläche und der Screenshot mit sichtbaren Kreuzverstrebungen auf leeren Crop-Stick-Feldern sind als externe Testbelege im Chat vorhanden; sie sind nicht ins Git eingecheckt.
+
+- **Beobachtung:** Nach Weiterentwicklung/Kreuzung und Entstehung einer Pflanze verschwinden die **oberen/zusätzlichen Kreuzungs-Crop-Sticks** nicht bzw. werden nicht verbraucht. Kreuzförmige Verstrebungen bleiben auch an leeren Positionen sichtbar. Das ist ein vom Tester gemeldeter Ingame-Fehler; die Screenshots allein belegen nicht, ob die interne Kreuzungszustandsvariable ebenfalls bestehen bleibt.
+- **Zusammenhang mit `VIS-02: fail`:** Im Testexport steht: `entfernen der Kreuzung durch weiteres Rechtklick nicht vorhande. versucht darüber zu platzieren und nicht den gekreuten Stick zu entfernen`. Das ist eine zweite, möglicherweise zusammenhängende Interaktionsabweichung.
+- **Sollverhalten für Abklärung:** Bei erfolgreicher Weiterentwicklung/Kreuzung sollte die *zusätzliche obere Kreuzungsebene* gemäß der gewünschten AgriCraft-Mechanik abgebaut/verbraucht werden; die tragenden unteren Crop Sticks dürfen nicht versehentlich entfernt werden. Noch zu klären ist, ob dies nur bei erfolgreicher Nachkommenbildung und nicht bereits bei natürlichem Wachstum gelten soll.
+- **Reproduktion/Nachtest:** Zwei Crop-Stick-Felder mit Elternpflanzen und angrenzende gekreuzte/leere Sticks vorbereiten; Ausgangszustand (normal/gekreuzt) notieren; auf erfolgreiche Übertragung warten und Zielpflanze überprüfen; danach Blockmodell, Rechtsklick-Interaktion und gegebenenfalls Stick-Drops/Inventar prüfen. Falls nötig Welt neu laden und auf Client-Server-Zustandsabweichungen prüfen.
+- **Status:** **OFFEN / nicht behoben**. Noch kein Codefix, kein neuer Build und keine Ingame-Bestätigung nach einem Fix. Dem vorhandenen `VIS-02`-Fehler zugeordnet; bei Einführung einer eigenen Test-ID die Tracker-Suite konsistent versionieren, statt IDs im bestehenden Ergebnisexport stillschweigend zu verändern.
+
 ## Die 30 vorgesehenen AgriCraft-Testfälle
 
 | Bereich | Anzahl | Inhalte |
