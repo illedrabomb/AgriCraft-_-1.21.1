@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – HUD-Begrenzung und HASH-Ressourcenregression (Quellcode, ungetestet)
+
+**Branch:** `integration/neoforge-1211-consolidation`, ohne Änderungen anderer Branches. Commits: `c0b098b`, `c2ba3ab`.
+
+**HUD:** `CropInfoOverlay` zeichnet die eine Pflanzen-Infozeile nun 72 statt 58 GUI-Pixel über dem unteren Rand, um mehr Abstand zu Vanilla-Hotbar und Statusleisten zu halten. Die Anzeige nutzt `Font.split` mit verfügbarer GUI-Breite und zeichnet nur die erste passende Zeile. Lange Datapack-Artbezeichnungen laufen damit nicht mehr absichtlich über den rechten Bildschirmrand; sehr lange Namen können abgeschnitten erscheinen. Das HUD gibt weiterhin nur Pflanzenart und Altersstufe aus, keine Genpaare. Exakte Position und Verträglichkeit mit Identify bleiben visuell ungeprüft.
+
+**Ressourcen-Regressionsprüfung:** Neuer Java-JUnit-Quelltest `FieldCropVisualResourcesTest` prüft bei Weizen, Karotte, Kartoffel und Roter Bete die vierseitige `hash`-Geometrie, acht Minecraft-Atlas-Frames und korrekte erste/letzte Weizenstufe. Die optischen Unterscheidungsprobleme früher Wachstumsstufen werden dadurch nicht als behoben erklärt. Kein zusätzlicher Gameplay- oder Rendering-Algorithmus geändert.
+
+**Validierungsgrenze:** Nur GitHub-Quellcodecommits; kein Build, keine Testausführung, kein CI- oder Minecraft-Start. Weiter offen: tatsächliche HUD-Positionierung, Stufe-0-Unterscheidbarkeit, Weizengröße/-farbe, JEI-API und 16 Einträge, Fruchtzyklus PT-02, PT-03/04 sowie gebündelter Spieltest.
+
 ## Chat-Fortsetzung 17.11.2026 – JEI-Seedkatalog entkoppelt, Modellzuordnung abgesichert (Quellcode, ungetestet)
 
 **Branch:** `integration/neoforge-1211-consolidation` (keine anderen Branches). Commits: `cc0c62d`, `172bb4d`, `deebb15`, `4d9e2f7`, `459a37f`.
