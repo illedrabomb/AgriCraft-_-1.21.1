@@ -31,7 +31,7 @@ public final class BreedingEngine {
                 inherit(first.gain(), second.gain(), first.mutativity(), second.mutativity(), random, mutationMultiplier),
                 inherit(first.strength(), second.strength(), first.mutativity(), second.mutativity(), random, mutationMultiplier),
                 inherit(first.fertility(), second.fertility(), first.mutativity(), second.mutativity(), random, mutationMultiplier),
-                inherit(first.mutativity(), second.mutativity(), first.mutativity(), second.mutativity(), random));
+                inherit(first.mutativity(), second.mutativity(), first.mutativity(), second.mutativity(), random, mutationMultiplier));
     }
 
     private static GenePair inherit(GenePair a, GenePair b, GenePair ma, GenePair mb,
