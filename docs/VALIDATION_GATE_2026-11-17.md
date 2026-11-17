@@ -1,5 +1,38 @@
 # Technisches Validierungstor vor dem nächsten manuellen Minecraft-Test
 
+## Windows-Testsystem: Gradle-Quelle (bestätigt am 17.11.2026)
+
+Auf dem Testrechner ist das separate Projekt unter folgendem Pfad vorhanden:
+
+\`\`\`text
+D:\guthub repositorys\Minecraft_mods\Lena\villagerfamilytree_1.21.1
+\`\`\`
+
+Dessen Datei \`gradle\wrapper\gradle-wrapper.properties\` enthält die vom Benutzer geprüfte Zeile:
+
+\`\`\`properties
+distributionUrl=https\://services.gradle.org/distributions/gradle-9.2.1-bin.zip
+\`\`\`
+
+**Bedeutung:** Der Villager-Wrapper verlangt **Gradle 9.2.1**. Er ist eine bekannte lokale Referenz für die benötigte Version. Das allein bestätigt **nicht**, dass die Distribution bereits entpackt ist oder dass \`gradle\` im \`PATH\` liegt. Beim ersten Versuch mit \`validate-build.ps1\` meldete das Testsystem \`Gradle missing on PATH\`. Der andere Projektordner und dessen Wrapper-Dateien dürfen bei AgriCraft-Tests nicht geändert werden.
+
+**Vorgehen ohne neue globale Installation:** Ein bereits entpacktes Gradle 9.2.1 zuerst in \`$env:USERPROFILE\.gradle\wrapper\dists\` suchen. Dann nur im aktuellen PowerShell-Fenster dessen \`bin\`-Ordner zum \`PATH\` ergänzen:
+
+\`\`\`powershell
+$gradleBat = Get-ChildItem "$env:USERPROFILE\.gradle\wrapper\dists" -Filter gradle.bat -File -Recurse -ErrorAction SilentlyContinue |
+    Where-Object { $_.FullName -match 'gradle-9\.2\.1' } |
+    Select-Object -First 1 -ExpandProperty FullName
+if ($gradleBat) {
+    $env:Path = "$(Split-Path $gradleBat);$env:Path"
+    gradle --version
+} else {
+    Write-Host 'Gradle 9.2.1 nicht im Standard-Cache gefunden; Installation/GRADLE_USER_HOME separat prüfen.'
+}
+\`\`\`
+
+Wenn die Ausgabe Gradle 9.2.1 zeigt, im AgriCraft-Unterordner \`neoforge-port\` das vorbereitete \`scripts\validate-build.ps1\` starten. Keine Buildfreigabe oder erfolgreicher Lauf wurde allein durch den gefundenen Wrapper bestätigt.
+
+
 ## Bequemer lokaler Einstieg (17.11.2026 nachgereicht)
 
 Im Repository liegt jetzt das PowerShell-Skript `neoforge-port/scripts/validate-build.ps1` (Commit `73febc6`). Es prüft den aktiven Integrationsbranch, zeichnet den vollständigen Commit-SHA und die erkannten Java-/Gradle-Versionen auf, führt **nur** `gradle --no-daemon test build` im richtigen Unterprojekt aus und erstellt ein datiertes Build-Log sowie eine Zusammenfassung unter `neoforge-port/build/validation-logs/`.
