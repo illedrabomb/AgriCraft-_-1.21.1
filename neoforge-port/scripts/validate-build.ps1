@@ -15,9 +15,12 @@ $logPath = Join-Path $logDirectory "gradle-test-build-$stamp.log"
 $summaryPath = Join-Path $logDirectory "validation-summary-$stamp.txt"
 
 function Invoke-ToolLines([string]$exe, [string[]]$toolArgs) {
-    # Native stdout and stderr may be useful even on successful commands.
+    # PowerShell 5.1 can surface native stderr as an error record, even on
+    # successful calls (notably java -version). Collect both streams safely.
+    $ErrorActionPreference = 'Continue'
     $output = & $exe @toolArgs 2>&1 | Out-String
-    if ($LASTEXITCODE -ne 0) { throw "$exe failed: $output" }
+    $nativeExitCode = $LASTEXITCODE
+    if ($nativeExitCode -ne 0) { throw "$exe failed (exit $nativeExitCode): $output" }
     return $output.Trim()
 }
 
@@ -25,8 +28,8 @@ try {
     if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
         throw 'git not found on PATH'
     }
-    $actualBranch = (Invoke-ToolLines 'git' @('-C', $repoDirectory, 'branch', '--show-current')).Trim()
-    $commit = (Invoke-ToolLines 'git' @('-C', $repoDirectory, 'rev-parse', 'HEAD')).Trim()
+    $actualBranch = (Invoke-ToolLines -exe 'git' -toolArgs @('-C', $repoDirectory, 'branch', '--show-current')).Trim()
+    $commit = (Invoke-ToolLines -exe 'git' -toolArgs @('-C', $repoDirectory, 'rev-parse', 'HEAD')).Trim()
     if ($actualBranch -ne $expectedBranch) {
         throw "Wrong branch '$actualBranch'. Required: '$expectedBranch'. No build was started."
     }
@@ -37,8 +40,11 @@ try {
         throw 'Gradle missing on PATH; expected local Gradle 9.2.1 (do not use root wrapper)'
     }
 
-    $javaInfo = (& java -version 2>&1 | Out-String).Trim()
-    $gradleInfo = (Invoke-ToolLines 'gradle' @('--version'))
+    $javaInfo = Invoke-ToolLines -exe 'java' -toolArgs @('-version')
+    if ($javaInfo -notmatch 'version "21(?:[.\"])') {
+        throw "Expected Java 21, found: $javaInfo"
+    }
+    $gradleInfo = (Invoke-ToolLines -exe 'gradle' -toolArgs @('--version'))
     $summary = @(
         "Branch: $actualBranch",
         "Commit: $commit",
@@ -51,6 +57,9 @@ try {
         "Project: $portDirectory",
         "Build log: $logPath"
     )
+    if ($gradleInfo -notmatch 'Gradle 9\.2\.1') {
+        throw "Expected local Gradle 9.2.1; detected: $gradleInfo"
+    }
     $summary | Set-Content -Path $summaryPath -Encoding UTF8
     Write-Host "Validating $actualBranch at $commit"
     Write-Host "Output: $logPath"
@@ -73,7 +82,7 @@ try {
         Add-Content -Path $summaryPath -Encoding UTF8
     Write-Host "Summary: $summaryPath"
     if ($exitCode -ne 0) {
-        Write-Error "Gradle reported exit code $exitCode. Share the log and summary files."
+        [Console]::Error.WriteLine("Gradle reported exit code $exitCode. Share the log and summary files.")
         exit $exitCode
     }
     Write-Host 'Gradle test build succeeded. Minecraft gameplay has not been tested.'
@@ -81,6 +90,6 @@ try {
 } catch {
     "Preparation failure: $($_.Exception.Message)" |
         Set-Content -Path $summaryPath -Encoding UTF8
-    Write-Error $_.Exception.Message
+    [Console]::Error.WriteLine($_.Exception.Message)
     exit 1
 }
