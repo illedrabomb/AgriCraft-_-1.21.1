@@ -17,6 +17,14 @@ public final class GeneticSeedItem extends Item {
     }
 
     @Override
+    public Component getName(ItemStack stack) {
+        Genome genome = stack.get(CropComponents.GENOME.get());
+        if (genome == null) return super.getName(stack);
+        return Component.translatable("item.cropgenetics.genetic_seed_named",
+                CropSpeciesNames.label(genome.plantId()));
+    }
+
+    @Override
     public void appendHoverText(ItemStack stack, TooltipContext context,
                                 List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
@@ -26,6 +34,5 @@ public final class GeneticSeedItem extends Item {
         tooltip.add(Component.translatable(CropItems.isAnalyzed(stack)
                 ? "tooltip.cropgenetics.analyzed_hint"
                 : "tooltip.cropgenetics.unanalyzed"));
-        tooltip.add(Component.translatable("tooltip.cropgenetics.recover_hint"));
     }
 }
