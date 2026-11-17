@@ -326,7 +326,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
 
     public boolean isMature(PlantDefinition plant) {
         return genome != null && genome.plantId().equals(plant.id())
-                && growthStage >= plant.stages().size() - 1;
+                && CropGrowth.isMatureAtStage(growthStage, totalGrowthStages,
+                        plant.stages().size());
     }
 
     private void syncState(PlantDefinition plant) {
