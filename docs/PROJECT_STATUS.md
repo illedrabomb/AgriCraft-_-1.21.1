@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – Ein-Kommando-Buildvalidierung als PowerShell-Skript (nicht ausgeführt)
+
+**Branch:** `integration/neoforge-1211-consolidation` exklusiv. Commits: `73febc6`, `79d156a`.
+
+**Prüfumgebung:** In der aktuellen Ausführungsumgebung liegt kein vollständiger Checkout des Repositorys, und `gradle` ist nicht installiert. Der alte Root-Wrapper ist für das NeoForge-Unterprojekt laut Projektdokumentation ungeeignet. Hier war deshalb kein tatsächlich ausführbarer Projekt-Build möglich. Keine weiteren Änderungen an der Modmechanik vorgenommen.
+
+**Vorbereitung:** `neoforge-port/scripts/validate-build.ps1` prüft den aktiven Branch vor dem Bauen, speichert Commit-SHA sowie die Java-/Gradle-Versionen und führt auf der Entwickler-Windows-Umgebung ausschließlich `gradle --no-daemon test build` aus. Datiertes Konsolenlog, Exitcode und Test-/Jar-Verzeichnisse werden in `neoforge-port/build/validation-logs/` festgehalten. Nutzung und Grenzen in `docs/VALIDATION_GATE_2026-11-17.md`.
+
+**Status:** Skript, Builds, Unit-Tests, CI und Client weiterhin **nicht ausgeführt/abgenommen**. Manuelle Testergebnisse fehlen weiterhin; ein erfolgreicher lokaler Exitcode muss erst erhoben werden, bevor weitere Bugfixes abgeleitet werden.
+
 ## Chat-Fortsetzung 17.11.2026 – technisches Validierungstor vorbereitet, Ausführung noch ausstehend
 
 **Branch:** ausschließlich `integration/neoforge-1211-consolidation`. Dokumentationscommit `0d18105`. Vollständiges Runbook: [`docs/VALIDATION_GATE_2026-11-17.md`](VALIDATION_GATE_2026-11-17.md).
