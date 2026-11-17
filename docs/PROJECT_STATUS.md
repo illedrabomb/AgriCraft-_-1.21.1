@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – erster neuer Build: 35/36 Tests, Holz-UV-Modellfehler korrigiert (Nachtest offen)
+
+**Testnachweis des Nutzers:** Lokaler Windows-Lauf von `gradle --no-daemon test build` auf Commit `86c9e7fd1fd1542bdacd0975377aae90807dc6c3`; Java Temurin 21.0.12.1 und Gradle 9.2.1. Java- und Testquellen wurden erfolgreich kompiliert; `36 tests completed, 1 failed`. Allein `CropStickModelTest.woodFacesNeverSampleTransparentLegacySpritePixels()` schlug in Zeile 22 (`assertTrue(face.has("uv"))`) fehl. Der Build endete daher mit Exitcode 1. Zwei NeoForge-`EventBusSubscriber.Bus.MOD`-Deprecation-Warnungen waren nicht fatal. Die PowerShell-Konsole formatierte Java-`stderr` und Compilerwarnungen teils als `NativeCommandError` – auch dies war nicht der eigentliche Gradle-Abbruch.
+
+**Ursache aus dem GitHub-Quellcode:** Die jüngst umgebauten Modelle `assets/cropgenetics/models/block/crop_sticks.json` und `crop_sticks_cross.json` besitzen vier Eckstäbe, aber in keiner ihrer Holzflächen explizite `uv`-Koordinaten. Der vorhandene Regressionstest fordert sie, weil implizite Minecraft-UVs transparente Pixel des ursprünglichen `crop_sticks_wood.png` abtasten könnten. Die vor dem Umbau bereits getesteten Zwei-Stab-Modelle verwendeten explizite `[0,0,4,16]`-UVs.
+
+**Quellfix (noch nicht getestet):** Commits `6605546` und `15bac60` setzen auf sämtlichen 24 Holzflächen des normalen Vier-Stab-Modells und allen 48 Holzflächen des gekreuzten Modells ausdrücklich `uv: [0,0,4,16]`. Formen, Eckpositionen, Holztextur-ID und Kreuzungsstreben bleiben unverändert. Kein Deaktivieren/Abschwächen des Regressionstests.
+
+**Noch ausstehend:** Nach Pull des Integrationsbranches `gradle --no-daemon test build` erneut ausführen. Das Ergebnis der 35 zuvor bestandenen Tests darf **nicht** automatisch auf den neuen Commit übertragen werden. Ein erfolgreicher automatisierter Test beweist außerdem noch keine visuell korrekte Darstellung im Minecraft-Client. Keine anderen Branches geändert; kein Build/CI/Client durch den Assistenten gestartet.
+
 ## Chat-Fortsetzung 17.11.2026 – Gradle-9.2.1-Abhängigkeit des Windows-Testsystems dokumentiert
 
 **Branch:** ausschließlich `integration/neoforge-1211-consolidation`. Dokumentation in `docs/VALIDATION_GATE_2026-11-17.md` (Commits `c4ea355`, `91026b4`).
