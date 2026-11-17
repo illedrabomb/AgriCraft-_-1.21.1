@@ -27,8 +27,16 @@ neoForge {
         "${mod_id}" { sourceSet(sourceSets.main) }
     }
 }
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    // Optional JEI API only; the implementation remains an opt-in runtime mod.
+    maven { url = uri('https://maven.blamejared.com') }
+}
 dependencies {
+    // Compile against JEI's public API without embedding or loading JEI by default.
+    compileOnly 'mezz.jei:jei-1.21.1-neoforge-api:19.64.0.455'
+    // All supported local test mods can be loaded with -PloadTestMods.
+    if (project.hasProperty('loadTestMods')) runtimeOnly fileTree(dir: 'test-mods', include: '*.jar')
     // Local, opt-in test dependency; never bundled or downloaded by a normal build.
     if (project.hasProperty('pamJar')) runtimeOnly files(project.property('pamJar'))
     // Optional local playtest-only HUD / recipe browsers. Never bundled
