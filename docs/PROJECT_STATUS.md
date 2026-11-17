@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – JEI-Schnittstellensichtung und Client-Fallback-Optimierung (nur Quellcode)
+
+**Branch:** ausschließlich `integration/neoforge-1211-consolidation`. Quellcode-Commit `0b92e50`.
+
+**JEI-Quellprüfung:** Die vorhandenen Methoden `ISubtypeInterpreter#getSubtypeData`, `getLegacyStringSubtypeInfo`, `ISubtypeRegistration#registerSubtypeInterpreter` und `IExtraIngredientRegistration#addExtraItemStacks` stimmen grundsätzlich mit öffentlich dokumentierten JEI-19-Integrationsbeispielen für Minecraft 1.21.1 überein. Der bestehende Quellcode bleibt deshalb unverändert; das ist **keine** erfolgreiche API-Kompilierung, kein Nachweis der Abhängigkeitenauflösung für exakt JEI 19.64.0.455 und keine funktionale JEI-16-Varianten-Abnahme. Referenz: https://mcjty.eu/docs/1.21.1_26.2/integrating-with-other-mods
+
+**Client-Optimierung:** `PlantVisuals.visual(plantId)` hatte bisher für jeden Lookup bereits vorhandener und unbekannter Pflanzen durch den `Map.getOrDefault`-Ausdruck ein neues `Visual(Geometry.CROSS, List.of(List.of(oak_leaves)))` gebaut. Ein statisches unveränderliches `FALLBACK_VISUAL` wird nun wiederverwendet. Das reduziert unnötige Java-Allokationen besonders für automatisch erkannte Pam-Arten und lässt Geometrie, Farbe und Fallback-Textur unverändert. Keine bewusst veränderte Spielmechanik oder Darstellungsfunktion.
+
+**Grenzen:** Nur Änderung des Quellcodes und Doku; weder Build noch Tests noch CI/Minecraft ausgeführt. JEI-Integration und alle optischen Korrekturen bleiben bis zum gemeinsamen Test unbestätigt. Die weiteren Vorarbeiten sollten künftig keine rein spekulativen Änderungen am Gameplay vornehmen.
+
 ## Chat-Fortsetzung 17.11.2026 – PT-02 fehlgeschlagene Fruchtplatzierungen trennen (Quellcode, ungetestet)
 
 **Branch:** ausschließlich `integration/neoforge-1211-consolidation`. Commits `c02420b`, `6ba5419`, `9c90385`.
