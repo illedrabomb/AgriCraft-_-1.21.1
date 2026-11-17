@@ -30,6 +30,11 @@ public final class CropSticksBlockEntity extends BlockEntity {
     private boolean fruitReady;
     @Nullable private Direction fruitDirection;
     @Nullable private UUID fruitToken;
+    // Server-only diagnostics for PT-02. Persist across save/reload so a
+    // failed second fruit cycle can be examined without relying on log spam.
+    private long fruitChanceRolls;
+    private long fruitChancePassed;
+    private long fruitPlacementSucceeded;
 
     public CropSticksBlockEntity(BlockPos pos, BlockState state) {
         super(CropBlocks.CROP_STICKS_ENTITY.get(), pos, state);
@@ -125,6 +130,25 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public int growthStage() { return growthStage; }
     public int totalGrowthStages() { return totalGrowthStages; }
     public boolean fruitReady() { return fruitReady; }
+    public long fruitChanceRolls() { return fruitChanceRolls; }
+    public long fruitChancePassed() { return fruitChancePassed; }
+    public long fruitPlacementSucceeded() { return fruitPlacementSucceeded; }
+
+    /** Count one mature-stem probability roll, then record whether it passed. */
+    public void recordFruitChanceRoll(boolean passed) {
+        if (!(level instanceof ServerLevel) || genome == null) return;
+        if (fruitChanceRolls < Long.MAX_VALUE) fruitChanceRolls++;
+        if (passed && fruitChancePassed < Long.MAX_VALUE) fruitChancePassed++;
+        setChanged();
+    }
+
+    /** Only a fully bound physical fruit counts as placed. */
+    public void recordFruitPlacementSuccess() {
+        if (!(level instanceof ServerLevel) || !fruitReady) return;
+        if (fruitPlacementSucceeded < Long.MAX_VALUE) fruitPlacementSucceeded++;
+        setChanged();
+    }
+
     @Nullable public Direction fruitDirection() { return fruitDirection; }
     @Nullable public UUID fruitToken() { return fruitToken; }
 
@@ -158,6 +182,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
+        fruitChanceRolls = 0;
+        fruitChancePassed = 0;
+        fruitPlacementSucceeded = 0;
         syncState(plant);
         return true;
     }
@@ -179,6 +206,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
+        fruitChanceRolls = 0;
+        fruitChancePassed = 0;
+        fruitPlacementSucceeded = 0;
         syncState(plant);
         return true;
     }
@@ -305,6 +335,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (originalSeedId != null) tag.putString("OriginalSeed", originalSeedId);
         tag.putInt("TotalGrowthStages", totalGrowthStages);
         tag.putBoolean("FruitReady", fruitReady);
+        tag.putLong("FruitChanceRolls", fruitChanceRolls);
+        tag.putLong("FruitChancePassed", fruitChancePassed);
+        tag.putLong("FruitPlacementSucceeded", fruitPlacementSucceeded);
         if (fruitReady && fruitDirection != null && fruitToken != null) {
             tag.putString("FruitDirection", fruitDirection.getName());
             tag.putUUID("FruitToken", fruitToken);
@@ -323,6 +356,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
         int savedTotal = tag.getInt("TotalGrowthStages");
         totalGrowthStages = savedTotal >= 1 && savedTotal <= 64 ? savedTotal : 0;
         fruitReady = tag.getBoolean("FruitReady");
+        fruitChanceRolls = Math.max(0L, tag.getLong("FruitChanceRolls"));
+        fruitChancePassed = Math.max(0L, tag.getLong("FruitChancePassed"));
+        fruitPlacementSucceeded = Math.max(0L, tag.getLong("FruitPlacementSucceeded"));
         fruitDirection = tag.contains("FruitDirection")
                 ? Direction.byName(tag.getString("FruitDirection")) : null;
         if (fruitDirection != null && fruitDirection.getAxis().isVertical()) fruitDirection = null;
