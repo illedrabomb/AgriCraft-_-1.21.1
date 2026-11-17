@@ -102,6 +102,12 @@ Im hochgeladenen Ergebnisexport stehen `FRU-01`, `FRU-02` und `FRU-04` auf `fail
 
 **Status:** Quellcodefix committed, **nicht gebaut und nicht im Minecraft-Client nachgetestet**. Eine garantierte Frucht innerhalb einer festen Minutenzahl ist damit nicht behauptet.
 
+## UI- und Saatgutbefunde aus dem 30-Test-Export (17.11.2026)
+
+- **`UI-01` / `UI-03`:** Der Nutzer möchte Pflanzeninformationen in einem Look-at-Overlay wie Identify/WAILA; das separate `CropInfoOverlay` läuft, aber Identify 0.4.0 zeigt noch keine Crop-Genetics-Daten. Der bestehende Stand hat **keine Identify-spezifische Plugin-Integration**; ein unterstützter öffentlicher Hook wurde bislang nicht nachgewiesen. **Nicht als behoben markieren.** Keine fragile Verknüpfung über private Identify-Klassen oder ein vorgetäuschtes API hinzugefügt. Bei einer künftigen Integration müssen unanalysierte Genwerte weiter ausgeblendet bleiben.
+- **`VIS-07`:** Der Seed-Itemname war bisher generell `Genetic Seed`; die Art stand nur in der Tooltip-Zeile. Jetzt verwendet `GeneticSeedItem.getName(ItemStack)` die synchronisierte `Genome.plantId()` und übersetzte Artbezeichnungen aus `CropSpeciesNames` (z. B. `Wheat Genetic Seed` oder deutsch `Weizen-Saatgut (genetisch)`). Unbekannte Datapack-Arten erhalten einen lesbaren ID-Fallback. Die Crop-Info-Zeile nutzt dieselbe Namensquelle. Der redundante Crafting-Grid-Hinweis wurde aus dem generischen Seed-Tooltip entfernt. **Noch nicht gebaut/ingame bestätigt**; das eigentliche JEI-Rezept-Thema bleibt offen.
+- **Nachtest:** Verschiedene genetische Seeds (Weizen, Karotte, Melone) in Inventar und JEI auf Artname prüfen; bei unanalysierten Seeds dürfen keine Genpaare sichtbar werden; mit Analyzer + Shift die Sichtbarkeit erneut kontrollieren. Identify weiterhin separat als offenes Integrationsziel erfassen.
+
 ## Die 30 vorgesehenen AgriCraft-Testfälle
 
 | Bereich | Anzahl | Inhalte |
