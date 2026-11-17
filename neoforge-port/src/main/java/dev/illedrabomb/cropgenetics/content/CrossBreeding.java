@@ -1,6 +1,7 @@
 package dev.illedrabomb.cropgenetics.content;
 
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
+import dev.illedrabomb.cropgenetics.config.CropBalanceConfig;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.MutationDefinition;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
@@ -22,13 +23,15 @@ import java.util.Random;
 public final class CrossBreeding {
     private CrossBreeding() {}
 
+    private record BreedingParent(Direction direction, Genome genome) {}
+
     public static void attempt(ServerLevel level, BlockPos position, CropSticksBlockEntity target,
                                RandomSource random) {
         if (target.genome() != null || !target.getBlockState().getValue(CropSticksBlock.CROSS)) return;
         AgriPlantsRegistry registry = CropGeneticsMod.plants();
         AgriPlantsRegistry.Snapshot snapshot = registry.snapshot();
         Map<String, PlantDefinition> plants = snapshot.plants();
-        List<Genome> parents = new ArrayList<>();
+        List<BreedingParent> parents = new ArrayList<>();
 
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockPos neighbor = position.relative(direction);
@@ -45,7 +48,7 @@ public final class CrossBreeding {
             // Gather eligible parents BEFORE rolling fertility. Requiring two
             // independent fertility successes makes a 1/1 parent pair breed
             // at only 1% per random tick (0.1 * 0.1).
-            parents.add(genome);
+            parents.add(new BreedingParent(direction, genome));
         }
 
         if (parents.isEmpty()) return;
@@ -53,7 +56,7 @@ public final class CrossBreeding {
         Collections.shuffle(parents, inheritanceRandom);
 
         if (parents.size() == 1) {
-            Genome parent = parents.getFirst();
+            Genome parent = parents.getFirst().genome();
             PlantDefinition plant = plants.get(parent.plantId());
             // One-parent spreading is a clone, not a genetic cross.
             double fertility = fertilityChance(parent);
@@ -66,14 +69,28 @@ public final class CrossBreeding {
             return;
         }
 
-        Genome first = parents.get(0);
-        Genome second = parents.get(1);
-        // One pair roll preserves fertility influence without multiplying two
-        // low baseline chances. Higher-fertility pairs still cross more often.
-        if (random.nextDouble() >= pairFertilityChance(first, second)) return;
+        BreedingParent firstParent = parents.get(0);
+        BreedingParent secondParent = parents.get(1);
+        Genome first = firstParent.genome();
+        Genome second = secondParent.genome();
+        // Keep the one-roll fertility fix while exposing a server-side
+        // multiplier for players who prefer faster or slower breeding.
+        double chance = Math.min(1.0D, pairFertilityChance(first, second)
+                * CropBalanceConfig.CROSS_FERTILITY_MULTIPLIER.get());
+        if (random.nextDouble() >= chance) return;
+
+        // A straight row of same-species parents produces ONE offspring on
+        // double sticks. Only its genome may evolve; no bonus seed is created.
+        boolean rowCross = first.plantId().equals(second.plantId())
+                && firstParent.direction().getOpposite() == secondParent.direction();
+        double mutationMultiplier = rowCross
+                ? (CropBalanceConfig.ROW_CROSS_EVOLUTION.get()
+                        ? CropBalanceConfig.ROW_EVOLUTION_MUTATION_MULTIPLIER.get() : 0.0D)
+                : 1.0D;
         // Numeric alleles are inherited exactly once. Species choice must use
         // the offspring's actual Strength, not either parent's Strength.
-        Genome inherited = BreedingEngine.combine(first, second, first.plantId(), inheritanceRandom);
+        Genome inherited = BreedingEngine.combine(first, second, first.plantId(),
+                inheritanceRandom, mutationMultiplier);
         String childId = chooseChildSpecies(first, second, inherited, snapshot, level, position, random);
         PlantDefinition childPlant = plants.get(childId);
         if (childPlant == null) return;
