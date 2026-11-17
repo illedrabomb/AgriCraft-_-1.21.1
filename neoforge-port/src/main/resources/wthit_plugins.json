@@ -1,0 +1,7 @@
+{
+  "cropgenetics:crop_info": {
+    "initializer": "dev.illedrabomb.cropgenetics.compat.wthit.CropGeneticsWthitPlugin",
+    "side": "client",
+    "required": ["wthit"]
+  }
+}
