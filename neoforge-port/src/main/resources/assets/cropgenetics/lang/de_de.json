@@ -17,5 +17,6 @@
   "message.cropgenetics.analyzer_unsupported": "Saatgut unbekannt oder bereits verändert; keine Analyse möglich",
   "message.cropgenetics.analyzer_crop_success": "Pflanze analysiert – nach dem Ausgraben Genwerte mit Shift anzeigen",
   "tooltip.cropgenetics.plant_on_sticks": "Gene bleiben nur beim Pflanzen auf Crop Sticks erhalten",
-  "itemGroup.cropgenetics.crop_genetics": "Crop Genetics"
+  "itemGroup.cropgenetics.crop_genetics": "Crop Genetics",
+  "overlay.cropgenetics.crop": "Pflanze: %s · Wachstumsstufe %s/%s"
 }
