@@ -8,17 +8,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class CropCrossLayerStateTest {
     @Test
     void emptyCrossSticksRemainAvailableForBreeding() {
-        assertTrue(CropSticksBlockEntity.keepCrossLayer(true, false));
+        assertTrue(CropCrossLayerRules.keepCrossLayer(true, false));
     }
 
     @Test
     void newlyGrownOffspringConsumesOnlyTheExtraCrossLayer() {
-        assertFalse(CropSticksBlockEntity.keepCrossLayer(true, true));
+        assertFalse(CropCrossLayerRules.keepCrossLayer(true, true));
     }
 
     @Test
     void singleSticksNeverBecomeCrossedSimplyBecauseCropGrows() {
-        assertFalse(CropSticksBlockEntity.keepCrossLayer(false, false));
-        assertFalse(CropSticksBlockEntity.keepCrossLayer(false, true));
+        assertFalse(CropCrossLayerRules.keepCrossLayer(false, false));
+        assertFalse(CropCrossLayerRules.keepCrossLayer(false, true));
     }
 }
