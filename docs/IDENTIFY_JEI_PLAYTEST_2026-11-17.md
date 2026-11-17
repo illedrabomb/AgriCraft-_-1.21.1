@@ -2,6 +2,19 @@
 
 **Ziel:** Identify – What Am I Looking At? **0.4.0 (NeoForge Minecraft 1.21–1.21.1)** und Just Enough Items **19.64.0.455 (NeoForge Minecraft 1.21.1)** für den ersten manuellen Entwicklungsclient-Playtest verwenden. Beide sind **nur optionale Testhilfen**, keine nötigen Abhängigkeiten und keine Bestandteile des gebauten Mod-JARs.
 
+## Neue optionale Jade-Integration (17.11.2026, ungetesteter Quellcode)
+
+Nach dem Ingame-Befund, dass Identify kein AgriCraft-spezifisches Pflanzenoverlay liefert, wurde das offizielle Erweiterungssystem von **Jade (WAILA-Fork)** geprüft. Jade stellt für NeoForge 1.21.1 die öffentliche Plugin-API `@WailaPlugin`, `IWailaPlugin` und `IBlockComponentProvider` bereit. WTHIT hat ebenfalls eine öffentliche API, aber mit eigenem Registrierungsmodell; dafür gibt es **noch keinen** Adapter. Die vorhandene Identify-Installation wird **nicht** automatisch zu Jade und enthält damit auch nicht die neue Jade-Anzeige.
+
+**Änderungen im Integrationsbranch:**
+
+- `build.gradle` bindet `maven.modrinth:jade:15.10.6+neoforge` nur als `compileOnly` ein. Das veröffentlicht keine Jade-Klassen mit unserer JAR und erfordert Jade nicht beim gewöhnlichen Spielen; der Build muss diese zusätzliche Maven-Abhängigkeit jedoch auflösen.
+- `compat/jade/CropGeneticsJadePlugin.java` registriert eine native Block-Tooltip-Zeile für `CropSticksBlock`. Sie zeigt nur übersetzten Pflanzennamen und Wachstumsstufe; **keine unanalysierten Genwerte**. Die Daten stammen aus bereits synchronisiertem `CropSticksBlockEntity`, kein zusätzlicher Netzwerkkanal.
+- `CropInfoOverlay` unterdrückt die eigene zusätzliche HUD-Zeile, wenn `jade` geladen ist. **Ohne Jade** bleibt der bisherige Standalone-Fallback erhalten (auch bei Identify oder ohne Look-at-Mod).
+- Quelle: https://jademc.readthedocs.io/en/1.x/plugins20/getting-started/ und NeoForge-1.21.1-Jade-Version https://modrinth.com/mod/jade/version/15.10.6%2Bneoforge.
+
+**Nachtest nach gemeinsamem Build:** Jade 15.10.6 NeoForge 1.21.1 als optionale lokale Test-JAR unter `neoforge-port/test-mods` bereitstellen und mit `-PloadTestMods` starten; auf Crop Sticks zielen; Pflanzenart + Stufe **innerhalb des Jade-Panels** prüfen; keine doppelte HUD-Zeile; leere Crop Sticks, nicht analysierte Gene und Jade-Abwesenheit separat testen. Es gibt **noch keinen Build-/Gameplay-PASS** für diese Integration. Bitte keine automatische Jade-Abhängigkeit zur Release-Modliste hinzufügen.
+
 ## Technischer Stand
 
 - `neoforge-port/build.gradle`: die bisherigen `-PpamJar=<Pfad>`-Lokaldateioptionen wurden um `-PidentifyJar=<Pfad>` und `-PjeiJar=<Pfad>` ergänzt (beide `runtimeOnly files(...)`). Sie werden **nur bei gesetzter Gradle-Property** in die Runtime aufgenommen. Ohne Pfadangaben lädt ein normaler Build diese Mods **nicht** herunter.
