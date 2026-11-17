@@ -111,9 +111,11 @@ public final class GourdFruits {
                 Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST));
         Collections.shuffle(candidates, new java.util.Random(random.nextLong()));
 
+        boolean hadEligibleTarget = false;
         for (Direction direction : candidates) {
             BlockPos target = stem.relative(direction);
             if (!placeable(level, target)) continue;
+            hadEligibleTarget = true;
 
             UUID token = UUID.randomUUID();
             if (level.setBlock(target, fruit.defaultBlockState(), 3)) {
@@ -131,6 +133,9 @@ public final class GourdFruits {
                 }
             }
         }
+        // Record whether a passed fruit roll lacked eligible neighboring space
+        // or reached the block placement / ownership-binding path.
+        crop.recordFruitPlacementFailure(hadEligibleTarget);
         return false;
     }
 }
