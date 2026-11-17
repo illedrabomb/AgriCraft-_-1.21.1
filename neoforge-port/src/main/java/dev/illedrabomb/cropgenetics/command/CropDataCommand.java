@@ -154,6 +154,8 @@ public final class CropDataCommand {
                 + (factor > 0D && randomTickSpeed > 0 && ticking
                     && crop.isMature(plant) && !crop.fruitReady()
                     && plant.harvestMode() == dev.illedrabomb.cropgenetics.data.HarvestMode.GOURD));
+        tell(source, "  matureFruitTicks=" + crop.matureFruitTicks()
+                + ", matureTicksBlockedByEnvironment=" + crop.matureFruitTicksBlocked());
         tell(source, "  fruitRolls=" + crop.fruitChanceRolls()
                 + ", rollsPassed=" + crop.fruitChancePassed()
                 + ", placementsSucceeded=" + crop.fruitPlacementSucceeded()
