@@ -349,6 +349,11 @@ public final class CropSticksBlockEntity extends BlockEntity {
                         plant.stages().size());
     }
 
+    /** Crossed sticks stay crossed only while empty; the first offspring consumes their top layer. */
+    static boolean keepCrossLayer(boolean wasCrossed, boolean planted) {
+        return wasCrossed && !planted;
+    }
+
     private void syncState(PlantDefinition plant) {
         totalGrowthStages = plant.stages().size();
         setChanged();
@@ -357,7 +362,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
         // Successful crossbreeding consumes the extra upper sticks: once a genome
                 // exists, the block remains planted on its single lower stick layer.
         BlockState updated = previous.setValue(CropSticksBlock.CROSS,
-                        genome == null && previous.getValue(CropSticksBlock.CROSS))
+                        keepCrossLayer(previous.getValue(CropSticksBlock.CROSS), genome != null))
                 .setValue(CropSticksBlock.PLANTED, genome != null)
                 .setValue(CropSticksBlock.STAGE, CropGrowth.displayStage(growthStage, plant.stages().size()))
                 .setValue(CropSticksBlock.FRUIT, fruitReady)
