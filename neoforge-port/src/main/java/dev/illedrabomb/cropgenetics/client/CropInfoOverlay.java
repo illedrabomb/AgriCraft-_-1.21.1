@@ -28,9 +28,9 @@ public final class CropInfoOverlay {
 
     @SubscribeEvent
     public static void onRenderGui(RenderGuiEvent.Post event) {
-        // Jade renders these same details in its native look-at panel.
+        // Jade and WTHIT render these details in their own look-at panels.
         // Avoid a duplicate standalone HUD when the optional mod is loaded.
-        if (ModList.get().isLoaded("jade")) return;
+        if (ModList.get().isLoaded("jade") || ModList.get().isLoaded("wthit")) return;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null || minecraft.player == null || minecraft.options.hideGui
                 || !(minecraft.hitResult instanceof BlockHitResult hit)
