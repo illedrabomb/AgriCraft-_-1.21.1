@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – PT-02-Mature-Tick-Diagnose (Quellcode, ungetestet)
+
+**Branch:** `integration/neoforge-1211-consolidation` (andere Branches unverändert). Commits: `0129d7a`, `aa7fdd8`, `a0cb5f8`, `2abfb54`.
+
+**Änderungen:** `CropSticksBlockEntity` speichert zusätzlich `matureFruitTicks` und `matureFruitTicksBlocked` per NBT, initialisiert beide auch bei Neupflanzung bzw. Kreuzungsnachkommen und bietet serverseitige Abfragen. `CropSticksBlock.randomTick` zählt bei reifem GOURD-Stamm ohne bestehende Frucht einen Tick **vor** dem möglichen frühen Abbruch durch `growthFactor <= 0`; ein blockierter Tick wird getrennt gezählt. Der bestehende Wurfzähler wird erst nach positivem Faktor erhöht. `/cropgenetics data gourd <x> <y> <z>` zeigt nun beide zusätzlichen Zahlen. Die aktuellen Konfigurations- und Umgebungswerte des Diagnosebefehls bleiben zusätzlich verfügbar.
+
+**Interpretation beim späteren Retest:** `matureFruitTicks=0` bedeutet, dass der Zählpfad seit Pflanzung/Nachkommenerzeugung noch nicht erreicht wurde (z. B. keine reifen GOURD-Random-Ticks); `matureFruitTicksBlocked>0` beweist wenigstens zeitweilige Umweltblockade; `fruitRolls>0` belegt aktive Fruchtwahrscheinlichkeitsversuche; `rollsPassed>placementsSucceeded` zeigt gescheiterte Platzierungsversuche. Die Zähler sind kumulativ und werden **nicht** beim Fruchtabbau zurückgesetzt. Bereits vor diesen Commits gespeicherte Welten beginnen bei den beiden neuen Zählern mit null. Bestehende Guards vor diesem Zählpfad (fehlendes Genom, deaktivierte Art, Ownership-Reconciliation) werden nicht vollständig gemessen.
+
+**Validierungsgrenze:** Nur Quellcodeänderungen per GitHub; **kein Build, kein Unit-Test, kein CI-/Minecraft-Start und keine tatsächliche PT-02-Fehlerbehebung bestätigt**. Fruchtchance, Umweltfaktor, Nachbarplatzierung, Ownership, Harvest und Regrowth fachlich unverändert. Später gebündelt PT-02 sowie JEI-API, HUD/Identify, Seedmodelle, HASH-/Weizen-Visuals, Knochenmehl, PT-03 und PT-04 testen. Andere Entwicklungsaufgaben zunächst nach tatsächlichem Quellstand priorisieren.
+
 ## Chat-Übergabe: Arbeitsstand 17.11.2026 – PT-02-Diagnose ohne Test
 
 **Aktueller Branch:** `integration/neoforge-1211-consolidation`. Keine Änderungen auf `entwicklung`, `testing`, `master`. Letzte drei PT-02-Änderungen: `1f90b88`, `2b19f21`, `ba58758`.
