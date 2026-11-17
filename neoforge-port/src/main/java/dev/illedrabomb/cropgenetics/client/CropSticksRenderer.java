@@ -47,9 +47,12 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
 
         PlantVisuals.Visual visual = PlantVisuals.INSTANCE.visual(genome.plantId());
         List<ResourceLocation> layers = visual.at(stage, totalStages);
-        // Keep seedlings visible while containing mature field crops within the sticks.
+        // Only the compact four-sided field crops get the new height curve.
+        // Preserve the established visuals for gourds, stalks and special crops.
         float growth = totalStages <= 1 ? 1.0F : (float) stage / (totalStages - 1);
-        float height = 0.28F + 0.50F * growth;
+        float height = visual.geometry() == PlantVisuals.Geometry.HASH
+                ? 0.28F + 0.50F * growth
+                : Math.max(0.15F, (stage + 1.0F) / totalStages);
 
         // The BER renders atlas sprites directly. Unlike vanilla block
         // models, they do not receive tintindex colors automatically.
