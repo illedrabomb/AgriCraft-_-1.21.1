@@ -92,6 +92,16 @@ Es gibt **keinen** Status `skipped` und keine deutschen Statuswerte im Export. D
 - **Reproduktion/Nachtest:** Zwei Crop-Stick-Felder mit Elternpflanzen und angrenzende gekreuzte/leere Sticks vorbereiten; Ausgangszustand (normal/gekreuzt) notieren; auf erfolgreiche Übertragung warten und Zielpflanze überprüfen; danach Blockmodell, Rechtsklick-Interaktion und gegebenenfalls Stick-Drops/Inventar prüfen. Falls nötig Welt neu laden und auf Client-Server-Zustandsabweichungen prüfen.
 - **Implementierung vorbereitet:** `CropSticksBlockEntity.syncState` setzt `CROSS=false`, sobald ein Nachkomme eine Pflanze auf dem gekreuzten Feld erzeugt (Commit `7fa00bf`). `CropSticksBlock.useWithoutItem` entfernt bei leerer Hand und leerem Kreuzungsfeld die obere Ebene und gibt einen Crop Stick zurück (Commits `c113050`, `45d7108`). Bereits vorhandene Seed-Interaktionspfade prüfen `!CROSS` und sperren direktes Pflanzen. **Noch nicht per Gradle gebaut oder im Spiel nachgetestet.** Dem vorhandenen `VIS-02`-Fehler zugeordnet; bei Einführung einer eigenen Test-ID die Tracker-Suite konsistent versionieren, statt IDs im bestehenden Ergebnisexport stillschweigend zu verändern.
 
+## Fruchtzyklus Melonen/Kürbisse: Codebefund und Nachtest (17.11.2026)
+
+Im hochgeladenen Ergebnisexport stehen `FRU-01`, `FRU-02` und `FRU-04` auf `fail`; die Kommentare melden u. a. einen ausbleibenden zweiten Melonenertrag nach rund 20 Minuten. Dass die **Frucht** neben dem in Crop Sticks befindlichen Stängel wächst, ist das vorgesehene vanilla-nahe Verhalten und **allein kein Fehler**. Die wiederholte Fruchtbildung bleibt dagegen ein relevantes Problem.
+
+**Konkreter Quellcodebefund:** `CropSticksBlockEntity.clearFruit` wurde beim Entfernen einer zugehörigen Melonen-/Kürbisfrucht aufgerufen und setzte bisher auch den reifen Stängel über `CropGrowth.regrowthStage(plant)` zurück, häufig auf Stufe 0. Bis zur erneuten Reife waren dadurch keine weiteren Frucht-Chance-Würfe möglich. **Änderung in Commit `357a619`:** Für aktiv als `GOURD` konfigurierte Arten bleibt die Stängelstufe beim Fruchtabbau unverändert; entfernt werden nur physische Fruchtbindung und `fruitReady`. Für nach einem Datapack-Reload anders konfigurierte Erntearten bleibt der bisherige Regrowth-Zweig erhalten. Platzierung neben dem Stängel, Chance und Bodenregeln wurden **nicht** verändert.
+
+**Nachtest für beide Arten:** Frucht einmal wachsen lassen; `/cropgenetics data gourd <x> <y> <z>` vor Abbau protokollieren; physische Frucht entfernen; unmittelbar prüfen, ob der Stängel reif bleibt und `fruitReady=false` ist; danach wiederholte Frucht-Chance-Würfe und eine zweite physische Frucht auf frei geeignetem Nachbarfeld nachweisen. Wenn weiterhin lange nichts wächst, die Werte `fruitChanceRolls`, `fruitChancePassed`, `fruitPlacementNoEligibleTarget` und `fruitPlacementEligibleFailed` vergleichen. Damit unterscheiden wir geringe Tick-/Chance-Häufigkeit von echter Platzierungsblockade.
+
+**Status:** Quellcodefix committed, **nicht gebaut und nicht im Minecraft-Client nachgetestet**. Eine garantierte Frucht innerhalb einer festen Minutenzahl ist damit nicht behauptet.
+
 ## Die 30 vorgesehenen AgriCraft-Testfälle
 
 | Bereich | Anzahl | Inhalte |
