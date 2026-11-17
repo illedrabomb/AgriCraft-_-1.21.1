@@ -154,6 +154,11 @@ public final class CropDataCommand {
                 + (factor > 0D && randomTickSpeed > 0 && ticking
                     && crop.isMature(plant) && !crop.fruitReady()
                     && plant.harvestMode() == dev.illedrabomb.cropgenetics.data.HarvestMode.GOURD));
+        tell(source, "  fruitRolls=" + crop.fruitChanceRolls()
+                + ", rollsPassed=" + crop.fruitChancePassed()
+                + ", placementsSucceeded=" + crop.fruitPlacementSucceeded()
+                + ", placementFailuresAfterPassedRoll="
+                + Math.max(0L, crop.fruitChancePassed() - crop.fruitPlacementSucceeded()));
         int strength = genome.strength().expressed(
                 dev.illedrabomb.cropgenetics.genetics.GenePair.TraitMode.MAX);
         var requirements = plant.requirements();
