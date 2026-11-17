@@ -1,3 +1,13 @@
+## Chat-Fortsetzung 17.11.2026 – JUnit-Bericht bestätigt 36/36 Tests erfolgreich
+
+**Hochgeladener Nachweis:** `neoforge-port/build/reports/tests/test/index.html`, erzeugt laut Gradle-9.2.1-Berichtsfuß am **17.11.2026 um 13:13:28**. 36 Tests, **0 Fehler**, **0 ignoriert**, **100 % erfolgreich**, gemeldete Gesamtdauer **0,285 s**.
+
+**Verteilung:** `dev.illedrabomb.cropgenetics.client`: 6/6; `content`: 12/12; `data`: 14/14; `genetics`: 4/4. Insbesondere `CropStickModelTest`: 1/1 erfolgreich; `CropStickGeometryRegressionTest`: 2/2; `FieldCropVisualResourcesTest`: 3/3. Auch Wachstums-/Reload-, Frucht-, JEI-Saatkatalog-, AgriPlants-, Pam- und Genetik-Tests sind im Bericht ohne Fehler aufgeführt.
+
+**Validierung:** Zuvor wurde für Commit `dae05616aa79ec8ec67fe362f21062122fb97f32` ein `BUILD SUCCESSFUL` mit Exitcode 0 gemeldet. Der separate JUnit-Bericht bestätigt nun ausdrücklich alle 36 Tests. Aus dem HTML allein ist nicht ersichtlich, mit welchem Befehl die Tests gestartet wurden bzw. welcher Commit zum Zeitpunkt der Report-Erstellung ausgecheckt war; deshalb die konkrete Zuordnung zum Quellcommit nur zusammen mit den übrigen lokalen Logdaten verwenden. Die verbleibenden vier Gradle-Meldungen (zwei API-Deprecation-Warnungen, zwei Advice-Einträge) blockieren nicht den Build.
+
+**Nächste Phase:** Manuelle Spieltests für Client-Optik und Stage 0, Crop-Sticks-Geometrie, HUD/Identify, JEI-Saatkatalog und wiederholte Melonen-/Kürbis-Fruchtbildung. Die Tests belegen keine Ingame-Abnahme.
+
 ## Chat-Fortsetzung 17.11.2026 – lokaler Gradle-Build nach Holz-UV-Fix erfolgreich
 
 **Beleg des Nutzers:** Windows-Build-Protokolle `gradle-test-build-20261117-130840.log` und `validation-summary-20261117-130840.txt`; Branch `integration/neoforge-1211-consolidation`, ausgecheckter Commit `dae05616aa79ec8ec67fe362f21062122fb97f32`, Java Temurin 21.0.12.1, Gradle 9.2.1. Der Aufruf `gradle --no-daemon test build` endete mit **Exitcode 0 / BUILD SUCCESSFUL** (14 Sekunden). Alle sieben ausgewiesenen Gradle-Tasks waren **UP-TO-DATE**, einschließlich `compileJava`, `compileTestJava`, `test`, `jar` und `build`. Das Protokoll enthält deswegen **keine neue Testfallanzahl**, und es belegt keine frische JUnit-Ausführung in diesem Lauf. Im vorherigen Lauf für Commit `86c9e7fd` wurden 36 Tests ausgeführt, davon 35 erfolgreich und ein Holz-UV-Test fehlgeschlagen; der nachfolgende Buildstatus ist erfolgreich, aber die neue Anzahl bestandener Tests kann ohne JUnit-XML oder nicht-gecachten Testlauf nicht unabhängig beziffert werden.
