@@ -33,12 +33,18 @@ repositories {
     maven { url = uri('https://maven.blamejared.com') }
     // Optional Jade API for the native look-at tooltip integration.
     maven { url = uri('https://api.modrinth.com/maven') }
+    // Official WTHIT API repository (the implementation remains optional).
+    maven {
+        url = uri('https://maven2.bai.lol')
+        content { includeGroup 'mcp.mobius.waila' }
+    }
 }
 dependencies {
     // Compile against JEI's public API without embedding or loading JEI by default.
     compileOnly 'mezz.jei:jei-1.21.1-neoforge-api:19.64.0.455'
     // Compile against Jade 1.21.1 only. It is NOT bundled or required at runtime.
     compileOnly 'maven.modrinth:jade:15.10.6+neoforge'
+    compileOnly 'mcp.mobius.waila:wthit-api:neo-12.5.3'
     // All supported local test mods can be loaded with -PloadTestMods.
     if (project.hasProperty('loadTestMods')) runtimeOnly fileTree(dir: 'test-mods', include: '*.jar')
     // Local, opt-in test dependency; never bundled or downloaded by a normal build.
