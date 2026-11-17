@@ -2,7 +2,7 @@ package dev.illedrabomb.cropgenetics.compat.jei;
 
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
-import dev.illedrabomb.cropgenetics.content.CropCreativeTabs;
+import dev.illedrabomb.cropgenetics.content.SeedSpeciesCatalog;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import mezz.jei.api.IModPlugin;
@@ -52,7 +52,7 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerExtraIngredients(IExtraIngredientRegistration registration) {
-        List<ItemStack> seeds = CropCreativeTabs.DEFAULT_SPECIES.stream()
+        List<ItemStack> seeds = SeedSpeciesCatalog.DEFAULT_SPECIES.stream()
                 .map(id -> CropItems.seedWithGenome(Genome.basic(id)))
                 .toList();
         registration.addExtraItemStacks(seeds);
