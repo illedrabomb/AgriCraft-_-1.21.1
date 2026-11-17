@@ -29,6 +29,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -51,7 +52,7 @@ import javax.annotation.Nullable;
  * empty crop sticks to enable crossing, or plant a genetic seed on single
  * sticks. Empty crossing sticks discover neighboring mature crops on server ticks.
  */
-public final class CropSticksBlock extends BaseEntityBlock {
+public final class CropSticksBlock extends BaseEntityBlock implements BonemealableBlock {
     public static final MapCodec<CropSticksBlock> CODEC = simpleCodec(CropSticksBlock::new);
 
     @Override
@@ -205,6 +206,47 @@ public final class CropSticksBlock extends BaseEntityBlock {
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
         if (plant != null && plant.contactThorns()) {
             entity.hurt(level.damageSources().cactus(), 1.0F);
+        }
+    }
+
+    /**
+     * Standard bonemeal interface used by Vanilla and compatible external
+     * growth tools. The existing direct bone-meal interaction is retained;
+     * implementations calling the interface now get the same server checks.
+     */
+    @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+        if (!state.is(this) || !state.getValue(PLANTED)) return false;
+        if (!(level instanceof Level world)) return false;
+        if (!(world.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)
+                || crop.genome() == null) return false;
+        // The client has no authoritative plant catalogue, so predict only
+        // basic eligibility; the server applies all growth requirements.
+        if (world.isClientSide) return state.getValue(STAGE) < 7;
+        PlantDefinition plant = CropGeneticsMod.plants().plants().get(crop.genome().plantId());
+        return plant != null && !crop.isMature(plant)
+                && CropConditions.canGrow(world, pos, plant, crop.genome());
+    }
+
+    @Override
+    public boolean isBonemealSuccess(Level level, RandomSource random,
+                                     BlockPos pos, BlockState state) {
+        // Growth tools should perform exactly one stage advance per valid
+        // application; do not roll an additional hidden failure chance.
+        return isValidBonemealTarget(level, pos, state);
+    }
+
+    @Override
+    public void performBonemeal(ServerLevel level, RandomSource random,
+                                BlockPos pos, BlockState state) {
+        if (!isValidBonemealTarget(level, pos, level.getBlockState(pos))
+                || !(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)
+                || crop.genome() == null) return;
+        PlantDefinition plant = CropGeneticsMod.plants().plants().get(crop.genome().plantId());
+        if (plant == null) return;
+        crop.reconcileLoadedStage(plant);
+        if (!crop.isMature(plant) && CropConditions.canGrow(level, pos, plant, crop.genome())) {
+            crop.advanceGrowth(plant);
         }
     }
 
