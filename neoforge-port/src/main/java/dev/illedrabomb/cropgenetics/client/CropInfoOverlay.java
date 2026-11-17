@@ -44,9 +44,15 @@ public final class CropInfoOverlay {
         int stage = Math.max(0, Math.min(crop.growthStage(), total - 1));
         // Report exact zero-based growth stages, matching /data diagnostics.
         Component line = Component.translatable("overlay.cropgenetics.crop", label, stage, total - 1);
+        // Keep clear of the hotbar, hearts and hunger display. Long datapack
+        // species names must not draw past the GUI edge at small GUI scales.
+        int maxWidth = Math.max(1, event.getGuiGraphics().guiWidth() - 16);
+        var visibleLines = minecraft.font.split(line, maxWidth);
+        if (visibleLines.isEmpty()) return;
         int x = 8;
-        int y = event.getGuiGraphics().guiHeight() - 58;
-        event.getGuiGraphics().drawString(minecraft.font, line, x, y, 0xFFFFFF, true);
+        int y = Math.max(4, event.getGuiGraphics().guiHeight() - 72);
+        event.getGuiGraphics().drawString(
+                minecraft.font, visibleLines.get(0), x, y, 0xFFFFFF, true);
     }
 
     private static Component speciesLabel(String id) {
