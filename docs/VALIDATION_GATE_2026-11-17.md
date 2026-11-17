@@ -1,5 +1,35 @@
 # Technisches Validierungstor vor dem nächsten manuellen Minecraft-Test
 
+## Lokale Windows-Pfade und Minecraft-Teststart (vom Tester bestätigt, 17.11.2026)
+
+Diese absoluten Pfade gelten für **den Windows-Testrechner des Testers** (nicht für CI oder andere Entwickler):
+
+| Werkzeug | Festgestellter Speicherort |
+| --- | --- |
+| Java 21 (Temurin 21.0.12.1) | `D:\guthub repositorys\Minecraft_mods\Lena\jdk-21.0.12.1+1\bin\java.exe` |
+| JDK-Verzeichnis für `JAVA_HOME` | `D:\guthub repositorys\Minecraft_mods\Lena\jdk-21.0.12.1+1` |
+| Gradle-9.2.1-Wrapper aus VillagerFamilyTree | `D:\guthub repositorys\Minecraft_mods\Lena\villagerfamilytree_1.21.1\gradlew.bat` |
+| AgriCraft NeoForge-Arbeitsverzeichnis | `C:\Users\tinob\Documents\ChatGPT\AgriCraft-Integration-20261116\neoforge-port` |
+
+Der fremde Wrapper referenziert in `gradle/wrapper/gradle-wrapper.properties` ausdrücklich `gradle-9.2.1-bin.zip`. Er wird **nur aufgerufen**, nicht verändert. **Nicht** den veralteten AgriCraft-Root-Wrapper verwenden. Die folgenden `JAVA_HOME`-/`PATH`-Änderungen gelten ausschließlich im geöffneten PowerShell-Fenster.
+
+### Gesamter Startblock für ein neues PowerShell-Terminal
+
+```powershell
+$env:JAVA_HOME = "D:\guthub repositorys\Minecraft_mods\Lena\jdk-21.0.12.1+1"
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+
+Set-Location "C:\Users\tinob\Documents\ChatGPT\AgriCraft-Integration-20261116\neoforge-port"
+$gradleBat = "D:\guthub repositorys\Minecraft_mods\Lena\villagerfamilytree_1.21.1\gradlew.bat"
+
+& "$env:JAVA_HOME\bin\java.exe" -version
+& $gradleBat --version
+git branch --show-current
+& $gradleBat --no-daemon runClient -PloadTestMods
+```
+
+Erwartet: Java **21**, Gradle **9.2.1**, Git-Branch `integration/neoforge-1211-consolidation`. Der Lauf liest optionale Mod-JARs aus `neoforge-port\test-mods`. `runClient` ist der **manuelle Minecraft-Client-Test**, kein automatisierter Build-/JUnit-Nachweis. Der Test-Tracker und seine 30 Fälle sind in [MANUAL_TEST_TRACKER.md](MANUAL_TEST_TRACKER.md) beschrieben. Diese Dokumentation legt die Befehle fest; sie bescheinigt keine erneute tatsächliche Ausführung auf dem Testrechner.
+
 ## Windows-Testsystem: Gradle-Quelle (bestätigt am 17.11.2026)
 
 Auf dem Testrechner ist das separate Projekt unter folgendem Pfad vorhanden:
