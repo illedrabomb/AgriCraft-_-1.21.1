@@ -2,7 +2,7 @@ package dev.illedrabomb.cropgenetics.client;
 
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.content.CropBlocks;
-import dev.illedrabomb.cropgenetics.content.CropCreativeTabs;
+import dev.illedrabomb.cropgenetics.content.SeedSpeciesCatalog;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
@@ -31,9 +31,9 @@ public final class CropGeneticsClient {
                 (stack, level, entity, seed) -> {
                     Genome genome = stack.get(CropComponents.GENOME.get());
                     if (genome == null) return 0.0F;
-                    int index = CropCreativeTabs.DEFAULT_SPECIES.indexOf(genome.plantId());
+                    int index = SeedSpeciesCatalog.DEFAULT_SPECIES.indexOf(genome.plantId());
                     return index < 0 ? 0.0F
-                            : (float) index / CropCreativeTabs.DEFAULT_SPECIES.size();
+                            : (float) index / SeedSpeciesCatalog.DEFAULT_SPECIES.size();
                 }));
     }
 
