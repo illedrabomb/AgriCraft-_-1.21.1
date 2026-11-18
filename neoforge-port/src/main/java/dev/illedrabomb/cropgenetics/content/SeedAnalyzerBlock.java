@@ -12,6 +12,9 @@ import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -22,7 +25,11 @@ import javax.annotation.Nullable;
 public final class SeedAnalyzerBlock extends BaseEntityBlock {
     public static final MapCodec<SeedAnalyzerBlock> CODEC = simpleCodec(SeedAnalyzerBlock::new);
 
+    private static final VoxelShape SHAPE = box(1, 0, 1, 15, 5, 15);
+
     public SeedAnalyzerBlock(Properties properties) { super(properties); }
+    @Override protected VoxelShape getShape(BlockState state, BlockGetter level,
+                                            BlockPos pos, CollisionContext context) { return SHAPE; }
     @Override protected MapCodec<? extends SeedAnalyzerBlock> codec() { return CODEC; }
     @Override @Nullable public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new SeedAnalyzerBlockEntity(pos, state);
