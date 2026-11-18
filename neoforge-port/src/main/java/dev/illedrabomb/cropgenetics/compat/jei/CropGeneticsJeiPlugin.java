@@ -118,7 +118,8 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
 
         registration.addItemStackInfo(List.of(
                 CropItems.SEED_ANALYZER.get().getDefaultInstance(),
-                CropItems.SEED_CHEST.get().getDefaultInstance()),
+                CropItems.SEED_CHEST.get().getDefaultInstance(),
+                CropItems.SEED_JOURNAL.get().getDefaultInstance()),
                 Component.translatable("jei.cropgenetics.seed_analysis"));
     }
 
