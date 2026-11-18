@@ -8,6 +8,9 @@ import net.minecraft.world.CompoundContainer;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
@@ -49,6 +52,25 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
     @Override @Nullable public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new SeedAnalyzerBlockEntity(pos, state);
+    }
+
+    /**
+     * Original-style direct insertion: right-click with a seed to put one into
+     * an empty analyzer. All components stay on the copied seed stack.
+     * Other items fall back to opening the normal inventory interface.
+     */
+    @Override protected ItemInteractionResult useItemOn(ItemStack held, BlockState state,
+            Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        if (!(level.getBlockEntity(pos) instanceof SeedAnalyzerBlockEntity analyzer)
+                || !analyzer.getItem(0).isEmpty())
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (!level.isClientSide && analyzer.canPlaceItem(0, held)) {
+            analyzer.setItem(0, held.copyWithCount(1));
+            if (!player.getAbilities().instabuild) held.shrink(1);
+            return ItemInteractionResult.SUCCESS;
+        }
+        // Let vanilla open the analyzer when the held item is not a seed.
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
