@@ -47,16 +47,10 @@ public final class SeedJournalItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack journal = player.getItemInHand(hand);
-        if (!level.isClientSide) {
-            List<String> plants = discovered(journal);
-            player.sendSystemMessage(Component.translatable("message.cropgenetics.journal_title", plants.size()));
-            if (plants.isEmpty()) {
-                player.sendSystemMessage(Component.translatable("message.cropgenetics.journal_empty"));
-            } else {
-                for (String id : plants) {
-                    player.sendSystemMessage(Component.literal("• ").append(CropSpeciesNames.label(id)));
-                }
-            }
+        if (level.isClientSide) {
+            // The menu reads only synchronized journal data. Discovery changes
+            // still happen exclusively on the server in the Seed Analyzer.
+            dev.illedrabomb.cropgenetics.client.SeedJournalScreen.open(journal);
         }
         return InteractionResultHolder.sidedSuccess(journal, level.isClientSide);
     }
