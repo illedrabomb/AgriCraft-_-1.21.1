@@ -1,18 +1,21 @@
 package dev.illedrabomb.cropgenetics.content;
 
-import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 
-/** Pure genetic probability rules; no Minecraft world classes required. */
+/** Fertility is a transparent gameplay probability, not a hidden heritable stat. */
 final class CrossFertilityRules {
     private CrossFertilityRules() {}
 
+    // Three mature-parent crop stats no longer include inherited Fertility.
+    // Players can adjust overall breeding speed in the SERVER config.
+    private static final double BASE_CHANCE = 0.30D;
+
     static double fertilityChance(Genome genome) {
-        return genome.fertility().expressed(GenePair.TraitMode.MAX) / 10.0D;
+        return BASE_CHANCE;
     }
 
-    /** Average expressed fertility (1..10), one roll per mature parent pair. */
+    /** One success roll for the mature pair; no independent parent rolls. */
     static double pairFertilityChance(Genome first, Genome second) {
-        return (fertilityChance(first) + fertilityChance(second)) / 2.0D;
+        return BASE_CHANCE;
     }
 }
