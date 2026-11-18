@@ -57,5 +57,8 @@
   "screen.cropgenetics.journal_plant_detail": "Entdeckte Pflanze",
   "screen.cropgenetics.journal_unlocked": "Art im Journal eingetragen",
   "screen.cropgenetics.journal_seed_values": "Jeder Seed hat eigene Gene.",
-  "screen.cropgenetics.journal_analyzer_values": "Analyzer zeigt ihre Genwerte."
+  "screen.cropgenetics.journal_analyzer_values": "Analyzer zeigt ihre Genwerte.",
+  "screen.cropgenetics.journal_mutations": "Entdeckte Mutationen",
+  "screen.cropgenetics.journal_no_mutations": "Noch keine Kombination vollständig entdeckt.",
+  "screen.cropgenetics.journal_conditions": "Standort- und Bodenregeln gelten weiterhin."
 }
