@@ -293,7 +293,7 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
                         factor * CropBalanceConfig.GOURD_FRUIT_CHANCE_MULTIPLIER.get());
                 boolean chancePassed = random.nextDouble() < fruitChance;
                 crop.recordFruitChanceRoll(chancePassed);
-                if (chancePassed && GourdFruits.tryPlace(level, pos, plant, crop, random)) {
+                if (chancePassed && crop.markInternalFruit(plant)) {
                     crop.recordFruitPlacementSuccess();
                 }
             }
@@ -468,6 +468,17 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         // A player can harvest immediately after /reload, before the next
         // staggered ticker. Normalize saved age only on the server.
         if (!level.isClientSide) crop.reconcileLoadedStage(plant);
+        // A gourd's single fruit is now contained in the crop, not a neighboring block.
+        // Old worlds with a legacy physical fruit keep their existing ownership flow.
+        if (plant.harvestMode() == HarvestMode.GOURD && crop.fruitReady()
+                && crop.fruitDirection() == null && crop.fruitToken() == null) {
+            if (!level.isClientSide && crop.harvestInternalFruit(plant)) {
+                for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom())) {
+                    popResource(level, pos, drop);
+                }
+            }
+            return InteractionResult.SUCCESS;
+        }
         if (!crop.readyForHarvest(plant)) return InteractionResult.PASS;
 
         if (!level.isClientSide && crop.finishHarvest(plant)) {
