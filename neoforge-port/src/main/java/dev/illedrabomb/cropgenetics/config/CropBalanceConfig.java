@@ -3,8 +3,8 @@ package dev.illedrabomb.cropgenetics.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 /**
- * Server/world configuration. Defaults preserve the existing breeding and
- * gourd balance; row-cross evolution can be independently disabled.
+ * Server/world configuration. Historical config key names remain stable
+ * when the breeding rule evolves from two-parent rows to 2..4 parents.
  */
 public final class CropBalanceConfig {
     public static final ModConfigSpec SPEC;
@@ -19,15 +19,16 @@ public final class CropBalanceConfig {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
         b.push("breeding");
         ROW_CROSS_EVOLUTION = b.comment(
-                "Allow mutation of offspring genes when two same-species parents",
-                "crossbreed through a double-stick target in a straight row.")
+                "Allow visible-stat evolution when 2, 3 or 4 mature parents",
+                "produce offspring on double sticks. Key name kept for old configs.")
                 .define("rowCrossEvolution", true);
         ROW_EVOLUTION_MUTATION_MULTIPLIER = b.comment(
-                "Mutation probability multiplier for same-species straight-row crosses.",
-                "0 disables mutations; 1 uses the normal gene-based probability.")
+                "Base mutation probability multiplier per stat. Two parents: 1x,",
+                "three parents: 2x, four parents: 3x. 0 disables mutation.")
                 .defineInRange("rowEvolutionMutationMultiplier", 1.0D, 0.0D, 5.0D);
         CROSS_FERTILITY_MULTIPLIER = b.comment(
-                "Multiplier for successful two-parent breeding attempts.")
+                "Multiplier for crossing success. Three/four parents get an extra",
+                "25%/50% bonus compared with the two-parent baseline.")
                 .defineInRange("crossFertilityMultiplier", 1.0D, 0.1D, 5.0D);
         b.pop();
 
