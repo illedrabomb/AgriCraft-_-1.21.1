@@ -83,10 +83,10 @@ public final class CrossBreeding {
         // double sticks. Only its genome may evolve; no bonus seed is created.
         boolean rowCross = first.plantId().equals(second.plantId())
                 && firstParent.direction().getOpposite() == secondParent.direction();
-        double mutationMultiplier = rowCross
-                ? (CropBalanceConfig.ROW_CROSS_EVOLUTION.get()
-                        ? CropBalanceConfig.ROW_EVOLUTION_MUTATION_MULTIPLIER.get() : 0.0D)
-                : 1.0D;
+        // Only same-species parents on opposite sides of a straight row
+        // may improve or mutate stats. All other crosses only inherit.
+        double mutationMultiplier = rowCross && CropBalanceConfig.ROW_CROSS_EVOLUTION.get()
+                ? CropBalanceConfig.ROW_EVOLUTION_MUTATION_MULTIPLIER.get() : 0.0D;
         // Numeric alleles are inherited exactly once. Species choice must use
         // the offspring's actual Strength, not either parent's Strength.
         Genome inherited = BreedingEngine.combine(first, second, first.plantId(),
