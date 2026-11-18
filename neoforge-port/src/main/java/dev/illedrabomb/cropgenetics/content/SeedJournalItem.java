@@ -1,6 +1,10 @@
 package dev.illedrabomb.cropgenetics.content;
 
 import net.minecraft.network.chat.Component;
+import dev.illedrabomb.cropgenetics.data.MutationDefinition;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -41,6 +45,39 @@ public final class SeedJournalItem extends Item {
         TreeSet<String> all = new TreeSet<>(discovered(journal));
         if (!all.add(plantId)) return false;
         journal.set(CropComponents.JOURNAL_DISCOVERIES.get(), String.join("|", all));
+        return true;
+    }
+
+    /** Only fully researched triples are exposed, never undiscovered species. */
+    public record MutationHint(String parentA, String parentB, String child) {}
+
+    public static List<MutationHint> knownMutations(ItemStack journal) {
+        if (!(journal.getItem() instanceof SeedJournalItem)) return List.of();
+        Set<String> unlocked = new HashSet<>(discovered(journal));
+        return journal.getOrDefault(CropComponents.JOURNAL_MUTATIONS.get(), List.<String>of())
+                .stream()
+                .map(value -> value.split(">", -1))
+                .filter(parts -> parts.length == 3 && unlocked.contains(parts[0])
+                        && unlocked.contains(parts[1]) && unlocked.contains(parts[2]))
+                .map(parts -> new MutationHint(parts[0], parts[1], parts[2]))
+                .toList();
+    }
+
+    /** Rebuilds server-approved mutation hints from the active datapack snapshot. */
+    public static boolean refreshKnownMutations(ItemStack journal,
+                                                  Map<String, MutationDefinition> definitions) {
+        if (!(journal.getItem() instanceof SeedJournalItem)) return false;
+        Set<String> unlocked = new HashSet<>(discovered(journal));
+        List<String> known = definitions.values().stream()
+                .filter(def -> unlocked.contains(def.parentA())
+                        && unlocked.contains(def.parentB())
+                        && unlocked.contains(def.childPlantId()))
+                .map(def -> def.parentA() + ">" + def.parentB() + ">" + def.childPlantId())
+                .distinct().sorted().toList();
+        List<String> previous = journal.getOrDefault(
+                CropComponents.JOURNAL_MUTATIONS.get(), List.<String>of());
+        if (previous.equals(known)) return false;
+        journal.set(CropComponents.JOURNAL_MUTATIONS.get(), known);
         return true;
     }
 
