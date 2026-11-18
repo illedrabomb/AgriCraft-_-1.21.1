@@ -137,8 +137,7 @@ public final class CropDataCommand {
         }
         double factor = CropConditions.growthFactor(level, pos, plant, genome);
         double chance = GourdFruitRules.chance(plant.fruitChance(),
-                genome.gain().expressed(
-                        dev.illedrabomb.cropgenetics.genetics.GenePair.TraitMode.MAX),
+                genome.gain(),
                 factor);
         tell(source, "Gourd diagnostic at " + pos.toShortString()
                 + " (read-only, current loaded chunks):");
@@ -163,8 +162,7 @@ public final class CropDataCommand {
                 + Math.max(0L, crop.fruitChancePassed() - crop.fruitPlacementSucceeded()));
         tell(source, "  noEligibleTarget=" + crop.fruitPlacementNoEligibleTarget()
                 + ", eligibleTargetButPlacementFailed=" + crop.fruitPlacementEligibleFailed());
-        int strength = genome.strength().expressed(
-                dev.illedrabomb.cropgenetics.genetics.GenePair.TraitMode.MAX);
+        int strength = genome.strength();
         var requirements = plant.requirements();
         tell(source, "  conditions: plantingSite="
                 + CropConditions.matchesPlantingSite(level, pos, plant)
