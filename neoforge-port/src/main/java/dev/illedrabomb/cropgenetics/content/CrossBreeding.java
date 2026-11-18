@@ -69,28 +69,26 @@ public final class CrossBreeding {
             return;
         }
 
-        BreedingParent firstParent = parents.get(0);
-        BreedingParent secondParent = parents.get(1);
-        Genome first = firstParent.genome();
-        Genome second = secondParent.genome();
-        // Keep the one-roll fertility fix while exposing a server-side
-        // multiplier for players who prefer faster or slower breeding.
+        Genome first = parents.get(0).genome();
+        Genome second = parents.get(1).genome();
+        int parentCount = Math.min(4, parents.size());
+        // Two parents are the weakest configuration (a straight row is one
+        // example). Three and four eligible neighbors increase breeding
+        // probability without requiring multiple independent parent rolls.
+        double parentCountFactor = 1.0D + (parentCount - 2) * 0.25D;
         double chance = Math.min(1.0D, CrossFertilityRules.pairFertilityChance(first, second)
-                * CropBalanceConfig.CROSS_FERTILITY_MULTIPLIER.get());
+                * parentCountFactor * CropBalanceConfig.CROSS_FERTILITY_MULTIPLIER.get());
         if (random.nextDouble() >= chance) return;
 
-        // A straight row of same-species parents produces ONE offspring on
-        // double sticks. Only its genome may evolve; no bonus seed is created.
-        boolean rowCross = first.plantId().equals(second.plantId())
-                && firstParent.direction().getOpposite() == secondParent.direction();
-        // Only same-species parents on opposite sides of a straight row
-        // may improve or mutate stats. All other crosses only inherit.
-        double mutationMultiplier = rowCross && CropBalanceConfig.ROW_CROSS_EVOLUTION.get()
-                ? CropBalanceConfig.ROW_EVOLUTION_MUTATION_MULTIPLIER.get() : 0.0D;
-        // Numeric alleles are inherited exactly once. Species choice must use
-        // the offspring's actual Strength, not either parent's Strength.
-        Genome inherited = BreedingEngine.combine(first, second, first.plantId(),
-                inheritanceRandom, mutationMultiplier);
+        // The visible Growth/Gain/Strength values may come from ANY eligible
+        // parent; 2, 3 and 4 parents respectively use 1x, 2x and 3x the
+        // baseline mutation chance. Only one offspring is created.
+        double mutationMultiplier = CropBalanceConfig.ROW_CROSS_EVOLUTION.get()
+                ? (parentCount - 1) * CropBalanceConfig.ROW_EVOLUTION_MUTATION_MULTIPLIER.get()
+                : 0.0D;
+        Genome inherited = BreedingEngine.combine(
+                parents.stream().map(BreedingParent::genome).toList(),
+                first.plantId(), inheritanceRandom, mutationMultiplier);
         String childId = chooseChildSpecies(first, second, inherited, snapshot, level, position, random);
         PlantDefinition childPlant = plants.get(childId);
         if (childPlant == null) return;
