@@ -1,55 +1,42 @@
 package dev.illedrabomb.cropgenetics.genetics;
 
-import java.util.Objects;
-
 /**
- * Production domain model for a genetic seed. The three display attributes
- * follow the original 10/10/10 concept (growth/gain/strength).
- *
- * Fertility and mutativity remain independent inherited traits, since the
- * original AgriCraft breeding algorithm uses both. Weed resistance is
- * deliberately not included in the core and may be added by an addon.
+ * The classic AgriCraft-style three visible, heritable crop stats.
+ * Every stat is one integer from 1 to 10. Legacy two-allele saves are
+ * migrated by GenomeCodecs, preserving each previously expressed MAX value.
  */
-public record Genome(
-        String plantId,
-        GenePair growth,
-        GenePair gain,
-        GenePair strength,
-        GenePair fertility,
-        GenePair mutativity
-) {
+public record Genome(String plantId, int growth, int gain, int strength) {
+    public static final int MIN = 1;
+    public static final int MAX = 10;
+
     public Genome {
         if (plantId == null || plantId.length() > 128
                 || !plantId.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) {
             throw new IllegalArgumentException("Expected namespaced plant ID");
         }
-        Objects.requireNonNull(growth);
-        Objects.requireNonNull(gain);
-        Objects.requireNonNull(strength);
-        Objects.requireNonNull(fertility);
-        Objects.requireNonNull(mutativity);
+        check("growth", growth);
+        check("gain", gain);
+        check("strength", strength);
+    }
+
+    private static void check(String name, int stat) {
+        if (stat < MIN || stat > MAX)
+            throw new IllegalArgumentException(name + " must be between 1 and 10");
     }
 
     public static Genome basic(String plantId) {
-        GenePair initial = new GenePair(1, 1);
-        return new Genome(plantId, initial, initial, initial, initial, initial);
+        return new Genome(plantId, 1, 1, 1);
     }
 
-    /**
-     * Change the inherited crop species without rolling a second genotype.
-     * Used by species-mutation selection after numeric allele inheritance.
-     */
     public Genome withPlantId(String newPlantId) {
-        return new Genome(newPlantId, growth, gain, strength, fertility, mutativity);
+        return new Genome(newPlantId, growth, gain, strength);
     }
 
-    public boolean isPerfectVisible(GenePair.TraitMode mode) {
-        return growth.expressed(mode) == 10
-                && gain.expressed(mode) == 10
-                && strength.expressed(mode) == 10;
+    public boolean isPerfectVisible() {
+        return growth == MAX && gain == MAX && strength == MAX;
     }
 
-    public String displayedStats(GenePair.TraitMode mode) {
-        return growth.expressed(mode) + "/" + gain.expressed(mode) + "/" + strength.expressed(mode);
+    public String displayedStats() {
+        return growth + "/" + gain + "/" + strength;
     }
 }
