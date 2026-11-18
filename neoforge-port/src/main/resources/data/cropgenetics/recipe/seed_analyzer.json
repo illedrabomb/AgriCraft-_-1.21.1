@@ -2,15 +2,25 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "pattern": [
-    " G",
-    "S "
+    "SGS",
+    " BS",
+    "PWP"
   ],
   "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
     "G": {
       "item": "minecraft:glass_pane"
     },
-    "S": {
-      "item": "minecraft:stick"
+    "B": {
+      "item": "minecraft:stone_slab"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "W": {
+      "tag": "minecraft:wooden_slabs"
     }
   },
   "result": {
