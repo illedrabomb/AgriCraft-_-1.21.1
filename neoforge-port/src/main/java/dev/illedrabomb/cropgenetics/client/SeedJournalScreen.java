@@ -28,6 +28,8 @@ public final class SeedJournalScreen extends Screen {
     private int page;
     private Button previous;
     private Button next;
+    private Button back;
+    private String selectedSpecies;
 
     private SeedJournalScreen(ItemStack journal) {
         super(Component.translatable("screen.cropgenetics.journal"));
@@ -51,10 +53,15 @@ public final class SeedJournalScreen extends Screen {
                 button -> changePage(-1)).bounds(center - 93, bottom, 40, 20).build());
         next = addRenderableWidget(Button.builder(Component.literal(">"),
                 button -> changePage(1)).bounds(center + 53, bottom, 40, 20).build());
+        back = addRenderableWidget(Button.builder(
+                Component.translatable("screen.cropgenetics.journal_back"),
+                button -> { selectedSpecies = null; updateButtons(); })
+                .bounds(center - 44, bottom, 88, 20).build());
         updateButtons();
     }
 
     private void changePage(int direction) {
+        selectedSpecies = null;
         page = Math.max(0, Math.min(totalPages() - 1, page + direction));
         updateButtons();
     }
@@ -62,6 +69,7 @@ public final class SeedJournalScreen extends Screen {
     private void updateButtons() {
         if (previous != null) previous.active = page > 0;
         if (next != null) next.active = page + 1 < totalPages();
+        if (back != null) back.visible = selectedSpecies != null;
     }
 
     @Override
@@ -97,6 +105,10 @@ public final class SeedJournalScreen extends Screen {
     }
 
     private void renderDiscoveredPage(GuiGraphics graphics, int left, int top) {
+        if (selectedSpecies != null) {
+            renderPlantDetail(graphics, left, top, selectedSpecies);
+            return;
+        }
         graphics.drawCenteredString(font, title, width / 2, top + 15, 0x54351C);
         graphics.drawCenteredString(font,
                 Component.translatable("screen.cropgenetics.journal_count", discovered.size()),
@@ -116,6 +128,42 @@ public final class SeedJournalScreen extends Screen {
             graphics.drawString(font, CropSpeciesNames.label(species),
                     left + 39, y, 0x49301C, false);
         }
+    }
+
+    /** Click a discovered plant to open its species page. */
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (button == 0 && selectedSpecies == null && page >= GUIDE_PAGES) {
+            int left = width / 2 - 112;
+            int top = height / 2 - 101;
+            int first = (page - GUIDE_PAGES) * ENTRIES_PER_PAGE;
+            if (mouseX >= left + 15 && mouseX < left + 209) {
+                for (int row = 0; row < ENTRIES_PER_PAGE && first + row < discovered.size(); row++) {
+                    int y = top + 48 + row * 17;
+                    if (mouseY >= y - 4 && mouseY < y + 13) {
+                        selectedSpecies = discovered.get(first + row);
+                        updateButtons();
+                        return true;
+                    }
+                }
+            }
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    private void renderPlantDetail(GuiGraphics graphics, int left, int top, String species) {
+        graphics.drawCenteredString(font,
+                Component.translatable("screen.cropgenetics.journal_plant_detail"),
+                width / 2, top + 18, 0x54351C);
+        graphics.renderItem(iconFor(species), left + 17, top + 43);
+        graphics.drawString(font, CropSpeciesNames.label(species),
+                left + 40, top + 47, 0x49301C, false);
+        graphics.drawString(font, Component.translatable("screen.cropgenetics.journal_unlocked"),
+                left + 17, top + 76, 0x49301C, false);
+        graphics.drawString(font, Component.translatable("screen.cropgenetics.journal_seed_values"),
+                left + 17, top + 100, 0x49301C, false);
+        graphics.drawString(font, Component.translatable("screen.cropgenetics.journal_analyzer_values"),
+                left + 17, top + 118, 0x49301C, false);
     }
 
     /** Prefer a familiar Vanilla seed icon; unknown datapack species use our seed. */
