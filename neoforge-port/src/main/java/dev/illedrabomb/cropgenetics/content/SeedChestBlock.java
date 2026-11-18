@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -21,6 +22,7 @@ public final class SeedChestBlock extends BaseEntityBlock {
 
     public SeedChestBlock(Properties properties) { super(properties); }
     @Override protected MapCodec<? extends SeedChestBlock> codec() { return CODEC; }
+    @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
     @Override @Nullable public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new SeedChestBlockEntity(pos, state);
     }
