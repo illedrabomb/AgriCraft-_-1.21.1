@@ -30,11 +30,25 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
                        MultiBufferSource buffers, int packedLight, int packedOverlay) {
         Genome genome = crop.genome();
         if (genome == null || !crop.getBlockState().getValue(CropSticksBlock.PLANTED)) return;
-        // The attached vanilla stem is drawn by the multipart blockstate.
-        // Do not draw the cross-plane stem over it a second time.
-        if (crop.getBlockState().getValue(CropSticksBlock.FRUIT)
-                && (genome.plantId().equals("minecraft:melon_plant")
-                || genome.plantId().equals("minecraft:pumpkin_plant"))) return;
+        // New fruits grow inside the crop sticks. Render a compact vanilla fruit
+        // block on the same tile, without replacing the plant or a neighbor.
+        boolean isGourd = genome.plantId().equals("minecraft:melon_plant")
+                || genome.plantId().equals("minecraft:pumpkin_plant");
+        if (isGourd && crop.getBlockState().getValue(CropSticksBlock.FRUIT)) {
+            // Existing worlds may still have an external owned fruit. Keep the
+            // historical attached-stem rendering for those legacy fruits.
+            if (crop.fruitDirection() != null && crop.fruitToken() != null) return;
+            poses.pushPose();
+            poses.translate(0.13D, 0.05D, 0.13D);
+            poses.scale(0.74F, 0.74F, 0.74F);
+            Minecraft.getInstance().getBlockRenderer().renderSingleBlock(
+                    genome.plantId().equals("minecraft:melon_plant")
+                            ? Blocks.MELON.defaultBlockState()
+                            : Blocks.PUMPKIN.defaultBlockState(),
+                    poses, buffers, packedLight, packedOverlay);
+            poses.popPose();
+            return;
+        }
 
         // The BlockState keeps only 0..7 for model compatibility. Use the
         // exact server-synced BlockEntity values for species with >8 stages.
