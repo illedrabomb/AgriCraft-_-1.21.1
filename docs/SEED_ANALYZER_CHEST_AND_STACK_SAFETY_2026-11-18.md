@@ -15,6 +15,14 @@
 - Bestehende Handitem-Rezepte liefern nun einen platzierbaren Analyzer mit derselben Registry-ID; ein neues Rezept erzeugt die Seed Chest. Die veraltete Analyse von stehenden Pflanzen durch Rechtsklick mit dem Analyzer-Item wurde entfernt, da es kein Handwerkzeug mehr ist.
 - Das **originale AgriCraft-Blockmodell** mit schräger Glasplatte und die beiden originalen Texturen wurden ins CropGenetics-Namespace übernommen. Der Block hat horizontale Ausrichtung. Die ursprüngliche dynamische Kamerafahrt, das Journal und die Spezial-GUI sind dagegen **noch nicht vollständig portiert**; die Bedienung läuft vorerst über eine zuverlässige Vanilla-Containeransicht.
 
+## Survival-Rezepte (ab 19.11.2026)
+
+- **Crop Sticks:** vier normale Stöcke als 2×2-Quadrat ergeben **acht Crop Sticks**, wie im Original. Vorher fehlte dieses Rezept im NeoForge-Port vollständig.
+- **Seed Analyzer:** wieder die ursprünglich aufwendigere 3×3-Anordnung aus Stöcken, Glasscheibe, Steinplatte, Holzbrettern und Holzstufe (`SGS / _BS / PWP`; S=Stock, G=Glasscheibe, B=Steinplatte, P=Holzbrett, W=Holzstufe). Im NeoForge-Rezept sind beliebige Vanilla-Bretter und Holzstufen über Tags erlaubt.
+- **Seed Chest:** acht beliebige Holzbretter um eine normale Truhe; nicht mehr nur Eichenbretter.
+- **Seed Journal:** Buch + Crop Sticks (bestehendes Rezept).
+- Alle Rezepte liegen unter `data/cropgenetics/recipe/` und sind noch nicht durch einen lokalen Minecraft-Datapack-Reload bestätigt.
+
 ## Seed Journal / Entdeckungsbuch
 
 - Ein neues nicht stapelbares `cropgenetics:seed_journal` lässt sich aus **Buch + Crop Sticks** herstellen.
