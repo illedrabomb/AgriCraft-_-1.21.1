@@ -51,8 +51,7 @@ abstract class SeedInventoryBlockEntity extends BlockEntity implements Container
                         worldPosition.getY() + 0.5D, worldPosition.getZ() + 0.5D) <= 64.0D;
     }
     @Override public void clearContent() {
-        items.clear();
-        for (int i = 0; i < getContainerSize(); i++) items.add(ItemStack.EMPTY);
+        for (int i = 0; i < items.size(); i++) items.set(i, ItemStack.EMPTY);
         setChanged();
     }
     @Override protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
