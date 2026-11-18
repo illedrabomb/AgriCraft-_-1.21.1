@@ -1,5 +1,6 @@
 package dev.illedrabomb.cropgenetics.genetics;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.random.RandomGenerator;
 
@@ -11,28 +12,36 @@ public final class BreedingEngine {
         return combine(first, second, childPlantId, random, 1.0D);
     }
 
-    /**
-     * One inherited value per stat, chosen from either parent; mutation may
-     * increase or decrease it by one. Fertility and mutativity are no longer
-     * heritable, hidden genes. Parents remain unchanged.
-     */
+    /** Compatibility overload for two parents. */
     public static Genome combine(Genome first, Genome second, String childPlantId,
                                  RandomGenerator random, double mutationMultiplier) {
-        Objects.requireNonNull(first);
-        Objects.requireNonNull(second);
+        return combine(List.of(first, second), childPlantId, random, mutationMultiplier);
+    }
+
+    /**
+     * All 2..4 eligible parents contribute to the possible allele source
+     * (one scalar per stat now). The caller decides the mutation probability
+     * multiplier based on eligible parent count and server config.
+     */
+    public static Genome combine(List<Genome> parents, String childPlantId,
+                                 RandomGenerator random, double mutationMultiplier) {
+        Objects.requireNonNull(parents);
         Objects.requireNonNull(random);
+        if (parents.size() < 2 || parents.size() > 4 || parents.stream().anyMatch(Objects::isNull))
+            throw new IllegalArgumentException("Requires 2 to 4 non-null parents");
         if (!Double.isFinite(mutationMultiplier) || mutationMultiplier < 0D)
             throw new IllegalArgumentException("Invalid mutation multiplier");
         return new Genome(childPlantId,
-                inherit(first.growth(), second.growth(), random, mutationMultiplier),
-                inherit(first.gain(), second.gain(), random, mutationMultiplier),
-                inherit(first.strength(), second.strength(), random, mutationMultiplier));
+                inherit(parents, Genome::growth, random, mutationMultiplier),
+                inherit(parents, Genome::gain, random, mutationMultiplier),
+                inherit(parents, Genome::strength, random, mutationMultiplier));
     }
 
-    private static int inherit(int first, int second, RandomGenerator random, double multiplier) {
-        int inherited = random.nextBoolean() ? first : second;
-        // 10% baseline per stat at multiplier=1. Higher row-evolution values
-        // increase the chance, without introducing invisible genetic traits.
+    private static int inherit(List<Genome> parents, java.util.function.ToIntFunction<Genome> stat,
+                               RandomGenerator random, double multiplier) {
+        int inherited = stat.applyAsInt(parents.get(random.nextInt(parents.size())));
+        // Baseline 10% mutation per stat for two parent crosses; three and four
+        // mature same-species parents scale this chance up through the caller.
         if (multiplier > 0D && random.nextDouble() < Math.min(1D, multiplier / 10D)) {
             inherited += random.nextBoolean() ? 1 : -1;
         }
