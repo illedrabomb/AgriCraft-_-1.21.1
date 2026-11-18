@@ -522,7 +522,9 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
             PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
             // Normal breaking is destructive: keep the seed, and if mature add
             // products. Repeated calls are avoided through the usual block loot path.
-            if (plant != null && crop.readyForHarvest(plant)) {
+            if (plant != null && (crop.readyForHarvest(plant)
+                    || (plant.harvestMode() == HarvestMode.GOURD && crop.fruitReady()
+                            && crop.fruitDirection() == null && crop.fruitToken() == null))) {
                 drops.addAll(CropHarvest.products(plant, genome, builder.getLevel().getRandom()));
             }
         }
