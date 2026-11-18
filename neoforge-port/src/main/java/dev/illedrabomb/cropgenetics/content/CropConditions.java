@@ -180,7 +180,7 @@ public final class CropConditions {
     public static double growthFactor(LevelReader level, BlockPos pos,
                                       PlantDefinition plant, Genome genome) {
         PlantRequirements requirements = plant.requirements();
-        int strength = genome.strength().expressed(GenePair.TraitMode.MAX);
+        int strength = genome.strength();
         if (!matchesPlantingSite(level, pos, plant)
                 || !matchesLocation(level, pos, requirements)
                 || !matchesEnvironment(level, pos, requirements.environment())
