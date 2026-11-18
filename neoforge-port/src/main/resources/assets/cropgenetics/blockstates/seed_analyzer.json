@@ -1,7 +1,20 @@
 {
   "variants": {
-    "": {
-      "model": "cropgenetics:block/seed_analyzer"
+    "facing=north": {
+      "model": "cropgenetics:block/seed_analyzer",
+      "y": 0
+    },
+    "facing=east": {
+      "model": "cropgenetics:block/seed_analyzer",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "cropgenetics:block/seed_analyzer",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "cropgenetics:block/seed_analyzer",
+      "y": 270
     }
   }
 }
