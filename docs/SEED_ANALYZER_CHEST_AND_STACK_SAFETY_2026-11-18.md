@@ -13,13 +13,13 @@
 - `cropgenetics:seed_chest` ist als eigener Block mit persistenter 27-Slot-Inventory hinzugekommen. Das Analyzer-Menü verwendet ohne Chest ein Vanilla-1-Reihen-Inventar, mit Chest ein Vanilla-4-Reihen-Inventar (Analyzerslot oben links, übrige Felder der ersten Reihe gesperrt, 27 Chest-Slots darunter).
 - Die Analyse erfolgt serverseitig, sobald der Samen im Analyzer-Slot liegt. Es wird nur die `ANALYZED`-Markierung gesetzt; der `GENOME`-Wert wird nicht geändert.
 - Bestehende Handitem-Rezepte liefern nun einen platzierbaren Analyzer mit derselben Registry-ID; ein neues Rezept erzeugt die Seed Chest.
-- Bestehende Original-Modelle/Animationen (Blick durch Lupe, Journal, originale GUI-Texturen) sind **noch nicht vollständig portiert**. Der erste Stand verwendet eine low-profile-Holz-/Glasplatte und Vanilla-Containeransicht.
+- Das **originale AgriCraft-Blockmodell** mit schräger Glasplatte und die beiden originalen Texturen wurden ins CropGenetics-Namespace übernommen. Der Block hat horizontale Ausrichtung. Die ursprüngliche dynamische Kamerafahrt, das Journal und die Spezial-GUI sind dagegen **noch nicht vollständig portiert**; die Bedienung läuft vorerst über eine zuverlässige Vanilla-Containeransicht.
 
 ## Testfälle für die nächste gemeinsame Testphase (noch NICHT durchgeführt)
 
 1. Genetische Samen unterschiedlicher Werte aus Kreuzungen aufsammeln: sie müssen jeweils einzeln liegen und ihre individuellen Gene auch nach Inventar-/Save-Reload behalten.
 2. Unanalysierter Samen: mit Shift keine Werte; nach Einlegen in Analyzer zeigt derselbe Stack die drei gespeicherten Werte und behält sie nach Herausnehmen.
-3. Analyzer mit leerer Hand öffnen: erstes Feld verwendbar, acht Leerfelder der ersten Reihe nicht als Speicher benutzbar.
+3. Analyzer mit leerer Hand öffnen: erstes Feld verwendbar, acht Leerfelder der ersten Reihe nicht als Speicher benutzbar; Modell und Blickrichtung bei allen vier Orientierungen kontrollieren.
 4. Seed Chest direkt daneben platzieren: Analyzer zeigt die 27 Chest-Slots darunter; Inventar bleibt nach Welt-Neuladen bestehen.
 5. Chest ohne Analyzer öffnen und Samen aufnehmen/entnehmen. Beim Blockabbau müssen Inhalte als Items fallen, ohne Duplikate.
 6. Chest an einer nicht angrenzenden Position soll nicht in Analyzer auftauchen.
