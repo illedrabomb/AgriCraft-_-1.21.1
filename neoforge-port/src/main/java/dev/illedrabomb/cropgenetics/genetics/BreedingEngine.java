@@ -3,11 +3,7 @@ package dev.illedrabomb.cropgenetics.genetics;
 import java.util.Objects;
 import java.util.random.RandomGenerator;
 
-/**
- * Pure genetic combination layer for actual gameplay integration.
- * Species mutations and fertility-based parent selection are separate
- * responsibilities and are NOT implemented here yet.
- */
+/** Inherit and optionally mutate the three classic 1..10 crop stats. */
 public final class BreedingEngine {
     private BreedingEngine() {}
 
@@ -16,8 +12,9 @@ public final class BreedingEngine {
     }
 
     /**
-     * Optional mutation tuning for a straight-row cross. The parents are never
-     * changed, and the offspring always inherits its alleles from both.
+     * One inherited value per stat, chosen from either parent; mutation may
+     * increase or decrease it by one. Fertility and mutativity are no longer
+     * heritable, hidden genes. Parents remain unchanged.
      */
     public static Genome combine(Genome first, Genome second, String childPlantId,
                                  RandomGenerator random, double mutationMultiplier) {
@@ -27,34 +24,18 @@ public final class BreedingEngine {
         if (!Double.isFinite(mutationMultiplier) || mutationMultiplier < 0D)
             throw new IllegalArgumentException("Invalid mutation multiplier");
         return new Genome(childPlantId,
-                inherit(first.growth(), second.growth(), first.mutativity(), second.mutativity(), random, mutationMultiplier),
-                inherit(first.gain(), second.gain(), first.mutativity(), second.mutativity(), random, mutationMultiplier),
-                inherit(first.strength(), second.strength(), first.mutativity(), second.mutativity(), random, mutationMultiplier),
-                inherit(first.fertility(), second.fertility(), first.mutativity(), second.mutativity(), random, mutationMultiplier),
-                inherit(first.mutativity(), second.mutativity(), first.mutativity(), second.mutativity(), random, mutationMultiplier));
+                inherit(first.growth(), second.growth(), random, mutationMultiplier),
+                inherit(first.gain(), second.gain(), random, mutationMultiplier),
+                inherit(first.strength(), second.strength(), random, mutationMultiplier));
     }
 
-    private static GenePair inherit(GenePair a, GenePair b, GenePair ma, GenePair mb,
-                                    RandomGenerator random, double mutationMultiplier) {
-        int fromA = random.nextBoolean() ? a.dominant() : a.recessive();
-        int fromB = random.nextBoolean() ? b.dominant() : b.recessive();
-        // Mirrors the original AgriStatMutator with max=10 and expressed MAX.
-        int mutationA = mutate(fromA, ma.expressed(GenePair.TraitMode.MAX), random, mutationMultiplier);
-        int mutationB = mutate(fromB, mb.expressed(GenePair.TraitMode.MAX), random, mutationMultiplier);
-        return new GenePair(mutationA, mutationB);
-    }
-
-    private static int mutate(int allele, int mutativity, RandomGenerator random,
-                              double mutationMultiplier) {
-        // Preserve the historical seeded RNG sequence at the default setting.
-        // Non-default settings use a scaled 0..1 probability.
-        boolean shouldMutate = mutationMultiplier == 1.0D
-                ? random.nextInt(10) < mutativity
-                : mutationMultiplier > 0D
-                        && random.nextDouble() < Math.min(1D, mutativity * mutationMultiplier / 10D);
-        if (shouldMutate) {
-            allele += random.nextInt(10) < (10 + mutativity) / 2 ? 1 : -1;
+    private static int inherit(int first, int second, RandomGenerator random, double multiplier) {
+        int inherited = random.nextBoolean() ? first : second;
+        // 10% baseline per stat at multiplier=1. Higher row-evolution values
+        // increase the chance, without introducing invisible genetic traits.
+        if (multiplier > 0D && random.nextDouble() < Math.min(1D, multiplier / 10D)) {
+            inherited += random.nextBoolean() ? 1 : -1;
         }
-        return Math.max(GenePair.MIN, Math.min(GenePair.MAX, allele));
+        return Math.max(Genome.MIN, Math.min(Genome.MAX, inherited));
     }
 }
