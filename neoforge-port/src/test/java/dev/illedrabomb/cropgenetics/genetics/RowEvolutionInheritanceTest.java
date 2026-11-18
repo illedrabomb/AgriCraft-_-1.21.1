@@ -1,15 +1,10 @@
 package dev.illedrabomb.cropgenetics.genetics;
 
 import org.junit.jupiter.api.Test;
-
 import java.util.Random;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Same-species, two-parent rows can evolve through the existing inheritance
- * engine; one-parent clones keep the exact original genome.
- */
+/** Row breeding may improve the three visible traits, never hidden genes. */
 class RowEvolutionInheritanceTest {
     private static final class ImprovementRolls extends Random {
         @Override public boolean nextBoolean() { return true; }
@@ -18,33 +13,24 @@ class RowEvolutionInheritanceTest {
     }
 
     @Test
-    void twoSameSpeciesParentsCanImproveAllAlleles() {
+    void twoSameSpeciesParentsCanImproveAllThreeStats() {
         Genome baseline = Genome.basic("minecraft:wheat_plant");
         Genome child = BreedingEngine.combine(baseline, baseline,
                 baseline.plantId(), new ImprovementRolls());
-
-        assertEquals(baseline.plantId(), child.plantId());
-        GenePair improved = new GenePair(2, 2);
-        assertEquals(improved, child.growth());
-        assertEquals(improved, child.gain());
-        assertEquals(improved, child.strength());
-        assertEquals(improved, child.fertility());
-        assertEquals(improved, child.mutativity());
-        // Neither parent genome is modified by inheritance.
-        assertEquals(new GenePair(1, 1), baseline.growth());
+        assertEquals(new Genome(baseline.plantId(), 2, 2, 2), child);
+        assertEquals(Genome.basic(baseline.plantId()), baseline);
     }
 
     @Test
-    void mutationNeverExceedsMaximumAllele() {
-        GenePair maximum = new GenePair(10, 10);
-        Genome parent = new Genome("minecraft:wheat_plant",
-                maximum, maximum, maximum, maximum, maximum);
+    void mutationNeverExceedsMaximum() {
+        Genome parent = new Genome("minecraft:wheat_plant", 10, 10, 10);
         Genome child = BreedingEngine.combine(parent, parent,
                 parent.plantId(), new ImprovementRolls());
         assertEquals(parent, child);
     }
+
     @Test
-    void disablingRowMutationStillInheritsButNeverCreatesBonusGenes() {
+    void disablingRowMutationStillInheritsButDoesNotImprove() {
         Genome baseline = Genome.basic("minecraft:wheat_plant");
         Genome child = BreedingEngine.combine(baseline, baseline,
                 baseline.plantId(), new ImprovementRolls(), 0.0D);
@@ -56,8 +42,6 @@ class RowEvolutionInheritanceTest {
         Genome baseline = Genome.basic("minecraft:wheat_plant");
         Genome child = BreedingEngine.combine(baseline, baseline,
                 baseline.plantId(), new ImprovementRolls(), 5.0D);
-        assertEquals(new GenePair(2, 2), child.growth());
-        assertEquals(new GenePair(2, 2), child.mutativity());
+        assertEquals(new Genome(baseline.plantId(), 2, 2, 2), child);
     }
-
 }
