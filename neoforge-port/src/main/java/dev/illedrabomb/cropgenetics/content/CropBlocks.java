@@ -25,6 +25,14 @@ public final class CropBlocks {
                     BlockBehaviour.Properties.of().noCollission().strength(0.5F)
                             .sound(SoundType.WOOD).pushReaction(PushReaction.BLOCK));
 
+    public static final DeferredBlock<SeedAnalyzerBlock> SEED_ANALYZER =
+            BLOCKS.registerBlock("seed_analyzer", SeedAnalyzerBlock::new,
+                    BlockBehaviour.Properties.of().strength(2.0F).sound(SoundType.WOOD).noOcclusion());
+
+    public static final DeferredBlock<SeedChestBlock> SEED_CHEST =
+            BLOCKS.registerBlock("seed_chest", SeedChestBlock::new,
+                    BlockBehaviour.Properties.of().strength(2.5F).sound(SoundType.WOOD));
+
     public static final DeferredBlock<GeneticGourdFruitBlock> GENETIC_MELON_FRUIT =
             BLOCKS.registerBlock("genetic_melon_fruit", GeneticGourdFruitBlock::new,
                     BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.MELON)
@@ -34,6 +42,14 @@ public final class CropBlocks {
             BLOCKS.registerBlock("genetic_pumpkin_fruit", GeneticGourdFruitBlock::new,
                     BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.PUMPKIN)
                             .pushReaction(PushReaction.BLOCK));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SeedAnalyzerBlockEntity>>
+            SEED_ANALYZER_ENTITY = BLOCK_ENTITIES.register("seed_analyzer",
+                    () -> BlockEntityType.Builder.of(SeedAnalyzerBlockEntity::new, SEED_ANALYZER.get()).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SeedChestBlockEntity>>
+            SEED_CHEST_ENTITY = BLOCK_ENTITIES.register("seed_chest",
+                    () -> BlockEntityType.Builder.of(SeedChestBlockEntity::new, SEED_CHEST.get()).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CropSticksBlockEntity>>
             CROP_STICKS_ENTITY = BLOCK_ENTITIES.register("crop_sticks",
