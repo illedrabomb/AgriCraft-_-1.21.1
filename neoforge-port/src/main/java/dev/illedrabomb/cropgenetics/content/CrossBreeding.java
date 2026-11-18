@@ -116,7 +116,7 @@ public final class CrossBreeding {
                         entry.getValue().seasonRule().allowedSeasons()))
                 .filter(entry -> CropConditions.matchesChemistry(level, target,
                         entry.getValue().soilChemistry(),
-                        inherited.strength().expressed(GenePair.TraitMode.MAX)))
+                        inherited.strength()))
                 .filter(entry -> snapshot.plants().containsKey(entry.getValue().childPlantId()))
                 // Do not consume a mutation roll for species that cannot
                 // grow under the actual soil and lighting with inherited Strength.
