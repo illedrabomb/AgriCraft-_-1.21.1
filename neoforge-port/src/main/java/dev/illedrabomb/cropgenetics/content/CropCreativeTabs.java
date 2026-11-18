@@ -27,6 +27,7 @@ public final class CropCreativeTabs {
                         output.accept(CropItems.CROP_STICKS.get());
                         output.accept(CropItems.SEED_ANALYZER.get());
                         output.accept(CropItems.SEED_CHEST.get());
+                        output.accept(CropItems.SEED_JOURNAL.get());
                         for (String species : DEFAULT_SPECIES) {
                             // Each displayed item is a usable seed with its own genome.
                             output.accept(CropItems.seedWithGenome(Genome.basic(species)));
