@@ -15,11 +15,20 @@
 - Bestehende Handitem-Rezepte liefern nun einen platzierbaren Analyzer mit derselben Registry-ID; ein neues Rezept erzeugt die Seed Chest. Die veraltete Analyse von stehenden Pflanzen durch Rechtsklick mit dem Analyzer-Item wurde entfernt, da es kein Handwerkzeug mehr ist.
 - Das **originale AgriCraft-Blockmodell** mit schräger Glasplatte und die beiden originalen Texturen wurden ins CropGenetics-Namespace übernommen. Der Block hat horizontale Ausrichtung. Die ursprüngliche dynamische Kamerafahrt, das Journal und die Spezial-GUI sind dagegen **noch nicht vollständig portiert**; die Bedienung läuft vorerst über eine zuverlässige Vanilla-Containeransicht.
 
+## Seed Journal / Entdeckungsbuch
+
+- Ein neues nicht stapelbares `cropgenetics:seed_journal` lässt sich aus **Buch + Crop Sticks** herstellen.
+- Der Analyzer besitzt **Feld 0 für Seeds, Feld 1 für das Journal**. Felder 2–8 bleiben gesperrt; eine benachbarte Seed Chest wird weiterhin in drei weiteren Reihen angezeigt.
+- Liegen gleichzeitig ein analysierter Seed und das Journal im Analyzer, wird die Pflanzen-ID dedupliziert und **im Journal-Item selbst** als Datenkomponente gespeichert. Das Einlegen in beliebiger Reihenfolge ist möglich. Es werden nur tatsächlich analysierte Pflanzenarten, nicht jede bloß gehaltene Pflanzenart, freigeschaltet.
+- Das Journal speichert die Liste dauerhaft und übertragbar. Das Verwenden in der Hand listet entdeckte Arten aktuell im Chat auf. **Das originale bebilderte Buch-Menü und die Seitenansicht sind noch offen**; die Speicherlogik ist bereits unabhängig von einer externen Mod.
+- Ponder wird **ausdrücklich nur als sehr spätes, optionales Tutorial-Addon** geführt. Es ist keine Voraussetzung für das Journal. Siehe `docs/NEOFORGE_1.21.1_PLAN.md`.
+- JEI bietet eine Infoseite zum Erhalten genetischer Seeds aus gewöhnlichem registriertem Saatgut und eine Infoseite zu Analyzer, Seed Chest und Journal. Die Seiten sind Erklärungen, **keine erfundenen Crafting-Rezepte**.
+
 ## Testfälle für die nächste gemeinsame Testphase (noch NICHT durchgeführt)
 
 1. Genetische Samen unterschiedlicher Werte aus Kreuzungen aufsammeln: sie müssen jeweils einzeln liegen und ihre individuellen Gene auch nach Inventar-/Save-Reload behalten.
 2. Unanalysierter Samen: mit Shift keine Werte; nach Einlegen in Analyzer zeigt derselbe Stack die drei gespeicherten Werte und behält sie nach Herausnehmen.
-3. Analyzer mit Seed in der Hand rechtsklicken: genau ein Seed wird aufgenommen und analysiert; andere Items werden nicht eingelagert. Danach Analyzer mit leerer Hand öffnen: erstes Feld verwendbar, acht Leerfelder der ersten Reihe nicht als Speicher benutzbar; Modell und Blickrichtung bei allen vier Orientierungen kontrollieren.
+3. Journal in Feld 1 einlegen, erst danach einen Seed analysieren; Reihenfolge umkehren und doppelte Analysen wiederholen: jede Pflanzenart darf nur einmal im Buch erscheinen. Journal entnehmen und per Rechtsklick die Liste prüfen. Analyzer mit Seed in der Hand rechtsklicken: genau ein Seed wird aufgenommen und analysiert; andere Items werden nicht eingelagert. Danach Analyzer mit leerer Hand öffnen: erstes Feld verwendbar, acht Leerfelder der ersten Reihe nicht als Speicher benutzbar; Modell und Blickrichtung bei allen vier Orientierungen kontrollieren.
 4. Seed Chest direkt daneben platzieren: Analyzer zeigt die 27 Chest-Slots darunter; Inventar bleibt nach Welt-Neuladen bestehen.
 5. Chest ohne Analyzer öffnen und Samen aufnehmen/entnehmen. Beim Blockabbau müssen Inhalte als Items fallen, ohne Duplikate.
 6. Chest an einer nicht angrenzenden Position soll nicht in Analyzer auftauchen.
