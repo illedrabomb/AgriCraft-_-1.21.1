@@ -13,7 +13,10 @@ import java.util.List;
  */
 public final class GeneticSeedItem extends Item {
     public GeneticSeedItem(Properties properties) {
-        super(properties);
+        // Every seed keeps its own hidden genome until the analyzer reveals it.
+        // An explicit one-seed stack size prevents accidental merging through
+        // foreign inventory mods that compare only item identity.
+        super(properties.stacksTo(1));
     }
 
     @Override
