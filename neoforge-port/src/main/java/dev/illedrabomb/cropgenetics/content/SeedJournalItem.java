@@ -9,7 +9,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -27,7 +26,7 @@ public final class SeedJournalItem extends Item {
         if (!(journal.getItem() instanceof SeedJournalItem)) return List.of();
         String stored = journal.getOrDefault(CropComponents.JOURNAL_DISCOVERIES.get(), "");
         TreeSet<String> unique = new TreeSet<>();
-        for (String id : stored.split("\\n")) {
+        for (String id : stored.split("\\|")) {
             ResourceLocation resource = ResourceLocation.tryParse(id);
             if (resource != null && id.equals(resource.toString())) unique.add(id);
         }
@@ -41,7 +40,7 @@ public final class SeedJournalItem extends Item {
         if (parsed == null || !plantId.equals(parsed.toString())) return false;
         TreeSet<String> all = new TreeSet<>(discovered(journal));
         if (!all.add(plantId)) return false;
-        journal.set(CropComponents.JOURNAL_DISCOVERIES.get(), String.join("\\n", all));
+        journal.set(CropComponents.JOURNAL_DISCOVERIES.get(), String.join("|", all));
         return true;
     }
 
