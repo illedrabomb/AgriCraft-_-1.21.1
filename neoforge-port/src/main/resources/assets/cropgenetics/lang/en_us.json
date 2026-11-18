@@ -57,5 +57,8 @@
   "screen.cropgenetics.journal_plant_detail": "Discovered plant",
   "screen.cropgenetics.journal_unlocked": "Species recorded in this journal",
   "screen.cropgenetics.journal_seed_values": "Each seed has its own genes.",
-  "screen.cropgenetics.journal_analyzer_values": "Analyze seeds to reveal values."
+  "screen.cropgenetics.journal_analyzer_values": "Analyze seeds to reveal values.",
+  "screen.cropgenetics.journal_mutations": "Discovered mutations",
+  "screen.cropgenetics.journal_no_mutations": "No full combinations discovered.",
+  "screen.cropgenetics.journal_conditions": "Location and soil rules still apply."
 }
