@@ -24,6 +24,11 @@ Dieses Repository ist ein Fork von [AgriCraft/AgriCraft](https://github.com/Agri
 - MineColonies-Integration als eigenständiges optionales Addon: Kolonisten-/Farmer-Arbeitsabläufe und genetische Saaten integrieren; konkrete Schnittstellen und MineColonies-Version noch prüfen
 - Unkraut (Weeds) gehört nicht zum Hauptumfang; nur bei künftigem Bedarf als optionales Addon
 
+## Sehr langfristig (optional, keine Pflicht-Abhängigkeit)
+
+- **Ponder-Integration für animierte Ingame-Tutorials (sehr niedrige Priorität):** Erst nach Fertigstellung und Test des Kernmods und des eigenständigen Seed Journals prüfen. Mögliches spätes Addon/optionale Client-Integration für das Platzieren von Crop Sticks, Kreuzungen, Analyzer und Seed Chest. Der Kernmod muss **ohne Ponder** startbar und vollständig spielbar sein; die JEI-Infoseiten und das Entdeckungsjournal bleiben unabhängig davon nutzbar.
+- Das **Seed Journal selbst** ist dagegen Kernfunktion: wie im Original ein eigenständiges Buch, dessen entdeckte Pflanzenarten beim Analysieren neuer Saaten im Seed Analyzer ergänzt werden. Nicht mit dem optionalen Ponder-Projekt verwechseln.
+
 ## Wiederverwendung versus Neubau
 **Primär wiederverwenden oder portieren:** Genetik-/Vererbungsregeln, Kreuzungs- und Mutationslogik, Datendefinitionen, passende Texturen/Modelle, Crop-Stick-Mechaniken, Saatgutkonzepte, ggf. Weltstrukturen und Lootdaten. Jede Komponente wird auf API-/Versionskompatibilität geprüft.
 
