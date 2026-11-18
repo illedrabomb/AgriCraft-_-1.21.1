@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics.genetics;
 
 import org.junit.jupiter.api.Test;
 import java.util.Random;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /** Row breeding may improve the three visible traits, never hidden genes. */
@@ -19,6 +20,22 @@ class RowEvolutionInheritanceTest {
                 baseline.plantId(), new ImprovementRolls());
         assertEquals(new Genome(baseline.plantId(), 2, 2, 2), child);
         assertEquals(Genome.basic(baseline.plantId()), baseline);
+    }
+
+    @Test
+    void threeAndFourParentsCanContributeTheirVisibleStats() {
+        Random selectLast = new Random() {
+            @Override public int nextInt(int bound) { return bound - 1; }
+            @Override public double nextDouble() { return 1.0D; }
+        };
+        Genome low = Genome.basic("minecraft:wheat_plant");
+        Genome high = new Genome("minecraft:wheat_plant", 7, 8, 9);
+        Genome three = BreedingEngine.combine(List.of(low, low, high),
+                low.plantId(), selectLast, 0D);
+        Genome four = BreedingEngine.combine(List.of(low, low, low, high),
+                low.plantId(), selectLast, 0D);
+        assertEquals(high, three);
+        assertEquals(high, four);
     }
 
     @Test
