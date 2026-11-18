@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-/** One seed slot plus eight disabled GUI cells to fit a vanilla 1-row menu. */
+/** Seed slot (0), discovery journal (1), and seven disabled filler slots. */
 public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
     public SeedAnalyzerBlockEntity(BlockPos pos, BlockState state) {
         super(CropBlocks.SEED_ANALYZER_ENTITY.get(), pos, state, 9);
@@ -14,6 +14,7 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
     @Override public boolean canPlaceItem(int slot, ItemStack stack) {
         // Client side allows placement prediction; the server only accepts
         // registered seeds or stacks already carrying genetic information.
+        if (slot == 1) return stack.is(CropItems.SEED_JOURNAL.get());
         return slot == 0 && !stack.isEmpty()
                 && (level == null || level.isClientSide
                         || CropItems.hasGenome(stack)
@@ -22,7 +23,14 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
     @Override protected void onStored(int slot, ItemStack stack) {
         // A genetic seed already owns its genome before analysis. This flag
         // only reveals that genome; it never creates a new mutation value.
-        if (slot == 0 && !stack.isEmpty() && level != null && !level.isClientSide)
-            CropItems.analyzeSeed(stack);
+        if (level == null || level.isClientSide) return;
+        if (slot == 0 && !stack.isEmpty()) CropItems.analyzeSeed(stack);
+        ItemStack seed = getItem(0);
+        ItemStack journal = getItem(1);
+        if (CropItems.isAnalyzed(seed) && CropItems.hasGenome(seed)
+                && journal.is(CropItems.SEED_JOURNAL.get())) {
+            if (SeedJournalItem.recordDiscovery(journal,
+                    seed.get(CropComponents.GENOME.get()).plantId())) setChanged();
+        }
     }
 }
