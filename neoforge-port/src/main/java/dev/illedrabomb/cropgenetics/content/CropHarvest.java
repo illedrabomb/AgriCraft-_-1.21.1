@@ -32,7 +32,7 @@ public final class CropHarvest {
             return item == null ? List.of() : List.of(new ItemStack(item));
         }
 
-        int gain = genome.gain().expressed(GenePair.TraitMode.MAX);
+        int gain = genome.gain();
         int trials = (gain + 3) / 3;
         List<ItemStack> drops = new ArrayList<>();
 
