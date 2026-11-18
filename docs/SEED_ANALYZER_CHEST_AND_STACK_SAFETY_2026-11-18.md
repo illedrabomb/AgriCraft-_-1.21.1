@@ -17,11 +17,11 @@
 
 ## Survival-Rezepte (ab 19.11.2026)
 
-- **Crop Sticks:** vier normale Stöcke als 2×2-Quadrat ergeben **acht Crop Sticks**, wie im Original. Vorher fehlte dieses Rezept im NeoForge-Port vollständig.
+- **Crop Sticks:** vier normale Stöcke als 2×2-Quadrat ergeben **sechs Crop Sticks**, wie im Original. Vorher fehlte dieses Rezept im NeoForge-Port vollständig.
 - **Seed Analyzer:** wieder die ursprünglich aufwendigere 3×3-Anordnung aus Stöcken, Glasscheibe, Steinplatte, Holzbrettern und Holzstufe (`SGS / _BS / PWP`; S=Stock, G=Glasscheibe, B=Steinplatte, P=Holzbrett, W=Holzstufe). Im NeoForge-Rezept sind beliebige Vanilla-Bretter und Holzstufen über Tags erlaubt.
-- **Seed Chest:** acht beliebige Holzbretter um eine normale Truhe; nicht mehr nur Eichenbretter.
+- **Seed Chest:** **acht Crop Sticks** um eine normale Truhe (statt Holzbrettern), nach Spielerentscheidung.
 - **Seed Journal:** Buch + Crop Sticks (bestehendes Rezept).
-- Alle Rezepte liegen unter `data/cropgenetics/recipe/` und sind noch nicht durch einen lokalen Minecraft-Datapack-Reload bestätigt.
+- Alle Rezepte liegen unter `data/cropgenetics/recipe/` und sind noch nicht durch einen lokalen Minecraft-Datapack-Reload bestätigt. Für Seed Analyzer und Seed Chest wurden außerdem eigene Block-Loot-Tabellen hinzugefügt, damit die **Blöcke selbst** beim regulären Abbau zurückgegeben werden; die vorhandene BlockEntity-Logik wirft separat ihre Inventarinhalte aus.
 
 ## Seed Journal / Entdeckungsbuch
 
@@ -38,7 +38,7 @@
 2. Unanalysierter Samen: mit Shift keine Werte; nach Einlegen in Analyzer zeigt derselbe Stack die drei gespeicherten Werte und behält sie nach Herausnehmen.
 3. Journal in Feld 1 einlegen, erst danach einen Seed analysieren; Reihenfolge umkehren und doppelte Analysen wiederholen: jede Pflanzenart darf nur einmal im Buch erscheinen. Journal entnehmen und per Rechtsklick die Buchoberfläche mit drei Anleitungsseiten, Entdeckungsseiten und Mutationsübersicht prüfen; jede entdeckte Pflanzenart anklicken, Detailansicht öffnen und zur Liste zurückkehren. Mutationseinträge erst nach Analyse aller drei beteiligten Arten erwarten. Analyzer mit Seed in der Hand rechtsklicken: genau ein Seed wird aufgenommen und analysiert; andere Items werden nicht eingelagert. Danach Analyzer mit leerer Hand öffnen: erstes Feld verwendbar, acht Leerfelder der ersten Reihe nicht als Speicher benutzbar; Modell und Blickrichtung bei allen vier Orientierungen kontrollieren.
 4. Seed Chest direkt daneben platzieren: Analyzer zeigt die 27 Chest-Slots darunter; Inventar bleibt nach Welt-Neuladen bestehen.
-5. Chest ohne Analyzer öffnen und Samen aufnehmen/entnehmen. Beim Blockabbau müssen Inhalte als Items fallen, ohne Duplikate.
+5. Chest ohne Analyzer öffnen und Samen aufnehmen/entnehmen. Beim Abbau müssen **die Truhe selbst sowie ihre Inhalte** zurückkommen, ohne Duplikate. Dasselbe für den Analyzer mit Seed und Journal kontrollieren.
 6. Chest an einer nicht angrenzenden Position soll nicht in Analyzer auftauchen.
 7. Mehrere Analyzer-/Chest-Blöcke, Speichern/Neuladen und gleichzeitige Spielerzugriffe auf sichere Synchronisation prüfen.
 8. Durchgehende Reihe mit mindestens drei reifen Eltern hat die geringste Chance; zwei direkt angrenzende Eltern sind erfolgreicher, drei und vier direkte Eltern erhöhen sie weiter. Vier Nachbarn liefern den höchsten Erfolgs-/Mutationsbonus. Zufälligkeit erfordert wiederholte Versuche.
