@@ -9,12 +9,18 @@
   "tooltip.cropgenetics.growth": "Wachstum: %s / 10",
   "tooltip.cropgenetics.gain": "Ertrag: %s / 10",
   "tooltip.cropgenetics.strength": "Robustheit: %s / 10",
-  "item.cropgenetics.seed_analyzer": "Saatgut-Analysator",
+  "item.cropgenetics.seed_analyzer": "Samenanalysator",
   "message.cropgenetics.analyzer_offhand": "Saatgut in die Nebenhand nehmen",
   "message.cropgenetics.analyzer_success": "Saatgut analysiert – für Genwerte Shift halten",
   "message.cropgenetics.analyzer_unsupported": "Saatgut unbekannt oder bereits verändert; keine Analyse möglich",
   "message.cropgenetics.analyzer_crop_success": "Pflanze analysiert – nach dem Ausgraben Genwerte mit Shift anzeigen",
   "tooltip.cropgenetics.plant_on_sticks": "Gene bleiben nur beim Pflanzen auf Crop Sticks erhalten",
   "itemGroup.cropgenetics.crop_genetics": "Crop Genetics",
-  "overlay.cropgenetics.crop": "Pflanze: %s · Wachstumsstufe %s/%s"
+  "overlay.cropgenetics.crop": "Pflanze: %s · Wachstumsstufe %s/%s",
+  "block.cropgenetics.seed_analyzer": "Samenanalysator",
+  "block.cropgenetics.seed_chest": "Saatguttruhe",
+  "item.cropgenetics.seed_chest": "Saatguttruhe",
+  "container.cropgenetics.seed_analyzer": "Samenanalysator (Samenfeld oben links)",
+  "container.cropgenetics.seed_analyzer_with_chest": "Samenanalysator + Saatguttruhe",
+  "container.cropgenetics.seed_chest": "Saatguttruhe"
 }
