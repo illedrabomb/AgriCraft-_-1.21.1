@@ -313,15 +313,6 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
-        // Analyze in place without consuming the crop or altering its genome.
-        if (stack.is(CropItems.SEED_ANALYZER.get()) && crop.genome() != null) {
-            if (!level.isClientSide && crop.analyzePlantedCrop()) {
-                player.displayClientMessage(
-                        Component.translatable("message.cropgenetics.analyzer_crop_success"), true);
-            }
-            return ItemInteractionResult.SUCCESS;
-        }
-
         // Optional, player-driven soil care. Only soil with an explicitly
         // configured datapack profile or existing saved override is treatable.
         // Ordinary seeds, crop-stick stacking and harvesting remain unaffected.
