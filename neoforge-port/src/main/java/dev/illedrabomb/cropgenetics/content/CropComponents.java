@@ -44,6 +44,12 @@ public final class CropComponents {
                     builder -> builder.persistent(Codec.STRING)
                             .networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
+    /** Server-approved discovered mutation triples (parentA>parentB>child). */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<java.util.List<String>>> JOURNAL_MUTATIONS =
+            COMPONENTS.registerComponentType("journal_mutations",
+                    builder -> builder.persistent(Codec.STRING.listOf())
+                            .networkSynchronized(ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list())));
+
     public static void register(IEventBus bus) {
         COMPONENTS.register(bus);
     }
