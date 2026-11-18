@@ -8,7 +8,7 @@
   ],
   "key": {
     "P": {
-      "tag": "minecraft:planks"
+      "item": "cropgenetics:crop_sticks"
     },
     "C": {
       "item": "minecraft:chest"
