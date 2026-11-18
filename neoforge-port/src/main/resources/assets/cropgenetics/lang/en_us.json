@@ -20,9 +20,13 @@
   "block.cropgenetics.seed_analyzer": "Seed Analyzer",
   "block.cropgenetics.seed_chest": "Seed Chest",
   "item.cropgenetics.seed_chest": "Seed Chest",
-  "container.cropgenetics.seed_analyzer": "Seed Analyzer (seed slot top-left)",
+  "container.cropgenetics.seed_analyzer": "Seed Analyzer (seed and journal slots top-left)",
   "container.cropgenetics.seed_analyzer_with_chest": "Seed Analyzer + Seed Chest",
   "container.cropgenetics.seed_chest": "Seed Chest",
   "jei.cropgenetics.seed_conversion": "Getting genetic seeds: (1) Place ONE Crop Stick on suitable farmland. (2) Right-click with a supported ordinary seed (wheat, carrot, potato, etc.). The planted crop now has baseline Growth/Gain/Strength 1/1/1. (3) Break the planted Crop Sticks to retrieve a Genetic Seed carrying those values. (4) Grow and cross plants to obtain inherited or improved values. TWO Crop Sticks on an empty plot are reserved for crossbreeding: a seed cannot be planted there directly. Only seeds registered by the active crop datapacks are supported; there is no crafting-table conversion.",
-  "jei.cropgenetics.seed_analysis": "Place the Seed Analyzer as a block. Right-click with a seed to insert one, or open its inventory with an empty hand. Analysis reveals the seed's existing Growth/Gain/Strength values; it does not generate or change them. Unanalyzed Genetic Seeds are nonstackable to preserve their individual genomes. Put a Seed Chest directly beside the Analyzer to see its 27 storage slots in the same menu."
+  "jei.cropgenetics.seed_analysis": "Place the Seed Analyzer as a block. Right-click with a seed to insert one, or open its inventory with an empty hand. Analysis reveals the seed's existing Growth/Gain/Strength values; it does not generate or change them. Unanalyzed Genetic Seeds are nonstackable to preserve their individual genomes. Put a Seed Chest directly beside the Analyzer to see its 27 storage slots in the same menu.",
+  "item.cropgenetics.seed_journal": "Seed Journal",
+  "message.cropgenetics.journal_title": "Discovered plants: %s",
+  "message.cropgenetics.journal_empty": "No plants discovered yet. Insert this journal alongside a seed in the Seed Analyzer.",
+  "tooltip.cropgenetics.journal_discovered": "Discovered species: %s"
 }
