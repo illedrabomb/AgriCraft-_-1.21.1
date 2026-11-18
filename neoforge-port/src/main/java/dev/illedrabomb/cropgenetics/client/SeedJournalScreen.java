@@ -24,7 +24,9 @@ import java.util.List;
 public final class SeedJournalScreen extends Screen {
     private static final int ENTRIES_PER_PAGE = 7;
     private static final int GUIDE_PAGES = 3;
+    private static final int MUTATIONS_PER_PAGE = 3;
     private final List<String> discovered;
+    private final List<SeedJournalItem.MutationHint> mutations;
     private int page;
     private Button previous;
     private Button next;
@@ -34,14 +36,20 @@ public final class SeedJournalScreen extends Screen {
     private SeedJournalScreen(ItemStack journal) {
         super(Component.translatable("screen.cropgenetics.journal"));
         this.discovered = SeedJournalItem.discovered(journal);
+        this.mutations = SeedJournalItem.knownMutations(journal);
     }
 
     public static void open(ItemStack journal) {
         Minecraft.getInstance().setScreen(new SeedJournalScreen(journal.copy()));
     }
 
+    private int discoveryPages() {
+        return Math.max(1, (discovered.size() + ENTRIES_PER_PAGE - 1) / ENTRIES_PER_PAGE);
+    }
+
     private int totalPages() {
-        return GUIDE_PAGES + Math.max(1, (discovered.size() + ENTRIES_PER_PAGE - 1) / ENTRIES_PER_PAGE);
+        return GUIDE_PAGES + discoveryPages()
+                + Math.max(1, (mutations.size() + MUTATIONS_PER_PAGE - 1) / MUTATIONS_PER_PAGE);
     }
 
     @Override
@@ -81,8 +89,10 @@ public final class SeedJournalScreen extends Screen {
         graphics.fill(left + 5, top + 5, left + 219, top + 201, 0xFFE6D4A8);
         if (page < GUIDE_PAGES) {
             renderGuidePage(graphics, left, top);
-        } else {
+        } else if (page < GUIDE_PAGES + discoveryPages()) {
             renderDiscoveredPage(graphics, left, top);
+        } else {
+            renderMutationPage(graphics, left, top);
         }
         graphics.drawCenteredString(font, Component.literal((page + 1) + " / " + totalPages()),
                 width / 2, top + 166, 0x694B30);
@@ -130,10 +140,41 @@ public final class SeedJournalScreen extends Screen {
         }
     }
 
+    private void renderMutationPage(GuiGraphics graphics, int left, int top) {
+        graphics.drawCenteredString(font,
+                Component.translatable("screen.cropgenetics.journal_mutations"),
+                width / 2, top + 15, 0x54351C);
+        if (mutations.isEmpty()) {
+            graphics.drawCenteredString(font,
+                    Component.translatable("screen.cropgenetics.journal_no_mutations"),
+                    width / 2, top + 70, 0x674A31);
+            return;
+        }
+        int mutationPage = page - GUIDE_PAGES - discoveryPages();
+        int start = mutationPage * MUTATIONS_PER_PAGE;
+        int end = Math.min(start + MUTATIONS_PER_PAGE, mutations.size());
+        for (int i = start; i < end; i++) {
+            SeedJournalItem.MutationHint hint = mutations.get(i);
+            int y = top + 37 + (i - start) * 41;
+            graphics.drawString(font, CropSpeciesNames.label(hint.parentA()),
+                    left + 17, y, 0x49301C, false);
+            graphics.drawString(font, Component.literal("+").append(
+                    CropSpeciesNames.label(hint.parentB())),
+                    left + 17, y + 12, 0x49301C, false);
+            graphics.drawString(font, Component.literal("→ ").append(
+                    CropSpeciesNames.label(hint.child())),
+                    left + 17, y + 24, 0x34502A, false);
+        }
+        graphics.drawString(font,
+                Component.translatable("screen.cropgenetics.journal_conditions"),
+                left + 15, top + 154, 0x694B30, false);
+    }
+
     /** Click a discovered plant to open its species page. */
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 0 && selectedSpecies == null && page >= GUIDE_PAGES) {
+        if (button == 0 && selectedSpecies == null && page >= GUIDE_PAGES
+                && page < GUIDE_PAGES + discoveryPages()) {
             int left = width / 2 - 112;
             int top = height / 2 - 101;
             int first = (page - GUIDE_PAGES) * ENTRIES_PER_PAGE;
