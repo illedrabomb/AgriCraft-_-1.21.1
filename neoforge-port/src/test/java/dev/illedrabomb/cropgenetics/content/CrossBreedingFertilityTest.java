@@ -17,6 +17,15 @@ class CrossBreedingFertilityTest {
     }
 
     @Test
+    void uninterruptedRowHasLowerOddsThanAllAdjacentCrosses() {
+        assertTrue(CrossFertilityRules.rowFertilityMultiplier()
+                < CrossFertilityRules.parentCountMultiplier(2));
+        assertTrue(CrossFertilityRules.rowMutationMultiplier()
+                < CrossFertilityRules.mutationMultiplier(2));
+        assertEquals(0.15D, 0.30D * CrossFertilityRules.rowFertilityMultiplier(), 1.0E-10);
+    }
+
+    @Test
     void allThreeStatGenomesUseOnePredictableFertilityRoll() {
         Genome basic = Genome.basic("minecraft:wheat_plant");
         Genome improved = new Genome("minecraft:wheat_plant", 10, 10, 10);
