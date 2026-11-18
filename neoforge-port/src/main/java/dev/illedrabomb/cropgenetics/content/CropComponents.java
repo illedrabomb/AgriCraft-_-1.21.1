@@ -38,7 +38,7 @@ public final class CropComponents {
                     builder -> builder.persistent(Codec.STRING)
                             .networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
-    /** Per-book discovered plant IDs, one canonical resource ID per line. */
+    /** Per-book discovered plant IDs, canonical resource IDs separated by a pipe. */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> JOURNAL_DISCOVERIES =
             COMPONENTS.registerComponentType("journal_discoveries",
                     builder -> builder.persistent(Codec.STRING)
