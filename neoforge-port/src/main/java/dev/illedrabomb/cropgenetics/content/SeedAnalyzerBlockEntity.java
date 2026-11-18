@@ -1,6 +1,7 @@
 package dev.illedrabomb.cropgenetics.content;
 
 import net.minecraft.core.BlockPos;
+import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -27,10 +28,15 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
         if (slot == 0 && !stack.isEmpty()) CropItems.analyzeSeed(stack);
         ItemStack seed = getItem(0);
         ItemStack journal = getItem(1);
-        if (CropItems.isAnalyzed(seed) && CropItems.hasGenome(seed)
-                && journal.is(CropItems.SEED_JOURNAL.get())) {
-            if (SeedJournalItem.recordDiscovery(journal,
-                    seed.get(CropComponents.GENOME.get()).plantId())) setChanged();
+        if (journal.is(CropItems.SEED_JOURNAL.get())) {
+            boolean changed = false;
+            if (CropItems.isAnalyzed(seed) && CropItems.hasGenome(seed)) {
+                changed = SeedJournalItem.recordDiscovery(journal,
+                        seed.get(CropComponents.GENOME.get()).plantId());
+            }
+            changed |= SeedJournalItem.refreshKnownMutations(
+                    journal, CropGeneticsMod.plants().snapshot().mutations());
+            if (changed) setChanged();
         }
     }
 }
