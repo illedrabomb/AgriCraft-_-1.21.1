@@ -4,7 +4,6 @@ import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.content.GeneticDisclosure;
-import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -40,18 +39,10 @@ public final class AnalyzedSeedTooltip {
         Genome genome = stack.get(CropComponents.GENOME.get());
         if (!GeneticDisclosure.mayShowGenes(genome, CropItems.isAnalyzed(stack))
                 || !Screen.hasShiftDown()) return;
-        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.allele_legend"));
         event.getToolTip().add(Component.translatable("tooltip.cropgenetics.stats",
-                genome.displayedStats(GenePair.TraitMode.MAX)));
-        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.growth",
-                genome.growth().dominant(), genome.growth().recessive()));
-        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.gain",
-                genome.gain().dominant(), genome.gain().recessive()));
-        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.strength",
-                genome.strength().dominant(), genome.strength().recessive()));
-        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.fertility",
-                genome.fertility().dominant(), genome.fertility().recessive()));
-        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.mutativity",
-                genome.mutativity().dominant(), genome.mutativity().recessive()));
+                genome.displayedStats()));
+        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.growth", genome.growth()));
+        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.gain", genome.gain()));
+        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.strength", genome.strength()));
     }
 }
