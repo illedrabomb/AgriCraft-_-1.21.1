@@ -281,9 +281,34 @@ public final class CropSticksBlockEntity extends BlockEntity {
      * this species from GOURD to STANDARD. Never erase an owned physical
      * fruit's identity while its neighboring chunk is unavailable.
      */
+    /** A newly formed gourd stays inside its own crop sticks instead of occupying a neighbor. */
+    public boolean markInternalFruit(PlantDefinition plant) {
+        if (!(level instanceof ServerLevel) || genome == null
+                || !genome.plantId().equals(plant.id())
+                || plant.harvestMode() != HarvestMode.GOURD || !isMature(plant)
+                || fruitReady) return false;
+        fruitReady = true;
+        fruitDirection = null;
+        fruitToken = null;
+        syncState(plant);
+        return true;
+    }
+
+    /** Pick an internal melon/pumpkin without destroying its mature parent crop. */
+    public boolean harvestInternalFruit(PlantDefinition plant) {
+        if (level == null || level.isClientSide || genome == null
+                || !genome.plantId().equals(plant.id())
+                || plant.harvestMode() != HarvestMode.GOURD || !fruitReady
+                || fruitDirection != null || fruitToken != null) return false;
+        clearFruit(plant);
+        return true;
+    }
+
     public boolean reconcilePhysicalFruit(PlantDefinition plant) {
         if (!(level instanceof ServerLevel server) || genome == null
                 || !genome.plantId().equals(plant.id()) || !fruitReady) return false;
+        // An internal fruit has no neighboring block ownership metadata.
+        if (fruitDirection == null && fruitToken == null) return false;
         if (fruitDirection != null && fruitToken != null) {
             BlockPos fruitPos = worldPosition.relative(fruitDirection);
             // An unloaded neighboring chunk does not mean the fruit was harvested.
@@ -424,7 +449,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 .result().ifPresent(value -> genome = value);
         // Old saves may have FruitReady but no owner token. Such data is
         // not an authoritative ownership claim; never keep a phantom fruit.
-        if (genome == null || fruitDirection == null || fruitToken == null || !fruitReady) {
+        // Both absent: new internal fruit. Both present: legacy owned neighbor fruit.
+        // Mixed or plantless metadata is never a valid fruit claim.
+        if (genome == null || !fruitReady || (fruitDirection == null) != (fruitToken == null)) {
             fruitReady = false;
             fruitDirection = null;
             fruitToken = null;
