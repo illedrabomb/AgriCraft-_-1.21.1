@@ -12,7 +12,12 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
 
     @Override public int getMaxStackSize() { return 1; }
     @Override public boolean canPlaceItem(int slot, ItemStack stack) {
-        return slot == 0 && !stack.isEmpty();
+        // Client side allows placement prediction; the server only accepts
+        // registered seeds or stacks already carrying genetic information.
+        return slot == 0 && !stack.isEmpty()
+                && (level == null || level.isClientSide
+                        || CropItems.hasGenome(stack)
+                        || CropGeneticsSeedRecognition.isRegisteredSeed(stack));
     }
     @Override protected void onStored(int slot, ItemStack stack) {
         // A genetic seed already owns its genome before analysis. This flag
