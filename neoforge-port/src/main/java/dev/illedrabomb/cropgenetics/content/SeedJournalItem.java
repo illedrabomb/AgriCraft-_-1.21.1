@@ -68,12 +68,8 @@ public final class SeedJournalItem extends Item {
                                                   Map<String, MutationDefinition> definitions) {
         if (!(journal.getItem() instanceof SeedJournalItem)) return false;
         Set<String> unlocked = new HashSet<>(discovered(journal));
-        List<String> known = definitions.values().stream()
-                .filter(def -> unlocked.contains(def.parentA())
-                        && unlocked.contains(def.parentB())
-                        && unlocked.contains(def.childPlantId()))
-                .map(def -> def.parentA() + ">" + def.parentB() + ">" + def.childPlantId())
-                .distinct().sorted().toList();
+        List<String> known = JournalMutationRules.revealedTriples(
+                unlocked, definitions.values());
         List<String> previous = journal.getOrDefault(
                 CropComponents.JOURNAL_MUTATIONS.get(), List.<String>of());
         if (previous.equals(known)) return false;
