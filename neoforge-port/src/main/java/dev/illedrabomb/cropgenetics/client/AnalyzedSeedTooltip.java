@@ -40,6 +40,7 @@ public final class AnalyzedSeedTooltip {
         Genome genome = stack.get(CropComponents.GENOME.get());
         if (!GeneticDisclosure.mayShowGenes(genome, CropItems.isAnalyzed(stack))
                 || !Screen.hasShiftDown()) return;
+        event.getToolTip().add(Component.translatable("tooltip.cropgenetics.allele_legend"));
         event.getToolTip().add(Component.translatable("tooltip.cropgenetics.stats",
                 genome.displayedStats(GenePair.TraitMode.MAX)));
         event.getToolTip().add(Component.translatable("tooltip.cropgenetics.growth",
