@@ -9,7 +9,7 @@ public final class CropGrowth {
     private CropGrowth() {}
 
     public static double chance(PlantDefinition plant, Genome genome) {
-        int growth = genome.growth().expressed(GenePair.TraitMode.MAX);
+        int growth = genome.growth();
         return Math.max(0D, Math.min(1D, plant.growthChance() + growth * plant.growthBonus()));
     }
 
