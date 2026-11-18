@@ -14,6 +14,20 @@ final class CrossFertilityRules {
         return BASE_CHANCE;
     }
 
+    /** A two-parent row has the lowest bonus; more neighbors increase success. */
+    static double parentCountMultiplier(int parentCount) {
+        if (parentCount < 2 || parentCount > 4)
+            throw new IllegalArgumentException("Expected 2..4 parents");
+        return 1.0D + (parentCount - 2) * 0.25D;
+    }
+
+    /** Extra parents also increase the probability of visible stat mutation. */
+    static int mutationMultiplier(int parentCount) {
+        if (parentCount < 2 || parentCount > 4)
+            throw new IllegalArgumentException("Expected 2..4 parents");
+        return parentCount - 1;
+    }
+
     /** One success roll for the mature pair; no independent parent rolls. */
     static double pairFertilityChance(Genome first, Genome second) {
         return BASE_CHANCE;
