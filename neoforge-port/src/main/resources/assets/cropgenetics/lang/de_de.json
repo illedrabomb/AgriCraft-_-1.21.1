@@ -18,5 +18,6 @@
   "message.cropgenetics.analyzer_crop_success": "Pflanze analysiert – nach dem Ausgraben Genwerte mit Shift anzeigen",
   "tooltip.cropgenetics.plant_on_sticks": "Gene bleiben nur beim Pflanzen auf Crop Sticks erhalten",
   "itemGroup.cropgenetics.crop_genetics": "Crop Genetics",
-  "overlay.cropgenetics.crop": "Pflanze: %s · Wachstumsstufe %s/%s"
+  "overlay.cropgenetics.crop": "Pflanze: %s · Wachstumsstufe %s/%s",
+  "tooltip.cropgenetics.allele_legend": "Genpaar: dominant / rezessiv (jeweils 1–10)"
 }
