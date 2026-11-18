@@ -34,21 +34,26 @@ public final class CrossBreeding {
         List<BreedingParent> parents = new ArrayList<>();
 
         for (Direction direction : Direction.Plane.HORIZONTAL) {
-            BlockPos neighbor = position.relative(direction);
-            // Never force chunk loads during ordinary crop random ticks.
-            if (!level.hasChunkAt(neighbor)) continue;
-            if (!(level.getBlockEntity(neighbor) instanceof CropSticksBlockEntity source)
-                    || source.getBlockState().getValue(CropSticksBlock.CROSS)) continue;
-            Genome genome = source.genome();
-            if (genome == null) continue;
-            PlantDefinition plant = plants.get(genome.plantId());
-            if (plant == null || !source.isMature(plant)
-                    || !CropConditions.canGrow(level, neighbor, plant, genome)) continue;
+            Genome genome = eligibleParent(level, position.relative(direction), plants);
+            if (genome != null) parents.add(new BreedingParent(direction, genome));
+        }
 
-            // Gather eligible parents BEFORE rolling fertility. Requiring two
-            // independent fertility successes makes a 1/1 parent pair breed
-            // at only 1% per random tick (0.1 * 0.1).
-            parents.add(new BreedingParent(direction, genome));
+        // A straight, uninterrupted row is a separate, weaker breeding
+        // arrangement: E E E S (three or more mature parents, one direction).
+        // Direct two-, three- or four-sided crosses always take precedence.
+        boolean straightRow = false;
+        if (parents.size() == 1) {
+            Direction rowDirection = parents.getFirst().direction();
+            List<BreedingParent> row = new ArrayList<>(parents);
+            for (int distance = 2; distance <= 16 && row.size() < 4; distance++) {
+                Genome genome = eligibleParent(level, position.relative(rowDirection, distance), plants);
+                if (genome == null) break;
+                row.add(new BreedingParent(rowDirection, genome));
+            }
+            if (row.size() >= 3) {
+                parents = row;
+                straightRow = true;
+            }
         }
 
         if (parents.isEmpty()) return;
@@ -75,7 +80,8 @@ public final class CrossBreeding {
         // Two parents are the weakest configuration (a straight row is one
         // example). Three and four eligible neighbors increase breeding
         // probability without requiring multiple independent parent rolls.
-        double parentCountFactor = CrossFertilityRules.parentCountMultiplier(parentCount);
+        double parentCountFactor = straightRow ? CrossFertilityRules.rowFertilityMultiplier()
+                : CrossFertilityRules.parentCountMultiplier(parentCount);
         double chance = Math.min(1.0D, CrossFertilityRules.pairFertilityChance(first, second)
                 * parentCountFactor * CropBalanceConfig.CROSS_FERTILITY_MULTIPLIER.get());
         if (random.nextDouble() >= chance) return;
@@ -84,7 +90,8 @@ public final class CrossBreeding {
         // parent; 2, 3 and 4 parents respectively use 1x, 2x and 3x the
         // baseline mutation chance. Only one offspring is created.
         double mutationMultiplier = CropBalanceConfig.ROW_CROSS_EVOLUTION.get()
-                ? CrossFertilityRules.mutationMultiplier(parentCount)
+                ? (straightRow ? CrossFertilityRules.rowMutationMultiplier()
+                        : CrossFertilityRules.mutationMultiplier(parentCount))
                         * CropBalanceConfig.ROW_EVOLUTION_MUTATION_MULTIPLIER.get()
                 : 0.0D;
         Genome inherited = BreedingEngine.combine(
@@ -143,4 +150,17 @@ public final class CrossBreeding {
             return alternate;
         return preferred; // caller still rejects unsuitable offspring safely
     }
+    /** Only mature, planted crop sticks may contribute; an empty gap ends a row. */
+    private static Genome eligibleParent(ServerLevel level, BlockPos pos,
+                                         Map<String, PlantDefinition> plants) {
+        if (!level.hasChunkAt(pos)
+                || !(level.getBlockEntity(pos) instanceof CropSticksBlockEntity source)
+                || source.getBlockState().getValue(CropSticksBlock.CROSS)) return null;
+        Genome genome = source.genome();
+        if (genome == null) return null;
+        PlantDefinition plant = plants.get(genome.plantId());
+        return plant != null && source.isMature(plant)
+                && CropConditions.canGrow(level, pos, plant, genome) ? genome : null;
+    }
+
 }
