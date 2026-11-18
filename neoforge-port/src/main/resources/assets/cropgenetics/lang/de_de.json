@@ -52,5 +52,10 @@
   "screen.cropgenetics.guide_2_2": "2-4 direkte Eltern möglich",
   "screen.cropgenetics.guide_2_3": "Mehr Eltern: bessere Chance",
   "screen.cropgenetics.guide_2_4": "3+ Eltern in einer Reihe",
-  "screen.cropgenetics.guide_2_5": "Reihen haben kleinste Chance"
+  "screen.cropgenetics.guide_2_5": "Reihen haben kleinste Chance",
+  "screen.cropgenetics.journal_back": "Zurück zur Liste",
+  "screen.cropgenetics.journal_plant_detail": "Entdeckte Pflanze",
+  "screen.cropgenetics.journal_unlocked": "Art im Journal eingetragen",
+  "screen.cropgenetics.journal_seed_values": "Jeder Seed hat eigene Gene.",
+  "screen.cropgenetics.journal_analyzer_values": "Analyzer zeigt ihre Genwerte."
 }
