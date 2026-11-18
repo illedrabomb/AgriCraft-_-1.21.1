@@ -287,7 +287,7 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         if (factor <= 0D) return;
         if (crop.isMature(plant)) {
             if (plant.harvestMode() == HarvestMode.GOURD && !crop.fruitReady()) {
-                int gain = genome.gain().expressed(GenePair.TraitMode.MAX);
+                int gain = genome.gain();
                 double fruitChance = GourdFruitRules.chance(
                         plant.fruitChance(), gain,
                         factor * CropBalanceConfig.GOURD_FRUIT_CHANCE_MULTIPLIER.get());
