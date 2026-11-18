@@ -28,6 +28,12 @@ final class CrossFertilityRules {
         return parentCount - 1;
     }
 
+    /** An extended straight row is deliberately weaker than any adjacent pair. */
+    static double rowFertilityMultiplier() { return 0.50D; }
+
+    /** A row also has less chance to improve visible traits. */
+    static double rowMutationMultiplier() { return 0.50D; }
+
     /** One success roll for the mature pair; no independent parent rolls. */
     static double pairFertilityChance(Genome first, Genome second) {
         return BASE_CHANCE;
