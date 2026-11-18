@@ -6,11 +6,9 @@
   "tooltip.cropgenetics.stats": "Wachstum / Ertrag / Robustheit: %s",
   "tooltip.cropgenetics.analyzed_hint": "Analysiert – Shift halten für Genwerte",
   "tooltip.cropgenetics.unanalyzed": "Nicht analysiert",
-  "tooltip.cropgenetics.growth": "Wachstum: %s / %s",
-  "tooltip.cropgenetics.gain": "Ertrag: %s / %s",
-  "tooltip.cropgenetics.strength": "Robustheit: %s / %s",
-  "tooltip.cropgenetics.fertility": "Fruchtbarkeit: %s / %s",
-  "tooltip.cropgenetics.mutativity": "Mutationsfreudigkeit: %s / %s",
+  "tooltip.cropgenetics.growth": "Wachstum: %s / 10",
+  "tooltip.cropgenetics.gain": "Ertrag: %s / 10",
+  "tooltip.cropgenetics.strength": "Robustheit: %s / 10",
   "item.cropgenetics.seed_analyzer": "Saatgut-Analysator",
   "message.cropgenetics.analyzer_offhand": "Saatgut in die Nebenhand nehmen",
   "message.cropgenetics.analyzer_success": "Saatgut analysiert – für Genwerte Shift halten",
@@ -18,6 +16,5 @@
   "message.cropgenetics.analyzer_crop_success": "Pflanze analysiert – nach dem Ausgraben Genwerte mit Shift anzeigen",
   "tooltip.cropgenetics.plant_on_sticks": "Gene bleiben nur beim Pflanzen auf Crop Sticks erhalten",
   "itemGroup.cropgenetics.crop_genetics": "Crop Genetics",
-  "overlay.cropgenetics.crop": "Pflanze: %s · Wachstumsstufe %s/%s",
-  "tooltip.cropgenetics.allele_legend": "Genpaar: dominant / rezessiv (jeweils 1–10)"
+  "overlay.cropgenetics.crop": "Pflanze: %s · Wachstumsstufe %s/%s"
 }
