@@ -52,5 +52,10 @@
   "screen.cropgenetics.guide_2_2": "2-4 adjacent parents work",
   "screen.cropgenetics.guide_2_3": "More parents = better odds",
   "screen.cropgenetics.guide_2_4": "3+ parents in a line work",
-  "screen.cropgenetics.guide_2_5": "Straight rows are rarest"
+  "screen.cropgenetics.guide_2_5": "Straight rows are rarest",
+  "screen.cropgenetics.journal_back": "Back to list",
+  "screen.cropgenetics.journal_plant_detail": "Discovered plant",
+  "screen.cropgenetics.journal_unlocked": "Species recorded in this journal",
+  "screen.cropgenetics.journal_seed_values": "Each seed has its own genes.",
+  "screen.cropgenetics.journal_analyzer_values": "Analyze seeds to reveal values."
 }
