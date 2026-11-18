@@ -24,8 +24,11 @@ public final class CropItems {
     public static final DeferredItem<GeneticSeedItem> GENETIC_SEED =
             ITEMS.registerItem("genetic_seed", GeneticSeedItem::new);
 
-    public static final DeferredItem<SeedAnalyzerItem> SEED_ANALYZER =
-            ITEMS.registerItem("seed_analyzer", SeedAnalyzerItem::new);
+    public static final DeferredItem<BlockItem> SEED_ANALYZER =
+            ITEMS.registerSimpleBlockItem("seed_analyzer", CropBlocks.SEED_ANALYZER);
+
+    public static final DeferredItem<BlockItem> SEED_CHEST =
+            ITEMS.registerSimpleBlockItem("seed_chest", CropBlocks.SEED_CHEST);
 
     public static final DeferredItem<BlockItem> CROP_STICKS =
             ITEMS.registerSimpleBlockItem("crop_sticks", CropBlocks.CROP_STICKS);
