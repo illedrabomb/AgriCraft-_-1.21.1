@@ -14,6 +14,8 @@ import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.constants.RecipeTypes;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -95,6 +97,29 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
         if (!displays.isEmpty()) {
             registration.addRecipes(RecipeTypes.CRAFTING, displays);
         }
+
+        // An information page, not a fake crafting recipe: supported ordinary
+        // seeds become genetic crops when planted on SINGLE crop sticks. The
+        // actual genetic seed is obtained on breaking the planted sticks.
+        // Link the same guide from the known vanilla starters, the genetic
+        // seed and the crop-stick item in JEI's uses/info browser.
+        List<ItemStack> entryPoints = new ArrayList<>();
+        for (String species : SeedSpeciesCatalog.DEFAULT_SPECIES) {
+            String source = vanillaSeedForSpecies(species);
+            if (source == null) continue;
+            ResourceLocation key = ResourceLocation.tryParse(source);
+            if (key != null) BuiltInRegistries.ITEM.getOptional(key)
+                    .ifPresent(item -> entryPoints.add(new ItemStack(item)));
+        }
+        entryPoints.add(CropItems.GENETIC_SEED.get().getDefaultInstance());
+        entryPoints.add(CropItems.CROP_STICKS.get().getDefaultInstance());
+        registration.addItemStackInfo(entryPoints,
+                Component.translatable("jei.cropgenetics.seed_conversion"));
+
+        registration.addItemStackInfo(List.of(
+                CropItems.SEED_ANALYZER.get().getDefaultInstance(),
+                CropItems.SEED_CHEST.get().getDefaultInstance()),
+                Component.translatable("jei.cropgenetics.seed_analysis"));
     }
 
     private static String vanillaSeedForSpecies(String id) {
