@@ -13,7 +13,7 @@ Es gibt **keine versteckten dominanten oder rezessiven Allelpaare** mehr und kei
 ## Genetik und Kreuzungsregeln
 
 - Ein neuer Samen erhält pro sichtbarem Wert zufällig den entsprechenden Wert eines Elternteils.
-- Nur die Kreuzung **derselben Pflanzenart auf gegenüberliegenden Seiten einer geraden Reihe** darf einzelne Werte mit einer kleinen Wahrscheinlichkeit um ±1 verändern; Grenzwerte 1..10. Einstellungen unter `rowCrossEvolution` / `rowEvolutionMutationMultiplier`.
+- Eine Kreuzung nutzt **zwei, drei oder vier** geeignete reife Elternpflanzen um den Ziel-Crop. Die gerade Zweierreihe ist die kleinste Kombination und hat die geringste Wahrscheinlichkeit. Mit drei und vier Eltern können die drei Stat-Werte von jedem Elternteil geerbt werden; die Chance auf ±1-Änderungen steigt (1× / 2× / 3×). Grenzwerte 1..10. Die alten Konfigurationsschlüssel `rowCrossEvolution` und `rowEvolutionMutationMultiplier` gelten aus Kompatibilitätsgründen jetzt für alle Mehr-Eltern-Kreuzungen.
 - Klone übernehmen den vollständigen Dreier-Wertesatz des Elternteils.
 - Neue Basissamen beginnen mit 1/1/1.
 - **Fertility** ist jetzt eine feste Spielmechanik (30 % Grundchance pro Elternpaar und Berechtigungsversuch, bevor der serverseitige `crossFertilityMultiplier` angewendet wird), keine genetische Eigenschaft. Die gleiche Grundchance gilt für einzelne Ausbreitungsversuche vor dem species-spezifischen Spread-Faktor.
@@ -30,6 +30,6 @@ Es gibt **keine versteckten dominanten oder rezessiven Allelpaare** mehr und kei
 
 - Lokaler Java-21-Gradle-9.2.1-Build und vollständige JUnit-Suite müssen die neue Migration und die parallele Melonen-/Kürbis-Umstellung bestätigen.
 - Neue Einzelwerte und Alt-Samen vor/nach einem Save-Reload vergleichen; der frühere dominante Wert muss erhalten bleiben.
-- Reihen-Kreuzung mit gleichartiger Art und zwei anderen Anordnungen vergleichen; nur gerade gleiche Art darf die Werte mutieren.
+- Zweierreihe, drei und vier geeignete Eltern separat prüfen: Ein neuer Samen kann Werte von jedem Elternteil übernehmen; die Chancen steigen mit der Anzahl.
 - Crossbreeding normaler Karottensamen gesondert im gleichen Setup und über angemessene Random-Tick-Zeit testen; im bisherigen Code gab es keine artbedingte Sperre.
 - Fehlende HUD-Integration mit Jade/WTHIT bleibt optional/blockiert, solange diese Mods nicht installiert sind.
