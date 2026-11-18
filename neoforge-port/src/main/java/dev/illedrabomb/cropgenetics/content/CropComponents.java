@@ -38,6 +38,12 @@ public final class CropComponents {
                     builder -> builder.persistent(Codec.STRING)
                             .networkSynchronized(ByteBufCodecs.STRING_UTF8));
 
+    /** Per-book discovered plant IDs, one canonical resource ID per line. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<String>> JOURNAL_DISCOVERIES =
+            COMPONENTS.registerComponentType("journal_discoveries",
+                    builder -> builder.persistent(Codec.STRING)
+                            .networkSynchronized(ByteBufCodecs.STRING_UTF8));
+
     public static void register(IEventBus bus) {
         COMPONENTS.register(bus);
     }
