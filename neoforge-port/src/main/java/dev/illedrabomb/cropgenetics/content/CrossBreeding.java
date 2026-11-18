@@ -75,7 +75,7 @@ public final class CrossBreeding {
         // Two parents are the weakest configuration (a straight row is one
         // example). Three and four eligible neighbors increase breeding
         // probability without requiring multiple independent parent rolls.
-        double parentCountFactor = 1.0D + (parentCount - 2) * 0.25D;
+        double parentCountFactor = CrossFertilityRules.parentCountMultiplier(parentCount);
         double chance = Math.min(1.0D, CrossFertilityRules.pairFertilityChance(first, second)
                 * parentCountFactor * CropBalanceConfig.CROSS_FERTILITY_MULTIPLIER.get());
         if (random.nextDouble() >= chance) return;
@@ -84,7 +84,8 @@ public final class CrossBreeding {
         // parent; 2, 3 and 4 parents respectively use 1x, 2x and 3x the
         // baseline mutation chance. Only one offspring is created.
         double mutationMultiplier = CropBalanceConfig.ROW_CROSS_EVOLUTION.get()
-                ? (parentCount - 1) * CropBalanceConfig.ROW_EVOLUTION_MUTATION_MULTIPLIER.get()
+                ? CrossFertilityRules.mutationMultiplier(parentCount)
+                        * CropBalanceConfig.ROW_EVOLUTION_MUTATION_MULTIPLIER.get()
                 : 0.0D;
         Genome inherited = BreedingEngine.combine(
                 parents.stream().map(BreedingParent::genome).toList(),
