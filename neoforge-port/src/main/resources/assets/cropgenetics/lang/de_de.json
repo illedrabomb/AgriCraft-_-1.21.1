@@ -24,9 +24,12 @@
   "container.cropgenetics.seed_analyzer_with_chest": "Samenanalysator + Saatguttruhe",
   "container.cropgenetics.seed_chest": "Saatguttruhe",
   "jei.cropgenetics.seed_conversion": "Genetische Samen erhalten: (1) EINEN Crop Stick auf geeignetem Ackerboden platzieren. (2) Einen unterstützten normalen Samen (Weizen, Karotte, Kartoffel usw.) per Rechtsklick einpflanzen. Die Pflanze beginnt mit Wachstum/Ertrag/Robustheit 1/1/1. (3) Bepflanzte Crop Sticks abbauen: Dabei erhältst du einen genetischen Samen mit den gespeicherten Werten. (4) Pflanzen anbauen und kreuzen, um Werte zu vererben und zu verbessern. ZWEI Crop Sticks auf einem leeren Feld dienen nur der Kreuzung: Dort darf kein Seed direkt eingesetzt werden. Nur durch aktive Crop-Datenpakete registrierte Samen sind unterstützt; es gibt kein Crafting-Rezept zur Umwandlung.",
-  "jei.cropgenetics.seed_analysis": "Den Seed Analyzer als Block aufstellen. Mit einem Samen rechtsklicken, um genau einen einzulegen, oder mit leerer Hand sein Inventar öffnen. Die Analyse macht vorhandene Werte für Wachstum/Ertrag/Robustheit sichtbar, ohne neue Gene zu würfeln. Unanalysierte genetische Seeds sind nicht stapelbar, damit ihre individuellen Werte erhalten bleiben. Eine Seed Chest direkt neben dem Analyzer zeigt ihre 27 Lagerplätze im selben Inventarfenster. Ein Saatgut-Journal aus einem Buch und Crop Sticks herstellen und in das zweite Analyzer-Feld legen. Jede analysierte Pflanzenart wird dauerhaft in genau diesem Journal gespeichert. Das Journal in der Hand benutzen, um die entdeckten Pflanzen aufzulisten.",
+  "jei.cropgenetics.seed_analysis": "Den Seed Analyzer als Block aufstellen. Mit einem Samen rechtsklicken, um genau einen einzulegen, oder mit leerer Hand sein Inventar öffnen. Die Analyse macht vorhandene Werte für Wachstum/Ertrag/Robustheit sichtbar, ohne neue Gene zu würfeln. Unanalysierte genetische Seeds sind nicht stapelbar, damit ihre individuellen Werte erhalten bleiben. Eine Seed Chest direkt neben dem Analyzer zeigt ihre 27 Lagerplätze im selben Inventarfenster. Ein Saatgut-Journal aus einem Buch und Crop Sticks herstellen und in das zweite Analyzer-Feld legen. Jede analysierte Pflanzenart wird dauerhaft in genau diesem Journal gespeichert. Das Journal in der Hand rechtsklicken, um das Buch mit den entdeckten Pflanzen und Seitensteuerung zu öffnen.",
   "item.cropgenetics.seed_journal": "Saatgut-Journal",
   "message.cropgenetics.journal_title": "Entdeckte Pflanzen: %s",
   "message.cropgenetics.journal_empty": "Noch keine Pflanzen entdeckt. Lege das Journal zusammen mit einem Samen in den Seed Analyzer.",
-  "tooltip.cropgenetics.journal_discovered": "Entdeckte Pflanzenarten: %s"
+  "tooltip.cropgenetics.journal_discovered": "Entdeckte Pflanzenarten: %s",
+  "screen.cropgenetics.journal": "Saatgut-Journal",
+  "screen.cropgenetics.journal_count": "Entdeckte Pflanzenarten: %s",
+  "screen.cropgenetics.journal_empty": "Noch keine Pflanzen entdeckt."
 }
