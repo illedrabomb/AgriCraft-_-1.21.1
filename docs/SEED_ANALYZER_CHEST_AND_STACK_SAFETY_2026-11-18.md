@@ -32,6 +32,12 @@
 - Ponder wird **ausdrücklich nur als sehr spätes, optionales Tutorial-Addon** geführt. Es ist keine Voraussetzung für das Journal. Siehe `docs/NEOFORGE_1.21.1_PLAN.md`.
 - JEI bietet eine Infoseite zum Erhalten genetischer Seeds aus gewöhnlichem registriertem Saatgut und eine Infoseite zu Analyzer, Seed Chest und Journal. Die Seiten sind Erklärungen, **keine erfundenen Crafting-Rezepte**.
 
+## Mutationsübersicht – Daten- und Multiplayer-Schutz
+
+- Die Selektion freigeschalteter Mutationen liegt jetzt in `JournalMutationRules` als reine, deterministische Funktion: **beide Eltern und die Kindart müssen entdeckt sein**. Identische Mutationen erscheinen nur einmal; die Liste wird stabil sortiert.
+- Neue JUnit-Fälle in `JournalMutationRulesTest` prüfen, dass keine unbekannte Kindart oder Elternart sichtbar wird und dass Duplikate verschwinden. Die Tests sind **erst geschrieben, noch nicht ausgeführt**.
+- Die serverseitige Filterung wird beim Einlegen eines Journals bzw. beim Analysieren einer Saat im Analyzer ausgeführt; das synchronisierte Journal-Item trägt die freigegebenen Einträge zum Client. Es wird kein Rezept allein aus JEI-Listen oder der lokalen Spielinstallation geraten.
+
 ## Inventarsicherheit
 
 - Die gemeinsame Inventar-Basisklasse erstellt beim Einlagern eine **Kopie** des übergebenen ItemStacks und begrenzt nur diese Kopie auf die erlaubte Slot-Größe. Dadurch verändert der Analyzer beim Einlagern von z. B. normalen 64er-Seedstapeln **nicht versehentlich den ursprünglichen Stack des Aufrufers**. Die eigentliche Entnahme aus dem Spielerinventar bleibt Aufgabe des Minecraft-Menüs bzw. der Rechtsklick-Interaktion.
