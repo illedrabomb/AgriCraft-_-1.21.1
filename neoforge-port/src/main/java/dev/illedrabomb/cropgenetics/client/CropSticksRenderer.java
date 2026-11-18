@@ -34,10 +34,8 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
         // block on the same tile, without replacing the plant or a neighbor.
         boolean isGourd = genome.plantId().equals("minecraft:melon_plant")
                 || genome.plantId().equals("minecraft:pumpkin_plant");
-        if (isGourd && crop.getBlockState().getValue(CropSticksBlock.FRUIT)) {
-            // Existing worlds may still have an external owned fruit. Keep the
-            // historical attached-stem rendering for those legacy fruits.
-            if (crop.fruitDirection() != null && crop.fruitToken() != null) return;
+        if (isGourd && crop.getBlockState().getValue(CropSticksBlock.FRUIT)
+                && crop.fruitDirection() == null && crop.fruitToken() == null) {
             poses.pushPose();
             poses.translate(0.13D, 0.05D, 0.13D);
             poses.scale(0.74F, 0.74F, 0.74F);
