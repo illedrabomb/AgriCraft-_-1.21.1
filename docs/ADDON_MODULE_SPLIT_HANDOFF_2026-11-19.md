@@ -1,0 +1,48 @@
+# Independent crop add-on module split — handoff (2026-11-19)
+
+**Commit:** `d3ebfabf8e4777b62d54373aa8aecbe1ec1f83de` on `integration/neoforge-1211-consolidation`.
+
+**Status: source/resource packaging split committed. Neither Gradle compilation nor Minecraft/JUnit tests have been run. Do not call this verified until the user requests the combined test.**
+
+## User priorities (latest)
+
+1. Complete, stabilize and test **AgriCraft / Crop Genetics core**.
+2. **Pam's HarvestCraft 2 add-on**, minimally higher priority than MineColonies.
+3. **MineColonies add-on**, also important.
+4. **Farmer's Delight add-on**, very low priority; no native rice work now.
+
+## What changed
+
+- Added Gradle subprojects `:pam-hc2` and `:farmers-delight` under `neoforge-port/addons/`. Each has its own `build.gradle`, `@Mod` entrypoint, `neoforge.mods.toml` template and intended independent JAR.
+- Added required dependency declarations: `cropgenetics` + `pamhc2crops` for Pam and `cropgenetics` + `farmersdelight` for Farmer. Absence of either add-on must not prevent the core from loading.
+- Relocated **81 existing repository files** in one atomic Git commit (Java adapters, adapter tests, Pam plant and mutation JSON, policy JSON, Farmer rich-soil JSON). Original resource IDs and bytes preserved. Java packages were **changed to unique addon packages** to avoid JPMS split-package collisions.
+- Core `CropDataReloadListener` no longer parses Pam settings nor directly calls `PamCropAutoDiscovery` or `FarmersDelightCropDiscovery`. It invokes independently registered `CropDiscoveryAddon` callbacks, preserving the generic datapack path.
+- Pam adapter parses the same highest-priority `cropgenetics:cropgenetics/pam_auto_discovery.json` resource when installed, with invalid configuration failing closed and reported. No unverified Pam foods enabled by default.
+- Farmer adapter keeps the three approved generic pairs cabbage/tomato/onion. Rice remains excluded.
+- `RegisteredSeedCropDiscovery.inferredCropName` is now public because cross-module addon tests need the shared naming helper.
+
+## Confirmed static Git tree inspection
+
+- No `pamhc2_*.json`, `pam_auto_discovery.json`, Pam/Farmer adapter Java, or Farmer rich-soil files remain under **core** `neoforge-port/src/main/`.
+- Both addon source trees, test trees, metadata and build scripts exist in the committed tree.
+- The core's generic `PlantDefinition`, `AgriPlantsRegistry`, JSON parser, diagnostics, common discovery engine and addon extension point remain in the core.
+- The main build must be invoked explicitly with `gradlew :test :build` when the user authorizes tests; invoking unqualified `gradlew test build` in a multi-project Gradle build would select **all** subprojects.
+
+## Remaining important audit items (do not hide)
+
+- **No actual Gradle/NeoForge compilation yet.** Subproject `compileOnly project(':')` integration, generated mod metadata and runtime module loading must be verified in the agreed final test round. Do not claim JARs are working until then.
+- Several **display-only** compatibility traces intentionally remain in the core: `compat/jei/OptionalSeedGuidePolicy`, `CropGeneticsJeiPlugin`'s optional seed help, `CropSpeciesNames` display fallbacks, `CropDataCommand`'s Pam/Farmer diagnostic subcommands, `CropReloadReport`'s existing adapter-specific counters, and the advisory `SpecialCropCompatibilityWarnings` rule for explicitly data-packed Farmer rice. These introduce no external Java dependency, but further UI/diagnostics separation can move them into add-ons later. Core auto-discovery code and bundled Pam/Farmer datapack resources have been removed.
+- Addon registration is executed on each add-on's `@Mod` construction; required target mod metadata governs whether the add-on can load. Missing add-ons leave the registry empty.
+- Farmer's Delight and Pam's resources should only become active from their own JARs. Datapack path precedence and partial migration of old worlds require functional checks before distribution.
+- Verify the built JAR contents (core has zero Pam/Farmer resource definitions, each addon contains its own) before considering release.
+
+## Deferred validation checklist
+
+1. From `neoforge-port`, core-only Gradle: `./gradlew :test :build --no-daemon --console=plain` (PowerShell `& .\gradlew.bat :test :build --no-daemon --console=plain`). **Do not execute yet.**
+2. Build add-ons individually only after user approves: `./gradlew :pam-hc2:build :farmers-delight:build --no-daemon --console=plain`.
+3. Check main-only mod launch with NeoForge/Minecraft, no Pam/Farmer installed; no automatic third-party crops/NoClassDefFoundError.
+4. Check Pam+core+Pam-addon with exact registered item mappings, explicit overrides, self-plantable configured pairs and archived JSON.
+5. Check Farmer+core+Farmer-addon with 3 approved generic candidates; rice remains excluded.
+6. Inspect JAR contents, addon dependency metadata, optional JEI UX and diagnostics, localization, and server/client parity.
+
+The current plan lives in `docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`. Keep all checkpoints in `docs/INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md` if conversation context compacts.
