@@ -78,3 +78,9 @@
 2. Aktive Datapack-Pflanzendefinitionen im Branch inventarisieren und bestehenden generischen Adapter gegen die obigen Akzeptanzbedingungen vergleichen.
 3. Erst danach korrekte optionale Datapack-Definitionen und spezielle Adapter samt Regressionstests implementieren.
 4. Am Ende jeder größeren Änderung in diesem Dokument **Commit-SHA, erledigte Punkte, offene Risiken und noch nicht ausgeführte Tests** ergänzen.
+
+## Änderungsprotokoll 19.11.2026
+
+- `ae7def8c`: Projektplan um verbindliche Pakete allgemeine Kompatibilität, Pam's und Farmer's Delight erweitert; veraltete Plan-Statuszeile berichtigt.
+- `4be6102b`: dieses dauerhafte Quellcode-Audit mit Primärquellen, Versionsgrenzen, Risiken, Akzeptanzkriterien und Chat-/AI-Handoff erstellt.
+- **Implementierungsstand dieser Runde:** dokumentierte Bestandsaufnahme und Plan; noch **kein** registrierter Pam-/Farmer's-Adapter-Code erstellt und **keine** Testausführung. Diese Trennung bei Folgeberichten unbedingt beibehalten.
