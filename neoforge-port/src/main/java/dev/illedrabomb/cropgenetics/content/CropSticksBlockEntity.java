@@ -194,7 +194,25 @@ public final class CropSticksBlockEntity extends BlockEntity {
         // stack's analysis or OriginalSeed metadata on an unrelated crop.
         if (sourceSeed != null && !sourceSeed.isEmpty()) {
             Genome attached = sourceSeed.get(CropComponents.GENOME.get());
-            if (attached != null && !attached.equals(seedGenome)) return false;
+            if (attached != null) {
+                // The source must really be a recognised genetic seed of this
+                // species. A forged genome component on an unrelated item
+                // must never become a valid planting/provenance shortcut.
+                if (!attached.equals(seedGenome)
+                        || !CropItems.isGeneticSeedStack(sourceSeed)) return false;
+            } else {
+                // Direct callers of plant(...) need the same checks as the
+                // block's right-click path: no unknown or customized items.
+                // These may carry other mods' data which we cannot reproduce
+                // in a one-item genetic seed drop.
+                if (sourceSeed.is(CropItems.GENETIC_SEED.get())
+                        || !sourceSeed.getComponentsPatch().isEmpty()) return false;
+                String seedId = net.minecraft.core.registries.BuiltInRegistries.ITEM
+                        .getKey(sourceSeed.getItem()).toString();
+                if (!CropGeneticsMod.plants().plantForSeed(seedId)
+                        .map(candidate -> candidate.id().equals(seedGenome.plantId()))
+                        .orElse(false)) return false;
+            }
         }
         genome = seedGenome;
         seedAnalyzed = sourceSeed != null && CropItems.isAnalyzed(sourceSeed);
