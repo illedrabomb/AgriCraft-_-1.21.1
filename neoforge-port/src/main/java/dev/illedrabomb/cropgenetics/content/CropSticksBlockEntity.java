@@ -478,7 +478,24 @@ public final class CropSticksBlockEntity extends BlockEntity {
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
+        // World save is complete and authoritative. A nearby client only
+        // needs growth/appearance metadata, never unanalysed gene values,
+        // historical source seed identity or private diagnostic counters.
+        CompoundTag tag = saveWithoutMetadata(registries);
+        tag.remove("OriginalSeed");
+        tag.remove("MatureFruitTicks");
+        tag.remove("MatureFruitTicksBlocked");
+        tag.remove("FruitChanceRolls");
+        tag.remove("FruitChancePassed");
+        tag.remove("FruitPlacementSucceeded");
+        tag.remove("FruitPlacementNoEligibleTarget");
+        tag.remove("FruitPlacementEligibleFailed");
+        if (genome != null && !seedAnalyzed) {
+            Genome publicGenome = CropGenomeSyncRules.forClient(genome, false);
+            GenomeCodecs.GENOME.encodeStart(NbtOps.INSTANCE, publicGenome)
+                    .result().ifPresent(value -> tag.put("Genome", value));
+        }
+        return tag;
     }
 
     @Override
