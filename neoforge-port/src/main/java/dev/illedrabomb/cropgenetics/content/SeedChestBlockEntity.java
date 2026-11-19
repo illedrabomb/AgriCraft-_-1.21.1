@@ -11,11 +11,11 @@ public final class SeedChestBlockEntity extends SeedInventoryBlockEntity {
     }
 
     @Override public boolean canPlaceItem(int slot, ItemStack stack) {
-        // Preserve all custom genome components; slots store full ItemStacks.
+        // Only real genetic or unambiguously registered ordinary seeds may enter.\n        // A random non-seed item with a forged GENOME is not a seed.
         // The client does not own the active datapack plant catalogue.
         // Predict slot acceptance locally; the server checks real species.
         return !stack.isEmpty() && (level == null || level.isClientSide
-                || CropItems.hasGenome(stack)
+                || CropItems.isGeneticSeedStack(stack)
                 || CropGeneticsSeedRecognition.isRegisteredSeed(stack));
     }
 }
