@@ -102,6 +102,17 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         // crop sticks on sand, mycelium, dirt, mud or modded soils.
         // The logical server still enforces the actual registered rules.
         if (level instanceof Level world && world.isClientSide) return true;
+        // Preserve already planted crops when their optional mod or datapack
+        // disappears. The per-crop genome is still saved in the BlockEntity;
+        // do not reject its old support just because unrelated active plants
+        // use different soil. Missing physical support still breaks normally.
+        if (level instanceof Level world
+                && world.getBlockEntity(pos) instanceof CropSticksBlockEntity existing
+                && existing.genome() != null
+                && !CropGeneticsMod.plants().plants().containsKey(
+                        existing.genome().plantId())) {
+            return !level.getBlockState(pos.below()).isAir();
+        }
         return CropGeneticsMod.plants().plants().values().stream()
                 .anyMatch(plant -> CropConditions.matchesPlantingSite(level, pos, plant));
     }
