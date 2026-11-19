@@ -89,3 +89,13 @@ Gradle project naming/paths can vary if technically necessary; behavior and isol
 - `9b3103c0`: replaced two independent, divergent claim-parsing loops in `CropDataReloadListener` with the shared claim inventory. This is a **preparatory refactor**; Pam/Farmer direct calls still exist and behavior is intended to stay unchanged.
 - `3e37c833`: added `ExplicitPlantClaimsTest` for disabled declarations, malformed identities, unreadable plant resources and mutation-only diagnostics. **Tests not run** per user instruction.
 - Next concrete step: introduce a generic core-to-add-on registration interface, then move both adapter classes/JSON into independent JAR modules as an atomic compatibility-safe migration. **Do not run the main-only Minecraft test until this work is complete.**
+
+
+## Migration implementation checkpoint — generic addon registration (2026-11-19)
+
+- `dcca2cc0`: introduced public `CropDiscoveryAddon` contract for separately packaged mods: `addonId`, `requiredModId` and the `discover` callback with shared claim inventory and diagnostics.
+- `684075e2`: added deterministic, synchronized `CropDiscoveryAddonRegistry` with duplicate-registration rejection and required-mod filtering. External addons can register on their own NeoForge mod construction; no target-mod classes are loaded by the core.
+- `f64180f0`: `CropDataReloadListener` now invokes registered extensions, with fail-closed invalid claim handling and transaction-like staging. If an adapter throws or attempts to replace an active definition, its staged plant additions are discarded and an INVALID diagnostic is recorded.
+- `618ab1c2`: regression tests for registration, target dependency filtering and duplicate/invalid addon IDs. **Not executed**.
+- **Current limitation:** Existing Pam/Farmer built-in discoverers and JSON resources are still present in the main JAR, and no separate module has been created yet. The new extension point is currently dormant until an add-on registers. Next package must relocate implementation, data resources and tests, and delete the old direct core calls in a coordinated edit.
+- Main-only gameplay test is still blocked by this pending packaging migration; do not misreport the project as already split.
