@@ -101,8 +101,7 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
         return slot == 0 && !stack.isEmpty()
                 && (level == null || level.isClientSide
                         || CropItems.isGeneticSeedStack(stack)
-                        || (stack.getComponentsPatch().isEmpty()
-                            && CropGeneticsSeedRecognition.isRegisteredSeed(stack)));
+                        || CropGeneticsSeedRecognition.isUnmodifiedRegisteredSeed(stack));
     }
     @Override protected void onStored(int slot, ItemStack stack) {
         // A genetic seed already owns its genome before analysis. This flag
