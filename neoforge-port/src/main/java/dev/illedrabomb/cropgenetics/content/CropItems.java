@@ -78,7 +78,15 @@ public final class CropItems {
             }
         } else if (sourceSeed.getItem() != Items.AIR) {
             String originalId = BuiltInRegistries.ITEM.getKey(sourceSeed.getItem()).toString();
-            genetic.set(CropComponents.ORIGINAL_SEED.get(), originalId);
+            // Do not trust an arbitrary plain item as the provenance of an
+            // unrelated genome. This matters for optional mod integrations:
+            // a mistaken caller must never make wheat recover as carrot (or
+            // a normal crop recover as any other registered mod item).
+            if (CropGeneticsMod.plants().snapshot().plantForSeed(originalId)
+                    .map(plant -> plant.id().equals(genome.plantId()))
+                    .orElse(false)) {
+                genetic.set(CropComponents.ORIGINAL_SEED.get(), originalId);
+            }
         }
         return genetic;
     }
