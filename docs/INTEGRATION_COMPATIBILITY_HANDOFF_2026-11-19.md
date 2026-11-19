@@ -24,11 +24,13 @@
 
 ## Quellcode-Audit: Was heute vorhanden ist
 
-- `neoforge-port/src/main/java/dev/illedrabomb/cropgenetics/content/CropGeneticsSeedRecognition.java`: ein Saatgut wird nur erkannt, wenn `plants().plantForSeed(itemId)` erfolgreich und unzweideutig ist. Dies ist **kein generischer Scan aller Items, Pflanzenblöcke und Sonderpflanzungen**.
+- `neoforge-port/src/main/java/dev/illedrabomb/cropgenetics/content/CropGeneticsSeedRecognition.java`: ein Saatgut wird nur erkannt, wenn `plants().plantForSeed(itemId)` erfolgreich und unzweideutig ist. Dies ist **kein generischer Scan aller Items, Pflanzenblöcke und Sonderpflanzungen**. Die Zuordnung selbst wird in `AgriPlantsRegistry.replaceAll` bereits kollisionssicher erzeugt.
 - `content/CropSticksBlock.java`: Crop Sticks akzeptieren vorab genetische Seeds mit `GENOME`, oder **normale Seeds ohne Data-Component-Patch** mit eindeutiger Registry-Zuordnung. Die extra Prüfung `stack.getComponentsPatch().isEmpty()` blockiert absichtlich angepasste Mod-Stacks, damit keine individuellen Daten verloren gehen. Diese Sperre nicht pauschal entfernen.
 - `content/CropItems.java`: `analyzeSeed` akzeptiert basale registrierte Seeds, lehnt fremde Component-Patches ohne bestehendes Genom ab; `seedWithGenome` merkt sich bei eindeutiger Zuordnung die Herkunft als Item-ID, **nicht** die vollständigen individuellen Originalkomponenten. `recoverOriginalSeed` gibt ein normales einzelnes Original-Item ohne Gene aus. Eine vermeintlich verlustfreie Rückkonvertierung von komplexen Mod-Stacks ist damit **nicht implementiert**.
 - `data/PlantDefinition.java`: Datapack-Definition enthält `requiredMods`, `seedItems`, `stages`, Harvest- und Bodendaten. Pflanzen-IDs und Seed-IDs werden validiert, Gourd-Spezialmodus ist ausdrücklich nur für Vanilla-Melone/Kürbis freigegeben.
 - `content/CropSticksBlock.java`: generisches Pflanzen-/Wachstumsverhalten ist unabhängig von mod-eigenen Spezialblöcken; dabei können Speziallogik, besondere Harvest-Events, Texture-Stages oder Wasserregeln abweichen. **Keine automatische Gleichwertigkeit behaupten.**
+- **Korrektur nach tieferem Audit:** `data/CropDataReloadListener.java` enthält bereits eine **optionale Pam's-Autoerkennung** (`PamCropAutoDiscovery` → `RegisteredSeedCropDiscovery`), aktiv nur wenn `pamhc2crops` geladen ist. Kandidaten werden über registrierte `seeditem`/`item`-Paare oder geprüfte manuelle `item_pairs` bestimmt. Explizite Species-/Seed-/Produce-Claims haben Vorrang; Konflikte, fehlende Items und Validierungsfehler werden protokolliert. Eine `pam_auto_discovery.json`-Policy begrenzt die Anzahl/Regeln. Das ist **implementierter Code, aber keine nachgewiesene Kompatibilität mit der konkreten Pam-1.21.1-JAR**.
+- `data/AgriPlantsRegistry.java` veröffentlicht ein konsistentes Snapshot inklusive ambiger Seed-IDs; Mehrdeutigkeiten werden ausgeschlossen.
 - JEI und Journal sind bereits für eigene/genetische Seeds vorhanden; neue Pflanzenarten müssen im aktiven Datapack und bei Darstellung/JEI einzeln nachgewiesen werden.
 
 ## Recherche zu externen Mods (Primärquellen)
@@ -47,7 +49,7 @@
 - JEI soll Umwandlung **auf einzelnen Crop Sticks** erklären; doppelte Sticks bleiben Kreuzungsfeld.
 
 ### Paket B – Pam's HarvestCraft 2
-- Eine **konkrete** NeoForge-1.21.1-JAR/Quellversion als Referenz festlegen (aktuell gemeldet 1.0.9). Mod-ID und sämtliche für Pilotkulturen verwendeten Item-/Block-IDs aus *dieser* Version auslesen.
+- Die schon vorhandene Pam-Autoerkennung zuerst mit einer **konkreten** NeoForge-1.21.1-JAR/Quellversion prüfen (aktuell gemeldet 1.0.9). Mod-ID, `seeditem`/`item`-Namenskonvention, Policy und sämtliche Registry-IDs aus *dieser* Version abgleichen. Autoerkennung ggf. korrigieren, nicht neu erfinden.
 - Mit 3–5 repräsentativen Kulturen beginnen: gewöhnliche Feldfrucht, Gartenstrauch-Quelle, Sonderernte, unterschiedlich hohe Stufen; erst nach erfolgreichem Nachweis die restlichen unterstützten Kulturen abdecken.
 - Food-Items als Pflanzgut explizit mappen; nicht jedes essbare Item pauschal als Seed interpretieren.
 - Wachstum, Drops, Tooltips, Analyzer/Chest, Journal, JEI und genetische 1/1/1 → 10/10/10-Weiterzüchtung abnehmen.
@@ -69,7 +71,7 @@
 1. **Wichtigste technische Lücke:** `getComponentsPatch().isEmpty()` verweigert angepasste Mod-Seeds. Das ist zunächst Absicherung, kein per se zu entfernender Bug.
 2. Genetische Seeds speichern eine einfache Herkunfts-ID und keine vollständigen Original-Itemdaten. Original-Items aus Food-Crops müssen bei der Konvertierung ohne Verlust besonderer Komponenten behandelt werden.
 3. Bei Spezialpflanzen sind Stufen, Rendering, Boden und Harvest-Logik separat abzuklären; zwei gleiche Item-IDs dürfen nie implizit zwei Pflanzen zugeordnet werden.
-4. Pam's/Farmer's noch **nicht** als implementiert oder spielgetestet markieren. Diese Übergabe dokumentiert Audit und nächsten sicheren Umsetzungspfad.
+4. **Pam's Auto-Discovery ist bereits im Code vorhanden;** ihre tatsächliche Abdeckung ist ungetestet. **Farmer's Delight** ist noch nicht als eigenständige Integration bestätigt. Nie beide pauschal als »fertig« markieren.
 5. Das bestehende `docs/NEOFORGE_1.21.1_PLAN.md` ist historisch; frühere Aussage „noch keine Portierung“ wurde am 19.11.2026 auf den realen Branch-Stand korrigiert.
 
 ## Handoff: Nächster konkreter Arbeitsschritt
@@ -83,4 +85,16 @@
 
 - `ae7def8c`: Projektplan um verbindliche Pakete allgemeine Kompatibilität, Pam's und Farmer's Delight erweitert; veraltete Plan-Statuszeile berichtigt.
 - `4be6102b`: dieses dauerhafte Quellcode-Audit mit Primärquellen, Versionsgrenzen, Risiken, Akzeptanzkriterien und Chat-/AI-Handoff erstellt.
-- **Implementierungsstand dieser Runde:** dokumentierte Bestandsaufnahme und Plan; noch **kein** registrierter Pam-/Farmer's-Adapter-Code erstellt und **keine** Testausführung. Diese Trennung bei Folgeberichten unbedingt beibehalten.
+- **Implementierungsstand dieser Runde:** bestehenden Pam-Adapter im Code wiedergefunden und als bereits vorhanden dokumentiert. Es wurde in dieser Runde **kein neuer Pam-/Farmer's-Adapter-Code erstellt**, **keine** Testausführung. Diese Trennung bei Folgeberichten unbedingt beibehalten.
+
+### Ergänztes Audit: bestehende Pam-Autoerkennung (19.11.2026)
+
+Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. Der Branch besitzt schon:
+
+- `data/PamCropAutoDiscovery.java`: zugelassener Namespace `pamhc2crops`, Muster `<crop>seeditem` / `<crop>item`, generische Fallback-Pflanzendefinition.
+- `data/PamAutoDiscoverySettings.java`: standardmäßig aktiviert, mit Limits, Ausschlüssen und verifizierbaren benutzerdefinierten `item_pairs`; Konfiguration aus `cropgenetics/cropgenetics/pam_auto_discovery.json`.
+- `data/RegisteredSeedCropDiscovery.java`: stabile Kandidatenauswahl, Vermeidung fremder Mods und mehrdeutiger Seed-/Produce-Rollen, priorisierte explizite Datapacks, Diagnosen.
+- `data/CropDataReloadListener.java`: registriert Pam nur bei geladenem Mod und aktiver Policy, verhindert Autoerkennung bei fehlerhaften expliziten Pflanzenclaims.
+- `data/AgriPlantsRegistry.java`: eliminiert Seed-Zuordnungskollisionen, ohne stillschweigend einen Gewinner zu wählen.
+
+**Wesentliche Validierungslücke:** Ob die zugrunde gelegte `seeditem`/`item`-Benennung noch zu Pam's 1.21.1 passt, ist ungeprüft. Autoentdeckte Pflanzen erhalten generische Acker-/Erntebedingungen und sind keine originalgetreuen Spezialcrop-Adapter. Farmer's Delight benötigt wegen eigener Samen und Reisregeln einen gesonderten Ansatz.
