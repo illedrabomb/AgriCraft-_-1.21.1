@@ -14,20 +14,7 @@ public final class CropSpeciesNames {
      * server datapack. Never guess names from unrelated mod namespaces.
      */
     public static String preferredProduceItem(String species) {
-        ResourceLocation key = ResourceLocation.tryParse(species);
-        if (key == null || !key.getPath().endsWith("_plant")) return null;
-        String crop = key.getPath().substring(0,
-                key.getPath().length() - "_plant".length());
-        if (!crop.matches("[a-z][a-z0-9_]*")) return null;
-        if (key.getNamespace().equals("pamhc2crops")) {
-            return "pamhc2crops:" + crop + "item";
-        }
-        if (key.getNamespace().equals("farmersdelight")
-                && (crop.equals("cabbage") || crop.equals("tomato")
-                    || crop.equals("onion"))) {
-            return "farmersdelight:" + crop;
-        }
-        return null;
+        return CropSpeciesDisplayRegistry.produceForSpecies(species);
     }
 
     public static Component label(String id) {
