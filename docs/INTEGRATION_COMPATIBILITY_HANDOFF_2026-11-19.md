@@ -204,3 +204,26 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `27de4e77`: `CropDataReloadListener` schreibt die Farmer's-Delight-Zahlen bei jedem Server-Datapack-Reload zusätzlich in das Serverlog, parallel zur bereits vorhandenen Pam's-Zusammenfassung. So werden die Fälle auch ohne Command-Eingabe nachvollziehbar.
 - Diagnosen sind ausschließlich lesend; die neue Meldung schaltet keine zusätzliche Pflanzenart frei. Das System bleibt optional, ohne Link-Abhängigkeit auf Farmer's-Delight-Klassen.
 - **Noch ungetestet** (kein Gradle/JUnit, kein Minecraft-Lauf seit diesen Änderungen); der Nutzer möchte den späteren Sammeltest nach allen Änderungen. Farmer's Delight Reis bleibt weiterhin bewusst ausgeschlossen und benötigt einen eigenen Spezialadapter mit verifiziertem 1.21.1-Verhalten.
+
+
+## Quellabgleich Seed-IDs – 19.11.2026
+
+### Pam's HarvestCraft 2 Crops
+
+- Öffentliches Autoren-Repository, Seed-Loot-Tabelle: https://github.com/MatrexsVigil/phc2crops/blob/master/src/main/resources/data/pamhc2crops/loot_tables/blocks/grass_drops.json
+- Dort sind u. a. `pamhc2crops:tomatoseeditem`, `pamhc2crops:riceseeditem`, `pamhc2crops:mustardseedsseeditem` und `pamhc2crops:sesameseedsseeditem` belegt. Der Namensparser muss bei wiederholtem `seeds` die ganze Basis (`mustardseeds`, `sesameseeds`) erhalten.
+- `47601bb6`: JUnit `PamSeedNamingContractTest` mit Normalfällen, wiederholtem Seeds-Wort und fremdem Namespace ergänzt.
+- **Versionsgrenze:** Die eingesehene Autorenquelle ist `master` und belegt für sich allein **nicht**, dass die NeoForge-1.21.1-JAR dieselben Item-IDs oder sämtliche passenden `<crop>item`-Produkte enthält. Die vorhandene Autoerkennung prüft die tatsächlich geladenen Item-Registrierungen zur Laufzeit und überspringt fehlende Paare. Vor einer Freigabe weiterhin die konkrete JAR überprüfen.
+
+### Farmer's Delight
+
+- Offizielles Quellprojekt `1.21` und seine Block-Drops: https://github.com/vectorwing/FarmersDelight/blob/1.21/src/main/java/vectorwing/farmersdelight/data/loot/FDBlockLoot.java
+- Der Quellstand nennt `CABBAGE_SEEDS` für Kohl, `TOMATO_SEEDS` für Tomaten, `ONION` als Produkt der samenlosen Zwiebelernte sowie `RICE` / `RICE_PANICLE` mit werkzeugabhängigen Drops. Die Pilot-Zuordnungen passen zu den Quellnamen; die originale Erntemechanik wird **nicht** von unserem generischen Crop-Sticks-Pilot nachgebildet.
+- **Reis-Sonderfall:** `rice` wird nicht einfach als Standardackerpflanze autoentdeckt; originale Wasserpflanzung und die Knife-/Panicle-Ernte bleiben ein separates Arbeitspaket. Auch das `1.21`-Branch-Material ist noch kein beweiskräftiger Test gegen genau die verwendete NeoForge-1.21.1-JAR.
+
+### Akzeptanz für den späteren Integrationslauf
+
+1. Exakte Dateinamen/Checksums der installierten Pam's- und Farmer's-Delight-NeoForge-1.21.1-JARs dokumentieren.
+2. Nach `/reload`: `/cropgenetics data pam`, `/cropgenetics data farmersdelight`, `/cropgenetics data errors` prüfen; Warnungen mit den tatsächlich registrierten Items vergleichen.
+3. Repräsentative Seeds aller Adapter mit Crop Sticks, Analyzer, Journal, Save/Reload und Ernte durchspielen; gerade bei Zwiebel Selbst-Saatgut und bei namensauffälligem Pam's `mustardseeds`.
+4. Kein anderes Ernteverhalten (speziell Reis oder Tomatenreben) als kompatibel markieren, bevor der Spieltest es bestätigt. **Noch keine Tests ausgeführt.**
