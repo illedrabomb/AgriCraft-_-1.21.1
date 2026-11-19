@@ -19,6 +19,21 @@ class PamAutoDiscoverySettingsTest {
         assertThrows(IllegalArgumentException.class, () -> new PamAutoDiscoverySettings(
                 true, 512, 9, .75, .025, 5, Set.of(), pairs));
     }
+    @Test void acceptsExplicitSelfPlantableFoodButNotCrossCropRoleCollisions() {
+        var selfPlantable = new PamAutoDiscoverySettings.ItemPair(
+                "pamhc2crops:flaxitem", "pamhc2crops:flaxitem");
+        var settings = new PamAutoDiscoverySettings(true, 512, 9, .75, .025,
+                5, Set.of(), Map.of("flax", selfPlantable));
+        assertEquals(selfPlantable, settings.itemPairs().get("flax"));
+
+        var ambiguous = Map.of(
+                "flax", selfPlantable,
+                "different", new PamAutoDiscoverySettings.ItemPair(
+                        "pamhc2crops:otherseeditem", "pamhc2crops:flaxitem"));
+        assertThrows(IllegalArgumentException.class, () -> new PamAutoDiscoverySettings(
+                true, 512, 9, .75, .025, 5, Set.of(), ambiguous));
+    }
+
     @Test void rejectsUnknownConfigurationInsteadOfIgnoringTypos() {
         assertThrows(RuntimeException.class, () -> PamAutoDiscoverySettings.parse(
                 JsonParser.parseString("{\"max_plant\":5}").getAsJsonObject()));
