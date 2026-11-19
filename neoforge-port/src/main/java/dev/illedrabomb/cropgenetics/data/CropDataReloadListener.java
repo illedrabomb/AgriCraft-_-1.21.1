@@ -345,12 +345,7 @@ public final class CropDataReloadListener extends
 
     /** Returns the first unmet dependency, or null if all requirements exist. */
     private String missingMod(JsonObject json) {
-        if (!json.has("mods")) return null;
-        for (JsonElement element : json.getAsJsonArray("mods")) {
-            String modId = element.getAsString();
-            if (!"agricraft".equals(modId) && !loadedMod.test(modId)) return modId;
-        }
-        return null;
+        return CropModDependencyRules.firstMissing(json, loadedMod);
     }
 
     public record Prepared(Map<ResourceLocation, JsonElement> plants,
