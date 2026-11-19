@@ -196,3 +196,11 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 2. Reis-Spezialpflanzung von Farmer's Delight (nicht über generische Farmland-Regeln vortäuschen).
 3. Sonderernte, Drops, Wachstum, Duplikationsschutz und vollständige Original-Stack-Komponenten für Seeds mit fremden Data-Component-Patches.
 4. Gemeinsames Build-/JUnit-/Minecraft-Regressionstestfenster **erst nach dem vereinbarten gesamten Änderungspaket**; externe Tester-Datei für den Minecraft Mod – Test Tracker danach aktualisieren.
+
+
+## Weiteres Diagnostikpaket – 19.11.2026
+
+- `60976bab`: Fehlende Registrierung von `farmersdelight:onion` wird nun als `AUTO_MISSING_ITEM` erfasst; ein nicht validierbarer Onion-Fallback erhält `WARNING`. Ein absichtlich belegter Item-/Species-Claim bleibt dagegen ohne künstliche Fehlermeldung ausgeschlossen (Datapack-Priorität).
+- `27de4e77`: `CropDataReloadListener` schreibt die Farmer's-Delight-Zahlen bei jedem Server-Datapack-Reload zusätzlich in das Serverlog, parallel zur bereits vorhandenen Pam's-Zusammenfassung. So werden die Fälle auch ohne Command-Eingabe nachvollziehbar.
+- Diagnosen sind ausschließlich lesend; die neue Meldung schaltet keine zusätzliche Pflanzenart frei. Das System bleibt optional, ohne Link-Abhängigkeit auf Farmer's-Delight-Klassen.
+- **Noch ungetestet** (kein Gradle/JUnit, kein Minecraft-Lauf seit diesen Änderungen); der Nutzer möchte den späteren Sammeltest nach allen Änderungen. Farmer's Delight Reis bleibt weiterhin bewusst ausgeschlossen und benötigt einen eigenen Spezialadapter mit verifiziertem 1.21.1-Verhalten.
