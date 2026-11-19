@@ -93,15 +93,17 @@ public record CropReloadReport(List<Entry> entries) {
                     || !entry.source().getNamespace().equals("cropgenetics")
                     || !entry.source().getPath().startsWith("auto_farmers_delight/"))
                 continue;
+            if (entry.source().getPath().equals(
+                    "auto_farmers_delight/discovery_suspended")) {
+                suspended = true;
+                continue;
+            }
             switch (entry.status()) {
                 case AUTO_DISCOVERED -> discovered++;
                 case CONFLICT -> conflicts++;
                 case AUTO_MISSING_ITEM -> missing++;
                 default -> warnings++;
             }
-            if (entry.source().getPath().equals(
-                    "auto_farmers_delight/discovery_suspended"))
-                suspended = true;
         }
         return new AdapterDiscoveryStats(discovered, conflicts, missing, warnings, suspended);
     }
