@@ -257,3 +257,12 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `2195562d`: Regressionstests angepasst/erweitert: Standard-Gain-1, Gain-10 innerhalb eines Stacks, extreme mehrfach eingetragene gleiche Früchte nur ein Stapel, zwei unterschiedliche Produkte je ein Stapel, andere Species ohne Drops.
 - Gourd-Fruit-Spezialmodus bleibt bei einer Frucht je Reifezyklus. Das beim **Abbau separat** zurückgegebene genetische Saatgut ist **kein HarvestProduct** und wird durch diese Regel nicht mit anderen Drops verschmolzen oder auf ein Produkt-Limit umgerechnet.
 - **Noch ungetestet** (Gradle, JUnit, Minecraft). Beim Sammeltest mindestens Weizen+Samen, Farmer's-Delight-Onion, Pam's-Crops und Gain-10-Kulturen auch mit wiederholten gleichen Product-IDs prüfen.
+
+
+## Analyzer-Slot und Pflanzbestätigung – 19.11.2026
+
+- `5c3c38df`: `SeedAnalyzerBlockEntity.canPlaceItem` akzeptiert auf dem Server im Seed-Slot jetzt nur **gültige genetische Samen** oder **eindeutig registrierte, unmodifizierte normale Samen**. Ein gewöhnlicher Seed mit unbekanntem Data-Component-Patch wurde vorher durch die Slot-Prüfung angenommen, dann aber von `CropItems.analyzeSeed` zurecht nicht verändert: scheinbar funktionsloser Analyzer. Nun scheitert diese Eingabe bereits an der Slot-Prüfung, damit keine falsche Analyse-Erwartung entsteht.
+- Die vorhandene clientseitige Einlege-Vorhersage bleibt unverändert offen; die serverseitige Containerprüfung bleibt maßgeblich. Ob das Menü bei abgelehnten Stacks sauber zurückspringt, muss im Minecraft-Test bestätigt werden.
+- `47a7fb99`: `CropSticksBlock.useItemOn` meldet bei `cropgenetics:genetic_seed` auf dem Server erst dann Erfolg, wenn `crop.plant(genome, stack)` wirklich erfolgreich war. Bei einem abgelehnten direkten Pflanzversuch wird kein Seed konsumiert und kein falscher Erfolg gemeldet.
+- **Weiterhin offen:** Ein expliziter Adapter für fremde, bereits geänderte ItemStacks kann später die vollen externen Komponenten in einem definierten Format übernehmen; dieser generische Pfad speichert **keine** beliebigen Fremdkomponenten. Gezielte manuelle Tests: normaler Seed, analysierter Vanilla-/Mod-Seed, Custom-Name-/Komponenten-Seed, genetischer Seed mit falscher Species, voller Analyzer-Slot, Client/Server-Multiplayer.
+- Änderungen sind auf dem Integrationsbranch dokumentiert, aber **noch nicht gebaut oder in Minecraft getestet** (vereinbarter Sammeltest).
