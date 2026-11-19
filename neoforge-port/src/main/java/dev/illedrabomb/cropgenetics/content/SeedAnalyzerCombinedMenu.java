@@ -22,6 +22,16 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
     static final int STORAGE_SLOTS = ANALYZER_SLOTS + CHEST_SLOTS;
     private static final int PLAYER_SLOTS = 36;
 
+    /**
+     * Slot capacity differs between the analyzer's top row and the chest.
+     * Keep the mapping explicit so shift-click and cursor placement agree.
+     */
+    static int maxStorageSlotCount(int combinedIndex) {
+        if (combinedIndex < 0 || combinedIndex >= STORAGE_SLOTS)
+            throw new IllegalArgumentException("Invalid combined storage slot " + combinedIndex);
+        return combinedIndex < ANALYZER_SLOTS ? 1 : 64;
+    }
+
     private final SeedAnalyzerBlockEntity analyzer;
     private final SeedChestBlockEntity chest;
 
@@ -39,20 +49,27 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
         for (int index = 0; index < ANALYZER_SLOTS; index++) {
             int x = 8 + (index % 9) * 18;
             int y = 18;
+            final int combinedIndex = index;
             this.addSlot(new Slot(analyzer, index, x, y) {
                 @Override
                 public int getMaxStackSize() {
                     // Slot zero: seed; slot one: journal; remaining slots
                     // disabled by analyzer.canPlaceItem. Never accept 64
                     // from a shift-click or a carried stack here.
-                    return 1;
+                    return maxStorageSlotCount(combinedIndex);
                 }
             });
         }
         for (int index = 0; index < CHEST_SLOTS; index++) {
             int x = 8 + (index % 9) * 18;
             int y = 36 + (index / 9) * 18;
-            this.addSlot(new Slot(chest, index, x, y));
+            final int combinedIndex = ANALYZER_SLOTS + index;
+            this.addSlot(new Slot(chest, index, x, y) {
+                @Override
+                public int getMaxStackSize() {
+                    return maxStorageSlotCount(combinedIndex);
+                }
+            });
         }
 
         // Match vanilla ChestMenu.fourRows exactly. The client receives the
