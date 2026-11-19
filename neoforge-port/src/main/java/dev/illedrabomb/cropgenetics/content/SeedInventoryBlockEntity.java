@@ -68,6 +68,13 @@ abstract class SeedInventoryBlockEntity extends BlockEntity implements Container
     }
     @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
+        // loadAllItems only restores explicitly serialized occupied slots.
+        // Clear any previous in-memory contents first: loading a snapshot
+        // into an existing block entity must not retain ghost items from
+        // slots omitted by the new save (including an empty saved chest).
+        for (int slot = 0; slot < items.size(); slot++) {
+            items.set(slot, ItemStack.EMPTY);
+        }
         ContainerHelper.loadAllItems(tag, items, registries);
     }
 }
