@@ -98,3 +98,11 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `data/AgriPlantsRegistry.java`: eliminiert Seed-Zuordnungskollisionen, ohne stillschweigend einen Gewinner zu wählen.
 
 **Wesentliche Validierungslücke:** Ob die zugrunde gelegte `seeditem`/`item`-Benennung noch zu Pam's 1.21.1 passt, ist ungeprüft. Autoentdeckte Pflanzen erhalten generische Acker-/Erntebedingungen und sind keine originalgetreuen Spezialcrop-Adapter. Farmer's Delight benötigt wegen eigener Samen und Reisregeln einen gesonderten Ansatz.
+
+## Farmer's Delight Pilot – Code ergänzt am 19.11.2026
+
+- `be0becca`: `data/FarmersDelightCropDiscovery.java` neu. Verwendet den bestehenden, validierenden `RegisteredSeedCropDiscovery` mit **ausschließlich** zwei expliziten Paaren: `farmersdelight:cabbage_seeds` → `farmersdelight:cabbage` und `farmersdelight:tomato_seeds` → `farmersdelight:tomato`.
+- `52bd5c7d`: `data/CropDataReloadListener.java` aktiviert den Pilot **nur bei geladener Mod `farmersdelight`**, sammelt auch Claims deaktivierter expliziter Datapacks und sperrt die automatische Ergänzung bei fehlerhaften/unlesbaren Claims. Die beiden Pflanzen erhalten **generische** Farmland-/Harvest-Bedingungen; Sonderlogik der Originalmod wird nicht kopiert.
+- **Nicht implementiert:** Zwiebeln, Reis (Sonderpflanzung), originale Farmer's-Delight-Spezialernte und umfassende grafische Darstellung. Die beiden Pilotpflanzen sind noch **nicht** durch Java-21-Build, JUnit oder Minecraft 1.21.1 verifiziert. Vor einer Freigabe muss die tatsächliche Item-Registry der installierten Version geprüft werden.
+- **Pam's:** vorhandener Auto-Adapter bleibt aktiv und unverändert; diese Runde hat dessen zuvor übersehenen Code nur auditiert. Auch er ist nicht gegen die aktuelle Pam-JAR verifiziert.
+- **Nächster Arbeitsschritt:** Datapack-/Java-Validierung und JUnit für explizite Claim-Kollisionen, fehlende Mod, Datenreload; dann gezielte Modpack-Spieltests.
