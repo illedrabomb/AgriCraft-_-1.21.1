@@ -42,8 +42,12 @@ abstract class SeedInventoryBlockEntity extends BlockEntity implements Container
         // In particular, a 64-count vanilla seed stack may be a reference
         // still owned by the player's inventory or another container.
         ItemStack stored = stack.copy();
-        if (!stored.isEmpty() && stored.getCount() > getMaxStackSize())
-            stored.setCount(getMaxStackSize());
+        if (!stored.isEmpty()) {
+            // A container's own limit must never override an item's smaller
+            // stack size (especially the unstackable genetic seed).
+            int limit = SeedInventoryStackLimits.allowedCount(stored, getMaxStackSize());
+            if (stored.getCount() > limit) stored.setCount(limit);
+        }
         items.set(slot, stored);
         onStored(slot, stored);
         setChanged();
