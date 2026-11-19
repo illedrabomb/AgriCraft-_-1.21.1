@@ -71,6 +71,17 @@ public final class RegisteredSeedCropDiscovery {
     private record Candidate(String crop, ResourceLocation seed,
                              ResourceLocation produce, boolean configured) {}
 
+    /** Narrow, testable naming rule; never scan names from other mods. */
+    static Optional<String> inferredCropName(ResourceLocation seed, Policy policy) {
+        if (!policy.modId().equals(seed.getNamespace())
+                || !seed.getPath().endsWith(policy.seedSuffix()))
+            return Optional.empty();
+        String crop = seed.getPath().substring(0,
+                seed.getPath().length() - policy.seedSuffix().length());
+        return crop.matches("[a-z][a-z0-9_]*")
+                ? Optional.of(crop) : Optional.empty();
+    }
+
     private static boolean registeredPair(Candidate candidate) {
         return BuiltInRegistries.ITEM.containsKey(candidate.seed())
                 && BuiltInRegistries.ITEM.containsKey(candidate.produce())
@@ -116,12 +127,10 @@ public final class RegisteredSeedCropDiscovery {
         List<ResourceLocation> keys = new ArrayList<>(BuiltInRegistries.ITEM.keySet());
         keys.sort(Comparator.comparing(ResourceLocation::toString));
         for (ResourceLocation seed : keys) {
-            if (!policy.modId().equals(seed.getNamespace())
-                    || !seed.getPath().endsWith(policy.seedSuffix())) continue;
-            String crop = seed.getPath().substring(0,
-                    seed.getPath().length() - policy.seedSuffix().length());
-            if (crop.isEmpty() || !crop.matches("[a-z][a-z0-9_]*")
-                    || policy.itemPairs().containsKey(crop)) continue;
+            Optional<String> cropName = inferredCropName(seed, policy);
+            if (cropName.isEmpty() || policy.itemPairs().containsKey(cropName.get()))
+                continue;
+            String crop = cropName.get();
             candidates.add(new Candidate(crop, seed, ResourceLocation.fromNamespaceAndPath(
                     policy.modId(), crop + policy.produceSuffix()), false));
         }
