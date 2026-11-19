@@ -1,6 +1,5 @@
 package dev.illedrabomb.cropgenetics.content;
 
-import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -14,30 +13,32 @@ class CropSeedSourceSafetyTest {
     @Test
     void plainUnmodifiedSourceIsSafeToConvert() {
         assertTrue(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(
-                new ItemStack(Items.WHEAT_SEEDS), null, Items.PAPER));
+                new ItemStack(Items.WHEAT_SEEDS)));
     }
 
     @Test
     void customDataOnOrdinarySeedIsNotSilentlyDiscarded() {
         ItemStack renamed = new ItemStack(Items.WHEAT_SEEDS);
         renamed.set(DataComponents.CUSTOM_NAME, Component.literal("unique mod seed"));
-        assertFalse(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(
-                renamed, null, Items.PAPER));
+        assertFalse(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(renamed));
     }
 
     @Test
-    void AlreadyGenotypedSourceMayKeepItsExistingGenetics() {
+    void customDataOnAlreadyAnalyzedSeedAlsoBlocksLossyConversion() {
         ItemStack analyzed = new ItemStack(Items.WHEAT_SEEDS);
-        analyzed.set(DataComponents.CUSTOM_NAME, Component.literal("analyzed"));
-        assertTrue(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(
-                analyzed, Genome.basic("minecraft:wheat_plant"), Items.PAPER));
+        analyzed.set(DataComponents.CUSTOM_NAME, Component.literal("analyzed and renamed"));
+        assertFalse(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(analyzed));
     }
 
     @Test
-    void GeneticSeedItselfMayCarryItsOwnComponents() {
+    void customDataOnGeneticSeedAlsoBlocksLossyConversion() {
         ItemStack genetic = new ItemStack(Items.PAPER);
-        genetic.set(DataComponents.CUSTOM_NAME, Component.literal("genetic"));
-        assertTrue(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(
-                genetic, null, Items.PAPER));
+        genetic.set(DataComponents.CUSTOM_NAME, Component.literal("genetic and renamed"));
+        assertFalse(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(genetic));
+    }
+
+    @Test
+    void emptySourceNeedsNoComponentTransfer() {
+        assertTrue(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(ItemStack.EMPTY));
     }
 }
