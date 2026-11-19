@@ -429,8 +429,7 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         // A vanilla/mod seed with *no custom component patch* starts as a 1/1/1
         // genome. Do not consume customized stacks or ambiguous modded seeds.
         if (!state.getValue(CROSS) && crop.genome() == null
-                && !stack.isEmpty() && !stack.is(CropItems.GENETIC_SEED.get())
-                && stack.getComponentsPatch().isEmpty()) {
+                && CropGeneticsSeedRecognition.isUnmodifiedRegisteredSeed(stack)) {
             String seedId = BuiltInRegistries.ITEM.getKey(stack.getItem()).toString();
             var plant = CropGeneticsMod.plants().plantForSeed(seedId);
             if (plant.isPresent() && CropConditions.canGrow(level, pos, plant.get(),
