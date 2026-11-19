@@ -14,11 +14,8 @@ import java.util.Set;
 public final class FarmersDelightCropDiscovery {
     private FarmersDelightCropDiscovery() {}
 
-    public static void addMissing(Map<String, PlantDefinition> plants,
-                                  Set<String> explicitSpecies,
-                                  Set<String> explicitSeedClaims,
-                                  Set<String> explicitProduceClaims,
-                                  List<CropReloadReport.Entry> diagnostics) {
+    /** Package-visible policy supports independent regression tests. */
+    static RegisteredSeedCropDiscovery.Policy policy() {
         Map<String, RegisteredSeedCropDiscovery.ItemPair> pairs = Map.of(
                 "cabbage", new RegisteredSeedCropDiscovery.ItemPair(
                         "farmersdelight:cabbage_seeds", "farmersdelight:cabbage"),
@@ -27,14 +24,20 @@ public final class FarmersDelightCropDiscovery {
 
         // The suffix is deliberately never used for bulk inference. Only the
         // two reviewed explicit pairs above may become generic Crop Sticks.
-        RegisteredSeedCropDiscovery.Policy policy =
-                new RegisteredSeedCropDiscovery.Policy(
+        return new RegisteredSeedCropDiscovery.Policy(
                         "farmersdelight", "__explicit_pairs_only__", "item",
                         "_plant", "auto_farmers_delight/",
                         2, 9, 0.75D, 0.025D, 3,
                         Set.of("onion", "rice"), pairs);
+    }
+
+    public static void addMissing(Map<String, PlantDefinition> plants,
+                                  Set<String> explicitSpecies,
+                                  Set<String> explicitSeedClaims,
+                                  Set<String> explicitProduceClaims,
+                                  List<CropReloadReport.Entry> diagnostics) {
         RegisteredSeedCropDiscovery.addMissing(plants,
                 explicitSpecies, explicitSeedClaims, explicitProduceClaims,
-                diagnostics, policy);
+                diagnostics, policy());
     }
 }
