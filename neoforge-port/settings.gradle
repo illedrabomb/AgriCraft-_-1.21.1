@@ -1,4 +1,7 @@
-undefined
+pluginManagement { repositories { gradlePluginPortal() } }
+plugins { id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0' }
+rootProject.name = 'cropgenetics-neoforge'
+
 // Optional integrations are independently built jars, not bundled into core.
 include ':pam-hc2', ':farmers-delight'
 project(':pam-hc2').projectDir = file('addons/pam-hc2')
