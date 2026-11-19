@@ -12,6 +12,45 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SeedSpeciesCatalogTest {
     /**
+     * Prevent an accidental model copy/paste from making two species appear
+     * as the same item in JEI, the analyzer and the creative inventory.
+     * Some plants deliberately use their vanilla fruit or block icon because
+     * vanilla has no separate seed item for them.
+     */
+    @Test
+    void seedIconsFollowTheirVanillaSpecies() throws Exception {
+        var expectedIcons = java.util.Map.ofEntries(
+                java.util.Map.entry("carrot", "minecraft:item/carrot"),
+                java.util.Map.entry("potato", "minecraft:item/potato"),
+                java.util.Map.entry("beetroot", "minecraft:item/beetroot_seeds"),
+                java.util.Map.entry("nether_wart", "minecraft:item/nether_wart"),
+                java.util.Map.entry("melon", "minecraft:item/melon_seeds"),
+                java.util.Map.entry("pumpkin", "minecraft:item/pumpkin_seeds"),
+                java.util.Map.entry("cornflower", "minecraft:block/cornflower"),
+                java.util.Map.entry("poppy", "minecraft:block/poppy"),
+                java.util.Map.entry("dandelion", "minecraft:block/dandelion"),
+                java.util.Map.entry("cactus", "minecraft:block/cactus_side"),
+                java.util.Map.entry("sugar_cane", "minecraft:item/sugar_cane"),
+                java.util.Map.entry("bamboo", "minecraft:item/bamboo"),
+                java.util.Map.entry("sweet_berry", "minecraft:item/sweet_berries"),
+                java.util.Map.entry("brown_mushroom", "minecraft:block/brown_mushroom"),
+                java.util.Map.entry("red_mushroom", "minecraft:block/red_mushroom"));
+        for (var entry : expectedIcons.entrySet()) {
+            String path = "assets/cropgenetics/models/item/genetic_seed_"
+                    + entry.getKey() + ".json";
+            try (var stream = getClass().getClassLoader().getResourceAsStream(path)) {
+                assertNotNull(stream, path);
+                var json = JsonParser.parseReader(
+                        new InputStreamReader(stream, StandardCharsets.UTF_8))
+                        .getAsJsonObject();
+                assertEquals(entry.getValue(),
+                        json.getAsJsonObject("textures").get("layer0").getAsString(),
+                        "Wrong visual identity for " + entry.getKey());
+            }
+        }
+    }
+
+    /**
      * The client seed_species property is index / 16, and Minecraft chooses
      * the last matching item-model override. Verify every JSON threshold and
      * target model against the catalog used by JEI and the creative tab.
