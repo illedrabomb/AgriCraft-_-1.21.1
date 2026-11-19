@@ -519,3 +519,12 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - Die jeweiligen Add-on-Diagnoseklassen setzen ihre Präfixe selbst. Pam's behält die bisherige Anzahl explizit geladener Pflanzen aus allen Mods; Farmer's behandelt den bisherigen `discovery_suspended`-Marker.
 - Kern-Regressionstests verwenden nun neutrale `auto_example/`-Daten; Farmer-Addon-Tests angepasst. Statische Prüfung der Referenzen erfolgt; **keine Ausführung** von Build/JUnit/Minecraft.
 - Übrig bleibt absichtlich die schützende Reis-Warnung für explizit per Datapack angelegte Farmer's-Delight-Reiskulturen, solange keine Daten-basierte, modunabhängige Warnstrategie existiert. Details `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md`.
+
+
+## Statische Buildskript-Korrektur – 19.11.2026
+
+- `797d3efe`: Pam-Add-on-Metadaten verwenden nun einen korrekt quotierten Groovy-String für `Pam's HarvestCraft 2`.
+- `2ee24a86`: Farmer's-Delight-Add-on-Metadaten verwenden nun einen korrekt quotierten Groovy-String für `Farmer's Delight`.
+- Ursache: unescaped Apostrophe innerhalb eines Groovy-Strings mit einfachen Anführungszeichen hätten die Konfiguration der Add-on-Teilprojekte bereits beim Einlesen der `build.gradle`-Dateien abbrechen lassen.
+- Dies ist ein **statisch bestätigter Syntaxfehler**, kein Ergebnis einer Gradle-Ausführung. Keine Tests oder Builds gestartet. Beim freigegebenen Gesamttest weiterhin zuerst Hauptmod `:test :build`, danach Add-on-Builds gesondert.
+- Die alte Spieltest-Beobachtung zu normalen Karottensamen beim Crossbreeding bleibt **ungeklärt**. Codepfad für unveränderte registrierte Samen (`Genome.basic`), ausgereifte Eltern und Kreuzungswahrscheinlichkeit wurde angesehen, ohne daraus vorschnell eine Gameplay-Änderung abzuleiten.
