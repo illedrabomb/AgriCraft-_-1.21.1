@@ -110,3 +110,11 @@ Gradle project naming/paths can vary if technically necessary; behavior and isol
 - **Do not claim builds/tests passed**. Gradle multi-project integration, runtime addon activation and resource overlays remain unverified, by user request.
 - **Remaining cleanup:** optional JEI guide, localized name fallbacks, report summaries and advisory rice warnings still contain display-only references to Pam/Farmer in the core; no external class dependency. Relocate these when reviewing addon-facing UI to complete the logical boundary.
 - Full restart-safe handoff and deferred test commands: [`docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md`](ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md).
+
+
+## Phase C: display/command isolation checkpoint
+
+- Optional JEI seed-to-produce hints are now registered only by installed addons (`CropSeedGuideRegistry`); the core no longer infers Pam/Farmer guides from source mods alone.
+- Pam/Farmer diagnostic subcommands were moved into the respective addon and registered via generic `CropDataCommandExtensions`. A core-only installation shows only generic `/cropgenetics data` commands.
+- The core still contains safe optional species name translations, immutable addon-summary aggregations, and a protective Farmer rice warning for user-authored generic datapacks. No third-party runtime Java dependency is required.
+- **No Gradle/JUnit/Minecraft tests executed.** See `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md` for exact commit list, static audit and deferred verification.
