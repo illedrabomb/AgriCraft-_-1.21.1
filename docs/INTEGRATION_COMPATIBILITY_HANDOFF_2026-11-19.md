@@ -266,3 +266,12 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `47a7fb99`: `CropSticksBlock.useItemOn` meldet bei `cropgenetics:genetic_seed` auf dem Server erst dann Erfolg, wenn `crop.plant(genome, stack)` wirklich erfolgreich war. Bei einem abgelehnten direkten Pflanzversuch wird kein Seed konsumiert und kein falscher Erfolg gemeldet.
 - **Weiterhin offen:** Ein expliziter Adapter für fremde, bereits geänderte ItemStacks kann später die vollen externen Komponenten in einem definierten Format übernehmen; dieser generische Pfad speichert **keine** beliebigen Fremdkomponenten. Gezielte manuelle Tests: normaler Seed, analysierter Vanilla-/Mod-Seed, Custom-Name-/Komponenten-Seed, genetischer Seed mit falscher Species, voller Analyzer-Slot, Client/Server-Multiplayer.
 - Änderungen sind auf dem Integrationsbranch dokumentiert, aber **noch nicht gebaut oder in Minecraft getestet** (vereinbarter Sammeltest).
+
+
+## Einheitlicher Pfad für einfache Saaten – 19.11.2026
+
+- `b807d152`: neue gemeinsame Prüfung `CropGeneticsSeedRecognition.isUnmodifiedRegisteredSeed`: nur nichtleere, noch nicht genetisch beschriftete, **unmodifizierte** gewöhnliche Seeds mit eindeutiger Zuordnung in der aktiven Pflanzenregistry. Geschützte vorhandene Fremdkomponenten bleiben ausgeschlossen.
+- `50e8cd5f`: Seed Analyzer benutzt diese Prüfung zusätzlich zum existierenden `CropItems.isGeneticSeedStack` für bereits genetische Samen.
+- `1f39851d`: Crop Sticks benutzen dieselbe Prüfung für den 1/1/1-Pflanzweg. Bereits analysierte Seeds mit gültigem gespeichertem `GENOME` bleiben auf ihrem **gesonderten** Weg erlaubt und behalten ihr tatsächliches Genom. Dies ist eine Umstrukturierung der bisherigen Akzeptanzregeln, keine neue automatische Fremdmod-Konvertierung.
+- **Absichtliche Unterscheidung:** Seed Chest speichert auch angepasste, eindeutig registrierte Seeds ohne Konvertierung, damit individuelle Item-Komponenten beim bloßen Lagern erhalten bleiben; Analyzer und Pflanzweg dürfen solche extern gepatchten Stacks dagegen ohne echten Lossless-Adapter nicht umschreiben oder verbrauchen.
+- **Ungetestet:** späteren Sammeltest für (a) unveränderte Vanilla-/Pam-/Farmer-Seeds, (b) vorher analysierte gleiche Seeds, (c) extra komponierte Mod-Seeds, (d) originale Chest-Stack-Daten nach Save/Reload und (e) klientseitige Slot-Rückmeldung durchführen. Noch kein Build/JUnit/Minecraft-Lauf.
