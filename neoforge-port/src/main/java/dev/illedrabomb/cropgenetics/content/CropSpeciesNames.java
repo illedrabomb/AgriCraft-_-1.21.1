@@ -1,10 +1,34 @@
 package dev.illedrabomb.cropgenetics.content;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 
 /** Human-readable, translatable crop species names shared by HUD and seeds. */
 public final class CropSpeciesNames {
     private CropSpeciesNames() {}
+
+    /**
+     * Candidate display item only: actual plant support is determined by the
+     * server datapack. Never guess names from unrelated mod namespaces.
+     */
+    public static String preferredProduceItem(String species) {
+        ResourceLocation key = ResourceLocation.tryParse(species);
+        if (key == null || !key.getPath().endsWith("_plant")) return null;
+        String crop = key.getPath().substring(0,
+                key.getPath().length() - "_plant".length());
+        if (!crop.matches("[a-z][a-z0-9_]*")) return null;
+        if (key.getNamespace().equals("pamhc2crops")) {
+            return "pamhc2crops:" + crop + "item";
+        }
+        if (key.getNamespace().equals("farmersdelight")
+                && (crop.equals("cabbage") || crop.equals("tomato")
+                    || crop.equals("onion"))) {
+            return "farmersdelight:" + crop;
+        }
+        return null;
+    }
 
     public static Component label(String id) {
         String key = switch (id) {
@@ -27,6 +51,16 @@ public final class CropSpeciesNames {
             default -> null;
         };
         if (key != null) return Component.translatable(key);
+        String produceId = preferredProduceItem(id);
+        if (produceId != null) {
+            ResourceLocation produce = ResourceLocation.tryParse(produceId);
+            if (produce != null) {
+                var item = BuiltInRegistries.ITEM.getOptional(produce);
+                if (item.isPresent() && item.get() != Items.AIR) {
+                    return Component.translatable(item.get().getDescriptionId());
+                }
+            }
+        }
         return Component.literal(id.substring(id.indexOf(':') + 1)
                 .replace("_plant", "").replace('_', ' '));
     }
