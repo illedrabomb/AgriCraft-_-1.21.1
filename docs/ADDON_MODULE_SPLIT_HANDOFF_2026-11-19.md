@@ -31,7 +31,7 @@
 ## Remaining important audit items (do not hide)
 
 - **No actual Gradle/NeoForge compilation yet.** Subproject `compileOnly project(':')` integration, generated mod metadata and runtime module loading must be verified in the agreed final test round. Do not claim JARs are working until then.
-- Several **display-only** compatibility traces remain in the core: `CropSpeciesNames` display fallbacks, `CropReloadReport`'s existing adapter-specific counters, and the advisory `SpecialCropCompatibilityWarnings` rule for explicitly data-packed Farmer rice. The core JEI class now obtains optional seed guide entries **only from installed add-on providers**; its former hardcoded Pam/Farmer policy has been removed. These introduce no external Java dependency, but further UI/diagnostics separation can move them into add-ons later. Core auto-discovery code and bundled Pam/Farmer datapack resources have been removed.
+- Several **display-only** compatibility traces remain in the core: `CropReloadReport`'s existing adapter-specific counters, and the advisory `SpecialCropCompatibilityWarnings` rule for explicitly data-packed Farmer rice. The core JEI class now obtains optional seed guide entries **only from installed add-on providers**; its former hardcoded Pam/Farmer policy has been removed. These introduce no external Java dependency, but further UI/diagnostics separation can move them into add-ons later. Core auto-discovery code and bundled Pam/Farmer datapack resources have been removed.
 - Addon registration is executed on each add-on's `@Mod` construction; required target mod metadata governs whether the add-on can load. Missing add-ons leave the registry empty.
 - Farmer's Delight and Pam's resources should only become active from their own JARs. Datapack path precedence and partial migration of old worlds require functional checks before distribution.
 - Verify the built JAR contents (core has zero Pam/Farmer resource definitions, each addon contains its own) before considering release.
@@ -71,3 +71,13 @@ The current plan lives in `docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`. Keep all c
 - `1b84ddec`: unit tests for contribution, duplicate detection and invalid command identifiers. **Not executed.**
 - Static source inspection confirms the core `CropDataCommand` no longer contains Pam/Farmer literals; addon command classes and registration calls exist.
 - Core still contains name fallback rules, addon-specific immutable report aggregates and the protective Farmer rice warning; these **do not directly activate any addon feature**. Assess whether to generalize them later without regressing explicit user datapacks.
+
+
+## Follow-up: addon-owned crop display names
+
+- `c02122a3`: generic, synchronized `CropSpeciesDisplayRegistry` in core; addon-provided species → produce item mapping, with deterministic conflict rejection and error containment.
+- `859ed3ee`: `CropSpeciesNames.preferredProduceItem` no longer contains hard-coded Pam/Farmer namespace rules. Names for vanilla species remain covered by their existing translation switch.
+- `7f6d7ae1` / `2d619211`: Pam and Farmer display-name policies moved into their own addon packages. Pam retains plural names like `mustardseeds`; Farmer allows only cabbage/tomato/onion, not rice.
+- `e6b073ed` / `33a27dc9`: the owning addons register those display mappings on mod initialization; the core does not synthesize an optional crop name when their addon is absent.
+- `86c569bd`, `919e76e5`, `9a78a8a9`: core-only and addon-specific regression tests added/updated. **No tests run**.
+- Remaining optional-specific helpers in core are read-only report counters (used by add-on diagnostics) and the explicit Farmer rice compatibility warning for user-authored generic datapacks. Both can be generalized later; neither auto-registers external plants.
