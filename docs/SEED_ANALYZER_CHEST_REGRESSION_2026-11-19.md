@@ -112,3 +112,16 @@
 - **Erfolg:** alle relevanten Soll-Ergebnisse beobachtet und belegt.
 - **Fehler:** erwartete und tatsächliche Zahlen/Items inklusive Screenshot sowie `latest.log` beifügen.
 - **Blockiert:** Build startet nicht, benötigte Mod-/Seed-Art nicht verfügbar oder Testwelt nicht reproduzierbar. Nicht als Erfolg zählen.
+
+
+### SC-10 – Verdeckte Genwerte nicht an andere Spieler übertragen
+
+**Warum:** Unanalysierte Crop-Sticks-Pflanzen dürfen in normalen Welt-Update-Paketen ihre echten Genwerte nicht an umstehende Clients offenlegen.
+
+1. Auf einem Server mit zwei Spielern einen unanalysierten genetischen Seed mit dokumentierten Werten außerhalb von 1/1/1 (z. B. 8/9/10) pflanzen.
+2. Spieler B betrachtet den Block mit einer verfügbaren Overlay-Mod (z. B. Jade/Identify), ohne eine Analyse auszuführen.
+3. Danach den Block analysieren, erneut ansehen, abbauen und den zurückgegebenen Seed vergleichen.
+
+**Soll:** Vor Analyse sind echte individuelle Werte nicht öffentlich sichtbar und werden im gewöhnlichen Block-Update durch 1/1/1-Platzhalter ersetzt. Nach Analyse dürfen sie erscheinen. Der vom Server herausgegebene Seed trägt nach Abbau weiterhin die **echten** 8/9/10 und seine ursprüngliche Seed-ID. Der Netzwerk-Fix darf die Welt-Speicherung nicht neutralisieren.
+
+**Status:** Nicht ausgeführt. Hinweis: Dieser Test prüft öffentliches Block-Sync-Verhalten, keine per-Spieler-spezifische Geheimhaltung nach global erfolgter Analyse.
