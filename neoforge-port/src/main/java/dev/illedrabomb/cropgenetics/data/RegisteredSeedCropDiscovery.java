@@ -59,12 +59,21 @@ public final class RegisteredSeedCropDiscovery {
                 if (seed == null || produce == null
                         || !seed.getNamespace().equals(modId)
                         || !produce.getNamespace().equals(modId)
-                        || !seeds.add(pair.seed()) || !products.add(pair.produce())
-                        || pair.seed().equals(pair.produce()))
+                        || !seeds.add(pair.seed()) || !products.add(pair.produce()))
                     throw new IllegalArgumentException("Invalid or ambiguous approved item pair");
             }
-            if (products.stream().anyMatch(seeds::contains))
-                throw new IllegalArgumentException("Item pair seed/produce roles overlap");
+            // Only explicitly configured pairs may have seed == produce.
+            // Different crops must never claim the same item in either role.
+            for (var first : itemPairs.entrySet()) {
+                for (var second : itemPairs.entrySet()) {
+                    if (first.getKey().equals(second.getKey())) continue;
+                    if (first.getValue().seed().equals(second.getValue().produce())
+                            || first.getValue().produce().equals(second.getValue().seed())) {
+                        throw new IllegalArgumentException(
+                                "Item pair seed/produce roles overlap across crops");
+                    }
+                }
+            }
         }
     }
 
@@ -189,7 +198,9 @@ public final class RegisteredSeedCropDiscovery {
 
             if (seedClaims.getOrDefault(seedId, 0) > 1
                     || produceClaims.getOrDefault(produceId, 0) > 1
-                    || produceClaims.containsKey(seedId) || seedClaims.containsKey(produceId)) {
+                    || (!seedId.equals(produceId)
+                        && (produceClaims.containsKey(seedId)
+                            || seedClaims.containsKey(produceId)))) {
                 diagnostics.add(diagnostic(policy, crop, speciesId,
                         CropReloadReport.Status.CONFLICT,
                         "Ambiguous auto-discovery seed/produce item; candidate disabled"));
