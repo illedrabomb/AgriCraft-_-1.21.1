@@ -78,6 +78,34 @@ public record CropReloadReport(List<Entry> entries) {
         return new PamDiscoveryStats(explicit, discovered, conflicts, missing, warnings, suspended);
     }
 
+    /** Per-adapter diagnostics; Pam's historic summary remains unchanged. */
+    public record AdapterDiscoveryStats(int discovered, int conflicts, int missingItems,
+                                        int otherWarnings, boolean suspended) {}
+
+    public AdapterDiscoveryStats farmersDelightStats() {
+        int discovered = 0;
+        int conflicts = 0;
+        int missing = 0;
+        int warnings = 0;
+        boolean suspended = false;
+        for (Entry entry : entries) {
+            if (entry.kind() != Kind.PLANT
+                    || !entry.source().getNamespace().equals("cropgenetics")
+                    || !entry.source().getPath().startsWith("auto_farmers_delight/"))
+                continue;
+            switch (entry.status()) {
+                case AUTO_DISCOVERED -> discovered++;
+                case CONFLICT -> conflicts++;
+                case AUTO_MISSING_ITEM -> missing++;
+                default -> warnings++;
+            }
+            if (entry.source().getPath().equals(
+                    "auto_farmers_delight/discovery_suspended"))
+                suspended = true;
+        }
+        return new AdapterDiscoveryStats(discovered, conflicts, missing, warnings, suspended);
+    }
+
     public Map<Status, Integer> totals() {
         Map<Status, Integer> totals = new EnumMap<>(Status.class);
         for (Status status : Status.values()) totals.put(status, 0);
