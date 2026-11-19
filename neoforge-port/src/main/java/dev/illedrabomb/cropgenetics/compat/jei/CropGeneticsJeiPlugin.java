@@ -23,6 +23,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.ArrayList;
+import java.util.Comparator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import java.util.List;
@@ -111,6 +112,11 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
             if (key != null) BuiltInRegistries.ITEM.getOptional(key)
                     .ifPresent(item -> entryPoints.add(new ItemStack(item)));
         }
+        // Optional mod entry points: visible JEI help should be reachable
+        // from seeds supplied by Pam's and Farmer's Delight as well. These
+        // are only candidate item pairs; the SERVER datapack registry remains
+        // authoritative about whether planting is actually enabled.
+        addOptionalModSeedInfo(entryPoints);
         entryPoints.add(CropItems.GENETIC_SEED.get().getDefaultInstance());
         entryPoints.add(CropItems.CROP_STICKS.get().getDefaultInstance());
         registration.addItemStackInfo(entryPoints,
@@ -121,6 +127,46 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
                 CropItems.SEED_CHEST.get().getDefaultInstance(),
                 CropItems.SEED_JOURNAL.get().getDefaultInstance()),
                 Component.translatable("jei.cropgenetics.seed_analysis"));
+    }
+
+    /** Only publish JEI links for present, reviewed seed/produce pairs. */
+    private static void addOptionalModSeedInfo(List<ItemStack> entryPoints) {
+        addSeedPair(entryPoints, "farmersdelight:cabbage_seeds", "farmersdelight:cabbage");
+        addSeedPair(entryPoints, "farmersdelight:tomato_seeds", "farmersdelight:tomato");
+        // Farmer's Delight onion is itself both planting item and produce.
+        addSeedPair(entryPoints, "farmersdelight:onion", "farmersdelight:onion");
+        // Rice uses its own water/knife harvesting mechanics and is not a
+        // generic crop-stick adapter. Do not suggest it as such.
+
+        // Pam's public registry convention is <crop>seeditem + <crop>item.
+        // Include only actually registered pairs, never every name ending
+        // in "seed" from arbitrary namespaces. A bounded list avoids
+        // excessive JEI entries from unexpectedly large modpacks.
+        BuiltInRegistries.ITEM.keySet().stream()
+                .filter(key -> key.getNamespace().equals("pamhc2crops")
+                        && key.getPath().endsWith("seeditem"))
+                .sorted(Comparator.comparing(ResourceLocation::toString))
+                .limit(128)
+                .forEach(seed -> {
+                    String crop = seed.getPath().substring(0,
+                            seed.getPath().length() - "seeditem".length());
+                    if (!crop.matches("[a-z][a-z0-9_]*")) return;
+                    addSeedPair(entryPoints, seed.toString(),
+                            "pamhc2crops:" + crop + "item");
+                });
+    }
+
+    private static void addSeedPair(List<ItemStack> entryPoints,
+                                    String seedId, String produceId) {
+        ResourceLocation seed = ResourceLocation.tryParse(seedId);
+        ResourceLocation produce = ResourceLocation.tryParse(produceId);
+        if (seed == null || produce == null) return;
+        var seedItem = BuiltInRegistries.ITEM.getOptional(seed);
+        var productItem = BuiltInRegistries.ITEM.getOptional(produce);
+        if (seedItem.isEmpty() || productItem.isEmpty()
+                || seedItem.get() == Items.AIR || productItem.get() == Items.AIR)
+            return;
+        entryPoints.add(new ItemStack(seedItem.get()));
     }
 
     @Override
