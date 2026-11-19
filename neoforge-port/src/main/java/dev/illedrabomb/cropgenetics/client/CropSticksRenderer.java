@@ -45,7 +45,8 @@ public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksB
                             : Blocks.PUMPKIN.defaultBlockState(),
                     poses, buffers, packedLight, packedOverlay);
             poses.popPose();
-            return;
+            // Do not stop rendering here: the mature stem remains present
+            // beneath/around its internal fruit until the next harvest.
         }
 
         // The BlockState keeps only 0..7 for model compatibility. Use the
