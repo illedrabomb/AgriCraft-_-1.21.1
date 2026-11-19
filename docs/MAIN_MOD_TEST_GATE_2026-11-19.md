@@ -56,3 +56,11 @@ Add-on build/launch verification is **not** a prerequisite to the core-only manu
 - Priorities fixed by user: main AgriCraft core first; Pam's slightly above MineColonies; Farmer's Delight much later.
 - Optional Ponder guidance is deferred even later.
 - Keep progress in `docs/INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md` and `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md`.
+
+
+### Nachtrag: Rezeptkorrektur und Saatgutpfad (19.11.2026)
+
+- `639b5b79`: Das Seed-Analyzer-Rezept enthielt noch zwei Vanilla-Stöcke, Glasscheibe, Steinplatte und Holz. Gemäß der früheren Vorgabe wurde es auf **genau sechs Crop Sticks und keine weiteren Zutaten** reduziert (förmiges 3×3-Muster mit sechs Belegungen).
+- Das Seed-Chest-Rezept nutzt bereits acht Crop Sticks um eine normale Truhe und enthält keine Planken. Es wurde deshalb nicht geändert.
+- Statische Überprüfung von `CropItems`, `CropSticksBlockEntity`, `SeedAnalyzerBlockEntity`, `SeedChestBlockEntity` und `CropHarvest`: individuelle Genetik wird über `GENOME` in den genetischen Saatgutstapeln/Blockdaten gehalten; genetische Seeds sind auf Stackgröße 1 begrenzt; die Ernte bündelt Produkte auf höchstens einen normalen Itemstack pro Produkttyp. **Diese Feststellungen sind Quelltextbefunde, kein Gameplay-Test.**
+- Keine Gradle-, JUnit- oder Minecraft-Ausführung; als spätere Prüfpunkte Analyzer-Rezeptanzeige in JEI und tatsächliches Crafting aufnehmen.
