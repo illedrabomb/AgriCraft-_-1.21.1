@@ -1,6 +1,8 @@
 package dev.illedrabomb.cropgenetics.content;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -17,11 +19,47 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
         super(CropBlocks.SEED_ANALYZER_ENTITY.get(), pos, state, 9);
     }
 
-    // Only the analyzer sends its compact occupied-slot view to watching clients.
-    // Seed Chest inventories retain their normal server-only container behavior.
+    // World watchers receive only the icon item ID and journal occupancy.
+    // The original ItemStacks (including hidden genes and researched species)
+    // are never broadcast to every nearby player by block-entity packets.
+    private ItemStack clientDisplaySeed = ItemStack.EMPTY;
+    private boolean clientDisplayJournal;
+
+    public ItemStack displaySeed() {
+        return level != null && level.isClientSide ? clientDisplaySeed : getItem(0);
+    }
+
+    public ItemStack displayJournal() {
+        return level != null && level.isClientSide
+                ? (clientDisplayJournal ? new ItemStack(CropItems.SEED_JOURNAL.get()) : ItemStack.EMPTY)
+                : getItem(1);
+    }
+
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean("DisplayOnly", true);
+        ItemStack seed = getItem(0);
+        if (!seed.isEmpty()) {
+            tag.putString("DisplaySeedId", BuiltInRegistries.ITEM.getKey(seed.getItem()).toString());
+        }
+        tag.putBoolean("DisplayJournal", !getItem(1).isEmpty());
+        return tag;
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        if (tag.getBoolean("DisplayOnly")) {
+            String itemId = tag.getString("DisplaySeedId");
+            ResourceLocation parsed = ResourceLocation.tryParse(itemId);
+            clientDisplaySeed = parsed == null || !BuiltInRegistries.ITEM.containsKey(parsed)
+                    ? ItemStack.EMPTY : new ItemStack(BuiltInRegistries.ITEM.get(parsed));
+            clientDisplayJournal = tag.getBoolean("DisplayJournal");
+            // Never overwrite the client-side menu slots with the limited
+            // visual packet. Inventory contents come from the container sync.
+            return;
+        }
+        super.loadAdditional(tag, registries);
     }
 
     @Override
