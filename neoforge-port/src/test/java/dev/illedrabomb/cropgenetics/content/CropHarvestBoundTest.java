@@ -37,11 +37,34 @@ class CropHarvestBoundTest {
     }
 
     @Test
-    void extremeValidDatapackProductsCannotEmitUnboundedStacks() {
+    void extremeRepeatedProductEntriesStillYieldOnlyOneStackPerItem() {
         var drops = CropHarvest.products(plant(4096, 4096, 4),
                 new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(123L));
-        assertEquals(CropHarvest.MAX_DROP_STACKS, drops.size());
-        assertTrue(drops.stream().allMatch(stack -> stack.getCount() > 0));
+        assertEquals(1, drops.size());
+        assertEquals(drops.get(0).getMaxStackSize(), drops.get(0).getCount());
+    }
+
+    @Test
+    void gainStillIncreasesAmountWithinSingleStack() {
+        var drops = CropHarvest.products(plant(1, 1, 1),
+                new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(123L));
+        assertEquals(1, drops.size());
+        assertEquals(4, drops.get(0).getCount());
+    }
+
+    @Test
+    void twoDistinctProductsCanEachYieldOneStack() {
+        var base = plant(1, 1, 1);
+        var mixed = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
+                base.stages(), base.harvestStage(), base.growthChance(), base.growthBonus(),
+                base.cloneable(), base.spreadChance(),
+                List.of(new PlantDefinition.HarvestProduct("minecraft:wheat", 1, 1, 1.0D),
+                        new PlantDefinition.HarvestProduct("minecraft:wheat_seeds", 1, 1, 1.0D)),
+                base.requirements(), base.harvestMode(), base.fruitChance(), base.contactThorns());
+        var drops = CropHarvest.products(mixed,
+                Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L));
+        assertEquals(2, drops.size());
+        assertTrue(drops.stream().allMatch(stack -> stack.getCount() == 1));
     }
 
     @Test
