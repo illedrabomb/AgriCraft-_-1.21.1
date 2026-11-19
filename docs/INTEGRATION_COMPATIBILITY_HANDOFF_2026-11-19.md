@@ -416,3 +416,12 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `3e524556`: `OptionalSeedGuidePolicyTest` prüft jetzt auch `mustardseedsseeditem` → `mustardseedsitem` und `sesameseedsseeditem` → `sesameseedsitem`.
 - `5e74ece4`: `PamPublishedNamingContractTest` prüft die reine Pam's-Suffix-Inferenz für einfache Namen, `mustardseeds`/`sesameseeds` und das Verbot fremder Namespaces. **Tests nicht ausgeführt**.
 - **Kein weiterer Auto-Adapter aktiviert:** Dieses Paket dokumentiert den Herstellerbefund und legt Regressionen an; es behauptet weder, dass die 1.21.1-JAR dieselben Namen trägt, noch dass selbst pflanzbare Pam's-Ernte-Items schon in Crop Sticks unterstützt werden.
+
+
+## Offline-JAR-Prüfung für Pam's Sonderfälle erweitert – 19.11.2026
+
+- `528128b0`: `neoforge-port/scripts/inspect-optional-crop-jars.ps1` meldet nun zusätzlich die **Anzahl der Seed-Item-Modellkandidaten ohne passendes Ernteitem-Modell**, die ausdrücklich plural benannten Pflanzen `mustardseeds` und `sesameseeds` sowie eine eng begrenzte Prüfliste historisch *selbst pflanzbarer* Pam's-Ernte-Items (`cotton`, `flax`, `kenaf`, `jute`, `sisal`, `coffeebean`, `tealeaf`, `agave`, `ginger`).
+- Die Liste stammt aus dem älteren, öffentlichen `MatrexsVigil/phc2crops`-Quellprojekt; die **NeoForge-1.21.1-Version ist damit keineswegs verifiziert**. Der Report zeigt pro Kandidat lediglich, ob `assets/pamhc2crops/models/item/<item>.json` und ein dazugehöriges Seed-Modell als ZIP-Einträge vorkommen. **Ein Modell allein beweist weder einen registrierten Gegenstand noch dessen direkte Pflanzbarkeit oder Drop-/Wachstumslogik.**
+- Kein neuer Crop-Sticks-Adapter und keine ungeprüfte Food-Item-Freigabe. Das Skript öffnet explizit übergebene lokale JARs **nur lesend**, gibt SHA-256 aus und verändert weder Mods noch Spielstände.
+- Nach Abschluss der Codepakete auf Windows mit den tatsächlich installierten, versionsgenauen 1.21.1-JAR-Pfaden ausführen; Ausgabe als Text für den Handoff und die Test-Tracker-Fälle aufbewahren. Anschließend im Spiel mit `/cropgenetics data pam` Registry-Support und Originalmechanik vergleichen.
+- **PowerShell-Skript und übrige Tests weiterhin nicht ausgeführt.**
