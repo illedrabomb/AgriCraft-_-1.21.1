@@ -26,6 +26,12 @@ class OptionalSeedGuidePolicyTest {
     void pamSeedsUseOnlyApprovedNamespaceAndSuffix() {
         assertEquals("pamhc2crops:mustarditem",
                 OptionalSeedGuidePolicy.produceForSeed("pamhc2crops:mustardseeditem"));
+        // In Pam's older published registry, the crop name itself can end
+        // in 'seeds': mustardseedsseeditem -> mustardseedsitem.
+        assertEquals("pamhc2crops:mustardseedsitem",
+                OptionalSeedGuidePolicy.produceForSeed("pamhc2crops:mustardseedsseeditem"));
+        assertEquals("pamhc2crops:sesameseedsitem",
+                OptionalSeedGuidePolicy.produceForSeed("pamhc2crops:sesameseedsseeditem"));
         assertNull(OptionalSeedGuidePolicy.produceForSeed("pamhc2trees:mustardseeditem"));
         assertNull(OptionalSeedGuidePolicy.produceForSeed("pamhc2crops:mustardseeds"));
         assertNull(OptionalSeedGuidePolicy.produceForSeed("pamhc2crops:seeditem"));
