@@ -62,6 +62,10 @@ public record CropReloadReport(List<Entry> entries) {
                     case AUTO_DISCOVERED -> discovered++;
                     case AUTO_MISSING_ITEM -> missing++;
                     case CONFLICT -> conflicts++;
+                    // An explicit datapack or item claim intentionally
+                    // overrides this fallback. Report it individually, but
+                    // do not count it as an actual warning.
+                    case DISABLED -> {}
                     default -> warnings++;
                 }
             } else if (entry.source().getPath().startsWith("cropgenetics/plants/")
@@ -102,6 +106,8 @@ public record CropReloadReport(List<Entry> entries) {
                 case AUTO_DISCOVERED -> discovered++;
                 case CONFLICT -> conflicts++;
                 case AUTO_MISSING_ITEM -> missing++;
+                // A configured or explicit crop definition is authoritative.
+                case DISABLED -> {}
                 default -> warnings++;
             }
         }
