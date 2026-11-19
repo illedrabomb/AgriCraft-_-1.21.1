@@ -5,8 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.CompoundContainer;
-import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
@@ -133,13 +131,12 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
         }
         if (!level.isClientSide) {
             SeedChestBlockEntity chest = findChest(level, pos);
-            Container combined = chest == null ? analyzer : new CompoundContainer(analyzer, chest);
             Component title = Component.translatable(chest == null
                     ? "container.cropgenetics.seed_analyzer"
                     : "container.cropgenetics.seed_analyzer_with_chest");
             player.openMenu(new SimpleMenuProvider((id, inventory, viewer) ->
-                    chest == null ? ChestMenu.oneRow(id, inventory, combined)
-                            : ChestMenu.fourRows(id, inventory, combined), title));
+                    chest == null ? ChestMenu.oneRow(id, inventory, analyzer)
+                            : new SeedAnalyzerCombinedMenu(id, inventory, analyzer, chest), title));
         }
         return InteractionResult.SUCCESS;
     }
