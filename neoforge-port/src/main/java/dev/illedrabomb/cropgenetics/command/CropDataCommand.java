@@ -55,6 +55,8 @@ public final class CropDataCommand {
                                                 IntegerArgumentType.getInteger(ctx, "page")))))
                         .then(Commands.literal("pam")
                                 .executes(ctx -> pamSummary(ctx.getSource(), registry)))
+                        .then(Commands.literal("farmersdelight")
+                                .executes(ctx -> farmersDelightSummary(ctx.getSource(), registry)))
                         .then(Commands.literal("gourd")
                                 .then(Commands.argument("pos", BlockPosArgument.blockPos())
                                         .executes(ctx -> gourd(ctx.getSource(), registry,
@@ -81,6 +83,9 @@ public final class CropDataCommand {
         tell(source, "  Pam's auto crops: " + pam.autoDiscovered()
                 + ", explicit plant files loaded (all mods): " + pam.explicitLoaded()
                 + " - details: /cropgenetics data pam");
+        tell(source, "  Farmer's Delight auto crops: "
+                + report.farmersDelightStats().discovered()
+                + " - details: /cropgenetics data farmersdelight");
         Map<CropReloadReport.Status, Integer> totals = report.totals();
         for (CropReloadReport.Status status : CropReloadReport.Status.values()) {
             int count = totals.getOrDefault(status, 0);
@@ -112,6 +117,27 @@ public final class CropDataCommand {
         tell(source, "  Total active species (all mods): " + snapshot.plants().size());
         tell(source, "Details: /cropgenetics data errors [page] or all [page].");
         return stats.autoDiscovered();
+    }
+
+    /** Read-only Farmer's Delight adapter status for support and modpack testers. */
+    private static int farmersDelightSummary(CommandSourceStack source,
+                                             AgriPlantsRegistry registry) {
+        AgriPlantsRegistry.Snapshot snapshot = registry.snapshot();
+        if (notLoaded(snapshot)) {
+            tell(source, "Crop Genetics: no datapack reload report available yet.");
+            return 0;
+        }
+        CropReloadReport.AdapterDiscoveryStats stats =
+                snapshot.report().farmersDelightStats();
+        tell(source, "Farmer's Delight compatibility - last server reload:");
+        tell(source, "  Auto-discovered pilot species: " + stats.discovered());
+        tell(source, "  Conflicting candidates: " + stats.conflicts());
+        tell(source, "  Configured pairs with missing items: " + stats.missingItems());
+        tell(source, "  Other adapter diagnostics: " + stats.otherWarnings());
+        tell(source, "  Auto-discovery suspended: " + (stats.suspended() ? "yes" : "no"));
+        tell(source, "  Scope: cabbage, tomato, onion; rice not yet supported.");
+        tell(source, "Details: /cropgenetics data errors [page] or all [page].");
+        return stats.discovered();
     }
 
     /**
