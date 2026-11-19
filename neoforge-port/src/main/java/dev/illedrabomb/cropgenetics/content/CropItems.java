@@ -60,13 +60,10 @@ public final class CropItems {
         if (sourceSeed == null || sourceSeed.isEmpty()) return genetic;
 
         Genome sourceGenome = sourceSeed.get(CropComponents.GENOME.get());
-        // External data components on a still-ordinary item may represent
-        // another mod's unique seed properties. A genetic seed cannot encode
-        // those arbitrary components, so reject the conversion explicitly.
-        // Our already-analyzed ordinary seeds carry a real GENOME and remain
-        // eligible for the existing same-genome path below.
-        if (!CropSeedSourceSafety.canConvertWithoutExternalDataLoss(
-                sourceSeed, sourceGenome, GENETIC_SEED.get())) {
+        // Even analyzed seeds or our own genetic seeds can acquire unknown
+        // components from other mods. Reject the conversion when any patched
+        // component outside our own seed metadata would be lost.
+        if (!CropSeedSourceSafety.canConvertWithoutExternalDataLoss(sourceSeed)) {
             return ItemStack.EMPTY;
         }
         // A source already carrying a DIFFERENT species or genotype cannot
