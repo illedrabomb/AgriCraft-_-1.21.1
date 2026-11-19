@@ -82,6 +82,23 @@ public final class RegisteredSeedCropDiscovery {
                 ? Optional.of(crop) : Optional.empty();
     }
 
+    /** Explain explicit/active claims without overriding them. */
+    static String reservedClaimReason(String speciesId, String seedId, String produceId,
+                                      Set<String> explicitSpecies, Set<String> activeSpecies,
+                                      Set<String> reservedSeeds, Set<String> reservedProducts) {
+        if (explicitSpecies.contains(speciesId) || activeSpecies.contains(speciesId))
+            return "species already defined: " + speciesId;
+        if (reservedSeeds.contains(seedId))
+            return "seed item already claimed: " + seedId;
+        if (reservedProducts.contains(produceId))
+            return "produce item already claimed: " + produceId;
+        if (reservedProducts.contains(seedId))
+            return "seed item already used as produce: " + seedId;
+        if (reservedSeeds.contains(produceId))
+            return "produce item already used as seed: " + produceId;
+        return null;
+    }
+
     private static boolean registeredPair(Candidate candidate) {
         return BuiltInRegistries.ITEM.containsKey(candidate.seed())
                 && BuiltInRegistries.ITEM.containsKey(candidate.produce())
@@ -159,10 +176,16 @@ public final class RegisteredSeedCropDiscovery {
             String speciesId = policy.modId() + ":" + crop + policy.plantSuffix();
             String seedId = candidate.seed().toString();
             String produceId = candidate.produce().toString();
-            if (explicitSpecies.contains(speciesId) || plants.containsKey(speciesId)
-                    || reservedSeeds.contains(seedId) || reservedProducts.contains(produceId)
-                    || reservedProducts.contains(seedId) || reservedSeeds.contains(produceId))
+            String blockedBy = reservedClaimReason(speciesId, seedId, produceId,
+                    explicitSpecies, plants.keySet(), reservedSeeds, reservedProducts);
+            if (blockedBy != null) {
+                // Explicit datapack definitions always win. Configured pairs
+                // should still explain WHY they were skipped in /data reports.
+                if (candidate.configured()) diagnostics.add(diagnostic(
+                        policy, crop, speciesId, CropReloadReport.Status.DISABLED,
+                        "Configured auto-discovery pair skipped: " + blockedBy));
                 continue;
+            }
 
             if (seedClaims.getOrDefault(seedId, 0) > 1
                     || produceClaims.getOrDefault(produceId, 0) > 1
