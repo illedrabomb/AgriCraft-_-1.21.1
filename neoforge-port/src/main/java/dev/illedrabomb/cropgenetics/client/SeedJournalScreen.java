@@ -205,6 +205,22 @@ public final class SeedJournalScreen extends Screen {
                 left + 17, top + 100, 0x49301C, false);
         graphics.drawString(font, Component.translatable("screen.cropgenetics.journal_analyzer_values"),
                 left + 17, top + 118, 0x49301C, false);
+
+        // Research pages show only recipes whose complete parent/child
+        // combination has already been unlocked by this very journal.
+        List<SeedJournalItem.MutationHint> related = mutations.stream()
+                .filter(hint -> species.equals(hint.parentA())
+                        || species.equals(hint.parentB())
+                        || species.equals(hint.child()))
+                .toList();
+        graphics.drawString(font,
+                Component.translatable("screen.cropgenetics.journal_related_mutations", related.size()),
+                left + 17, top + 139, 0x49301C, false);
+        if (!related.isEmpty()) {
+            graphics.drawString(font,
+                    Component.literal("→ ").append(CropSpeciesNames.label(related.get(0).child())),
+                    left + 17, top + 155, 0x34502A, false);
+        }
     }
 
     /** Prefer a familiar Vanilla seed icon; unknown datapack species use our seed. */
