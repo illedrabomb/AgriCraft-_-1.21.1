@@ -246,3 +246,14 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `9e09f333`: `CropHarvestBoundTest` als JUnit-Regression: normales Gain-1-Ergebnis, hohe Produktausbeute mit 256er-Stapelgrenze, falsche Pflanzenart ohne Drops. **Angelegt, noch nicht ausgeführt.**
 - Die Grenze gilt sowohl für Rechtsklick-Ernte als auch beim Blockabbau, da beide denselben Produktgenerator verwenden. Erzeugte genetische **Saatgut-Drops** bei Blockabbau sind davon getrennt und werden nicht begrenzt oder gelöscht.
 - **Keine Verhaltensparität mit fremden Mods behaupten:** Farmer's-Delight-Tomatenreben, Zwiebel-Eigenvermehrung, Reis-Panicles/Knife-Drops und Pam's-Sonderernten müssen im späteren Gameplay-Test einzeln bestätigt werden. Beim nächsten Sammeltest insbesondere nach Rechtsklick und Blockabbau prüfen, dass Genom und `ORIGINAL_SEED` des ausgerissenen genetischen Samens identisch bleiben.
+
+
+## Verbindliche neue Ernteobergrenze: EIN Stapel je Produkt – 19.11.2026
+
+**Nutzerentscheidung (ersetzt ausdrücklich die vorherige 256-Stapel-Regel):** Bei einer einzelnen Ernte darf **jedes unterschiedliche Ernteprodukt maximal einen normalen ItemStack** erzeugen. Beispielsweise Weizen + Weizensamen ⇒ je höchstens ein Stapel; zweimal `minecraft:wheat` in den Datapack-Produkten wird zusammengeführt, nicht als zwei Stapel ausgegeben. Das Maximum je Produkt richtet sich nach dessen individueller Minecraft-Stapelgröße (z. B. 64 bei Weizen). Genetik-Gain 1..10 erhöht weiter die gewürfelte Stückzahl, aber nie über diese Grenze. Überhang aus extremen Einstellungen wird abgeschnitten.
+
+- `f45a1d74`: `CropHarvest.products` aggregiert wiederholte Gain-Rolls und wiederholte Product-IDs in einer nach erster Nennung geordneten `LinkedHashMap<Item,Integer>`; begrenzt jede Produktmenge auf `item.getDefaultMaxStackSize()`; gibt danach genau einen Stapel je Item aus. Gilt für **Rechtsklick-Ernte und Blockabbau**, da beide den gemeinsamen Generator verwenden.
+- **Wichtig:** Die ältere 256-Stapel-Schutzgrenze aus `5ab6b920` gilt **nicht mehr**. Sie wurde auf expliziten Nutzerwunsch durch die strengere produktspezifische Ein-Stapel-Regel ersetzt. Bei Datapacks mit mehrfach deklariertem identischem Produkt werden Counts nun zusammengeführt.
+- `2195562d`: Regressionstests angepasst/erweitert: Standard-Gain-1, Gain-10 innerhalb eines Stacks, extreme mehrfach eingetragene gleiche Früchte nur ein Stapel, zwei unterschiedliche Produkte je ein Stapel, andere Species ohne Drops.
+- Gourd-Fruit-Spezialmodus bleibt bei einer Frucht je Reifezyklus. Das beim **Abbau separat** zurückgegebene genetische Saatgut ist **kein HarvestProduct** und wird durch diese Regel nicht mit anderen Drops verschmolzen oder auf ein Produkt-Limit umgerechnet.
+- **Noch ungetestet** (Gradle, JUnit, Minecraft). Beim Sammeltest mindestens Weizen+Samen, Farmer's-Delight-Onion, Pam's-Crops und Gain-10-Kulturen auch mit wiederholten gleichen Product-IDs prüfen.
