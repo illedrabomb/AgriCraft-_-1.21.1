@@ -1,6 +1,8 @@
 package dev.illedrabomb.cropgenetics.content;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -8,6 +10,17 @@ import net.minecraft.world.level.block.state.BlockState;
 public final class SeedChestBlockEntity extends SeedInventoryBlockEntity {
     public SeedChestBlockEntity(BlockPos pos, BlockState state) {
         super(CropBlocks.SEED_CHEST_ENTITY.get(), pos, state, 27);
+    }
+
+    /**
+     * A chest has no block-entity renderer and needs no inventory data in
+     * world-watch packets. Sending saveWithoutMetadata() here would expose
+     * hidden seed genes and private journal components to players who have
+     * not opened the chest. Authorized menu viewers receive normal slot sync.
+     */
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return new CompoundTag();
     }
 
     @Override public boolean canPlaceItem(int slot, ItemStack stack) {
