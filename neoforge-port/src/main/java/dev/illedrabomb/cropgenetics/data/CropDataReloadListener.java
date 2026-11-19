@@ -225,6 +225,50 @@ public final class CropDataReloadListener extends
             }
         }
 
+        // Optional Farmer's Delight pilot: only two reviewed, separately
+        // registered seed/produce pairs. Never create a fallback over an
+        // explicit datapack claim, including an intentionally disabled one.
+        if (loadedMod.test("farmersdelight")) {
+            Set<String> speciesClaims = new HashSet<>();
+            Set<String> seedClaims = new HashSet<>();
+            Set<String> produceClaims = new HashSet<>();
+            boolean safeClaims = !unsafeAutoClaims;
+            for (JsonElement resource : input.plants().values()) {
+                try {
+                    JsonObject json = resource.getAsJsonObject();
+                    if (!json.has("id") || !json.get("id").isJsonPrimitive()) {
+                        safeClaims = false;
+                        break;
+                    }
+                    speciesClaims.add(json.get("id").getAsString());
+                    if (json.has("seed_items")) {
+                        for (JsonElement value : json.getAsJsonArray("seed_items")) {
+                            seedClaims.add(value.getAsJsonObject().get("object").getAsString());
+                        }
+                    }
+                    if (json.has("products")) {
+                        for (JsonElement value : json.getAsJsonObject("products")
+                                .getAsJsonArray("products")) {
+                            produceClaims.add(value.getAsJsonObject().get("object").getAsString());
+                        }
+                    }
+                } catch (RuntimeException ex) {
+                    safeClaims = false;
+                    break;
+                }
+            }
+            if (safeClaims) {
+                FarmersDelightCropDiscovery.addMissing(plants,
+                        speciesClaims, seedClaims, produceClaims, details);
+            } else {
+                details.add(entry(CropReloadReport.Kind.PLANT,
+                        ResourceLocation.fromNamespaceAndPath(
+                                "cropgenetics", "auto_farmers_delight/discovery_suspended"),
+                        "", CropReloadReport.Status.WARNING,
+                        "Farmer's Delight pilot suspended: invalid explicit crop claims"));
+            }
+        }
+
         Map<String, MutationDefinition> mutations = new HashMap<>();
         input.mutations().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(resource -> {
             ResourceLocation key = resource.getKey();
