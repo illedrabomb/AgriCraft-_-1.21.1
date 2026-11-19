@@ -1,5 +1,6 @@
 package dev.illedrabomb.cropgenetics.addon.farmersdelight;
 
+import dev.illedrabomb.cropgenetics.compat.jei.CropSeedGuideRegistry;
 import dev.illedrabomb.cropgenetics.data.CropDiscoveryAddon;
 import dev.illedrabomb.cropgenetics.data.CropDiscoveryAddonRegistry;
 import dev.illedrabomb.cropgenetics.data.CropReloadReport;
@@ -20,6 +21,13 @@ public final class FarmersDelightAddonMod implements CropDiscoveryAddon {
 
     public FarmersDelightAddonMod(IEventBus bus, ModContainer container) {
         CropDiscoveryAddonRegistry.register(this);
+        CropSeedGuideRegistry.register(MOD_ID, () -> List.of(
+                new CropSeedGuideRegistry.SeedPair(
+                        "farmersdelight:cabbage_seeds", "farmersdelight:cabbage"),
+                new CropSeedGuideRegistry.SeedPair(
+                        "farmersdelight:tomato_seeds", "farmersdelight:tomato"),
+                new CropSeedGuideRegistry.SeedPair(
+                        "farmersdelight:onion", "farmersdelight:onion")));
     }
 
     @Override public String addonId() { return MOD_ID; }
