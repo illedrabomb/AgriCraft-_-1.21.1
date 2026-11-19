@@ -25,12 +25,12 @@ public final class SeedAnalyzerRenderer implements BlockEntityRenderer<SeedAnaly
         if (seed.isEmpty() && journal.isEmpty()) return;
 
         if (!seed.isEmpty()) {
-            // Lay the seed flat on the analyzer's top surface.
-            draw(analyzer, seed, 0.50D, 1.012D, 0.43D, 0.38F,
+            // Lay the seed flat on the analyzer's top surface (the analyzer block is 5/16 blocks tall).
+            draw(analyzer, seed, 0.50D, 0.325D, 0.43D, 0.38F,
                     poses, buffers, packedLight, packedOverlay);
         }
         if (!journal.isEmpty()) {
-            draw(analyzer, journal, 0.73D, 1.014D, 0.70D, 0.32F,
+            draw(analyzer, journal, 0.73D, 0.327D, 0.70D, 0.32F,
                     poses, buffers, packedLight, packedOverlay);
         }
     }
