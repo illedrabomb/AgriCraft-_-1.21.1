@@ -33,8 +33,6 @@ public record PamAutoDiscoverySettings(boolean enabled, int maxPlants,
         public ItemPair {
             checkPamItem(seed);
             checkPamItem(produce);
-            if (seed.equals(produce))
-                throw new IllegalArgumentException("Seed and produce cannot be identical");
         }
     }
 
@@ -75,8 +73,19 @@ public record PamAutoDiscoverySettings(boolean enabled, int maxPlants,
             configuredSeeds.add(pair.seed());
             configuredProducts.add(pair.produce());
         });
-        if (configuredProducts.stream().anyMatch(configuredSeeds::contains))
-            throw new IllegalArgumentException("item_pairs seed/produce IDs overlap across crops");
+        // A crop explicitly configured with seed == produce (for example
+        // a verified self-plantable Pam food) is valid. An item shared by
+        // DIFFERENT configured crops is still ambiguous and must fail closed.
+        for (var first : itemPairs.entrySet()) {
+            for (var second : itemPairs.entrySet()) {
+                if (first.getKey().equals(second.getKey())) continue;
+                if (first.getValue().seed().equals(second.getValue().produce())
+                        || first.getValue().produce().equals(second.getValue().seed())) {
+                    throw new IllegalArgumentException(
+                            "item_pairs seed/produce IDs overlap across different crops");
+                }
+            }
+        }
     }
 
     public static PamAutoDiscoverySettings parse(JsonObject json) {
