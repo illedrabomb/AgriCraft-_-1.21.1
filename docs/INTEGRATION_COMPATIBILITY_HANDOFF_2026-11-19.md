@@ -535,3 +535,11 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - `7ec175d7`: Neuer reproduzierbarer, nach Modulen getrennter Prüfplan `docs/MAIN_MOD_TEST_GATE_2026-11-19.md` einschließlich konkreter normaler Karotten-/Weizensamen, 2-/3-/4-Eltern-Kreuzungen und der schwächeren Elternreihe, Analyzer, Seed Chest, Journal, Harvest-Limit, JEI sowie dediziertem Server.
 - Öffentliche Add-on-Schnittstellen, Konstruktor-Registrierung, eigene Mod-Metadaten und `compileOnly`-Modulbezug wurden statisch geprüft. Dabei kein weiterer gesicherter Quellsyntaxfehler nach den Groovy-String-Korrekturen festgestellt; die tatsächliche Laufzeit-Klassenauflösung ist weiterhin ungetestet.
 - Explizite Test-Gates: erst `:test :build` der Hauptmod, danach nur bei Freigabe separate `:pam-hc2:build :farmers-delight:build`. **Keine** Gradle-, JUnit- oder Minecraft-Ausführung in diesem Arbeitspaket.
+
+
+### Nachtrag: Rezeptkorrektur und Saatgutpfad (19.11.2026)
+
+- `639b5b79`: Das Seed-Analyzer-Rezept enthielt noch zwei Vanilla-Stöcke, Glasscheibe, Steinplatte und Holz. Gemäß der früheren Vorgabe wurde es auf **genau sechs Crop Sticks und keine weiteren Zutaten** reduziert (förmiges 3×3-Muster mit sechs Belegungen).
+- Das Seed-Chest-Rezept nutzt bereits acht Crop Sticks um eine normale Truhe und enthält keine Planken. Es wurde deshalb nicht geändert.
+- Statische Überprüfung von `CropItems`, `CropSticksBlockEntity`, `SeedAnalyzerBlockEntity`, `SeedChestBlockEntity` und `CropHarvest`: individuelle Genetik wird über `GENOME` in den genetischen Saatgutstapeln/Blockdaten gehalten; genetische Seeds sind auf Stackgröße 1 begrenzt; die Ernte bündelt Produkte auf höchstens einen normalen Itemstack pro Produkttyp. **Diese Feststellungen sind Quelltextbefunde, kein Gameplay-Test.**
+- Keine Gradle-, JUnit- oder Minecraft-Ausführung; als spätere Prüfpunkte Analyzer-Rezeptanzeige in JEI und tatsächliches Crafting aufnehmen.
