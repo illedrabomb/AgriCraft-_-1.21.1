@@ -3,6 +3,7 @@ package dev.illedrabomb.cropgenetics.content;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -42,6 +43,12 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
         ItemStack seed = getItem(0);
         if (!seed.isEmpty()) {
             tag.putString("DisplaySeedId", BuiltInRegistries.ITEM.getKey(seed.getItem()).toString());
+            Genome genome = seed.get(CropComponents.GENOME.get());
+            if (genome != null) {
+                // Plant identity drives the model variant; individual 1..10
+                // stats and the analysis flag are not shared with watchers.
+                tag.putString("DisplayPlantId", genome.plantId());
+            }
         }
         tag.putBoolean("DisplayJournal", !getItem(1).isEmpty());
         return tag;
@@ -54,6 +61,14 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
             ResourceLocation parsed = ResourceLocation.tryParse(itemId);
             clientDisplaySeed = parsed == null || !BuiltInRegistries.ITEM.containsKey(parsed)
                     ? ItemStack.EMPTY : new ItemStack(BuiltInRegistries.ITEM.get(parsed));
+            String plantId = tag.getString("DisplayPlantId");
+            ResourceLocation plant = ResourceLocation.tryParse(plantId);
+            if (!clientDisplaySeed.isEmpty() && plant != null
+                    && plantId.equals(plant.toString()) && plantId.length() <= 128) {
+                // The client-side placeholder is for rendering only. It never
+                // replaces the real seed or its hidden genetic values.
+                clientDisplaySeed.set(CropComponents.GENOME.get(), Genome.basic(plantId));
+            }
             clientDisplayJournal = tag.getBoolean("DisplayJournal");
             // Never overwrite the client-side menu slots with the limited
             // visual packet. Inventory contents come from the container sync.
