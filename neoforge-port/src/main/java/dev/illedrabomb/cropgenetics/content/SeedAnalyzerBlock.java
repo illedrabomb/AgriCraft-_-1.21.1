@@ -61,12 +61,26 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
      */
     @Override protected ItemInteractionResult useItemOn(ItemStack held, BlockState state,
             Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (!(level.getBlockEntity(pos) instanceof SeedAnalyzerBlockEntity analyzer)
-                || !analyzer.getItem(0).isEmpty())
+        if (!(level.getBlockEntity(pos) instanceof SeedAnalyzerBlockEntity analyzer))
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        if (!level.isClientSide && analyzer.canPlaceItem(0, held)) {
-            analyzer.setItem(0, held.copyWithCount(1));
-            if (!player.getAbilities().instabuild) held.shrink(1);
+
+        // Original-style journal insertion. Sneak with the journal in hand,
+        // even when the seed slot is occupied; never confuse it for a seed.
+        if (player.isShiftKeyDown() && held.is(CropItems.SEED_JOURNAL.get())
+                && analyzer.getItem(1).isEmpty()) {
+            if (!level.isClientSide) {
+                analyzer.setItem(1, held.copyWithCount(1));
+                if (!player.getAbilities().instabuild) held.shrink(1);
+            }
+            return ItemInteractionResult.SUCCESS;
+        }
+
+        if (!player.isShiftKeyDown() && analyzer.getItem(0).isEmpty()
+                && analyzer.canPlaceItem(0, held)) {
+            if (!level.isClientSide) {
+                analyzer.setItem(0, held.copyWithCount(1));
+                if (!player.getAbilities().instabuild) held.shrink(1);
+            }
             return ItemInteractionResult.SUCCESS;
         }
         // Let vanilla open the analyzer when the held item is not a seed.
@@ -76,6 +90,20 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
                                                           Player player, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof SeedAnalyzerBlockEntity analyzer)) return InteractionResult.PASS;
+        if (player.isShiftKeyDown()) {
+            if (!level.isClientSide) {
+                // Extract the seed first, then the journal on the next action.
+                int slot = !analyzer.getItem(0).isEmpty() ? 0
+                        : (!analyzer.getItem(1).isEmpty() ? 1 : -1);
+                if (slot >= 0) {
+                    ItemStack removed = analyzer.removeItemNoUpdate(slot);
+                    if (!removed.isEmpty() && !player.addItem(removed)) {
+                        player.drop(removed, false);
+                    }
+                }
+            }
+            return InteractionResult.SUCCESS;
+        }
         if (!level.isClientSide) {
             SeedChestBlockEntity chest = findChest(level, pos);
             Container combined = chest == null ? analyzer : new CompoundContainer(analyzer, chest);
