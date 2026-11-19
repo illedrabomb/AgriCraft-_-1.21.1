@@ -326,6 +326,12 @@ public final class CropDataReloadListener extends
                         + "{} conflicts, {} missing configured pairs, {} other diagnostics; suspended={}",
                 pam.explicitLoaded(), pam.autoDiscovered(), pam.autoConflicts(),
                 pam.autoMissingItems(), pam.autoWarnings(), pam.suspended());
+        CropReloadReport.AdapterDiscoveryStats farmersDelight = report.farmersDelightStats();
+        LOG.info("Farmer's Delight Crops: {} auto-discovered, {} conflicts, "
+                        + "{} missing registered items, {} other diagnostics; suspended={}",
+                farmersDelight.discovered(), farmersDelight.conflicts(),
+                farmersDelight.missingItems(), farmersDelight.otherWarnings(),
+                farmersDelight.suspended());
         for (CropReloadReport.Entry problem : report.entries()) {
             if (problem.status() != CropReloadReport.Status.LOADED
                     && problem.status() != CropReloadReport.Status.AUTO_DISCOVERED) {
