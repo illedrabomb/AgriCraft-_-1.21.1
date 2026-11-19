@@ -511,3 +511,11 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - `e6b073ed`, `33a27dc9`: Registrierung im jeweiligen Add-on-Entrypoint.
 - `86c569bd`, `919e76e5`, `9a78a8a9`: passende JUnit-Regressionen ergänzt/angepasst; **nicht ausgeführt**.
 - Handoff `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md` fortgeschrieben. Die Hauptmod bleibt durch die Split-Module auf AgriCraft-Kernfunktionen fokussiert. Prioritäten: AgriCraft > Pam's (knapp) > MineColonies >>> Farmer's Delight.
+
+
+### Nachtrag: Report-Statistiken neutralisiert
+
+- **`55674380`** (atomarer 5-Dateien-Commit): `CropReloadReport` nutzt jetzt allein `AutoDiscoveryStats` und `autoDiscoveryStats(prefix, configPath)` statt fest eingebauter Pam-/Farmer-Methoden oder spezieller Pfade.
+- Die jeweiligen Add-on-Diagnoseklassen setzen ihre Präfixe selbst. Pam's behält die bisherige Anzahl explizit geladener Pflanzen aus allen Mods; Farmer's behandelt den bisherigen `discovery_suspended`-Marker.
+- Kern-Regressionstests verwenden nun neutrale `auto_example/`-Daten; Farmer-Addon-Tests angepasst. Statische Prüfung der Referenzen erfolgt; **keine Ausführung** von Build/JUnit/Minecraft.
+- Übrig bleibt absichtlich die schützende Reis-Warnung für explizit per Datapack angelegte Farmer's-Delight-Reiskulturen, solange keine Daten-basierte, modunabhängige Warnstrategie existiert. Details `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md`.
