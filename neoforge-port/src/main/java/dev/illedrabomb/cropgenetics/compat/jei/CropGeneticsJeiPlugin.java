@@ -23,7 +23,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.ArrayList;
-import java.util.Comparator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import java.util.List;
@@ -129,29 +128,14 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
                 Component.translatable("jei.cropgenetics.seed_analysis"));
     }
 
-    /** Only publish JEI links for present, reviewed seed/produce pairs. */
+    /** Only registered addon providers contribute third-party JEI links. */
     private static void addOptionalModSeedInfo(List<ItemStack> entryPoints) {
-        for (String seed : List.of("farmersdelight:cabbage_seeds",
-                "farmersdelight:tomato_seeds", "farmersdelight:onion")) {
-            String produce = OptionalSeedGuidePolicy.produceForSeed(seed);
-            if (produce != null) addSeedPair(entryPoints, seed, produce);
+        // Neither Pam's nor Farmer's Delight is inferred in the core. In
+        // particular, merely installing a source mod without its addon must
+        // never claim Crop Sticks planting support in JEI.
+        for (CropSeedGuideRegistry.SeedPair pair : CropSeedGuideRegistry.availablePairs()) {
+            addSeedPair(entryPoints, pair.seedId(), pair.produceId());
         }
-        // Rice uses its own water/knife harvesting mechanics and is not a
-        // generic crop-stick adapter. Do not suggest it as such.
-
-        // Pam's public registry convention is <crop>seeditem + <crop>item.
-        // Include only actually registered pairs, never every name ending
-        // in "seed" from arbitrary namespaces. A bounded list avoids
-        // excessive JEI entries from unexpectedly large modpacks.
-        BuiltInRegistries.ITEM.keySet().stream()
-                .filter(key -> key.getNamespace().equals("pamhc2crops")
-                        && key.getPath().endsWith("seeditem"))
-                .sorted(Comparator.comparing(ResourceLocation::toString))
-                .limit(128)
-                .forEach(seed -> {
-                    String produce = OptionalSeedGuidePolicy.produceForSeed(seed.toString());
-                    if (produce != null) addSeedPair(entryPoints, seed.toString(), produce);
-                });
     }
 
     private static void addSeedPair(List<ItemStack> entryPoints,
