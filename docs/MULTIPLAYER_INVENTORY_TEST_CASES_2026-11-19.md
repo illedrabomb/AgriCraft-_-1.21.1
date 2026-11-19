@@ -15,7 +15,7 @@ Status: **prepared, not executed** (2026-11-19). Prior agreement: implement all 
 | ID | Why | Actions | Expected result |
 |---|---|---|---|
 | MP-01 | Only the correct player should receive discovered data | A analyzes a new seed with A's journal inserted; B watches nearby and holds a separate blank journal. | A's book records the species, B's book stays blank; world-view block packets do not replicate journal contents. |
-| MP-02 | Hidden gene privacy | A puts a 7/4/9 **unanalysed** genetic seed into analyzer while B watches. B inspects the crop HUD before analysis. | B cannot read hidden numerical genes from an unanalysed planted crop; analyzer block visual may show species icon but not 7/4/9. |
+| MP-02 | Hidden gene privacy | A plants an unanalysed 7/4/9 genetic seed in single Crop Sticks while B observes the crop HUD. Afterwards A moves a separate matching seed into the analyzer and B watches its block model. | B cannot read hidden numerical genes from an unanalysed planted crop; analyzer block visual may show species icon but not 7/4/9. |
 | MP-03 | Analysis must not rewrite a genome | Insert known 7/4/9 seed, analyze, withdraw and compare to original. | It reads 7/4/9; no reroll, reset to 1/1/1, or new mutation. |
 | MP-04 | No duplicate on simultaneous retrieval | With one seed in the analyzer, A and B both open its inventory and try to take it within the same second. | Exactly one seed total is received; the other player sees an empty slot after synchronization. |
 | MP-05 | No lost journal on concurrent clicks | A and B both open analyzer and simultaneously move the single journal. | Only one final journal with its discoveries exists; no duplicated or erased discoveries. |
