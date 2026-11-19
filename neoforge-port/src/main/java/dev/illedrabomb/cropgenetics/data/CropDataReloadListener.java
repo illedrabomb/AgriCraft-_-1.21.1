@@ -147,9 +147,14 @@ public final class CropDataReloadListener extends
                     return;
                 }
                 // Complete diagnostics before staging an active definition.
-                List<String> tagWarnings = PlantRegistryValidator.tagWarnings(plant, manager);
+                List<String> tagWarnings = new ArrayList<>(
+                        PlantRegistryValidator.tagWarnings(plant, manager));
+                String specialWarning = SpecialCropCompatibilityWarnings.forPlant(id);
+                if (specialWarning != null) tagWarnings.add(specialWarning);
                 // All checks succeeded. Conflicting IDs were already
                 // excluded in the prepass; insertion is now deterministic.
+                // A special-crop warning is advisory: an explicit datapack
+                // may still opt into the generic behavior knowingly.
                 plants.put(id, plant);
                 details.add(entry(CropReloadReport.Kind.PLANT, key, id,
                         tagWarnings.isEmpty() ? CropReloadReport.Status.LOADED
