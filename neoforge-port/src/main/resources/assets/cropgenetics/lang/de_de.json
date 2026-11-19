@@ -60,5 +60,6 @@
   "screen.cropgenetics.journal_analyzer_values": "Analyzer zeigt ihre Genwerte.",
   "screen.cropgenetics.journal_mutations": "Entdeckte Mutationen",
   "screen.cropgenetics.journal_no_mutations": "Noch keine Kombination vollständig entdeckt.",
-  "screen.cropgenetics.journal_conditions": "Standort- und Bodenregeln gelten weiterhin."
+  "screen.cropgenetics.journal_conditions": "Standort- und Bodenregeln gelten weiterhin.",
+  "screen.cropgenetics.journal_related_mutations": "Bekannte Kreuzungsbezüge: %s"
 }
