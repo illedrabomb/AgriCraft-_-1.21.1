@@ -142,3 +142,12 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 5. Gemeinsam testen: Anpflanzen mit/ohne Wasser, volle Reife, Messerernte, normale Ernte, wiederholte Ernten, Save/Reload, dedizierter Server, entfernte Farmer's-Delight-Mod.
 
 **Status:** Die offiziellen Quellen stützen die generelle Namenskonvention, ersetzen aber nicht den zwingenden Abgleich gegen die tatsächliche NeoForge-1.21.1-Pam-JAR. Die Tests liegen im Git, wurden wegen der vereinbarten Testreihenfolge noch nicht ausgeführt.
+
+## Inventarsicherheit: Genom ist kein Saatgut-Nachweis (19.11.2026)
+
+- `6ff7c9ba`: `SeedAnalyzerBlockEntity.canPlaceItem` akzeptiert serverseitig nun `CropItems.isGeneticSeedStack(stack)` statt nur `hasGenome(stack)`.
+- `60c9b3ef`: dieselbe Prüfung in `SeedChestBlockEntity.canPlaceItem`.
+- Warum: Ein fremdes Item mit manipuliertem/verwaistem `GENOME`-Datenkomponent ist nicht automatisch Saatgut. Für einen gewöhnlichen Mod-Seed muss die aktive, eindeutige `plantForSeed`-Zuordnung passen; `cropgenetics:genetic_seed` darf seinen Genomwert behalten, auch wenn die optionale Ursprungsmod später fehlt.
+- **Client bleibt prädiktiv permissiv:** Er kennt die vollständige serverseitige Pflanzenliste nicht; die definitive Entscheidung fällt im Servercontainer.
+- **Nächste Tests:** (a) echtes genetisches Saatgut; (b) unmodifiziertes und analysiertes Vanilla-/Pam-/FD-Saatgut; (c) Nicht-Saatgut mit künstlichem Genom; (d) ordinary seed mit absichtlich falscher Pflanzen-ID; (e) gespeicherter genetischer Seed nach Entfernen des optionalen Mod-Adapters. Alle ohne Itemverlust oder unerlaubte Containeraufnahme.
+- Nicht kompiliert oder im Spiel ausgeführt; Verhalten des Menü-Slotfilters bleibt zu prüfen.
