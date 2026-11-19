@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics.data;
 
 import org.junit.jupiter.api.Test;
 import java.util.Map;
+import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -22,6 +23,20 @@ class FarmersDelightCropDiscoveryTest {
                 policy.itemPairs());
         assertTrue(policy.excludedCrops().contains("rice"));
         assertTrue(policy.excludedCrops().contains("onion"));
+    }
+
+    @Test
+    void onionSameItemNeedsItsOwnUnclaimedIdentity() {
+        // The generic seed/produce pair policy excludes onion, while the
+        // explicit onion exception permits one same-item source/harvest.
+        assertTrue(FarmersDelightCropDiscovery.canAddOnion(
+                Set.of(), Set.of(), Set.of()));
+        assertFalse(FarmersDelightCropDiscovery.canAddOnion(
+                Set.of("farmersdelight:onion_plant"), Set.of(), Set.of()));
+        assertFalse(FarmersDelightCropDiscovery.canAddOnion(
+                Set.of(), Set.of("farmersdelight:onion"), Set.of()));
+        assertFalse(FarmersDelightCropDiscovery.canAddOnion(
+                Set.of(), Set.of(), Set.of("farmersdelight:onion")));
     }
 
     @Test
