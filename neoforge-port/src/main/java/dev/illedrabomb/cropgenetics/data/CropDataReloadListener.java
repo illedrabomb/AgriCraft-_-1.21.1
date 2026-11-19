@@ -166,105 +166,31 @@ public final class CropDataReloadListener extends
             }
         });
 
-        // If any explicit plant resource could not be read, its species/seed/
-        // harvest claims are unknown. Fail closed for automatic discovery
-        // rather than silently replacing an administrator's broken override.
-        // Explicitly valid plants and mutations still load as usual.
-        boolean unsafeAutoClaims = input.readErrors().stream().anyMatch(error ->
-                error.kind() == CropReloadReport.Kind.PLANT
-                        && error.source().getPath().startsWith(PLANTS + "/"));
+        // Collect explicit claims once for all optional discovery extensions.
+        // A malformed or unreadable explicit resource suspends every fallback:
+        // disabled and invalid datapack definitions still own their claims.
+        ExplicitPlantClaims claims = ExplicitPlantClaims.collect(
+                input.plants(), input.readErrors());
+
         if (loadedMod.test("pamhc2crops") && input.pamSettings().enabled()) {
-            Set<String> explicitSpecies = new HashSet<>();
-            Set<String> explicitSeedClaims = new HashSet<>();
-            Set<String> explicitProduceClaims = new HashSet<>();
-            for (Map.Entry<ResourceLocation, JsonElement> resource : input.plants().entrySet()) {
-                try {
-                    JsonObject json = resource.getValue().getAsJsonObject();
-                    // Every explicit plant must identify its own species.
-                    // Without an ID, we cannot guarantee it does not claim
-                    // an automatically inferred Pam's species.
-                    if (!json.has("id") || !json.get("id").isJsonPrimitive()) {
-                        unsafeAutoClaims = true;
-                        continue;
-                    }
-                    explicitSpecies.add(json.get("id").getAsString());
-                    if (json.has("seed_items")) {
-                        for (JsonElement seed : json.getAsJsonArray("seed_items")) {
-                            JsonObject object = seed.getAsJsonObject();
-                            if (!object.has("object") || !object.get("object").isJsonPrimitive()) {
-                                unsafeAutoClaims = true;
-                                continue;
-                            }
-                            explicitSeedClaims.add(object.get("object").getAsString());
-                        }
-                    }
-                    if (json.has("products")) {
-                        JsonObject products = json.getAsJsonObject("products");
-                        if (!products.has("products") || !products.get("products").isJsonArray()) {
-                            unsafeAutoClaims = true;
-                            continue;
-                        }
-                        for (JsonElement product : products.getAsJsonArray("products")) {
-                            JsonObject object = product.getAsJsonObject();
-                            if (!object.has("object") || !object.get("object").isJsonPrimitive()) {
-                                unsafeAutoClaims = true;
-                                continue;
-                            }
-                            explicitProduceClaims.add(object.get("object").getAsString());
-                        }
-                    }
-                } catch (RuntimeException ignored) {
-                    // Malformed claims are not safe to infer or replace.
-                    unsafeAutoClaims = true;
-                }
-            }
-            if (unsafeAutoClaims) {
+            if (!claims.safe()) {
                 details.add(entry(CropReloadReport.Kind.PLANT, PAM_SETTINGS, "",
                         CropReloadReport.Status.WARNING,
                         "Pam's automatic discovery disabled for this reload: "
                                 + "unreadable/malformed explicit plant identity or item claims"));
             } else {
                 PamCropAutoDiscovery.addMissing(
-                        plants, explicitSpecies, explicitSeedClaims, explicitProduceClaims,
+                        plants, claims.species(), claims.seeds(), claims.produce(),
                         details, input.pamSettings());
             }
         }
 
-        // Optional Farmer's Delight pilot: only two reviewed, separately
-        // registered seed/produce pairs. Never create a fallback over an
-        // explicit datapack claim, including an intentionally disabled one.
+        // This temporary direct registration moves into the separate
+        // Farmer's Delight addon once the shared addon API is wired.
         if (loadedMod.test("farmersdelight")) {
-            Set<String> speciesClaims = new HashSet<>();
-            Set<String> seedClaims = new HashSet<>();
-            Set<String> produceClaims = new HashSet<>();
-            boolean safeClaims = !unsafeAutoClaims;
-            for (JsonElement resource : input.plants().values()) {
-                try {
-                    JsonObject json = resource.getAsJsonObject();
-                    if (!json.has("id") || !json.get("id").isJsonPrimitive()) {
-                        safeClaims = false;
-                        break;
-                    }
-                    speciesClaims.add(json.get("id").getAsString());
-                    if (json.has("seed_items")) {
-                        for (JsonElement value : json.getAsJsonArray("seed_items")) {
-                            seedClaims.add(value.getAsJsonObject().get("object").getAsString());
-                        }
-                    }
-                    if (json.has("products")) {
-                        for (JsonElement value : json.getAsJsonObject("products")
-                                .getAsJsonArray("products")) {
-                            produceClaims.add(value.getAsJsonObject().get("object").getAsString());
-                        }
-                    }
-                } catch (RuntimeException ex) {
-                    safeClaims = false;
-                    break;
-                }
-            }
-            if (safeClaims) {
+            if (claims.safe()) {
                 FarmersDelightCropDiscovery.addMissing(plants,
-                        speciesClaims, seedClaims, produceClaims, details);
+                        claims.species(), claims.seeds(), claims.produce(), details);
             } else {
                 details.add(entry(CropReloadReport.Kind.PLANT,
                         ResourceLocation.fromNamespaceAndPath(
