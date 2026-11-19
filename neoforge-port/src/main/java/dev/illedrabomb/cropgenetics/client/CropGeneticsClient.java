@@ -40,6 +40,7 @@ public final class CropGeneticsClient {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(CropBlocks.CROP_STICKS_ENTITY.get(), CropSticksRenderer::new);
+        event.registerBlockEntityRenderer(CropBlocks.SEED_ANALYZER_ENTITY.get(), SeedAnalyzerRenderer::new);
     }
 
     @SubscribeEvent
