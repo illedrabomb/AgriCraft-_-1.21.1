@@ -91,6 +91,11 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
                                                           Player player, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof SeedAnalyzerBlockEntity analyzer)) return InteractionResult.PASS;
         if (player.isShiftKeyDown()) {
+            // This callback can also follow an item interaction that passed
+            // through to the block. Never extract the analyzed seed or journal
+            // unless the player intentionally sneaks with empty hands.
+            if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty())
+                return InteractionResult.PASS;
             if (!level.isClientSide) {
                 // Extract the seed first, then the journal on the next action.
                 int slot = !analyzer.getItem(0).isEmpty() ? 0
