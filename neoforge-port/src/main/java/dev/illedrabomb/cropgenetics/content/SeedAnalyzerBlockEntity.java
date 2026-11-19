@@ -1,6 +1,12 @@
 package dev.illedrabomb.cropgenetics.content;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -9,6 +15,27 @@ import net.minecraft.world.level.block.state.BlockState;
 public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
     public SeedAnalyzerBlockEntity(BlockPos pos, BlockState state) {
         super(CropBlocks.SEED_ANALYZER_ENTITY.get(), pos, state, 9);
+    }
+
+    // Only the analyzer sends its compact occupied-slot view to watching clients.
+    // Seed Chest inventories retain their normal server-only container behavior.
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        if (level instanceof ServerLevel server) {
+            BlockState state = getBlockState();
+            server.sendBlockUpdated(worldPosition, state, state, 3);
+        }
     }
 
     @Override public int getMaxStackSize() { return 1; }
