@@ -67,12 +67,6 @@ public record PamAutoDiscoverySettings(boolean enabled, int maxPlants,
             throw new IllegalArgumentException("item_pairs contains duplicate seed IDs");
         if (itemPairs.values().stream().map(ItemPair::produce).distinct().count() != itemPairs.size())
             throw new IllegalArgumentException("item_pairs contains duplicate produce IDs");
-        Set<String> configuredSeeds = new HashSet<>();
-        Set<String> configuredProducts = new HashSet<>();
-        itemPairs.values().forEach(pair -> {
-            configuredSeeds.add(pair.seed());
-            configuredProducts.add(pair.produce());
-        });
         // A crop explicitly configured with seed == produce (for example
         // a verified self-plantable Pam food) is valid. An item shared by
         // DIFFERENT configured crops is still ambiguous and must fail closed.
