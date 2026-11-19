@@ -2,6 +2,8 @@ package dev.illedrabomb.cropgenetics.genetics;
 
 import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,6 +40,50 @@ class UnavailableModGenomePersistenceTest {
         assertEquals(6, loaded.growth());
         assertEquals(4, loaded.gain());
         assertEquals(9, loaded.strength());
+    }
+
+
+    @Test
+    void currentThreeStatGenomeSurvivesActualWorldNbtFormat() {
+        Genome original = new Genome("minecraft:carrot_plant", 3, 7, 10);
+        var encoded = GenomeCodecs.GENOME.encodeStart(NbtOps.INSTANCE, original)
+                .result().orElseThrow();
+        assertInstanceOf(CompoundTag.class, encoded);
+        CompoundTag tag = (CompoundTag) encoded;
+
+        assertEquals("minecraft:carrot_plant", tag.getString("plant"));
+        assertEquals(3, tag.getInt("growth"));
+        assertEquals(7, tag.getInt("gain"));
+        assertEquals(10, tag.getInt("strength"));
+        assertFalse(tag.contains("fertility"));
+        assertFalse(tag.contains("mutativity"));
+
+        Genome restored = GenomeCodecs.GENOME.parse(NbtOps.INSTANCE, tag)
+                .result().orElseThrow();
+        assertEquals(original, restored);
+    }
+
+    @Test
+    void legacyFivePairNbtMigratesWithoutLosingExpressedValues() {
+        CompoundTag legacy = new CompoundTag();
+        legacy.putString("plant", "minecraft:wheat_plant");
+        for (String trait : new String[] {
+                "growth", "gain", "strength", "fertility", "mutativity" }) {
+            CompoundTag pair = new CompoundTag();
+            pair.putInt("dominant", trait.equals("growth") ? 8
+                    : trait.equals("gain") ? 6 : trait.equals("strength") ? 4 : 1);
+            pair.putInt("recessive", 1);
+            legacy.put(trait, pair);
+        }
+
+        Genome restored = GenomeCodecs.GENOME.parse(NbtOps.INSTANCE, legacy)
+                .result().orElseThrow();
+        assertEquals(new Genome("minecraft:wheat_plant", 8, 6, 4), restored);
+        // A subsequent world save must use only the supported three-stat model.
+        CompoundTag rewritten = (CompoundTag) GenomeCodecs.GENOME
+                .encodeStart(NbtOps.INSTANCE, restored).result().orElseThrow();
+        assertFalse(rewritten.contains("fertility"));
+        assertFalse(rewritten.contains("mutativity"));
     }
 
     @Test
