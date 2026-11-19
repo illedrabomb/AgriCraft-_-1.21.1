@@ -1,11 +1,13 @@
 package dev.illedrabomb.cropgenetics.addon.pam;
 
 import com.google.gson.JsonParser;
+import dev.illedrabomb.cropgenetics.compat.jei.CropSeedGuideRegistry;
 import dev.illedrabomb.cropgenetics.data.CropDiscoveryAddon;
 import dev.illedrabomb.cropgenetics.data.CropDiscoveryAddonRegistry;
 import dev.illedrabomb.cropgenetics.data.CropReloadReport;
 import dev.illedrabomb.cropgenetics.data.ExplicitPlantClaims;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.bus.api.IEventBus;
@@ -13,6 +15,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 
 import java.io.Reader;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +28,29 @@ public final class PamAddonMod implements CropDiscoveryAddon {
 
     public PamAddonMod(IEventBus bus, ModContainer container) {
         CropDiscoveryAddonRegistry.register(this);
+        CropSeedGuideRegistry.register(MOD_ID, PamAddonMod::seedGuidePairs);
+    }
+
+    /**
+     * JEI candidates match the older reviewed Pam seed-item naming contract.
+     * The core JEI bridge validates that BOTH registered items actually exist.
+     * No guide is installed when this optional addon is absent.
+     */
+    private static List<CropSeedGuideRegistry.SeedPair> seedGuidePairs() {
+        return BuiltInRegistries.ITEM.keySet().stream()
+                .filter(key -> key.getNamespace().equals("pamhc2crops")
+                        && key.getPath().endsWith("seeditem"))
+                .sorted(Comparator.comparing(ResourceLocation::toString))
+                .limit(128)
+                .map(key -> {
+                    String crop = key.getPath().substring(
+                            0, key.getPath().length() - "seeditem".length());
+                    if (crop.isEmpty()) return null;
+                    return new CropSeedGuideRegistry.SeedPair(
+                            key.toString(), "pamhc2crops:" + crop + "item");
+                })
+                .filter(java.util.Objects::nonNull)
+                .toList();
     }
 
     @Override public String addonId() { return MOD_ID; }
