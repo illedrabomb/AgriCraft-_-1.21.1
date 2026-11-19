@@ -200,6 +200,38 @@ public final class CropDataReloadListener extends
             }
         }
 
+        // Independently installed addons register their discovery policies
+        // during mod construction. The core does not load addon classes.
+        for (CropDiscoveryAddon addon : CropDiscoveryAddonRegistry.loaded(loadedMod)) {
+            ResourceLocation diagnosticSource = ResourceLocation.fromNamespaceAndPath(
+                    "cropgenetics", "auto_addons/" + addon.addonId());
+            if (!claims.safe()) {
+                details.add(entry(CropReloadReport.Kind.PLANT, diagnosticSource, "",
+                        CropReloadReport.Status.WARNING,
+                        "Addon discovery suspended: malformed explicit plant claims"));
+                continue;
+            }
+            // Publish each add-on contribution atomically; an exception cannot
+            // leave a partly inferred catalogue behind.
+            Map<String, PlantDefinition> staged = new HashMap<>(plants);
+            List<CropReloadReport.Entry> addonDetails = new ArrayList<>();
+            try {
+                addon.discover(manager, staged, claims, addonDetails);
+                for (Map.Entry<String, PlantDefinition> existing : plants.entrySet()) {
+                    if (staged.get(existing.getKey()) != existing.getValue())
+                        throw new IllegalStateException(
+                                "Addon attempted to replace existing plant: " + existing.getKey());
+                }
+                plants.putAll(staged);
+                details.addAll(addonDetails);
+            } catch (RuntimeException ex) {
+                details.add(entry(CropReloadReport.Kind.PLANT, diagnosticSource, "",
+                        CropReloadReport.Status.INVALID,
+                        "Addon discovery failed without publishing changes: "
+                                + ex.getMessage()));
+            }
+        }
+
         Map<String, MutationDefinition> mutations = new HashMap<>();
         input.mutations().entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(resource -> {
             ResourceLocation key = resource.getKey();
