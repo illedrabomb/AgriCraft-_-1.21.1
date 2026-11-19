@@ -40,7 +40,7 @@ Reihenfolge:
 4. Farmer's Delight (NeoForge 1.21.1): Kohl, Tomaten, Zwiebeln und insbesondere Reis mit Sonderpflanzung getrennt behandeln.
 5. Jeweils Kompatibilität ohne installierte Fremdmod, mit Fremdmod, auf Server und Client sowie Datenpersistenz und JEI/Journal durchtesten. Erst danach den gemeinsamen Spieltest freigeben.
 
-**Verifiziert:** Pam's HarvestCraft 2: Crops führt einen NeoForge-1.21.1-Build; dessen Autorenbeschreibung nennt 96 Kulturen, die aus Lebensmittel-Items gepflanzt werden können. Farmer's Delight beschreibt vier Ackerfrüchte inklusive besonderer Reisbehandlung. Das bedeutet **noch nicht**, dass unsere Adapter für diese 1.21.1-Versionen bereits implementiert oder getestet sind.
+**Quellstand:** Der Port enthält bereits `PamCropAutoDiscovery`, `PamAutoDiscoverySettings` und `RegisteredSeedCropDiscovery` mit optionaler, konfliktgeprüfter Pam-Seed-/Produce-Erkennung (`seeditem`/`item`). Diese Integration ist **noch nicht gegen den NeoForge-1.21.1-Build verifiziert**; speziell die 96 Lebensmittelkulturen und Sonderernte erfordern Prüfung. Für Farmer's Delight ist ein eigenständiger Adapter noch offen (insbesondere Reis). Die bloße Existenz von Code bedeutet keine bestätigte Spielkompatibilität.
 
 Detailliertes Audit, Quellen, Testfälle und AI-/Chat-Übergabe: [INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md](INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md).
 
