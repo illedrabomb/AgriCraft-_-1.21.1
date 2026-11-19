@@ -31,7 +31,7 @@
 ## Remaining important audit items (do not hide)
 
 - **No actual Gradle/NeoForge compilation yet.** Subproject `compileOnly project(':')` integration, generated mod metadata and runtime module loading must be verified in the agreed final test round. Do not claim JARs are working until then.
-- Several **display-only** compatibility traces intentionally remain in the core: `compat/jei/OptionalSeedGuidePolicy`, `CropGeneticsJeiPlugin`'s optional seed help, `CropSpeciesNames` display fallbacks, `CropDataCommand`'s Pam/Farmer diagnostic subcommands, `CropReloadReport`'s existing adapter-specific counters, and the advisory `SpecialCropCompatibilityWarnings` rule for explicitly data-packed Farmer rice. These introduce no external Java dependency, but further UI/diagnostics separation can move them into add-ons later. Core auto-discovery code and bundled Pam/Farmer datapack resources have been removed.
+- Several **display-only** compatibility traces remain in the core: `CropSpeciesNames` display fallbacks, `CropDataCommand`'s Pam/Farmer diagnostic subcommands, `CropReloadReport`'s existing adapter-specific counters, and the advisory `SpecialCropCompatibilityWarnings` rule for explicitly data-packed Farmer rice. The core JEI class now obtains optional seed guide entries **only from installed add-on providers**; its former hardcoded Pam/Farmer policy has been removed. These introduce no external Java dependency, but further UI/diagnostics separation can move them into add-ons later. Core auto-discovery code and bundled Pam/Farmer datapack resources have been removed.
 - Addon registration is executed on each add-on's `@Mod` construction; required target mod metadata governs whether the add-on can load. Missing add-ons leave the registry empty.
 - Farmer's Delight and Pam's resources should only become active from their own JARs. Datapack path precedence and partial migration of old worlds require functional checks before distribution.
 - Verify the built JAR contents (core has zero Pam/Farmer resource definitions, each addon contains its own) before considering release.
@@ -46,3 +46,12 @@
 6. Inspect JAR contents, addon dependency metadata, optional JEI UX and diagnostics, localization, and server/client parity.
 
 The current plan lives in `docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`. Keep all checkpoints in `docs/INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md` if conversation context compacts.
+
+
+## Follow-up: JEI guidance owned by installed add-ons
+
+- `86f50d10`: `CropSeedGuideRegistry` is a dependency-free core extension point for client-side JEI seed/product candidate pairs.
+- `cf454d4f`: core JEI removed its implicit Pam/Farmer candidate scan. The help page now accepts only pairs explicitly registered by installed addons; the core still validates that registered items are present.
+- `dd72644b` / `c82d0c43`: Pam and Farmer addon entrypoints register their own candidates. Pam keeps its bounded reviewed `seeditem` → `item` naming convention, Farmer only cabbage/tomato/onion. Native Farmer rice remains excluded.
+- `3085f637`: generic JEI addon registration tests added; old hard-coded `OptionalSeedGuidePolicy` and its mixed test removed after equivalent generic + addon-policy coverage. Tests still **not run**.
+- No-mod / source-mod-without-addon scenarios now must not display addon-only planting support. Confirm this in deferred game test; the build remains unverified.
