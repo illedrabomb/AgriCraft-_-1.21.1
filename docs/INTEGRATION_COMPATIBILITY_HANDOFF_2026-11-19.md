@@ -300,3 +300,19 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `526efd20`: `GeneticSeedStackingTest` als Regression ergänzt, damit die Ein-Seed-Stapelgrenze später nicht versehentlich aufgehoben wird. **Test noch nicht ausgeführt.**
 - **Wichtige Unterscheidung:** Normale Vanilla- oder Mod-Samen können vor dem Pflanzen weiterhin stapelbar sein. Werden sie analysiert, erhalten sie denselben registrierten 1/1/1-Ausgangsgenotyp samt Item-Komponenten; die wirklich individuell verbesserten gekreuzten Saaten entstehen als separater genetischer Seed mit Stapelgröße 1. Eine hypothetische Fremdmod, die individuelle Mutationswerte auf normalen stapelbaren Seeds speichert, benötigt einen expliziten verlustfreien Adapter und wird momentan nicht pauschal umgewandelt.
 - Beim Sammeltest: zwei unterschiedlich verbesserte **nicht analysierte** genetische Seeds in Inventar, Chest und beim Aufsammeln vergleichen; sie dürfen nicht zu einem Stapel verschmelzen und beim Analyzer keine Gene verändern.
+
+
+## Lesender Offline-JAR-Audit für optionale Pflanzenmods – 19.11.2026
+
+- `e47149b7`: `neoforge-port/scripts/inspect-optional-crop-jars.ps1` hinzugefügt. Nimmt ein oder mehrere explizite lokale `.jar`-Dateipfade, gibt Dateiname, SHA-256 und vorhandene Metadatadateien aus. Es durchsucht **nur ZIP-Eintragsnamen**, insbesondere `assets/pamhc2crops/models/item/*.json` und `assets/farmersdelight/models/item/*.json`, und vergleicht Pam's `seeditem`/`item`-Kandidaten sowie Farmer's-Delight-`cabbage_seeds`, `tomato_seeds`, `onion`, `rice`, `rice_panicle`.
+- PowerShell-Aufruf **später nach Abschluss aller Änderungen**, aus `neoforge-port`:
+  ```powershell
+  $jarFiles = @(
+      'C:\Pfad\zur\pamhc2crops-NEOFORGE-1.21.1-1.0.9.jar',
+      'C:\Pfad\zur\farmersdelight-neoforge-1.21.1.jar'
+  )
+  & '.\scripts\inspect-optional-crop-jars.ps1' -JarPaths $jarFiles
+  ```
+  Die beiden Pfade oben sind **Platzhalter**: vorhandene JAR-Dateien auswählen, nicht den Namen als tatsächliche Installation voraussetzen.
+- **Interpretationsgrenze:** Ein fehlender oder vorhandener Item-Modell-Asset-Name beweist **nicht**, dass eine Item-Registry-ID fehlt oder existiert. Die echte Freigabe erfolgt erst später durch die Laufzeit-Registry und den Minecraft-Test mit `/cropgenetics data pam` bzw. `farmersdelight`. Das Skript ist ein schneller statischer Vorabvergleich und **verändert keine JARs und keine Weltdaten**.
+- Skript wurde erstellt und im Branch dokumentiert, aber noch nicht in Windows PowerShell ausgeführt.
