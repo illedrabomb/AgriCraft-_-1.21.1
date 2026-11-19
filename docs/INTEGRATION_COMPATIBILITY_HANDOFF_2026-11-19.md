@@ -485,3 +485,11 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - Noch core-seitige reine Anzeige-/Diagnose-Helfer mit Pam-/Farmer-ID-Strings: JEI Seed Guide, Artennamen-Fallback, Data-Command-Unterbefehle, Report-Statistiken und Farmer-Reiswarnung. Sie haben keine optionale Java-Klassenabhängigkeit; bei weiterer Bereinigung beachten.
 - **Handoff bei Kontextwechsel:** `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md` mit Mapping, Abhängigkeiten, bekannten Risiken und erst später auszuführenden Build-/JAR-/Gameplay-Checks.
 - Verbindliche Feature-Priorität bleibt: **AgriCraft-Kern > Pam's (knapp vor MineColonies) > MineColonies >>> Farmer's Delight.** Hauptmod isoliert testen erst nach vereinbarter Sammeltestfreigabe.
+
+
+### Nachtrag: JEI-Anzeigen ebenfalls Add-on-gesteuert
+
+- Hauptmod-JEI zeigte vorher die bekannten Pam-/Farmer-Saatgutkandidaten an, selbst wenn nur die **Originalmod ohne unser Add-on** installiert war. Das wäre nach der Auslagerung falsch.
+- `86f50d10`, `cf454d4f`: generisches `CropSeedGuideRegistry` eingeführt; `CropGeneticsJeiPlugin` liest nur noch Kandidaten von tatsächlich registrierten Add-ons. Die bisherige harte `OptionalSeedGuidePolicy` und ihr Test wurden durch den Registry-Mechanismus und dessen neue Tests ersetzt.
+- `dd72644b`, `c82d0c43`: Pam- bzw. Farmer-Add-on registrieren die eigenen JEI-Kandidaten aus ihrem Mod-Entrypoint. Farmer's Reis bleibt ausgeschlossen. Vorhandensein von Seed **und** Produkt wird im Kern weiterhin geprüft.
+- **Keine Tests/Builds ausgeführt.** Details sowie verbleibende rein anzeigeseitige Core-IDs: `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md`.
