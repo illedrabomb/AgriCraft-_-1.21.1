@@ -575,3 +575,11 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - Statische Sprachprüfung vor diesem Commit: beide Locale-Dateien hatten 63 gleichnamige Einträge; Journal- und JEI-Schlüssel vorhanden. Ein späterer echter Client-Lauf muss Lesbarkeit/Zeilenumbrüche, Textlängen und dynamische Journal-Seitennavigation prüfen.
 - Kern-Quelltriage: `CrossBreeding` entspricht weiterhin den vereinbarten 2-/3-/4-direkt-Eltern- und 3+-Reihenregeln. Ohne reproduzierbaren Gegenbefund keine Zufallswahrscheinlichkeiten umgestellt. Original-Testbefund `STK-04/GEN-01` (normale Karottensamen) bleibt offen. Bereits dokumentierte visuelle Nachtests: Stage-0, Hud-Overlay/Identify, Seed-Icons, Kürbis-/Melonenfruchtzyklus.
 - Keine Add-on-Features aktiviert, keine Gradle-/JUnit-/Minecraft-Ausführung. Nächste Schritte erst nach Freigabe des gebündelten Hauptmod-Testlaufs anhand des bestehenden Plans.
+
+
+### Nachtrag: Interne Gourd-Frucht und Mutterpflanze gemeinsam rendern (19.11.2026)
+
+- **`8c063355`**: Konkreter Rendering-Fehler in `CropSticksRenderer` korrigiert. Sobald `FRUIT=true` und interne Frucht ohne Legacy-Nachbar-Owner vorlag, zeichnete der BER zwar die verkleinerte Melone/den Kürbis, beendete die Methode aber mit `return`, bevor die reife Mutterpflanze gezeichnet wurde. Dieses vorzeitige `return` wurde entfernt. Die Frucht wird weiterhin innerhalb der Sticks modelliert, anschließend wird der reife Stem/Plant-Layer gezeichnet.
+- `df649998`, `3ee51fe8`: Begleitende Renderer-Kommentare für interne und ältere externe Gourd-Früchte an das tatsächliche Verhalten angepasst.
+- Der vierbeinige Crop-Sticks-Block ist ein eigener Blockmodellpfad und bleibt unverändert. Es wurde **keine** Wachstumsgeschwindigkeit, Reife, Dropmenge, NBT-Ownership oder Fruchtchance verändert.
+- Verifikation erst nach Testfreigabe: Gourd reifen lassen, erste interne Frucht sehen; gleichzeitige sichtbare reife Pflanze prüfen; Frucht mit Rechtsklick ernten; zweite Frucht abwarten; blockabbauen/Save-Restart bei fruchttragender Pflanze und alte physische Frucht-Saves prüfen. Die tatsächliche Frucht-Stängel-Überlagerung und Farbgebung bleiben visuell unbestätigt, kein Build/Client gestartet.
