@@ -233,6 +233,18 @@ public final class SeedJournalScreen extends Screen {
                 if (item.isPresent()) return new ItemStack(item.get());
             }
         }
+        // Optional mod species use their actual localized produce icon when
+        // the item exists. A missing integration remains a genetic-seed icon.
+        String modProduce = CropSpeciesNames.preferredProduceItem(species);
+        if (modProduce != null) {
+            ResourceLocation key = ResourceLocation.tryParse(modProduce);
+            if (key != null) {
+                var item = BuiltInRegistries.ITEM.getOptional(key);
+                if (item.isPresent() && item.get() != net.minecraft.world.item.Items.AIR) {
+                    return new ItemStack(item.get());
+                }
+            }
+        }
         ItemStack fallback = CropItems.GENETIC_SEED.get().getDefaultInstance();
         fallback.set(CropComponents.GENOME.get(), Genome.basic(species));
         return fallback;
