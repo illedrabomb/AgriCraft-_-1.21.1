@@ -17,6 +17,11 @@ import java.util.List;
  * AgriCraft's gain formula: (gain + 3) / 3 product rolls.
  */
 public final class CropHarvest {
+    // A datapack can request 64 products x 4096 items x several gain rolls.
+    // Bound item entities produced by one right-click or block break, even
+    // when an otherwise valid datapack is accidentally configured too high.
+    static final int MAX_DROP_STACKS = 256;
+
     private CropHarvest() {}
 
     public static List<ItemStack> products(PlantDefinition plant, Genome genome, RandomSource random) {
@@ -49,7 +54,10 @@ public final class CropHarvest {
                 int spread = product.maximum() - product.minimum();
                 if (spread > 0) count += random.nextInt(spread + 1);
                 while (count > 0) {
-                    int part = Math.min(count, item.getDefaultMaxStackSize());
+                    // A single harvest must not flood the world with
+                    // thousands of item entities from a malformed data pack.
+                    if (drops.size() >= MAX_DROP_STACKS) return drops;
+                    int part = Math.min(count, Math.max(1, item.getDefaultMaxStackSize()));
                     drops.add(new ItemStack(item, part));
                     count -= part;
                 }
