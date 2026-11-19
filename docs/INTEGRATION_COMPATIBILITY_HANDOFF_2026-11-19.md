@@ -292,3 +292,11 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - Wichtig: **JEI zeigt nur einen Informations-Link**, kein garantiert nutzbares Rezept und keine neue Crop-Registrierung. JEI kennt auf der Clientseite den effektiven Server-Pflanzenkatalog nicht zwingend. Ob ein Seed in Crop Sticks gesetzt werden darf, prüft weiterhin die aktive Server-Pflanzendefinition. Daher ist auch bei vorhandener Mod-JAR und einem JEI-Hinweis ein Datapack-Disable möglich.
 - `78beee21`, `57f7c39e`: `en_us.json` / `de_de.json` erklären diesen Unterschied ausdrücklich auf der JEI-Seite.
 - Noch **nicht gebaut oder in Minecraft geprüft**. Beim späteren gemeinsamen Test JEI mit und ohne jede optionale Mod prüfen, Hilfeseite auf Kohl-/Tomatensamen/Zwiebel und mindestens einem Pam's-Samen suchen; Reis darf nicht als normaler Seed suggeriert werden. Bei deaktiviertem Server-Datapack die Information als rein erklärenden Link verstehen.
+
+
+## Genetische Seeds: Stapeln vor Analyse – 19.11.2026
+
+- Code-Audit: `content/GeneticSeedItem.java` verwendet schon `properties.stacksTo(1)`. **Jeder** `cropgenetics:genetic_seed` ist damit unabhängig vom Analyseflag maximal 1 Item pro Stapel. `CropComponents.GENOME` ist persistent und wird über den Netzwerkcodec synchronisiert. Der Analyzer markiert nur `ANALYZED`, ohne Gene neu zu erzeugen.
+- `526efd20`: `GeneticSeedStackingTest` als Regression ergänzt, damit die Ein-Seed-Stapelgrenze später nicht versehentlich aufgehoben wird. **Test noch nicht ausgeführt.**
+- **Wichtige Unterscheidung:** Normale Vanilla- oder Mod-Samen können vor dem Pflanzen weiterhin stapelbar sein. Werden sie analysiert, erhalten sie denselben registrierten 1/1/1-Ausgangsgenotyp samt Item-Komponenten; die wirklich individuell verbesserten gekreuzten Saaten entstehen als separater genetischer Seed mit Stapelgröße 1. Eine hypothetische Fremdmod, die individuelle Mutationswerte auf normalen stapelbaren Seeds speichert, benötigt einen expliziten verlustfreien Adapter und wird momentan nicht pauschal umgewandelt.
+- Beim Sammeltest: zwei unterschiedlich verbesserte **nicht analysierte** genetische Seeds in Inventar, Chest und beim Aufsammeln vergleichen; sie dürfen nicht zu einem Stapel verschmelzen und beim Analyzer keine Gene verändern.
