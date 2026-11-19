@@ -528,3 +528,10 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - Ursache: unescaped Apostrophe innerhalb eines Groovy-Strings mit einfachen Anführungszeichen hätten die Konfiguration der Add-on-Teilprojekte bereits beim Einlesen der `build.gradle`-Dateien abbrechen lassen.
 - Dies ist ein **statisch bestätigter Syntaxfehler**, kein Ergebnis einer Gradle-Ausführung. Keine Tests oder Builds gestartet. Beim freigegebenen Gesamttest weiterhin zuerst Hauptmod `:test :build`, danach Add-on-Builds gesondert.
 - Die alte Spieltest-Beobachtung zu normalen Karottensamen beim Crossbreeding bleibt **ungeklärt**. Codepfad für unveränderte registrierte Samen (`Genome.basic`), ausgereifte Eltern und Kreuzungswahrscheinlichkeit wurde angesehen, ohne daraus vorschnell eine Gameplay-Änderung abzuleiten.
+
+
+### Nachtrag: Core-Preflight und Testfreigabe-Gate
+
+- `7ec175d7`: Neuer reproduzierbarer, nach Modulen getrennter Prüfplan `docs/MAIN_MOD_TEST_GATE_2026-11-19.md` einschließlich konkreter normaler Karotten-/Weizensamen, 2-/3-/4-Eltern-Kreuzungen und der schwächeren Elternreihe, Analyzer, Seed Chest, Journal, Harvest-Limit, JEI sowie dediziertem Server.
+- Öffentliche Add-on-Schnittstellen, Konstruktor-Registrierung, eigene Mod-Metadaten und `compileOnly`-Modulbezug wurden statisch geprüft. Dabei kein weiterer gesicherter Quellsyntaxfehler nach den Groovy-String-Korrekturen festgestellt; die tatsächliche Laufzeit-Klassenauflösung ist weiterhin ungetestet.
+- Explizite Test-Gates: erst `:test :build` der Hauptmod, danach nur bei Freigabe separate `:pam-hc2:build :farmers-delight:build`. **Keine** Gradle-, JUnit- oder Minecraft-Ausführung in diesem Arbeitspaket.
