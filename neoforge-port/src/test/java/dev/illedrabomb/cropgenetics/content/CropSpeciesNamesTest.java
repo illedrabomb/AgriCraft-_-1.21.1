@@ -2,31 +2,36 @@ package dev.illedrabomb.cropgenetics.content;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CropSpeciesNamesTest {
     @Test
-    void farmerPilotUsesDocumentedProduceNames() {
-        assertEquals("farmersdelight:cabbage",
-                CropSpeciesNames.preferredProduceItem("farmersdelight:cabbage_plant"));
-        assertEquals("farmersdelight:tomato",
-                CropSpeciesNames.preferredProduceItem("farmersdelight:tomato_plant"));
-        assertEquals("farmersdelight:onion",
-                CropSpeciesNames.preferredProduceItem("farmersdelight:onion_plant"));
+    void coreDoesNotInferOptionalProduceItemFromNamespaceAlone() {
+        assertNull(CropSpeciesNames.preferredProduceItem("pamhc2crops:mustardseeds_plant"));
+        assertNull(CropSpeciesNames.preferredProduceItem("farmersdelight:cabbage_plant"));
         assertNull(CropSpeciesNames.preferredProduceItem("farmersdelight:rice_plant"));
     }
 
     @Test
-    void pamNamingPreservesRepeatedSeedsWord() {
-        assertEquals("pamhc2crops:mustardseedsitem",
-                CropSpeciesNames.preferredProduceItem("pamhc2crops:mustardseeds_plant"));
+    void registeredAddonCanSupplyDisplayOnlyProduceItem() {
+        CropSpeciesDisplayRegistry.register("display_test_alpha", species ->
+                species.equals("testaddon:sample_plant") ? "testaddon:sample" : null);
+        assertEquals("testaddon:sample",
+                CropSpeciesNames.preferredProduceItem("testaddon:sample_plant"));
+        assertNull(CropSpeciesNames.preferredProduceItem("minecraft:wheat_plant"));
     }
 
     @Test
-    void unrelatedSpeciesDoNotInventProduceItems() {
-        assertNull(CropSpeciesNames.preferredProduceItem("minecraft:wheat_plant"));
-        assertNull(CropSpeciesNames.preferredProduceItem("example:tomato_plant"));
-        assertNull(CropSpeciesNames.preferredProduceItem("pamhc2crops:invalid-name_plant"));
+    void invalidAndDuplicateMappingsFailClosed() {
+        CropSpeciesDisplayRegistry.register("display_test_duplicate", species -> null);
+        assertThrows(IllegalArgumentException.class,
+                () -> CropSpeciesDisplayRegistry.register(
+                        "display_test_duplicate", species -> "testaddon:a"));
+        assertThrows(IllegalArgumentException.class,
+                () -> CropSpeciesDisplayRegistry.register(
+                        "Invalid-Id", species -> "testaddon:a"));
+        CropSpeciesDisplayRegistry.register("display_test_bad_item", species ->
+                species.equals("testaddon:bad_plant") ? "INVALID ITEM ID" : null);
+        assertNull(CropSpeciesNames.preferredProduceItem("testaddon:bad_plant"));
     }
 }
