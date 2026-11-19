@@ -29,13 +29,13 @@ class FarmersDelightDiagnosticsTest {
                 entry("cropgenetics/plants/other.json", CropReloadReport.Status.LOADED)
         ));
 
-        CropReloadReport.AdapterDiscoveryStats farmers = report.farmersDelightStats();
+        CropReloadReport.AutoDiscoveryStats farmers = report.autoDiscoveryStats("auto_farmers_delight/", "");
         assertEquals(2, farmers.discovered());
         assertEquals(1, farmers.conflicts());
         assertEquals(1, farmers.missingItems());
         assertEquals(1, farmers.otherWarnings());
         assertFalse(farmers.suspended());
-        assertEquals(1, report.pamDiscoveryStats().autoDiscovered());
+        assertEquals(1, report.autoDiscoveryStats("auto_pam/", "").discovered());
     }
 
     @Test
@@ -44,7 +44,7 @@ class FarmersDelightDiagnosticsTest {
                 entry("auto_farmers_delight/discovery_suspended", CropReloadReport.Status.INVALID)
         ));
 
-        CropReloadReport.AdapterDiscoveryStats farmers = report.farmersDelightStats();
+        CropReloadReport.AutoDiscoveryStats farmers = report.autoDiscoveryStats("auto_farmers_delight/", "");
         assertTrue(farmers.suspended());
         assertEquals(0, farmers.discovered());
         assertEquals(0, farmers.conflicts());
@@ -52,7 +52,7 @@ class FarmersDelightDiagnosticsTest {
 
     @Test
     void noOptionalModEntriesProducesEmptyStatistics() {
-        CropReloadReport.AdapterDiscoveryStats farmers = CropReloadReport.empty().farmersDelightStats();
+        CropReloadReport.AutoDiscoveryStats farmers = CropReloadReport.empty().autoDiscoveryStats("auto_farmers_delight/", "");
         assertEquals(0, farmers.discovered());
         assertEquals(0, farmers.conflicts());
         assertEquals(0, farmers.missingItems());

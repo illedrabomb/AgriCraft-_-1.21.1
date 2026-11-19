@@ -38,55 +38,29 @@ public record CropReloadReport(List<Entry> entries) {
     }
 
     /**
-     * A source-category count from the immutable report, not a guessed total
-     * from JSON files or raw Pam's registry items. Auto-discovery entries use
-     * a virtual resource path; no extra mutable counters are required.
+     * Generic, immutable discovery statistics for an addon-owned diagnostic
+     * namespace. The core knows nothing about the source mod's identity.
      */
-    public record PamDiscoveryStats(int explicitLoaded, int autoDiscovered,
-                                    int autoConflicts, int autoMissingItems,
-                                    int autoWarnings, boolean suspended) {}
+    public record AutoDiscoveryStats(int discovered, int conflicts,
+                                     int missingItems, int otherWarnings,
+                                     boolean suspended) {}
 
-    public PamDiscoveryStats pamDiscoveryStats() {
-        int explicit = 0;
-        int discovered = 0;
-        int conflicts = 0;
-        int missing = 0;
-        int warnings = 0;
-        boolean suspended = false;
-        for (Entry entry : entries) {
-            if (entry.kind() != Kind.PLANT) continue;
-            boolean auto = entry.source().getNamespace().equals("cropgenetics")
-                    && entry.source().getPath().startsWith("auto_pam/");
-            if (auto) {
-                switch (entry.status()) {
-                    case AUTO_DISCOVERED -> discovered++;
-                    case AUTO_MISSING_ITEM -> missing++;
-                    case CONFLICT -> conflicts++;
-                    // An explicit datapack or item claim intentionally
-                    // overrides this fallback. Report it individually, but
-                    // do not count it as an actual warning.
-                    case DISABLED -> {}
-                    default -> warnings++;
-                }
-            } else if (entry.source().getPath().startsWith("cropgenetics/plants/")
-                    && (entry.status() == Status.LOADED
-                        || entry.status() == Status.WARNING)) {
-                explicit++;
-            } else if (entry.source().toString().equals(
-                    "cropgenetics:cropgenetics/pam_auto_discovery.json")
-                    && ((entry.status() == Status.INVALID)
-                        || entry.detail().startsWith("Pam's automatic discovery disabled"))) {
-                suspended = true;
-            }
-        }
-        return new PamDiscoveryStats(explicit, discovered, conflicts, missing, warnings, suspended);
-    }
+    /**
+     * Summarize one addon's virtual resource prefix. A deliberately skipped
+     * explicit claim is informational, not a warning or a new plant.
+     *
+     * @param prefix e.g. "auto_example/"
+     * @param configPath optional relative resource path used for invalid
+     *                   addon policy diagnostics; empty when none is used
+     */
+    public AutoDiscoveryStats autoDiscoveryStats(String prefix, String configPath) {
+        Objects.requireNonNull(prefix);
+        Objects.requireNonNull(configPath);
+        if (!prefix.matches("[a-z0-9_/-]+/")
+                || (!configPath.isEmpty()
+                    && !configPath.matches("[a-z0-9_./-]+")))
+            throw new IllegalArgumentException("Invalid addon diagnostic path");
 
-    /** Per-adapter diagnostics; Pam's historic summary remains unchanged. */
-    public record AdapterDiscoveryStats(int discovered, int conflicts, int missingItems,
-                                        int otherWarnings, boolean suspended) {}
-
-    public AdapterDiscoveryStats farmersDelightStats() {
         int discovered = 0;
         int conflicts = 0;
         int missing = 0;
@@ -94,11 +68,17 @@ public record CropReloadReport(List<Entry> entries) {
         boolean suspended = false;
         for (Entry entry : entries) {
             if (entry.kind() != Kind.PLANT
-                    || !entry.source().getNamespace().equals("cropgenetics")
-                    || !entry.source().getPath().startsWith("auto_farmers_delight/"))
+                    || !entry.source().getNamespace().equals("cropgenetics"))
                 continue;
-            if (entry.source().getPath().equals(
-                    "auto_farmers_delight/discovery_suspended")) {
+            String path = entry.source().getPath();
+            if ((!configPath.isEmpty() && path.equals(configPath))
+                    && (entry.status() == Status.INVALID
+                        || entry.detail().contains("discovery disabled"))) {
+                suspended = true;
+                continue;
+            }
+            if (!path.startsWith(prefix)) continue;
+            if (path.equals(prefix + "discovery_suspended")) {
                 suspended = true;
                 continue;
             }
@@ -106,12 +86,11 @@ public record CropReloadReport(List<Entry> entries) {
                 case AUTO_DISCOVERED -> discovered++;
                 case CONFLICT -> conflicts++;
                 case AUTO_MISSING_ITEM -> missing++;
-                // A configured or explicit crop definition is authoritative.
                 case DISABLED -> {}
                 default -> warnings++;
             }
         }
-        return new AdapterDiscoveryStats(discovered, conflicts, missing, warnings, suspended);
+        return new AutoDiscoveryStats(discovered, conflicts, missing, warnings, suspended);
     }
 
     public Map<Status, Integer> totals() {

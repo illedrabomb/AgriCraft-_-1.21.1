@@ -16,18 +16,25 @@ public final class PamDataCommands {
             tell(source, "Crop Genetics: no datapack reload report available yet.");
             return 0;
         }
-        CropReloadReport.PamDiscoveryStats stats = snapshot.report().pamDiscoveryStats();
+        CropReloadReport.AutoDiscoveryStats stats = snapshot.report()
+                .autoDiscoveryStats("auto_pam/", "cropgenetics/pam_auto_discovery.json");
+        long explicitLoaded = snapshot.report().entries().stream()
+                .filter(entry -> entry.kind() == CropReloadReport.Kind.PLANT
+                        && entry.source().getPath().startsWith("cropgenetics/plants/")
+                        && (entry.status() == CropReloadReport.Status.LOADED
+                            || entry.status() == CropReloadReport.Status.WARNING))
+                .count();
         tell(source, "Pam's HarvestCraft 2 Crops - last server reload:");
-        tell(source, "  Explicit plants loaded: " + stats.explicitLoaded());
-        tell(source, "  Auto-discovered species: " + stats.autoDiscovered());
-        tell(source, "  Auto candidates in conflict: " + stats.autoConflicts());
-        tell(source, "  Configured pairs missing registered items: " + stats.autoMissingItems());
-        tell(source, "  Other auto diagnostics: " + stats.autoWarnings());
+        tell(source, "  Explicit plants loaded: " + explicitLoaded);
+        tell(source, "  Auto-discovered species: " + stats.discovered());
+        tell(source, "  Auto candidates in conflict: " + stats.conflicts());
+        tell(source, "  Configured pairs missing registered items: " + stats.missingItems());
+        tell(source, "  Other auto diagnostics: " + stats.otherWarnings());
         tell(source, "  Auto-discovery suspended by invalid data/config: "
                 + (stats.suspended() ? "yes" : "no"));
         tell(source, "  Total active species (all mods): " + snapshot.plants().size());
         tell(source, "Details: /cropgenetics data errors [page] or all [page].");
-        return stats.autoDiscovered();
+        return stats.discovered();
     }
 
     private static boolean notLoaded(AgriPlantsRegistry.Snapshot snapshot) {

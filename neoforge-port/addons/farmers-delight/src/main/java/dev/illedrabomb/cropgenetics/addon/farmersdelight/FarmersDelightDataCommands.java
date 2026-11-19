@@ -17,8 +17,8 @@ public final class FarmersDelightDataCommands {
             tell(source, "Crop Genetics: no datapack reload report available yet.");
             return 0;
         }
-        CropReloadReport.AdapterDiscoveryStats stats =
-                snapshot.report().farmersDelightStats();
+        CropReloadReport.AutoDiscoveryStats stats = snapshot.report()
+                .autoDiscoveryStats("auto_farmers_delight/", "");
         tell(source, "Farmer's Delight compatibility - last server reload:");
         tell(source, "  Auto-discovered pilot species: " + stats.discovered());
         tell(source, "  Conflicting candidates: " + stats.conflicts());
