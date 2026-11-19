@@ -61,22 +61,38 @@ public final class FarmersDelightCropDiscovery {
                 && !produceClaims.contains(ONION_ITEM);
     }
 
+    private static CropReloadReport.Entry onionDiagnostic(
+            CropReloadReport.Status status, String detail) {
+        return new CropReloadReport.Entry(
+                CropReloadReport.Kind.PLANT,
+                ResourceLocation.fromNamespaceAndPath(
+                        "cropgenetics", "auto_farmers_delight/onion.json"),
+                ONION_PLANT, status, detail);
+    }
+
     private static void addOnion(Map<String, PlantDefinition> plants,
                                  Set<String> explicitSpecies,
                                  Set<String> explicitSeedClaims,
                                  Set<String> explicitProduceClaims,
                                  List<CropReloadReport.Entry> diagnostics) {
         if (plants.containsKey(ONION_PLANT)
-                || !canAddOnion(explicitSpecies, explicitSeedClaims, explicitProduceClaims))
+                || !canAddOnion(explicitSpecies, explicitSeedClaims, explicitProduceClaims)) {
+            diagnostics.add(onionDiagnostic(CropReloadReport.Status.DISABLED,
+                    "Onion auto-discovery skipped: explicit species or item claim takes precedence"));
             return;
+        }
         // Reserve onion if another valid plant already owns it. Be
         // conservative even when that plant only produces, but cannot plant,
         // the onion item.
         for (PlantDefinition existing : plants.values()) {
             if (existing.seedItems().contains(ONION_ITEM)
                     || existing.harvestProducts().stream()
-                        .anyMatch(product -> ONION_ITEM.equals(product.itemId())))
+                        .anyMatch(product -> ONION_ITEM.equals(product.itemId()))) {
+                diagnostics.add(onionDiagnostic(CropReloadReport.Status.CONFLICT,
+                        "Onion auto-discovery skipped: item already claimed by "
+                                + existing.id()));
                 return;
+            }
         }
         ResourceLocation itemId = ResourceLocation.parse(ONION_ITEM);
         if (BuiltInRegistries.ITEM.getOptional(itemId)
