@@ -397,7 +397,12 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
                     || !CropConditions.canGrow(level, pos, plant, genome)) {
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
-            if (!level.isClientSide && crop.plant(genome, stack) && !player.isCreative()) stack.shrink(1);
+            if (!level.isClientSide) {
+                if (!crop.plant(genome, stack)) {
+                    return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+                }
+                if (!player.isCreative()) stack.shrink(1);
+            }
             return ItemInteractionResult.SUCCESS;
         }
 
