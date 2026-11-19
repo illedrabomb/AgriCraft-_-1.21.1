@@ -106,3 +106,11 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - **Nicht implementiert:** Zwiebeln, Reis (Sonderpflanzung), originale Farmer's-Delight-Spezialernte und umfassende grafische Darstellung. Die beiden Pilotpflanzen sind noch **nicht** durch Java-21-Build, JUnit oder Minecraft 1.21.1 verifiziert. Vor einer Freigabe muss die tatsächliche Item-Registry der installierten Version geprüft werden.
 - **Pam's:** vorhandener Auto-Adapter bleibt aktiv und unverändert; diese Runde hat dessen zuvor übersehenen Code nur auditiert. Auch er ist nicht gegen die aktuelle Pam-JAR verifiziert.
 - **Nächster Arbeitsschritt:** Datapack-/Java-Validierung und JUnit für explizite Claim-Kollisionen, fehlende Mod, Datenreload; dann gezielte Modpack-Spieltests.
+
+## Regressionstest-Paket – 19.11.2026 (noch NICHT ausgeführt)
+
+- `39b01c1c`: Farmer's-Delight-Pilotpolicy in `FarmersDelightCropDiscovery.policy()` für reine Konfigurationstests isoliert; Produktionsverhalten unverändert.
+- `65eccf4f`: neuer JUnit-Test `FarmersDelightCropDiscoveryTest` prüft exakt zugelassene Kohl-/Tomaten-Paare, Ausschluss von Reis/Zwiebeln, Fremd-Namespace und identische Seed-/Produce-Rollen.
+- `c7583ff6`: neuer JUnit-Test `AgriPlantsRegistrySeedMappingTest` prüft beide Konfliktfälle: doppelt beanspruchter Seed wird für **beide** Pflanzen gesperrt; disjunkte Seed-IDs bleiben zuordenbar.
+- **Nicht getestet:** `test`, `build`, Data-Reload mit echter Farmer's-/Pam's-JAR, Menü-/Welt-/Multiplayerfunktionen. Die Tests sind als Quellcode vorhanden; ihre Ausführung ist ein Pflichtpunkt des nächsten Gesamt-Builds.
+- **Weitere Tests offen:** tatsächliche Farmer's-Registrierungswerte, Vorrang deaktivierter Datapack-Claims im ReloadListener, fehlende optional installierte Mods und Reis-Spezialadapter.
