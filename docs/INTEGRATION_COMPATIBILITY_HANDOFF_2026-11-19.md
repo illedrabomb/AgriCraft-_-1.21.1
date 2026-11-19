@@ -159,3 +159,15 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `09d1b18e`: JUnit-Fälle für fehlendes Farmer's Delight, fehlendes Pam's, geladene optionale Mods, AgriCraft-Alt-Alias, Definition ohne `mods` und fehlerhaftes `mods`-Feld.
 - Diese Tests wurden ausdrücklich **nicht** ausgeführt; abgelehnte Definitionen müssen im späteren Spieltest über `/reload` und Diagnosebericht kontrolliert werden.
 - Bei Mod-Entfernung bereits gespeicherte genetische Seeds/Weltpflanzen nicht stillschweigend löschen. Bestehende Fallback- und Dormanzregeln bleiben separat zu testen.
+
+## Mod entfernen und wieder installieren – Dormanz/Save-Fix (19.11.2026)
+
+**Quell-Audit vor Änderung:**
+- `CropSticksBlockEntity` persistiert `Genome`, originale Seed-ID, Analyseflag, exakte Wachstumsstufe und Stufenzahl ohne Zugriff auf den aktiven Pflanzenkatalog. Bei fehlender Pflanzendefinition überspringen `onLoad`, Server-Tick und Random-Tick das Wachstum, statt Gene zu löschen.
+- `CropSticksBlock.getDrops` gibt beim Abbau eines bepflanzten Crop-Stick-Blocks den Gen-Seed über `seedDrop()` zurück, auch wenn die Pflanzenart momentan nicht registriert ist. Ohne aktive Definition werden keine erfundenen Ernterohstoffe erzeugt.
+- **Gefundene Lücke:** `CropSticksBlock.canSurvive` prüfte bei abwesender Art alle *anderen* aktiven Bodenregeln. Eine auf besonderem Mod-Boden gespeicherte inaktive Pflanze konnte dadurch bei Blockupdates fälschlich als ungültig gelten.
+
+**Änderungen:**
+- `fdeea1b7`: `UnavailableModGenomePersistenceTest` (noch nicht ausgeführt): neue dreiwertige Genetik mit unbekannter Mod-ID codec-roundtrip, Legacy-Genom-Migration ohne Pflanzenregistrierung, Ablehnung ungültiger Werte.
+- `c960a7c4`: `CropSticksBlock.canSurvive` erhält eine bereits eingepflanzte Art mit vorhandenen Genome-Daten, deren Definition fehlt, solange die physische Bodenunterlage nicht Luft ist. Keine Sonderböden für **neue** Pflanzungen dadurch freigeben. Periodischer Tick kann weiterhin physisch fehlende Stütze brechen.
+- **Noch nicht getestet:** Save/Reload bestehender Welt, Deinstallation und Reinstallation einer Pam's-/Farmer's-Delight-JAR, /reload, zufällige Ticks, Boden-Nachbaränderungen, Genwerte nach erneuter Registrierung und Entity-/Item-Deserialisierung in dediziertem Server. Für Test immer Welt-Backup vor Mod-Entfernung erstellen.
