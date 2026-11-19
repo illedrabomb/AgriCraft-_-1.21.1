@@ -37,35 +37,37 @@ public final class CropDataCommand {
     private CropDataCommand() {}
 
     public static void register(RegisterCommandsEvent event, AgriPlantsRegistry registry) {
+        var data = Commands.literal("data")
+                .executes(ctx -> summary(ctx.getSource(), registry))
+                .then(Commands.literal("summary")
+                        .executes(ctx -> summary(ctx.getSource(), registry)))
+                .then(Commands.literal("errors")
+                        .executes(ctx -> list(ctx.getSource(), registry, false, 1))
+                        .then(Commands.argument("page", IntegerArgumentType.integer(1))
+                                .executes(ctx -> list(ctx.getSource(), registry, false,
+                                        IntegerArgumentType.getInteger(ctx, "page")))))
+                .then(Commands.literal("all")
+                        .executes(ctx -> list(ctx.getSource(), registry, true, 1))
+                        .then(Commands.argument("page", IntegerArgumentType.integer(1))
+                                .executes(ctx -> list(ctx.getSource(), registry, true,
+                                        IntegerArgumentType.getInteger(ctx, "page")))))
+                .then(Commands.literal("gourd")
+                        .then(Commands.argument("pos", BlockPosArgument.blockPos())
+                                .executes(ctx -> gourd(ctx.getSource(), registry,
+                                        BlockPosArgument.getLoadedBlockPos(ctx, "pos")))))
+                .then(Commands.literal("tags")
+                        .executes(ctx -> tags(ctx.getSource(), registry, 1))
+                        .then(Commands.argument("page", IntegerArgumentType.integer(1))
+                                .executes(ctx -> tags(ctx.getSource(), registry,
+                                        IntegerArgumentType.getInteger(ctx, "page")))));
+
+        for (CropDataCommandExtensions.Extension addon : CropDataCommandExtensions.registered()) {
+            data.then(Commands.literal(addon.name())
+                    .executes(ctx -> addon.handler().execute(ctx.getSource(), registry)));
+        }
         event.getDispatcher().register(Commands.literal("cropgenetics")
                 .requires(source -> source.hasPermission(2))
-                .then(Commands.literal("data")
-                        .executes(ctx -> summary(ctx.getSource(), registry))
-                        .then(Commands.literal("summary")
-                                .executes(ctx -> summary(ctx.getSource(), registry)))
-                        .then(Commands.literal("errors")
-                                .executes(ctx -> list(ctx.getSource(), registry, false, 1))
-                                .then(Commands.argument("page", IntegerArgumentType.integer(1))
-                                        .executes(ctx -> list(ctx.getSource(), registry, false,
-                                                IntegerArgumentType.getInteger(ctx, "page")))))
-                        .then(Commands.literal("all")
-                                .executes(ctx -> list(ctx.getSource(), registry, true, 1))
-                                .then(Commands.argument("page", IntegerArgumentType.integer(1))
-                                        .executes(ctx -> list(ctx.getSource(), registry, true,
-                                                IntegerArgumentType.getInteger(ctx, "page")))))
-                        .then(Commands.literal("pam")
-                                .executes(ctx -> pamSummary(ctx.getSource(), registry)))
-                        .then(Commands.literal("farmersdelight")
-                                .executes(ctx -> farmersDelightSummary(ctx.getSource(), registry)))
-                        .then(Commands.literal("gourd")
-                                .then(Commands.argument("pos", BlockPosArgument.blockPos())
-                                        .executes(ctx -> gourd(ctx.getSource(), registry,
-                                                BlockPosArgument.getLoadedBlockPos(ctx, "pos")))))
-                        .then(Commands.literal("tags")
-                                .executes(ctx -> tags(ctx.getSource(), registry, 1))
-                                .then(Commands.argument("page", IntegerArgumentType.integer(1))
-                                        .executes(ctx -> tags(ctx.getSource(), registry,
-                                                IntegerArgumentType.getInteger(ctx, "page")))))));
+                .then(data));
     }
 
     private static int summary(CommandSourceStack source, AgriPlantsRegistry registry) {
@@ -79,13 +81,9 @@ public final class CropDataCommand {
         tell(source, "Crop Genetics datapack: " + snapshot.plants().size() + " plants, "
                 + snapshot.mutations().size() + " mutations, "
                 + report.entries().size() + " resource files.");
-        CropReloadReport.PamDiscoveryStats pam = report.pamDiscoveryStats();
-        tell(source, "  Pam's auto crops: " + pam.autoDiscovered()
-                + ", explicit plant files loaded (all mods): " + pam.explicitLoaded()
-                + " - details: /cropgenetics data pam");
-        tell(source, "  Farmer's Delight auto crops: "
-                + report.farmersDelightStats().discovered()
-                + " - details: /cropgenetics data farmersdelight");
+        tell(source, "  Addon auto-discovered species: "
+                + report.count(CropReloadReport.Kind.PLANT,
+                        CropReloadReport.Status.AUTO_DISCOVERED));
         Map<CropReloadReport.Status, Integer> totals = report.totals();
         for (CropReloadReport.Status status : CropReloadReport.Status.values()) {
             int count = totals.getOrDefault(status, 0);
@@ -96,48 +94,6 @@ public final class CropDataCommand {
                     + snapshot.ambiguousSeedItems().size());
         tell(source, "Use /cropgenetics data errors [page], all [page], or tags [page].");
         return report.entries().size();
-    }
-
-    /** Read-only breakdown from the same immutable snapshot as /data. */
-    private static int pamSummary(CommandSourceStack source, AgriPlantsRegistry registry) {
-        AgriPlantsRegistry.Snapshot snapshot = registry.snapshot();
-        if (notLoaded(snapshot)) {
-            tell(source, "Crop Genetics: no datapack reload report available yet.");
-            return 0;
-        }
-        CropReloadReport.PamDiscoveryStats stats = snapshot.report().pamDiscoveryStats();
-        tell(source, "Pam's HarvestCraft 2 Crops - last server reload:");
-        tell(source, "  Explicit plants loaded: " + stats.explicitLoaded());
-        tell(source, "  Auto-discovered species: " + stats.autoDiscovered());
-        tell(source, "  Auto candidates in conflict: " + stats.autoConflicts());
-        tell(source, "  Configured pairs missing registered items: " + stats.autoMissingItems());
-        tell(source, "  Other auto diagnostics: " + stats.autoWarnings());
-        tell(source, "  Auto-discovery suspended by invalid data/config: "
-                + (stats.suspended() ? "yes" : "no"));
-        tell(source, "  Total active species (all mods): " + snapshot.plants().size());
-        tell(source, "Details: /cropgenetics data errors [page] or all [page].");
-        return stats.autoDiscovered();
-    }
-
-    /** Read-only Farmer's Delight adapter status for support and modpack testers. */
-    private static int farmersDelightSummary(CommandSourceStack source,
-                                             AgriPlantsRegistry registry) {
-        AgriPlantsRegistry.Snapshot snapshot = registry.snapshot();
-        if (notLoaded(snapshot)) {
-            tell(source, "Crop Genetics: no datapack reload report available yet.");
-            return 0;
-        }
-        CropReloadReport.AdapterDiscoveryStats stats =
-                snapshot.report().farmersDelightStats();
-        tell(source, "Farmer's Delight compatibility - last server reload:");
-        tell(source, "  Auto-discovered pilot species: " + stats.discovered());
-        tell(source, "  Conflicting candidates: " + stats.conflicts());
-        tell(source, "  Configured pairs with missing items: " + stats.missingItems());
-        tell(source, "  Other adapter diagnostics: " + stats.otherWarnings());
-        tell(source, "  Auto-discovery suspended: " + (stats.suspended() ? "yes" : "no"));
-        tell(source, "  Scope: cabbage, tomato, onion; rice not yet supported.");
-        tell(source, "Details: /cropgenetics data errors [page] or all [page].");
-        return stats.discovered();
     }
 
     /**
