@@ -81,3 +81,11 @@ Gradle project naming/paths can vary if technically necessary; behavior and isol
 - `CropReloadReport` has Pam/FD summary helpers still referenced by diagnostics. Shared report must either keep backward-compatible generic summary views or move dedicated formatters into addons in the same coordinated change.
 - Existing JSON resource paths are a compatibility contract for external datapack overrides; preserve IDs even when changing packaging.
 - No claimed build success until a real build is run by the user; no claimed add-on completion until main-only dependency isolation is checked.
+
+
+## Migration implementation checkpoint — 2026-11-19 (not finished)
+
+- `3411bc07`: added shared `ExplicitPlantClaims` in the core. It inventories all explicit species/seed/produce claims, including disabled datapack definitions, and fails closed on malformed/unreadable plant files.
+- `9b3103c0`: replaced two independent, divergent claim-parsing loops in `CropDataReloadListener` with the shared claim inventory. This is a **preparatory refactor**; Pam/Farmer direct calls still exist and behavior is intended to stay unchanged.
+- `3e37c833`: added `ExplicitPlantClaimsTest` for disabled declarations, malformed identities, unreadable plant resources and mutation-only diagnostics. **Tests not run** per user instruction.
+- Next concrete step: introduce a generic core-to-add-on registration interface, then move both adapter classes/JSON into independent JAR modules as an atomic compatibility-safe migration. **Do not run the main-only Minecraft test until this work is complete.**
