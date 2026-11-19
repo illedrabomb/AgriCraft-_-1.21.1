@@ -467,6 +467,11 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 
 ## 2026-11-19 — binding priority change and add-on extraction decision
 
-**User-approved direction:** move already-developed Pam's HarvestCraft 2 and Farmer's Delight code/data out of the core into independent add-on JARs; next manual tests are **main mod only**. Main AgriCraft/Crop Genetics work comes first, MineColonies add-on next, Farmer's Delight features much later; Pam's features likewise parked. Preserve the core's generic third-party datapack support. Do not run Gradle/JUnit/gameplay before user requests combined test.
+**User-approved direction:** move already-developed Pam's HarvestCraft 2 and Farmer's Delight code/data out of the core into independent add-on JARs; next manual tests are **main mod only**. Main AgriCraft/Crop Genetics work comes first; Pam's HarvestCraft 2 comes **slightly ahead** of MineColonies, and both are important add-ons. Farmer's Delight has **very low priority** and is deferred to the distant future. Preserve the core's generic third-party datapack support. Do not run Gradle/JUnit/gameplay before user requests combined test.
 
 The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`](ADDON_EXTRACTION_PLAN_2026-11-19.md). Current state as of this note: **plan committed, extraction not yet implemented; adapters and bundled Pam JSON remain in core.** Never imply otherwise in future handoffs. Phase A (generic addon registration boundary) is the next source-edit batch; Phase B (Gradle modules and atomic relocation) must follow before main-only testing.
+
+
+### Präzisierung der Add-on-Reihenfolge (verbindlich)
+
+**1. AgriCraft-Hauptmod → 2. Pam's HarvestCraft 2 (minimal höher priorisiert) → 3. MineColonies (ebenfalls wichtig) → 4. Farmer's Delight (ganz unwichtig / sehr viel später).** Die Code-Auslagerung der bestehenden Integrationen bleibt Voraussetzung für den nächsten Hauptmod-Test. Die zuvor notierte Aussage, Pam's sei geparkt, ist durch diese Entscheidung aufgehoben. Siehe `docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`.
