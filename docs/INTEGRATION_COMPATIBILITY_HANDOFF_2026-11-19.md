@@ -326,3 +326,12 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `859a76e0`: JUnit `CropGenomeSyncRulesTest` prüft versteckte Werte, unveränderte Serverdaten, analysierte tatsächliche Werte und leere Crop Sticks. **Tests noch nicht ausgeführt.**
 - **Wichtige Semantik:** Der globale `seedAnalyzed`-Status einer bereits analysierten Pflanze ist keine pro-Spieler-Freischaltung; nach einer Analyse dürfen Beobachter die sichtbaren Werte erhalten. Wer strikt private, spielerbezogene Analysedaten möchte, benötigt eine andere Berechtigungs-/Paketarchitektur.
 - Sammeltest: zwei Clients im Multiplayer, versteckte 8/9/10-Seedwerte vor Analyse nur auf Server bzw. Seed gespeichert; Render- und Jade/Identify-Anzeige ohne Gene; nach Analyse echte Werte sichtbar; Blockabbau ergibt immer noch 8/9/10 und ursprüngliche Seed-ID; Welt-Neustart ohne Genetikverlust. Separat prüfen, dass Fruchtanimation und Wachstum nicht durch die reduzierten Pakete beeinträchtigt werden.
+
+
+## Seed-Journal-Darstellung für optionale Mods – 19.11.2026
+
+- `fd5d6e2b`: `CropSpeciesNames.preferredProduceItem` kennt nur die **bereits freigegebenen** optionalen Namensmuster: Pam's `pamhc2crops:<crop>_plant` → `pamhc2crops:<crop>item`, Farmer's Delight `cabbage_plant`/`tomato_plant`/`onion_plant` → entsprechende Ernteitems. **Farmer's Delight rice bleibt ausdrücklich ausgeschlossen.**
+- Existiert das Item in der aktiven Registry, wird dessen lokalisierter Mod-Item-Name im Journal, in der Seed-Beschriftung und HUD-Namensauflösung bevorzugt. Fehlt es, bleibt der bisherige einfache Pflanzen-ID-Fallback. Es werden weder neue Pflanzen registriert noch neue Saatgut-Daten erzeugt.
+- `45b785bb`: `SeedJournalScreen.iconFor` verwendet für diese Mod-Pflanzen bei vorhandener Item-Registrierung das tatsächliche Ernteitem als Icon; fehlt die Mod/Registry, bleibt der genetische Seed als Ersatzsymbol.
+- `cb768ff7`: `CropSpeciesNamesTest` ergänzt: alle drei Farmer-Pilotpflanzen, ausgeschlossener Reis, Pam's `mustardseeds` sowie fremde/ungültige IDs. **Noch nicht ausgeführt**.
+- Beim Sammeltest Journal mit Farmer's und Pam's öffnen, Namen auf Deutsch/Englisch und Icons vergleichen; fehlende optionale Mod muss mit dem generischen Fallback ohne Crash weiter funktionieren. Die tatsächlich ausgerissenen genetischen Seeds bleiben unabhängig von diesem reinen Anzeige-Fallback erhalten.
