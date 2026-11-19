@@ -275,3 +275,11 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `1f39851d`: Crop Sticks benutzen dieselbe Prüfung für den 1/1/1-Pflanzweg. Bereits analysierte Seeds mit gültigem gespeichertem `GENOME` bleiben auf ihrem **gesonderten** Weg erlaubt und behalten ihr tatsächliches Genom. Dies ist eine Umstrukturierung der bisherigen Akzeptanzregeln, keine neue automatische Fremdmod-Konvertierung.
 - **Absichtliche Unterscheidung:** Seed Chest speichert auch angepasste, eindeutig registrierte Seeds ohne Konvertierung, damit individuelle Item-Komponenten beim bloßen Lagern erhalten bleiben; Analyzer und Pflanzweg dürfen solche extern gepatchten Stacks dagegen ohne echten Lossless-Adapter nicht umschreiben oder verbrauchen.
 - **Ungetestet:** späteren Sammeltest für (a) unveränderte Vanilla-/Pam-/Farmer-Seeds, (b) vorher analysierte gleiche Seeds, (c) extra komponierte Mod-Seeds, (d) originale Chest-Stack-Daten nach Save/Reload und (e) klientseitige Slot-Rückmeldung durchführen. Noch kein Build/JUnit/Minecraft-Lauf.
+
+
+## Externe Regressionstests für Analyzer und Seed Chest – 19.11.2026
+
+- `56d93786`: `docs/SEED_ANALYZER_CHEST_REGRESSION_2026-11-19.md` ergänzt. Neun manuelle Testfälle (SC-01 bis SC-09) mit Vorbereitung, Handlung, Grund und exakt prüfbarem Soll-Ergebnis: 64er-Seeds beim Analyzer, Erhalt existierender Genwerte, Fremdkomponenten, kombinierte Chest-GUI, Save/Reload, volle Inventare, doppelte Crop Sticks, Samenherkunft beim Abbau und optional-mod-Entfernung in Sicherungskopie.
+- **Code-Audit dieses Durchgangs:** `SeedAnalyzerBlock.useItemOn` kopiert bei direktem Einlegen 1 Seed, `SeedInventoryBlockEntity.setItem` erstellt eine Kopie des übergebenen Stacks, `SeedAnalyzerBlock.useWithoutItem` versucht bei Entnahme erst das Spielerinventar und danach ein Welt-Drop, `SeedChestBlock` benutzt 27 persistent gespeicherte Slots. Es wurde **keine zusätzliche ungeprüfte Inventar-Umbauänderung** vorgenommen.
+- Wichtiger Unterschied bleibt: Seed Chest ist reine sichere Lagerung auch für registrierte Seeds mit fremden Komponenten; Analyzer verweigert ihre automatische Analyse, solange keine verlustfreie Komponenten-Übernahme implementiert ist.
+- **Alle Fälle offen**; sie sind Anleitung für den späteren gemeinsamen Test oder einen externen Tester, kein automatisch durchlaufener Minecraft-Nachweis.
