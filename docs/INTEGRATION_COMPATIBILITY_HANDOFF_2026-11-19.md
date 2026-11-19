@@ -283,3 +283,12 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - **Code-Audit dieses Durchgangs:** `SeedAnalyzerBlock.useItemOn` kopiert bei direktem Einlegen 1 Seed, `SeedInventoryBlockEntity.setItem` erstellt eine Kopie des übergebenen Stacks, `SeedAnalyzerBlock.useWithoutItem` versucht bei Entnahme erst das Spielerinventar und danach ein Welt-Drop, `SeedChestBlock` benutzt 27 persistent gespeicherte Slots. Es wurde **keine zusätzliche ungeprüfte Inventar-Umbauänderung** vorgenommen.
 - Wichtiger Unterschied bleibt: Seed Chest ist reine sichere Lagerung auch für registrierte Seeds mit fremden Komponenten; Analyzer verweigert ihre automatische Analyse, solange keine verlustfreie Komponenten-Übernahme implementiert ist.
 - **Alle Fälle offen**; sie sind Anleitung für den späteren gemeinsamen Test oder einen externen Tester, kein automatisch durchlaufener Minecraft-Nachweis.
+
+
+## JEI-Hinweise für optionale Pflanzenmods – 19.11.2026
+
+- `7943f424`: `compat/jei/CropGeneticsJeiPlugin.registerRecipes` verknüpft die bereits vorhandene Crop-Sticks-/Genetik-Einführungsseite jetzt auch mit **vorhandenen** Farmer's-Delight-Seeds (`cabbage_seeds`, `tomato_seeds`, `onion`) und nach dem registrierten Item-Namensschema passenden Pam's-HarvestCraft-2-Paaren (`<crop>seeditem` + `<crop>item`). Erwartete Ernteprodukte müssen jeweils wirklich in der Item-Registry vorhanden sein; Pam's-Scan auf 128 registrierte Seed-Kandidaten begrenzt.
+- Farmer's-Delight-`rice` wird wegen eigener Wasserpflanzungs-/Knife-Erntemechanik **bewusst nicht** als normaler Crop-Sticks-Seed verlinkt. Andere Namespace-Items werden niemals allein wegen des Wortes `seed` erkannt.
+- Wichtig: **JEI zeigt nur einen Informations-Link**, kein garantiert nutzbares Rezept und keine neue Crop-Registrierung. JEI kennt auf der Clientseite den effektiven Server-Pflanzenkatalog nicht zwingend. Ob ein Seed in Crop Sticks gesetzt werden darf, prüft weiterhin die aktive Server-Pflanzendefinition. Daher ist auch bei vorhandener Mod-JAR und einem JEI-Hinweis ein Datapack-Disable möglich.
+- `78beee21`, `57f7c39e`: `en_us.json` / `de_de.json` erklären diesen Unterschied ausdrücklich auf der JEI-Seite.
+- Noch **nicht gebaut oder in Minecraft geprüft**. Beim späteren gemeinsamen Test JEI mit und ohne jede optionale Mod prüfen, Hilfeseite auf Kohl-/Tomatensamen/Zwiebel und mindestens einem Pam's-Samen suchen; Reis darf nicht als normaler Seed suggeriert werden. Bei deaktiviertem Server-Datapack die Information als rein erklärenden Link verstehen.
