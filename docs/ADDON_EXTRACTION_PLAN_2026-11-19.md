@@ -99,3 +99,14 @@ Gradle project naming/paths can vary if technically necessary; behavior and isol
 - `618ab1c2`: regression tests for registration, target dependency filtering and duplicate/invalid addon IDs. **Not executed**.
 - **Current limitation:** Existing Pam/Farmer built-in discoverers and JSON resources are still present in the main JAR, and no separate module has been created yet. The new extension point is currently dormant until an add-on registers. Next package must relocate implementation, data resources and tests, and delete the old direct core calls in a coordinated edit.
 - Main-only gameplay test is still blocked by this pending packaging migration; do not misreport the project as already split.
+
+
+## Migration phase B committed — independent addon source/resource modules
+
+- **Commit `d3ebfabf`:** created `:pam-hc2` and `:farmers-delight` Gradle modules with separate `@Mod` entrypoints and required dependencies on `cropgenetics` plus their original mod.
+- Moved **81** Java source/test/datapack resources in one atomic Git tree update, preserving resource paths. All Pam plants/mutations/settings and Farmer rich soils are no longer embedded in the **main** source tree.
+- Core `CropDataReloadListener` no longer parses Pam settings or directly calls either specific adapter. Add-on entrypoints register via `CropDiscoveryAddonRegistry`; independent source packages avoid JVM split-package problems.
+- **Static tree verification:** zero old Pam/Farmer adapter/resource files remain under `neoforge-port/src/main/`. All module sources and metadata exist.
+- **Do not claim builds/tests passed**. Gradle multi-project integration, runtime addon activation and resource overlays remain unverified, by user request.
+- **Remaining cleanup:** optional JEI guide, localized name fallbacks, report summaries and advisory rice warnings still contain display-only references to Pam/Farmer in the core; no external class dependency. Relocate these when reviewing addon-facing UI to complete the logical boundary.
+- Full restart-safe handoff and deferred test commands: [`docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md`](ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md).
