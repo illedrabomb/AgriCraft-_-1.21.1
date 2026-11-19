@@ -10,18 +10,15 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Shared harvest-drop policy, both for right-click harvesting and block breaking.
  * AgriCraft's gain formula: (gain + 3) / 3 product rolls.
  */
 public final class CropHarvest {
-    // A datapack can request 64 products x 4096 items x several gain rolls.
-    // Bound item entities produced by one right-click or block break, even
-    // when an otherwise valid datapack is accidentally configured too high.
-    static final int MAX_DROP_STACKS = 256;
-
     private CropHarvest() {}
 
     public static List<ItemStack> products(PlantDefinition plant, Genome genome, RandomSource random) {
@@ -39,7 +36,10 @@ public final class CropHarvest {
 
         int gain = genome.gain();
         int trials = (gain + 3) / 3;
-        List<ItemStack> drops = new ArrayList<>();
+        // Merge all gain rolls by actual item identity. Each distinct fruit
+        // or produce item may yield at most ONE normal inventory stack per
+        // harvest; multiple datapack product entries cannot bypass the limit.
+        Map<Item, Integer> counts = new LinkedHashMap<>();
 
         for (int trial = 0; trial < trials; trial++) {
             for (PlantDefinition.HarvestProduct product : plant.harvestProducts()) {
@@ -53,16 +53,14 @@ public final class CropHarvest {
                 int count = product.minimum();
                 int spread = product.maximum() - product.minimum();
                 if (spread > 0) count += random.nextInt(spread + 1);
-                while (count > 0) {
-                    // A single harvest must not flood the world with
-                    // thousands of item entities from a malformed data pack.
-                    if (drops.size() >= MAX_DROP_STACKS) return drops;
-                    int part = Math.min(count, Math.max(1, item.getDefaultMaxStackSize()));
-                    drops.add(new ItemStack(item, part));
-                    count -= part;
-                }
+                if (count <= 0) continue;
+                int stackLimit = Math.max(1, item.getDefaultMaxStackSize());
+                counts.merge(item, Math.min(count, stackLimit),
+                        (previous, added) -> Math.min(stackLimit, previous + added));
             }
         }
+        List<ItemStack> drops = new ArrayList<>(counts.size());
+        counts.forEach((item, count) -> drops.add(new ItemStack(item, count)));
         return drops;
     }
 }
