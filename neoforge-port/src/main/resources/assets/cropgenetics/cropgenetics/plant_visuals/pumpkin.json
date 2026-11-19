@@ -9,9 +9,6 @@
     "minecraft:block/pumpkin_stem",
     "minecraft:block/pumpkin_stem",
     "minecraft:block/pumpkin_stem",
-    [
-      "minecraft:block/pumpkin_stem",
-      "minecraft:block/pumpkin_side"
-    ]
+    "minecraft:block/pumpkin_stem"
   ]
 }
