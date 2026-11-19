@@ -179,3 +179,20 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - **Explizit nicht geändert:** die Wiederherstellung bereits gespeicherter `ORIGINAL_SEED`-IDs ohne aktiven Adapter. Diese ist nötig, um ursprüngliche Seeds bei vorübergehend deaktivierter Mod nicht vollständig unrettbar zu machen; ein allgemeiner Schutz gegen absichtlich gefälschte Data Components wäre ein separates Sicherheitskonzept.
 - **Testfälle beim gemeinsamen Build:** Weizen-Genom + Weizen-Seed = gültige Herkunft; Weizen-Genom + Karotten-Seed = keine Karotten-Herkunft; fremder oder mehrdeutiger Mod-Seed = keine neue Herkunft; bereits genetischer Source-Seed mit identischem/abweichendem Genome; ursprüngliche Herkunft nach Mod-/Datapack-Entfernung.
 - Noch **nicht** gebaut oder ausgeführt.
+
+
+## Reload-Diagnose und Testabdeckung – 19.11.2026
+
+- `19f3cf8c`: `CropReloadReport.farmersDelightStats()` zählt Farmer's-Delight-Pilotarten getrennt von Pam's: gefundene Arten, Namens-/Claim-Konflikte, fehlende registrierte Items, sonstige Warnungen und Sperrmarker. Herkunft: virtuelle Einträge `cropgenetics:auto_farmers_delight/...` aus dem letzten Server-Datapack-Reload.
+- Zusätzlich implementiert in `command/CropDataCommand.java`: `/cropgenetics data farmersdelight` (Berechtigungsstufe 2), inklusive Status und Geltungsbereich **Kohl, Tomate und Zwiebel**; Reis ausdrücklich noch nicht unterstützt. `/cropgenetics data summary` nennt Farmer's-Delight- und Pam's-Anzahlen gesondert. Fehlerdetails: `/cropgenetics data errors [page]`; vollständig `/cropgenetics data all [page]`.
+- `d3a0dec2`: `FarmersDelightDiagnosticsTest` prüft getrennte Zählung gegenüber Pam's, Konflikte, fehlende Items, die Discovery-Sperre und leere Resultate ohne optionale Mod.
+- `33557f62`: Sperrmarker wird nicht zusätzlich als allgemeine Warnung gezählt; `suspended` meldet ihn separat.
+- **Wichtig: Die Tests sind als Quellcode angelegt, aber noch nicht ausgeführt.** Auch neue Befehle, tatsächliche optional-mod-Registrierungen, Data-Reload, JEI/Journal, Pflanzenwachstum und Spielerinteraktionen sind noch nicht in Minecraft bestätigt. Die letzte erfolgreich gemeldete Benutzer-Buildphase datiert vor diesem großen Integrationspaket.
+- Beim gemeinsamen Test nach Abschluss sämtlicher Änderungen: einmal ohne optionale Mods starten (keine Crashs, beide Adapter-Zähler null), danach mit Pam's und Farmer's Delight separat und gemeinsam; Reload-Berichte auf Plausibilität prüfen; gegebenenfalls die tatsächlichen Items der 1.21.1-JARs nachführen. Keine Kompatibilitätsfreigabe allein aufgrund eines JUnit-Erfolgs.
+
+### Unveränderte nächste Baustellen
+
+1. Reale Pam's-1.21.1-JAR-/Registry-Verifikation (`seeditem`/`item`-Muster) und Farmer's-Delight-1.21.1-Registryabgleich.
+2. Reis-Spezialpflanzung von Farmer's Delight (nicht über generische Farmland-Regeln vortäuschen).
+3. Sonderernte, Drops, Wachstum, Duplikationsschutz und vollständige Original-Stack-Komponenten für Seeds mit fremden Data-Component-Patches.
+4. Gemeinsames Build-/JUnit-/Minecraft-Regressionstestfenster **erst nach dem vereinbarten gesamten Änderungspaket**; externe Tester-Datei für den Minecraft Mod – Test Tracker danach aktualisieren.
