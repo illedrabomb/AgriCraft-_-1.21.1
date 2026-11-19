@@ -237,3 +237,12 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `plant(Genome)` ohne Itemquelle bleibt für interne/gesonderte Aufrufer bestehen, allerdings ohne behauptete ursprüngliche Item-Herkunft. Die normale UI-Interaktion war bereits strenger; die untere Ebene zieht diese Regeln nun nach.
 - Beabsichtigtes Sicherheitsverhalten: Unbekannte gepatchte Mod-Samen werden **nicht** heimlich konvertiert. Eine spätere echte verlustfreie Drittmod-Komponentenübernahme benötigt einen gezielten Adapter und entsprechende Tests.
 - **Status:** Codeänderung auf Integrationsbranch, noch kein Gradle/JUnit/Minecraft-Test. Beim Sammeltest zusätzlich prüfen: normaler Vanilla-/Mod-Seed; analysierter Seed mit gültigem Genom; manipulierter/falscher Genome-Component-Stack; Falsch-Spezies aus fremdem Adapter; Save/Reload der `ORIGINAL_SEED`-Zuordnung.
+
+
+## Erntemengen-Stabilität – 19.11.2026
+
+- `5ab6b920`: `CropHarvest.products` begrenzt die erzeugten **Item-Stapel pro Ernte auf 256**. Bei gültigen, aber übergroßen Datapack-Erntedefinitionen (bis 64 Produkttypen à bis 4096 Items, wiederholt durch hohen Gain) konnte ein einzelner Rechtsklick/Blockabbau sonst extrem viele einzelne Item-Entities auslösen. Normale Erntemengen bleiben unverändert. Extremfälle werden an der Grenze abgeschnitten.
+- Beim Aufteilen eines Item-Produkts wird eine nichtpositive, fehlerhafte Default-Max-Stackgröße defensiv auf 1 normalisiert, damit die Schleife nicht endlos läuft.
+- `9e09f333`: `CropHarvestBoundTest` als JUnit-Regression: normales Gain-1-Ergebnis, hohe Produktausbeute mit 256er-Stapelgrenze, falsche Pflanzenart ohne Drops. **Angelegt, noch nicht ausgeführt.**
+- Die Grenze gilt sowohl für Rechtsklick-Ernte als auch beim Blockabbau, da beide denselben Produktgenerator verwenden. Erzeugte genetische **Saatgut-Drops** bei Blockabbau sind davon getrennt und werden nicht begrenzt oder gelöscht.
+- **Keine Verhaltensparität mit fremden Mods behaupten:** Farmer's-Delight-Tomatenreben, Zwiebel-Eigenvermehrung, Reis-Panicles/Knife-Drops und Pam's-Sonderernten müssen im späteren Gameplay-Test einzeln bestätigt werden. Beim nächsten Sammeltest insbesondere nach Rechtsklick und Blockabbau prüfen, dass Genom und `ORIGINAL_SEED` des ausgerissenen genetischen Samens identisch bleiben.
