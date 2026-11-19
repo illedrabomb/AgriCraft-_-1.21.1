@@ -333,9 +333,13 @@ public final class CropDataReloadListener extends
                 farmersDelight.missingItems(), farmersDelight.otherWarnings(),
                 farmersDelight.suspended());
         for (CropReloadReport.Entry problem : report.entries()) {
-            if (problem.status() != CropReloadReport.Status.LOADED
-                    && problem.status() != CropReloadReport.Status.AUTO_DISCOVERED) {
+            if (CropReloadLogSeverity.shouldWarn(problem.status())) {
                 LOG.warn("Crop data {} {} [{}]: {}",
+                        problem.kind(), problem.source(), problem.status(), problem.detail());
+            } else if (CropReloadLogSeverity.shouldLogInfo(problem.status())) {
+                // Disabled datapack entries and absent optional mods are
+                // expected and must not look like a broken modpack.
+                LOG.info("Crop data {} {} [{}]: {}",
                         problem.kind(), problem.source(), problem.status(), problem.detail());
             }
         }
