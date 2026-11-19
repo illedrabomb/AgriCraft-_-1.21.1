@@ -114,3 +114,11 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `c7583ff6`: neuer JUnit-Test `AgriPlantsRegistrySeedMappingTest` prüft beide Konfliktfälle: doppelt beanspruchter Seed wird für **beide** Pflanzen gesperrt; disjunkte Seed-IDs bleiben zuordenbar.
 - **Nicht getestet:** `test`, `build`, Data-Reload mit echter Farmer's-/Pam's-JAR, Menü-/Welt-/Multiplayerfunktionen. Die Tests sind als Quellcode vorhanden; ihre Ausführung ist ein Pflichtpunkt des nächsten Gesamt-Builds.
 - **Weitere Tests offen:** tatsächliche Farmer's-Registrierungswerte, Vorrang deaktivierter Datapack-Claims im ReloadListener, fehlende optional installierte Mods und Reis-Spezialadapter.
+
+## Farmer's Delight Zwiebel-Pilot – 19.11.2026
+
+- `8c9e0d9`: `FarmersDelightCropDiscovery` unterstützt jetzt neben Kohl und Tomate **Zwiebeln** mit demselben Item `farmersdelight:onion` als Saatgut und Ernteprodukt. Die generische „zwei verschiedene Items“-Erkennung bleibt bewusst streng; Zwiebel ist eine ausdrücklich zugelassene Ausnahme.
+- Bei explizit beanspruchter Pflanzen-ID, Seed-ID oder Produkt-ID unterbleibt die Ergänzung. Die Item-ID muss im tatsächlichen Minecraft-Registry existieren; fremde Mods sind keine Pflichtabhängigkeit.
+- `07e01979`: reine JUnit-Fälle prüfen, dass ein Zwiebel-Fallback nur ohne konkurrierende explizite Ansprüche erlaubt ist.
+- **Risiko:** Dies ist eine **generische** Pflanze auf Farmland, nicht zwingend identisch zur vollständigen originalen Farmer's-Delight-Wachstums-/Erntelogik. Build, Weltstart, Rendering, tatsächliche Item-Registry und Spielverhalten noch **NICHT getestet**.
+- **Reis bleibt bewusst offen:** benötigt Wasser-/zweiteiliges Pflanzverhalten und besondere Ernteprodukte; nicht auf gewöhnlichen Farmland-Crop reduzieren.
