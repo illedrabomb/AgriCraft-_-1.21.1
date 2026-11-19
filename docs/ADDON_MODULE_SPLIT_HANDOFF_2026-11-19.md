@@ -91,3 +91,12 @@ The current plan lives in `docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`. Keep all c
 - Refactored core `CropOptionalDiscoveryStatsTest` to use an unrelated synthetic `auto_example/` prefix, and adjusted Farmer addon diagnostics tests. Explicit override DISABLED remains informational; config errors and suspension markers are separately tracked.
 - Static Git source inspection confirms the five edited files no longer reference the removed addon-specific report APIs. **No Gradle, JUnit or Minecraft test was executed.**
 - The remaining **intentional** core-specific compatibility check is `SpecialCropCompatibilityWarnings` for Farmer native rice: it warns users who explicitly force a generic rice datapack that native water/panicle/knife parity is not implemented. Removing that without a generic replacement would suppress a useful warning; revisit only when a safe data-driven warning mechanism is ready.
+
+
+## Statische Buildskript-Korrektur – 19.11.2026
+
+- `797d3efe`: Pam-Add-on-Metadaten verwenden nun einen korrekt quotierten Groovy-String für `Pam's HarvestCraft 2`.
+- `2ee24a86`: Farmer's-Delight-Add-on-Metadaten verwenden nun einen korrekt quotierten Groovy-String für `Farmer's Delight`.
+- Ursache: unescaped Apostrophe innerhalb eines Groovy-Strings mit einfachen Anführungszeichen hätten die Konfiguration der Add-on-Teilprojekte bereits beim Einlesen der `build.gradle`-Dateien abbrechen lassen.
+- Dies ist ein **statisch bestätigter Syntaxfehler**, kein Ergebnis einer Gradle-Ausführung. Keine Tests oder Builds gestartet. Beim freigegebenen Gesamttest weiterhin zuerst Hauptmod `:test :build`, danach Add-on-Builds gesondert.
+- Die alte Spieltest-Beobachtung zu normalen Karottensamen beim Crossbreeding bleibt **ungeklärt**. Codepfad für unveränderte registrierte Samen (`Genome.basic`), ausgereifte Eltern und Kreuzungswahrscheinlichkeit wurde angesehen, ohne daraus vorschnell eine Gameplay-Änderung abzuleiten.
