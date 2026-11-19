@@ -64,3 +64,12 @@ Add-on build/launch verification is **not** a prerequisite to the core-only manu
 - Das Seed-Chest-Rezept nutzt bereits acht Crop Sticks um eine normale Truhe und enthält keine Planken. Es wurde deshalb nicht geändert.
 - Statische Überprüfung von `CropItems`, `CropSticksBlockEntity`, `SeedAnalyzerBlockEntity`, `SeedChestBlockEntity` und `CropHarvest`: individuelle Genetik wird über `GENOME` in den genetischen Saatgutstapeln/Blockdaten gehalten; genetische Seeds sind auf Stackgröße 1 begrenzt; die Ernte bündelt Produkte auf höchstens einen normalen Itemstack pro Produkttyp. **Diese Feststellungen sind Quelltextbefunde, kein Gameplay-Test.**
 - Keine Gradle-, JUnit- oder Minecraft-Ausführung; als spätere Prüfpunkte Analyzer-Rezeptanzeige in JEI und tatsächliches Crafting aufnehmen.
+
+
+### Nachtrag: Rezeptverträge, Analyzer/Chest/Journal-Integration (19.11.2026)
+
+- `679e3408`: Neuer JUnit-Ressourcentest `CropCraftingRecipeContractsTest`: sichert dauerhaft die tatsächlichen Rezeptdateien (nicht duplizierte Hardcoded-Rezepte), einschließlich sechs Crop Sticks als einzigen Analyzer-Zutaten, acht Crop Sticks + eine Truhe für die Seed Chest, sechs Crop-Sticks-Ausgabe aus vier Vanilla-Sticks sowie Journal aus Buch + Crop Stick.
+- Quelltext-Audit: `SeedAnalyzerBlock` verbindet seine neun Inventarslots mit den 27 Slots der **ersten direkt horizontal angrenzenden** `SeedChestBlockEntity` zu einem 36-Slot-`CompoundContainer`; ohne Kiste bleibt ein 9-Slot-Menü. Die Seed Chest kann eigenständig geöffnet werden. Dies erfasst bewusst nur *eine* Nachbarkiste, keinen Verbund mehrerer Kisten.
+- Server-Seite `SeedAnalyzerBlockEntity.onStored`: Der Seed wird bei Aufnahme analysiert, das konkrete `Genome` bleibt unangetastet; ein eingelegtes Journal erhält die entdeckte Spezies und bekannten Mutationstripel, sofern deren Arten vollständig erforscht sind. Der Journal-Datenbestand reist mit dem Itemstack statt globaler Spieler-Speicherung.
+- Inventar-/Droppfade statisch gelesen: Seed Analyzer und Seed Chest droppen ihre Inhalte bei Blockabbau. Anwenden von `setItem` kopiert den Inputstack, bevor die Stackgrenze durchgesetzt wird. Menu-/Block-Interaktion und Persistenz müssen beim späteren Spieltest geprüft werden.
+- **Kein** Gradle/JUnit/Minecraft ausgeführt. Den neuen Ressourcentest erst mit der genehmigten Core-Testphase starten. Bekannte offene Reproduktion: normales Karotten-Crossbreeding und Analyser-Journal-Netzwerkverhalten.
