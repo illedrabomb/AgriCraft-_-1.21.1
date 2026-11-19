@@ -9,9 +9,6 @@
     "minecraft:block/melon_stem",
     "minecraft:block/melon_stem",
     "minecraft:block/melon_stem",
-    [
-      "minecraft:block/melon_stem",
-      "minecraft:block/melon_side"
-    ]
+    "minecraft:block/melon_stem"
   ]
 }
