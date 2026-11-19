@@ -122,3 +122,23 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `07e01979`: reine JUnit-Fälle prüfen, dass ein Zwiebel-Fallback nur ohne konkurrierende explizite Ansprüche erlaubt ist.
 - **Risiko:** Dies ist eine **generische** Pflanze auf Farmland, nicht zwingend identisch zur vollständigen originalen Farmer's-Delight-Wachstums-/Erntelogik. Build, Weltstart, Rendering, tatsächliche Item-Registry und Spielverhalten noch **NICHT getestet**.
 - **Reis bleibt bewusst offen:** benötigt Wasser-/zweiteiliges Pflanzverhalten und besondere Ernteprodukte; nicht auf gewöhnlichen Farmland-Crop reduzieren.
+
+## Pam's 1.21.1 Namenskonvention und Reis-Sonderfall – 19.11.2026
+
+**Verifizierbare Primärquellen:**
+- Pam's offizielles Quellprojekt, grass loot: https://github.com/MatrexsVigil/phc2crops/blob/master/src/main/resources/data/pamhc2crops/loot_tables/blocks/grass_drops.json (enthält z.B. `pamhc2crops:mustardseedsseeditem`).
+- Pam's offizielles Garden-Loot: https://github.com/MatrexsVigil/phc2crops/blob/master/src/main/resources/data/pamhc2crops/loot_tables/blocks/windygarden.json (`pamhc2crops:amaranthitem`, `pamhc2crops:mustardseedsitem`).
+- Farmer's Delight originaler 1.21-Quellstand, Loot-Definitionen: https://github.com/vectorwing/FarmersDelight/blob/1.21/src/main/java/vectorwing/farmersdelight/data/loot/FDBlockLoot.java . Ernte von `RICE_CROP` unterscheidet sich von `RICE_CROP_PANICLES`; reife Rispen liefern abhängig von Messer/Alter Reis oder Rispen. Onion verwendet eine eigene seedless crop loot definition.
+
+**Quellcode und Regressionstests:**
+- `3fe1b6e2`: bestehende Pam-Suffixerkennung in `RegisteredSeedCropDiscovery.inferredCropName` als reine, testbare Funktion isoliert. Verhalten unverändert; fremde Namespaces bleiben ausgeschlossen.
+- `b35431cd`: `RegisteredSeedCropDiscoveryNamingTest`: `amaranthseeditem` → `amaranth`, `mustardseedsseeditem` → `mustardseeds`, fremde Tree-Namespace und Produce-Items werden abgewiesen. Noch nicht ausgeführt.
+
+**Reis: konkrete nächste Architekturentscheidung:**
+1. `HarvestMode` unterstützt bislang `STANDARD` und `GOURD`; ein Standard-Farmland-Adapter kann Reis nicht originalgetreu darstellen.
+2. Quellversion und tatsächliche Block-/Item-Registries prüfen: unterer wassergepflanzter Stängel, obere Reisrispen mit separatem Reifegrad und Drops, Messer-/Normalernte, Wiederwuchs.
+3. Keine automatisch erfundene `farmersdelight:rice_plant`-Definition und keinen Fall-back auf Farmland registrieren.
+4. Prüfen, ob ein eigener Rice-Harvest-Adapter mit zweitem Blockteil innerhalb unserer Crop-Sticks möglich ist, ohne fremde Farmer's-Delight-Blockklassen zur Pflichtabhängigkeit zu machen. Erst dann implementieren und separat testen.
+5. Gemeinsam testen: Anpflanzen mit/ohne Wasser, volle Reife, Messerernte, normale Ernte, wiederholte Ernten, Save/Reload, dedizierter Server, entfernte Farmer's-Delight-Mod.
+
+**Status:** Die offiziellen Quellen stützen die generelle Namenskonvention, ersetzen aber nicht den zwingenden Abgleich gegen die tatsächliche NeoForge-1.21.1-Pam-JAR. Die Tests liegen im Git, wurden wegen der vereinbarten Testreihenfolge noch nicht ausgeführt.
