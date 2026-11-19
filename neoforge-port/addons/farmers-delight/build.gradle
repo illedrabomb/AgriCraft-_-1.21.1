@@ -32,7 +32,7 @@ tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
 def addonMetadata = tasks.register('generateModMetadata', ProcessResources) {
     def values = [
         mod_id: 'cropgenetics_farmersdelight',
-        mod_name: 'Crop Genetics - Farmer's Delight',
+        mod_name: "Crop Genetics - Farmer's Delight",
         mod_version: rootProject.mod_version,
         mod_license: rootProject.mod_license,
         neo_version: rootProject.neo_version,
