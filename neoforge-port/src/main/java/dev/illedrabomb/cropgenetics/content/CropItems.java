@@ -60,6 +60,15 @@ public final class CropItems {
         if (sourceSeed == null || sourceSeed.isEmpty()) return genetic;
 
         Genome sourceGenome = sourceSeed.get(CropComponents.GENOME.get());
+        // External data components on a still-ordinary item may represent
+        // another mod's unique seed properties. A genetic seed cannot encode
+        // those arbitrary components, so reject the conversion explicitly.
+        // Our already-analyzed ordinary seeds carry a real GENOME and remain
+        // eligible for the existing same-genome path below.
+        if (!sourceSeed.is(GENETIC_SEED.get()) && sourceGenome == null
+                && !sourceSeed.getComponentsPatch().isEmpty()) {
+            return ItemStack.EMPTY;
+        }
         // A source already carrying a DIFFERENT species or genotype cannot
         // lend its original item ID or analysis flag to this new seed.
         // Otherwise a mutation/cross could be wrongly recoverable as its
