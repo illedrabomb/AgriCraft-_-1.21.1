@@ -98,7 +98,7 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
         if (slot == 1) return stack.is(CropItems.SEED_JOURNAL.get());
         return slot == 0 && !stack.isEmpty()
                 && (level == null || level.isClientSide
-                        || CropItems.hasGenome(stack)
+                        || CropItems.isGeneticSeedStack(stack)
                         || CropGeneticsSeedRecognition.isRegisteredSeed(stack));
     }
     @Override protected void onStored(int slot, ItemStack stack) {
