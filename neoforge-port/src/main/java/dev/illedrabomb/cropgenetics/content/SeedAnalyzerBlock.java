@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics.content;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.CompoundContainer;
@@ -75,8 +76,15 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
             return ItemInteractionResult.SUCCESS;
         }
 
+        // The client has no datapack crop registry. Analyzer.canPlaceItem
+        // intentionally allows broad local menu placement prediction, but
+        // that must not swallow a normal right-click with an unrelated item.
+        // Otherwise the client reports SUCCESS although the server opens the
+        // inventory instead of inserting anything.
+        boolean insertable = level.isClientSide
+                ? canPredictDirectSeed(held) : analyzer.canPlaceItem(0, held);
         if (!player.isShiftKeyDown() && analyzer.getItem(0).isEmpty()
-                && analyzer.canPlaceItem(0, held)) {
+                && insertable) {
             if (!level.isClientSide) {
                 analyzer.setItem(0, held.copyWithCount(1));
                 if (!player.getAbilities().instabuild) held.shrink(1);
@@ -85,6 +93,21 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
         }
         // Let vanilla open the analyzer when the held item is not a seed.
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    /**
+     * Narrow client-side direct-click prediction. Datapack-only seed items
+     * still work on the authoritative server, but an unknown item must not
+     * cause a false positive that hides the analyzer's inventory interaction.
+     */
+    private static boolean canPredictDirectSeed(ItemStack held) {
+        if (held.isEmpty()) return false;
+        if (held.is(CropItems.GENETIC_SEED.get())) return CropItems.hasGenome(held);
+        if (!held.getComponentsPatch().isEmpty()) return false;
+        String itemId = BuiltInRegistries.ITEM.getKey(held.getItem()).toString();
+        return SeedSpeciesCatalog.DEFAULT_SPECIES.stream()
+                .anyMatch(species -> itemId.equals(
+                        SeedSpeciesCatalog.vanillaSeedForSpecies(species)));
     }
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
