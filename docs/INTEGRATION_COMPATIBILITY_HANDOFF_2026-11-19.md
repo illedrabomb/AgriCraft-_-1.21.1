@@ -425,3 +425,11 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - Kein neuer Crop-Sticks-Adapter und keine ungeprüfte Food-Item-Freigabe. Das Skript öffnet explizit übergebene lokale JARs **nur lesend**, gibt SHA-256 aus und verändert weder Mods noch Spielstände.
 - Nach Abschluss der Codepakete auf Windows mit den tatsächlich installierten, versionsgenauen 1.21.1-JAR-Pfaden ausführen; Ausgabe als Text für den Handoff und die Test-Tracker-Fälle aufbewahren. Anschließend im Spiel mit `/cropgenetics data pam` Registry-Support und Originalmechanik vergleichen.
 - **PowerShell-Skript und übrige Tests weiterhin nicht ausgeführt.**
+
+
+## Korrigierte optionale Mod-Diagnosezahlen – 19.11.2026
+
+- **Befund nach den letzten Diagnose-Ergänzungen:** `CropReloadReport.pamDiscoveryStats()` und `farmersDelightStats()` zählten neue `DISABLED`-Einträge für *gewollte* explizite Override-Pflanzen noch im Restposten „other warnings“. Sie erschienen bereits als INFO im Log, blähten aber die zusammengefasste Warnungszahl auf.
+- `d6edbf8a`: `DISABLED` zählt in diesen beiden optionalen Auto-Discovery-Statistiken **nicht mehr als Warnung**. `CONFLICT`, `AUTO_MISSING_ITEM`, `WARNING` und andere tatsächliche Problemzustände behalten ihre bisherigen jeweiligen Zähler. Der vollständige `CropReloadReport.entries()` und `count(Status.DISABLED)` behalten die übersprungenen Fälle weiterhin – es geht **keine Diagnose verloren**.
+- `f548c9bb`: Drei JUnit-Fälle prüfen Pam's- und Farmer's-Delight-Zusammenfassung getrennt sowie Sichtbarkeit von absichtlich übersprungenen Auto-Kandidaten im Rohreport. **Nicht ausgeführt.**
+- Späterer Test: `/cropgenetics data pam` / `farmersdelight` mit expliziten Datapack-Overrides und tatsächlich fehlerhaften Kandidaten vergleichen. Gewollte Overrides müssen im Detailreport als `DISABLED` sichtbar bleiben, ohne „other warnings“ zu erhöhen; ein echtes fehlendes Item muss als `AUTO_MISSING_ITEM` zählen. Keine Builds oder Minecraft-Läufe vor Sammeltest.
