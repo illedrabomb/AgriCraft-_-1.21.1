@@ -55,3 +55,8 @@ The current plan lives in `docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`. Keep all c
 - `dd72644b` / `c82d0c43`: Pam and Farmer addon entrypoints register their own candidates. Pam keeps its bounded reviewed `seeditem` → `item` naming convention, Farmer only cabbage/tomato/onion. Native Farmer rice remains excluded.
 - `3085f637`: generic JEI addon registration tests added; old hard-coded `OptionalSeedGuidePolicy` and its mixed test removed after equivalent generic + addon-policy coverage. Tests still **not run**.
 - No-mod / source-mod-without-addon scenarios now must not display addon-only planting support. Confirm this in deferred game test; the build remains unverified.
+
+
+## Static follow-up correction
+
+- `0c141777`: the Gradle settings file was rechecked and its original `pluginManagement` / Foojay plugin / `rootProject.name` header restored alongside the new addon `include` declarations. This was caught and fixed by read-only Git inspection before any user-run build. **Compilation remains unverified.**
