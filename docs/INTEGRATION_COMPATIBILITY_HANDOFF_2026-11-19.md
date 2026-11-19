@@ -463,3 +463,10 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - `13eff874`: `FarmersDelightCropDiscoveryTest` auf die **drei** freigegebenen Paare aktualisiert. Tests für explizite Zwiebel-Selbstpflanzung, verweigerte Reis-/beliebige Suffix-Inferenz, falschen Namespace und Cross-Crop-Rollenkollisionen. Der frühere Test, der gleiche Seed-/Produce-IDs generell verbot, war nach dem bewusst eingeführten Selbstpflanzer-Feature veraltet und wurde entsprechend ersetzt.
 - **Wichtig:** Kein Farmer's-Delight-Reisadapter hinzugefügt; Reis ist weiter Spezialfall. Keine Garantie für vollständige Farmer's-Delight-Tomaten-/Kohl-Ernteparität ohne spätere Gameplay-Abnahme. Keine Gradle-, JUnit- oder Minecraft-Ausführung.
 - Sammeltest: Zwiebel normal einpflanzen und ausreißen (Herkunft `farmersdelight:onion`), Ernte-Gain und Max-Stacklimit, Zwiebel mit konkurrierendem Datapack-Seedclaim, fehlender Farmer-Mod sowie `/cropgenetics data farmersdelight`-Einträge vor/nach Reload vergleichen. Es muss höchstens eine `farmersdelight:onion_plant` aktiv sein.
+
+
+## 2026-11-19 — binding priority change and add-on extraction decision
+
+**User-approved direction:** move already-developed Pam's HarvestCraft 2 and Farmer's Delight code/data out of the core into independent add-on JARs; next manual tests are **main mod only**. Main AgriCraft/Crop Genetics work comes first, MineColonies add-on next, Farmer's Delight features much later; Pam's features likewise parked. Preserve the core's generic third-party datapack support. Do not run Gradle/JUnit/gameplay before user requests combined test.
+
+The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`](ADDON_EXTRACTION_PLAN_2026-11-19.md). Current state as of this note: **plan committed, extraction not yet implemented; adapters and bundled Pam JSON remain in core.** Never imply otherwise in future handoffs. Phase A (generic addon registration boundary) is the next source-edit batch; Phase B (Gradle modules and atomic relocation) must follow before main-only testing.
