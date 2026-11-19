@@ -5,9 +5,9 @@ Status: **approved architecture; migration in progress, NOT yet complete**. Do n
 ## User decisions (binding)
 
 1. **Priority 1: AgriCraft / Crop Genetics main mod** — finish all vanilla/core features, fix core bugs and test **only the main mod** in the next coordinated gameplay round.
-2. **Priority 2: MineColonies integration** — separate add-on, after the main mod.
-3. **Farmer's Delight add-on: much later** — preserve already written adapter code and tests, no new Farmer-specific features now (especially not the unimplemented native rice adapter).
-4. **Pam's HarvestCraft 2 add-on: parked** — preserve already written adapter code and datapacks without keeping it in the standalone core JAR.
+2. **Priority 2: Pam's HarvestCraft 2 add-on** — separate add-on; important and slightly ahead of MineColonies after the main mod. Preserve and continue the reviewed code/datapacks after extraction.
+3. **Priority 3: MineColonies integration** — important separate add-on, directly after Pam's.
+4. **Priority 4: Farmer's Delight add-on: very low** — preserve written adapter code/tests through extraction but defer all Farmer-specific feature work (especially native rice) to the distant future.
 5. Retain generic, user-authored datapack plant/mutation loading in the main mod for any third-party mod. Do not auto-recognize other mods in the main mod.
 6. One repository with independent Gradle modules/JAR files initially, no mandatory extra repositories.
 7. Do not initiate Gradle/JUnit/Minecraft gameplay runs before the user requests the combined main-mod test. Static review is allowed.
@@ -73,7 +73,7 @@ Gradle project naming/paths can vary if technically necessary; behavior and isol
 
 **Phase C:** audit source references and resource ownership; inspect main-only Gradle task graph without starting tests if possible; create a focused manual main-only test matrix and handoff.
 
-**Phase D:** focus exclusively on missing core AgriCraft features/bugs. Move to MineColonies after core acceptance. Farmer's Delight and Pam's enhancements are deferred far later.
+**Phase D:** focus exclusively on missing core AgriCraft features/bugs. After core acceptance prioritize Pam's **slightly ahead** of MineColonies; both are important. Farmer's Delight enhancements are deferred to the distant future.
 
 ## Constraints and cautions
 
