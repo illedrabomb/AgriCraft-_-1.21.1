@@ -20,8 +20,8 @@ public final class SeedAnalyzerRenderer implements BlockEntityRenderer<SeedAnaly
     @Override
     public void render(SeedAnalyzerBlockEntity analyzer, float partialTick, PoseStack poses,
                        MultiBufferSource buffers, int packedLight, int packedOverlay) {
-        ItemStack seed = analyzer.getItem(0);
-        ItemStack journal = analyzer.getItem(1);
+        ItemStack seed = analyzer.displaySeed();
+        ItemStack journal = analyzer.displayJournal();
         if (seed.isEmpty() && journal.isEmpty()) return;
 
         if (!seed.isEmpty()) {
