@@ -65,8 +65,8 @@ public final class CropItems {
         // those arbitrary components, so reject the conversion explicitly.
         // Our already-analyzed ordinary seeds carry a real GENOME and remain
         // eligible for the existing same-genome path below.
-        if (!sourceSeed.is(GENETIC_SEED.get()) && sourceGenome == null
-                && !sourceSeed.getComponentsPatch().isEmpty()) {
+        if (!CropSeedSourceSafety.canConvertWithoutExternalDataLoss(
+                sourceSeed, sourceGenome, GENETIC_SEED.get())) {
             return ItemStack.EMPTY;
         }
         // A source already carrying a DIFFERENT species or genotype cannot
