@@ -80,4 +80,14 @@ The current plan lives in `docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`. Keep all c
 - `7f6d7ae1` / `2d619211`: Pam and Farmer display-name policies moved into their own addon packages. Pam retains plural names like `mustardseeds`; Farmer allows only cabbage/tomato/onion, not rice.
 - `e6b073ed` / `33a27dc9`: the owning addons register those display mappings on mod initialization; the core does not synthesize an optional crop name when their addon is absent.
 - `86c569bd`, `919e76e5`, `9a78a8a9`: core-only and addon-specific regression tests added/updated. **No tests run**.
-- Remaining optional-specific helpers in core are read-only report counters (used by add-on diagnostics) and the explicit Farmer rice compatibility warning for user-authored generic datapacks. Both can be generalized later; neither auto-registers external plants.
+- Remaining optional-specific helpers in core are generic read-only report aggregation (used by add-on diagnostics) and the explicit Farmer rice compatibility warning for user-authored generic datapacks. Both can be generalized later; neither auto-registers external plants.
+
+
+## Follow-up: generic report statistics, zero Pam/Farmer paths in core report
+
+- **`55674380` (atomic commit, 5 files):** core `CropReloadReport` now provides only a general `AutoDiscoveryStats` record and `autoDiscoveryStats(prefix, configPath)` parser. It no longer contains the old `PamDiscoveryStats`, `farmersDelightStats` or specific `auto_pam` / `auto_farmers_delight` checks.
+- Pam addon `PamDataCommands` supplies `auto_pam/` and config path, and computes the legacy "all mods explicit loaded" count from the immutable report entries. The previous player-visible command labels and counts remain conceptually intact.
+- Farmer addon `FarmersDelightDataCommands` supplies `auto_farmers_delight/` for generic counting, including suspension sentinel.
+- Refactored core `CropOptionalDiscoveryStatsTest` to use an unrelated synthetic `auto_example/` prefix, and adjusted Farmer addon diagnostics tests. Explicit override DISABLED remains informational; config errors and suspension markers are separately tracked.
+- Static Git source inspection confirms the five edited files no longer reference the removed addon-specific report APIs. **No Gradle, JUnit or Minecraft test was executed.**
+- The remaining **intentional** core-specific compatibility check is `SpecialCropCompatibilityWarnings` for Farmer native rice: it warns users who explicitly force a generic rice datapack that native water/panicle/knife parity is not implemented. Removing that without a generic replacement would suppress a useful warning; revisit only when a safe data-driven warning mechanism is ready.
