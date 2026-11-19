@@ -20,7 +20,8 @@ import java.util.List;
 /**
  * Client-only plant mesh. Crop sticks themselves remain ordinary block models.
  * Supports CROSS, PLUS and four-sided HASH plane arrangements for stems and leaves.
- * New gourd fruits render inside their Crop Sticks alongside the mature stem;\n * legacy physical fruits keep their separate world block render path.
+ * New gourd fruits render inside their Crop Sticks alongside the mature stem;
+ * legacy physical fruits keep their separate world block render path.
  */
 public final class CropSticksRenderer implements BlockEntityRenderer<CropSticksBlockEntity> {
     public CropSticksRenderer(BlockEntityRendererProvider.Context context) {}
