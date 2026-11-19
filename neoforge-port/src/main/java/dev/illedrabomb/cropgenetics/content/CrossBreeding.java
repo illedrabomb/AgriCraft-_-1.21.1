@@ -97,7 +97,9 @@ public final class CrossBreeding {
         Genome inherited = BreedingEngine.combine(
                 parents.stream().map(BreedingParent::genome).toList(),
                 first.plantId(), inheritanceRandom, mutationMultiplier);
-        String childId = chooseChildSpecies(first, second, inherited, snapshot, level, position, random);
+        String childId = chooseChildSpecies(
+                parents.stream().map(BreedingParent::genome).toList(),
+                inherited, snapshot, level, position, random);
         PlantDefinition childPlant = plants.get(childId);
         if (childPlant == null) return;
 
@@ -106,13 +108,14 @@ public final class CrossBreeding {
         target.acceptCrossOffspring(offspring, childPlant);
     }
 
-    private static String chooseChildSpecies(Genome first, Genome second, Genome inherited,
+    private static String chooseChildSpecies(List<Genome> parentGenomes, Genome inherited,
                                              AgriPlantsRegistry.Snapshot snapshot,
                                              ServerLevel level, BlockPos target, RandomSource random) {
         // Sort by datapack ID for deterministic iteration regardless of Map ordering.
         List<Map.Entry<String, MutationDefinition>> candidates = snapshot.mutations().entrySet()
                 .stream()
-                .filter(entry -> entry.getValue().matchesParents(first.plantId(), second.plantId()))
+                .filter(entry -> CrossParentPairRules.matchesAnyPair(parentGenomes,
+                        entry.getValue()::matchesParents))
                 .filter(entry -> CropConditions.matchesLocation(level, target,
                         entry.getValue().allowedBiomes(), entry.getValue().blockedBiomes(),
                         entry.getValue().allowedDimensions(), entry.getValue().blockedDimensions()))
@@ -136,19 +139,20 @@ public final class CrossBreeding {
                 return entry.getValue().childPlantId();
             }
         }
-        // With no viable mutation, prefer a parent species that the actual
-        // inherited genome can grow at this destination (soil and lighting).
-        String preferred = random.nextBoolean() ? first.plantId() : second.plantId();
-        String alternate = preferred.equals(first.plantId()) ? second.plantId() : first.plantId();
-        PlantDefinition preferredPlant = snapshot.plants().get(preferred);
-        if (preferredPlant != null
-                && CropConditions.canGrow(level, target, preferredPlant, inherited))
-            return preferred;
-        PlantDefinition otherPlant = snapshot.plants().get(alternate);
-        if (otherPlant != null
-                && CropConditions.canGrow(level, target, otherPlant, inherited))
-            return alternate;
-        return preferred; // caller still rejects unsuitable offspring safely
+        // With no viable mutation, every participating parent species can
+        // be inherited, not merely the first two in a 3-/4-parent cross.
+        // Shuffle once for a fair choice; pick only a species that can grow
+        // at the target under the inherited strength and environment.
+        List<String> possibilities = new ArrayList<>();
+        for (Genome parent : parentGenomes) possibilities.add(parent.plantId());
+        Collections.shuffle(possibilities, new Random(random.nextLong()));
+        for (String species : possibilities) {
+            PlantDefinition candidate = snapshot.plants().get(species);
+            if (candidate != null
+                    && CropConditions.canGrow(level, target, candidate, inherited))
+                return species;
+        }
+        return possibilities.getFirst(); // caller still rejects unsuitable offspring safely
     }
     /** Only mature, planted crop sticks may contribute; an empty gap ends a row. */
     private static Genome eligibleParent(ServerLevel level, BlockPos pos,
