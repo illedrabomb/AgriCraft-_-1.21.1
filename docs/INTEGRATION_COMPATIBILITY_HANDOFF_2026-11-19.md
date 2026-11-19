@@ -502,3 +502,12 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - `a684c6d9`: Hauptmod-Befehl zeigt nur allgemeine Datenstatus-Informationen und registrierte Erweiterungen; statisch überprüft ohne Pam-/Farmer-Literale.
 - `1b84ddec`: neue Unit-Tests für Add-on-Befehlsregistrierung, noch **nicht ausgeführt**.
 - Ausführliche Übergabe: `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md`. Die bisherige Abmachung (keine Gradle-/JUnit-/Gameplay-Tests vor Freigabe) gilt weiterhin.
+
+
+### Nachtrag: Mod-spezifische Artennamen aus dem Kern entfernt
+
+- `c02122a3`, `859ed3ee`: Erweiterungsregister `CropSpeciesDisplayRegistry` hinzugefügt. `CropSpeciesNames` nutzt nur noch registrierte Add-on-Zuordnungen; keinerlei fest kodierte Pam-/Farmer-Namensfälle mehr.
+- `7f6d7ae1`, `2d619211`: Die bisherigen Namensregeln (Pam inkl. `mustardseeds`, Farmer nur Kohl/Tomate/Zwiebel und ausdrücklich nicht Reis) liegen nun in eigenen Add-on-Klassen.
+- `e6b073ed`, `33a27dc9`: Registrierung im jeweiligen Add-on-Entrypoint.
+- `86c569bd`, `919e76e5`, `9a78a8a9`: passende JUnit-Regressionen ergänzt/angepasst; **nicht ausgeführt**.
+- Handoff `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md` fortgeschrieben. Die Hauptmod bleibt durch die Split-Module auf AgriCraft-Kernfunktionen fokussiert. Prioritäten: AgriCraft > Pam's (knapp) > MineColonies >>> Farmer's Delight.
