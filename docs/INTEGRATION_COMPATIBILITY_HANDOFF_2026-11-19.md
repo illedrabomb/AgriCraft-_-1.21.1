@@ -493,3 +493,12 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - `86f50d10`, `cf454d4f`: generisches `CropSeedGuideRegistry` eingeführt; `CropGeneticsJeiPlugin` liest nur noch Kandidaten von tatsächlich registrierten Add-ons. Die bisherige harte `OptionalSeedGuidePolicy` und ihr Test wurden durch den Registry-Mechanismus und dessen neue Tests ersetzt.
 - `dd72644b`, `c82d0c43`: Pam- bzw. Farmer-Add-on registrieren die eigenen JEI-Kandidaten aus ihrem Mod-Entrypoint. Farmer's Reis bleibt ausgeschlossen. Vorhandensein von Seed **und** Produkt wird im Kern weiterhin geprüft.
 - **Keine Tests/Builds ausgeführt.** Details sowie verbleibende rein anzeigeseitige Core-IDs: `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md`.
+
+
+### Nachtrag: Diagnosebefehle nur mit Add-on
+
+- `af5a67ad`: `CropDataCommandExtensions` als generische, sichere Registrierung für zusätzliche `/cropgenetics data ...`-Unterbefehle in der Hauptmod angelegt.
+- `0c5392c7`, `d9bb1d39`, `32626726`, `d47f6bee`: Die Pam- und Farmer-spezifischen Diagnoseausgaben und ihre Befehlsregistrierung leben jetzt in den **separaten Add-on-Modulen**. Sind die Add-ons nicht installiert, wird deren Unterbefehl nicht registriert.
+- `a684c6d9`: Hauptmod-Befehl zeigt nur allgemeine Datenstatus-Informationen und registrierte Erweiterungen; statisch überprüft ohne Pam-/Farmer-Literale.
+- `1b84ddec`: neue Unit-Tests für Add-on-Befehlsregistrierung, noch **nicht ausgeführt**.
+- Ausführliche Übergabe: `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md`. Die bisherige Abmachung (keine Gradle-/JUnit-/Gameplay-Tests vor Freigabe) gilt weiterhin.
