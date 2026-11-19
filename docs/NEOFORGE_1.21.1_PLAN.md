@@ -1,6 +1,6 @@
 # NeoForge 1.21.1 – Projektplan und Herkunft
 
-Stand: 2026-11-15. Status: Planung, noch keine Portierung oder Builds nachgewiesen.
+Stand: 2026-11-19. Historischer Phasenplan; der NeoForge-Port ist im Integrationsbranch bereits weitgehend implementiert. Der letzte gemeldete erfolgreiche lokale Build war vor den jüngsten GitHub-Änderungen; diese sind noch nicht erneut kompiliert oder im Spiel getestet.
 
 ## Herkunft und Lizenz
 Dieses Repository ist ein Fork von [AgriCraft/AgriCraft](https://github.com/AgriCraft/AgriCraft), ursprünglich von InfinityRaider und weiteren Mitwirkenden entwickelt. Die Grundlage ist der Minecraft-1.18.2-Forge-Quellcode (AgriCraft 3.1.6). Ziel ist eine modernisierte, erweiterte Version für Minecraft **1.21.1** und **NeoForge 21.1.265**. Die ursprünglichen Mitwirkenden und die MIT-Lizenz müssen in README, Credits und bei übernommenen Code-/Assetteilen anerkannt werden. Bestehende Copyright- und Lizenzhinweise bleiben erhalten. Eine neue Implementierung darf ihre Herkunft nicht verschleiern.
@@ -28,6 +28,21 @@ Dieses Repository ist ein Fork von [AgriCraft/AgriCraft](https://github.com/Agri
 
 - **Ponder-Integration für animierte Ingame-Tutorials (sehr niedrige Priorität):** Erst nach Fertigstellung und Test des Kernmods und des eigenständigen Seed Journals prüfen. Mögliches spätes Addon/optionale Client-Integration für das Platzieren von Crop Sticks, Kreuzungen, Analyzer und Seed Chest. Der Kernmod muss **ohne Ponder** startbar und vollständig spielbar sein; die JEI-Infoseiten und das Entdeckungsjournal bleiben unabhängig davon nutzbar.
 - Das **Seed Journal selbst** ist dagegen Kernfunktion: wie im Original ein eigenständiges Buch, dessen entdeckte Pflanzenarten beim Analysieren neuer Saaten im Seed Analyzer ergänzt werden. Nicht mit dem optionalen Ponder-Projekt verwechseln.
+
+## Kompatibilitätsarbeitspaket – verbindliche Priorität ab 19.11.2026
+
+Die allgemeine Kompatibilität mit Pflanzen anderer Mods sowie **Pam's HarvestCraft 2: Crops** und **Farmer's Delight** sind eigenständige, ausdrücklich priorisierte Arbeitspakete **vor dem nächsten großen manuellen Test**. Die allgemeine Pflanzenintegration soll wiederverwendbar sein; mod-spezifische Sonderfälle werden als optionale Daten-/Code-Adapter hinzugefügt. Der Hauptmod darf weder Pam's noch Farmer's Delight als Pflichtabhängigkeit verlangen.
+
+Reihenfolge:
+1. Bestehende Seed-Zuordnung, Datenpaket-Definitionen und sichere Umwandlung untersuchen; Mehrdeutigkeiten, getaggte/angepasste ItemStacks und Mod-Sonderverhalten dokumentieren.
+2. Generische Erweiterung nur mit eindeutig validierten Registrierungen und ohne Verlust von Item-Komponenten/Ernteprodukten implementieren.
+3. Pam's HarvestCraft 2: Crops (NeoForge 1.21.1): Nahrungsmittel als Saatgut, Garden-Bush-Quellen, konkrete Registry-IDs und tatsächliche Pflanz-/Erntebedingungen aus der jeweils verwendeten Modversion prüfen. Keine ungesicherten IDs oder pauschalen Zuordnungen.
+4. Farmer's Delight (NeoForge 1.21.1): Kohl, Tomaten, Zwiebeln und insbesondere Reis mit Sonderpflanzung getrennt behandeln.
+5. Jeweils Kompatibilität ohne installierte Fremdmod, mit Fremdmod, auf Server und Client sowie Datenpersistenz und JEI/Journal durchtesten. Erst danach den gemeinsamen Spieltest freigeben.
+
+**Verifiziert:** Pam's HarvestCraft 2: Crops führt einen NeoForge-1.21.1-Build; dessen Autorenbeschreibung nennt 96 Kulturen, die aus Lebensmittel-Items gepflanzt werden können. Farmer's Delight beschreibt vier Ackerfrüchte inklusive besonderer Reisbehandlung. Das bedeutet **noch nicht**, dass unsere Adapter für diese 1.21.1-Versionen bereits implementiert oder getestet sind.
+
+Detailliertes Audit, Quellen, Testfälle und AI-/Chat-Übergabe: [INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md](INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md).
 
 ## Wiederverwendung versus Neubau
 **Primär wiederverwenden oder portieren:** Genetik-/Vererbungsregeln, Kreuzungs- und Mutationslogik, Datendefinitionen, passende Texturen/Modelle, Crop-Stick-Mechaniken, Saatgutkonzepte, ggf. Weltstrukturen und Lootdaten. Jede Komponente wird auf API-/Versionskompatibilität geprüft.
