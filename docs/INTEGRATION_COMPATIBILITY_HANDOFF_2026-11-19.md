@@ -227,3 +227,13 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 2. Nach `/reload`: `/cropgenetics data pam`, `/cropgenetics data farmersdelight`, `/cropgenetics data errors` prüfen; Warnungen mit den tatsächlich registrierten Items vergleichen.
 3. Repräsentative Seeds aller Adapter mit Crop Sticks, Analyzer, Journal, Save/Reload und Ernte durchspielen; gerade bei Zwiebel Selbst-Saatgut und bei namensauffälligem Pam's `mustardseeds`.
 4. Kein anderes Ernteverhalten (speziell Reis oder Tomatenreben) als kompatibel markieren, bevor der Spieltest es bestätigt. **Noch keine Tests ausgeführt.**
+
+
+## Schutz der Samenherkunft beim Einpflanzen – 19.11.2026
+
+- `cd0c91c6`: `CropSticksBlockEntity.plant(Genome, ItemStack)` validiert jetzt den tatsächlichen **Quell-ItemStack**, auch wenn ein zukünftiger Adapter die Methode direkt aufruft und nicht den gewöhnlichen Spieler-Rechtsklick benutzt.
+- Seed mit bereits vorhandenem `GENOME`: Genom muss dem zu pflanzenden Genom **exakt** entsprechen und `CropItems.isGeneticSeedStack` muss die Saat als legitime genetische Saat erkennen. Ein frei erfundenes `GENOME` auf irgendeinem Item genügt nicht.
+- Gewöhnlicher Seed ohne `GENOME`: nur unmodifizierter Stack, keine genetische Seed-Item-Leerhülle, eindeutige registrierte Zuordnung zu genau der gewünschten Pflanzenart; Items mit fremden Data-Component-Patches werden weiterhin nicht stillschweigend verbraucht.
+- `plant(Genome)` ohne Itemquelle bleibt für interne/gesonderte Aufrufer bestehen, allerdings ohne behauptete ursprüngliche Item-Herkunft. Die normale UI-Interaktion war bereits strenger; die untere Ebene zieht diese Regeln nun nach.
+- Beabsichtigtes Sicherheitsverhalten: Unbekannte gepatchte Mod-Samen werden **nicht** heimlich konvertiert. Eine spätere echte verlustfreie Drittmod-Komponentenübernahme benötigt einen gezielten Adapter und entsprechende Tests.
+- **Status:** Codeänderung auf Integrationsbranch, noch kein Gradle/JUnit/Minecraft-Test. Beim Sammeltest zusätzlich prüfen: normaler Vanilla-/Mod-Seed; analysierter Seed mit gültigem Genom; manipulierter/falscher Genome-Component-Stack; Falsch-Spezies aus fremdem Adapter; Save/Reload der `ORIGINAL_SEED`-Zuordnung.
