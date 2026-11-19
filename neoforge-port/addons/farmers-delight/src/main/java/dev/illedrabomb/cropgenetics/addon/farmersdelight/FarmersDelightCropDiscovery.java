@@ -1,4 +1,6 @@
-package dev.illedrabomb.cropgenetics.data;
+package dev.illedrabomb.cropgenetics.addon.farmersdelight;
+
+import dev.illedrabomb.cropgenetics.data.*;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +18,7 @@ public final class FarmersDelightCropDiscovery {
     private FarmersDelightCropDiscovery() {}
 
     /** Package-visible policy supports independent regression tests. */
-    static RegisteredSeedCropDiscovery.Policy policy() {
+    public static RegisteredSeedCropDiscovery.Policy policy() {
         Map<String, RegisteredSeedCropDiscovery.ItemPair> pairs = Map.of(
                 "cabbage", new RegisteredSeedCropDiscovery.ItemPair(
                         "farmersdelight:cabbage_seeds", "farmersdelight:cabbage"),

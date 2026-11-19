@@ -2,7 +2,6 @@ package dev.illedrabomb.cropgenetics.data;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -11,7 +10,6 @@ import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.slf4j.Logger;
 
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,8 +27,6 @@ public final class CropDataReloadListener extends
     private static final Logger LOG = LogUtils.getLogger();
     private static final String PLANTS = "cropgenetics/plants";
     private static final String MUTATIONS = "cropgenetics/mutations";
-    private static final ResourceLocation PAM_SETTINGS = ResourceLocation.fromNamespaceAndPath(
-            "cropgenetics", "cropgenetics/pam_auto_discovery.json");
 
     private final AgriPlantsRegistry registry;
     private final Predicate<String> loadedMod;
@@ -47,24 +43,7 @@ public final class CropDataReloadListener extends
                 readJson(manager, PLANTS, CropReloadReport.Kind.PLANT, errors);
         Map<ResourceLocation, JsonElement> mutations =
                 readJson(manager, MUTATIONS, CropReloadReport.Kind.MUTATION, errors);
-        // Parse only the selected highest-priority server resource. A bad
-        // policy fails closed rather than unexpectedly enabling unknown crops.
-        PamAutoDiscoverySettings policy = PamAutoDiscoverySettings.DEFAULT;
-        var config = manager.getResource(PAM_SETTINGS);
-        if (config.isPresent()) {
-            try (Reader reader = config.get().openAsReader()) {
-                policy = PamAutoDiscoverySettings.parse(
-                        JsonParser.parseReader(reader).getAsJsonObject());
-            } catch (Exception ex) {
-                policy = new PamAutoDiscoverySettings(false, 0, 9, 0.75D,
-                        0.025D, 5, Set.of());
-                errors.add(entry(CropReloadReport.Kind.PLANT, PAM_SETTINGS,
-                        "", CropReloadReport.Status.INVALID,
-                        "Invalid auto-discovery settings; discovery disabled: "
-                                + ex.getMessage()));
-            }
-        }
-        return new Prepared(plants, mutations, List.copyOf(errors), policy);
+        return new Prepared(plants, mutations, List.copyOf(errors));
     }
 
     private static Map<ResourceLocation, JsonElement> readJson(
@@ -172,34 +151,6 @@ public final class CropDataReloadListener extends
         ExplicitPlantClaims claims = ExplicitPlantClaims.collect(
                 input.plants(), input.readErrors());
 
-        if (loadedMod.test("pamhc2crops") && input.pamSettings().enabled()) {
-            if (!claims.safe()) {
-                details.add(entry(CropReloadReport.Kind.PLANT, PAM_SETTINGS, "",
-                        CropReloadReport.Status.WARNING,
-                        "Pam's automatic discovery disabled for this reload: "
-                                + "unreadable/malformed explicit plant identity or item claims"));
-            } else {
-                PamCropAutoDiscovery.addMissing(
-                        plants, claims.species(), claims.seeds(), claims.produce(),
-                        details, input.pamSettings());
-            }
-        }
-
-        // This temporary direct registration moves into the separate
-        // Farmer's Delight addon once the shared addon API is wired.
-        if (loadedMod.test("farmersdelight")) {
-            if (claims.safe()) {
-                FarmersDelightCropDiscovery.addMissing(plants,
-                        claims.species(), claims.seeds(), claims.produce(), details);
-            } else {
-                details.add(entry(CropReloadReport.Kind.PLANT,
-                        ResourceLocation.fromNamespaceAndPath(
-                                "cropgenetics", "auto_farmers_delight/discovery_suspended"),
-                        "", CropReloadReport.Status.WARNING,
-                        "Farmer's Delight pilot suspended: invalid explicit crop claims"));
-            }
-        }
-
         // Independently installed addons register their discovery policies
         // during mod construction. The core does not load addon classes.
         for (CropDiscoveryAddon addon : CropDiscoveryAddonRegistry.loaded(loadedMod)) {
@@ -281,20 +232,6 @@ public final class CropDataReloadListener extends
         registry.replaceAll(plants, mutations, report);
         AgriPlantsRegistry.Snapshot active = registry.snapshot();
 
-        CropReloadReport.PamDiscoveryStats pam = report.pamDiscoveryStats();
-        LOG.info("Crop datapack reload: {} plants, {} mutations, {} diagnostics ({})",
-                active.plants().size(), active.mutations().size(), report.entries().size(),
-                report.totals());
-        LOG.info("Pam's Crops: {} explicit loaded (all mods), {} auto-discovered, "
-                        + "{} conflicts, {} missing configured pairs, {} other diagnostics; suspended={}",
-                pam.explicitLoaded(), pam.autoDiscovered(), pam.autoConflicts(),
-                pam.autoMissingItems(), pam.autoWarnings(), pam.suspended());
-        CropReloadReport.AdapterDiscoveryStats farmersDelight = report.farmersDelightStats();
-        LOG.info("Farmer's Delight Crops: {} auto-discovered, {} conflicts, "
-                        + "{} missing registered items, {} other diagnostics; suspended={}",
-                farmersDelight.discovered(), farmersDelight.conflicts(),
-                farmersDelight.missingItems(), farmersDelight.otherWarnings(),
-                farmersDelight.suspended());
         for (CropReloadReport.Entry problem : report.entries()) {
             if (CropReloadLogSeverity.shouldWarn(problem.status())) {
                 LOG.warn("Crop data {} {} [{}]: {}",
@@ -323,6 +260,5 @@ public final class CropDataReloadListener extends
 
     public record Prepared(Map<ResourceLocation, JsonElement> plants,
                            Map<ResourceLocation, JsonElement> mutations,
-                           List<CropReloadReport.Entry> readErrors,
-                           PamAutoDiscoverySettings pamSettings) {}
+                           List<CropReloadReport.Entry> readErrors) {}
 }

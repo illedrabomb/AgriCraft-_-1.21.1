@@ -81,7 +81,7 @@ public final class RegisteredSeedCropDiscovery {
                              ResourceLocation produce, boolean configured) {}
 
     /** Narrow, testable naming rule; never scan names from other mods. */
-    static Optional<String> inferredCropName(ResourceLocation seed, Policy policy) {
+    public static Optional<String> inferredCropName(ResourceLocation seed, Policy policy) {
         if (!policy.modId().equals(seed.getNamespace())
                 || !seed.getPath().endsWith(policy.seedSuffix()))
             return Optional.empty();

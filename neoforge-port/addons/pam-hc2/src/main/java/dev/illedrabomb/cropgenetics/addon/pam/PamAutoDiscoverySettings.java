@@ -1,4 +1,6 @@
-package dev.illedrabomb.cropgenetics.data;
+package dev.illedrabomb.cropgenetics.addon.pam;
+
+import dev.illedrabomb.cropgenetics.data.*;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;

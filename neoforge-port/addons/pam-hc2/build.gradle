@@ -1,0 +1,48 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.148'
+}
+
+group = rootProject.mod_group_id
+version = rootProject.mod_version
+base { archivesName = 'cropgenetics_pam' }
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = rootProject.neo_version
+    mods {
+        'cropgenetics_pam' { sourceSet(sourceSets.main) }
+    }
+}
+
+repositories { mavenCentral() }
+
+dependencies {
+    // The actual core JAR remains external, never bundled into this addon.
+    compileOnly project(':')
+    testImplementation project(':')
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+    testImplementation 'com.google.code.gson:gson:2.11.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test', Test) { useJUnitPlatform() }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+
+def addonMetadata = tasks.register('generateModMetadata', ProcessResources) {
+    def values = [
+        mod_id: 'cropgenetics_pam',
+        mod_name: 'Crop Genetics - Pam's HarvestCraft 2',
+        mod_version: rootProject.mod_version,
+        mod_license: rootProject.mod_license,
+        neo_version: rootProject.neo_version,
+        minecraft_version_range: rootProject.minecraft_version_range,
+        loader_version_range: rootProject.loader_version_range
+    ]
+    inputs.properties values
+    expand values
+    from 'src/main/templates'
+    into 'build/generated/sources/modMetadata'
+}
+sourceSets.main.resources.srcDir addonMetadata
+neoForge.ideSyncTask addonMetadata

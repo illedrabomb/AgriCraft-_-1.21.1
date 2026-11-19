@@ -1,4 +1,6 @@
-package dev.illedrabomb.cropgenetics.data;
+package dev.illedrabomb.cropgenetics.addon.pam;
+
+import dev.illedrabomb.cropgenetics.data.*;
 
 import net.minecraft.resources.ResourceLocation;
 import org.junit.jupiter.api.Test;

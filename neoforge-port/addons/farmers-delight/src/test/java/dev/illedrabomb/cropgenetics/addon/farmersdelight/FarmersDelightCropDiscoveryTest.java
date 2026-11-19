@@ -1,4 +1,6 @@
-package dev.illedrabomb.cropgenetics.data;
+package dev.illedrabomb.cropgenetics.addon.farmersdelight;
+
+import dev.illedrabomb.cropgenetics.data.*;
 
 import java.util.Map;
 import net.minecraft.resources.ResourceLocation;
