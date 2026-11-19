@@ -72,9 +72,7 @@ abstract class SeedInventoryBlockEntity extends BlockEntity implements Container
         // Clear any previous in-memory contents first: loading a snapshot
         // into an existing block entity must not retain ghost items from
         // slots omitted by the new save (including an empty saved chest).
-        for (int slot = 0; slot < items.size(); slot++) {
-            items.set(slot, ItemStack.EMPTY);
-        }
+        SeedInventoryRestoreRules.clearBeforeLoad(items);
         ContainerHelper.loadAllItems(tag, items, registries);
     }
 }
