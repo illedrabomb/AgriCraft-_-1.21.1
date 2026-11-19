@@ -90,7 +90,7 @@ public final class SeedJournalScreen extends Screen {
         if (page < GUIDE_PAGES) {
             renderGuidePage(graphics, left, top);
         } else if (page < GUIDE_PAGES + discoveryPages()) {
-            renderDiscoveredPage(graphics, left, top);
+            renderDiscoveredPage(graphics, left, top, mouseX, mouseY);
         } else {
             renderMutationPage(graphics, left, top);
         }
@@ -114,7 +114,7 @@ public final class SeedJournalScreen extends Screen {
         }
     }
 
-    private void renderDiscoveredPage(GuiGraphics graphics, int left, int top) {
+    private void renderDiscoveredPage(GuiGraphics graphics, int left, int top, int mouseX, int mouseY) {
         if (selectedSpecies != null) {
             renderPlantDetail(graphics, left, top, selectedSpecies);
             return;
@@ -134,9 +134,21 @@ public final class SeedJournalScreen extends Screen {
         for (int i = start; i < end; i++) {
             String species = discovered.get(i);
             int y = top + 48 + (i - start) * 17;
+            boolean hovered = mouseX >= left + 15 && mouseX < left + 209
+                    && mouseY >= y - 4 && mouseY < y + 13;
+            // Make the selectable research entries visible as interactive
+            // rows. The hover region matches mouseClicked exactly.
+            if (hovered) graphics.fill(left + 13, y - 5, left + 210, y + 13, 0x40694B30);
             graphics.renderItem(iconFor(species), left + 17, y - 4);
-            graphics.drawString(font, CropSpeciesNames.label(species),
+            Component speciesLabel = CropSpeciesNames.label(species);
+            String text = speciesLabel.getString();
+            graphics.drawString(font, font.plainSubstrByWidth(text, 159),
                     left + 39, y, 0x49301C, false);
+            if (hovered && font.width(text) > 159) {
+                // Names from optional datapacks can exceed a book column.
+                // Keep the full localized name accessible without clipping.
+                graphics.renderTooltip(font, speciesLabel, mouseX, mouseY);
+            }
         }
     }
 
@@ -197,7 +209,8 @@ public final class SeedJournalScreen extends Screen {
                 Component.translatable("screen.cropgenetics.journal_plant_detail"),
                 width / 2, top + 18, 0x54351C);
         graphics.renderItem(iconFor(species), left + 17, top + 43);
-        graphics.drawString(font, CropSpeciesNames.label(species),
+        graphics.drawString(font,
+                font.plainSubstrByWidth(CropSpeciesNames.label(species).getString(), 163),
                 left + 40, top + 47, 0x49301C, false);
         graphics.drawString(font, Component.translatable("screen.cropgenetics.journal_unlocked"),
                 left + 17, top + 76, 0x49301C, false);
