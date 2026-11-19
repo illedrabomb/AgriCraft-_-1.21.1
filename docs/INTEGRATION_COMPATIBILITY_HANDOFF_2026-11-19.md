@@ -151,3 +151,11 @@ Die frühe Beschreibung, Pam's sei ausschließlich geplant, war unvollständig. 
 - **Client bleibt prädiktiv permissiv:** Er kennt die vollständige serverseitige Pflanzenliste nicht; die definitive Entscheidung fällt im Servercontainer.
 - **Nächste Tests:** (a) echtes genetisches Saatgut; (b) unmodifiziertes und analysiertes Vanilla-/Pam-/FD-Saatgut; (c) Nicht-Saatgut mit künstlichem Genom; (d) ordinary seed mit absichtlich falscher Pflanzen-ID; (e) gespeicherter genetischer Seed nach Entfernen des optionalen Mod-Adapters. Alle ohne Itemverlust oder unerlaubte Containeraufnahme.
 - Nicht kompiliert oder im Spiel ausgeführt; Verhalten des Menü-Slotfilters bleibt zu prüfen.
+
+## Mod-Entfernung / Datapack-Abhängigkeiten – 19.11.2026
+
+- `9ec758e2`: `CropModDependencyRules` als reine, testbare Funktion für das `mods`-Feld von Pflanzen-/Mutationsdefinitionen eingeführt; `agricraft` bleibt bewusst akzeptierter Alt-Fork-Alias.
+- `3cf0af9e`: `CropDataReloadListener.missingMod` nutzt diese Funktion, statt eigene Regeln zu duplizieren. **Kein beabsichtigter Verhaltenswechsel** beim Reload.
+- `09d1b18e`: JUnit-Fälle für fehlendes Farmer's Delight, fehlendes Pam's, geladene optionale Mods, AgriCraft-Alt-Alias, Definition ohne `mods` und fehlerhaftes `mods`-Feld.
+- Diese Tests wurden ausdrücklich **nicht** ausgeführt; abgelehnte Definitionen müssen im späteren Spieltest über `/reload` und Diagnosebericht kontrolliert werden.
+- Bei Mod-Entfernung bereits gespeicherte genetische Seeds/Weltpflanzen nicht stillschweigend löschen. Bestehende Fallback- und Dormanzregeln bleiben separat zu testen.
