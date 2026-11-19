@@ -102,12 +102,11 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
      */
     private static boolean canPredictDirectSeed(ItemStack held) {
         if (held.isEmpty()) return false;
-        if (held.is(CropItems.GENETIC_SEED.get())) return CropItems.hasGenome(held);
-        if (!held.getComponentsPatch().isEmpty()) return false;
-        String itemId = BuiltInRegistries.ITEM.getKey(held.getItem()).toString();
-        return SeedSpeciesCatalog.DEFAULT_SPECIES.stream()
-                .anyMatch(species -> itemId.equals(
-                        SeedSpeciesCatalog.vanillaSeedForSpecies(species)));
+        return SeedAnalyzerInteractionRules.predictsSeed(
+                BuiltInRegistries.ITEM.getKey(held.getItem()).toString(),
+                held.is(CropItems.GENETIC_SEED.get()),
+                CropItems.hasGenome(held),
+                !held.getComponentsPatch().isEmpty());
     }
 
     @Override protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
