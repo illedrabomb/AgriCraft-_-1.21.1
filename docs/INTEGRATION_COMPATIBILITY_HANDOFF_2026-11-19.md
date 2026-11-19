@@ -475,3 +475,13 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 ### Präzisierung der Add-on-Reihenfolge (verbindlich)
 
 **1. AgriCraft-Hauptmod → 2. Pam's HarvestCraft 2 (minimal höher priorisiert) → 3. MineColonies (ebenfalls wichtig) → 4. Farmer's Delight (ganz unwichtig / sehr viel später).** Die Code-Auslagerung der bestehenden Integrationen bleibt Voraussetzung für den nächsten Hauptmod-Test. Die zuvor notierte Aussage, Pam's sei geparkt, ist durch diese Entscheidung aufgehoben. Siehe `docs/ADDON_EXTRACTION_PLAN_2026-11-19.md`.
+
+
+## 2026-11-19 — eigenständige Pam-/Farmer-Add-on-Module in Git angelegt
+
+- **`d3ebfabf`:** Ein atomarer Git-Commit verschob 81 Dateien aus dem Kern nach `neoforge-port/addons/pam-hc2/` und `neoforge-port/addons/farmers-delight/`, einschließlich Java-Adapter, Adapter-Tests, aller gebündelten Pam-Pflanzen/Mutationen/Auto-Policy und der Farmer-Rich-Soil-Datensätze. Beide Teilprojekte haben eigene `build.gradle`, `@Mod`-Entrypoints und NeoForge-Metadaten.
+- Der Kern ruft weder `PamCropAutoDiscovery` noch `FarmersDelightCropDiscovery` direkt auf. Das allgemeine `CropDiscoveryAddonRegistry`-Hook ist verbunden; jeder Add-on-Entrypoint registriert sich bei der Mod-Initialisierung selbst.
+- Per **statischer Git-Baumprüfung** liegen keine Pam/Farmer-Adapter- oder Datapack-Dateien mehr im Hauptmod-Quellressourcenordner. Keine Gradle-/JUnit-/Minecraft-Ausführung (Nutzerwunsch) — **kompilierbar/lauffähig NICHT bestätigt**.
+- Noch core-seitige reine Anzeige-/Diagnose-Helfer mit Pam-/Farmer-ID-Strings: JEI Seed Guide, Artennamen-Fallback, Data-Command-Unterbefehle, Report-Statistiken und Farmer-Reiswarnung. Sie haben keine optionale Java-Klassenabhängigkeit; bei weiterer Bereinigung beachten.
+- **Handoff bei Kontextwechsel:** `docs/ADDON_MODULE_SPLIT_HANDOFF_2026-11-19.md` mit Mapping, Abhängigkeiten, bekannten Risiken und erst später auszuführenden Build-/JAR-/Gameplay-Checks.
+- Verbindliche Feature-Priorität bleibt: **AgriCraft-Kern > Pam's (knapp vor MineColonies) > MineColonies >>> Farmer's Delight.** Hauptmod isoliert testen erst nach vereinbarter Sammeltestfreigabe.
