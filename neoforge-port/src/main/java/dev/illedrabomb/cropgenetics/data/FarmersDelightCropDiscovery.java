@@ -80,7 +80,15 @@ public final class FarmersDelightCropDiscovery {
         }
         ResourceLocation itemId = ResourceLocation.parse(ONION_ITEM);
         if (BuiltInRegistries.ITEM.getOptional(itemId)
-                .filter(item -> item != Items.AIR).isEmpty()) return;
+                .filter(item -> item != Items.AIR).isEmpty()) {
+            diagnostics.add(new CropReloadReport.Entry(
+                    CropReloadReport.Kind.PLANT,
+                    ResourceLocation.fromNamespaceAndPath(
+                            "cropgenetics", "auto_farmers_delight/onion.json"),
+                    ONION_PLANT, CropReloadReport.Status.AUTO_MISSING_ITEM,
+                    "Onion item not registered in Farmer's Delight; skipped"));
+            return;
+        }
 
         PlantDefinition onion = new PlantDefinition(
                 ONION_PLANT, List.of("farmersdelight"), List.of(ONION_ITEM),
@@ -91,7 +99,16 @@ public final class FarmersDelightCropDiscovery {
                 new PlantRequirements(9, 15,
                         Optional.of("minecraft:farmland"), Optional.empty(), 0),
                 HarvestMode.STANDARD, 0.0D);
-        if (!PlantRegistryValidator.errors(onion).isEmpty()) return;
+        List<String> validationErrors = PlantRegistryValidator.errors(onion);
+        if (!validationErrors.isEmpty()) {
+            diagnostics.add(new CropReloadReport.Entry(
+                    CropReloadReport.Kind.PLANT,
+                    ResourceLocation.fromNamespaceAndPath(
+                            "cropgenetics", "auto_farmers_delight/onion.json"),
+                    ONION_PLANT, CropReloadReport.Status.WARNING,
+                    "Onion fallback invalid: " + String.join("; ", validationErrors)));
+            return;
+        }
         plants.put(ONION_PLANT, onion);
         diagnostics.add(new CropReloadReport.Entry(
                 CropReloadReport.Kind.PLANT,
