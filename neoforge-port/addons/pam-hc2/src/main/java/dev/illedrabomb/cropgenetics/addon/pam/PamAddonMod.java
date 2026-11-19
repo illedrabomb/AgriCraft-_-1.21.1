@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics.addon.pam;
 
 import com.google.gson.JsonParser;
 import dev.illedrabomb.cropgenetics.compat.jei.CropSeedGuideRegistry;
+import dev.illedrabomb.cropgenetics.command.CropDataCommandExtensions;
 import dev.illedrabomb.cropgenetics.data.CropDiscoveryAddon;
 import dev.illedrabomb.cropgenetics.data.CropDiscoveryAddonRegistry;
 import dev.illedrabomb.cropgenetics.data.CropReloadReport;
@@ -28,6 +29,7 @@ public final class PamAddonMod implements CropDiscoveryAddon {
 
     public PamAddonMod(IEventBus bus, ModContainer container) {
         CropDiscoveryAddonRegistry.register(this);
+        CropDataCommandExtensions.register("pam", PamDataCommands::show);
         CropSeedGuideRegistry.register(MOD_ID, PamAddonMod::seedGuidePairs);
     }
 
