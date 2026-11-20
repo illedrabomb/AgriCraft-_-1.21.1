@@ -130,6 +130,12 @@ public final class CropItems {
      */
     public static Optional<ItemStack> recoverOriginalSeed(ItemStack geneticSeed) {
         if (!geneticSeed.is(GENETIC_SEED.get()) || !hasGenome(geneticSeed)) return Optional.empty();
+        // The paper recipe creates a new plain item and deliberately strips
+        // our genetics. It cannot preserve a custom name or any other foreign
+        // component attached to the genetic seed: reject rather than erase it.
+        // The crafting menu will then leave the ingredients untouched.
+        if (!CropSeedSourceSafety.canConvertWithoutExternalDataLoss(geneticSeed))
+            return Optional.empty();
         Genome genome = geneticSeed.get(CropComponents.GENOME.get());
         String recorded = geneticSeed.get(CropComponents.ORIGINAL_SEED.get());
         String source = recorded != null ? recorded : originalSeedId(genome).orElse(null);
