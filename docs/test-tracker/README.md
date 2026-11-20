@@ -10,6 +10,8 @@
 
 ## Vorbereitungen
 
+Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitung im AgriCraft-Repository](../SUNDAY_CORE_TEST_FIXTURES_2026-11-22.md) öffnen. Sie trennt sichere Gameplay-Tests von Weltkopien mit NBT-/Datapack-/Blockschutz-Versuchen. **Keine dieser Flächen ist bereits gebaut oder getestet.**
+
 1. **Ohne ausdrückliche Freigabe des Projektbesitzers weder Gradle/JUnit noch Minecraft starten.** Die JSON-Datei selbst ist nur eine Anleitung.
 2. Minecraft 1.21.1, Java 21, passende NeoForge-Version, dedizierten Testserver und die für den jeweiligen Fall benötigten ein bis zwei Testspieler bereithalten. **Nur AgriCraft-Hauptmod**, keine Pam-/MineColonies-/Farmer's-Add-ons.
 3. Branch `integration/neoforge-1211-consolidation` und **genaue Git-Commit-ID des tatsächlich gebauten JARs** dokumentieren. Nicht den Vorbereitungscommit als bereits getesteten Build ausgeben.

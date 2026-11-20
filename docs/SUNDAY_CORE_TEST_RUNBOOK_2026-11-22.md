@@ -10,6 +10,8 @@
 
 **Nachtrag UI-10:** [v4 mit 69 offenen Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v4.json) ist nun die bevorzugte Testdatei. Neu ist der ausführliche Pflanzablehnungs-Test für Kreuzlage, Boden, Licht, Zuckerrohr-Wasser, Pilze sowie DE/EN und unveränderte Itemzahlen. Der serverseitige Quellcode wurde vorbereitet, aber **kein Build oder Spieltest ausgeführt**. Die historische v3-Suite und mögliche Ergebnisexporte bleiben unverändert.
 
+**Aufbauplan für externe Tester:** [F0–F5-Testwelt-Fixtures mit direkten Anordnungen, 3/4/10/20er-Reihen, Früchten, Papier, Analyzer/Chest, Weltkopien und Stoppsignalen](SUNDAY_CORE_TEST_FIXTURES_2026-11-22.md) vor dem Test lesen. Diese Dokumentation beschreibt nur Vorbereitungen, **keine bereits gebauten Welten oder ausgeführten Prüfungen**.
+
 ## 0. Vor dem ersten Befehl (gemeinsam abgleichen)
 
 - [ ] Ausdrückliche Freigabe für den gemeinsamen Test liegt vor; Uhrzeit und Tester notieren.
