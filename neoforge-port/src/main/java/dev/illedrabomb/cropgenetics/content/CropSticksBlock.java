@@ -496,6 +496,9 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         // Old worlds with a legacy physical fruit keep their existing ownership flow.
         if (plant.harvestMode() == HarvestMode.GOURD && crop.fruitReady()
                 && crop.fruitDirection() == null && crop.fruitToken() == null) {
+            // FruitReady is persisted metadata, not proof of current maturity.
+            if (!CropFruitTransitionRules.canHarvestInternalGourd(plant.harvestMode(),
+                    crop.isMature(plant), crop.fruitReady(), false, false)) return InteractionResult.PASS;
             if (!level.isClientSide && crop.harvestInternalFruit(plant)) {
                 for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom())) {
                     popResource(level, pos, drop);
@@ -547,8 +550,9 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
             // Normal breaking is destructive: keep the seed, and if mature add
             // products. Repeated calls are avoided through the usual block loot path.
             if (plant != null && (crop.readyForHarvest(plant)
-                    || (plant.harvestMode() == HarvestMode.GOURD && crop.fruitReady()
-                            && crop.fruitDirection() == null && crop.fruitToken() == null))) {
+                    || CropFruitTransitionRules.canHarvestInternalGourd(plant.harvestMode(),
+                            crop.isMature(plant), crop.fruitReady(),
+                            crop.fruitDirection() != null, crop.fruitToken() != null))) {
                 drops.addAll(CropHarvest.products(plant, genome, builder.getLevel().getRandom()));
             }
         }
