@@ -91,6 +91,22 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
         }
     }
 
+    /**
+     * A journal may remain inserted across a datapack reload. Refresh only
+     * the server-approved mutation hint list; already discovered species and
+     * the seed's genotype are never changed. The block ticker calls this
+     * infrequently, and setChanged runs only if the stored hints differ.
+     */
+    public void reconcileJournalMutations() {
+        if (!(level instanceof ServerLevel)) return;
+        ItemStack journal = getItem(1);
+        if (!journal.is(CropItems.SEED_JOURNAL.get())) return;
+        if (SeedJournalItem.refreshKnownMutations(
+                journal, CropGeneticsMod.plants().snapshot().mutations())) {
+            setChanged();
+        }
+    }
+
     @Override public int getMaxStackSize() { return 1; }
     @Override public boolean canPlaceItem(int slot, ItemStack stack) {
         // Client side allows placement prediction; the server only accepts
