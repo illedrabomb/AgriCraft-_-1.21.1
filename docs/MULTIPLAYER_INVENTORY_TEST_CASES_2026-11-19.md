@@ -78,6 +78,12 @@ Status: **prepared, not executed** (2026-11-19). Prior agreement: implement all 
 3. Shift-Klick bei mehreren gültigen genetischen Seeds: keine zusätzliche Papiererzeugung, kein Papierverlust, höchstens so viele Ergebnisse wie eingesetzte Seeds; Menü und Inventar nach dem Vorgang kontrollieren. Ist ein genetischer Seed wegen seiner Item-Maximalgröße 1 nicht stapelbar, die Seeds einzeln nacheinander einsetzen.
 4. Ein genetischer Seed mit blockierter Rückwandlung: kein Ergebnis und keine Papierbewegung.
 
+### CR-13 – Zweite Crop-Sticks-Lage ist nur bei erfolgreicher Zustandsänderung handelbar
+
+- **Normalweg:** Auf leere einfache Crop Sticks einen weiteren Stick setzen; danach mit beiden Händen leer die zweite Lage entfernen. Erwartung: einmaliger Verbrauch bzw. einmalige Rückgabe; der Blockzustand wechselt jeweils zwischen einfach und gekreuzt.
+- **Fehlpfad:** In einer kopierten Multiplayer-Testwelt mit einem passenden Blockschutz-/Event-Testaufbau die Zustandsänderung des Crop-Sticks-Blocks verhindern oder unmittelbar überschreiben. Ein zweiter Stick darf dann **nicht** verbraucht werden; ein fehlgeschlagenes Entfernen darf **keinen** freien Stick ausgeben.
+- **Nachweis:** Blockzustand, Spielerinventar und Drops jeweils vorher/nachher mit exakten Mengen protokollieren; bei Abweichung Log und verwendeten Schutz-/Test-Mod dokumentieren. Keine Behauptung, dass jede externe Schutzmod Vanilla-`setBlock` zuverlässig ablehnt.
+
 
 - `SeedInventoryBlockEntity.setItem` copies the supplied stack and bounds stored count by item maximum and container limit. Analyzer-only and standalone chest use vanilla `ChestMenu`. The adjacent combined view now uses `SeedAnalyzerCombinedMenu` (standard 9×4 client layout) with per-slot server-side limits: analyzer row 1 item, Seed Chest rows 64 for ordinary seeds. This prevents silently truncating a shift-clicked 64-count stack to one item in the analyzer.
 - `SeedChestBlockEntity.getUpdateTag` now returns no inventory data for ordinary world watchers; authorized menus still synchronize their slots.
