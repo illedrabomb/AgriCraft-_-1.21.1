@@ -19,6 +19,7 @@
 - [x] ST-11: Direkte Analyzer-Rechtsklicks verwenden für Client-Belegungsprognosen die öffentlichen Anzeige-Slots statt der nur serverseitig vollständigen Inventarslots (`311fce8e`). Statische Quellprüfung; Multiplayer-Laufzeit offen.
 - [x] ST-12: Zweite Crop-Sticks-Lage wird nur bei bestätigtem Blockzustand verbraucht bzw. als Item ausgegeben (`88db8895`). Statisch geprüft; abgefangene/überschriebene Blockänderungen im Spiel noch offen.
 - [x] ST-13: Seed-/Analyzer-/Chest-/Journal-/Papier-Datenpfade gemäß [`SEED_DATA_INTEGRITY_STATIC_AUDIT_2026-11-20.md`](SEED_DATA_INTEGRITY_STATIC_AUDIT_2026-11-20.md) gegen Quellstand `5254fbba` geprüft. **MITTEL-Risiko:** ein direkter übergroßer `Container.setItem`-Aufruf kürzt ohne Rest-Rückgabe; reguläre Slot-/Shift-Klick-Pfade weiter ungetestet. Keine Runtime-Prüfung.
+- [x] ST-14: Handpflanzung und Kreuzungsnachwuchs bei fehlgeschlagenen/überschriebenen Blockzustandswechseln statisch abgesichert; kein Item-Verbrauch bzw. kein dauerhaft verstecktes Genom ohne bestätigtes `PLANTED` (`CR-14`). Ingame-Bestätigung offen.
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
@@ -41,6 +42,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] GE-05: Elternzustände und verwaiste Ziel-Blockentities nach Save/Reload prüfen (`GEN-02`).
 - [ ] GE-06: Knochenmehl, normale Random-Ticks, Nährstoffverbrauch und Bodenvoraussetzungen (`CR-01`, `CR-02`, `CR-06`, `CR-07`).
 - [ ] GE-07: Hinzufügen und Entfernen der zweiten Crop-Sticks-Lage, insbesondere fehlgeschlagene bzw. von Schutz-Plugins verhinderte `setBlock`-Änderungen (`CR-13`).
+- [ ] GE-08: Abgewiesene oder überschriebene Blockzustandsänderung bei Handpflanzung und Kreuzungsnachkomme ohne Seed-Verlust oder unsichtbares Genom (`CR-14`, nur kopierte Testwelt).
 
 ### Ernte, Frucht und Item-Datensicherheit
 
