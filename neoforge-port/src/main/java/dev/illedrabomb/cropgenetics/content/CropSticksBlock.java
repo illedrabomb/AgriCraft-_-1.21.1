@@ -257,8 +257,11 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(crop.genome().plantId());
         if (plant == null) return;
         crop.reconcileLoadedStage(plant);
-        if (!crop.isMature(plant) && CropConditions.canGrow(level, pos, plant, crop.genome())) {
-            crop.advanceGrowth(plant);
+        if (!crop.isMature(plant) && CropConditions.canGrow(level, pos, plant, crop.genome())
+                && crop.advanceGrowth(plant)) {
+            // Compatibility growth tools must observe the same nutrient
+            // depletion rule as ordinary successful random-tick growth.
+            SoilDynamics.onGrowth(level, pos, random);
         }
     }
 
@@ -347,6 +350,7 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
                 if (!crop.isMature(growing)
                         && CropConditions.canGrow(level, pos, growing, crop.genome())
                         && crop.advanceGrowth(growing)) {
+                    SoilDynamics.onGrowth((ServerLevel) level, pos, level.getRandom());
                     if (!player.isCreative()) stack.shrink(1);
                     level.levelEvent(1505, pos, 0);
                     return ItemInteractionResult.SUCCESS;
