@@ -23,7 +23,7 @@
 
 **Bewertung:** Der bisherige Quellenstand erlaubt eine **gezielte Risiko-/Nachtestliste**, aber **keinen vollständigen 27-von-27-Abgleich** des letzten Ergebnisexports. Alle oben als „Quellcode vorhanden“ bezeichneten Fixes bleiben für den gemeinsamen Test **unbestätigt**.
 
-## Neu angefragt: Pflanzablehnung verständlich anzeigen (`UX-01`)
+## Neu angefragt: Pflanzablehnung verständlich anzeigen (`UX-01`, Quellcode ergänzt)
 
 **Spielerverhalten:** Beim Rechtsklick mit einem passenden Seed auf Crop Sticks, wenn das Pflanzen serverseitig scheitert, eine **einmalige kompakte Aktionsleisten-Meldung** (kein Chat-Spam) mit dem **konkreten ersten Ablehnungsgrund** anzeigen. Beispiel: „Karotte: benötigt Ackerboden“, „Pilz: zu hell auf diesem Boden“, „Zuckerrohr: Wasser neben dem Boden fehlt“, „Kreuzungs-Sticks: obere Lage zuerst entfernen“. Bei bereits bepflanzten Sticks und nicht erkanntem/unzulässigem Seed eigene Ursachen statt irreführender Bodenmeldung.
 
@@ -34,7 +34,9 @@
 3. Für bedingte Nährstoff-/Chemie-/Saisonregeln nicht „Wasser fehlt“ raten. Bei unklarer externer Datenquelle sachlich „Standortbedingungen nicht erfüllt“ melden; optional Diagnosehinweis nur mit berechtigtem Entwicklerbefehl.
 4. Nichts am Saatgut verbrauchen und kein Pflanzenwachstum/Genom ändern, nur weil die Anzeige neu ist. Lokalisierung DE/EN, höchstens ein Hinweis pro bewusster Interaktion.
 
-**Akzeptanzfälle (`UI-10`, zukünftig in neuer Tracker-`suiteId`):** normales Weizensaatgut auf unzulässigem Boden, Pilz auf Myzel vs. zu heller sonstiger Erde, Zuckerrohr mit/ohne angrenzendes Wasser, Samen auf doppelter Kreuzlage, belegter Stick, unerkannte oder manipulierte Saat, Strength-abhängige Lichttoleranz. In jedem Fall Meldung, Itemzahl und weiterhin unverändertes Genom prüfen.
+**Akzeptanzfälle (`UI-10`, jetzt in Tracker-v4):** normales Weizensaatgut auf unzulässigem Boden, Pilz auf Myzel vs. zu heller sonstiger Erde, Zuckerrohr mit/ohne angrenzendes Wasser, Samen auf doppelter Kreuzlage, belegter Stick, unerkannte oder manipulierte Saat, Strength-abhängige Lichttoleranz. In jedem Fall Meldung, Itemzahl und weiterhin unverändertes Genom prüfen.
+
+**Nachtrag im Quellcode:** `CropPlantingFeedback` prüft diese Gründe im Serverpfad; `CropSticksBlock.useItemOn` sendet eine Aktionsleisten-Nachricht nach abgelehnter Pflanzung, ohne den Itemverbrauch zu verändern. DE/EN-Nachrichtenschlüssel und ein Lokalisierungs-JUnit-Quellfall sind ergänzt. [Neue Tracker-Suite v4](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v4.json) führt `UI-10`. **Nicht gebaut oder im Spiel überprüft**. Der erste Ablehnungsgrund ist absichtlich kompakt; komplexe Datapack-Saison-/Chemiebedingungen erhalten eine sachliche Sammelmeldung.
 
 ## Neu angefragt: JEI-Informationsseite für Pflanzenstandorte (`UX-02`)
 
@@ -47,7 +49,7 @@
 ## Nächster zusammenhängender Schritt
 
 1. **Original-Ergebnisexport nachreichen**, damit der 27-Fälle-Review ohne erfundene Einzelbefunde vervollständigt wird. Bis dahin bekannte Fehler gezielt als offene Nachtests führen.
-2. `UX-01` zunächst als eigenes, abgeschlossenes Hauptmod-Paket implementieren (gemeinsamer Ablehnungsgrund, Server-Feedback, DE/EN, deterministische Testquellen und neue Tracker-Version).
+2. `UX-01`-Quellpaket ist vorbereitet und bleibt bis zum autorisierten Hauptmod-Test unter `UI-10` unbestätigt.
 3. Danach `UX-02` separat implementieren; wegen Netzwerk-/Datapack-Synchronisation **größeres** UI-/JEI-Paket mit NBT-/Netzwerk-Review, nicht als beiläufige Tooltipp-Ergänzung behandeln.
 
 **Testfreigabe weiterhin ausstehend.** Weder der Review noch die UX-Anforderung ist ein bestandener Spieltest.

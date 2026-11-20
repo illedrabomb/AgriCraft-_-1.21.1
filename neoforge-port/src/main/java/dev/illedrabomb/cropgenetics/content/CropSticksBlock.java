@@ -412,10 +412,13 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
                     : CropGeneticsMod.plants().plants().get(genome.plantId());
             if (plant == null || crop.genome() != null
                     || !CropConditions.canGrow(level, pos, plant, genome)) {
+                if (level instanceof ServerLevel server)
+                    CropPlantingFeedback.showIfSeed(server, pos, state, crop, stack, player);
                 return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
             if (!level.isClientSide) {
                 if (!crop.plant(genome, stack)) {
+                    CropPlantingFeedback.showIfSeed((ServerLevel) level, pos, state, crop, stack, player);
                     return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
                 }
                 if (!player.isCreative()) stack.shrink(1);
@@ -435,6 +438,7 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
             if (plant != null && CropConditions.canGrow(level, pos, plant, seedGenome)) {
                 if (!level.isClientSide) {
                     if (!crop.plant(seedGenome, stack)) {
+                        CropPlantingFeedback.showIfSeed((ServerLevel) level, pos, state, crop, stack, player);
                         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
                     }
                     if (!player.isCreative()) stack.shrink(1);
@@ -453,6 +457,7 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
                     Genome.basic(plant.get().id()))) {
                 if (!level.isClientSide) {
                     if (!crop.plant(Genome.basic(plant.get().id()), stack)) {
+                        CropPlantingFeedback.showIfSeed((ServerLevel) level, pos, state, crop, stack, player);
                         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
                     }
                     if (!player.isCreative()) stack.shrink(1);
@@ -461,6 +466,8 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
             }
         }
 
+        if (level instanceof ServerLevel server)
+            CropPlantingFeedback.showIfSeed(server, pos, state, crop, stack, player);
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 

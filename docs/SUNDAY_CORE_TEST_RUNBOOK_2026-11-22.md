@@ -8,6 +8,8 @@
 
 **Aktueller Stand für den Testabend:** [v3 mit 68 deutschsprachigen Hauptmod-Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v3.json) hat Vorrang vor v1/v2. Alle TG-, GE-, ER-, UI-, MP- und BAL-IDs sind als **offen** angelegt, nicht ausgeführt; technische Sondervorbereitung und separate Balance-Abnahme bleiben bestehen. Alte Ergebnisse **vor** dem Import exportieren und keine `suiteId` ändern, um Resultate stillschweigend zu übernehmen.
 
+**Nachtrag UI-10:** [v4 mit 69 offenen Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v4.json) ist nun die bevorzugte Testdatei. Neu ist der ausführliche Pflanzablehnungs-Test für Kreuzlage, Boden, Licht, Zuckerrohr-Wasser, Pilze sowie DE/EN und unveränderte Itemzahlen. Der serverseitige Quellcode wurde vorbereitet, aber **kein Build oder Spieltest ausgeführt**. Die historische v3-Suite und mögliche Ergebnisexporte bleiben unverändert.
+
 ## 0. Vor dem ersten Befehl (gemeinsam abgleichen)
 
 - [ ] Ausdrückliche Freigabe für den gemeinsamen Test liegt vor; Uhrzeit und Tester notieren.
