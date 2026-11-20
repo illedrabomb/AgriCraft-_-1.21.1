@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.BlockState;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,7 +28,12 @@ public final class CrossBreeding {
 
     public static void attempt(ServerLevel level, BlockPos position, CropSticksBlockEntity target,
                                RandomSource random) {
-        if (target.genome() != null || !target.getBlockState().getValue(CropSticksBlock.CROSS)) return;
+        if (target.isRemoved() || level.getBlockEntity(position) != target) return;
+        BlockState targetState = level.getBlockState(position);
+        if (!targetState.is(CropBlocks.CROP_STICKS.get())
+                || targetState.getValue(CropSticksBlock.PLANTED)
+                || !targetState.getValue(CropSticksBlock.CROSS)
+                || target.genome() != null) return;
         AgriPlantsRegistry registry = CropGeneticsMod.plants();
         AgriPlantsRegistry.Snapshot snapshot = registry.snapshot();
         Map<String, PlantDefinition> plants = snapshot.plants();
@@ -159,7 +165,13 @@ public final class CrossBreeding {
                                          Map<String, PlantDefinition> plants) {
         if (!level.hasChunkAt(pos)
                 || !(level.getBlockEntity(pos) instanceof CropSticksBlockEntity source)
-                || source.getBlockState().getValue(CropSticksBlock.CROSS)) return null;
+                || source.isRemoved()) return null;
+        BlockState sourceState = level.getBlockState(pos);
+        // A mature-looking genome in an out-of-sync BlockEntity is not a
+        // physical parent. Only a planted, single-layer crop can contribute.
+        if (!sourceState.is(CropBlocks.CROP_STICKS.get())
+                || !sourceState.getValue(CropSticksBlock.PLANTED)
+                || sourceState.getValue(CropSticksBlock.CROSS)) return null;
         Genome genome = source.genome();
         if (genome == null) return null;
         PlantDefinition plant = plants.get(genome.plantId());
