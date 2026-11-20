@@ -15,9 +15,26 @@ class RowEvolutionInheritanceTest {
     @Test
     void twoSameSpeciesParentsCanImproveAllThreeStats() {
         Genome baseline = Genome.basic("minecraft:wheat_plant");
+        Random distributeAcrossAllThree = new Random() {
+            private int draw;
+
+            @Override public int nextInt(int bound) {
+                // Full-parent selection, then a 3-point pool (ticket 92
+                // in the 2-parent table), then assign points to 0/1/2.
+                return switch (draw++) {
+                    case 0 -> 0;
+                    case 1 -> 92;
+                    case 2 -> 0;
+                    case 3 -> 1;
+                    default -> 2;
+                };
+            }
+
+            @Override public double nextDouble() { return 0.99D; }
+        };
         Genome child = BreedingEngine.combine(baseline, baseline,
-                baseline.plantId(), new ImprovementRolls());
-        assertEquals(new Genome(baseline.plantId(), 4, 1, 1), child);
+                baseline.plantId(), distributeAcrossAllThree);
+        assertEquals(new Genome(baseline.plantId(), 2, 2, 2), child);
         assertEquals(Genome.basic(baseline.plantId()), baseline);
     }
 
