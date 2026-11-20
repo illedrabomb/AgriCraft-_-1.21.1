@@ -54,6 +54,14 @@ Status: **prepared, not executed** (2026-11-19). Prior agreement: implement all 
 
 ## Source-level observations, not test results
 
+### CR-11 – Rückwandlung mit fremden Daten (späterer Core-only-Test)
+
+- **Vorbereitung:** In einer kopierten Testwelt einen gültigen `cropgenetics:genetic_seed` mit Genom, `OriginalSeed` und zusätzlichem `CUSTOM_NAME` erzeugen; einen zweiten gleichartigen Seed ohne fremde Komponenten bereithalten.
+- **Aktion:** Beide getrennt mit Papier im Rezept zur Rückwandlung in ein ursprüngliches Saatgut verwenden.
+- **Erwartung:** Der benannte Seed liefert **kein** Rezeptresultat und bleibt einschließlich Genom, Herkunft und Name unverbraucht. Der unveränderte Seed lässt sich bei verfügbarer, eindeutiger Ursprungs-ID wie bisher zurückwandeln; genetische Komponenten werden nur in diesem ausdrücklich angeforderten Vorgang verworfen. Die Papier-Rückgabe bleibt korrekt.
+- **Nachweis:** Screenshots beider Rezeptgitter und Inventare vor/nach dem Versuch; bei Abweichung `latest.log` sichern.
+
+
 - `SeedInventoryBlockEntity.setItem` copies the supplied stack and bounds stored count by item maximum and container limit. Analyzer-only and standalone chest use vanilla `ChestMenu`. The adjacent combined view now uses `SeedAnalyzerCombinedMenu` (standard 9×4 client layout) with per-slot server-side limits: analyzer row 1 item, Seed Chest rows 64 for ordinary seeds. This prevents silently truncating a shift-clicked 64-count stack to one item in the analyzer.
 - `SeedChestBlockEntity.getUpdateTag` now returns no inventory data for ordinary world watchers; authorized menus still synchronize their slots.
 - `SeedInventoryBlockEntity.loadAdditional` clears stale in-memory slots before the sparse NBT Item list is applied, preventing phantom contents during replacement loads.
