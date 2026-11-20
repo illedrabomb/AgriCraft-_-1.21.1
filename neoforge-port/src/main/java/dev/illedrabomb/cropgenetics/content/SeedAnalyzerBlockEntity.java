@@ -92,19 +92,16 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
     }
 
     /**
-     * A journal may remain inserted across a datapack reload. Refresh only
-     * the server-approved mutation hint list; already discovered species and
-     * the seed's genotype are never changed. The block ticker calls this
-     * infrequently, and setChanged runs only if the stored hints differ.
+     * A seed and journal may remain inserted across a world load or datapack
+     * reload without triggering onStored again. Reconcile any missing species
+     * discovery from the already analyzed seed, then refresh mutation hints.
+     * Existing discoveries and the seed's genotype are never removed.
      */
     public void reconcileJournalMutations() {
         if (!(level instanceof ServerLevel)) return;
         ItemStack journal = getItem(1);
         if (!journal.is(CropItems.SEED_JOURNAL.get())) return;
-        if (SeedJournalItem.refreshKnownMutations(
-                journal, CropGeneticsMod.plants().snapshot().mutations())) {
-            setChanged();
-        }
+        if (updateJournalFromStoredSeed(journal)) setChanged();
     }
 
     @Override public int getMaxStackSize() { return 1; }
@@ -124,17 +121,22 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
         // only reveals that genome; it never creates a new mutation value.
         if (level == null || level.isClientSide) return;
         if (slot == 0 && !stack.isEmpty()) CropItems.analyzeSeed(stack);
-        ItemStack seed = getItem(0);
         ItemStack journal = getItem(1);
         if (journal.is(CropItems.SEED_JOURNAL.get())) {
-            boolean changed = false;
-            if (CropItems.isAnalyzed(seed) && CropItems.hasGenome(seed)) {
-                changed = SeedJournalItem.recordDiscovery(journal,
-                        seed.get(CropComponents.GENOME.get()).plantId());
-            }
-            changed |= SeedJournalItem.refreshKnownMutations(
-                    journal, CropGeneticsMod.plants().snapshot().mutations());
-            if (changed) setChanged();
+            if (updateJournalFromStoredSeed(journal)) setChanged();
         }
+    }
+
+    /** Same idempotent discovery and mutation reconciliation on insert/load. */
+    private boolean updateJournalFromStoredSeed(ItemStack journal) {
+        ItemStack seed = getItem(0);
+        boolean changed = false;
+        if (CropItems.isAnalyzed(seed) && CropItems.hasGenome(seed)) {
+            changed = SeedJournalItem.recordDiscovery(journal,
+                    seed.get(CropComponents.GENOME.get()).plantId());
+        }
+        changed |= SeedJournalItem.refreshKnownMutations(
+                journal, CropGeneticsMod.plants().snapshot().mutations());
+        return changed;
     }
 }
