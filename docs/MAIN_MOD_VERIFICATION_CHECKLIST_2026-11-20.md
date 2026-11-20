@@ -53,7 +53,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 
 ### Nachgelagerte Gameplay-Balance (bewusst offen)
 
-- [ ] **BAL-01:** Aus vier `1/1/1`-Eltern soll bei konsequenter Auswahl der besten Kinder `10/10/10` **statistisch mit höchstens 70 erzeugten Nachkommen** erreichbar sein (Kennzahl/Selektionsregel vor Umsetzung festlegen). Mehr Eltern sollen auch den nötigen Zucht-/Mutationsaufwand senken; **niedrige Robustheit erhöht die Mutationswahrscheinlichkeit**. 70 % Nichtmutation pro Wert ist keine 70-%-Vollklonchance. [Verbindliche Aufgabenbeschreibung](CLASSIC_THREE_STAT_GENETICS_2026-11-18.md) im Abschnitt BAL-01. **Noch keine Implementierung, Simulation oder Testausführung.**
+- [ ] **BAL-01:** Vier `1/1/1`-Eltern mit Beste-Kinder-Auslese sollen `10/10/10` statistisch in **höchstens 70 Kindern** erreichen. Zuerst jeden Wert unabhängig von einem zufälligen Elternteil erben; danach **0–4 Mutationspunkte** zufällig verteilen, höchstens **+3 pro Wert** (Überlauf verfällt). Negative Mutationen dürfen **mehr als 1 Punkt** kosten; je tatsächlich verlorenem Punkt **40 % Chance auf einen positiven Poolpunkt**, sonst endgültig verloren. **Hohe Robustheit senkt die Verlustchance**, und weniger Eltern sollen länger bis `10/10/10` benötigen. Exakte Wahrscheinlichkeitsverteilungen und Auswahlstrategie bleiben offen. [Vollständige Aufgabenbeschreibung](CLASSIC_THREE_STAT_GENETICS_2026-11-18.md) unter BAL-01. **Nicht implementiert, nicht simuliert oder getestet.**
 
 ### Ernte, Frucht und Item-Datensicherheit
 
