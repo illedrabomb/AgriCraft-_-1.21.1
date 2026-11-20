@@ -38,6 +38,15 @@ class CropSeedSourceSafetyTest {
     }
 
     @Test
+    void removedExternalComponentIsAlsoUnsafeToDiscard() {
+        ItemStack source = new ItemStack(Items.PAPER);
+        // A removal is part of the component patch too. Converting to a
+        // different item would silently restore that item's default value.
+        source.remove(DataComponents.MAX_STACK_SIZE);
+        assertFalse(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(source));
+    }
+
+    @Test
     void emptySourceNeedsNoComponentTransfer() {
         assertTrue(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(ItemStack.EMPTY));
     }
