@@ -98,6 +98,12 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
             registration.addRecipes(RecipeTypes.CRAFTING, displays);
         }
 
+        // JEI's illustrative ShapelessRecipe cannot show the remainder of
+        // our dynamic CustomRecipe. Explain clearly that paper is reusable,
+        // even when many genetic seeds are recovered in succession.
+        registration.addItemStackInfo(List.of(CropItems.GENETIC_SEED.get().getDefaultInstance()),
+                Component.translatable("jei.cropgenetics.seed_recovery"));
+
         // An information page, not a fake crafting recipe: supported ordinary
         // seeds become genetic crops when planted on SINGLE crop sticks. The
         // actual genetic seed is obtained on breaking the planted sticks.
