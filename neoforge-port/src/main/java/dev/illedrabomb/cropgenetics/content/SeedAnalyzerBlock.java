@@ -20,6 +20,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -51,6 +53,23 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
     @Override protected RenderShape getRenderShape(BlockState state) { return RenderShape.MODEL; }
     @Override @Nullable public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new SeedAnalyzerBlockEntity(pos, state);
+    }
+
+    /**
+     * Recheck a retained journal after server datapack reloads, even when
+     * no player moves items through the analyzer. Every analyzer is staggered
+     * over five seconds to avoid synchronous work at a reload boundary.
+     */
+    @Override
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level, BlockState state, BlockEntityType<T> type) {
+        if (level.isClientSide) return null;
+        return createTickerHelper(type, CropBlocks.SEED_ANALYZER_ENTITY.get(),
+                (world, pos, blockState, analyzer) -> {
+                    if ((world.getGameTime() + pos.asLong()) % 100 != 0) return;
+                    analyzer.reconcileJournalMutations();
+                });
     }
 
     /**
