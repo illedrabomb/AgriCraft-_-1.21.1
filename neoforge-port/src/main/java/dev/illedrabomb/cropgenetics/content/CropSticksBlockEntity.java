@@ -247,8 +247,31 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitPlacementSucceeded = 0;
         fruitPlacementNoEligibleTarget = 0;
         fruitPlacementEligibleFailed = 0;
-        syncState(plant);
+        if (!syncState(plant)) {
+            clearRejectedPlant();
+            return false;
+        }
         return true;
+    }
+
+    /** A denied block transition must not leave a hidden planted genome. */
+    private void clearRejectedPlant() {
+        genome = null;
+        seedAnalyzed = false;
+        originalSeedId = null;
+        growthStage = 0;
+        totalGrowthStages = 0;
+        fruitReady = false;
+        fruitDirection = null;
+        fruitToken = null;
+        matureFruitTicks = 0;
+        matureFruitTicksBlocked = 0;
+        fruitChanceRolls = 0;
+        fruitChancePassed = 0;
+        fruitPlacementSucceeded = 0;
+        fruitPlacementNoEligibleTarget = 0;
+        fruitPlacementEligibleFailed = 0;
+        setChanged();
     }
 
     /**
@@ -275,7 +298,10 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitPlacementSucceeded = 0;
         fruitPlacementNoEligibleTarget = 0;
         fruitPlacementEligibleFailed = 0;
-        syncState(plant);
+        if (!syncState(plant)) {
+            clearRejectedPlant();
+            return false;
+        }
         return true;
     }
 
@@ -420,10 +446,10 @@ public final class CropSticksBlockEntity extends BlockEntity {
                         plant.stages().size());
     }
 
-    private void syncState(PlantDefinition plant) {
+    private boolean syncState(PlantDefinition plant) {
         totalGrowthStages = plant.stages().size();
         setChanged();
-        if (level == null) return;
+        if (level == null) return false;
         BlockState previous = getBlockState();
         // Successful crossbreeding consumes the extra upper sticks: once a genome
                 // exists, the block remains planted on its single lower stick layer.
@@ -435,8 +461,14 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 .setValue(CropSticksBlock.FACING, fruitDirection == null ? Direction.NORTH : fruitDirection)
                 .setValue(CropSticksBlock.SPECIES, genome == null
                         ? CropAppearance.GENERIC : CropAppearance.fromPlantId(genome.plantId()));
-        if (!updated.equals(previous)) level.setBlock(worldPosition, updated, 3);
-        level.sendBlockUpdated(worldPosition, previous, updated, 3);
+        if (!updated.equals(previous) && !level.setBlock(worldPosition, updated, 3))
+            return false;
+        // Do not claim a successful planting/cross if an event or another mod
+        // has replaced the requested state, even when setBlock returned true.
+        BlockState actual = level.getBlockState(worldPosition);
+        if (!actual.equals(updated)) return false;
+        level.sendBlockUpdated(worldPosition, previous, actual, 3);
+        return true;
     }
 
     @Override
