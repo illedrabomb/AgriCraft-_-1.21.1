@@ -328,8 +328,9 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public boolean harvestInternalFruit(PlantDefinition plant) {
         if (level == null || level.isClientSide || genome == null
                 || !genome.plantId().equals(plant.id())
-                || plant.harvestMode() != HarvestMode.GOURD || !fruitReady
-                || fruitDirection != null || fruitToken != null) return false;
+                || !CropFruitTransitionRules.canHarvestInternalGourd(plant.harvestMode(),
+                        isMature(plant), fruitReady, fruitDirection != null,
+                        fruitToken != null)) return false;
         clearFruit(plant);
         return true;
     }
