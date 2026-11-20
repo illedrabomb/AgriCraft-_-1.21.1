@@ -696,3 +696,10 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - **Code-Commit `f5b3f067`:** `OriginalSeedRecoveryRecipe` erstattete bislang immer frisches Standardpapier. Beim ausdrücklich nicht verbrauchbaren Rezept-Zusatz konnten dadurch angepasste Papier-Komponenten verschwinden. Nun kommt eine Kopie mit exakt einem Item und unveränderten Daten aus dem jeweiligen Originalslot zurück. Die Rückwandlung des genetischen Seeds selbst bleibt durch die frühere Sicherheitsregel geschützt.
 - JUnit-Quelltest `OriginalSeedRecoveryRemainderTest` (**`9c1d80ea`**) und manueller Test **CR-12** vorbereitet. Neue zentrale Prüfposten **ST-08** (statisch abgeschlossen) und **ER-08** (Spieltest offen) in [`MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md`](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md).
 - Keine Gradle-, JUnit-, Minecraft- oder CI-Ausführung. Kein Nachweis für tatsächlichen Crafting-Grid-Nettoeffekt bis zur gemeinsamen Testfreigabe.
+
+### Fortsetzung 20.11.2026 – Papier-Katalysator in JEI und Gate dokumentiert
+
+- **Ausgangsstand:** `3dc48e775df77753620fbfcf614a79a31991a911`.
+- **Code- und Text-Commits `8ca2a7cb`, `b10e002c`, `f30a7c6b`, Testquelle `4848de59`:** Die JEI-Vorschaurezepte sind vereinfachte Shapeless-Darstellungen und können die tatsächliche Restzutat des dynamischen Rückwandlungsrezepts nicht zeigen. Neue Informationsseite für `cropgenetics:genetic_seed` erklärt deshalb auf Deutsch und Englisch, dass **ein Blatt Papier wiederverwendbar** ist. Beide Lokalisierungen sind durch einen bestehenden erweiterten JUnit-Quelltest abgedeckt (nicht ausgeführt).
+- Manuellen Fall **CR-12** um Ein-Blatt-Gittererhalt, Papierstapel, Shift-Klick und ungültige Rückwandlung erweitert. Zentrale Prüfliste: **ST-09** statisch erledigt, **ER-08/UI-07** bis zum Gameplay-/JEI-Test offen.
+- Keine Gradle-, JUnit-, Minecraft- oder CI-Ausführung. Die Client-Rezeptvorschau bleibt ausdrücklich nur Beispiel, keine Behauptung über bereits geprüfte Shift-Klick-Laufzeitmechanik.
