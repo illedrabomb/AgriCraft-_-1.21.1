@@ -661,3 +661,10 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - Regressionstestquelle `CropSeedSourceSafetyTest` um entfernte Komponenten erweitert; manueller Rezepttest **CR-11** hinzugefügt. Die absichtliche Entfernung von Genomdaten beim freiwilligen Rückwandeln einfacher genetischer Seeds bleibt unverändert.
 - **Nicht ausgeführt:** Gradle, JUnit, Minecraft, CI. **Weiter offen:** das gesamte kombinierte Hauptmod-Test-Gate, echte Inventar-/Rezeptprüfungen und danach getrennte optionale Add-ons (Pam's, MineColonies, Farmer's Delight). Keine Kompatibilität eines Add-ons hiermit nachgewiesen.
 - **GitHub-Commits:** `00733e03` (Rückwandlungsprüfung), `533ddd72` (JUnit-Testquelle), `bb79fe8f` (CR-11), `861973c1` (Core-Test-Gate), `244e2394` (Handoff).
+
+### Fortsetzung 20.11.2026 – Schutz gegen veraltete kombinierte Inventarmenüs
+
+- **Ausgangsstand:** GitHub-HEAD `4f6efc0d5b9e4ae5154cbfc26e2d447d89fc88f9`.
+- **Code-Commit `276acafe`:** `SeedAnalyzerCombinedMenu` sperrt Shift-Klicks auf dem gesamten Menü und `mayPlace`/`mayPickup` auf den 36 Lager-Slots, sobald Analyzer oder angrenzende Chest nicht mehr `stillValid` sind. Das adressiert späte Pakete zwischen Blockabbau und Menüschluss, ohne Slotgrößen, Reihenfolge, normale Lagerregeln oder die Standalone-Menüs zu ändern.
+- **Manueller Test:** **MP-21** in `docs/MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md`; auch die bisherigen MP-08, MP-09 und MP-17 bleiben für beide Richtungen des Abbaus relevant.
+- **Verifikationsgrenze:** nur Code-Review und Diff-Prüfung; keine Gradle-, JUnit-, Minecraft- oder CI-Ausführung. Ob der Client während des Races kurzzeitig eine abweichende Vorschau zeigt, bleibt ein Gameplay-Testpunkt. Add-ons weiterhin zurückgestellt.
