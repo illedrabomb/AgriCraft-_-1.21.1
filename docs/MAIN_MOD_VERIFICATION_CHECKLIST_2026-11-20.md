@@ -100,6 +100,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [x] DOC-03: Chat-/AI-Übergabe dokumentiert: [`INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md`](INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md).
 - [x] DOC-06: Mobil lesbarer, nach Fall-IDs gegliederter Ablauf für den gemeinsam geplanten **Sonntagabend** vorbereitet: [`SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md`](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md). **Nur Dokumentation; kein Test gestartet oder bestanden.**
 - [x] DOC-07: Ausführliches [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) auf aktuelle Reihen-Entstehungschancen von 15 % (3 Eltern) bis 30 % (20 Eltern) berichtigt; [Sonntag-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) unterscheidet Basistest, GE-12-Weltkopie und statistische BAL-01-Abnahme. **Dokumentationsabgleich, nicht ausgeführt.**
+- [x] DOC-08: Eigenständige, [Tracker-kompatible Testsuite Etappe 1](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v1.json) mit **16 offenen Hauptmod-Fällen** und neuer `suiteId` angelegt. Alte 30er-Suite/Ergebnisse bleiben separat; kein Test gestartet und kein Browser-Import behauptet. Vor Import vorhandene Ergebnisse exportieren, spätere inhaltliche Erweiterungen versionieren.
 - [ ] DOC-04: Jede ausgeführte Prüfung mit Commit, Ergebnis und Nachweis ergänzen; Fehler separat als offen markieren.
 - [ ] DOC-05: Gemeinsamen Hauptmod-Test vollständig abnehmen; **erst danach** eigene Add-on-Testgates freigeben.
 

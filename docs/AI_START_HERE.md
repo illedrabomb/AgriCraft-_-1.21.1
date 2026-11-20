@@ -26,6 +26,7 @@
 - Ein [statisches Seed-/Inventar-/NBT-Audit](SEED_DATA_INTEGRITY_STATIC_AUDIT_2026-11-20.md) zu Quellstand `5254fbba` dokumentiert einen **mittleren Integrationsrisikofall** bei direktem, übergroßem `Container.setItem`; reguläre Spielermenüs sind dadurch nicht als fehlerhaft nachgewiesen. Kein Laufzeittest.
 - Nächste Aktion: aktuellen HEAD und offene Quellarbeit abgleichen; nur noch für das aktuelle Arbeitspaket notwendige Änderungen durchführen. Für Tests gesondert Freigabe einholen.
 - Gemeinsamer Core-only-Test ist für **Sonntagabend, 22.11.2026** ins Auge gefasst; der [kurze Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und das [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) sind an die neue 3–20er-Reihe angeglichen (`DOC-07`). Basistest, GE-12-Testwelt und statistische BAL-01-Abnahme bleiben getrennte Nachweisschritte, **nicht freigegeben oder ausgeführt**. Fehlende Freigabe bleibt Blocker für jede Testausführung.
+- **Webtool-Vorbereitung `DOC-08`:** [Neue Core-Testsuite Etappe 1](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v1.json) mit 16 offenen Fällen und eigener `suiteId` vorbereitet; alte 30er-Testdaten niemals ohne Export ersetzen. Weitere Fälle vor dem Testabend in einer gesondert versionierten Suite ergänzen; Import oder Testausführung bislang nicht bestätigt.
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "suiteId": "agricraft-core-neoforge-1211-20261122-v1",
+  "title": "AgriCraft NeoForge 1.21.1 – Hauptmod-Testabend (Etappe 1)",
+  "description": "Vorbereitete, noch nicht ausgeführte Tests der Hauptmod. Etappe 1: technisches Gate, Genetik, Seed/Papier und Analyzer. Weitere Fälle folgen als neue Suite-Version; vor jedem Suitewechsel Ergebnisse exportieren. IDs entsprechen der Hauptmod-Prüfliste.",
+  "environment": {
+    "minecraft": "1.21.1",
+    "loader": "NeoForge",
+    "project": "AgriCraft-_-1.21.1",
+    "branch": "integration/neoforge-1211-consolidation",
+    "testedCommit": "VOR TEST EINTRAGEN – NICHT AUSGEFUEHRT",
+    "scope": "Hauptmod ohne optionale Add-ons",
+    "testAuthorization": "AUSSTEHEND"
+  },
+  "tests": [
+    {
+      "id": "TG-01",
+      "category": "01 Technisches Gate",
+      "title": "Freigabe, Build-SHA und Testumgebung",
+      "steps": [
+        "Vor einem Gradle-, JUnit- oder Minecraft-Start ausdrückliche Freigabe des Besitzers einholen.",
+        "Aktuellen Branch-HEAD, Java 21, Minecraft 1.21.1, NeoForge-Version, Betriebssystem und genaue Core-Modliste erfassen.",
+        "Testwelt und vorhandenen Tracker-Export sichern. Keine Add-on-JARs für Pam, MineColonies oder Farmer's Delight laden."
+      ],
+      "expected": "Freigabe und exakte Versionen/SHA sind mit Beleg notiert; bestehende Welt und Ergebnisse sind gesichert.",
+      "commands": []
+    },
+    {
+      "id": "TG-02",
+      "category": "01 Technisches Gate",
+      "title": "JUnit-Gate nach ausdrücklicher Freigabe",
+      "steps": [
+        "Erst nach Freigabe die im Hauptmod-Testgate vorgeschriebene Gradle-:test-Aufgabe ausführen.",
+        "Testanzahl, Fehler, Log/Report und Git-SHA sichern. Bei Fehlschlag Gate stoppen."
+      ],
+      "expected": "JUnit-Ergebnis mit Zahl und Log belegt; kein alter Testerfolg wird als Ergebnis dieses Builds übernommen.",
+      "commands": []
+    },
+    {
+      "id": "TG-03",
+      "category": "01 Technisches Gate",
+      "title": "Hauptmod-Build und JAR",
+      "steps": [
+        "Erst nach Freigabe die :build-Aufgabe der Hauptmod ausführen.",
+        "Build-Ergebnis, JAR-Dateiname und SHA protokollieren; nur diese JAR später laden."
+      ],
+      "expected": "Eine konkrete erzeugte Hauptmod-JAR ist dem dokumentierten Commit zugeordnet.",
+      "commands": []
+    },
+    {
+      "id": "TG-04",
+      "category": "01 Technisches Gate",
+      "title": "Client und dedizierten Server starten",
+      "steps": [
+        "Mit freigegebener Core-only-Modliste Client und dedizierten Server starten.",
+        "Registry-/Classloaderfehler, Crash-Report und latest.log prüfen; bei Absturz stoppen."
+      ],
+      "expected": "Beide starten ohne Lade-/Registry-/Classloaderfehler; Modliste dokumentiert.",
+      "commands": []
+    },
+    {
+      "id": "TG-05",
+      "category": "01 Technisches Gate",
+      "title": "Save, Restart und Datapack-Reload",
+      "steps": [
+        "Genetischen Seed mit bekannten Werten und eine Pflanze in einer gesicherten Testwelt anlegen.",
+        "Welt speichern, Server neu starten und Seed/Pflanze prüfen; danach /reload und erneut prüfen.",
+        "Alle drei Genwerte, Art und Pflanzenzustand vorher/nachher dokumentieren."
+      ],
+      "expected": "Keine still verlorene Art, Gene oder Wachstumsdaten; bei Abweichung Log und Weltkopie sichern.",
+      "commands": ["/reload"]
+    },
+    {
+      "id": "GE-01",
+      "category": "02 Genetik und Wachstum",
+      "title": "Weizen und Karotte ab 1/1/1",
+      "steps": [
+        "Weizen- und Karottensaat auf einfachen Crop Sticks pflanzen; Stage 0 jeweils fotografieren.",
+        "Wachstumsstufen bis Reife mit unverändertem Genom beobachten.",
+        "Frühere Stage-0-/X-Sticks-Abweichung ausdrücklich nachprüfen."
+      ],
+      "expected": "Beide Arten besitzen korrektes Stage-0-Modell und entwickeln sich mit erhaltener Genetik zur Reife.",
+      "commands": []
+    },
+    {
+      "id": "GE-02",
+      "category": "02 Genetik und Wachstum",
+      "title": "Zwei, drei und vier direkte Eltern",
+      "steps": [
+        "Drei getrennte Kreuzziel-Felder mit genau 2, 3 bzw. 4 direkt benachbarten reifen Eltern vorbereiten.",
+        "Jede Formation bei gleicher Serverconfig beobachten; gültige Ziel-Random-Ticks und erfolgreiche Kinder getrennt zählen.",
+        "Gene der Kinder analysieren und Elternwerte vor/nach dem Versuch vergleichen."
+      ],
+      "expected": "Zielwahrscheinlichkeiten bei Standardconfig rechnerisch 30 %, 37,5 %, 45 % pro gültigem Ziel-Tick; höchstens vier Eltern vererben, Eltern unverändert. Einzelversuche sind kein Prozentnachweis.",
+      "commands": []
+    },
+    {
+      "id": "GE-03",
+      "category": "02 Genetik und Wachstum",
+      "title": "Ein-Eltern-Klon und Reihenregel",
+      "steps": [
+        "Nur einen reifen direkten Elternseed neben leerem Kreuzungsfeld platzieren und das Kind untersuchen.",
+        "Danach drei reife Eltern ohne Lücke geradlinig vor einem Kreuzziel aufbauen.",
+        "Genotypen und Entstehungen vergleichen; mindestens eine Lücke als Negativfall setzen."
+      ],
+      "expected": "Ein Elternteil erzeugt einen unveränderten Klon. Eine lückenlose 3+-Reihe verwendet eine eigene, schwächere Evolution; Lücken beenden die Reihe.",
+      "commands": []
+    },
+    {
+      "id": "GE-04",
+      "category": "02 Genetik und Wachstum",
+      "title": "Mutationspunkte, Analyzer und erneutes Pflanzen",
+      "steps": [
+        "Ein Kind mit geänderten Genwerten erzeugen und im Analyzer prüfen.",
+        "Den Seed abbauen, erneut pflanzen und alle drei Werte vergleichen.",
+        "Verluste, Teilrückgewinnung und max. drei zusätzliche Punkte pro Eigenschaft nur nach beobachtbaren Belegen beurteilen."
+      ],
+      "expected": "Gene bleiben bei Analyse, Abbauen und erneutem Pflanzen gleich; Werte bleiben im Bereich 1 bis 10.",
+      "commands": []
+    },
+    {
+      "id": "GE-11",
+      "category": "02 Genetik und Wachstum",
+      "title": "Reihenlänge 3, 4, 10 und 20",
+      "steps": [
+        "Je eine lückenlose, reife Gerade mit 3, 4, 10 und 20 Eltern aufbauen und gleiche Serverconfig notieren.",
+        "Für jede Länge gültige Ziel-Random-Ticks sowie erfolgreiche Kinder erfassen; nur erste vier Reiheneltern kommen als Genvorlage infrage.",
+        "Lücken, unreife Eltern und nicht geladene Chunks als negative Prüfungen erfassen, wenn sicher durchführbar."
+      ],
+      "expected": "Rechnerische Chance bei Standardconfig 15 % (3 Eltern) bis 30 % (20 Eltern) pro gültigem Ziel-Tick; maximal vier genetische Vorlagen. Statistik nicht aus Einzelereignissen behaupten.",
+      "commands": []
+    },
+    {
+      "id": "GE-12",
+      "category": "02 Genetik und Wachstum",
+      "title": "Artenmutation und Fallback in Weltkopie",
+      "steps": [
+        "Nur eine gesicherte Kopie mit tatsächlich passendem Test-Datapack verwenden; sonst blocked eintragen.",
+        "Sechs Fälle a bis f aus docs/CROSSBREEDING_SPECIES_FALLBACK_TESTS_2026-11-20.md einzeln protokollieren.",
+        "Neue dritte Art auf höchstens 4/4/4 prüfen; Elternart auf höchstens 5 je Wert außer bereits höherer eigener Elternwert; schwächere Werte bleiben erlaubt."
+      ],
+      "expected": "Artenwahl, Umgebungsprüfung und Cap stimmen in allen sechs Fällen; keine Umgehung durch wiederholte artübergreifende Kreuzung.",
+      "commands": []
+    },
+    {
+      "id": "ER-07",
+      "category": "03 Seeds und Crafting",
+      "title": "Original-Seed-Herkunft und fremde Komponenten",
+      "steps": [
+        "Genetischen Seed mit bekannter Original-Seed-Herkunft herstellen und Gene/Herkunft notieren.",
+        "Vor und nach Pflanzung, Abbau sowie Save/Reload alle Komponenten vergleichen.",
+        "Seed mit fremden Komponenten in kopierter Welt auf verweigerte unsichere Rückwandlung prüfen."
+      ],
+      "expected": "Genetik und Herkunft bleiben beim normalen Weg erhalten; unsichere Konversion löscht keine fremden Daten und verbraucht nichts.",
+      "commands": []
+    },
+    {
+      "id": "ER-08",
+      "category": "03 Seeds und Crafting",
+      "title": "Papier bleibt beim Rückwandeln erhalten",
+      "steps": [
+        "Ein Blatt Papier und einen geeigneten genetischen Seed in verschiedene Crafting-Felder legen.",
+        "Einmal craften; Papierplatz, Papierzahl und Ergebnis-Seed protokollieren.",
+        "Mit 16 Papier und mit benanntem Papier wiederholen; anschließend Shift-Klick mit mehreren Seeds prüfen.",
+        "Vorher-/Nachher-Mengen und Komponenten erfassen; beim ersten Duplikations- oder Verlusthinweis stoppen."
+      ],
+      "expected": "Pro Craft genau ein ursprünglicher Seed; Papierzahl und Papier-Komponenten netto unverändert, keine Duplikate oder Verluste beim Shift-Klick.",
+      "commands": []
+    },
+    {
+      "id": "UI-01",
+      "category": "04 Analyzer und Journal",
+      "title": "Analyzer-Slots und angeschlossene Chest",
+      "steps": [
+        "Analyzer neben Seed Chest platzieren und das kombinierte Menü öffnen.",
+        "64er Seedstapel per Shift-Klick einlegen; Einzelslot des Analyzers und 27 Chest-Slots getrennt prüfen.",
+        "Item-Anzahlen und Komponenten vor/nach Einlage und Entnahme dokumentieren."
+      ],
+      "expected": "Analyzer-Seed-/Journal-Slots nehmen jeweils höchstens ein Item auf; Chest-Slots halten zulässige Stapel, keine Verluste.",
+      "commands": []
+    },
+    {
+      "id": "UI-08",
+      "category": "04 Analyzer und Journal",
+      "title": "Journal-Ergänzung nach Save und Reload",
+      "steps": [
+        "Analysierten Seed und Journal einlegen, Arten/Mutationshinweise vorher notieren.",
+        "Server speichern, neu starten und gegebenenfalls Datapack /reload in Kopie durchführen.",
+        "Journal ohne erneute Buchentnahme auf neue Entdeckungen und erhaltene Alt-Einträge prüfen."
+      ],
+      "expected": "Bereits eingelegte Seeds werden nachgetragen; alte Entdeckungen und genetische Informationen bleiben erhalten.",
+      "commands": ["/reload"]
+    },
+    {
+      "id": "UI-09",
+      "category": "04 Analyzer und Journal",
+      "title": "Client-/Server-Prognose für direkte Einlage",
+      "steps": [
+        "Bei leerem Analyzer genetischen Seed und Journal direkt per Rechtsklick einlegen.",
+        "Bei belegten Slots dieselben Aktionen wiederholen und tatsächliche Slotbelegung sowie Handstapel prüfen.",
+        "Auf dediziertem Server mit zweitem Spieler beobachten, falls vorhanden; sonst diesen Teil als nicht geprüft im Kommentar markieren."
+      ],
+      "expected": "Client und Server stimmen über erlaubte Einlage überein; belegte Slots führen zu keiner Phantom-Interaktion oder Itemverlust.",
+      "commands": []
+    }
+  ]
+}
