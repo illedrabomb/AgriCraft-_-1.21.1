@@ -6,6 +6,8 @@
 
 **Für externe Tester bevorzugt:** Die [erweiterte v2-Suite mit 51 konkreten Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v2.json) sowie die [eigenständige Bedienanleitung](test-tracker/README.md) verwenden. Die v1-Etappe bleibt nur als nachvollziehbarer Zwischenstand erhalten. Beide Suiten sind **nicht ausgeführt**, und ihre Ergebnisdateien dürfen wegen unterschiedlicher `suiteId` nicht gemischt werden. Auch v2 deckt noch nicht alle offenen Hauptmod-Spezialfälle ab.
 
+**Aktueller Stand für den Testabend:** [v3 mit 68 deutschsprachigen Hauptmod-Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v3.json) hat Vorrang vor v1/v2. Alle TG-, GE-, ER-, UI-, MP- und BAL-IDs sind als **offen** angelegt, nicht ausgeführt; technische Sondervorbereitung und separate Balance-Abnahme bleiben bestehen. Alte Ergebnisse **vor** dem Import exportieren und keine `suiteId` ändern, um Resultate stillschweigend zu übernehmen.
+
 ## 0. Vor dem ersten Befehl (gemeinsam abgleichen)
 
 - [ ] Ausdrückliche Freigabe für den gemeinsamen Test liegt vor; Uhrzeit und Tester notieren.
