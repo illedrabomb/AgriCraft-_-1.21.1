@@ -62,6 +62,13 @@ Status: **prepared, not executed** (2026-11-19). Prior agreement: implement all 
 - **Erwartung:** Der benannte Seed liefert **kein** Rezeptresultat und bleibt einschließlich Genom, Herkunft und Name unverbraucht. Der unveränderte Seed lässt sich bei verfügbarer, eindeutiger Ursprungs-ID wie bisher zurückwandeln; genetische Komponenten werden nur in diesem ausdrücklich angeforderten Vorgang verworfen. Die Papier-Rückgabe bleibt korrekt.
 - **Nachweis:** Screenshots beider Rezeptgitter und Inventare vor/nach dem Versuch; bei Abweichung `latest.log` sichern.
 
+### CR-12 – Rückgabe von benanntem Papier ohne Komponentenverlust (späterer Core-only-Test)
+
+- **Vorbereitung:** Ein gültiger genetischer Seed mit eindeutigem Ursprung; ein Stapel aus 16 Papier mit benutzerdefiniertem Namen und nach Möglichkeit einer weiteren kompatiblen Data Component in einer kopierten Testwelt.
+- **Aktion:** Papier und genetischen Seed im Original-Seed-Rückwandlungsrezept verwenden. Den zurückgegebenen Papier-Stack und restliche Zutaten im Crafting-Gitter/Inventar prüfen.
+- **Erwartung:** Genau ein genetischer Seed wird gegen ein normales Ursprungs-Item getauscht. Das Papier wird effektiv nicht verbraucht; alle benutzerdefinierten Komponenten bleiben auch nach dem Zusammenführen mit dem Reststapel erhalten. Kein zusätzliches Papier wird erzeugt. Bei ungültigem Seed ist gar keine Rückwandlung möglich.
+- **Nachweis:** Komponenten und Mengen vor/nach dem Vorgang sowie Screenshot und ggf. `latest.log`.
+
 
 - `SeedInventoryBlockEntity.setItem` copies the supplied stack and bounds stored count by item maximum and container limit. Analyzer-only and standalone chest use vanilla `ChestMenu`. The adjacent combined view now uses `SeedAnalyzerCombinedMenu` (standard 9×4 client layout) with per-slot server-side limits: analyzer row 1 item, Seed Chest rows 64 for ordinary seeds. This prevents silently truncating a shift-clicked 64-count stack to one item in the analyzer.
 - `SeedChestBlockEntity.getUpdateTag` now returns no inventory data for ordinary world watchers; authorized menus still synchronize their slots.
