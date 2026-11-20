@@ -395,7 +395,8 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         // Accept either attached-genome seed form locally; the server below
         // still checks seed identity, species, soil and growth conditions.
         if (level.isClientSide && !state.getValue(CROSS) && crop.genome() == null
-                && CropItems.hasGenome(stack)) {
+                && CropItems.hasGenome(stack)
+                && CropSeedSourceSafety.canConvertWithoutExternalDataLoss(stack)) {
             return ItemInteractionResult.SUCCESS;
         }
 
