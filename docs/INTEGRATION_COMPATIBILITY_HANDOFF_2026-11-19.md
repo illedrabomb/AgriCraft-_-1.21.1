@@ -682,3 +682,10 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - **Code-Commits `a135543f`, `02c23b24`:** Eine nach `GOURD` → `STANDARD` veraltete **interne** Fruchtkennung blockierte die normale Ernte dauerhaft. Neue reine `CropFruitTransitionRules` unterscheiden interne Frucht, physische Alt-Frucht und Standardpflanze. `CropSticksBlockEntity.reconcilePhysicalFruit` entfernt den veralteten internen Zustand ohne Rücksetzung der Reife; `readyForHarvest` erlaubt davor eine einmalige normale Ernte und damit auch den korrekten Block-Loot-Pfad.
 - Bestehende Besitzerkennungen physischer Früchte bleiben bis zu deren gesondertem Abgleich geschützt. Die Gourd-Wiederholernte und Ein-Stack-Grenze ändern sich nicht. **JUnit-Quelltest `7ec6d263`** (`CropFruitTransitionRulesTest`) und manueller Gate-Fall **HG-01** ergänzt.
 - Keine Gradle-/JUnit-/Minecraft-/CI-Ausführung; im Spiel noch nicht verifiziert. Die bestehende alte Karotten-Reproduktion bleibt unverändert offen. Add-ons weiter nachrangig.
+
+### Fortsetzung 20.11.2026 – Gourd-Reifevalidierung und zentrale Prüf-Checkliste
+
+- **Ausgangsstand:** `c418c792e5dc5bc602f1e2fe19f6b3d2257a1f30`.
+- **Code-Commits `e437397d`, `6345716e`, `986b2b89`, JUnit-Quelltest `2c8a48be`:** Konsistente interne Gourd-Auszahlung: `CropFruitTransitionRules.canHarvestInternalGourd` wird für Rechtsklick, Block-Loot und serverseitigen Abschluss verwendet; `FruitReady` ohne tatsächliche Reife oder bei physischer Besitzerkennung zahlt nichts. Manueller Test **HG-02** ergänzt.
+- **Neue verbindliche zentrale Testdatei:** [`MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md`](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md). Sie enthält bereits erledigte **statische** Quellprüfungen separat von **nicht ausgeführten** Gradle-, JUnit-, Minecraft-, Multiplayer-, Ernte- und UI-Tests. Nur belegte tatsächliche Ergebnisse abhaken. Verweise zusätzlich im `docs/MAIN_MOD_TEST_GATE_2026-11-19.md` und `docs/PROJECT_STATUS.md`.
+- Nutzerfreigabe weiterhin ausstehend. Alle Laufzeit- und Build-Checkboxen bleiben offen; Add-ons weiterhin aufgeschoben.
