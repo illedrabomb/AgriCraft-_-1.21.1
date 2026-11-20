@@ -2,6 +2,8 @@
 
 Scope: branch `integration/neoforge-1211-consolidation`, root `neoforge-port/`, Minecraft 1.21.1 / NeoForge. This is a **test plan, not evidence of a passed build**. User requested implementing and documenting all planned changes first; no Gradle/JUnit/Minecraft execution without explicit consent.
 
+**Zentrale Abhakliste:** [`MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md`](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md). Die vorliegenden Detailfälle dienen als Prüfanleitung; Ergebnisse nur in der Abhakliste mit Commit und Belegen als erledigt markieren.
+
 ## Static checks performed
 
 1. `settings.gradle` includes `:pam-hc2` and `:farmers-delight` with distinct project directories. The root project's Gradle configuration still declares the main `cropgenetics` mod.
@@ -195,3 +197,9 @@ Add-on build/launch verification is **not** a prerequisite to the core-only manu
 - **JUnit-Quelltest `7ec6d263`:** `CropFruitTransitionRulesTest` für die drei Fälle `GOURD`-Normalzyklus, `STANDARD` mit internem Reststatus und physische Besitzerkennung; Tests noch **nicht ausgeführt**.
 - **HG-01 (späterer manueller Test):** In einer Kopie der Welt einen reifen Kürbis-/Melonenstamm mit intern sichtbarer Frucht erzeugen. Datapack-Pflanzendefinition vorübergehend von `GOURD` zu `STANDARD` ändern, `/reload`, ohne Warten einmal mit leeren Händen ernten; alternativ im separaten Versuch vor dem Tick abbauen. Einmal normaler Produktauswurf und Erhalt des Genoms beziehungsweise Seed-Drop beim Abbau, keine Duplikate; nach 100 Ticks muss der Blockzustand reconciled sein. Ursprungsdatapack anschließend wiederherstellen.
 - **Nicht durchgeführt:** Gradle, JUnit, Minecraft, CI. Produktauswahl nach einem absichtlich geänderten Datapack folgt dessen **aktiver** Definition, nicht dem früheren Gourd-Modus.
+
+### Nachtrag: Nur reife interne Früchte dürfen auszahlen (20.11.2026)
+
+- **`e437397d`, `6345716e`, `986b2b89`:** Die persistente `FruitReady`-Markierung allein reicht nicht mehr als Auszahlungsbeweis. `CropFruitTransitionRules.canHarvestInternalGourd` verlangt zusätzlich aktive `GOURD`-Definition, tatsächliche Reife und das Fehlen einer physischen Besitzerkennung. Der gleiche Grenzwert wird bei Rechtsklick, Block-Loot und dem serverseitigen Fruchtabschluss verwendet.
+- Der JUnit-Quelltest `CropFruitTransitionRulesTest` (`2c8a48be`) enthält zusätzlich Fälle für unreife Pflanze, physische Besitzerkennung und falschen aktiven Erntemodus. **Noch nicht ausgeführt.**
+- **HG-02 (später, nur Testweltkopie):** An einem gespeicherten Stamm mit `FruitReady=true` die aktive Reifestufendefinition so ändern, dass er effektiv **unreif** ist; vor und nach `/reload` Rechtsklick und getrennt Blockabbau prüfen. Keine Früchte als Ernteprodukt, aber beim Abbau weiterhin den einen genetischen Seed erhalten. Anschließend Ursprungsdatapack und Testwelt wiederherstellen. Keine Behauptung, dass normale Spielmechanik von selbst diesen ungewöhnlichen Zustand erzeugt.
