@@ -23,8 +23,12 @@ public final class CropBalanceConfig {
                 "produce offspring on double sticks. Key name kept for old configs.")
                 .define("rowCrossEvolution", true);
         ROW_EVOLUTION_MUTATION_MULTIPLIER = b.comment(
-                "Base mutation probability multiplier per stat. Two parents: 1x,",
-                "three parents: 2x, four parents: 3x. 0 disables mutation.")
+                "Multiplier for the shared 0-4 genetic-point pool and negative",
+                "stat losses (not the old independent per-stat mutation odds).",
+                "The 2/3/4-parent and straight-row point tables already contain",
+                "their normal bonuses. 0 disables numeric mutations, not",
+                "parent-template inheritance. Higher values may boost gains",
+                "and losses; no stat can gain more than 3 points per child.")
                 .defineInRange("rowEvolutionMutationMultiplier", 1.0D, 0.0D, 5.0D);
         CROSS_FERTILITY_MULTIPLIER = b.comment(
                 "Multiplier for crossing success. Three/four parents get an extra",

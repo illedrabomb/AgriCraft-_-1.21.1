@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /** Deterministic BAL-01 branch cases; not a statistical tuning simulation. */
 class BalancedBreedingTest {
@@ -113,5 +114,36 @@ class BalancedBreedingTest {
         assertEquals(baseline, BreedingEngine.combine(parents,
                 baseline.plantId(), new FixedRolls(new int[]{0, 99},
                         1D, 1D, 1D, 0.9D, 0.9D, 0.9D, 0.9D), 0.25D, true));
+    }
+
+    @Test
+    void maximumConfigMultiplierStillHonorsThreePointLimitAndTenCap() {
+        Genome baseline = g(8, 10, 10);
+        List<Genome> parents = List.of(baseline, baseline, baseline, baseline);
+        // Four base points, four extra-point rolls, then every point targets
+        // Growth. The gain stays capped at 10 even at config multiplier 5.
+        assertEquals(g(10, 10, 10), BreedingEngine.combine(parents,
+                baseline.plantId(), new FixedRolls(new int[]{0, 99, 0, 0, 0, 0},
+                        1D, 1D, 1D, 0D, 0D, 0D, 0D), 15D));
+    }
+
+    @Test
+    void zeroMultiplierPreservesOneFullTemplateWithoutAnyMutation() {
+        Genome weaker = g(5, 6, 7);
+        Genome stronger = g(10, 10, 10);
+        assertEquals(weaker, BreedingEngine.combine(List.of(stronger, weaker),
+                weaker.plantId(), new FixedRolls(new int[]{10}), 0D));
+    }
+
+    @Test
+    void rejectsInvalidConfigMutationMultipliers() {
+        Genome genome = g(1, 1, 1);
+        List<Genome> parents = List.of(genome, genome);
+        assertThrows(IllegalArgumentException.class, () -> BreedingEngine.combine(
+                parents, genome.plantId(), new Random(1), -1D));
+        assertThrows(IllegalArgumentException.class, () -> BreedingEngine.combine(
+                parents, genome.plantId(), new Random(1), Double.NaN));
+        assertThrows(IllegalArgumentException.class, () -> BreedingEngine.combine(
+                parents, genome.plantId(), new Random(1), Double.POSITIVE_INFINITY));
     }
 }
