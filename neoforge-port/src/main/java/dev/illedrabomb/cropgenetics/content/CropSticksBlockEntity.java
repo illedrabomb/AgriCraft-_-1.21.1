@@ -222,12 +222,18 @@ public final class CropSticksBlockEntity extends BlockEntity {
         }
         genome = seedGenome;
         seedAnalyzed = sourceSeed != null && CropItems.isAnalyzed(sourceSeed);
-        originalSeedId = sourceSeed == null || sourceSeed.isEmpty() ? null
-                : sourceSeed.get(CropComponents.ORIGINAL_SEED.get());
-        if (originalSeedId == null && sourceSeed != null && !sourceSeed.isEmpty()
-                && !sourceSeed.is(CropItems.GENETIC_SEED.get())) {
-            originalSeedId = net.minecraft.core.registries.BuiltInRegistries.ITEM
-                    .getKey(sourceSeed.getItem()).toString();
+        // The actual item ID is authoritative for a Vanilla/mod seed.
+        // A stale or forged ORIGINAL_SEED component on that stack must not
+        // redirect later recovery to an unrelated item after addon removal.
+        // Our dedicated genetic seed keeps its stored provenance instead.
+        originalSeedId = null;
+        if (sourceSeed != null && !sourceSeed.isEmpty()) {
+            if (sourceSeed.is(CropItems.GENETIC_SEED.get())) {
+                originalSeedId = sourceSeed.get(CropComponents.ORIGINAL_SEED.get());
+            } else {
+                originalSeedId = net.minecraft.core.registries.BuiltInRegistries.ITEM
+                        .getKey(sourceSeed.getItem()).toString();
+            }
         }
         growthStage = 0;
         totalGrowthStages = plant.stages().size();
