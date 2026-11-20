@@ -52,19 +52,12 @@ public final class CrossBreeding {
         int rowLength = 0;
         if (parents.size() == 1) {
             Direction rowDirection = parents.getFirst().direction();
-            List<BreedingParent> row = new ArrayList<>(parents);
-            rowLength = 1;
-            // Scan up to 20 contiguous mature parents; only the first four
-            // provide genes, while all twenty can affect the fertility bonus.
-            // A missing/unloaded/invalid parent ends the row immediately.
-            for (int distance = 2; distance <= CrossFertilityRules.MAX_ROW_LENGTH; distance++) {
-                Genome genome = eligibleParent(level, position.relative(rowDirection, distance), plants);
-                if (genome == null) break;
-                rowLength++;
-                if (row.size() < 4) row.add(new BreedingParent(rowDirection, genome));
-            }
-            if (row.size() >= 3) {
-                parents = row;
+            StraightRowParents.Selection row = StraightRowParents.scan(parents.getFirst().genome(),
+                    distance -> eligibleParent(level, position.relative(rowDirection, distance), plants));
+            if (row.length() >= 3) {
+                parents = new ArrayList<>(row.geneticParents().stream()
+                        .map(genome -> new BreedingParent(rowDirection, genome)).toList());
+                rowLength = row.length();
                 straightRow = true;
             }
         }
