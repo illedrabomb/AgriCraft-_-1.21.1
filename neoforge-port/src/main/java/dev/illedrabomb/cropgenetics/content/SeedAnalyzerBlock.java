@@ -86,7 +86,7 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
         // Original-style journal insertion. Sneak with the journal in hand,
         // even when the seed slot is occupied; never confuse it for a seed.
         if (player.isShiftKeyDown() && held.is(CropItems.SEED_JOURNAL.get())
-                && analyzer.getItem(1).isEmpty()) {
+                && analyzer.displayJournal().isEmpty()) {
             if (!level.isClientSide) {
                 analyzer.setItem(1, held.copyWithCount(1));
                 if (!player.getAbilities().instabuild) held.shrink(1);
@@ -101,7 +101,7 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
         // inventory instead of inserting anything.
         boolean insertable = level.isClientSide
                 ? canPredictDirectSeed(held) : analyzer.canPlaceItem(0, held);
-        if (!player.isShiftKeyDown() && analyzer.getItem(0).isEmpty()
+        if (!player.isShiftKeyDown() && analyzer.displaySeed().isEmpty()
                 && insertable) {
             if (!level.isClientSide) {
                 analyzer.setItem(0, held.copyWithCount(1));
