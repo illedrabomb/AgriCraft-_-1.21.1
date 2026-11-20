@@ -30,6 +30,8 @@ Use explicit `:test :build`: unqualified `test build` may include subprojects. C
 
 Only core JAR with minimum required loader/vanilla dependencies, optionally JEI for UI. No Pam or Farmer add-on JARs.
 
+**Fruchtmodell am aktuellen Branch (statischer Stand 20.11.2026):** `CropSticksBlock.randomTick` erzeugt für `GOURD` eine **interne** Frucht (`markInternalFruit`), keine neue physische Nachbarfrucht. `GourdFruits.tryPlace` hat im aktuellen Hauptmod-Wachstumspfad keinen Aufrufer. Die weiterhin vorhandenen `GeneticGourdFruitBlock`-/Besitzer- und Nachbarchunk-Routinen sind für **historisch gespeicherte physische Früchte** relevant. Für einen frischen Kürbis-/Melonensamen daher intern reifen Stamm, ersten Ertrag und zweiten Zyklus testen (`ER-04`); physische Frucht-/Token-Fälle ausschließlich in einer kontrolliert kopierten Altwelt (`CR-17`). Nicht wegen fehlender Nachbarfrucht fälschlich den aktuellen Normalfall als fehlgeschlagen markieren.
+
 - Verify world start, datapack reload, Crop Sticks single/double placement, growth, mature detection and one-stack-per-product harvest cap.
 - Normal wheat/carrot seed directly onto single sticks: both should initialize Growth/Gain/Strength = 1/1/1 and mature. Reproduce old `STK-04 / GEN-01` carrot crossing question with **known mature parents**, an empty double-stick target and repeated normal random ticks; keep growth speed unchanged for the fertility comparison. Record whether one-parent spreading is configured separately.
 - Two/three/four mature **direct** parents around empty target; one continuous 3+ straight row; confirm expected relative likelihood without treating a single random miss as a deterministic failure.

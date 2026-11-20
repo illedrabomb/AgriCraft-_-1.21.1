@@ -22,6 +22,7 @@
 - [x] ST-14: Handpflanzung und Kreuzungsnachwuchs bei fehlgeschlagenen/überschriebenen Blockzustandswechseln statisch abgesichert; kein Item-Verbrauch bzw. kein dauerhaft verstecktes Genom ohne bestätigtes `PLANTED` (`CR-14`). Ingame-Bestätigung offen.
 - [x] ST-15: Wachstum, physische/interne Fruchtbildung und Standard-/interne Fruchternte behandeln einen nicht übernommenen Blockzustand als Fehlschlag; Wachstumsstufe/Fruchtmetadaten werden im betroffenen Pfad zurückgesetzt (`CR-15`). **Nur statischer Diff-/Quellreview.**
 - [x] ST-16: Stage-Remap nach Reload, veraltete interne Gourd-Frucht und physische Fruchtbereinigung behalten bei abgewiesenem Blockupdate die vorherigen Wachstums-/Besitzmetadaten; spätere Wiederholung möglich (`CR-16`). **Statisch geprüft, nicht ausgeführt.**
+- [x] ST-17: `CropSticksBlock.randomTick` auf `markInternalFruit` und fehlenden Aufruf von `GourdFruits.tryPlace` im aktiven Hauptmod-Wachstumspfad abgeglichen. Neue interne Frucht gegen historische physische Besitzer-Frucht in `CR-17` getrennt; kein Code-/Spieltest.
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
@@ -60,6 +61,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] ER-08: **Ein Blatt** Papier bleibt nach einmaligem und wiederholtem Crafting im Gitter; Papierstapel behalten ihre genaue Menge und Komponenten; Shift-Klick erzeugt keine Duplikate oder Verluste (`CR-12`).
 - [ ] ER-09: Misslungene Standard-/interne Gourd-Ernte erzeugt keine Produkte und lässt Frucht-/Altersdaten für einen später legitimen Versuch erhalten (`CR-15`).
 - [ ] ER-10: Nach Datapack-Wechsel bzw. Entfernen physischer Frucht keine teilweise gelöschte interne Frucht-/Besitzkennung bei fehlgeschlagenem Update (`CR-16`).
+- [ ] ER-11: Frisches internes Kürbis-/Melonenwachstum gegen historisch gespeicherte physische Nachbarfrucht abgrenzen; Altwelt ohne geeigneten Save als blockiert führen (`CR-17`).
 
 ### Analyzer, Chest, Journal, Client und Multiplayer
 
