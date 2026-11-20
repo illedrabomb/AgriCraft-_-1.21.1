@@ -461,6 +461,12 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         if (!(level.getBlockEntity(pos) instanceof CropSticksBlockEntity crop)) {
             return InteractionResult.PASS;
         }
+        // This is the empty-hand harvest/removal interaction, not a fallback
+        // harvest for an item whose on-use action was rejected. In particular,
+        // unsuccessful bone meal or water-bucket treatment must never harvest
+        // a mature crop accidentally while the player still holds that item.
+        if (!player.getMainHandItem().isEmpty() || !player.getOffhandItem().isEmpty())
+            return InteractionResult.PASS;
         // Empty crossed sticks are reserved for breeding: remove the upper
         // layer with an empty-hand right-click before planting a seed.
         if (crop.genome() == null && state.getValue(CROSS)
