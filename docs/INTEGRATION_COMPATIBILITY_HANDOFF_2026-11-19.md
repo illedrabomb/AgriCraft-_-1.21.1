@@ -703,3 +703,9 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - **Code- und Text-Commits `8ca2a7cb`, `b10e002c`, `f30a7c6b`, Testquelle `4848de59`:** Die JEI-Vorschaurezepte sind vereinfachte Shapeless-Darstellungen und können die tatsächliche Restzutat des dynamischen Rückwandlungsrezepts nicht zeigen. Neue Informationsseite für `cropgenetics:genetic_seed` erklärt deshalb auf Deutsch und Englisch, dass **ein Blatt Papier wiederverwendbar** ist. Beide Lokalisierungen sind durch einen bestehenden erweiterten JUnit-Quelltest abgedeckt (nicht ausgeführt).
 - Manuellen Fall **CR-12** um Ein-Blatt-Gittererhalt, Papierstapel, Shift-Klick und ungültige Rückwandlung erweitert. Zentrale Prüfliste: **ST-09** statisch erledigt, **ER-08/UI-07** bis zum Gameplay-/JEI-Test offen.
 - Keine Gradle-, JUnit-, Minecraft- oder CI-Ausführung. Die Client-Rezeptvorschau bleibt ausdrücklich nur Beispiel, keine Behauptung über bereits geprüfte Shift-Klick-Laufzeitmechanik.
+
+### Fortsetzung 20.11.2026 – Journal-Nachtrag bei Analyzer-Weltwiederherstellung
+
+- **Ausgangsstand:** `5cabff34165b49a8bdaac698cd537ebd3ed391dc`.
+- **Code-Commits `80cc66ed`, `08247982`:** `SeedAnalyzerBlockEntity.reconcileJournalMutations` hat bisher nur gültige Mutationshinweise nach `/reload` erneuert, aber bei einem bereits belegten Analyzer eine im Journal fehlende Art nicht nachgetragen. Ein gemeinsamer privater Helper führt nun dieselbe „analysierter Seed → Art protokollieren → Mutationen aktualisieren“-Operation bei Einlegen und beim periodischen Abgleich aus. Keine Löschung vorhandener Entdeckungen, keine Veränderung der Genome oder Analysemarkierungen.
+- **Manueller Fall MP-22** und zentrale Prüfliste **ST-10** (statisch) / **UI-08** (runtime offen) ergänzt. Testweltkopie und gezielt vorbereitete Journal-NBT nötig. Kein Gradle, JUnit, Minecraft oder CI gestartet. Die ältere MP-20-Mutationsprüfung bleibt bestehen.
