@@ -22,6 +22,11 @@ public final class OriginalSeedRecoveryRecipe extends CustomRecipe {
         super(category);
     }
 
+    /** One paper is consumed and refunded with its exact component patch. */
+    static ItemStack paperRemainder(ItemStack input) {
+        return input.is(Items.PAPER) ? input.copyWithCount(1) : ItemStack.EMPTY;
+    }
+
     private static ItemStack recoveryIngredient(CraftingInput input) {
         if (input.ingredientCount() != 2) return ItemStack.EMPTY;
         ItemStack geneticSeed = ItemStack.EMPTY;
@@ -67,7 +72,10 @@ public final class OriginalSeedRecoveryRecipe extends CustomRecipe {
         if (recoveryIngredient(input).isEmpty()) return remaining;
         for (int i = 0; i < input.size(); i++) {
             if (input.getItem(i).is(Items.PAPER)) {
-                remaining.set(i, new ItemStack(Items.PAPER));
+                // Crafting spends exactly one paper before returning one.
+                // Keep its custom name and other data components intact;
+                // replacing it with fresh vanilla paper would erase them.
+                remaining.set(i, paperRemainder(input.getItem(i)));
             }
         }
         return remaining;
