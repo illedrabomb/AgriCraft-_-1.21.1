@@ -74,6 +74,27 @@ class BalancedBreedingTest {
     }
 
     @Test
+    void threeLostPointsWithoutRefundMakeTheChildWeaker() {
+        Genome baseline = g(4, 4, 4);
+        // Select parent, lose three Growth points, reject all three 40%
+        // refunds, then roll zero base points. Gain/Strength do not lose.
+        assertEquals(g(1, 4, 4), BreedingEngine.combine(baseline, baseline,
+                baseline.plantId(), new FixedRolls(new int[]{0, 99, 0},
+                        0D, 0.9D, 0.9D, 0.9D, 1D, 1D)));
+        assertEquals(g(4, 4, 4), baseline);
+    }
+
+    @Test
+    void onlyActuallyLostPointsAreEligibleForPartialRefund() {
+        Genome baseline = g(3, 2, 1);
+        // Requested three-point Growth loss is limited to two at MIN=1.
+        // Only the first actual loss refunds a point, allocated to Gain.
+        assertEquals(g(1, 3, 1), BreedingEngine.combine(baseline, baseline,
+                baseline.plantId(), new FixedRolls(new int[]{0, 99, 0, 1},
+                        0D, 0.1D, 0.9D, 1D, 1D)));
+    }
+
+    @Test
     void highStrengthPreventsLossAtTheSameRoll() {
         Genome sturdy = g(3, 3, 10);
         assertEquals(sturdy, BreedingEngine.combine(sturdy, sturdy,
