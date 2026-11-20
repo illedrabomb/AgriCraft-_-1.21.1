@@ -18,11 +18,28 @@ class CrossBreedingFertilityTest {
 
     @Test
     void uninterruptedRowHasLowerOddsThanAllAdjacentCrosses() {
-        assertTrue(CrossFertilityRules.rowFertilityMultiplier()
+        assertTrue(CrossFertilityRules.rowFertilityMultiplier(3)
                 < CrossFertilityRules.parentCountMultiplier(2));
         assertTrue(CrossFertilityRules.rowMutationMultiplier()
                 < CrossFertilityRules.mutationMultiplier(2));
-        assertEquals(0.15D, 0.30D * CrossFertilityRules.rowFertilityMultiplier(), 1.0E-10);
+        assertEquals(0.15D, 0.30D * CrossFertilityRules.rowFertilityMultiplier(3), 1.0E-10);
+    }
+
+    @Test
+    void longerContiguousRowsIncreaseOnlyFertilityUpToTwentyPlants() {
+        assertEquals(0.50D, CrossFertilityRules.rowFertilityMultiplier(3), 1.0E-10);
+        assertTrue(CrossFertilityRules.rowFertilityMultiplier(4)
+                > CrossFertilityRules.rowFertilityMultiplier(3));
+        assertTrue(CrossFertilityRules.rowFertilityMultiplier(10)
+                > CrossFertilityRules.rowFertilityMultiplier(4));
+        assertEquals(1.0D, CrossFertilityRules.rowFertilityMultiplier(20), 1.0E-10);
+        assertEquals(CrossFertilityRules.rowFertilityMultiplier(20),
+                CrossFertilityRules.rowFertilityMultiplier(21), 1.0E-10);
+        assertEquals(0.30D, 0.30D * CrossFertilityRules.rowFertilityMultiplier(20), 1.0E-10);
+        assertTrue(CrossFertilityRules.rowFertilityMultiplier(20)
+                < CrossFertilityRules.parentCountMultiplier(4));
+        assertThrows(IllegalArgumentException.class,
+                () -> CrossFertilityRules.rowFertilityMultiplier(2));
     }
 
     @Test

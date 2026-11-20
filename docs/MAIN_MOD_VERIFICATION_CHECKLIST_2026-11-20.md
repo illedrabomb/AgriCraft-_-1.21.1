@@ -27,6 +27,7 @@
 - [x] ST-19: `SpeciesGeneLimits.apply` nach Auswahl der Kindart in `CrossBreeding.attempt` statisch geprüft: neue dritte Art maximal `4/4/4`, bereits beteiligte Ergebnisart höchstens eigener Bestwert je Gen oder 5; schwächere Werte bleiben erhalten. Art- und Standortvoraussetzungen anhand des gedeckelten Genoms geprüft; Same-Species-Kreuzung und Ein-Eltern-Klon unverändert. `SpeciesGeneLimitsTest` als JUnit-Quelle ergänzt, **nicht ausgeführt**.
 - [x] ST-20: `BreedingEngine` auf robustheitsgewichtete vollständige Elternvorlage, 0–4-Punkte-Tabelle, +3-Grenze je Genwert, Mehrpunktverlust und 40-%-Rückgewinnung umgestellt. `CrossBreeding` gibt Reihenmodus gesondert weiter; bestehende Config-Multiplikatoren werden auf den neuen Tabellenfaktor normalisiert. `BalancedBreedingTest` neu, `RowEvolutionInheritanceTest` aktualisiert; **nur statische Quellprüfung, kein Build/Test/Simulation**.
 - [x] ST-21: Doppelten Mutationsabschlag der 3+-Reihe im BAL-01-Code statisch entfernt: Normierung des historischen Reihen-Multiplikators `0,5` gegen Reihen-Baseline `0,5` statt gegen die Zahl der Eltern, während die 2-Eltern-Punktetabelle erhalten bleibt. `BalancedBreedingTest` um volle Vierpunkte-Reihe und reduzierten konfigurierten Reihen-Faktor ergänzt. **Quellreview, keine Testausführung**.
+- [x] ST-22: `CrossBreeding.attempt` zählt maximal 20 unmittelbar aufeinanderfolgende reife Reiheneltern, behält höchstens vier als Genvorlagen und erhöht nur die Reihen-Entstehungschance; `CrossFertilityRules.rowFertilityMultiplier(int)` liefert 0,5 bei 3 bzw. 1,0 bei 20 Eltern und deckelt darüber. `CrossBreedingFertilityTest` um Grenzwerte erweitert. **Statische Prüfung; keine Testausführung**.
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
@@ -52,7 +53,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] GE-08: Abgewiesene oder überschriebene Blockzustandsänderung bei Handpflanzung und Kreuzungsnachkomme ohne Seed-Verlust oder unsichtbares Genom (`CR-14`, nur kopierte Testwelt).
 - [ ] GE-09: Misslungene Wachstumsschritte erhöhen weder Wachstumsstufe noch verbrauchen sie Knochenmehl oder Bodennährstoffe (`CR-15`).
 - [ ] GE-10: Abgewiesenes Stage-Remap nach Reload bewahrt `GrowthStage` und `TotalGrowthStages`, späterer erfolgreicher Remap rechnet nur einmal um (`CR-16`).
-- [ ] GE-11: Kreuzungschancen mit 2/3/4 direkten Eltern und gesonderter 3+-Reihe unter protokollierter Serverconfig und gültigen Ziel-Ticks prüfen; einfache Stichproben nicht als empirischen Prozentbeleg ausgeben (`CR-18`).
+- [ ] GE-11: Kreuzungschancen mit 2/3/4 direkten Eltern und gesonderter lückenloser 3-/4-/10-/20-Eltern-Reihe unter protokollierter Serverconfig und gültigen Ziel-Ticks prüfen; dabei Unreife, Lücke und nicht geladene Chunks als Abbruch sowie maximal vier tatsächliche Genvorlagen nachweisen. Baseline-Soll: 15 % bei 3er-Reihe, 30 % bei 20er-Reihe, 45 % bei 4 direkten Eltern. Einfache Stichproben nicht als empirischen Prozentbeleg ausgeben (`CR-18` historisch vor Längenbonus).
 
 ### Nachgelagerte Gameplay-Balance (bewusst offen)
 

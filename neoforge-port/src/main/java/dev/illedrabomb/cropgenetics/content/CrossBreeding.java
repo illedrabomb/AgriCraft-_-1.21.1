@@ -49,13 +49,19 @@ public final class CrossBreeding {
         // arrangement: E E E S (three or more mature parents, one direction).
         // Direct two-, three- or four-sided crosses always take precedence.
         boolean straightRow = false;
+        int rowLength = 0;
         if (parents.size() == 1) {
             Direction rowDirection = parents.getFirst().direction();
             List<BreedingParent> row = new ArrayList<>(parents);
-            for (int distance = 2; distance <= 16 && row.size() < 4; distance++) {
+            rowLength = 1;
+            // Scan up to 20 contiguous mature parents; only the first four
+            // provide genes, while all twenty can affect the fertility bonus.
+            // A missing/unloaded/invalid parent ends the row immediately.
+            for (int distance = 2; distance <= CrossFertilityRules.MAX_ROW_LENGTH; distance++) {
                 Genome genome = eligibleParent(level, position.relative(rowDirection, distance), plants);
                 if (genome == null) break;
-                row.add(new BreedingParent(rowDirection, genome));
+                rowLength++;
+                if (row.size() < 4) row.add(new BreedingParent(rowDirection, genome));
             }
             if (row.size() >= 3) {
                 parents = row;
@@ -87,7 +93,7 @@ public final class CrossBreeding {
         // Two parents are the weakest configuration (a straight row is one
         // example). Three and four eligible neighbors increase breeding
         // probability without requiring multiple independent parent rolls.
-        double parentCountFactor = straightRow ? CrossFertilityRules.rowFertilityMultiplier()
+        double parentCountFactor = straightRow ? CrossFertilityRules.rowFertilityMultiplier(rowLength)
                 : CrossFertilityRules.parentCountMultiplier(parentCount);
         double chance = Math.min(1.0D, CrossFertilityRules.pairFertilityChance(first, second)
                 * parentCountFactor * CropBalanceConfig.CROSS_FERTILITY_MULTIPLIER.get());

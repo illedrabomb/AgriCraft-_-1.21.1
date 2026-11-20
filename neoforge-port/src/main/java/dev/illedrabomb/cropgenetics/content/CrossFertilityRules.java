@@ -9,6 +9,7 @@ final class CrossFertilityRules {
     // Three mature-parent crop stats no longer include inherited Fertility.
     // Players can adjust overall breeding speed in the SERVER config.
     private static final double BASE_CHANCE = 0.30D;
+    static final int MAX_ROW_LENGTH = 20;
 
     static double fertilityChance(Genome genome) {
         return BASE_CHANCE;
@@ -28,8 +29,16 @@ final class CrossFertilityRules {
         return parentCount - 1;
     }
 
-    /** An extended straight row is deliberately weaker than any adjacent pair. */
-    static double rowFertilityMultiplier() { return 0.50D; }
+    /**
+     * Three contiguous mature parents start at 15% fertility; a full row of
+     * twenty reaches 30% at default config, still below four direct parents.
+     * Genes always come from at most four parents, regardless of row length.
+     */
+    static double rowFertilityMultiplier(int rowLength) {
+        if (rowLength < 3) throw new IllegalArgumentException("Row requires at least three parents");
+        int cappedLength = Math.min(MAX_ROW_LENGTH, rowLength);
+        return 0.50D + 0.50D * (cappedLength - 3) / (MAX_ROW_LENGTH - 3);
+    }
 
     /** A row also has less chance to improve visible traits. */
     static double rowMutationMultiplier() { return 0.50D; }
