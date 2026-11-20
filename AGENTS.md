@@ -13,6 +13,7 @@
 
 ## Umsetzung und Verifikation
 - Zusammenhängende Arbeitspakete bevorzugen; Arbeiten und Risiken nachvollziehbar dokumentieren.
+- **Commit-Regel (Vereinbarung 20.11.2026):** Ein abgeschlossenes, zusammenhängendes Arbeitspaket nach statischer Prüfung möglichst als **einen einzigen GitHub-Commit** veröffentlichen – Quellcode, neue/nachgeführte Testfälle und Checkliste/Schnelleinstieg gemeinsam. Separate Commits nur für tatsächlich unabhängig rücknehmbare Pakete oder technische Notfälle; bestehende Historie nicht nachträglich umschreiben. Erst Abschluss samt Commit-ID melden, dann das nächste Thema beginnen.
 - Bestehende Vereinbarung: automatisierte Builds/JUnit, Minecraft- und Multiplayer-Tests erst nach ausdrücklicher Freigabe des Nutzers. Statische Analyse ist keine Testausführung.
 - Niemals `Test geschrieben` mit `Test bestanden` gleichsetzen. Teststatus nur mit Commit, Datum, Umgebung, Ergebnis und Beleg als bestanden markieren.
 - Hauptmod zunächst separat verifizieren; Add-ons erst nach vereinbartem Hauptmod-Gate testen.

@@ -309,8 +309,13 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (level == null || level.isClientSide || genome == null
                 || !genome.plantId().equals(plant.id())
                 || growthStage >= plant.stages().size() - 1) return false;
+        int previousStage = growthStage;
         growthStage++;
-        syncState(plant);
+        if (!syncState(plant)) {
+            growthStage = previousStage;
+            setChanged();
+            return false;
+        }
         return true;
     }
 
@@ -328,7 +333,13 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitReady = true;
         fruitDirection = direction;
         fruitToken = token;
-        syncState(plant);
+        if (!syncState(plant)) {
+            fruitReady = false;
+            fruitDirection = null;
+            fruitToken = null;
+            setChanged();
+            return false;
+        }
         return true;
     }
 
@@ -346,7 +357,11 @@ public final class CropSticksBlockEntity extends BlockEntity {
         fruitReady = true;
         fruitDirection = null;
         fruitToken = null;
-        syncState(plant);
+        if (!syncState(plant)) {
+            fruitReady = false;
+            setChanged();
+            return false;
+        }
         return true;
     }
 
@@ -357,7 +372,15 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 || !CropFruitTransitionRules.canHarvestInternalGourd(plant.harvestMode(),
                         isMature(plant), fruitReady, fruitDirection != null,
                         fruitToken != null)) return false;
-        clearFruit(plant);
+        fruitReady = false;
+        // For an internal gourd fruit the stem stays mature. Only report
+        // harvest success (and let the caller pay out items) after the
+        // block's FRUIT=false transition really sticks.
+        if (!syncState(plant)) {
+            fruitReady = true;
+            setChanged();
+            return false;
+        }
         return true;
     }
 
@@ -431,12 +454,23 @@ public final class CropSticksBlockEntity extends BlockEntity {
      */
     public boolean finishHarvest(PlantDefinition plant) {
         if (level == null || level.isClientSide || !readyForHarvest(plant)) return false;
+        int previousStage = growthStage;
+        boolean previousFruitReady = fruitReady;
+        Direction previousFruitDirection = fruitDirection;
+        UUID previousFruitToken = fruitToken;
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
         // A final-stage reset would allow unlimited repeated harvests without regrowth.
         growthStage = CropGrowth.regrowthStage(plant);
-        syncState(plant);
+        if (!syncState(plant)) {
+            growthStage = previousStage;
+            fruitReady = previousFruitReady;
+            fruitDirection = previousFruitDirection;
+            fruitToken = previousFruitToken;
+            setChanged();
+            return false;
+        }
         return true;
     }
 
