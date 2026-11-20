@@ -32,6 +32,15 @@
 
 **Zeitplanung:** A–D zuerst, danach E und F. Kein künstliches Zeitlimit und kein Überspringen ungeprüfter Fälle als „bestanden“; bei wenig Zeit Blöcke sauber als offen lassen und später fortsetzen. Die IDs aus der zentralen Prüfliste sind verbindlich; diese Tabelle erzeugt keine neuen Testfälle.
 
+### Reihenfolge innerhalb des Genetikblocks und notwendige Vorbereitung
+
+1. **Zunächst ohne Test-Datapack:** GE-01–GE-04 mit derselben Standard-Serverconfig spielen: echte Elternreife und reinen Ein-Eltern-Klon feststellen; dann 2/3/4 direkte Eltern, kurze Reihe und 20er-Reihe. Für jede Formation Anzahl **gültiger Ziel-Random-Ticks** und entstandene Kinder getrennt erfassen. Keinen einzelnen zufälligen Fehlschlag als Fehler werten.
+2. **Grenzwerte ohne Balanceversprechen:** Mit bereits bekannten Seed-Genen prüfen, dass neue Pflanzen nach Artenmutation höchstens `4/4/4` besitzen, dass niedrigere Werte erlaubt sind und dass gleichartige Eltern ihre eigene Art über 5 hinaus weiterentwickeln können. Für nicht natürlich auftretende Situationen `GE-12` nutzen.
+3. **Danach nur in einer Kopie mit gesichertem Test-Datapack:** `GE-12a` bis `GE-12f` gemäß [Detailmatrix](CROSSBREEDING_SPECIES_FALLBACK_TESTS_2026-11-20.md) durchführen. Mutation zu einer dritten Art **niemals allein aus dem Elternpaar ableiten**; eine tatsächlich passende Datapack-Regel und passende Standortbedingungen sind nötig. Ist diese Vorbereitung nicht vorhanden, `blocked` notieren, keinen regulären Save manipulieren.
+4. **BAL-01 – statistische Zuchtziel-Abnahme getrennt:** Vier `1/1/1`-Eltern mit konsequenter Beste-Kinder-Auslese, Zahl der **erfolgreich entstandenen** Kinder bis `10/10/10` dokumentieren. Ein einzelner Zuchtlauf ist **kein Nachweis**, dass der Erwartungswert höchstens 70 beträgt. Für eine belastbare Stichprobe/Simulation ist separate ausdrückliche Freigabe erforderlich; bis dahin `BAL-01` offen lassen.
+
+**Wichtiger Unterschied:** `GE-11` misst die Entstehungschance **pro gültigem Tick**, `BAL-01` die Genentwicklung **pro erfolgreich erzeugtem Kind**. Die separat einstellbaren Config-Werte und die Robustheit nicht als austauschbare Fertilitätswerte behandeln. Vor allem bei vielen Pflanzen können derselbe Seed und dieselbe Welt unterschiedliche Tickzahlen haben.
+
 ## 3. Dokumentation pro Fall
 
 Ein Ergebnis enthält mindestens: **Fall-ID, pass/fail/blocked/open, exakte Commit-SHA, Datum/Uhrzeit, Einzel-/Mehrspieler, Modliste, erwartetes und tatsächliches Verhalten, Reproduktionsschritte, Belegpfad**. Für Zufalls-/Wachstumsfälle zusätzlich Anzahl der Versuche, beobachtete Ereignisse und Wartebedingungen. `pass` nur nach beobachtetem Soll; geschriebene JUnit-Quellen allein zählen nicht.
