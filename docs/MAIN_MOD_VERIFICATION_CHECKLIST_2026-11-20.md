@@ -13,6 +13,7 @@
 - [x] ST-05: Gourd→Standard-Datapackwechsel und veraltete interne Fruchtkennung in Reload-/Harvest-/Loot-Pfaden geprüft (`a135543f`, `02c23b24`).
 - [x] ST-06: Gourd-Ernte auf echte Reife und fehlende physische Besitzerkennung abgesichert (`e437397d`, `6345716e`, `986b2b89`, Testquelle `2c8a48be`).
 - [x] ST-07: Ein Stack pro unterschiedlichem Ernteprodukt in `CropHarvest.products` im Quellcode bestätigt; der bereits vorhandene JUnit-Test ist **nicht** frisch ausgeführt.
+- [x] ST-08: Rückgabe des Papiers beim Original-Seed-Rezept auf Erhalt sämtlicher Data Components umgestellt (`f5b3f067`); neuer JUnit-Quelltest (`9c1d80ea`) vorbereitet, nicht ausgeführt.
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
@@ -44,6 +45,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] ER-05: Wechsel GOURD→STANDARD mit bereits fertiger interner Frucht, unmittelbar danach Rechtsklick und Blockabbau (`HG-01`).
 - [ ] ER-06: Gespeicherte interne Frucht mit nicht reifem Stamm darf weder per Rechtsklick noch beim Blockabbau Produkte ausgeben (`HG-02`, nur in kopierter Testwelt mit gezieltem Datapack-/NBT-Teststand).
 - [ ] ER-07: Seeds mit externen Komponenten, OriginalSeed-Provenienz und geschützte Rückwandlung (`CR-08` bis `CR-11`).
+- [ ] ER-08: Rückgewonnenes Papier behält individuellen Namen, alle Komponenten und exakte Menge (`CR-12`).
 
 ### Analyzer, Chest, Journal, Client und Multiplayer
 
