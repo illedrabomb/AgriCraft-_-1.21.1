@@ -35,4 +35,16 @@ class CropFruitTransitionRulesTest {
         assertTrue(CropFruitTransitionRules.canHarvestStandard(
                 HarvestMode.STANDARD, true, false, false, false));
     }
+
+    @Test
+    void internalGourdNeedsActualMaturityAndNoPhysicalOwner() {
+        assertTrue(CropFruitTransitionRules.canHarvestInternalGourd(
+                HarvestMode.GOURD, true, true, false, false));
+        assertFalse(CropFruitTransitionRules.canHarvestInternalGourd(
+                HarvestMode.GOURD, false, true, false, false));
+        assertFalse(CropFruitTransitionRules.canHarvestInternalGourd(
+                HarvestMode.GOURD, true, true, true, true));
+        assertFalse(CropFruitTransitionRules.canHarvestInternalGourd(
+                HarvestMode.STANDARD, true, true, false, false));
+    }
 }
