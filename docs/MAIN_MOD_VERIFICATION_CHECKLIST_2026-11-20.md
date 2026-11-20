@@ -18,6 +18,7 @@
 - [x] ST-10: Wiederhergestellter Analyzer mit bereits eingelegtem Saatgut und Journal wird periodisch auf fehlende Pflanzenentdeckung und aktuelle Mutationshinweise abgeglichen (`80cc66ed`, `08247982`). Gemeinsam genutzte, idempotente Code-Logik statisch geprüft; Save/Reload-Test offen.
 - [x] ST-11: Direkte Analyzer-Rechtsklicks verwenden für Client-Belegungsprognosen die öffentlichen Anzeige-Slots statt der nur serverseitig vollständigen Inventarslots (`311fce8e`). Statische Quellprüfung; Multiplayer-Laufzeit offen.
 - [x] ST-12: Zweite Crop-Sticks-Lage wird nur bei bestätigtem Blockzustand verbraucht bzw. als Item ausgegeben (`88db8895`). Statisch geprüft; abgefangene/überschriebene Blockänderungen im Spiel noch offen.
+- [x] ST-13: Seed-/Analyzer-/Chest-/Journal-/Papier-Datenpfade gemäß [`SEED_DATA_INTEGRITY_STATIC_AUDIT_2026-11-20.md`](SEED_DATA_INTEGRITY_STATIC_AUDIT_2026-11-20.md) gegen Quellstand `5254fbba` geprüft. **MITTEL-Risiko:** ein direkter übergroßer `Container.setItem`-Aufruf kürzt ohne Rest-Rückgabe; reguläre Slot-/Shift-Klick-Pfade weiter ungetestet. Keine Runtime-Prüfung.
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
