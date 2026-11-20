@@ -654,3 +654,10 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - **`87eb04c0`**: Die Client-Erfolgsprognose für bereits genetisch markierte Seeds berücksichtigt die gleiche Quellkomponenten-Prüfung. Sonst würde der Client eine Pflanzung bestätigen, die der Server zu Recht ablehnt.
 - **`9ee7a48e`**: Ergänzte externe Testfälle **CR-08** (fremde Item-Komponenten überleben abgewiesene Pflanzung), **CR-09** (Herkunft gewöhnlicher Mod-Seeds entspricht tatsächlich eingesetztem Item), **CR-10** (dedizierter genetischer Seed behält seinen expliziten historischen Ursprung, auch nach Mapping-Entfernung).
 - Einschränkung: Das Vorbereiten von Seeds mit manipulierten Komponenten gehört ausschließlich in eine **kopierte Testwelt**. Die serverseitigen Mapping-/Provenienzregeln wurden statisch überprüft, **nicht** durch Gradle, JUnit, Minecraft oder Multiplayer ausgeführt.
+
+### Fortsetzung 20.11.2026 – Schutz beim Rückwandeln genetischer Seeds
+
+- Quellcode gegen Branch-HEAD `70c3ffb044c861de5e9e8d64bcad876f171f8b9c` geprüft. `CropItems.recoverOriginalSeed` ließ zuvor fremde Data Components auf dem genetischen Seed ohne Verlustprüfung verschwinden, weil das Rezept ein neues Original-Item herstellt. Die Rückwandlung prüft nun dieselbe strenge Sicherheitsregel wie andere Seed-Konvertierungen und verweigert das Rezept bei fremden Komponenten.
+- Regressionstestquelle `CropSeedSourceSafetyTest` um entfernte Komponenten erweitert; manueller Rezepttest **CR-11** hinzugefügt. Die absichtliche Entfernung von Genomdaten beim freiwilligen Rückwandeln einfacher genetischer Seeds bleibt unverändert.
+- **Nicht ausgeführt:** Gradle, JUnit, Minecraft, CI. **Weiter offen:** das gesamte kombinierte Hauptmod-Test-Gate, echte Inventar-/Rezeptprüfungen und danach getrennte optionale Add-ons (Pam's, MineColonies, Farmer's Delight). Keine Kompatibilität eines Add-ons hiermit nachgewiesen.
+- **Code-Commit:** `d574e106` (Rückwandlungsprüfung und ergänzter JUnit-Quelltest). **Dokumentations-Commit:** der unmittelbar folgende Commit auf `integration/neoforge-1211-consolidation`.
