@@ -18,9 +18,11 @@
 - Ältere lokale Erfolge vom 17.11.2026 belegen **nicht** den inzwischen veränderten Branch.
 - Zuletzt dokumentierte Quelländerungen betreffen u. a. Journal-Nachtrag, Client-Belegungsprognose am Analyzer sowie abgesicherte Crop-Sticks-Lagenwechsel. **Nicht im Spiel bestätigt.**
 - Nächste Aktion: aktuellen HEAD und offene Quellarbeit abgleichen; nur noch für das aktuelle Arbeitspaket notwendige Änderungen durchführen. Für Tests gesondert Freigabe einholen.
+- Gemeinsamer Core-only-Test ist für **Sonntagabend, 22.11.2026** ins Auge gefasst; der [kurze Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) ist vorbereitet, **nicht freigegeben oder ausgeführt**. Fehlende Freigabe bleibt Blocker für jede Testausführung.
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.
+- [Sonntags-Testabend](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) – Reihenfolge, Stoppsignale und Ergebnis-Nachweise für den gemeinsamen Core-only-Lauf.
 - [Multiplayer-/Inventar-Testfälle](MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md) – MP-01 bis MP-23.
 - [Integration/Kompatibilität – historische Übergabe](INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md) – technische Entscheidungsdetails, Pam/Farmer's und ältere Commits.
 - [Projektstatus – historisches Entwicklungsjournal](PROJECT_STATUS.md) – ältere Änderungen und Testergebnisse.
