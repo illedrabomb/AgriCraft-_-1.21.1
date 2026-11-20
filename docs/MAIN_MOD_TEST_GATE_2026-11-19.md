@@ -174,3 +174,9 @@ Add-on build/launch verification is **not** a prerequisite to the core-only manu
 - **`87eb04c0`**: Die Client-Erfolgsprognose für bereits genetisch markierte Seeds berücksichtigt die gleiche Quellkomponenten-Prüfung. Sonst würde der Client eine Pflanzung bestätigen, die der Server zu Recht ablehnt.
 - **`9ee7a48e`**: Ergänzte externe Testfälle **CR-08** (fremde Item-Komponenten überleben abgewiesene Pflanzung), **CR-09** (Herkunft gewöhnlicher Mod-Seeds entspricht tatsächlich eingesetztem Item), **CR-10** (dedizierter genetischer Seed behält seinen expliziten historischen Ursprung, auch nach Mapping-Entfernung).
 - Einschränkung: Das Vorbereiten von Seeds mit manipulierten Komponenten gehört ausschließlich in eine **kopierte Testwelt**. Die serverseitigen Mapping-/Provenienzregeln wurden statisch überprüft, **nicht** durch Gradle, JUnit, Minecraft oder Multiplayer ausgeführt.
+
+### Nachtrag: Rückwandlung schützt zusätzliche Seed-Komponenten (20.11.2026)
+
+- **`d574e106`:** `CropItems.recoverOriginalSeed` verweigert die Papier-Rückwandlung, wenn der genetische Seed fremde oder ausdrücklich entfernte Data Components im Patch trägt. Das bestehende Rezept liefert dann kein Resultat und verbraucht weder Seed noch Papier. Die absichtliche Umwandlung eines unveränderten genetischen Seeds in ein gewöhnliches Original-Item bleibt erlaubt und entfernt weiterhin bewusst die genetischen Angaben.
+- `CropSeedSourceSafetyTest` enthält nun auch einen Quellcode-Testfall für das Entfernen eines fremden Standard-Components; vorhandene Fälle für benannte Stacks decken die genutzte Sicherheitsregel ab. **Tests wurden nicht gestartet.**
+- Externer manueller Fall **CR-11** im Multiplayer-/Inventarkatalog. Verbleibende Risiken: Laufzeitvalidierung des Rezeptgitters und dessen Papier-Rückgabe sowie gesamter Core-only-Gate weiterhin offen.
