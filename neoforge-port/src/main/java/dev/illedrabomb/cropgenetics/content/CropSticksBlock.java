@@ -311,9 +311,12 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
             return;
         }
         if (random.nextDouble() < CropGrowth.chance(plant, genome) * factor) {
-            crop.advanceGrowth(plant);
-            // Never debit nutrients for failed rolls or mature idle crops.
-            SoilDynamics.onGrowth(level, pos, random);
+            // Only a committed stage change may trigger soil nutrient use.
+            // A reload, chunk transition or another mod can make an already
+            // selected growth roll invalid before advanceGrowth runs.
+            if (crop.advanceGrowth(plant)) {
+                SoilDynamics.onGrowth(level, pos, random);
+            }
         }
     }
 
