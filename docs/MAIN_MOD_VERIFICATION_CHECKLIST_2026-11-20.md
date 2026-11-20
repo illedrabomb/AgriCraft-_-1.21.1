@@ -14,6 +14,7 @@
 - [x] ST-06: Gourd-Ernte auf echte Reife und fehlende physische Besitzerkennung abgesichert (`e437397d`, `6345716e`, `986b2b89`, Testquelle `2c8a48be`).
 - [x] ST-07: Ein Stack pro unterschiedlichem Ernteprodukt in `CropHarvest.products` im Quellcode bestätigt; der bereits vorhandene JUnit-Test ist **nicht** frisch ausgeführt.
 - [x] ST-08: Rückgabe des Papiers beim Original-Seed-Rezept auf Erhalt sämtlicher Data Components umgestellt (`f5b3f067`); neuer JUnit-Quelltest (`9c1d80ea`) vorbereitet, nicht ausgeführt.
+- [x] ST-09: JEI-Rezeptdarstellung auf fehlende Katalysator-/Papier-Restanzeige geprüft; wiederverwendbare Papier-Anleitung (`8ca2a7cb`, `b10e002c`, `f30a7c6b`) und Lokalisierungsquelltest (`4848de59`) ergänzt. Laufzeitprüfung offen.
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
@@ -45,7 +46,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] ER-05: Wechsel GOURD→STANDARD mit bereits fertiger interner Frucht, unmittelbar danach Rechtsklick und Blockabbau (`HG-01`).
 - [ ] ER-06: Gespeicherte interne Frucht mit nicht reifem Stamm darf weder per Rechtsklick noch beim Blockabbau Produkte ausgeben (`HG-02`, nur in kopierter Testwelt mit gezieltem Datapack-/NBT-Teststand).
 - [ ] ER-07: Seeds mit externen Komponenten, OriginalSeed-Provenienz und geschützte Rückwandlung (`CR-08` bis `CR-11`).
-- [ ] ER-08: Rückgewonnenes Papier behält individuellen Namen, alle Komponenten und exakte Menge (`CR-12`).
+- [ ] ER-08: **Ein Blatt** Papier bleibt nach einmaligem und wiederholtem Crafting im Gitter; Papierstapel behalten ihre genaue Menge und Komponenten; Shift-Klick erzeugt keine Duplikate oder Verluste (`CR-12`).
 
 ### Analyzer, Chest, Journal, Client und Multiplayer
 
@@ -54,6 +55,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] UI-03: Seed-/Journal-Komponenten vor Zuschauern geschützt; Save/Reload leerer Slots (`MP-18`, `MP-19`).
 - [ ] UI-04: Journal-Mutationen nach `/reload` ohne Buch-Neueinlage (`MP-20`).
 - [ ] UI-05: Tooltip, verdeckte/analysierte Gene, Seed-Stapel, JEI, HUD und Stage-0-Visuals.
+- [ ] UI-07: JEI zeigt die ausdrückliche Erklärung „Papier ist wiederverwendbar“ für genetische Seeds in Deutsch und Englisch; die vereinfachte Rezeptvorschau wird nicht als tatsächlich papierverbrauchend missverstanden.
 - [ ] UI-06: Dedizierter Server und zwei Spieler: gespeicherte Gene, Slot-Sync und Mod-Entfernung ohne Datenverlust.
 
 ## 3. Dokumentation und Abschluss
