@@ -1,6 +1,28 @@
 # UX-02 / UI-11 – aktuelle Pflanzenbedingungen in JEI
 
-**Status:** Technischer Machbarkeits-/Sicherheitsreview am 21.11.2026, **keine Implementierung oder Testausführung**. Hauptmod und Entwicklungsbranch `integration/neoforge-1211-consolidation`.
+**Status:** Technischer Machbarkeits-/Sicherheitsreview und erste isolierte Serverprojektion am 21.11.2026; **Netzwerk/JEI nicht implementiert, keine Testausführung**. Hauptmod und Entwicklungsbranch `integration/neoforge-1211-consolidation`.
+
+## Umsetzungsetappe A – serverseitige Sicht, ohne Netzwerk (21.11.2026)
+
+`PlantConditionsView.from(AgriPlantsRegistry.Snapshot)` stellt nun einen einzelnen,
+unveränderlichen, nach Pflanzen-ID sortierten Server-Katalog bereit. Enthalten sind
+die gültigen `PlantRequirements`, eindeutige gewöhnliche Seed-Item-IDs sowie die
+explizit aus `CropConditions.matchesPlantingSite` abgeglichenen Sonderregeln für
+Zuckerrohr, Kaktus und Pilze. Mehrdeutige Seed-Zuordnungen werden nicht als
+gültige Einstiegspunkte angeboten. Der Katalog wird bei mehr als 512 Arten
+abgelehnt statt still abgeschnitten; das ist **noch kein Netzwerkgrößenlimit**.
+
+Der neue `PlantConditionsViewTest` beschreibt Sortierung, Mehrdeutigkeit,
+Sonderregeln, Unveränderlichkeit, Reload-Isolation und Fail-closed-Grenze.
+**Nur Testquellcode geschrieben, keine JUnit-/Gradle-/Minecraft-/CI-Ausführung.**
+
+**Nicht enthalten, UI-11 bleibt offen:** Payload/Codec und Byte-Limit,
+Login-/Reload-Sync, Logout-Bereinigung, dynamische JEI-Ansicht, DE/EN-Text und
+im Spiel bestätigte Lifecycle-Sicherheit. `PlantRequirements` ist zunächst
+eine interne Sicht und **darf nicht ungeprüft serialisiert werden**. Bei
+einem späteren Wire-Protokoll alle Listen/String-Felder einzeln begrenzen und
+bei Übergröße geschlossen abbrechen. Bis zum vollständigen Sync keine
+statischen Welt-Regeln in JEI als servergültig bewerben.
 
 ## Nutzeranforderung
 

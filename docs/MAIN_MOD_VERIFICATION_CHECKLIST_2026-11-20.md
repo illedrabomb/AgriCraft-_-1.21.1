@@ -97,6 +97,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] UI-09: Belegter/leergeräumter Analyzer sagt direkte Seed- und Journal-Einlage auf Client/Server übereinstimmend voraus (`MP-23`).
 - [ ] **UI-10 / UX-01 (Quellcode implementiert, Laufzeit offen):** Bei verweigerter Seed-Pflanzung auf Crop Sticks liefert der Server dem handelnden Spieler eine lokalisierte, konkrete Aktionsleisten-Meldung (z. B. falscher Boden, fehlendes Wasser bei Zuckerrohr, Licht, belegter Stick oder noch vorhandene Kreuzlage). Keine Gene preisgeben, keine Itemänderung. [Technische Vorgaben und Fallmatrix](LAST_PLAYTEST_REVIEW_AND_SEED_CONDITIONS_2026-11-21.md). Noch kein JUnit-/Minecraft-Test.
 - [ ] **UI-11 / UX-02 (neu, Implementierung offen):** JEI erklärt pro tatsächlich unterstützter Pflanzenart Boden, Licht, artspezifische Wasser-/Nachbarregeln und weitere Datapack-Bedingungen; serverautoritatives Anforderungsprofil darf auf dem Client nicht durch veraltete Standardangaben ersetzt werden. JEI bleibt optional. [Spezifikation](LAST_PLAYTEST_REVIEW_AND_SEED_CONDITIONS_2026-11-21.md). Noch kein Code-/Spieltest.
+  - **Etappe A, statischer Quellstand 21.11.:** `PlantConditionsView` liefert eine begrenzte, unveränderliche Serverprojektion; `PlantConditionsViewTest` ist vorbereitet, nicht ausgeführt. Netzwerk, JEI und UI-11-Abnahme weiter offen. [Technische Abgrenzung](JEI_LIVE_PLANT_CONDITIONS_DESIGN_2026-11-21.md).
 
 ## 3. Dokumentation und Abschluss
 
