@@ -214,3 +214,9 @@ Add-on build/launch verification is **not** a prerequisite to the core-only manu
 - **`8ca2a7cb`, `b10e002c`, `f30a7c6b`:** JEI registriert das dynamische Original-Seed-Rezept als Beispiel-Shapeless-Rezept, das keine Restzutat anzeigen kann. Die neue separate JEI-Informationsseite `jei.cropgenetics.seed_recovery` erklärt in `de_de` und `en_us` ausdrücklich, dass ein Blatt Papier für mehrere Rückwandlungen genügt und individuelle Papier-Komponenten erhalten bleiben. Der alte JEI-Seed-Pflanzguide bleibt unverändert.
 - **`4848de59`:** `CropJournalLocalizationContractTest` prüft künftig das Vorhandensein beider neuen Sprachtexte. Testquelle geschrieben, **nicht ausgeführt**.
 - Manueller Fall **CR-12** erweitert um exakt ein Papier, Papierstapel, ungültiges Rezept und Shift-Klick; zentrale Prüfliste **ST-09** (statische Erklärung) und **UI-07** (tatsächliche JEI-Ansicht) ergänzt.
+
+### Nachtrag: Journal-Entdeckungen nach Laden nachtragen (20.11.2026)
+
+- **`80cc66ed`, `08247982`:** `SeedAnalyzerBlockEntity.reconcileJournalMutations` verwendet jetzt dieselbe idempotente Journal-Synchronisierung wie das Einlegen eines Seeds/Journals. Wenn bereits gespeicherte Slots nach einem Welt-/Chunk-Neuladen einen **analysierten** Seed mit noch nicht protokollierter Art enthalten, wird die Art nachgetragen und werden anschließend die gültigen Mutationshinweise erneuert. An anderen Entdeckungen, Seed-Genen und Analysemarkierungen ändert sich nichts. Der 100-Tick-Ticker bleibt bestehen und markiert nur tatsächlich geänderte Journale als dirty.
+- Der neue manuelle Fall **MP-22** validiert Nachtragen, Wiederholung ohne Duplikate, nicht analysierte Seeds und vollständige bestehende Journale. Zentrale Prüfliste: **ST-10** statisch geprüft, **UI-08** noch nicht ausgeführt.
+- Gradle, JUnit, Minecraft und CI bleiben ungestartet; es gibt bislang keinen echten Save-/Reload-Nachweis für diesen Pfad.
