@@ -21,7 +21,11 @@ public final class SpeciesGeneLimits {
             throw new IllegalArgumentException("Requires 2 to 4 non-null parents");
 
         String species = parents.getFirst().plantId();
-        if (parents.stream().allMatch(parent -> species.equals(parent.plantId()))) return child;
+        // Same-species breeding is unrestricted ONLY if the child also has
+        // that species. A datapack mutation may produce a novel species even
+        // from identical-species parents; that child must still cap at four.
+        if (child.plantId().equals(species)
+                && parents.stream().allMatch(parent -> species.equals(parent.plantId()))) return child;
 
         boolean hasSameSpeciesParent = parents.stream()
                 .anyMatch(parent -> child.plantId().equals(parent.plantId()));

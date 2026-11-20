@@ -44,6 +44,23 @@ class SpeciesGeneLimitsTest {
     }
 
     @Test
+    void newSpeciesAlsoCapsAtFourWhenEveryParentHasTheSameSpecies() {
+        Genome perfectCarrot = gene("carrot", 10, 10, 10);
+        List<Genome> twoSameParents = List.of(perfectCarrot, perfectCarrot);
+        assertEquals(gene("pumpkin", 4, 4, 4),
+                SpeciesGeneLimits.apply(gene("pumpkin", 10, 10, 10), twoSameParents));
+        assertEquals(gene("pumpkin", 2, 4, 3),
+                SpeciesGeneLimits.apply(gene("pumpkin", 2, 9, 3), twoSameParents));
+
+        List<Genome> fourSameParents = List.of(perfectCarrot, perfectCarrot,
+                perfectCarrot, perfectCarrot);
+        assertEquals(gene("pumpkin", 4, 4, 4),
+                SpeciesGeneLimits.apply(gene("pumpkin", 10, 10, 10), fourSameParents));
+        // Same-species descendants keep their normal unrestricted evolution.
+        assertEquals(perfectCarrot, SpeciesGeneLimits.apply(perfectCarrot, fourSameParents));
+    }
+
+    @Test
     void sameSpeciesBreedingAndExistingWeakChildrenAreUnchanged() {
         Genome perfect = gene("potato", 10, 10, 10);
         assertEquals(perfect, SpeciesGeneLimits.apply(perfect,
