@@ -1,0 +1,688 @@
+{
+  "schemaVersion": 1,
+  "suiteId": "agricraft-core-neoforge-1211-20261122-v2",
+  "title": "AgriCraft – Hauptmod-Test für externe Tester (v2)",
+  "description": "Eigenständige Prüfschritte für den Core-only-Test am 22.11.2026. Erst nach ausdrücklicher Freigabe starten. Jeden Fall einzeln mit pass/fail/blocked, Git-SHA, tatsächlichem Verhalten, Itemzahlen und Screenshot/Log im Kommentar dokumentieren. Nicht vorhandene Voraussetzungen = blocked. Die Version ersetzt ältere Suite-IDs nicht.",
+  "environment": {
+    "minecraft": "1.21.1",
+    "loader": "NeoForge",
+    "project": "AgriCraft-_-1.21.1",
+    "branch": "integration/neoforge-1211-consolidation",
+    "testedCommit": "VOR TEST EINTRAGEN",
+    "authorization": "AUSSTEHEND",
+    "scope": "Core only; Spezialfälle in Weltkopie"
+  },
+  "tests": [
+    {
+      "id": "TG-01",
+      "category": "01 Technisches Gate",
+      "title": "Freigabe, Build-SHA und Testumgebung",
+      "steps": [
+        "Vor einem Gradle-, JUnit- oder Minecraft-Start ausdrückliche Freigabe des Besitzers einholen.",
+        "Aktuellen Branch-HEAD, Java 21, Minecraft 1.21.1, NeoForge-Version, Betriebssystem und genaue Core-Modliste erfassen.",
+        "Testwelt und vorhandenen Tracker-Export sichern. Keine Add-on-JARs für Pam, MineColonies oder Farmer's Delight laden.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Freigabe und exakte Versionen/SHA sind mit Beleg notiert; bestehende Welt und Ergebnisse sind gesichert.",
+      "commands": []
+    },
+    {
+      "id": "TG-02",
+      "category": "01 Technisches Gate",
+      "title": "JUnit-Gate nach ausdrücklicher Freigabe",
+      "steps": [
+        "Erst nach Freigabe die im Hauptmod-Testgate vorgeschriebene Gradle-:test-Aufgabe ausführen.",
+        "Testanzahl, Fehler, Log/Report und Git-SHA sichern. Bei Fehlschlag Gate stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "JUnit-Ergebnis mit Zahl und Log belegt; kein alter Testerfolg wird als Ergebnis dieses Builds übernommen.",
+      "commands": []
+    },
+    {
+      "id": "TG-03",
+      "category": "01 Technisches Gate",
+      "title": "Hauptmod-Build und JAR",
+      "steps": [
+        "Erst nach Freigabe die :build-Aufgabe der Hauptmod ausführen.",
+        "Build-Ergebnis, JAR-Dateiname und SHA protokollieren; nur diese JAR später laden.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Eine konkrete erzeugte Hauptmod-JAR ist dem dokumentierten Commit zugeordnet.",
+      "commands": []
+    },
+    {
+      "id": "TG-04",
+      "category": "01 Technisches Gate",
+      "title": "Client und dedizierten Server starten",
+      "steps": [
+        "Mit freigegebener Core-only-Modliste Client und dedizierten Server starten.",
+        "Registry-/Classloaderfehler, Crash-Report und latest.log prüfen; bei Absturz stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Beide starten ohne Lade-/Registry-/Classloaderfehler; Modliste dokumentiert.",
+      "commands": []
+    },
+    {
+      "id": "TG-05",
+      "category": "01 Technisches Gate",
+      "title": "Save, Restart und Datapack-Reload",
+      "steps": [
+        "Genetischen Seed mit bekannten Werten und eine Pflanze in einer gesicherten Testwelt anlegen.",
+        "Welt speichern, Server neu starten und Seed/Pflanze prüfen; danach /reload und erneut prüfen.",
+        "Alle drei Genwerte, Art und Pflanzenzustand vorher/nachher dokumentieren.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Keine still verlorene Art, Gene oder Wachstumsdaten; bei Abweichung Log und Weltkopie sichern.",
+      "commands": [
+        "/reload"
+      ]
+    },
+    {
+      "id": "GE-01",
+      "category": "02 Genetik und Wachstum",
+      "title": "Weizen und Karotte ab 1/1/1",
+      "steps": [
+        "Weizen- und Karottensaat auf einfachen Crop Sticks pflanzen; Stage 0 jeweils fotografieren.",
+        "Wachstumsstufen bis Reife mit unverändertem Genom beobachten.",
+        "Frühere Stage-0-/X-Sticks-Abweichung ausdrücklich nachprüfen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Beide Arten besitzen korrektes Stage-0-Modell und entwickeln sich mit erhaltener Genetik zur Reife.",
+      "commands": []
+    },
+    {
+      "id": "GE-02",
+      "category": "02 Genetik und Wachstum",
+      "title": "Zwei, drei und vier direkte Eltern",
+      "steps": [
+        "Drei getrennte Kreuzziel-Felder mit genau 2, 3 bzw. 4 direkt benachbarten reifen Eltern vorbereiten.",
+        "Jede Formation bei gleicher Serverconfig beobachten; gültige Ziel-Random-Ticks und erfolgreiche Kinder getrennt zählen.",
+        "Gene der Kinder analysieren und Elternwerte vor/nach dem Versuch vergleichen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Zielwahrscheinlichkeiten bei Standardconfig rechnerisch 30 %, 37,5 %, 45 % pro gültigem Ziel-Tick; höchstens vier Eltern vererben, Eltern unverändert. Einzelversuche sind kein Prozentnachweis.",
+      "commands": []
+    },
+    {
+      "id": "GE-03",
+      "category": "02 Genetik und Wachstum",
+      "title": "Ein-Eltern-Klon und Reihenregel",
+      "steps": [
+        "Nur einen reifen direkten Elternseed neben leerem Kreuzungsfeld platzieren und das Kind untersuchen.",
+        "Danach drei reife Eltern ohne Lücke geradlinig vor einem Kreuzziel aufbauen.",
+        "Genotypen und Entstehungen vergleichen; mindestens eine Lücke als Negativfall setzen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Ein Elternteil erzeugt einen unveränderten Klon. Eine lückenlose 3+-Reihe verwendet eine eigene, schwächere Evolution; Lücken beenden die Reihe.",
+      "commands": []
+    },
+    {
+      "id": "GE-04",
+      "category": "02 Genetik und Wachstum",
+      "title": "Mutationspunkte, Analyzer und erneutes Pflanzen",
+      "steps": [
+        "Ein Kind mit geänderten Genwerten erzeugen und im Analyzer prüfen.",
+        "Den Seed abbauen, erneut pflanzen und alle drei Werte vergleichen.",
+        "Verluste, Teilrückgewinnung und max. drei zusätzliche Punkte pro Eigenschaft nur nach beobachtbaren Belegen beurteilen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Gene bleiben bei Analyse, Abbauen und erneutem Pflanzen gleich; Werte bleiben im Bereich 1 bis 10.",
+      "commands": []
+    },
+    {
+      "id": "GE-11",
+      "category": "02 Genetik und Wachstum",
+      "title": "Reihenlänge 3, 4, 10 und 20",
+      "steps": [
+        "Je eine lückenlose, reife Gerade mit 3, 4, 10 und 20 Eltern aufbauen und gleiche Serverconfig notieren.",
+        "Für jede Länge gültige Ziel-Random-Ticks sowie erfolgreiche Kinder erfassen; nur erste vier Reiheneltern kommen als Genvorlage infrage.",
+        "Lücken, unreife Eltern und nicht geladene Chunks als negative Prüfungen erfassen, wenn sicher durchführbar.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Rechnerische Chance bei Standardconfig 15 % (3 Eltern) bis 30 % (20 Eltern) pro gültigem Ziel-Tick; maximal vier genetische Vorlagen. Statistik nicht aus Einzelereignissen behaupten.",
+      "commands": []
+    },
+    {
+      "id": "GE-12",
+      "category": "02 Genetik und Wachstum",
+      "title": "Artenmutation und Fallback in Weltkopie",
+      "steps": [
+        "Nur eine gesicherte Kopie mit tatsächlich passendem Test-Datapack verwenden; sonst blocked eintragen.",
+        "Sechs Fälle a bis f aus docs/CROSSBREEDING_SPECIES_FALLBACK_TESTS_2026-11-20.md einzeln protokollieren.",
+        "Neue dritte Art auf höchstens 4/4/4 prüfen; Elternart auf höchstens 5 je Wert außer bereits höherer eigener Elternwert; schwächere Werte bleiben erlaubt.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Artenwahl, Umgebungsprüfung und Cap stimmen in allen sechs Fällen; keine Umgehung durch wiederholte artübergreifende Kreuzung.",
+      "commands": []
+    },
+    {
+      "id": "ER-07",
+      "category": "03 Seeds und Crafting",
+      "title": "Original-Seed-Herkunft und fremde Komponenten",
+      "steps": [
+        "Genetischen Seed mit bekannter Original-Seed-Herkunft herstellen und Gene/Herkunft notieren.",
+        "Vor und nach Pflanzung, Abbau sowie Save/Reload alle Komponenten vergleichen.",
+        "Seed mit fremden Komponenten in kopierter Welt auf verweigerte unsichere Rückwandlung prüfen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Genetik und Herkunft bleiben beim normalen Weg erhalten; unsichere Konversion löscht keine fremden Daten und verbraucht nichts.",
+      "commands": []
+    },
+    {
+      "id": "ER-08",
+      "category": "03 Seeds und Crafting",
+      "title": "Papier bleibt beim Rückwandeln erhalten",
+      "steps": [
+        "Ein Blatt Papier und einen geeigneten genetischen Seed in verschiedene Crafting-Felder legen.",
+        "Einmal craften; Papierplatz, Papierzahl und Ergebnis-Seed protokollieren.",
+        "Mit 16 Papier und mit benanntem Papier wiederholen; anschließend Shift-Klick mit mehreren Seeds prüfen.",
+        "Vorher-/Nachher-Mengen und Komponenten erfassen; beim ersten Duplikations- oder Verlusthinweis stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Pro Craft genau ein ursprünglicher Seed; Papierzahl und Papier-Komponenten netto unverändert, keine Duplikate oder Verluste beim Shift-Klick.",
+      "commands": []
+    },
+    {
+      "id": "UI-01",
+      "category": "04 Analyzer und Journal",
+      "title": "Analyzer-Slots und angeschlossene Chest",
+      "steps": [
+        "Analyzer neben Seed Chest platzieren und das kombinierte Menü öffnen.",
+        "64er Seedstapel per Shift-Klick einlegen; Einzelslot des Analyzers und 27 Chest-Slots getrennt prüfen.",
+        "Item-Anzahlen und Komponenten vor/nach Einlage und Entnahme dokumentieren.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Analyzer-Seed-/Journal-Slots nehmen jeweils höchstens ein Item auf; Chest-Slots halten zulässige Stapel, keine Verluste.",
+      "commands": []
+    },
+    {
+      "id": "UI-08",
+      "category": "04 Analyzer und Journal",
+      "title": "Journal-Ergänzung nach Save und Reload",
+      "steps": [
+        "Analysierten Seed und Journal einlegen, Arten/Mutationshinweise vorher notieren.",
+        "Server speichern, neu starten und gegebenenfalls Datapack /reload in Kopie durchführen.",
+        "Journal ohne erneute Buchentnahme auf neue Entdeckungen und erhaltene Alt-Einträge prüfen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Bereits eingelegte Seeds werden nachgetragen; alte Entdeckungen und genetische Informationen bleiben erhalten.",
+      "commands": [
+        "/reload"
+      ]
+    },
+    {
+      "id": "UI-09",
+      "category": "04 Analyzer und Journal",
+      "title": "Client-/Server-Prognose für direkte Einlage",
+      "steps": [
+        "Bei leerem Analyzer genetischen Seed und Journal direkt per Rechtsklick einlegen.",
+        "Bei belegten Slots dieselben Aktionen wiederholen und tatsächliche Slotbelegung sowie Handstapel prüfen.",
+        "Auf dediziertem Server mit zweitem Spieler beobachten, falls vorhanden; sonst diesen Teil als nicht geprüft im Kommentar markieren.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Client und Server stimmen über erlaubte Einlage überein; belegte Slots führen zu keiner Phantom-Interaktion oder Itemverlust.",
+      "commands": []
+    },
+    {
+      "id": "GE-05",
+      "category": "02 Genetik und Wachstum",
+      "title": "Speichern und Neustart mit zwei Eltern",
+      "steps": [
+        "Zwei reife Eltern mit unterschiedlichen bekannten Genen und ein leeres Kreuzungsfeld fotografieren.",
+        "Welt speichern und Server regulär neu starten.",
+        "Beide Gene und belegte/leere Zielzustände vergleichen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Keine unsichtbare Pflanze oder verlorene/neu gewürfelte Gene.",
+      "commands": []
+    },
+    {
+      "id": "GE-06",
+      "category": "02 Genetik und Wachstum",
+      "title": "Knochenmehl und Nährstoffe",
+      "steps": [
+        "Unreife und reife Pflanze auf Farmland vorbereiten.",
+        "Knochenmehl auf beide anwenden; Vorher/Nachher-Stufe, Itemzahl und Bodenwerte protokollieren.",
+        "Normalen Wachstumstick und ungeeigneten Boden getrennt beobachten.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Nur gültiges Wachstum verbraucht Ressourcen und verändert Stufe.",
+      "commands": []
+    },
+    {
+      "id": "GE-07",
+      "category": "02 Genetik und Wachstum",
+      "title": "Zweite Crop-Sticks-Lage",
+      "steps": [
+        "Leere Crop Sticks mit zweitem Stick rechtsklicken; Itemzahl und Kreuzmodell prüfen.",
+        "Mit leerer Hand obere Ebene entfernen und Stick-Rückgabe prüfen.",
+        "Direktes Pflanzen auf weiterhin gekreuztem Feld versuchen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Pro bestätigter Aktion genau ein Stick; Seed darf nicht direkt auf CROSS gepflanzt werden.",
+      "commands": []
+    },
+    {
+      "id": "GE-08",
+      "category": "02 Genetik und Wachstum",
+      "title": "Abgelehnte Handpflanzung und Kreuzung",
+      "steps": [
+        "Weltkopie und Mechanismus für verweigerten Blockwechsel vorbereiten; ohne diesen blocked.",
+        "Seed per Hand pflanzen und separat Nachkommen-Kreuzung versuchen.",
+        "Seedzahl, PLANTED-Zustand und verstecktes Genom prüfen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Kein Itemverlust oder unsichtbares Genom bei verweigertem Update.",
+      "commands": []
+    },
+    {
+      "id": "GE-09",
+      "category": "02 Genetik und Wachstum",
+      "title": "Abgelehnter Wachstumsschritt",
+      "steps": [
+        "Weltkopie mit ablehnbarem Blockzustandswechsel vorbereiten.",
+        "Knochenmehl und normalen Wachstumstick getrennt versuchen.",
+        "Vor/Nach-Wachstumsstufe, Verbrauch und Bodenwerte erfassen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Bei abgelehntem Update keine Stufe, kein Nährstoffverbrauch; ohne Setup blocked.",
+      "commands": []
+    },
+    {
+      "id": "GE-10",
+      "category": "02 Genetik und Wachstum",
+      "title": "Stage-Remap nach Reload",
+      "steps": [
+        "Weltkopie und Datapack mit anderer Stufenzahl vorbereiten.",
+        "/reload bei versperrtem Blockupdate, danach bei erlaubtem Blockupdate ausführen.",
+        "GrowthStage und TotalGrowthStages jeweils vergleichen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Bei Verweigerung Metadaten unverändert; bei Erfolg einmalig korrekt umgerechnet.",
+      "commands": [
+        "/reload"
+      ]
+    },
+    {
+      "id": "ER-01",
+      "category": "03 Ernte und Früchte",
+      "title": "Rechtsklick-Ernte und Doppelernte",
+      "steps": [
+        "Reife Standardpflanze herstellen.",
+        "Mit leerer Hand ernten, Dropzahl und neue Stufe notieren.",
+        "Sofort erneut ernten, anschließend Versuch mit Item in Hand.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Nur ein gültiger Ertrag pro Reifezustand; kein Doppel-Drop.",
+      "commands": []
+    },
+    {
+      "id": "ER-02",
+      "category": "03 Ernte und Früchte",
+      "title": "Sticks-Abbau erhält den genetischen Seed",
+      "steps": [
+        "Saatgut mit bekannten drei Genwerten pflanzen und reifen lassen.",
+        "Sticks abbrechen; genau eingesammelte Drops und Genom dokumentieren.",
+        "Genom erneut im Analyzer prüfen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Exakt ein genetischer Seed mit unveränderten Genen plus zulässige Produkte.",
+      "commands": []
+    },
+    {
+      "id": "ER-03",
+      "category": "03 Ernte und Früchte",
+      "title": "Ein Stack je Ernteprodukt",
+      "steps": [
+        "Pflanzen mit hohem Gain und möglichst mehreren Dropdefinitionen vorbereiten.",
+        "Einmal ernten und Drops pro eindeutiger Item-ID zählen.",
+        "Vergleichen, ob derselbe Produkttyp in mehrere Stapel aufgeteilt wurde.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Pro Produkttyp und Erntevorgang maximal ein zulässiger Stack.",
+      "commands": []
+    },
+    {
+      "id": "ER-04",
+      "category": "03 Ernte und Früchte",
+      "title": "Melone und Kürbis: zweite Frucht",
+      "steps": [
+        "Je eine Melonen- und Kürbispflanze bis zum reifen Stängel wachsen lassen.",
+        "Erste Frucht ernten und Stängelzustand protokollieren.",
+        "Auf zweiten Fruchtzyklus warten und gültige Tick-/Fruchtversuche dokumentieren.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Zweite Frucht kann entstehen; Stängel bleibt nach erster Frucht reif.",
+      "commands": []
+    },
+    {
+      "id": "ER-05",
+      "category": "03 Ernte und Früchte",
+      "title": "Gourd-Datapack auf Standard umschalten",
+      "steps": [
+        "In Weltkopie fertige interne Frucht und reifen Stängel speichern.",
+        "Harvest-Mode auf STANDARD ändern und /reload durchführen.",
+        "Rechtsklick-Ernte und Blockabbau mit Dropzählung prüfen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Keine Doppelernte oder stale Fruchtkennung.",
+      "commands": [
+        "/reload"
+      ]
+    },
+    {
+      "id": "ER-06",
+      "category": "03 Ernte und Früchte",
+      "title": "Unreifer Stamm mit alter interner Frucht",
+      "steps": [
+        "Nur Weltkopie mit kontrolliertem alten NBT-Teststand; sonst blocked.",
+        "Unreifen Stängel mit gespeicherter Frucht rechtsklicken.",
+        "Sticks abbauen und jeden Drop zählen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Kein Fruchtertrag von unreifem Stängel.",
+      "commands": []
+    },
+    {
+      "id": "MP-01",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Only the correct player should receive discovered data",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: A analyzes a new seed with A's journal inserted; B watches nearby and holds a separate blank journal.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "A's book records the species, B's book stays blank; world-view block packets do not replicate journal contents.",
+      "commands": []
+    },
+    {
+      "id": "MP-02",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Hidden gene privacy",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: A plants an unanalysed 7/4/9 genetic seed in single Crop Sticks while B observes the crop HUD. Afterwards A moves a separate matching seed into the analyzer and B watches its block model.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "B cannot read hidden numerical genes from an unanalysed planted crop; analyzer block visual may show species icon but not 7/4/9.",
+      "commands": []
+    },
+    {
+      "id": "MP-03",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Analysis must not rewrite a genome",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: Insert known 7/4/9 seed, analyze, withdraw and compare to original.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "It reads 7/4/9; no reroll, reset to 1/1/1, or new mutation.",
+      "commands": []
+    },
+    {
+      "id": "MP-04",
+      "category": "05 Multiplayer und Inventar",
+      "title": "No duplicate on simultaneous retrieval",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: With one seed in the analyzer, A and B both open its inventory and try to take it within the same second.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Exactly one seed total is received; the other player sees an empty slot after synchronization.",
+      "commands": []
+    },
+    {
+      "id": "MP-05",
+      "category": "05 Multiplayer und Inventar",
+      "title": "No lost journal on concurrent clicks",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: A and B both open analyzer and simultaneously move the single journal.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Only one final journal with its discoveries exists; no duplicated or erased discoveries.",
+      "commands": []
+    },
+    {
+      "id": "MP-06",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Adjacent chest integration",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: Place one Seed Chest directly horizontally adjacent to analyzer, open analyzer. Then move chest one block diagonally and reopen.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Adjacent: 36 displayed storage slots: analyzer slots 0/1 accept seed/journal, seven filler slots reject placement, plus 27 functional chest slots. Diagonal: analyzer-only nine-slot menu with seven disabled filler slots. Directly opening chest still shows 27.",
+      "commands": []
+    },
+    {
+      "id": "MP-07",
+      "category": "05 Multiplayer und Inventar",
+      "title": "No item duplication across two UIs",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: A opens adjacent chest directly while B opens same chest through analyzer; move the same genetic seed at the same moment.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "One authoritative item, correct final slot after both menus update.",
+      "commands": []
+    },
+    {
+      "id": "MP-08",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Prevent menu stale references",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "NUR GESICHERTE TESTWELTKOPIE. Testaufbau und genaue Aktionen: While A has combined analyzer+chest menu open, B breaks the chest.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Menu closes or safely invalidates; stored items drop once, A cannot keep extracting from a detached phantom inventory.",
+      "commands": []
+    },
+    {
+      "id": "MP-09",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Block break with two viewers",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "NUR GESICHERTE TESTWELTKOPIE. Testaufbau und genaue Aktionen: A opens analyzer; B breaks it with one seed and one journal stored.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "The block drops its inventory exactly once, and the open menu cannot make duplicates.",
+      "commands": []
+    },
+    {
+      "id": "MP-10",
+      "category": "05 Multiplayer und Inventar",
+      "title": "One-item cap on hidden-genome seeds",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: Attempt to merge two same-item genetic seeds with different 1..10 genotypes in inventory, chest and analyzer.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Neither seed stacks; both genotypes remain separate through transfers.",
+      "commands": []
+    },
+    {
+      "id": "MP-11",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Unmodified ordinary-seed stacks",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: Insert and remove 64 standard wheat seeds from Seed Chest; insert one into Analyzer.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Chest retains count and item identity; Analyzer holds only one and converts it to baseline analyzed 1/1/1, leaving 63 in player inventory if inserted directly.",
+      "commands": []
+    },
+    {
+      "id": "MP-12",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Persistence over restart",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: Store seed with known mutation in chest, distinct seed in analyzer and researched journal, then stop and restart server cleanly.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Same contents, counts, genotypes, journal discoveries and analysis flags; no ghost or empty items.",
+      "commands": []
+    },
+    {
+      "id": "MP-13",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Chunk unload during GUI",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "NUR GESICHERTE TESTWELTKOPIE. Testaufbau und genaue Aktionen: A leaves an analyzer menu open, B moves out of range or causes its chunk to unload by normal gameplay.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "No crash; invalid menus close; server inventory remains authoritative.",
+      "commands": []
+    },
+    {
+      "id": "MP-14",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Creative handling",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: A in creative inserts a seed and a journal by direct right-click; B watches.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Original held item remains as expected in creative, while placed copies do not create a survival-mode duplication exploit.",
+      "commands": []
+    },
+    {
+      "id": "MP-15",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Prevent 63-item loss on combined-menu shift-click",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: Attach chest to analyzer. With analyzer seed slot empty and chest containing enough free space, A shift-clicks a fresh 64-count stack of ordinary wheat seeds from player inventory into the four-row combined menu. B watches both storage rows.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Exactly 64 seeds remain in total: at most 1 in analyzer (analyzed 1/1/1) and the remainder in chest/player inventory, never deleted. Chest slots still allow normal vanilla stacks.",
+      "commands": []
+    },
+    {
+      "id": "MP-16",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Prevent overfilling analyzer with cursor / multiplayer",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: With combined menu open, A picks up a 64-count ordinary seed stack on the cursor and clicks the empty analyzer seed slot. Repeat while B opens the same menu and attempts another move.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Only 1 enters analyzer, the cursor or other slots retain all remaining items; neither duplication nor item loss. Disabled filler slots stay empty.",
+      "commands": []
+    },
+    {
+      "id": "MP-17",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Stale combined menu after analyzer break",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "NUR GESICHERTE TESTWELTKOPIE. Testaufbau und genaue Aktionen: A opens combined analyzer/chest UI, B breaks **analyzer only**, leaving chest intact. A quickly shift-clicks from chest while the menu is closing.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "The combined menu invalidates and no item is duplicated; the intact chest still holds exactly its previous items (minus any one legitimately transferred before closure).",
+      "commands": []
+    },
+    {
+      "id": "MP-18",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Chest world-watch privacy",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: A stores a unique unanalyzed 7/4/9 genetic seed in the Seed Chest; separately keep a researched journal in the adjacent Analyzer (the chest itself accepts only seeds). B stands nearby without opening it; compare B's authorized open-container view only afterward.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "B's ordinary world/blockentity update exposes **no** inventory ItemStacks, gene numbers, journal discoveries, or seed component data. An authorized chest menu still displays its real contents.",
+      "commands": []
+    },
+    {
+      "id": "MP-19",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Sparse save snapshot must replace old contents",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "NUR GESICHERTE TESTWELTKOPIE. Testaufbau und genaue Aktionen: A fills two nonadjacent chest slots, saves/restarts, empties both slots, saves/restarts again. Repeat with Analyzer seed and Journal slots.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Previously occupied but now empty slots stay empty; no phantom seeds/journal reappear. Counts and components of remaining nonempty items survive unchanged.",
+      "commands": []
+    },
+    {
+      "id": "MP-20",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Reload keeps a journal up to date without reinsertion",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "NUR GESICHERTE TESTWELTKOPIE. Testaufbau und genaue Aktionen: Place a journal in the Analyzer after unlocking a known mutation recipe, leave it in the block, then disable/change that recipe in a copied test datapack and run `/reload`. Wait at least six seconds, remove the same journal, open its book, restore the original datapack and repeat.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Species discoveries remain unchanged. Only mutation hints valid in the currently active datapack are shown after the analyzer's scheduled refresh; restoring the recipe restores its hint if all three species were already discovered.",
+      "commands": [
+        "/reload"
+      ]
+    },
+    {
+      "id": "MP-21",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Reject in-flight clicks after either storage block is removed",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "NUR GESICHERTE TESTWELTKOPIE. Testaufbau und genaue Aktionen: Two players: A opens the combined Analyzer + Seed Chest menu and holds a distinctive seed on the cursor; B breaks first the Analyzer, then in a separate reset/repetition the Seed Chest. A attempts a cursor placement, pickup, hotbar swap and Shift-click at the exact removal moment. Repeat in reverse player roles.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "The removed inventory drops its items exactly once. No click may transfer into or out of the detached storage after its removal. The intact storage keeps its exact contents; no duplicate, deletion or ghost item survives reopening.",
+      "commands": []
+    },
+    {
+      "id": "MP-22",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Restore missing journal discovery without item reinsertion",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "NUR GESICHERTE TESTWELTKOPIE. Testaufbau und genaue Aktionen: In a **copied** world create a saved analyzer containing an analyzed seed and a journal whose discoveries deliberately omit that seed's species (controlled NBT/world backup). Reload the chunk/world, leave both items untouched for at least six seconds, then remove the journal. Repeat with an already-complete journal and with an unanalyzed seed.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Only an analyzed seed may add its species to the journal; previously discovered species persist; valid mutation hints follow the current datapack; repeated ticks create no duplicates or changing item counts. The seed's full genome and analyzed flag remain identical.",
+      "commands": []
+    },
+    {
+      "id": "MP-23",
+      "category": "05 Multiplayer und Inventar",
+      "title": "Client predicts analyzer occupancy using display-only slot data",
+      "steps": [
+        "Dedizierten Server mit zwei Testern A/B nutzen; falls notwendiger zweiter Spieler fehlt, blocked eintragen.",
+        "Testaufbau und genaue Aktionen: In a two-player server, A inserts a seed directly into an empty analyzer; B observes without opening it. A then holds another seed and right-clicks the already occupied analyzer. Repeat with Shift + Journal, with the journal slot empty and then occupied. Finally extract the stored items and retry both insertions.",
+        "Vorher-/Nachher-Inventar, Seed-Komponenten, Journal-Inhalte und betroffene Slots vergleichen; bei Verlust/Duplikation sofort stoppen.",
+        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+      ],
+      "expected": "Client predicts occupied vs empty slots consistently with the server: no false insertion animation caused by client-only empty hidden inventory, no item consumed on rejected insertion, correct server-side menu fallback, and successful insertion once slots are freed. Viewer B must not see private genome/journal components.",
+      "commands": []
+    }
+  ]
+}

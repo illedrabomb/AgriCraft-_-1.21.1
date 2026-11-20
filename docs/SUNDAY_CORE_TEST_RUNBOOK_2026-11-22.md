@@ -4,6 +4,8 @@
 
 **Webtool-Testsuite, Etappe 1:** [`test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v1.json`](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v1.json) enthält **16 noch offene Fälle** (`TG-01` bis `TG-05`, `GE-01` bis `GE-04`, `GE-11`, `GE-12`, `ER-07`, `ER-08`, `UI-01`, `UI-08`, `UI-09`) für den [Mod-Test-Tracker](MANUAL_TEST_TRACKER.md). Diese Suite ist **neu**, ersetzt die ältere 30er-Suite nicht rückwirkend und hat eine andere `suiteId`. **Vor „Tests laden“ alte Ergebnisse exportieren:** Das Laden einer Suite löscht den bisherigen Tracker-Arbeitsstand. Fehlende Fälle in Etappe 1 sind **nicht bestanden**, sondern noch nicht in dieser Suite erfasst; die zentrale Hauptmod-Prüfliste bleibt vollständig verbindlich. Spätere Ergänzungen erhalten wegen des inhaltsgebundenen Ergebnisimports eine eigene Suite-Version/`suiteId`.
 
+**Für externe Tester bevorzugt:** Die [erweiterte v2-Suite mit 51 konkreten Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v2.json) sowie die [eigenständige Bedienanleitung](test-tracker/README.md) verwenden. Die v1-Etappe bleibt nur als nachvollziehbarer Zwischenstand erhalten. Beide Suiten sind **nicht ausgeführt**, und ihre Ergebnisdateien dürfen wegen unterschiedlicher `suiteId` nicht gemischt werden. Auch v2 deckt noch nicht alle offenen Hauptmod-Spezialfälle ab.
+
 ## 0. Vor dem ersten Befehl (gemeinsam abgleichen)
 
 - [ ] Ausdrückliche Freigabe für den gemeinsamen Test liegt vor; Uhrzeit und Tester notieren.
