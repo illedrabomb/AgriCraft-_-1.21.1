@@ -21,6 +21,7 @@
 - [x] ST-13: Seed-/Analyzer-/Chest-/Journal-/Papier-Datenpfade gemäß [`SEED_DATA_INTEGRITY_STATIC_AUDIT_2026-11-20.md`](SEED_DATA_INTEGRITY_STATIC_AUDIT_2026-11-20.md) gegen Quellstand `5254fbba` geprüft. **MITTEL-Risiko:** ein direkter übergroßer `Container.setItem`-Aufruf kürzt ohne Rest-Rückgabe; reguläre Slot-/Shift-Klick-Pfade weiter ungetestet. Keine Runtime-Prüfung.
 - [x] ST-14: Handpflanzung und Kreuzungsnachwuchs bei fehlgeschlagenen/überschriebenen Blockzustandswechseln statisch abgesichert; kein Item-Verbrauch bzw. kein dauerhaft verstecktes Genom ohne bestätigtes `PLANTED` (`CR-14`). Ingame-Bestätigung offen.
 - [x] ST-15: Wachstum, physische/interne Fruchtbildung und Standard-/interne Fruchternte behandeln einen nicht übernommenen Blockzustand als Fehlschlag; Wachstumsstufe/Fruchtmetadaten werden im betroffenen Pfad zurückgesetzt (`CR-15`). **Nur statischer Diff-/Quellreview.**
+- [x] ST-16: Stage-Remap nach Reload, veraltete interne Gourd-Frucht und physische Fruchtbereinigung behalten bei abgewiesenem Blockupdate die vorherigen Wachstums-/Besitzmetadaten; spätere Wiederholung möglich (`CR-16`). **Statisch geprüft, nicht ausgeführt.**
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
@@ -45,6 +46,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] GE-07: Hinzufügen und Entfernen der zweiten Crop-Sticks-Lage, insbesondere fehlgeschlagene bzw. von Schutz-Plugins verhinderte `setBlock`-Änderungen (`CR-13`).
 - [ ] GE-08: Abgewiesene oder überschriebene Blockzustandsänderung bei Handpflanzung und Kreuzungsnachkomme ohne Seed-Verlust oder unsichtbares Genom (`CR-14`, nur kopierte Testwelt).
 - [ ] GE-09: Misslungene Wachstumsschritte erhöhen weder Wachstumsstufe noch verbrauchen sie Knochenmehl oder Bodennährstoffe (`CR-15`).
+- [ ] GE-10: Abgewiesenes Stage-Remap nach Reload bewahrt `GrowthStage` und `TotalGrowthStages`, späterer erfolgreicher Remap rechnet nur einmal um (`CR-16`).
 
 ### Ernte, Frucht und Item-Datensicherheit
 
@@ -57,6 +59,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] ER-07: Seeds mit externen Komponenten, OriginalSeed-Provenienz und geschützte Rückwandlung (`CR-08` bis `CR-11`).
 - [ ] ER-08: **Ein Blatt** Papier bleibt nach einmaligem und wiederholtem Crafting im Gitter; Papierstapel behalten ihre genaue Menge und Komponenten; Shift-Klick erzeugt keine Duplikate oder Verluste (`CR-12`).
 - [ ] ER-09: Misslungene Standard-/interne Gourd-Ernte erzeugt keine Produkte und lässt Frucht-/Altersdaten für einen später legitimen Versuch erhalten (`CR-15`).
+- [ ] ER-10: Nach Datapack-Wechsel bzw. Entfernen physischer Frucht keine teilweise gelöschte interne Frucht-/Besitzkennung bei fehlgeschlagenem Update (`CR-16`).
 
 ### Analyzer, Chest, Journal, Client und Multiplayer
 

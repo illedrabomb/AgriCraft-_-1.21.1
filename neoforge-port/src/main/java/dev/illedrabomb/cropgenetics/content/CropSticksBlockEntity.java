@@ -91,10 +91,19 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (totalGrowthStages > 0 && totalGrowthStages != targetTotal) {
             adjustedStage = CropGrowth.remapStage(growthStage, totalGrowthStages, targetTotal);
         }
+        int previousStage = growthStage;
+        int previousTotal = totalGrowthStages;
         growthStage = Math.max(0, Math.min(adjustedStage, targetTotal - 1));
         // syncState updates TotalGrowthStages, marks the chunk dirty, and
         // sends the BlockEntity update even if the visual 0..7 state is equal.
-        syncState(plant);
+        if (!syncState(plant)) {
+            // Keep the saved age and its original stage scale intact so a
+            // later successful reload/tick can retry the same remapping.
+            growthStage = previousStage;
+            totalGrowthStages = previousTotal;
+            setChanged();
+            return false;
+        }
         return true;
     }
 
@@ -394,7 +403,11 @@ public final class CropSticksBlockEntity extends BlockEntity {
             if (!CropFruitTransitionRules.staleInternalFruit(plant.harvestMode(),
                     fruitReady, false, false)) return false;
             fruitReady = false;
-            syncState(plant);
+            if (!syncState(plant)) {
+                fruitReady = true;
+                setChanged();
+                return false;
+            }
             return true;
         }
         if (fruitDirection != null && fruitToken != null) {
@@ -406,8 +419,7 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 return false;
             }
         }
-        clearFruit(plant);
-        return true;
+        return clearFruit(plant);
     }
 
     /** Immediately react to removal of only our own exact physical fruit. */
@@ -417,11 +429,14 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 || genome == null) return false;
         PlantDefinition plant = CropGeneticsMod.plants().plants().get(genome.plantId());
         if (plant == null) return false;
-        clearFruit(plant);
-        return true;
+        return clearFruit(plant);
     }
 
-    private void clearFruit(PlantDefinition plant) {
+    private boolean clearFruit(PlantDefinition plant) {
+        boolean previousReady = fruitReady;
+        Direction previousDirection = fruitDirection;
+        UUID previousToken = fruitToken;
+        int previousStage = growthStage;
         fruitReady = false;
         fruitDirection = null;
         fruitToken = null;
@@ -433,7 +448,15 @@ public final class CropSticksBlockEntity extends BlockEntity {
         if (plant.harvestMode() != HarvestMode.GOURD) {
             growthStage = CropGrowth.regrowthStage(plant);
         }
-        syncState(plant);
+        if (!syncState(plant)) {
+            fruitReady = previousReady;
+            fruitDirection = previousDirection;
+            fruitToken = previousToken;
+            growthStage = previousStage;
+            setChanged();
+            return false;
+        }
+        return true;
     }
 
     public boolean readyForHarvest(PlantDefinition plant) {
