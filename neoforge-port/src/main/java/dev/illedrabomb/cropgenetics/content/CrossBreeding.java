@@ -8,6 +8,7 @@ import dev.illedrabomb.cropgenetics.data.PlantDefinition;
 import dev.illedrabomb.cropgenetics.genetics.BreedingEngine;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
+import dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimits;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -109,7 +110,11 @@ public final class CrossBreeding {
         PlantDefinition childPlant = plants.get(childId);
         if (childPlant == null) return;
 
-        Genome offspring = inherited.withPlantId(childId);
+        // Clamp only after the full inherited/mutated genotype and child
+        // species are known. Same-species parents and one-parent clones bypass
+        // this cross-species transfer ceiling.
+        Genome offspring = SpeciesGeneLimits.apply(inherited.withPlantId(childId),
+                parents.stream().map(BreedingParent::genome).toList());
         if (!CropConditions.canGrow(level, position, childPlant, offspring)) return;
         target.acceptCrossOffspring(offspring, childPlant);
     }
@@ -131,12 +136,15 @@ public final class CrossBreeding {
                         entry.getValue().seasonRule().allowedSeasons()))
                 .filter(entry -> CropConditions.matchesChemistry(level, target,
                         entry.getValue().soilChemistry(),
-                        inherited.strength()))
+                        SpeciesGeneLimits.apply(inherited.withPlantId(entry.getValue().childPlantId()),
+                                parentGenomes).strength()))
                 .filter(entry -> snapshot.plants().containsKey(entry.getValue().childPlantId()))
-                // Do not consume a mutation roll for species that cannot
-                // grow under the actual soil and lighting with inherited Strength.
+                // Check the actual capped genotype, not a stronger inherited
+                // value that the offspring would never be allowed to keep.
                 .filter(entry -> CropConditions.canGrow(level, target,
-                        snapshot.plants().get(entry.getValue().childPlantId()), inherited))
+                        snapshot.plants().get(entry.getValue().childPlantId()),
+                        SpeciesGeneLimits.apply(inherited.withPlantId(entry.getValue().childPlantId()),
+                                parentGenomes)))
                 .sorted(Comparator.comparing(Map.Entry::getKey))
                 .toList();
 
@@ -148,14 +156,15 @@ public final class CrossBreeding {
         // With no viable mutation, every participating parent species can
         // be inherited, not merely the first two in a 3-/4-parent cross.
         // Shuffle once for a fair choice; pick only a species that can grow
-        // at the target under the inherited strength and environment.
+        // at the target under its actual species-limited strength/environment.
         List<String> possibilities = new ArrayList<>();
         for (Genome parent : parentGenomes) possibilities.add(parent.plantId());
         Collections.shuffle(possibilities, new Random(random.nextLong()));
         for (String species : possibilities) {
             PlantDefinition candidate = snapshot.plants().get(species);
             if (candidate != null
-                    && CropConditions.canGrow(level, target, candidate, inherited))
+                    && CropConditions.canGrow(level, target, candidate,
+                            SpeciesGeneLimits.apply(inherited.withPlantId(species), parentGenomes)))
                 return species;
         }
         return possibilities.getFirst(); // caller still rejects unsuitable offspring safely
