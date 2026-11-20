@@ -33,4 +33,21 @@ class JournalMutationRulesTest {
         assertEquals(2, results.size());
         assertEquals(results.stream().sorted().toList(), results);
     }
+    @Test
+    void datapackReloadRebuildsHintsWithoutErasingDiscoveries() {
+        Set<String> discovered = Set.of(WHEAT, CARROT, POTATO);
+        MutationDefinition active = new MutationDefinition(POTATO, WHEAT, CARROT, 0.1D);
+        List<String> before = JournalMutationRules.revealedTriples(
+                discovered, List.of(active));
+        assertEquals(List.of(WHEAT + ">" + CARROT + ">" + POTATO), before);
+
+        // The recipe was removed by /reload, not the research progress.
+        List<String> after = JournalMutationRules.revealedTriples(
+                discovered, List.of());
+        assertTrue(after.isEmpty());
+        assertEquals(3, discovered.size());
+        assertEquals(before, JournalMutationRules.revealedTriples(
+                discovered, List.of(active)));
+    }
+
 }
