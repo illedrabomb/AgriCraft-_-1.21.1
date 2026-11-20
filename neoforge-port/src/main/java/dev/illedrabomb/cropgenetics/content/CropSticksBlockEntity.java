@@ -193,6 +193,12 @@ public final class CropSticksBlockEntity extends BlockEntity {
         // The seed's own genome is authoritative. Never store another
         // stack's analysis or OriginalSeed metadata on an unrelated crop.
         if (sourceSeed != null && !sourceSeed.isEmpty()) {
+            // Planting eventually converts the source into our own genetic
+            // seed drop. Never consume external components (custom name,
+            // enchantments, addon data, etc.) that this conversion cannot
+            // restore on uprooting. Match the explicit conversion safety rule.
+            if (!CropSeedSourceSafety.canConvertWithoutExternalDataLoss(sourceSeed))
+                return false;
             Genome attached = sourceSeed.get(CropComponents.GENOME.get());
             if (attached != null) {
                 // The source must really be a recognised genetic seed of this
