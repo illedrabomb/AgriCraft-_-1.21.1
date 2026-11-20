@@ -93,9 +93,9 @@ public final class CrossBreeding {
                 * parentCountFactor * CropBalanceConfig.CROSS_FERTILITY_MULTIPLIER.get());
         if (random.nextDouble() >= chance) return;
 
-        // The visible Growth/Gain/Strength values may come from ANY eligible
-        // parent; 2, 3 and 4 parents respectively use 1x, 2x and 3x the
-        // baseline mutation chance. Only one offspring is created.
+        // Choose one full parent genome weighted by Strength, then mutate a
+        // point pool. The engine normalizes the old 1x/2x/3x config factor so
+        // that its new 2-/3-/4-parent pool is not boosted twice.
         double mutationMultiplier = CropBalanceConfig.ROW_CROSS_EVOLUTION.get()
                 ? (straightRow ? CrossFertilityRules.rowMutationMultiplier()
                         : CrossFertilityRules.mutationMultiplier(parentCount))
@@ -103,7 +103,7 @@ public final class CrossBreeding {
                 : 0.0D;
         Genome inherited = BreedingEngine.combine(
                 parents.stream().map(BreedingParent::genome).toList(),
-                first.plantId(), inheritanceRandom, mutationMultiplier);
+                first.plantId(), inheritanceRandom, mutationMultiplier, straightRow);
         String childId = chooseChildSpecies(
                 parents.stream().map(BreedingParent::genome).toList(),
                 inherited, snapshot, level, position, random);

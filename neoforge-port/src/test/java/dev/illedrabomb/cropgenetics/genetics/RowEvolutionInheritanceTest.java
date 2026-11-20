@@ -5,12 +5,11 @@ import java.util.Random;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Row breeding may improve the three visible traits, never hidden genes. */
+/** Full-genome inheritance and point-pool mutation use only the three visible traits. */
 class RowEvolutionInheritanceTest {
     private static final class ImprovementRolls extends Random {
-        @Override public boolean nextBoolean() { return true; }
-        @Override public int nextInt(int bound) { return 0; }
-        @Override public double nextDouble() { return 0.0D; }
+        @Override public int nextInt(int bound) { return bound == 100 ? 99 : 0; }
+        @Override public double nextDouble() { return 1.0D; }
     }
 
     @Test
@@ -18,7 +17,7 @@ class RowEvolutionInheritanceTest {
         Genome baseline = Genome.basic("minecraft:wheat_plant");
         Genome child = BreedingEngine.combine(baseline, baseline,
                 baseline.plantId(), new ImprovementRolls());
-        assertEquals(new Genome(baseline.plantId(), 2, 2, 2), child);
+        assertEquals(new Genome(baseline.plantId(), 4, 1, 1), child);
         assertEquals(Genome.basic(baseline.plantId()), baseline);
     }
 
@@ -59,6 +58,6 @@ class RowEvolutionInheritanceTest {
         Genome baseline = Genome.basic("minecraft:wheat_plant");
         Genome child = BreedingEngine.combine(baseline, baseline,
                 baseline.plantId(), new ImprovementRolls(), 5.0D);
-        assertEquals(new Genome(baseline.plantId(), 2, 2, 2), child);
+        assertEquals(new Genome(baseline.plantId(), 4, 1, 1), child);
     }
 }

@@ -21,7 +21,9 @@ Es gibt **keine versteckten dominanten oder rezessiven Allelpaare** mehr und kei
 - **Fertility** ist jetzt eine feste Spielmechanik (30 % Grundchance pro Elternpaar und Berechtigungsversuch, bevor der serverseitige `crossFertilityMultiplier` angewendet wird), keine genetische Eigenschaft. Die gleiche Grundchance gilt für einzelne Ausbreitungsversuche vor dem species-spezifischen Spread-Faktor.
 - **Mutativity** wird nicht mehr vererbt. Stattdessen gilt eine nachvollziehbare Grundchance von 10 % pro Wert und Kreuzung, skaliert nach Anordnung und durch `rowEvolutionMutationMultiplier`. Ob ein Wert steigt oder fällt ist zufällig.
 
-## Offener Balance-Auftrag BAL-01 (Spielerentscheidung 20.11.2026; **nicht umgesetzt**)
+## Balance-Auftrag BAL-01 (Spielerentscheidung 20.11.2026; **erste Codeversion umgesetzt, Test offen**)
+
+**Aktualisierung 20.11.2026:** Der folgende Abschnitt dokumentiert auch historische Diskussionen und den **vorherigen** Codezustand. Maßgeblicher neuer Quellstand: `BreedingEngine` wählt nun die vollständige Elternvorlage mit direktem Robustheitsgewicht, danach die [0–4-Punkte-/Verlustregeln](BAL01_GENETICS_PROPOSAL_2026-11-20.md); `CrossBreeding` unterscheidet den schwachen Reihenmodus. Frühere Formulierungen „noch kein Code“, „bisherige ±1-Mutation“ oder „später implementieren“ sind **historische Entscheidungsbelege**, keine Beschreibung des aktuellen Quellcodes. **Statischer Review, keine Build-/JUnit-/Minecraft-Ausführung, 70-Kinder-Ziel noch unbewiesen.**
 
 **Priorität:** Hauptmod-Gameplay-Balance, nachrangig gegenüber den bereits vereinbarten Sicherheits-/Testvorbereitungen; vor einer Änderung als **eigenes vollständig abgeschlossenes Arbeitspaket** planen. Keine aktuellen Wahrscheinlichkeiten oder Vererbungsregeln ohne erneute Abstimmung stillschweigend verändern.
 
