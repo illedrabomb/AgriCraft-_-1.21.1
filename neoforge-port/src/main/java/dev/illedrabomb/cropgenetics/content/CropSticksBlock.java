@@ -353,19 +353,23 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
             }
         }
         if (water || fertilizer) {
-            if (level instanceof ServerLevel server) {
-                boolean changed = SoilTreatment.apply(server, pos.below(),
-                        water ? SoilTreatment.Treatment.WATER
-                              : SoilTreatment.Treatment.FERTILIZER);
-                if (!changed) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-                if (!player.isCreative()) {
-                    if (water) {
-                        // A water bucket is unstackable; avoid consuming the
-                        // bucket itself as an ingredient.
-                        player.setItemInHand(hand, new ItemStack(Items.BUCKET));
-                    } else {
-                        stack.shrink(1);
-                    }
+            // The client cannot see authoritative soil nutrient profiles.
+            // Do not report SUCCESS for every bucket/bonemeal click before
+            // the server has verified that treatment actually changed soil.
+            // Vanilla's bonemeal interface remains available as fallback.
+            if (!(level instanceof ServerLevel server))
+                return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            boolean changed = SoilTreatment.apply(server, pos.below(),
+                    water ? SoilTreatment.Treatment.WATER
+                          : SoilTreatment.Treatment.FERTILIZER);
+            if (!changed) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            if (!player.isCreative()) {
+                if (water) {
+                    // A water bucket is unstackable; avoid consuming the
+                    // bucket itself as an ingredient.
+                    player.setItemInHand(hand, new ItemStack(Items.BUCKET));
+                } else {
+                    stack.shrink(1);
                 }
             }
             return ItemInteractionResult.SUCCESS;
