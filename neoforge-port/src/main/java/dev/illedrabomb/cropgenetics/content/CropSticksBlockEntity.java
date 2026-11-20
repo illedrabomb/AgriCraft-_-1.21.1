@@ -337,8 +337,16 @@ public final class CropSticksBlockEntity extends BlockEntity {
     public boolean reconcilePhysicalFruit(PlantDefinition plant) {
         if (!(level instanceof ServerLevel server) || genome == null
                 || !genome.plantId().equals(plant.id()) || !fruitReady) return false;
-        // An internal fruit has no neighboring block ownership metadata.
-        if (fruitDirection == null && fruitToken == null) return false;
+        // A datapack may replace GOURD with STANDARD while an internal fruit
+        // is ready. Clear only the obsolete fruit flag; keep the mature age
+        // so the new normal harvest can still pay out once.
+        if (fruitDirection == null && fruitToken == null) {
+            if (!CropFruitTransitionRules.staleInternalFruit(plant.harvestMode(),
+                    fruitReady, false, false)) return false;
+            fruitReady = false;
+            syncState(plant);
+            return true;
+        }
         if (fruitDirection != null && fruitToken != null) {
             BlockPos fruitPos = worldPosition.relative(fruitDirection);
             // An unloaded neighboring chunk does not mean the fruit was harvested.
@@ -386,8 +394,8 @@ public final class CropSticksBlockEntity extends BlockEntity {
         // Even if a legacy save or an unsupported datapack transition has
         // left ownership metadata behind, never pay a second stem harvest
         // while a physical fruit still owns this growth cycle.
-        return isMature(plant) && plant.harvestMode() == HarvestMode.STANDARD
-                && !fruitReady && fruitDirection == null && fruitToken == null;
+        return CropFruitTransitionRules.canHarvestStandard(plant.harvestMode(),
+                isMature(plant), fruitReady, fruitDirection != null, fruitToken != null);
     }
 
     /**
