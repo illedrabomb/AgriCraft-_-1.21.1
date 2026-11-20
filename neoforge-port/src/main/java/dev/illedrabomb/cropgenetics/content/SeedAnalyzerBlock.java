@@ -56,9 +56,10 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
     }
 
     /**
-     * Recheck a retained journal after server datapack reloads, even when
-     * no player moves items through the analyzer. Every analyzer is staggered
-     * over five seconds to avoid synchronous work at a reload boundary.
+     * Recheck a retained journal after server datapack/world reloads, even
+     * when no player moves items through the analyzer. This refreshes hints
+     * and repairs a missing discovery for an already analyzed stored seed.
+     * Every analyzer is staggered over five seconds to spread the work.
      */
     @Override
     @Nullable
