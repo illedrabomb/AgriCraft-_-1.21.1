@@ -69,6 +69,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [x] DOC-01: Test-Gate dokumentiert: [`MAIN_MOD_TEST_GATE_2026-11-19.md`](MAIN_MOD_TEST_GATE_2026-11-19.md).
 - [x] DOC-02: Detailfälle dokumentiert: [`MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md`](MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md).
 - [x] DOC-03: Chat-/AI-Übergabe dokumentiert: [`INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md`](INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md).
+- [x] DOC-06: Mobil lesbarer, nach Fall-IDs gegliederter Ablauf für den gemeinsam geplanten **Sonntagabend** vorbereitet: [`SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md`](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md). **Nur Dokumentation; kein Test gestartet oder bestanden.**
 - [ ] DOC-04: Jede ausgeführte Prüfung mit Commit, Ergebnis und Nachweis ergänzen; Fehler separat als offen markieren.
 - [ ] DOC-05: Gemeinsamen Hauptmod-Test vollständig abnehmen; **erst danach** eigene Add-on-Testgates freigeben.
 
