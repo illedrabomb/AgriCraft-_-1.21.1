@@ -52,6 +52,16 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
             final int combinedIndex = index;
             this.addSlot(new Slot(analyzer, index, x, y) {
                 @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stillValid(inventory.player) && super.mayPlace(stack);
+                }
+
+                @Override
+                public boolean mayPickup(Player player) {
+                    return stillValid(player) && super.mayPickup(player);
+                }
+
+                @Override
                 public int getMaxStackSize() {
                     // Slot zero: seed; slot one: journal; remaining slots
                     // disabled by analyzer.canPlaceItem. Never accept 64
@@ -65,6 +75,16 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
             int y = 36 + (index / 9) * 18;
             final int combinedIndex = ANALYZER_SLOTS + index;
             this.addSlot(new Slot(chest, index, x, y) {
+                @Override
+                public boolean mayPlace(ItemStack stack) {
+                    return stillValid(inventory.player) && super.mayPlace(stack);
+                }
+
+                @Override
+                public boolean mayPickup(Player player) {
+                    return stillValid(player) && super.mayPickup(player);
+                }
+
                 @Override
                 public int getMaxStackSize() {
                     return maxStorageSlotCount(combinedIndex);
@@ -95,6 +115,10 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack original = ItemStack.EMPTY;
+        // A slot-click packet can still arrive between block removal and
+        // the next menu-validity tick. Never move items into or out of a
+        // detached analyzer/chest during that short interval.
+        if (!stillValid(player)) return original;
         if (index < 0 || index >= slots.size()) return original;
         Slot slot = slots.get(index);
         if (!slot.hasItem()) return original;
