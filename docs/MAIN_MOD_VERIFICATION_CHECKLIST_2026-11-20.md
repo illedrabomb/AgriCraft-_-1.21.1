@@ -17,6 +17,7 @@
 - [x] ST-09: JEI-Rezeptdarstellung auf fehlende Katalysator-/Papier-Restanzeige geprüft; wiederverwendbare Papier-Anleitung (`8ca2a7cb`, `b10e002c`, `f30a7c6b`) und Lokalisierungsquelltest (`4848de59`) ergänzt. Laufzeitprüfung offen.
 - [x] ST-10: Wiederhergestellter Analyzer mit bereits eingelegtem Saatgut und Journal wird periodisch auf fehlende Pflanzenentdeckung und aktuelle Mutationshinweise abgeglichen (`80cc66ed`, `08247982`). Gemeinsam genutzte, idempotente Code-Logik statisch geprüft; Save/Reload-Test offen.
 - [x] ST-11: Direkte Analyzer-Rechtsklicks verwenden für Client-Belegungsprognosen die öffentlichen Anzeige-Slots statt der nur serverseitig vollständigen Inventarslots (`311fce8e`). Statische Quellprüfung; Multiplayer-Laufzeit offen.
+- [x] ST-12: Zweite Crop-Sticks-Lage wird nur bei bestätigtem Blockzustand verbraucht bzw. als Item ausgegeben (`88db8895`). Statisch geprüft; abgefangene/überschriebene Blockänderungen im Spiel noch offen.
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
@@ -38,6 +39,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] GE-04: Mutation, Samenabbau, Analyse, Replanting und Gene 1/1/1 bis 10/10/10 prüfen.
 - [ ] GE-05: Elternzustände und verwaiste Ziel-Blockentities nach Save/Reload prüfen (`GEN-02`).
 - [ ] GE-06: Knochenmehl, normale Random-Ticks, Nährstoffverbrauch und Bodenvoraussetzungen (`CR-01`, `CR-02`, `CR-06`, `CR-07`).
+- [ ] GE-07: Hinzufügen und Entfernen der zweiten Crop-Sticks-Lage, insbesondere fehlgeschlagene bzw. von Schutz-Plugins verhinderte `setBlock`-Änderungen (`CR-13`).
 
 ### Ernte, Frucht und Item-Datensicherheit
 
