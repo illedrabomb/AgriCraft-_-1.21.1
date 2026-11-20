@@ -14,14 +14,14 @@
 - Genetik-/Erntesicherheit, Datenkomponenten von Seeds, Analyzer-/Chest-/Journal-Synchronisierung und Gourd-Fruchtzyklen nicht ohne Regression berücksichtigen.
 
 ## Derzeitiges Gate (aus Dokumentation, vor neuem Lauf verifizieren)
-- [Zentrale Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md): ST-01 bis ST-10 als **statisch** geprüft; TG-/GE-/ER-/UI-Laufzeittests weiterhin offen.
+- [Zentrale Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md): ST-01 bis ST-11 als **statisch** geprüft; TG-/GE-/ER-/UI-Laufzeittests weiterhin offen.
 - Ältere lokale Erfolge vom 17.11.2026 belegen **nicht** den inzwischen veränderten Branch.
-- Zuletzt dokumentierte Quelländerungen betreffen u. a. wiederverwendbares Rezeptpapier/JEI sowie Journal-Nachtrag nach Analyzer-Weltwiederherstellung. **Nicht im Spiel bestätigt.**
+- Zuletzt dokumentierte Quelländerungen betreffen u. a. Rezeptpapier/JEI, Journal-Nachtrag und Client-Belegungsprognose beim direkten Analyzer-Rechtsklick. **Nicht im Spiel bestätigt.**
 - Nächste Aktion: aktuellen HEAD und offene Quellarbeit abgleichen; nur noch für das aktuelle Arbeitspaket notwendige Änderungen durchführen. Für Tests gesondert Freigabe einholen.
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.
-- [Multiplayer-/Inventar-Testfälle](MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md) – MP-01 bis MP-22.
+- [Multiplayer-/Inventar-Testfälle](MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md) – MP-01 bis MP-23.
 - [Integration/Kompatibilität – historische Übergabe](INTEGRATION_COMPATIBILITY_HANDOFF_2026-11-19.md) – technische Entscheidungsdetails, Pam/Farmer's und ältere Commits.
 - [Projektstatus – historisches Entwicklungsjournal](PROJECT_STATUS.md) – ältere Änderungen und Testergebnisse.
 - [Manueller Test-Tracker](MANUAL_TEST_TRACKER.md) – Bedienung des externen Testtools.
