@@ -675,3 +675,10 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - **Code-Commit `b4af0955`:** `CrossBreeding.attempt` akzeptiert ein Kreuzungsziel nur noch, wenn die Blockentity noch am erwarteten Ort existiert und der tatsächliche Blockzustand leere doppelte Crop Sticks zeigt. Die Elternsuche verlangt nun ausdrücklich reale, bepflanzte, einfache Crop Sticks statt sich nur auf vorhandene BE-Genomdaten und Reife zu verlassen.
 - **Unverändert:** ein bis vier direkte Eltern, optionale 3+-Reihe, Vererbungs- und Mutationsberechnungen, Clone-/Spread-Chance sowie Chunk-Grenzprüfung. Diese Änderung repariert keine nachgewiesene Karotten-Reproduktion; `STK-04/GEN-01` bleibt offen.
 - **Test-Gate:** `GEN-02` ergänzt (Neuladen/Datapack-Reload und Eltern-Blockzustände). Kein Gradle, JUnit, Minecraft oder CI ausgeführt; Quellprüfung ist keine Laufzeitfreigabe.
+
+### Fortsetzung 20.11.2026 – Gourd→Standard-Reload und sichere Erntereife
+
+- **Ausgangsstand:** `0cccf6d13d45f12798fc1235cf8e539527344e1b`.
+- **Code-Commits `a135543f`, `02c23b24`:** Eine nach `GOURD` → `STANDARD` veraltete **interne** Fruchtkennung blockierte die normale Ernte dauerhaft. Neue reine `CropFruitTransitionRules` unterscheiden interne Frucht, physische Alt-Frucht und Standardpflanze. `CropSticksBlockEntity.reconcilePhysicalFruit` entfernt den veralteten internen Zustand ohne Rücksetzung der Reife; `readyForHarvest` erlaubt davor eine einmalige normale Ernte und damit auch den korrekten Block-Loot-Pfad.
+- Bestehende Besitzerkennungen physischer Früchte bleiben bis zu deren gesondertem Abgleich geschützt. Die Gourd-Wiederholernte und Ein-Stack-Grenze ändern sich nicht. **JUnit-Quelltest `7ec6d263`** (`CropFruitTransitionRulesTest`) und manueller Gate-Fall **HG-01** ergänzt.
+- Keine Gradle-/JUnit-/Minecraft-/CI-Ausführung; im Spiel noch nicht verifiziert. Die bestehende alte Karotten-Reproduktion bleibt unverändert offen. Add-ons weiter nachrangig.
