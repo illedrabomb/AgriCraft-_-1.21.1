@@ -668,3 +668,10 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - **Code-Commit `276acafe`:** `SeedAnalyzerCombinedMenu` sperrt Shift-Klicks auf dem gesamten Menü und `mayPlace`/`mayPickup` auf den 36 Lager-Slots, sobald Analyzer oder angrenzende Chest nicht mehr `stillValid` sind. Das adressiert späte Pakete zwischen Blockabbau und Menüschluss, ohne Slotgrößen, Reihenfolge, normale Lagerregeln oder die Standalone-Menüs zu ändern.
 - **Manueller Test:** **MP-21** in `docs/MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md`; auch die bisherigen MP-08, MP-09 und MP-17 bleiben für beide Richtungen des Abbaus relevant.
 - **Verifikationsgrenze:** nur Code-Review und Diff-Prüfung; keine Gradle-, JUnit-, Minecraft- oder CI-Ausführung. Ob der Client während des Races kurzzeitig eine abweichende Vorschau zeigt, bleibt ein Gameplay-Testpunkt. Add-ons weiterhin zurückgestellt.
+
+### Fortsetzung 20.11.2026 – Zustandsprüfung von Kreuzungsziel und Eltern
+
+- **Ausgangsstand:** GitHub-HEAD `1df8132a5808df87bbcb0d4d8adc8b7424a766ce`.
+- **Code-Commit `b4af0955`:** `CrossBreeding.attempt` akzeptiert ein Kreuzungsziel nur noch, wenn die Blockentity noch am erwarteten Ort existiert und der tatsächliche Blockzustand leere doppelte Crop Sticks zeigt. Die Elternsuche verlangt nun ausdrücklich reale, bepflanzte, einfache Crop Sticks statt sich nur auf vorhandene BE-Genomdaten und Reife zu verlassen.
+- **Unverändert:** ein bis vier direkte Eltern, optionale 3+-Reihe, Vererbungs- und Mutationsberechnungen, Clone-/Spread-Chance sowie Chunk-Grenzprüfung. Diese Änderung repariert keine nachgewiesene Karotten-Reproduktion; `STK-04/GEN-01` bleibt offen.
+- **Test-Gate:** `GEN-02` ergänzt (Neuladen/Datapack-Reload und Eltern-Blockzustände). Kein Gradle, JUnit, Minecraft oder CI ausgeführt; Quellprüfung ist keine Laufzeitfreigabe.
