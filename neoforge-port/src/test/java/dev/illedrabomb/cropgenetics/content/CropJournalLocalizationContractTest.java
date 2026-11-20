@@ -58,6 +58,7 @@ class CropJournalLocalizationContractTest {
             }
             assertNonEmpty(entries, "screen.cropgenetics.journal");
             assertNonEmpty(entries, "jei.cropgenetics.seed_conversion");
+            assertNonEmpty(entries, "jei.cropgenetics.seed_recovery");
             assertNonEmpty(entries, "jei.cropgenetics.seed_analysis");
         }
     }
