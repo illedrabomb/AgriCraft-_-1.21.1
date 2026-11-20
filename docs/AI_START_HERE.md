@@ -14,9 +14,9 @@
 - Genetik-/Erntesicherheit, Datenkomponenten von Seeds, Analyzer-/Chest-/Journal-Synchronisierung und Gourd-Fruchtzyklen nicht ohne Regression berücksichtigen.
 
 ## Derzeitiges Gate (aus Dokumentation, vor neuem Lauf verifizieren)
-- [Zentrale Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md): ST-01 bis ST-11 als **statisch** geprüft; TG-/GE-/ER-/UI-Laufzeittests weiterhin offen.
+- [Zentrale Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md): ST-01 bis ST-12 als **statisch** geprüft; TG-/GE-/ER-/UI-Laufzeittests weiterhin offen.
 - Ältere lokale Erfolge vom 17.11.2026 belegen **nicht** den inzwischen veränderten Branch.
-- Zuletzt dokumentierte Quelländerungen betreffen u. a. Rezeptpapier/JEI, Journal-Nachtrag und Client-Belegungsprognose beim direkten Analyzer-Rechtsklick. **Nicht im Spiel bestätigt.**
+- Zuletzt dokumentierte Quelländerungen betreffen u. a. Journal-Nachtrag, Client-Belegungsprognose am Analyzer sowie abgesicherte Crop-Sticks-Lagenwechsel. **Nicht im Spiel bestätigt.**
 - Nächste Aktion: aktuellen HEAD und offene Quellarbeit abgleichen; nur noch für das aktuelle Arbeitspaket notwendige Änderungen durchführen. Für Tests gesondert Freigabe einholen.
 
 ## Dokumentenwegweiser
