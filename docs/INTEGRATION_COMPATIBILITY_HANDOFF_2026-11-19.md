@@ -689,3 +689,10 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - **Code-Commits `e437397d`, `6345716e`, `986b2b89`, JUnit-Quelltest `2c8a48be`:** Konsistente interne Gourd-Auszahlung: `CropFruitTransitionRules.canHarvestInternalGourd` wird für Rechtsklick, Block-Loot und serverseitigen Abschluss verwendet; `FruitReady` ohne tatsächliche Reife oder bei physischer Besitzerkennung zahlt nichts. Manueller Test **HG-02** ergänzt.
 - **Neue verbindliche zentrale Testdatei:** [`MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md`](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md). Sie enthält bereits erledigte **statische** Quellprüfungen separat von **nicht ausgeführten** Gradle-, JUnit-, Minecraft-, Multiplayer-, Ernte- und UI-Tests. Nur belegte tatsächliche Ergebnisse abhaken. Verweise zusätzlich im `docs/MAIN_MOD_TEST_GATE_2026-11-19.md` und `docs/PROJECT_STATUS.md`.
 - Nutzerfreigabe weiterhin ausstehend. Alle Laufzeit- und Build-Checkboxen bleiben offen; Add-ons weiterhin aufgeschoben.
+
+### Fortsetzung 20.11.2026 – Verlustfreie Rückgabe von Rezept-Papier
+
+- **Ausgangsstand:** Branch-HEAD `406f8f23744b83072ac0c5a81ac3bf0a23df3c82`.
+- **Code-Commit `f5b3f067`:** `OriginalSeedRecoveryRecipe` erstattete bislang immer frisches Standardpapier. Beim ausdrücklich nicht verbrauchbaren Rezept-Zusatz konnten dadurch angepasste Papier-Komponenten verschwinden. Nun kommt eine Kopie mit exakt einem Item und unveränderten Daten aus dem jeweiligen Originalslot zurück. Die Rückwandlung des genetischen Seeds selbst bleibt durch die frühere Sicherheitsregel geschützt.
+- JUnit-Quelltest `OriginalSeedRecoveryRemainderTest` (**`9c1d80ea`**) und manueller Test **CR-12** vorbereitet. Neue zentrale Prüfposten **ST-08** (statisch abgeschlossen) und **ER-08** (Spieltest offen) in [`MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md`](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md).
+- Keine Gradle-, JUnit-, Minecraft- oder CI-Ausführung. Kein Nachweis für tatsächlichen Crafting-Grid-Nettoeffekt bis zur gemeinsamen Testfreigabe.
