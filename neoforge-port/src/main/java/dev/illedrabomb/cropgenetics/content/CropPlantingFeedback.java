@@ -25,8 +25,30 @@ final class CropPlantingFeedback {
         // A protection hook can reject the final state update even when all
         // environmental rules pass; never leave that rejection unexplained.
         String reason = reason(level, pos, state, crop, held);
+        if ("soil".equals(reason)) {
+            PlantDefinition plant = plantForSeed(held);
+            if (plant != null) {
+                player.displayClientMessage(Component.translatable(
+                        "message.cropgenetics.planting.soil",
+                        requiredSoil(plant.requirements())), true);
+                return;
+            }
+        }
         player.displayClientMessage(Component.translatable(
                 "message.cropgenetics.planting." + (reason == null ? "blocked" : reason)), true);
+    }
+
+    /** A tag is a rule, not a promise that one example block is the only soil. */
+    static String requiredSoil(PlantRequirements requirements) {
+        return requirements.soilBlock().orElseGet(
+                () -> "#" + requirements.soilTag().orElse("?"));
+    }
+
+    private static PlantDefinition plantForSeed(ItemStack seed) {
+        Genome genome = seed.get(CropComponents.GENOME.get());
+        if (genome != null) return CropGeneticsMod.plants().plants().get(genome.plantId());
+        String seedId = BuiltInRegistries.ITEM.getKey(seed.getItem()).toString();
+        return CropGeneticsMod.plants().plantForSeed(seedId).orElse(null);
     }
 
     static String reason(ServerLevel level, BlockPos pos, BlockState state,

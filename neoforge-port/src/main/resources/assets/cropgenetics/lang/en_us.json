@@ -18,7 +18,7 @@
   "message.cropgenetics.planting.occupied": "A crop is already planted here.",
   "message.cropgenetics.planting.modified": "This modified seed contains data that planting cannot preserve.",
   "message.cropgenetics.planting.unknown": "This seed or its plant species is not registered.",
-  "message.cropgenetics.planting.soil": "This plant species needs a different soil.",
+  "message.cropgenetics.planting.soil": "Wrong soil. Requires: %s",
   "message.cropgenetics.planting.water": "Sugar cane needs water beside its supporting soil.",
   "message.cropgenetics.planting.mushroom_light": "This soil is too bright for this mushroom.",
   "message.cropgenetics.planting.cactus_space": "Cactus needs clear neighboring spaces.",
