@@ -385,7 +385,12 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         // A second stick creates a cross-crop only when the position is empty.
         if (stack.is(CropItems.CROP_STICKS.get()) && !state.getValue(CROSS) && crop.genome() == null) {
             if (!level.isClientSide) {
-                level.setBlock(pos, state.setValue(CROSS, true), 3);
+                // Never spend an extra stick if a protection hook or another
+                // block update prevents the new crossed state from sticking.
+                if (!level.setBlock(pos, state.setValue(CROSS, true), 3)
+                        || !level.getBlockState(pos).is(this)
+                        || !level.getBlockState(pos).getValue(CROSS))
+                    return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
                 if (!player.isCreative()) stack.shrink(1);
             }
             return ItemInteractionResult.SUCCESS;
@@ -480,7 +485,13 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         if (crop.genome() == null && state.getValue(CROSS)
                 && player.getMainHandItem().isEmpty()) {
             if (!level.isClientSide) {
-                level.setBlock(pos, state.setValue(CROSS, false), 3);
+                // The removed upper layer is a real item only if the block
+                // actually transitions back to single sticks. Otherwise a
+                // canceled update could manufacture free sticks on each click.
+                if (!level.setBlock(pos, state.setValue(CROSS, false), 3)
+                        || !level.getBlockState(pos).is(this)
+                        || level.getBlockState(pos).getValue(CROSS))
+                    return InteractionResult.PASS;
                 popResource(level, pos, new ItemStack(CropItems.CROP_STICKS.get()));
             }
             return InteractionResult.SUCCESS;
