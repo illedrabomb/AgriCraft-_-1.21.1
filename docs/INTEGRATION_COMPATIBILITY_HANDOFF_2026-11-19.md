@@ -637,3 +637,11 @@ The detailed, acceptance-criteria-driven migration plan is in [`docs/ADDON_EXTRA
 - Die bestehende Obergrenze **ein Itemstack je unterschiedlichem Ernteprodukt pro Erntevorgang** bleibt erhalten. Die Vererbungs-/Mutationswahrscheinlichkeit und Gourds-Wachstumszyklen wurden in diesem Paket nicht verändert.
 - **CR-01 bis CR-05** im externen Fallkatalog `docs/MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md` dokumentieren Fehlbehandlung, gültige Bodenpflege, normale Ernte, Kürbis-/Melonenfrucht und das Entfernen eines leeren Kreuzes.
 - **Status:** Nur statische Code-Änderungen und Testvorbereitung. Keine Gradle-, JUnit- oder Minecraft-Testausführung; Freigabe für einen gebündelten Durchlauf steht weiterhin aus.
+
+
+### Nachtrag: Boden-Nährstoffabrechnung auf erfolgreiche Wachstumsereignisse begrenzt (20.11.2026)
+
+- **`eff009e4`**: `CropSticksBlock.randomTick` ruft `SoilDynamics.onGrowth` nur noch auf, wenn `crop.advanceGrowth` tatsächlich eine Stufe hinzugefügt hat. Ein bestandener Zufallswurf allein reicht nicht aus, um Boden-Nährstoffe zu verbrauchen.
+- **`2a74451f`**: Sowohl der direkte Knochenmehlpfad `useItemOn` als auch `BonemealableBlock.performBonemeal` berücksichtigen bei einem **erfolgreichen** Stufenanstieg dieselbe konfigurierte Nährstoff-Dynamik. Fehlversuche, Reifestufe und fehlende Wachstumsbedingungen belasten den Boden nicht. Direkte Knochenmehl-Interaktion konsumiert weiterhin nur bei Erfolg genau ein Item in Survival.
+- Der spätere manuelle Testkatalog enthält **CR-06** (natürlicher Tick/Nährstoffabzug) und **CR-07** (Knochenmehl und mod-kompatible Wachstumstools). Für deterministische Versuche wird im **kopierten** Datapack `data/cropgenetics/cropgenetics/soil_dynamics.json` `growth_nutrient_chance` auf `1` gesetzt; danach Originalkonfiguration wiederherstellen.
+- **Noch ungeprüft:** tatsächliche Client-/Server-Interaktion, automatischer Bodenabzug, Knochenmehl-Verbrauch und Kompatibilität externer Wachstumstools. Keine Gradle-/JUnit-/Minecraft-Ausführung, Testfreigabe steht aus.
