@@ -157,3 +157,11 @@ Add-on build/launch verification is **not** a prerequisite to the core-only manu
 - **`eae893b4`**: Manuelle Rechtsklick-Ernte sowie das Entfernen der zweiten, leeren Crop-Stick-Lage setzen nun ausdrücklich **beide Hände leer** voraus. Ein gehaltenes Item, dessen Bodenpflege fehlschlägt, darf nicht versehentlich ernten. Hierfür ist später die Interaktion aus Nutzersicht zu prüfen.
 - Im externen Testfallkatalog stehen **CR-01 bis CR-05** (Bodenpflege Fehlpfad/Erfolgspfad, normales Ernten mit Ein-Stack-pro-Produkt-Grenze, Gourd-Frucht, leeres Kreuz). Bei Client-Server-Abweichungen Screenshot plus `latest.log` erfassen.
 - **Noch nicht freigegeben oder ausgeführt:** Gradle, JUnit, Minecraft sowie der gesamte kombinierte Core-only-Gate-Test.
+
+
+### Nachtrag: Boden-Nährstoffabrechnung auf erfolgreiche Wachstumsereignisse begrenzt (20.11.2026)
+
+- **`eff009e4`**: `CropSticksBlock.randomTick` ruft `SoilDynamics.onGrowth` nur noch auf, wenn `crop.advanceGrowth` tatsächlich eine Stufe hinzugefügt hat. Ein bestandener Zufallswurf allein reicht nicht aus, um Boden-Nährstoffe zu verbrauchen.
+- **`2a74451f`**: Sowohl der direkte Knochenmehlpfad `useItemOn` als auch `BonemealableBlock.performBonemeal` berücksichtigen bei einem **erfolgreichen** Stufenanstieg dieselbe konfigurierte Nährstoff-Dynamik. Fehlversuche, Reifestufe und fehlende Wachstumsbedingungen belasten den Boden nicht. Direkte Knochenmehl-Interaktion konsumiert weiterhin nur bei Erfolg genau ein Item in Survival.
+- Der spätere manuelle Testkatalog enthält **CR-06** (natürlicher Tick/Nährstoffabzug) und **CR-07** (Knochenmehl und mod-kompatible Wachstumstools). Für deterministische Versuche wird im **kopierten** Datapack `data/cropgenetics/cropgenetics/soil_dynamics.json` `growth_nutrient_chance` auf `1` gesetzt; danach Originalkonfiguration wiederherstellen.
+- **Noch ungeprüft:** tatsächliche Client-/Server-Interaktion, automatischer Bodenabzug, Knochenmehl-Verbrauch und Kompatibilität externer Wachstumstools. Keine Gradle-/JUnit-/Minecraft-Ausführung, Testfreigabe steht aus.
