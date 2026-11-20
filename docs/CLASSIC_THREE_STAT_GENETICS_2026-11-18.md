@@ -21,6 +21,22 @@ Es gibt **keine versteckten dominanten oder rezessiven Allelpaare** mehr und kei
 - **Fertility** ist jetzt eine feste Spielmechanik (30 % Grundchance pro Elternpaar und Berechtigungsversuch, bevor der serverseitige `crossFertilityMultiplier` angewendet wird), keine genetische Eigenschaft. Die gleiche Grundchance gilt für einzelne Ausbreitungsversuche vor dem species-spezifischen Spread-Faktor.
 - **Mutativity** wird nicht mehr vererbt. Stattdessen gilt eine nachvollziehbare Grundchance von 10 % pro Wert und Kreuzung, skaliert nach Anordnung und durch `rowEvolutionMutationMultiplier`. Ob ein Wert steigt oder fällt ist zufällig.
 
+## Offener Balance-Auftrag BAL-01 (Spielerentscheidung 20.11.2026; **nicht umgesetzt**)
+
+**Priorität:** Hauptmod-Gameplay-Balance, nachrangig gegenüber den bereits vereinbarten Sicherheits-/Testvorbereitungen; vor einer Änderung als **eigenes vollständig abgeschlossenes Arbeitspaket** planen. Keine aktuellen Wahrscheinlichkeiten oder Vererbungsregeln ohne erneute Abstimmung stillschweigend verändern.
+
+**Spielerfeedback:** Der Weg von `1/1/1` zu `10/10/10` erscheint mit dem aktuellen System deutlich zu lang. **Mehr direkt benachbarte Eltern sollen nicht nur die Entstehung beschleunigen, sondern auch die Zahl der für hohe Genwerte erforderlichen erfolgreichen Zucht-/Mutationsschritte spürbar reduzieren.** Die bisherige Mutations-/Unverändert-Quote prüfen; perfekte Seeds sollen anspruchsvoll, aber nicht exzessiv zeitaufwendig sein.
+
+**Konkreter Zielwert (20.11.2026):** Aus **vier reifen `1/1/1`-Eltern** soll unter einer nachvollziehbaren Strategie, bei der jeweils die **besten erzeugten Nachkommen als neue Eltern** verwendet werden, ein `10/10/10`-Seed **statistisch innerhalb von höchstens 70 erzeugten Kindern** erreichbar sein. Als vorläufige Interpretation den Erwartungswert bzw. typische Versuchsanzahl **≤ 70 Kinder** anstreben, nicht eine mathematisch unmögliche harte Zufallsgarantie behaupten. Vor Implementierung Selektionsregel (welche Eltern ersetzt werden, wie Gleichstand bewertet wird), Mutations-/Vererbungsannahmen und Auswertung (Durchschnitt, Median, obere Perzentile) gemeinsam präzisieren; ohne Simulation keine Erfüllung behaupten.
+
+**Robustheit als Mutationsregler:** Der bestehende Genwert **Strength/Robustheit** soll die Mutationswahrscheinlichkeit beeinflussen: **je niedriger die Robustheit, desto wahrscheinlicher die Mutation**, bei hoher Robustheit entsprechend stabilere Vererbung. Vor Umsetzung klären, ob der Robustheitswert des Kindes oder der Eltern maßgeblich ist und ob die erhöhte Wahrscheinlichkeit positive **und** negative Mutationen gleichermaßen oder gezielt Fortschritt begünstigt. Die einfache Drei-Werte-Genetik beibehalten; keinen neuen versteckten Genwert einführen.
+
+**Präzisierung:** Bei vier Eltern gilt derzeit pro **Genwert eines erfolgreich erzeugten Nachkommens** ungefähr 30 % Mutationschance (davon 15 % `+1`, 15 % `−1`) und 70 % **keine Mutation dieses Wertes**. Das ist **keine** 70-%-Chance auf einen vollständigen 1:1-Klon: Auch ohne Mutation können Werte von verschiedenen Eltern stammen. Der Ein-Eltern-Klonpfad ist eine gesonderte Mechanik.
+
+**Später gemeinsam entscheiden:** Wie stark der zusätzliche Elternbonus die *positive* Genentwicklung und/oder Mutationsschrittgröße erhöhen darf, ohne einfache Growth/Gain/Strength-Genetik, `1..10`-Grenzen, die 3+-Reihenregel und den Nutzen guter Eltern auszuhebeln. Negative Mutationen, Auslese/Vererbung und eine faire Zieldauer für `10/10/10` berücksichtigen. Eine **analytische Abschätzung bzw. erst nach ausdrücklicher Freigabe ausführbare Simulation** verschiedener Zuchtstrategien als Entscheidungsgrundlage vorbereiten. Der Sonntag-Core-Test darf die gegenwärtige Baseline beobachten; BAL-01 darf dabei **nicht** als erledigt markiert werden.
+
+**Akzeptanz für das spätere Paket:** Vorher-/Nachher-Regeln mit 2/3/4 direkten Eltern und 3+-Reihe nachvollziehbar vergleichen, insbesondere **vier `1/1/1`-Eltern, Beste-Kinder-Auslese und Ziel ≤ 70 erzeugte Kinder bis `10/10/10`** nach klar vereinbarter statistischer Kennzahl. Einfluss niedriger/hoher Robustheit auf Mutationschance und Rückschritte zeigen. Gameplay-Regeln ggf. samt Config, JUnit-Quellfällen und manuellem Nachtest aktualisieren. **Keine Tests/Simulationen ohne Freigabe ausführen.**
+
 ## Migration und Rückwärtskompatibilität
 
 - Das neue NBT-/Datenkomponenten-Format speichert `plant`, `growth`, `gain`, `strength` als einfache Werte.

@@ -51,6 +51,10 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] GE-10: Abgewiesenes Stage-Remap nach Reload bewahrt `GrowthStage` und `TotalGrowthStages`, späterer erfolgreicher Remap rechnet nur einmal um (`CR-16`).
 - [ ] GE-11: Kreuzungschancen mit 2/3/4 direkten Eltern und gesonderter 3+-Reihe unter protokollierter Serverconfig und gültigen Ziel-Ticks prüfen; einfache Stichproben nicht als empirischen Prozentbeleg ausgeben (`CR-18`).
 
+### Nachgelagerte Gameplay-Balance (bewusst offen)
+
+- [ ] **BAL-01:** Aus vier `1/1/1`-Eltern soll bei konsequenter Auswahl der besten Kinder `10/10/10` **statistisch mit höchstens 70 erzeugten Nachkommen** erreichbar sein (Kennzahl/Selektionsregel vor Umsetzung festlegen). Mehr Eltern sollen auch den nötigen Zucht-/Mutationsaufwand senken; **niedrige Robustheit erhöht die Mutationswahrscheinlichkeit**. 70 % Nichtmutation pro Wert ist keine 70-%-Vollklonchance. [Verbindliche Aufgabenbeschreibung](CLASSIC_THREE_STAT_GENETICS_2026-11-18.md) im Abschnitt BAL-01. **Noch keine Implementierung, Simulation oder Testausführung.**
+
 ### Ernte, Frucht und Item-Datensicherheit
 
 - [ ] ER-01: Normales Rechtsklick-Ernten nur mit leeren Händen; keine Doppelernte, Regrowth unter Reife (`CR-03`).
