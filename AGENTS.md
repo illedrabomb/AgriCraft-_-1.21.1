@@ -18,6 +18,11 @@
 - Hauptmod zunächst separat verifizieren; Add-ons erst nach vereinbartem Hauptmod-Gate testen.
 - Keine ungefragten Löschungen oder Überschreibungen lokaler Test-Mods, Saves oder Testergebnisse.
 
+## Code-Review und NBT-Datenintegrität
+- Nach größeren Arbeitspaketen das **statische** Review gemäß `docs/CODE_REVIEW_NBT_GUIDELINES.md` durchführen; bei Persistenz-/ItemStack-/Netzwerk-/Rezeptänderungen zusätzlich den NBT-/Data-Component-Abschnitt.
+- Offizielle NeoForge-1.21.1-Dokumentation ist die Referenz für versionsabhängige APIs. Öffentliche Review-Skills dienen nur als methodische Vorlage und überschreiben keine Projektregeln.
+- Review-Funde nachvollziehbar priorisieren; statisches Review, geschriebene Tests und ausgeführte Tests strikt auseinanderhalten.
+
 ## Dokumentation ohne Duplikate
 - `docs/AI_START_HERE.md`: aktueller Einstieg, nächste Aktion, HEAD-Bezug und wesentliche Blocker (kurz halten).
 - `docs/MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md`: verbindlicher Prüfstatus und IDs.
