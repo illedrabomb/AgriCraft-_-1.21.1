@@ -16,6 +16,7 @@
 - [x] ST-08: Rückgabe des Papiers beim Original-Seed-Rezept auf Erhalt sämtlicher Data Components umgestellt (`f5b3f067`); neuer JUnit-Quelltest (`9c1d80ea`) vorbereitet, nicht ausgeführt.
 - [x] ST-09: JEI-Rezeptdarstellung auf fehlende Katalysator-/Papier-Restanzeige geprüft; wiederverwendbare Papier-Anleitung (`8ca2a7cb`, `b10e002c`, `f30a7c6b`) und Lokalisierungsquelltest (`4848de59`) ergänzt. Laufzeitprüfung offen.
 - [x] ST-10: Wiederhergestellter Analyzer mit bereits eingelegtem Saatgut und Journal wird periodisch auf fehlende Pflanzenentdeckung und aktuelle Mutationshinweise abgeglichen (`80cc66ed`, `08247982`). Gemeinsam genutzte, idempotente Code-Logik statisch geprüft; Save/Reload-Test offen.
+- [x] ST-11: Direkte Analyzer-Rechtsklicks verwenden für Client-Belegungsprognosen die öffentlichen Anzeige-Slots statt der nur serverseitig vollständigen Inventarslots (`311fce8e`). Statische Quellprüfung; Multiplayer-Laufzeit offen.
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
@@ -59,6 +60,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] UI-07: JEI zeigt die ausdrückliche Erklärung „Papier ist wiederverwendbar“ für genetische Seeds in Deutsch und Englisch; die vereinfachte Rezeptvorschau wird nicht als tatsächlich papierverbrauchend missverstanden.
 - [ ] UI-06: Dedizierter Server und zwei Spieler: gespeicherte Gene, Slot-Sync und Mod-Entfernung ohne Datenverlust.
 - [ ] UI-08: Bereits eingelegtes analysiertes Saatgut trägt nach Save/Reload fehlende Arten im Journal nach, ohne Entdeckungen oder Gene zu löschen (`MP-22`).
+- [ ] UI-09: Belegter/leergeräumter Analyzer sagt direkte Seed- und Journal-Einlage auf Client/Server übereinstimmend voraus (`MP-23`).
 
 ## 3. Dokumentation und Abschluss
 
