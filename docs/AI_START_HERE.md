@@ -17,6 +17,7 @@
 - [Zentrale Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md): ST-01 bis ST-12 als **statisch** geprüft; TG-/GE-/ER-/UI-Laufzeittests weiterhin offen.
 - Ältere lokale Erfolge vom 17.11.2026 belegen **nicht** den inzwischen veränderten Branch.
 - Zuletzt dokumentierte Quelländerungen betreffen u. a. Journal-Nachtrag, Client-Belegungsprognose am Analyzer sowie abgesicherte Crop-Sticks-Lagenwechsel. **Nicht im Spiel bestätigt.**
+- Ein [statisches Seed-/Inventar-/NBT-Audit](SEED_DATA_INTEGRITY_STATIC_AUDIT_2026-11-20.md) zu Quellstand `5254fbba` dokumentiert einen **mittleren Integrationsrisikofall** bei direktem, übergroßem `Container.setItem`; reguläre Spielermenüs sind dadurch nicht als fehlerhaft nachgewiesen. Kein Laufzeittest.
 - Nächste Aktion: aktuellen HEAD und offene Quellarbeit abgleichen; nur noch für das aktuelle Arbeitspaket notwendige Änderungen durchführen. Für Tests gesondert Freigabe einholen.
 - Gemeinsamer Core-only-Test ist für **Sonntagabend, 22.11.2026** ins Auge gefasst; der [kurze Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) ist vorbereitet, **nicht freigegeben oder ausgeführt**. Fehlende Freigabe bleibt Blocker für jede Testausführung.
 
