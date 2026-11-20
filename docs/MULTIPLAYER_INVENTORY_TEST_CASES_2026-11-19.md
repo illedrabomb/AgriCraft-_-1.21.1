@@ -69,6 +69,13 @@ Status: **prepared, not executed** (2026-11-19). Prior agreement: implement all 
 - **Erwartung:** Genau ein genetischer Seed wird gegen ein normales Ursprungs-Item getauscht. Das Papier wird effektiv nicht verbraucht; alle benutzerdefinierten Komponenten bleiben auch nach dem Zusammenführen mit dem Reststapel erhalten. Kein zusätzliches Papier wird erzeugt. Bei ungültigem Seed ist gar keine Rückwandlung möglich.
 - **Nachweis:** Komponenten und Mengen vor/nach dem Vorgang sowie Screenshot und ggf. `latest.log`.
 
+**CR-12 ergänzende Wiederholungsvarianten:**
+
+1. Genau **ein** unbenanntes Papier und ein genetischer Seed: nach der Herstellung ist dasselbe Papier weiterhin im Crafting-Gitter; ein neuer Seed kann ohne neues Papier eingelegt werden.
+2. Ein Papierstapel (z. B. 16) und mehrere genetische Seeds nacheinander: Die Nettomenge Papier bleibt exakt 16, einschließlich benutzerdefiniertem Namen/Komponenten.
+3. Shift-Klick bei mehreren gültigen genetischen Seeds: keine zusätzliche Papiererzeugung, kein Papierverlust, höchstens so viele Ergebnisse wie eingesetzte Seeds; Menü und Inventar nach dem Vorgang kontrollieren. Ist ein genetischer Seed wegen seiner Item-Maximalgröße 1 nicht stapelbar, die Seeds einzeln nacheinander einsetzen.
+4. Ein genetischer Seed mit blockierter Rückwandlung: kein Ergebnis und keine Papierbewegung.
+
 
 - `SeedInventoryBlockEntity.setItem` copies the supplied stack and bounds stored count by item maximum and container limit. Analyzer-only and standalone chest use vanilla `ChestMenu`. The adjacent combined view now uses `SeedAnalyzerCombinedMenu` (standard 9×4 client layout) with per-slot server-side limits: analyzer row 1 item, Seed Chest rows 64 for ordinary seeds. This prevents silently truncating a shift-clicked 64-count stack to one item in the analyzer.
 - `SeedChestBlockEntity.getUpdateTag` now returns no inventory data for ordinary world watchers; authorized menus still synchronize their slots.
