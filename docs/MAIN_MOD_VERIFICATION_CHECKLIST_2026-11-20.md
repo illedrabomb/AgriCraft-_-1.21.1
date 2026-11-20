@@ -23,6 +23,7 @@
 - [x] ST-15: Wachstum, physische/interne Fruchtbildung und Standard-/interne Fruchternte behandeln einen nicht übernommenen Blockzustand als Fehlschlag; Wachstumsstufe/Fruchtmetadaten werden im betroffenen Pfad zurückgesetzt (`CR-15`). **Nur statischer Diff-/Quellreview.**
 - [x] ST-16: Stage-Remap nach Reload, veraltete interne Gourd-Frucht und physische Fruchtbereinigung behalten bei abgewiesenem Blockupdate die vorherigen Wachstums-/Besitzmetadaten; spätere Wiederholung möglich (`CR-16`). **Statisch geprüft, nicht ausgeführt.**
 - [x] ST-17: `CropSticksBlock.randomTick` auf `markInternalFruit` und fehlenden Aufruf von `GourdFruits.tryPlace` im aktiven Hauptmod-Wachstumspfad abgeglichen. Neue interne Frucht gegen historische physische Besitzer-Frucht in `CR-17` getrennt; kein Code-/Spieltest.
+- [x] ST-18: `CrossBreeding`, `CrossFertilityRules`, `BreedingEngine` und Standardwerte von `CropBalanceConfig` auf vier direkte Eltern, 3+-Reihe und Ein-Eltern-Klonen abgeglichen; theoretische Einzel-Tick-Wahrscheinlichkeiten in `CR-18` dokumentiert. **Statisch, ohne Simulation oder Testausführung.**
 
 ## 2. Ausführung ausstehend – zunächst ausdrücklich **gesperrt**
 
@@ -48,6 +49,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] GE-08: Abgewiesene oder überschriebene Blockzustandsänderung bei Handpflanzung und Kreuzungsnachkomme ohne Seed-Verlust oder unsichtbares Genom (`CR-14`, nur kopierte Testwelt).
 - [ ] GE-09: Misslungene Wachstumsschritte erhöhen weder Wachstumsstufe noch verbrauchen sie Knochenmehl oder Bodennährstoffe (`CR-15`).
 - [ ] GE-10: Abgewiesenes Stage-Remap nach Reload bewahrt `GrowthStage` und `TotalGrowthStages`, späterer erfolgreicher Remap rechnet nur einmal um (`CR-16`).
+- [ ] GE-11: Kreuzungschancen mit 2/3/4 direkten Eltern und gesonderter 3+-Reihe unter protokollierter Serverconfig und gültigen Ziel-Ticks prüfen; einfache Stichproben nicht als empirischen Prozentbeleg ausgeben (`CR-18`).
 
 ### Ernte, Frucht und Item-Datensicherheit
 
