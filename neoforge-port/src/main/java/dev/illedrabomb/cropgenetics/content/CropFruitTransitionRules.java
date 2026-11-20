@@ -17,4 +17,10 @@ final class CropFruitTransitionRules {
                 && ((!ready && !hasDirection && !hasToken)
                     || staleInternalFruit(activeMode, ready, hasDirection, hasToken));
     }
+
+    static boolean canHarvestInternalGourd(HarvestMode activeMode, boolean mature,
+                                           boolean ready, boolean hasDirection, boolean hasToken) {
+        return activeMode == HarvestMode.GOURD && mature && ready
+                && !hasDirection && !hasToken;
+    }
 }
