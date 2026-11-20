@@ -208,3 +208,9 @@ Add-on build/launch verification is **not** a prerequisite to the core-only manu
 
 - **`f5b3f067`:** `OriginalSeedRecoveryRecipe.getRemainingItems` kopiert jetzt das eine zurückgegebene Blatt direkt aus dem tatsächlich eingesetzten Papier-Stack. Zuvor wurde neues Standardpapier erzeugt, wodurch z. B. ein individueller Name verloren ging. Der genetische Seed wird weiterhin verbraucht; bei ungültigem Rezept gibt es kein Rückgabe-Item.
 - **`9c1d80ea`:** `OriginalSeedRecoveryRemainderTest` als noch nicht ausgeführter JUnit-Quelltest ergänzt. Manueller Test **CR-12** im Inventarkatalog; zentrale Abhakliste **ST-08/ER-08**. Der Test betrifft unveränderte Item-Komponenten sowie unveränderte Netto-Papiermenge.
+
+### Nachtrag: JEI erklärt den wiederverwendbaren Rezept-Katalysator (20.11.2026)
+
+- **`8ca2a7cb`, `b10e002c`, `f30a7c6b`:** JEI registriert das dynamische Original-Seed-Rezept als Beispiel-Shapeless-Rezept, das keine Restzutat anzeigen kann. Die neue separate JEI-Informationsseite `jei.cropgenetics.seed_recovery` erklärt in `de_de` und `en_us` ausdrücklich, dass ein Blatt Papier für mehrere Rückwandlungen genügt und individuelle Papier-Komponenten erhalten bleiben. Der alte JEI-Seed-Pflanzguide bleibt unverändert.
+- **`4848de59`:** `CropJournalLocalizationContractTest` prüft künftig das Vorhandensein beider neuen Sprachtexte. Testquelle geschrieben, **nicht ausgeführt**.
+- Manueller Fall **CR-12** erweitert um exakt ein Papier, Papierstapel, ungültiges Rezept und Shift-Klick; zentrale Prüfliste **ST-09** (statische Erklärung) und **UI-07** (tatsächliche JEI-Ansicht) ergänzt.
