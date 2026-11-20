@@ -35,6 +35,16 @@ Status: **prepared, not executed** (2026-11-19). Prior agreement: implement all 
 | MP-19 | Sparse save snapshot must replace old contents | A fills two nonadjacent chest slots, saves/restarts, empties both slots, saves/restarts again. Repeat with Analyzer seed and Journal slots. | Previously occupied but now empty slots stay empty; no phantom seeds/journal reappear. Counts and components of remaining nonempty items survive unchanged. |
 | MP-20 | Reload keeps a journal up to date without reinsertion | Place a journal in the Analyzer after unlocking a known mutation recipe, leave it in the block, then disable/change that recipe in a copied test datapack and run `/reload`. Wait at least six seconds, remove the same journal, open its book, restore the original datapack and repeat. | Species discoveries remain unchanged. Only mutation hints valid in the currently active datapack are shown after the analyzer's scheduled refresh; restoring the recipe restores its hint if all three species were already discovered. |
 
+## Additional crop-interaction cases for the later combined core test
+
+| ID | Why | Actions | Expected result |
+|---|---|---|---|
+| CR-01 | A failed soil treatment must not become an accidental harvest | On ordinary unprofiled farmland, right-click a mature normal Crop Sticks plant while holding bone meal. Repeat with a water bucket. | Neither item is consumed for a nonexistent soil treatment; the crop is not harvested by the fallback empty-hand interaction. |
+| CR-02 | Soil treatment remains available when configured | On explicitly profiled soil below Crop Sticks, right-click with bone meal (nutrients) and a water bucket (humidity). Check behavior at maximum values. | Server-authorized change consumes the item in survival only; already-maxed soil changes nothing and consumes nothing. |
+| CR-03 | Normal harvest remains possible | With **both hands empty**, harvest a mature standard plant by right-clicking. Try the same on an immature plant. | Mature crop drops at most one stack per distinct produce item and regrows below maturity; immature crop does not pay out. |
+| CR-04 | Gourd fruit harvest and next fruit | Mature melon/pumpkin in Crop Sticks, wait for its internal fruit, right-click empty-handed, then continue random ticks. | One fruit item drops; stem stays mature; a later fruit can form without replanted seeds. |
+| CR-05 | Empty cross upper layer removal | Double empty Crop Sticks, right-click with both hands empty, then repeat while holding a non-crop item. | Empty-hand action returns the extra Crop Stick; holding an unrelated item cannot silently dismantle the cross. |
+
 ## Source-level observations, not test results
 
 - `SeedInventoryBlockEntity.setItem` copies the supplied stack and bounds stored count by item maximum and container limit. Analyzer-only and standalone chest use vanilla `ChestMenu`. The adjacent combined view now uses `SeedAnalyzerCombinedMenu` (standard 9×4 client layout) with per-slot server-side limits: analyzer row 1 item, Seed Chest rows 64 for ordinary seeds. This prevents silently truncating a shift-clicked 64-count stack to one item in the analyzer.
