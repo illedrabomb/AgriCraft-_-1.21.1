@@ -149,3 +149,11 @@ Add-on build/launch verification is **not** a prerequisite to the core-only manu
 - **`14653a27`:** `JournalMutationRulesTest` erweitert: Entfernen einer Mutation durch Datapack-Änderung entfernt ihren aktiven Hinweis, aber nicht die bereits entdeckten drei Pflanzen; das Wiedereinspielen der Definition macht den vollständig bekannten Hinweis wieder sichtbar. Test geschrieben, **nicht ausgeführt**.
 - **`dd7956e1`:** Externes Inventar-Testdokument ergänzt **MP-20**: Forschungsjournal im Analyzer belassen, Datapack-Mutation ändern, `/reload`, mindestens sechs Sekunden warten, Journal entnehmen, Buch prüfen und Datapack wiederherstellen. Eine Weltkopie und Sicherung der Datapacks sind für den späteren Test nötig.
 - **Einschränkung:** Außerhalb des Analyzers befindliche Journale erhalten absichtlich keine periodischen Inventar-Mutationen; die Rekonstruktion geschieht beim nächsten Einlegen. Keine automatischen oder Minecraft-Tests ausgeführt. Multiplayer-Synchronisation und tatsächliches Datapack-Reload-Verhalten bleiben unbestätigt.
+
+
+### Crop-Sticks-/Ernte-Gate ergänzt (20.11.2026)
+
+- **`39686096`**: Knochenmehl-/Wassereimerbehandlung wird serverseitig auf vorhandenes Bodenprofil und tatsächlich geänderte Werte geprüft; der Client meldet nicht mehr unbesehen Erfolg. Fehlgeschlagene Behandlung darf keine Survival-Items verbrauchen.
+- **`eae893b4`**: Manuelle Rechtsklick-Ernte sowie das Entfernen der zweiten, leeren Crop-Stick-Lage setzen nun ausdrücklich **beide Hände leer** voraus. Ein gehaltenes Item, dessen Bodenpflege fehlschlägt, darf nicht versehentlich ernten. Hierfür ist später die Interaktion aus Nutzersicht zu prüfen.
+- Im externen Testfallkatalog stehen **CR-01 bis CR-05** (Bodenpflege Fehlpfad/Erfolgspfad, normales Ernten mit Ein-Stack-pro-Produkt-Grenze, Gourd-Frucht, leeres Kreuz). Bei Client-Server-Abweichungen Screenshot plus `latest.log` erfassen.
+- **Noch nicht freigegeben oder ausgeführt:** Gradle, JUnit, Minecraft sowie der gesamte kombinierte Core-only-Gate-Test.
