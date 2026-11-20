@@ -26,9 +26,9 @@ public final class BreedingEngine {
 
     /**
      * The caller's baseline mutation multiplier is 1/2/3 for 2/3/4 directly
-     * adjacent parents. The point table already accounts for parent count,
-     * so normalize the multiplier to avoid doubling this bonus. Rows retain
-     * their weaker relative factor; zero disables mutation, not inheritance.
+     * adjacent parents, and 0.5 for a straight row. Each arrangement already
+     * has its own point table; normalize against that arrangement's baseline
+     * to avoid counting its weakness or parent-count bonus twice.
      */
     public static Genome combine(List<Genome> parents, String childPlantId,
                                  RandomGenerator random, double mutationMultiplier) {
@@ -47,7 +47,10 @@ public final class BreedingEngine {
         Genome template = chooseTemplate(parents, random);
         if (mutationMultiplier == 0D) return template.withPlantId(childPlantId);
 
-        double scale = mutationMultiplier / (parents.size() - 1);
+        // A row is already weaker because it uses the two-parent table; its
+        // historical 0.5 multiplier is the baseline, not another 50% penalty.
+        double baselineMultiplier = straightRow ? 0.5D : parents.size() - 1D;
+        double scale = mutationMultiplier / baselineMultiplier;
         int[] values = {template.growth(), template.gain(), template.strength()};
         int returnedPoints = 0;
         double lossChance = Math.min(1D, 0.025D * (11 - template.strength()) * scale);

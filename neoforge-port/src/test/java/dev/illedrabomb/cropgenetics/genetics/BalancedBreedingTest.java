@@ -90,4 +90,28 @@ class BalancedBreedingTest {
         assertEquals(g(2, 1, 1), BreedingEngine.combine(parents,
                 baseline.plantId(), new FixedRolls(new int[]{0, 15, 0}, 1D, 1D, 1D), 3D, false));
     }
+
+    @Test
+    void straightRowDoesNotThinItsAlreadyWeakerPointTableAgain() {
+        Genome baseline = g(1, 1, 1);
+        List<Genome> parents = List.of(baseline, baseline, baseline, baseline);
+        // At the historical default row multiplier 0.5, the 99-ticket is
+        // four points from the weak two-parent table. It must not be thinned
+        // by an additional row penalty; all four allocations hit Growth,
+        // with the fourth discarded by the +3 limit.
+        assertEquals(g(4, 1, 1), BreedingEngine.combine(parents,
+                baseline.plantId(), new FixedRolls(new int[]{0, 99, 0, 0, 0, 0},
+                        1D, 1D, 1D), 0.5D, true));
+    }
+
+    @Test
+    void customRowMultiplierCanStillReduceMutation() {
+        Genome baseline = g(1, 1, 1);
+        List<Genome> parents = List.of(baseline, baseline, baseline);
+        // Half the original row baseline: each of four generated points
+        // fails its 0.5 keep roll, so the child inherits without gain.
+        assertEquals(baseline, BreedingEngine.combine(parents,
+                baseline.plantId(), new FixedRolls(new int[]{0, 99},
+                        1D, 1D, 1D, 0.9D, 0.9D, 0.9D, 0.9D), 0.25D, true));
+    }
 }
