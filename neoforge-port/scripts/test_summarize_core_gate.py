@@ -15,6 +15,27 @@ SPEC.loader.exec_module(MODULE)
 
 
 class CoreGateSummaryTests(unittest.TestCase):
+    def test_zero_exit_does_not_hide_missing_test_and_jar_evidence(self):
+        warnings = MODULE.evidence_warnings(
+            "0", [], dict(tests=0, failures=0, errors=0, skipped=0), [], [])
+        self.assertEqual(3, len(warnings))
+        self.assertTrue(any("JUnit-XML" in warning for warning in warnings))
+        self.assertTrue(any("Testfälle" in warning for warning in warnings))
+        self.assertTrue(any("JAR" in warning for warning in warnings))
+
+    def test_gradle_failure_and_all_skipped_tests_stay_visible(self):
+        warnings = MODULE.evidence_warnings(
+            "1", [Path("TEST-skipped.xml")],
+            dict(tests=3, failures=0, errors=0, skipped=3), [], [Path("core.jar")])
+        self.assertEqual(2, len(warnings))
+        self.assertTrue(any("Gradle" in warning for warning in warnings))
+        self.assertTrue(any("übersprungen" in warning for warning in warnings))
+
+    def test_formal_evidence_yields_no_false_warning(self):
+        self.assertEqual([], MODULE.evidence_warnings(
+            "0", [Path("TEST-core.xml")],
+            dict(tests=3, failures=0, errors=0, skipped=1), [], [Path("core.jar")]))
+
     def test_artifact_fingerprint_matches_bytes_without_modifying_file(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "agricraft-fixture.jar"

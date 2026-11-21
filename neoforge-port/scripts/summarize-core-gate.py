@@ -44,6 +44,26 @@ def collect_results(xml_dir, marker_ns):
     return fresh_xml, totals, issues, invalid_xml
 
 
+def evidence_warnings(code, fresh_xml, totals, invalid_xml, jars):
+    """Identify absent or contradictory evidence; never declare a test pass."""
+    warnings = []
+    if code != "0":
+        warnings.append("Gradle-Exitcode ist nicht 0; Aufgabenlauf fehlgeschlagen oder unklar.")
+    if not fresh_xml:
+        warnings.append("Keine frischen JUnit-XML-Dateien vorhanden.")
+    if invalid_xml:
+        warnings.append("Mindestens ein frischer JUnit-Bericht ist defekt oder ungültig.")
+    if totals["tests"] <= 0:
+        warnings.append("Keine ausgeführten JUnit-Testfälle nachgewiesen.")
+    elif totals["skipped"] >= totals["tests"]:
+        warnings.append("Alle berichteten JUnit-Testfälle wurden übersprungen.")
+    if totals["failures"] or totals["errors"]:
+        warnings.append("JUnit meldet Fehler oder fehlgeschlagene Testfälle.")
+    if not jars:
+        warnings.append("Kein frisch erzeugtes JAR-Artefakt nachgewiesen.")
+    return warnings
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("report_dir", type=Path)
@@ -62,8 +82,15 @@ def main():
     code = exit_code.read_text(encoding="utf-8").strip()
     jars = sorted(p for p in (project_dir / "build" / "libs").glob("*.jar")
                   if p.stat().st_mtime_ns >= marker.stat().st_mtime_ns)
+    warnings = evidence_warnings(code, fresh_xml, totals, invalid_xml, jars)
     lines = ["# Codex Core-Gate – automatisch extrahierter Befund", "",
              "> Rohdaten-Auswertung, **keine** Ursachenanalyse oder P0/P1-Einstufung.", "",
+             "## Beleglage – keine automatische Testfreigabe", "",
+             "**WARNUNG: Unvollständiger oder fehlerhafter Gate-Nachweis.**" if warnings
+             else "**Nur formale Belege vorhanden – noch kein geprüfter Pass-Status.**",
+             ""]
+    lines.extend(f"- {warning}" for warning in warnings)
+    lines += ["", "## Rohdaten", "",
              f"- Gradle-Exitcode: `{code}` (0 bedeutet nur Task-Erfolg)",
              f"- Frische JUnit-XML-Dateien: **{len(fresh_xml)}**",
              f"- JUnit-Nachweis: **{'FEHLT' if not fresh_xml else 'VORHANDEN'}** "
