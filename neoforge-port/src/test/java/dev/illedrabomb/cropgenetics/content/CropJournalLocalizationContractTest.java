@@ -40,12 +40,12 @@ class CropJournalLocalizationContractTest {
     void everyDynamicJournalGuideLineExistsInBothLanguages() throws Exception {
         for (String locale : Set.of("en_us", "de_de")) {
             JsonObject entries = language(locale);
-            for (int page = 0; page < 3; page++) {
+            for (int page = 0; page < 4; page++) {
                 for (int line = 0; line < 6; line++) {
                     assertNonEmpty(entries, "screen.cropgenetics.guide_" + page + "_" + line);
                 }
             }
-            for (String suffix : Set.of("intro", "genetics", "crossing",
+            for (String suffix : Set.of("intro", "genetics", "crossing", "overlay",
                     "journal_count", "journal_empty", "journal_back",
                     "journal_plant_detail", "journal_unlocked",
                     "journal_seed_values", "journal_analyzer_values",
@@ -57,6 +57,7 @@ class CropJournalLocalizationContractTest {
                 assertNonEmpty(entries, key);
             }
             assertNonEmpty(entries, "screen.cropgenetics.journal");
+            assertNonEmpty(entries, "key.cropgenetics.toggle_overlay");
             assertNonEmpty(entries, "jei.cropgenetics.seed_conversion");
             assertNonEmpty(entries, "jei.cropgenetics.seed_recovery");
             assertNonEmpty(entries, "jei.cropgenetics.seed_analysis");

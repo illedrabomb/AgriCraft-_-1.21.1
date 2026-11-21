@@ -13,6 +13,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 
 /**
  * Standalone crop information line. Optional look-at mods (Jade, Identify,
@@ -24,10 +25,21 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
  */
 @EventBusSubscriber(modid = CropGeneticsMod.MOD_ID, value = Dist.CLIENT)
 public final class CropInfoOverlay {
+    private static boolean enabled = true;
+
     private CropInfoOverlay() {}
 
     @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        while (CropGeneticsClient.TOGGLE_CROP_OVERLAY.consumeClick()) {
+            // Never toggle while typing or navigating a menu.
+            if (Minecraft.getInstance().screen == null) enabled = !enabled;
+        }
+    }
+
+    @SubscribeEvent
     public static void onRenderGui(RenderGuiEvent.Post event) {
+        if (!enabled) return;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null || minecraft.player == null || minecraft.options.hideGui
                 || !(minecraft.hitResult instanceof BlockHitResult hit)

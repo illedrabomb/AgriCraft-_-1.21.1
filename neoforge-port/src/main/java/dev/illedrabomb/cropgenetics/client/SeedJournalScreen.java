@@ -23,7 +23,7 @@ import java.util.List;
  */
 public final class SeedJournalScreen extends Screen {
     private static final int ENTRIES_PER_PAGE = 7;
-    private static final int GUIDE_PAGES = 3;
+    private static final int GUIDE_PAGES = 4;
     private static final int MUTATIONS_PER_PAGE = 3;
     private final List<String> discovered;
     private final List<SeedJournalItem.MutationHint> mutations;
@@ -103,7 +103,8 @@ public final class SeedJournalScreen extends Screen {
         String heading = switch (page) {
             case 0 -> "screen.cropgenetics.journal_intro";
             case 1 -> "screen.cropgenetics.journal_genetics";
-            default -> "screen.cropgenetics.journal_crossing";
+            case 2 -> "screen.cropgenetics.journal_crossing";
+            default -> "screen.cropgenetics.journal_overlay";
         };
         graphics.drawCenteredString(font, Component.translatable(heading), width / 2,
                 top + 18, 0x54351C);

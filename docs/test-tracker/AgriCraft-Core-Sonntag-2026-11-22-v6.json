@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "suiteId": "agricraft-core-neoforge-1211-20261122-v6",
   "title": "AgriCraft NeoForge 1.21.1 – Hauptmod-Testgate mit Gain-Ernten und Testkommando (v6)",
-  "description": "85 offene Hauptmod-Testfälle; v5 mit 79 Fällen bleibt historisch unverändert. ER-12 bis ER-15 prüfen Gain-Ernten und Drop-Multiplikator; UI-12/13 prüfen optionale Jade-/Identify-Overlay-Kompatibilität getrennt. Add-on-Integrationen bleiben außerhalb des Gates. Ausführung nur nach ausdrücklicher Freigabe; bestehende Ergebnisse vor Suiteimport exportieren. Kein Lauf oder Import bestätigt.",
+  "description": "86 offene Hauptmod-Testfälle; v5 mit 79 Fällen bleibt historisch unverändert. ER-12 bis ER-15 prüfen Gain-Ernten und Drop-Multiplikator; UI-12/13 optionale Jade-/Identify-Kompatibilität, UI-14 HUD-Taste und Journal-Anleitung. Add-on-Integrationen bleiben außerhalb des Gates. Ausführung nur nach ausdrücklicher Freigabe; bestehende Ergebnisse vor Suiteimport exportieren. Kein Lauf oder Import bestätigt.",
   "environment": {
     "minecraft": "1.21.1",
     "loader": "NeoForge",
@@ -809,6 +809,20 @@
         "Den aus früherem Playtest bekannten Stand berücksichtigen: bislang keine bestätigte Identify-spezifische Crop-Genetics-Integration. Fehlende Zusatzdaten als offenen Integrationsauftrag melden; Crash, falsche Datenfreigabe oder gestörte Hauptmod-Funktion sind ein Fehler."
       ],
       "expected": "Hauptmod und Identify starten gemeinsam, normale Interaktionen funktionieren und verborgene Genetik bleibt privat. Eine vollständige Identify-Datenintegration ist derzeit nicht zugesichert und wird getrennt von der reinen Kompatibilität bewertet.",
+      "commands": []
+    },
+    {
+      "id": "UI-14",
+      "category": "04 Analyzer und Journal",
+      "title": "Pflanzen-HUD per Taste umschalten und im Journal erklären",
+      "steps": [
+        "Erst nach Minecraft-Testfreigabe Hauptmod in gesicherter Testwelt starten und eine bepflanzte Crop-Sticks-Fläche mit bekannter Art und Stufe ansehen. Zu Beginn soll das eigene Art-/Stufen-HUD sichtbar sein.",
+        "Standardtaste H einmal drücken: nur die eigenständige AgriCraft-Zeile verschwindet; erneut H drücken: sie erscheint wieder. Während ein Menü beziehungsweise das Journal geöffnet ist, darf die Taste keine unbeabsichtigte Umschaltung auslösen.",
+        "Unter Optionen > Steuerung die AgriCraft-Aktion 'Pflanzenanzeige umschalten' auf eine andere freie Taste legen und beide Zustände damit prüfen. Alte Taste darf dann nicht mehr umschalten.",
+        "Saatgut-Journal öffnen und zur vierten Anleitungsseite 'Pflanzenanzeige' blättern. DE/EN-Texte für Standardtaste, Umbelegung, Art/Stufe und unsichtbare Genwerte prüfen; bei anderer Belegung darf die Anleitung als Standardtaste H, nicht als aktuelle Belegung verstanden werden.",
+        "Optional UI-12 (Jade) und UI-13 (Identify) mit separaten Profilen wiederholen; der Schalter darf weder fremde Overlay-Mods deaktivieren noch an ihnen vorbei geheime Gene zeigen. Nach Neustart Beginnzustand dokumentieren."
+      ],
+      "expected": "H schaltet ausschließlich die eigene Art-/Stufenanzeige um, Taste ist in Steuerung umbelegbar und das Journal erklärt die Bedienung in Deutsch/Englisch. Keine Genwert-Leaks oder Beeinflussung von Jade/Identify; der Schalter startet pro Clientstart sichtbar und schreibt keine Welt-/Seed-Daten.",
       "commands": []
     },
     {

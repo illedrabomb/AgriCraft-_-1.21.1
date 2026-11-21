@@ -7,6 +7,9 @@ import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.KeyMapping;
+import com.mojang.blaze3d.platform.InputConstants;
+import org.lwjgl.glfw.GLFW;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.api.distmarker.Dist;
@@ -15,13 +18,23 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraft.world.level.block.Blocks;
 
 /** Physical client only: no renderer classes loaded by a dedicated server. */
 @EventBusSubscriber(modid = CropGeneticsMod.MOD_ID,
         bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class CropGeneticsClient {
+    public static final KeyMapping TOGGLE_CROP_OVERLAY = new KeyMapping(
+            "key.cropgenetics.toggle_overlay", InputConstants.Type.KEYSYM,
+            GLFW.GLFW_KEY_H, "key.categories.misc");
+
     private CropGeneticsClient() {}
+
+    @SubscribeEvent
+    public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        event.register(TOGGLE_CROP_OVERLAY);
+    }
 
     @SubscribeEvent
     public static void registerSeedItemVariants(FMLClientSetupEvent event) {
