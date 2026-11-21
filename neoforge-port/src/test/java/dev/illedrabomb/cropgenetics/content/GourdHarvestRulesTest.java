@@ -6,29 +6,35 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GourdHarvestRulesTest {
     @Test
-    void pumpkinQuantityThresholdsGrowWithGain() {
-        for (int gain = 1; gain <= 10; gain++) {
-            assertEquals((gain - 1) / 10.0D,
-                    GourdHarvestRules.secondPumpkinChance(gain), 1.0E-10);
-        }
+    void pumpkinQuantityThresholdsMatchApprovedBalanceAnchors() {
         assertEquals(0.0D, GourdHarvestRules.secondPumpkinChance(0));
         assertEquals(0.9D, GourdHarvestRules.secondPumpkinChance(100));
-        assertEquals(0.0D, GourdHarvestRules.thirdPumpkinChance(4));
-        assertEquals(0.1D, GourdHarvestRules.thirdPumpkinChance(5));
-        assertEquals(0.6D, GourdHarvestRules.thirdPumpkinChance(10));
+        assertEquals(0.19D, GourdHarvestRules.secondPumpkinChance(2), 1.0E-10);
+        assertEquals(0.62D, GourdHarvestRules.secondPumpkinChance(5), 1.0E-10);
+        assertEquals(0.86D, GourdHarvestRules.secondPumpkinChance(8), 1.0E-10);
+        assertEquals(0.0D, GourdHarvestRules.thirdPumpkinChance(3));
+        assertEquals(0.16D, GourdHarvestRules.thirdPumpkinChance(5), 1.0E-10);
+        assertEquals(0.47D, GourdHarvestRules.thirdPumpkinChance(8), 1.0E-10);
+        assertEquals(0.55D, GourdHarvestRules.thirdPumpkinChance(10), 1.0E-10);
         assertEquals(0.0D, GourdHarvestRules.fourthPumpkinChance(7));
-        assertEquals(0.1D, GourdHarvestRules.fourthPumpkinChance(8));
-        assertEquals(0.3D, GourdHarvestRules.fourthPumpkinChance(10));
+        assertEquals(0.05D, GourdHarvestRules.fourthPumpkinChance(8), 1.0E-10);
+        assertEquals(0.15D, GourdHarvestRules.fourthPumpkinChance(10), 1.0E-10);
+        for (int gain = 1; gain <= 10; gain++) {
+            assertTrue(GourdHarvestRules.fourthPumpkinChance(gain)
+                    <= GourdHarvestRules.thirdPumpkinChance(gain));
+            assertTrue(GourdHarvestRules.thirdPumpkinChance(gain)
+                    <= GourdHarvestRules.secondPumpkinChance(gain));
+        }
     }
 
     @Test
     void pumpkinCountHasExactBoundariesWithoutRandomSampling() {
         assertEquals(1, GourdHarvestRules.pumpkinCount(1, 0.0D));
-        assertEquals(1, GourdHarvestRules.pumpkinCount(2, 0.1D));
-        assertEquals(2, GourdHarvestRules.pumpkinCount(2, 0.099D));
-        assertEquals(4, GourdHarvestRules.pumpkinCount(10, 0.299D));
-        assertEquals(3, GourdHarvestRules.pumpkinCount(10, 0.3D));
-        assertEquals(2, GourdHarvestRules.pumpkinCount(10, 0.6D));
+        assertEquals(1, GourdHarvestRules.pumpkinCount(2, 0.19D));
+        assertEquals(2, GourdHarvestRules.pumpkinCount(2, 0.189D));
+        assertEquals(4, GourdHarvestRules.pumpkinCount(10, 0.149D));
+        assertEquals(3, GourdHarvestRules.pumpkinCount(10, 0.15D));
+        assertEquals(2, GourdHarvestRules.pumpkinCount(10, 0.55D));
         assertEquals(1, GourdHarvestRules.pumpkinCount(10, 0.9D));
         assertThrows(IllegalArgumentException.class,
                 () -> GourdHarvestRules.pumpkinCount(10, -0.01D));

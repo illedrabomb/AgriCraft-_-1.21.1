@@ -51,6 +51,7 @@
 - **ST-36, Ernte-/Papier-Regressionen:** Quelltests für einzelne Gourd-Frucht unabhängig von Gain, keine Phantomdrops bei unbekannten/0-%-Produkten und Komponenten-erhaltendes Papierremainder ergänzt. [Codex-Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Nicht ausgeführt; Spielablauf weiter offen.**
 - **ST-37, Gourd-Gain korrigiert:** Nach Nutzerentscheidung gilt [eine sichtbare Frucht, aber Gain-abhängige Erntemenge](GOURD_GAIN_YIELD_2026-11-21.md): Kürbis Gain 1 = 100 % ein Kürbis, Gain 2 = 90 % ein/10 % zwei bis Gain 10 = 10 % ein/90 % zwei; Melone 3–7 Scheiben plus Gain−1. Ein Stack bleibt Sicherheitsgrenze. Der ST-36-Test auf stur einen Drop wurde ersetzt. **Kein Test/Build ausgeführt.** Drop-Multiplikator-Config existiert noch nicht.
 - **ST-38, Kürbis-Korrektur:** Auf Nutzerhinweis [Kürbis-Erntemenge bei hohen Gain-Werten auf 1–4 Items erweitert](GOURD_GAIN_YIELD_2026-11-21.md). Gain 2 bleibt 90 % 1 / 10 % 2; Gain 10 nun 10 % 1 / je 30 % 2, 3 und 4. Ein einzelner Fruchtblock und Ein-Stack-Grenze bleiben. JUnit-Quellgrenzen ergänzt, **nicht ausgeführt**.
+- **ST-39, bestätigte Kürbis-Balance:** [Kürbis-Gain-Kurve](GOURD_GAIN_YIELD_2026-11-21.md) nach ausdrücklicher Zustimmung angepasst: Gain 2 jetzt 81 % ein / 19 % zwei; Gain 10 nun 10 % ein, 35 % zwei, 40 % drei, **15 % vier**. Zwischenstufen linear interpoliert, JUnit-Schwellen aktualisiert. **Keine Tests/Builds ausgeführt.**
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

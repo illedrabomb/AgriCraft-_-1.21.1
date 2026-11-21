@@ -22,6 +22,8 @@
 
 **ST-38 (Kürbis-Ausbau, ungetestet):** ST-37 war für hohe Gain-Werte zu eng. Kürbis liefert nun 1–4 Items nach verschachtelten Ein-Wurf-Schwellen (Gain 2: 90 % 1/10 % 2; Gain 10: 10 % 1, jeweils 30 % 2/3/4). Reine Schwellenregressionen in `GourdHarvestRulesTest` ergänzt. Kein JUnit-/Minecraft-Lauf.
 
+**ST-39 (Kürbis-Balance, ungetestet):** Nutzer hat die [weichere Gain-Kurve](GOURD_GAIN_YIELD_2026-11-21.md) bestätigt: Gain 2 81/19 statt 90/10; Gain 10 10/35/40/15 für 1/2/3/4 Stück, kumulative Schwellen abschnittsweise interpoliert. `GourdHarvestRulesTest` aktualisiert. Keine JUnit-/Minecraft-/Simulationsausführung.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

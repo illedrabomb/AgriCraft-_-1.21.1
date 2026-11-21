@@ -6,19 +6,36 @@ public final class GourdHarvestRules {
 
     private GourdHarvestRules() {}
 
-    /** Probability of at least two pumpkins: Gain 1 -> 0%, Gain 10 -> 90%. */
+    /** Interpolate exactly between the approved Gain-yield anchor points. */
+    private static double between(int gain, int firstGain, double first,
+                                  int lastGain, double last) {
+        return first + (last - first) * (gain - firstGain) / (lastGain - firstGain);
+    }
+
+    /** Probability of at least two pumpkins: early Gains now matter more. */
     public static double secondPumpkinChance(int gain) {
-        return (Math.clamp(gain, 1, 10) - 1) / 10.0D;
+        int g = Math.clamp(gain, 1, 10);
+        if (g <= 2) return between(g, 1, 0.0D, 2, 0.19D);
+        if (g <= 5) return between(g, 2, 0.19D, 5, 0.62D);
+        if (g <= 8) return between(g, 5, 0.62D, 8, 0.86D);
+        return between(g, 8, 0.86D, 10, 0.90D);
     }
 
-    /** At least three pumpkins unlock from Gain 5 onward. */
+    /** At least three pumpkins grow to 55% at Gain 10. */
     public static double thirdPumpkinChance(int gain) {
-        return Math.max(0, Math.clamp(gain, 1, 10) - 4) / 10.0D;
+        int g = Math.clamp(gain, 1, 10);
+        if (g <= 3) return 0.0D;
+        if (g <= 5) return between(g, 3, 0.0D, 5, 0.16D);
+        if (g <= 8) return between(g, 5, 0.16D, 8, 0.47D);
+        return between(g, 8, 0.47D, 10, 0.55D);
     }
 
-    /** Four pumpkins unlock from Gain 8 onward. */
+    /** Four pumpkins remain rare: 5% at Gain 8, 15% at Gain 10. */
     public static double fourthPumpkinChance(int gain) {
-        return Math.max(0, Math.clamp(gain, 1, 10) - 7) / 10.0D;
+        int g = Math.clamp(gain, 1, 10);
+        if (g <= 7) return 0.0D;
+        if (g <= 8) return 0.05D;
+        return between(g, 8, 0.05D, 10, 0.15D);
     }
 
     /** One uniform roll, mutually exclusive outcomes from one visible fruit. */
