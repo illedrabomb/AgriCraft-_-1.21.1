@@ -40,6 +40,8 @@
 
 **DOC-22 (Jade-/Identify-Kompatibilität, ungetestet):** Auf Nutzerwunsch [v6-Tracker](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) um **`UI-12` Jade** und **`UI-13` Identify** auf **85 offene Fälle** ergänzt. Getrennte Clientprofile mit Hauptmod, ohne Add-ons; Overlay-Text, normale Crop-Sticks-Interaktionen und Schutz unanalysierter Genwerte getrennt prüfen. Bisherige [Identify-Lücke](MANUAL_TEST_TRACKER.md) nicht als bereits implementiert ausgeben. **Keine Modinstallation, kein Import, kein Minecraft-Test.**
 
+**ST-47 (HUD-Kompatibilitätslücke, ungetestet):** `CropInfoOverlay` unterdrückte die eigene Art-/Wachstumsstufenanzeige pauschal bei geladenem Jade/WTHIT, obwohl im aktuellen Hauptmod keine eigene Detailprovider-Anbindung für diese Mods vorhanden ist. Die Unterdrückung wurde entfernt; die eigenständige Zeile zeigt weiter nur Art und Stufe, keine Genwerte. `UI-12`/`UI-13` auf parallele Anzeige, Überlappungen und Gen-Schutz nachgeführt. **Statischer Code-/Clientreview; keine Laufzeitprüfung.**
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

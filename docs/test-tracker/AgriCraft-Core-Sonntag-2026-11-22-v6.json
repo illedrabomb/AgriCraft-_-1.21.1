@@ -791,11 +791,11 @@
       "title": "Optionales Jade-Overlay: Crop Sticks, Reife und Gen-Privatsphäre",
       "steps": [
         "Nur nach gesonderter Spieltest-Freigabe mit eigener gesicherter Core-Testwelt: Clientprofil aus Hauptmod und kompatibler Jade-Version auf Minecraft 1.21.1/NeoForge vorbereiten. Tatsächliche Version, Modliste und JAR-SHA festhalten. Keine Pam-/Farmer-/MineColonies-Add-ons.",
-        "Mit Jade auf leere einfache und doppelte Crop Sticks schauen, danach auf unreife und reife Pflanzen mit normalen und genetischen Samen. Den tatsächlichen Jade-Inhalt von der eigenständigen AgriCraft-Anzeige unterscheiden.",
+        "Mit Jade auf leere einfache und doppelte Crop Sticks schauen, danach auf unreife und reife Pflanzen mit normalen und genetischen Samen. Die eigene AgriCraft-Art-/Wachstumszeile muss auch bei geladenem Jade sichtbar bleiben; den tatsächlichen Jade-Inhalt getrennt notieren.",
         "Einen unanalysierten Seed der Art und später einen analysierten Seed vergleichen; in Jade dürfen keine nicht freigegebenen privaten Genwerte, Genome/NBT oder Journal-Entdeckungen auftauchen. Reife-/Artangaben nur als Soll erwarten, wenn die Unterstützung tatsächlich vorhanden ist.",
         "Screenshots von Jade und eigener Anzeige, Clientlog und getestete Modversionen erfassen. Fehlende Jade-Integration als offenes Kompatibilitäts-Feature dokumentieren, nicht als erfundenes 'pass'; Crash, Datenleck oder Blockierung der Hauptmod-Interaktion als fail."
       ],
-      "expected": "Core-JAR und Jade können gemeinsam starten, Crop Sticks behalten Pflanzung/Ernte und die Anzeige legt keine geschützten Gen-/Spielerdaten offen. Eine erweiterte Jade-Crop-Genetics-Anzeige ist nicht als bereits implementiert vorausgesetzt.",
+      "expected": "Core-JAR und Jade können gemeinsam starten, die eigene AgriCraft-Art-/Stufenanzeige bleibt erhalten, Crop Sticks behalten Pflanzung/Ernte und keine geschützten Gen-/Spielerdaten werden offengelegt. Eine erweiterte Jade-Crop-Genetics-Anzeige ist nicht als bereits implementiert vorausgesetzt.",
       "commands": []
     },
     {
@@ -804,7 +804,7 @@
       "title": "Optionales Identify-Overlay: Basiskompatibilität und bekannte Integrationslücke",
       "steps": [
         "Nur nach gesonderter Spieltest-Freigabe mit separatem Clientprofil: kompatibles Identify für NeoForge 1.21.1 plus Hauptmod starten, genaue Identify-Version, Modliste und JAR-SHA dokumentieren. Nicht gleichzeitig Jade laden, damit der Befund zuordenbar bleibt.",
-        "Identify bei leeren und bepflanzten Crop Sticks, unreifer und reifer Pflanze sowie Kürbis-/Melonenfrucht ansehen. Parallel AgriCraft-eigenes Overlay prüfen und Screenshots der beiden Anzeigen eindeutig benennen.",
+        "Identify bei leeren und bepflanzten Crop Sticks, unreifer und reifer Pflanze sowie Kürbis-/Melonenfrucht ansehen. Die AgriCraft-eigene Art-/Stufenzeile muss parallel weiterlaufen; Screenshots der beiden Anzeigen eindeutig benennen.",
         "Unanalysierte und analysierte genetische Seeds sowie verschiedene Pflanzenarten vergleichen. Identify darf keine verborgenen Genwerte oder privaten Journal-/Inventardaten zeigen; Art/Reife nur als Zusatzanzeige werten, falls tatsächlich vorhanden.",
         "Den aus früherem Playtest bekannten Stand berücksichtigen: bislang keine bestätigte Identify-spezifische Crop-Genetics-Integration. Fehlende Zusatzdaten als offenen Integrationsauftrag melden; Crash, falsche Datenfreigabe oder gestörte Hauptmod-Funktion sind ein Fehler."
       ],
