@@ -27,4 +27,22 @@ class OriginalSeedRecoveryRemainderTest {
         assertTrue(OriginalSeedRecoveryRecipe.paperRemainder(
                 new ItemStack(Items.DIAMOND)).isEmpty());
     }
+
+    @Test
+    void emptyInputNeverCreatesPaper() {
+        assertTrue(OriginalSeedRecoveryRecipe.paperRemainder(ItemStack.EMPTY).isEmpty());
+    }
+
+    @Test
+    void singleNamedPaperReturnsIndependentSingleCopy() {
+        ItemStack ingredient = new ItemStack(Items.PAPER);
+        ingredient.set(DataComponents.CUSTOM_NAME, Component.literal("Notebook"));
+
+        ItemStack remainder = OriginalSeedRecoveryRecipe.paperRemainder(ingredient);
+
+        assertNotSame(ingredient, remainder);
+        assertEquals(1, ingredient.getCount());
+        assertEquals(1, remainder.getCount());
+        assertEquals(ingredient.getComponents(), remainder.getComponents());
+    }
 }

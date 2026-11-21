@@ -48,6 +48,7 @@
 - **DOC-20, Berichtssicherheit:** Drei isolierte Python-Testquellfälle für frische/veraltete/defekte JUnit-XMLs vorbereitet. Fehlende XMLs werden im Bericht ausdrücklich als fehlender Nachweis statt „bestanden“ markiert. **Weder Python-Unittest noch Gradle/JUnit/Minecraft ausgeführt.**
 - **ST-35, Artenbremsen-Regressionen:** `SpeciesGeneLimitsTest` um gemischte Vier-Eltern-Konstellation, Elternreihenfolge, schwache Kinder und ungültige Elternvorlagen ergänzt; [Codex-Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Testquelle nur geschrieben, kein Test/Build ausgeführt.**
 - **DOC-21, Windows-Vorlauf:** PowerShell-Pendant `neoforge-port/scripts/core-test-gate.ps1` für den Windows-PC vorbereitet: derselbe gesperrte Core-only-Aufruf, Java-/Branch-/Clean-Gates und Ergebnisberichte. [Betrieb/Freigabe](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Nicht auf Windows oder anderweitig ausgeführt.**
+- **ST-36, Ernte-/Papier-Regressionen:** Quelltests für einzelne Gourd-Frucht unabhängig von Gain, keine Phantomdrops bei unbekannten/0-%-Produkten und Komponenten-erhaltendes Papierremainder ergänzt. [Codex-Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Nicht ausgeführt; Spielablauf weiter offen.**
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

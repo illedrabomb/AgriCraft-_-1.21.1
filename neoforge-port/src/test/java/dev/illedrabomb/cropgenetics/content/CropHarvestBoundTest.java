@@ -72,4 +72,32 @@ class CropHarvestBoundTest {
         assertTrue(CropHarvest.products(plant(1, 1, 1),
                 Genome.basic("minecraft:carrot_plant"), RandomSource.create(42L)).isEmpty());
     }
+
+    @Test
+    void oneGourdLifecycleAlwaysProducesOneFruitRegardlessOfGain() {
+        var base = plant(4096, 4096, 4);
+        var gourd = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
+                base.stages(), base.harvestStage(), base.growthChance(), base.growthBonus(),
+                base.cloneable(), base.spreadChance(), base.harvestProducts(),
+                base.requirements(), HarvestMode.GOURD, base.fruitChance(), base.contactThorns());
+        var drops = CropHarvest.products(gourd,
+                new Genome("minecraft:wheat_plant", 10, 10, 10), RandomSource.create(17L));
+
+        assertEquals(1, drops.size());
+        assertEquals(1, drops.get(0).getCount());
+    }
+
+    @Test
+    void unregisteredAndZeroChanceProductsCannotProducePhantomDrops() {
+        var base = plant(1, 1, 1);
+        var invalid = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
+                base.stages(), base.harvestStage(), base.growthChance(), base.growthBonus(),
+                base.cloneable(), base.spreadChance(),
+                List.of(new PlantDefinition.HarvestProduct("cropgenetics:nonexistent_test_produce", 1, 1, 1.0D),
+                        new PlantDefinition.HarvestProduct("minecraft:wheat", 1, 1, 0.0D)),
+                base.requirements(), HarvestMode.STANDARD, base.fruitChance(), base.contactThorns());
+
+        assertTrue(CropHarvest.products(invalid,
+                new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(17L)).isEmpty());
+    }
 }

@@ -16,6 +16,8 @@
 
 **DOC-21 (Windows-Startvorbereitung):** PowerShell-Starter `neoforge-port/scripts/core-test-gate.ps1` als Alternative für den lokalen Windows-PC ergänzt. Nur Quellreview, kein PowerShell-Lauf, kein Build, keine Testfreigabe.
 
+**ST-36 (Ernte-/Papierremainder, ungetestet):** `CropHarvestBoundTest` deckt eine Gourd-Frucht trotz hohem Gain und ausbleibende Drops unbekannter/0-%-Produkte ab; `OriginalSeedRecoveryRemainderTest` prüft leere Eingaben und Komponenten beim einzelnen benannten Papier. Nur neue Testquellen, kein JUnit-/Minecraft-Lauf.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.
