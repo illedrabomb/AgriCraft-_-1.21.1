@@ -1,6 +1,6 @@
 # AgriCraft-Hauptmod – Testdateien für externe Tester
 
-**Tracker-Oberfläche:** Stand 21.11.2026 ist die externe App [Mod-Test-Tracker v2.3](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft). Maßgeblich für Import und Export ist deren [JSON_FORMAT.md](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft/blob/main/docs/JSON_FORMAT.md). Die neue v7-Testsuite nutzt `schemaVersion: 2`, `category` und eine kurze `summary` je Test. Die ältere v6 (`schemaVersion: 1`) bleibt importierbar, zeigt eingeklappt aber noch keine Erklärung an.
+**Tracker-Oberfläche:** Stand 21.11.2026 ist die externe App [Mod-Test-Tracker v2.3](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft). Maßgeblich für Import und Export ist deren [JSON_FORMAT.md](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft/blob/main/docs/JSON_FORMAT.md). Die neue v8-Testsuite nutzt `schemaVersion: 2`, `category`, kurze `summary`-Texte und beschriftete kopierbare Command-Blöcke. Die ältere v6 (`schemaVersion: 1`) bleibt importierbar, zeigt eingeklappt aber noch keine Erklärung an.
 
 ## Verbindliche Namen für Testdateien
 
@@ -8,7 +8,7 @@ Dateinamen nur mit ASCII-Buchstaben, Ziffern und Bindestrichen, ohne Leerzeichen
 
 | Art | Muster | Beispiel |
 | --- | --- | --- |
-| Unveränderliche Testsuite | `AgriCraft-Core-Sonntag-YYYY-MM-DD-vN.json` | `AgriCraft-Core-Sonntag-2026-11-22-v7.json` |
+| Unveränderliche Testsuite | `AgriCraft-Core-Sonntag-YYYY-MM-DD-vN.json` | `AgriCraft-Core-Sonntag-2026-11-22-v8.json` |
 | Vollständiges Testergebnis inklusive Bildern | `AgriCraft-Core-Ergebnis-YYYY-MM-DD-Lauf-NN-SHA8.zip` | `AgriCraft-Core-Ergebnis-2026-11-22-Lauf-01-1234abcd.zip` |
 | JSON-Ergebnis ohne Bilddaten (nur optional) | `AgriCraft-Core-Ergebnis-YYYY-MM-DD-Lauf-NN-SHA8.json` | `AgriCraft-Core-Ergebnis-2026-11-22-Lauf-01-1234abcd.json` |
 | Zusatzbeleg | `AgriCraft-Core-YYYY-MM-DD-Lauf-NN-TESTID-Kurzbeschreibung.ext` | `AgriCraft-Core-2026-11-22-Lauf-01-UI-14-Tastenbelegung.png` |
@@ -17,7 +17,8 @@ Die `SHA8`-Beispiele sind **Platzhalter**, keine getesteten Builds. Bei unbekann
 
 ## Welche Datei laden?
 
-- **Für den Test bevorzugt:** [`AgriCraft-Core-Sonntag-2026-11-22-v7.json`](AgriCraft-Core-Sonntag-2026-11-22-v7.json) – **86 deutschsprachige Testfälle**, alle mit kurzer Erklärung für eingeklappte Karten. Bestehende IDs, Testschritte, Erwartungen und Commands aus v6 sind unverändert. Alle Fälle offen, kein Import/Lauf bestätigt.
+- **Für den Test bevorzugt:** [`AgriCraft-Core-Sonntag-2026-11-22-v8.json`](AgriCraft-Core-Sonntag-2026-11-22-v8.json) – **86 deutschsprachige Testfälle**, kurze Erklärungen für eingeklappte Karten und **33 beschriftete Minecraft-Chat-Befehle** mit Ausführungsort und Sicherheitshinweis. Die Befehle werden **nur kopiert, nicht ausgeführt**; alle Fälle offen, kein Import/Lauf bestätigt.
+- [`AgriCraft-Core-Sonntag-2026-11-22-v7.json`](AgriCraft-Core-Sonntag-2026-11-22-v7.json) – dieselben 86 Fälle mit `summary`, aber noch einfachen Command-Strings; unverändert für alte Exporte.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v6.json`](AgriCraft-Core-Sonntag-2026-11-22-v6.json) – 86 Fälle inklusive `ER-12`–`ER-15`, `UI-12` (Jade), `UI-13` (Identify) und `UI-14` (HUD-Taste/Journal); historische Ausgangssuite für eigene ältere Exporte.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v5.json`](AgriCraft-Core-Sonntag-2026-11-22-v5.json) – 79 Fälle inklusive `UI-10`, `UI-11` und neun JEI-/Sync-Unterfällen; historisch unverändert.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v4.json`](AgriCraft-Core-Sonntag-2026-11-22-v4.json) – 69 Fälle, für bisherige Ergebnisse unverändert erhalten.
@@ -47,7 +48,7 @@ Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitun
 3. Branch `integration/neoforge-1211-consolidation` und **genaue Git-Commit-ID des tatsächlich gebauten JARs** dokumentieren. Nicht den Vorbereitungscommit als bereits getesteten Build ausgeben.
 4. Eine neue Welt oder gesicherte **Weltkopie** verwenden. Datapack-/NBT-Manipulation, Blockschutz, gleichzeitiger Blockabbau und andere riskante Szenarien **niemals am einzigen Save** durchführen.
 5. [Mod-Test-Tracker](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft) lokal öffnen. **Vor „Tests laden“ oder „Ergebnisse laden“ den aktiven Lauf über „ZIP mit Bildern exportieren“ extern sichern** – Imports ersetzen den aktuellen Bearbeitungsstand. Die lokale Testlauf-Historie ist kein externes Backup.
-6. **v7-Datei** unter **„Tests laden“** wählen. Ihre `suiteId` lautet `agricraft-core-neoforge-1211-20261122-v7`; alte v6-Ergebnisexporte gehören weiterhin zur v6-Suite und dürfen nicht als v7-Ergebnisse importiert werden. **Import ist nicht bestätigt; erst nach Freigabe und Export bisheriger Ergebnisse vornehmen.**
+6. **v8-Datei** unter **„Tests laden“** wählen. Ihre `suiteId` lautet `agricraft-core-neoforge-1211-20261122-v8`; alte v6-/v7-Ergebnisexporte gehören weiterhin zu ihren jeweiligen Suites und dürfen nicht als v8-Ergebnisse importiert werden. **Import ist nicht bestätigt; erst nach Freigabe und Export bisheriger Ergebnisse vornehmen.**
 
 **Windows-PowerShell, erst nach Freigabe und aus dem Hauptmod-Gradle-Projektverzeichnis:** Das bestehende technische Gate beschreibt `& .\gradlew.bat :test :build --no-daemon --console=plain`. Das ist ein **Anleitungstext**, hier wurde nichts ausgeführt. Vorher Java-21-Installation und den tatsächlichen Branch-HEAD prüfen; die korrekte Arbeitsverzeichnis-/Subprojektzuordnung steht im [`MAIN_MOD_TEST_GATE`](../MAIN_MOD_TEST_GATE_2026-11-19.md). Bei Fehlern Log und Testreport sichern und **nicht** die Spieltests als bestanden eintragen.
 
@@ -62,7 +63,7 @@ Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitun
 
 **Mehrere Builds:** Oben **„＋ Durchlauf hinzufügen“**, **„Umbenennen“** und **„Zum Durchlauf wechseln“** verwenden; vor einem Neubeginn **„Durchlauf sichern“** und zusätzlich ZIP exportieren. **„Neuen Durchlauf beginnen“** erzeugt leere Ergebnisse für dieselbe Suite. Der Build-Vergleich ist nur für identische `suiteId` **und** identischen `suiteFingerprint` aussagekräftig; geänderte Testsuiten nicht als direkte Regression vergleichen. Screenshots bleiben lokal im Browser, bis sie als ZIP gesichert werden. **Keine automatische Testausführung** durch die Webseite.
 
-## Grenzen der aktuellen v7 (mit historischen v5-Spezialfällen)
+## Grenzen der aktuellen v8 (mit historischen v5-Spezialfällen)
 
 - Die 79 Fälle decken TG-/GE-/ER-/UI-01–UI-11-/MP- und BAL-IDs der [`Hauptmod-Prüfliste`](../MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md) ab, einschließlich der sechs GE-12- und neun UI-11-Unterfälle. Die JEI-Anzeige liegt **als ungeprüfter Quellcode** vor. Ein Teil erfordert **separate, technisch vorbereitete Teststände**.
 - Die 23 Multiplayerfälle sind aus der vorhandenen [detaillierten Multiplayer-Matrix](../MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md) in ausführbare deutsche Prüfschritte übertragen. Für ihre parallelen Aktionen werden zwei Personen beziehungsweise Accounts benötigt.
