@@ -468,33 +468,33 @@
       "category": "03 Ernte und Seeds",
       "title": "Kürbis-Gain: frühere Verbesserung, selten vier Drops",
       "steps": [
-        "Nach gesonderter Testfreigabe eine gesicherte Welt mit internen Kürbisfrüchten der bekannten Gain-Werte 1, 2, 5, 8 und 10 bereitstellen. Fehlen verifizierte Genwerte: blocked, keine heimliche Genom-Manipulation.",
+        "Nach gesonderter Testfreigabe und mit Operatorrechten je einen Saatgut-Fixture via /cropgenetics testseed minecraft:pumpkin_plant <Gain> für Gain 1, 2, 5, 8 und 10 ins eigene freie Inventar geben lassen. Auf getrennten Crop Sticks pflanzen; ohne verfügbaren Befehl oder bestätigte Arten-ID: blocked.",
         "Mit harvest.dropMultiplier=1 arbeiten, zunächst /cropgenetics harvestmultiplier reset und danach /cropgenetics harvestmultiplier zur Anzeige nutzen.",
         "Pro Gain-Wert Frucht reifen lassen, rechtsklicken und Stückzahl pro Ernte zählen; mehrere unabhängige Ernten je Stufe wiederholen und gültige Versuche notieren.",
         "Nicht einen einzelnen Zufallswurf als Prozentbeweis werten; beobachtete Mengenverteilung und unbekannte Tickzahl im Kommentar kennzeichnen."
       ],
       "expected": "Ein sichtbarer Kürbis, Ernte 1–4 Kürbis-Items in einem Stack; bei Gain 1 immer 1, bei Gain 2 ungefähr 81 % 1/19 % 2, Gain 10 ungefähr 10/35/40/15 % für 1/2/3/4. Für die Prozentabnahme sind ausreichend Wiederholungen nötig.",
-      "commands": ["/cropgenetics harvestmultiplier reset", "/cropgenetics harvestmultiplier"]
+      "commands": ["/cropgenetics testseed minecraft:pumpkin_plant 1", "/cropgenetics testseed minecraft:pumpkin_plant 2", "/cropgenetics testseed minecraft:pumpkin_plant 5", "/cropgenetics testseed minecraft:pumpkin_plant 8", "/cropgenetics testseed minecraft:pumpkin_plant 10", "/cropgenetics harvestmultiplier reset", "/cropgenetics harvestmultiplier"]
     },
     {
       "id": "ER-13",
       "category": "03 Ernte und Seeds",
       "title": "Melonenstücke statt ganzer Blöcke bei Gain 1 und 10",
       "steps": [
-        "In sicherer Testwelt interne Melonenfrüchte mit bekannten Gain-Werten 1 und 10 vorbereiten; ohne belegte Genwerte blocked.",
+        "In sicherer Testwelt mit Operatorrechten /cropgenetics testseed minecraft:melon_plant 1 und 10 für getrennte Crop Sticks ausgeben lassen, pflanzen und reifen lassen; bei unbekannter aktiver Art oder fehlendem Befehl blocked.",
         "Multiplier auf 1 zurücksetzen und angezeigten Wert dokumentieren; beide Früchte nach Reife getrennt ernten und Inventar vorher/nachher zählen.",
         "Bei Gain 1 Stückzahlen 3–7 und bei Gain 10 Stückzahlen 12–16 prüfen; aus einer sichtbaren Frucht darf kein zusätzlicher ganzer Melonenblock erscheinen.",
         "Zweiten Fruchtzyklus beobachten und erneut ernten; neue Frucht darf nicht als doppelter Drop der ersten erscheinen."
       ],
       "expected": "Melonenscheiben als ein Stack, bei Gain 1 3–7 Stück und Gain 10 12–16 Stück; ein sichtbarer Fruchtblock pro Zyklus, kein zusätzlicher Blockdrop.",
-      "commands": ["/cropgenetics harvestmultiplier reset", "/cropgenetics harvestmultiplier"]
+      "commands": ["/cropgenetics testseed minecraft:melon_plant 1", "/cropgenetics testseed minecraft:melon_plant 10", "/cropgenetics harvestmultiplier reset", "/cropgenetics harvestmultiplier"]
     },
     {
       "id": "ER-14",
       "category": "03 Ernte und Seeds",
       "title": "Drop-Multiplikator 0/1/2/64 und Ein-Stack-Schutz",
       "steps": [
-        "Nur in einer gesicherten Testwelt und mit Operatorberechtigung: geeignete reife Standardpflanzen, Kürbisse und Melonen mit bekannter Art/Gain vorbereitet halten.",
+        "Nur in einer gesicherten Testwelt und mit Operatorberechtigung: geeignete reife Standardpflanzen, Kürbisse und Melonen mit bekannter Art/Gain vorbereitet halten; bei Bedarf Testseed-Fixtures mit /cropgenetics testseed <aktive-art> <gain> erzeugen.",
         "Nacheinander /cropgenetics harvestmultiplier 0, 1, 2 und 64 setzen, nach jedem Befehl mit /cropgenetics harvestmultiplier die wirksame Zahl kontrollieren und je eine frische Ernte zählen.",
         "Bei 0 keine PRODUKT-Drops erwarten; beim zerstörenden Abbau Seed und Crop Sticks separat zählen, sie dürfen nicht verschwinden. Bei 1 normale Gain-Baseline; bei 2 verdoppelte gerundete Menge; bei 64 höchstens ein normaler Stack pro Produkt, maximal 64.",
         "Nach Abschluss /cropgenetics harvestmultiplier reset ausführen und den Serverconfig-Wert anzeigen. Dropmengen, Item-IDs, konfigurierte Werte und genaue JAR-SHA je Stufe protokollieren."
@@ -508,12 +508,13 @@
       "title": "Temporärer Override: Rechte, Neustart und Erntewege",
       "steps": [
         "Nur gesicherte Welt: Operator und normaler Spieler sowie je reife Standardpflanze und interne Gourd-Frucht vorbereiten.",
-        "Normaler Spieler versucht /cropgenetics harvestmultiplier 2; Befehl muss mangels Berechtigung abgewiesen werden. Operator setzt Faktor 2 und prüft die Anzeige.",
+        "Normaler Spieler versucht /cropgenetics harvestmultiplier 2 und /cropgenetics testseed minecraft:pumpkin_plant 10; beide Befehle müssen mangels Berechtigung abgewiesen werden. Operator setzt Faktor 2 und prüft die Anzeige.",
         "Getrennte Pflanzen bei Rechtsklick und Blockabbau ernten; Produkte pro Itemart auf einen Stack und Samen/Sticks auf Erhalt prüfen; Blockabbau darf keinen doppelten Ernteweg auslösen.",
+        "Operator versucht /cropgenetics testseed minecraft:unbekannt 10 sowie Gain 0 und 11: kein Seed darf erzeugt werden. Bei vollem Inventar ebenfalls keine Ausgabe; Serverkonsole ohne Spielerinventar muss scheitern.",
         "Server kontrolliert neu starten (nicht bloß /reload) und /cropgenetics harvestmultiplier abfragen: die temporäre Zahl darf nicht persistiert werden. Ursprünglichen Serverconfig-Wert und Log notieren."
       ],
       "expected": "Nur Operator darf temporär ändern; beide Erntewege nutzen denselben Faktor, keine Duplikation/Verlust; nach echtem Serverneustart wieder Serverconfig-Wert ohne Override.",
-      "commands": ["/cropgenetics harvestmultiplier 2", "/cropgenetics harvestmultiplier"]
+      "commands": ["/cropgenetics harvestmultiplier 2", "/cropgenetics harvestmultiplier", "/cropgenetics testseed minecraft:pumpkin_plant 10", "/cropgenetics testseed minecraft:unbekannt 10", "/cropgenetics testseed minecraft:pumpkin_plant 0", "/cropgenetics testseed minecraft:pumpkin_plant 11"]
     },
     {
       "id": "UI-01",

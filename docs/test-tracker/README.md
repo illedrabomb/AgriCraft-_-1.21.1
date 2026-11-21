@@ -12,6 +12,8 @@
 
 ## Vorbereitungen
 
+**Gain-Testdaten (ST-42, nur nach Testfreigabe):** Ein Spieler mit Operatorrechten und einem freien Inventarslot erhält über `/cropgenetics testseed minecraft:pumpkin_plant 10` einen nicht analysierten genetischen Kürbissamen mit `Growth 1 / Gain 10 / Strength 1`; für Melonen `minecraft:melon_plant`, für andere aktive Arten die genaue Arten-ID verwenden. Gain nur 1–10, keine freie NBT-Eingabe. Die Art muss im geladenen Datapack vorhanden sein. Serverkonsole, normale Spieler, unbekannte Arten und volles Inventar erhalten keine Samen. **Dieser Befehl ist eine Testhilfe, kein Nachweis, dass Pflanzenreife oder Drop-Balance funktionieren.** Die erzeugten Samen sind echte Items und können im Weltstand gespeichert werden: deshalb ausschließlich in Testweltkopien verwenden. ER-12 bis ER-15 verwenden die Hilfe und prüfen ihre Zugriffsgrenzen.
+
 Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitung im AgriCraft-Repository](../SUNDAY_CORE_TEST_FIXTURES_2026-11-22.md) öffnen. Sie trennt sichere Gameplay-Tests von Weltkopien mit NBT-/Datapack-/Blockschutz-Versuchen. **Keine dieser Flächen ist bereits gebaut oder getestet.**
 
 1. **Ohne ausdrückliche Freigabe des Projektbesitzers weder Gradle/JUnit noch Minecraft starten.** Die JSON-Datei selbst ist nur eine Anleitung.

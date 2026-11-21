@@ -3,9 +3,11 @@ package dev.illedrabomb.cropgenetics.command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import dev.illedrabomb.cropgenetics.content.CropConditions;
+import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.content.CropSticksBlockEntity;
 import dev.illedrabomb.cropgenetics.content.GourdFruits;
 import dev.illedrabomb.cropgenetics.content.GourdFruitRules;
@@ -17,6 +19,7 @@ import dev.illedrabomb.cropgenetics.data.PlantDefinition;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 import java.util.ArrayList;
@@ -31,7 +34,8 @@ import java.util.Map;
 
 /**
  * Administrative datapack diagnostics plus a separate, temporary harvest
- * multiplier override. Requires permission level 2 or server console.
+ * multiplier override and operator-only test seed fixtures.
+ * Requires permission level 2; test seeds require a player inventory.
  */
 public final class CropDataCommand {
     private static final int PAGE_SIZE = 8;
@@ -70,6 +74,12 @@ public final class CropDataCommand {
         event.getDispatcher().register(Commands.literal("cropgenetics")
                 .requires(source -> source.hasPermission(2))
                 .then(data)
+                .then(Commands.literal("testseed")
+                        .then(Commands.argument("species", ResourceLocationArgument.id())
+                                .then(Commands.argument("gain", IntegerArgumentType.integer(1, 10))
+                                        .executes(ctx -> testSeed(ctx.getSource(), registry,
+                                                ResourceLocationArgument.getId(ctx, "species").toString(),
+                                                IntegerArgumentType.getInteger(ctx, "gain"))))))
                 .then(Commands.literal("harvestmultiplier")
                         .executes(ctx -> showHarvestMultiplier(ctx.getSource()))
                         .then(Commands.literal("reset")
@@ -77,6 +87,31 @@ public final class CropDataCommand {
                         .then(Commands.argument("value", DoubleArgumentType.doubleArg(0.0D, 64.0D))
                                 .executes(ctx -> setHarvestMultiplier(ctx.getSource(),
                                         DoubleArgumentType.getDouble(ctx, "value")))));
+    }
+
+    /** Supply an unanalysed genetic seed fixture to the invoking operator only. */
+    private static int testSeed(CommandSourceStack source, AgriPlantsRegistry registry,
+                                String speciesId, int gain)
+            throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        var player = source.getPlayerOrException();
+        if (ResourceLocation.tryParse(speciesId) == null
+                || !registry.snapshot().plants().containsKey(speciesId)) {
+            tell(source, "Unknown active plant species: " + speciesId);
+            return 0;
+        }
+        // Refuse a full inventory instead of dropping test items into the world.
+        if (player.getInventory().getFreeSlot() < 0) {
+            tell(source, "No empty inventory slot for a test seed.");
+            return 0;
+        }
+        ItemStack seed = CropItems.seedWithGenome(new Genome(speciesId, 1, gain, 1));
+        if (!player.getInventory().add(seed)) {
+            tell(source, "Could not insert the test seed into your inventory.");
+            return 0;
+        }
+        tell(source, "Test seed received: " + speciesId + " (Growth 1 / Gain "
+                + gain + " / Strength 1; not analysed).");
+        return 1;
     }
 
     private static int showHarvestMultiplier(CommandSourceStack source) {

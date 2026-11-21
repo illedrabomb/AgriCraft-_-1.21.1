@@ -28,6 +28,8 @@
 
 **ST-41 (Teststeuerung/Tracker, ungetestet):** Admin-Befehl `/cropgenetics harvestmultiplier` ergänzt (lesend, temporär 0..64 setzen, `reset`); `HarvestDropOverride` verwaltet eine pro laufendem Server nichtpersistente Vorgabe, ohne `harvest.dropMultiplier` auf Platte zu ändern. [v6-Tracker](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) mit **83 offenen Fällen** ergänzt ER-12–15, keine Import- oder Testausführung. Dedicated Server/Restart/Berechtigung bleibt Laufzeitnachweis.
 
+**ST-42 (Operator-Testseed-Fixtures, ungetestet):** `/cropgenetics testseed <aktive-art> <gain:1..10>` gibt dem ausführenden Operator einen nicht analysierten genetischen Samen (`Growth=1`, `Strength=1`) ins freie Inventar; Validierung gegen aktive Datapack-Arten, kein Welt-Drop bei vollem Inventar, keine Konsole/Spieler ohne Rechte. `ER-12`/`ER-13` nutzen feste Kürbis-/Melonen-Gain-Stufen; `ER-15` kontrolliert ungültige Werte, Arten und Rechte. [Bedienung](test-tracker/README.md). **Nur Quell-/Dokumentreview; keine Build-, JUnit-, Minecraft- oder CI-Ausführung.**
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.
