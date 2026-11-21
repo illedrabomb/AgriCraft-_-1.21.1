@@ -6,6 +6,7 @@ import dev.illedrabomb.cropgenetics.content.SeedSpeciesCatalog;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import mezz.jei.api.IModPlugin;
+import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
@@ -39,6 +40,16 @@ public final class CropGeneticsJeiPlugin implements IModPlugin {
     @Override
     public ResourceLocation getPluginUid() {
         return ID;
+    }
+
+    @Override
+    public void onRuntimeAvailable(IJeiRuntime runtime) {
+        LivePlantConditionsJei.available(runtime);
+    }
+
+    @Override
+    public void onRuntimeUnavailable() {
+        LivePlantConditionsJei.unavailable();
     }
 
     @Override

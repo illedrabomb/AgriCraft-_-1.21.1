@@ -1,6 +1,6 @@
 # UX-02 / UI-11 – aktuelle Pflanzenbedingungen in JEI
 
-**Status:** Technischer Machbarkeits-/Sicherheitsreview und erste isolierte Serverprojektion am 21.11.2026; **Netzwerk/JEI nicht implementiert, keine Testausführung**. Hauptmod und Entwicklungsbranch `integration/neoforge-1211-consolidation`.
+**Status:** Etappen A–C als Quellcode vorbereitet am 21.11.2026; **keine Build-/JUnit-/Minecraft-/CI-Ausführung, JEI-Laufzeitabnahme offen**. Hauptmod und Entwicklungsbranch `integration/neoforge-1211-consolidation`.
 
 ## Umsetzungsetappe A – serverseitige Sicht, ohne Netzwerk (21.11.2026)
 
@@ -54,6 +54,45 @@ der tatsächliche Datapack-Reload im Multiplayer sind nicht laufzeitverifiziert.
 **UI-11 weiterhin offen:** In JEI existiert noch keine dynamische Darstellung;
 die unveränderlichen statischen `addItemStackInfo`-Seiten werden bewusst nicht
 als weltaktuelle Bedingungen ausgegeben.
+
+## Umsetzungsetappe C – dynamische JEI-19.x-Informationsansicht (21.11.2026)
+
+`LivePlantConditionsJei` bindet im optionalen JEI-Plugin
+`onRuntimeAvailable`/`onRuntimeUnavailable` an den Client-Regelkatalog.
+Für jede aktive Art wird eine Informationsansicht über ihren genetischen
+Seed und die eindeutig zugeordneten normalen Seeds angeboten. Bei Sync wird
+die vorherige Auswahl ausgeblendet, neu entdeckte Arten/Seed-Zuordnungen werden
+registriert und bereits bekannte wieder eingeblendet; die Beschreibung liest
+**beim Öffnen** die zuletzt empfangene Serverprojektion. Ein allgemeiner
+Status-Eintrag am genetischen Seed erklärt auch ohne Serverdaten ausdrücklich
+„nicht synchronisiert“. Die bestehenden, nur allgemein erklärenden
+Seed-Umwandlungs- und Analyzer-Seiten bleiben unverändert.
+
+`PlantConditionsText` beschreibt Bodenblock mit lokalisiertem Blocknamen
+und technischer ID beziehungsweise `#Boden-Tag`, Lichtbereich, maximale
+Strength-Toleranz, Zuckerrohr-/Kaktus-/Pilz-Ausnahmen, Biome, Dimensionen,
+Y-Grenzen, Fluid, Saisons und Chemie. Für Tags wird **keine unbewiesene
+Blockliste** behauptet. DE/EN-Einträge sind ergänzt; der
+`PlantConditionsLocalizationContractTest` ist als **nicht ausgeführter**
+JUnit-Quelltest vorbereitet.
+
+**Statischer JEI-API-Befund:** Ziel ist die JEI-19.x-API mit
+`IJeiRuntime.getRecipeManager().addRecipes/hideRecipes/unhideRecipes`
+und der vorhandenen `RecipeTypes.INFORMATION`-Kategorie. Die
+Informationsrezept-Schnittstelle ist durch JEI als `@NonExtendable`
+gekennzeichnet; unsere kleine reine Datenimplementierung benötigt deshalb
+**zwingend** einen JEI-19.x-Laufzeittest, bevor UI-11 als angenommen gilt.
+Wiederholte Datapackwechsel mit neuen Arten-/Seed-Kombinationen können
+versteckte JEI-Rezepte im laufenden Runtime-Cache ansammeln; dieses Risiko
+ist erst mit der Laufzeitprüfung bzw. einem nötigen eigenen JEI-Rezepttyp
+abschließend lösbar. `/reload` hat weiterhin kein separates „beginnt“-Signal;
+bis zum neuen Paket ist nur der **zuletzt empfangene**, nicht zwingend bereits
+der gerade im Server-Reload entstehende Stand sichtbar.
+
+**UI-11 bleibt zur Laufzeitabnahme offen.** Sonderfall „JEI nicht installiert“
+ist im Quellcode durch `ModList.isLoaded("jei")` abgegrenzt, aber nicht
+im dedizierten Serverstart bestätigt. Für Sonntag eine neue, getrennte
+Tracker-v5-Suite mit UI-11 erstellen; v4 und bisherige Ergebnisse erhalten.
 
 ## Nutzeranforderung
 

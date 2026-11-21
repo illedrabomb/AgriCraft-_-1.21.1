@@ -99,6 +99,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] **UI-11 / UX-02 (neu, Implementierung offen):** JEI erklärt pro tatsächlich unterstützter Pflanzenart Boden, Licht, artspezifische Wasser-/Nachbarregeln und weitere Datapack-Bedingungen; serverautoritatives Anforderungsprofil darf auf dem Client nicht durch veraltete Standardangaben ersetzt werden. JEI bleibt optional. [Spezifikation](LAST_PLAYTEST_REVIEW_AND_SEED_CONDITIONS_2026-11-21.md). Noch kein Code-/Spieltest.
   - **Etappe A, statischer Quellstand 21.11.:** `PlantConditionsView` liefert eine begrenzte, unveränderliche Serverprojektion; `PlantConditionsViewTest` ist vorbereitet, nicht ausgeführt. Netzwerk, JEI und UI-11-Abnahme weiter offen. [Technische Abgrenzung](JEI_LIVE_PLANT_CONDITIONS_DESIGN_2026-11-21.md).
   - **Etappe B, statischer Quellstand 21.11.:** Versionierter 256-KiB-Payload, Server-Sync bei Login/Datapack-Reload, Client-Clearing bei Logout/Fehler und `PlantConditionsWireTest` als Testquelle ergänzt. **Nicht ausgeführt**; JEI-Darstellung und vollständige UI-11-Abnahme weiterhin offen.
+  - **Etappe C, statischer Quellstand 21.11.:** JEI-Laufzeit-Infoseiten mit DE/EN-Standortregeln, aktiven Seed-Links und Statusseite ergänzt; `PlantConditionsLocalizationContractTest` geschrieben, **nicht ausgeführt**. `@NonExtendable`-Informationsrezept, wiederholte Reloads und JEI ohne Server müssen im echten 19.x-Lauf gesondert geprüft werden. UI-11 bleibt **nicht bestanden**.
 
 ## 3. Dokumentation und Abschluss
 

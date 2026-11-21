@@ -21,6 +21,7 @@ public final class ClientPlantConditions {
     public static void receive(byte[] bytes) {
         if (bytes.length == 0) {
             current = null;
+            refreshJeiIfPresent();
             return;
         }
         try {
@@ -28,8 +29,17 @@ public final class ClientPlantConditions {
         } catch (IllegalArgumentException ex) {
             current = null;
         }
+        refreshJeiIfPresent();
+    }
+
+    private static void refreshJeiIfPresent() {
+        if (net.neoforged.fml.ModList.get().isLoaded("jei"))
+            dev.illedrabomb.cropgenetics.compat.jei.LivePlantConditionsJei.refresh();
     }
 
     @SubscribeEvent
-    public static void logout(ClientPlayerNetworkEvent.LoggingOut event) { current = null; }
+    public static void logout(ClientPlayerNetworkEvent.LoggingOut event) {
+        current = null;
+        refreshJeiIfPresent();
+    }
 }
