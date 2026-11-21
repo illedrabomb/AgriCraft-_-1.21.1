@@ -36,9 +36,8 @@ public final class CropHarvest {
                         Math.min(Items.MELON_SLICE.getDefaultMaxStackSize(), slices)));
             }
             if (plant.id().equals("minecraft:pumpkin_plant")) {
-                // Gain 1: always one. Gain 2: 10% two, ... Gain 10: 90% two.
-                int pumpkins = 1 + (random.nextDouble()
-                        < GourdHarvestRules.secondPumpkinChance(genome.gain()) ? 1 : 0);
+                // Gain 2: 90% one / 10% two; high Gain unlocks three/four.
+                int pumpkins = GourdHarvestRules.pumpkinCount(genome.gain(), random.nextDouble());
                 return List.of(new ItemStack(Items.PUMPKIN,
                         Math.min(GourdHarvestRules.MAX_DROP, pumpkins)));
             }

@@ -20,6 +20,8 @@
 
 **ST-37 (Gourd-Gain-Korrektur, ungetestet):** ST-36 enthielt eine zu strikte Einzel-Item-Annahme. Nach [Nutzerentscheidung](GOURD_GAIN_YIELD_2026-11-21.md) bleibt **eine sichtbare Frucht**, aber Kürbis erhält pro Gain-Schritt +10 Prozentpunkte auf zwei Items, Melone liefert 3–7 Scheiben plus Gain−1. `CropHarvest` und eingebaute Melonendefinition angepasst, `GourdHarvestRulesTest` und `CropHarvestBoundTest` nachgeführt. Kein Test/Build. Alte physische Gourd-Lootpfade und spätere Drop-Multiplikator-Config separat.
 
+**ST-38 (Kürbis-Ausbau, ungetestet):** ST-37 war für hohe Gain-Werte zu eng. Kürbis liefert nun 1–4 Items nach verschachtelten Ein-Wurf-Schwellen (Gain 2: 90 % 1/10 % 2; Gain 10: 10 % 1, jeweils 30 % 2/3/4). Reine Schwellenregressionen in `GourdHarvestRulesTest` ergänzt. Kein JUnit-/Minecraft-Lauf.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

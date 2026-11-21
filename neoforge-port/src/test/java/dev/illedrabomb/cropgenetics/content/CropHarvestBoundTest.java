@@ -98,7 +98,7 @@ class CropHarvestBoundTest {
         assertEquals(1, lowPumpkin.get(0).getCount());
         assertEquals(Items.PUMPKIN, lowPumpkin.get(0).getItem());
         assertEquals(1, highPumpkin.size());
-        assertTrue(highPumpkin.get(0).getCount() >= 1 && highPumpkin.get(0).getCount() <= 2);
+        assertTrue(highPumpkin.get(0).getCount() >= 1 && highPumpkin.get(0).getCount() <= 4);
         assertEquals(1, highMelon.size());
         assertEquals(Items.MELON_SLICE, highMelon.get(0).getItem());
         assertTrue(highMelon.get(0).getCount() >= 12 && highMelon.get(0).getCount() <= 16);
