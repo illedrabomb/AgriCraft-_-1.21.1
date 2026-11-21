@@ -19,6 +19,8 @@ class HarvestDropScalingTest {
         assertEquals(16, HarvestDropScaling.count(64, 64.0D, 16));
         assertEquals(1, HarvestDropScaling.count(64, 64.0D, 1));
         assertEquals(64, HarvestDropScaling.count(4096, 64.0D, 99));
+        assertEquals(64, HarvestDropScaling.count(Long.MAX_VALUE, 64.0D, 64));
+        assertEquals(64, HarvestDropScaling.count(Long.MAX_VALUE, 0.5D, 64));
     }
 
     @Test

@@ -57,7 +57,9 @@ public final class CropHarvest {
         // Merge all gain rolls by actual item identity. Each distinct fruit
         // or produce item may yield at most ONE normal inventory stack per
         // harvest; multiple datapack product entries cannot bypass the limit.
-        Map<Item, Integer> counts = new LinkedHashMap<>();
+        // Accumulate uncapped raw produce first. The multiplier must be
+        // applied BEFORE the one-stack ceiling, especially for values < 1.
+        Map<Item, Long> counts = new LinkedHashMap<>();
 
         for (int trial = 0; trial < trials; trial++) {
             for (PlantDefinition.HarvestProduct product : plant.harvestProducts()) {
@@ -72,9 +74,9 @@ public final class CropHarvest {
                 int spread = product.maximum() - product.minimum();
                 if (spread > 0) count += random.nextInt(spread + 1);
                 if (count <= 0) continue;
-                int stackLimit = Math.max(1, item.getDefaultMaxStackSize());
-                counts.merge(item, Math.min(count, stackLimit),
-                        (previous, added) -> Math.min(stackLimit, previous + added));
+                counts.merge(item, (long) count,
+                        (previous, added) -> previous > Long.MAX_VALUE - added
+                                ? Long.MAX_VALUE : previous + added);
             }
         }
         List<ItemStack> drops = new ArrayList<>(counts.size());

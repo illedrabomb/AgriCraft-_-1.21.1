@@ -4,7 +4,7 @@ package dev.illedrabomb.cropgenetics.content;
 public final class HarvestDropScaling {
     private HarvestDropScaling() {}
 
-    public static int count(int base, double multiplier, int itemStackLimit) {
+    public static int count(long base, double multiplier, int itemStackLimit) {
         if (base < 0 || itemStackLimit < 1 || !Double.isFinite(multiplier) || multiplier < 0)
             throw new IllegalArgumentException("Invalid harvest drop scaling input");
         long scaled = Math.round(base * multiplier);

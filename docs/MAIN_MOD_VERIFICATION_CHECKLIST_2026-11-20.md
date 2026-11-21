@@ -34,6 +34,8 @@
 
 **ST-44 (Genomzuordnung der Testbefehle, Testquellen vorbereitet):** Die Ein-Zahl-Kurzform und vollständige Dreierform erzeugen ihr `Genome` nun über zwei explizite, reine Fabrikmethoden (`TestSeedGenomes`). Neue `TestSeedGenomesTest`-JUnit-Quellfälle prüfen 1/5/10-Gain, `10/5/3`-Reihenfolge, `10/10/10`, gültige Melonenart sowie Grenzen 0/11 je Statistik. Rechte, tatsächlich aktive Datapack-Art, Inventareinfügung und Brigadier-Befehlsbaum bleiben **separat** in `ER-15` ingame zu bestätigen. **Keine JUnit-/Build-/Minecraft-Ausführung.**
 
+**ST-45 (Standard-Erntemenge bei Faktoren unter 1, ungetestet):** **MITTEL-Fund:** `CropHarvest.products` kappte Gain-/Datapack-Rohmengen bereits vor dem Drop-Faktor auf die Stackgröße; dadurch waren kleine Multiplikatoren bei großen Rohmengen zu schwach. Der Standardpfad akkumuliert jetzt die tatsächlichen Rohmengen als überlaufsicheres `long` und kappt erst **nach** dem Skalieren (gemeinsam mit Gourd-Pfad). `HarvestDropScaling` akzeptiert `long`; `CropHarvestBoundTest` enthält 128 × 0,5 → 64 und 4096 × 0,01 → 41, `HarvestDropScalingTest` den `Long.MAX_VALUE`-Grenzfall. [Balance-Details](GOURD_GAIN_YIELD_2026-11-21.md). **Quell-/NBT-Review, keine Tests ausgeführt.**
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

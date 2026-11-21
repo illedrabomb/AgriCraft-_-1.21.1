@@ -71,6 +71,18 @@ class CropHarvestBoundTest {
     }
 
     @Test
+    void fractionalMultiplierScalesRawHarvestBeforeApplyingStackLimit() {
+        var fractional = CropHarvest.products(plant(128, 128, 1),
+                Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L), 0.5D);
+        var tiny = CropHarvest.products(plant(4096, 4096, 1),
+                Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L), 0.01D);
+
+        // Old order incorrectly produced 32 and 1 by clipping to 64 first.
+        assertEquals(64, fractional.get(0).getCount());
+        assertEquals(41, tiny.get(0).getCount());
+    }
+
+    @Test
     void twoDistinctProductsCanEachYieldOneStack() {
         var base = plant(1, 1, 1);
         var mixed = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
