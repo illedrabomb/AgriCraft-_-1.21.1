@@ -76,10 +76,19 @@ public final class CropDataCommand {
                 .then(data)
                 .then(Commands.literal("testseed")
                         .then(Commands.argument("species", ResourceLocationArgument.id())
-                                .then(Commands.argument("gain", IntegerArgumentType.integer(1, 10))
+                                // One number is the legacy Gain-only shortcut; three
+                                // numbers follow the visible Growth/Gain/Strength order.
+                                .then(Commands.argument("gainOrGrowth", IntegerArgumentType.integer(1, 10))
                                         .executes(ctx -> testSeed(ctx.getSource(), registry,
                                                 ResourceLocationArgument.getId(ctx, "species").toString(),
-                                                IntegerArgumentType.getInteger(ctx, "gain"))))))
+                                                1, IntegerArgumentType.getInteger(ctx, "gainOrGrowth"), 1))
+                                        .then(Commands.argument("gain", IntegerArgumentType.integer(1, 10))
+                                                .then(Commands.argument("strength", IntegerArgumentType.integer(1, 10))
+                                                        .executes(ctx -> testSeed(ctx.getSource(), registry,
+                                                                ResourceLocationArgument.getId(ctx, "species").toString(),
+                                                                IntegerArgumentType.getInteger(ctx, "gainOrGrowth"),
+                                                                IntegerArgumentType.getInteger(ctx, "gain"),
+                                                                IntegerArgumentType.getInteger(ctx, "strength"))))))))
                 .then(Commands.literal("harvestmultiplier")
                         .executes(ctx -> showHarvestMultiplier(ctx.getSource()))
                         .then(Commands.literal("reset")
@@ -91,7 +100,7 @@ public final class CropDataCommand {
 
     /** Supply an unanalysed genetic seed fixture to the invoking operator only. */
     private static int testSeed(CommandSourceStack source, AgriPlantsRegistry registry,
-                                String speciesId, int gain)
+                                String speciesId, int growth, int gain, int strength)
             throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         var player = source.getPlayerOrException();
         if (ResourceLocation.tryParse(speciesId) == null
@@ -104,13 +113,13 @@ public final class CropDataCommand {
             tell(source, "No empty inventory slot for a test seed.");
             return 0;
         }
-        ItemStack seed = CropItems.seedWithGenome(new Genome(speciesId, 1, gain, 1));
+        ItemStack seed = CropItems.seedWithGenome(new Genome(speciesId, growth, gain, strength));
         if (!player.getInventory().add(seed)) {
             tell(source, "Could not insert the test seed into your inventory.");
             return 0;
         }
-        tell(source, "Test seed received: " + speciesId + " (Growth 1 / Gain "
-                + gain + " / Strength 1; not analysed).");
+        tell(source, "Test seed received: " + speciesId + " (Growth " + growth + " / Gain "
+                + gain + " / Strength " + strength + "; not analysed).");
         return 1;
     }
 

@@ -30,6 +30,8 @@
 
 **ST-42 (Operator-Testseed-Fixtures, ungetestet):** `/cropgenetics testseed <aktive-art> <gain:1..10>` gibt dem ausführenden Operator einen nicht analysierten genetischen Samen (`Growth=1`, `Strength=1`) ins freie Inventar; Validierung gegen aktive Datapack-Arten, kein Welt-Drop bei vollem Inventar, keine Konsole/Spieler ohne Rechte. `ER-12`/`ER-13` nutzen feste Kürbis-/Melonen-Gain-Stufen; `ER-15` kontrolliert ungültige Werte, Arten und Rechte. [Bedienung](test-tracker/README.md). **Nur Quell-/Dokumentreview; keine Build-, JUnit-, Minecraft- oder CI-Ausführung.**
 
+**ST-43 (vollständige Testgenome, ungetestet):** Der bestehende Operator-Befehl akzeptiert nun zusätzlich `testseed <aktive-art> <growth> <gain> <strength>` mit jeweils 1–10. Die Kurzform mit einer Zahl bedeutet weiter Gain (`1/<gain>/1`); zwei Zahlen sind ungültig. Beide Pfade teilen Arten-, Inventar- und Rechteprüfung und erzeugen über `CropItems.seedWithGenome` echte, nicht analysierte Samen. `ER-13`/`ER-15` im aktuellen [v6-Tracker](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) angepasst. **Statisch geprüft, Testausführung offen.**
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.
