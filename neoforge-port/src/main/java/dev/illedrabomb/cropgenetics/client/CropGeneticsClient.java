@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 public final class CropGeneticsClient {
     public static final KeyMapping TOGGLE_CROP_OVERLAY = new KeyMapping(
             "key.cropgenetics.toggle_overlay", InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_H, "key.categories.misc");
+            GLFW.GLFW_KEY_F10, "key.categories.misc");
 
     private CropGeneticsClient() {}
 
