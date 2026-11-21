@@ -80,15 +80,17 @@ public final class CropDataCommand {
                                 // numbers follow the visible Growth/Gain/Strength order.
                                 .then(Commands.argument("gainOrGrowth", IntegerArgumentType.integer(1, 10))
                                         .executes(ctx -> testSeed(ctx.getSource(), registry,
-                                                ResourceLocationArgument.getId(ctx, "species").toString(),
-                                                1, IntegerArgumentType.getInteger(ctx, "gainOrGrowth"), 1))
+                                                TestSeedGenomes.gainOnly(
+                                                        ResourceLocationArgument.getId(ctx, "species").toString(),
+                                                        IntegerArgumentType.getInteger(ctx, "gainOrGrowth"))))
                                         .then(Commands.argument("gain", IntegerArgumentType.integer(1, 10))
                                                 .then(Commands.argument("strength", IntegerArgumentType.integer(1, 10))
                                                         .executes(ctx -> testSeed(ctx.getSource(), registry,
-                                                                ResourceLocationArgument.getId(ctx, "species").toString(),
-                                                                IntegerArgumentType.getInteger(ctx, "gainOrGrowth"),
-                                                                IntegerArgumentType.getInteger(ctx, "gain"),
-                                                                IntegerArgumentType.getInteger(ctx, "strength"))))))))
+                                                                TestSeedGenomes.full(
+                                                                        ResourceLocationArgument.getId(ctx, "species").toString(),
+                                                                        IntegerArgumentType.getInteger(ctx, "gainOrGrowth"),
+                                                                        IntegerArgumentType.getInteger(ctx, "gain"),
+                                                                        IntegerArgumentType.getInteger(ctx, "strength"))))))))
                 .then(Commands.literal("harvestmultiplier")
                         .executes(ctx -> showHarvestMultiplier(ctx.getSource()))
                         .then(Commands.literal("reset")
@@ -100,9 +102,10 @@ public final class CropDataCommand {
 
     /** Supply an unanalysed genetic seed fixture to the invoking operator only. */
     private static int testSeed(CommandSourceStack source, AgriPlantsRegistry registry,
-                                String speciesId, int growth, int gain, int strength)
+                                Genome genome)
             throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         var player = source.getPlayerOrException();
+        String speciesId = genome.plantId();
         if (ResourceLocation.tryParse(speciesId) == null
                 || !registry.snapshot().plants().containsKey(speciesId)) {
             tell(source, "Unknown active plant species: " + speciesId);
@@ -113,13 +116,14 @@ public final class CropDataCommand {
             tell(source, "No empty inventory slot for a test seed.");
             return 0;
         }
-        ItemStack seed = CropItems.seedWithGenome(new Genome(speciesId, growth, gain, strength));
+        ItemStack seed = CropItems.seedWithGenome(genome);
         if (!player.getInventory().add(seed)) {
             tell(source, "Could not insert the test seed into your inventory.");
             return 0;
         }
-        tell(source, "Test seed received: " + speciesId + " (Growth " + growth + " / Gain "
-                + gain + " / Strength " + strength + "; not analysed).");
+        tell(source, "Test seed received: " + speciesId + " (Growth " + genome.growth()
+                + " / Gain " + genome.gain() + " / Strength " + genome.strength()
+                + "; not analysed).");
         return 1;
     }
 

@@ -32,6 +32,8 @@
 
 **ST-43 (vollständige Testgenome, ungetestet):** Der bestehende Operator-Befehl akzeptiert nun zusätzlich `testseed <aktive-art> <growth> <gain> <strength>` mit jeweils 1–10. Die Kurzform mit einer Zahl bedeutet weiter Gain (`1/<gain>/1`); zwei Zahlen sind ungültig. Beide Pfade teilen Arten-, Inventar- und Rechteprüfung und erzeugen über `CropItems.seedWithGenome` echte, nicht analysierte Samen. `ER-13`/`ER-15` im aktuellen [v6-Tracker](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) angepasst. **Statisch geprüft, Testausführung offen.**
 
+**ST-44 (Genomzuordnung der Testbefehle, Testquellen vorbereitet):** Die Ein-Zahl-Kurzform und vollständige Dreierform erzeugen ihr `Genome` nun über zwei explizite, reine Fabrikmethoden (`TestSeedGenomes`). Neue `TestSeedGenomesTest`-JUnit-Quellfälle prüfen 1/5/10-Gain, `10/5/3`-Reihenfolge, `10/10/10`, gültige Melonenart sowie Grenzen 0/11 je Statistik. Rechte, tatsächlich aktive Datapack-Art, Inventareinfügung und Brigadier-Befehlsbaum bleiben **separat** in `ER-15` ingame zu bestätigen. **Keine JUnit-/Build-/Minecraft-Ausführung.**
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.
