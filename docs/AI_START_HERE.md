@@ -75,6 +75,7 @@
 - **ST-55, Testseed-Rückmeldungen:** Der Operator-Befehl meldet Erfolg und Fehler nun in DE/EN; Ablehnungen verwenden `sendFailure`, ohne eine Saatgut-/Rechteänderung. Sprach-Vertragstest vorbereitet, [Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md); `ER-15` offen. Kein Build/JUnit/Minecraft-Test.
 - **DOC-27, klarere Gate-Beleglage:** Codex-Kurzbericht hebt fehlende JUnit-/JAR-Nachweise, übersprungene Tests und fehlerhafte Läufe als Warnungen hervor – auch bei Exitcode 0. Drei zusätzliche Parser-Testquellen vorbereitet, [Sonntags-Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Keine Ausführung/Freigabe.**
 - **DOC-28, Commit im Gate-Bericht:** Startmanifest wird nun mit Git-Commit, Branch, Java und Core-only-Umfang im Bericht ausgewiesen; fehlende/ungültige Provenienz erzeugt Warnungen. Zwei Parser-Testquellen vorbereitet, [Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). Kein Test ausgeführt.
+- **DOC-29, CodeQL-Workflow:** [Master-Fehler und vorbereitete Korrektur](CODEQL_WORKFLOW_DIAGNOSIS_2026-11-21.md): Alte CodeQL-v1-Action scheitert vor Analyse mit 403; auf Integrationsbranch v4, Permissions und build-freie Java-Analyse vorbereitet. **Kein Master-Merge, kein CI-Lauf; separate Freigabe bleibt erforderlich.**
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.
