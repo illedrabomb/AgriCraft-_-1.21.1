@@ -2,7 +2,8 @@
 
 ## Welche Datei laden?
 
-- **Für den Test bevorzugt:** [`AgriCraft-Core-Sonntag-2026-11-22-v5.json`](AgriCraft-Core-Sonntag-2026-11-22-v5.json) – **79 deutschsprachige Testfälle**, einschließlich `UI-10`, `UI-11` und neun gesonderten JEI-/Sync-Unterfällen (`UI-11a`–`UI-11i`). Alle Fälle noch offen, keine Ausführung bestätigt.
+- **Für den Test bevorzugt:** [`AgriCraft-Core-Sonntag-2026-11-22-v6.json`](AgriCraft-Core-Sonntag-2026-11-22-v6.json) – **83 deutschsprachige Testfälle**, einschließlich neuer `ER-12`–`ER-15` zu Gain-Ernten, Drop-Multiplikator, temporärem Admin-Kommando und Restart. Alle Fälle offen, kein Import/Lauf bestätigt.
+- [`AgriCraft-Core-Sonntag-2026-11-22-v5.json`](AgriCraft-Core-Sonntag-2026-11-22-v5.json) – 79 Fälle inklusive `UI-10`, `UI-11` und neun JEI-/Sync-Unterfällen; historisch unverändert.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v4.json`](AgriCraft-Core-Sonntag-2026-11-22-v4.json) – 69 Fälle, für bisherige Ergebnisse unverändert erhalten.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v3.json`](AgriCraft-Core-Sonntag-2026-11-22-v3.json) – 68 Fälle, historisch unverändert für alte Ergebnisimporte.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v2.json`](AgriCraft-Core-Sonntag-2026-11-22-v2.json) – Zwischenstand mit 51 Fällen, wegen anderer `suiteId` nicht mit v3-Ergebnissen mischen.
@@ -18,7 +19,7 @@ Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitun
 3. Branch `integration/neoforge-1211-consolidation` und **genaue Git-Commit-ID des tatsächlich gebauten JARs** dokumentieren. Nicht den Vorbereitungscommit als bereits getesteten Build ausgeben.
 4. Eine neue Welt oder gesicherte **Weltkopie** verwenden. Datapack-/NBT-Manipulation, Blockschutz, gleichzeitiger Blockabbau und andere riskante Szenarien **niemals am einzigen Save** durchführen.
 5. [Mod-Test-Tracker](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft) lokal öffnen. **Vor „Tests laden“ bestehende Ergebnisse exportieren** – das Laden einer Suite ersetzt die bisherigen Testergebnisse im Browser.
-6. **v5-Datei** unter **„Tests laden“** wählen. Die Suite-ID `agricraft-core-neoforge-1211-20261122-v5` ist bewusst anders als bei v1–v4 und der alten 30er-Suite. **Import ist nicht bestätigt; erst nach Freigabe und Export bisheriger Ergebnisse vornehmen.**
+6. **v6-Datei** unter **„Tests laden“** wählen. Die Suite-ID `agricraft-core-neoforge-1211-20261122-v6` ist bewusst anders als bei v1–v5 und der alten 30er-Suite. **Import ist nicht bestätigt; erst nach Freigabe und Export bisheriger Ergebnisse vornehmen.**
 
 **Windows-PowerShell, erst nach Freigabe und aus dem Hauptmod-Gradle-Projektverzeichnis:** Das bestehende technische Gate beschreibt `& .\gradlew.bat :test :build --no-daemon --console=plain`. Das ist ein **Anleitungstext**, hier wurde nichts ausgeführt. Vorher Java-21-Installation und den tatsächlichen Branch-HEAD prüfen; die korrekte Arbeitsverzeichnis-/Subprojektzuordnung steht im [`MAIN_MOD_TEST_GATE`](../MAIN_MOD_TEST_GATE_2026-11-19.md). Bei Fehlern Log und Testreport sichern und **nicht** die Spieltests als bestanden eintragen.
 

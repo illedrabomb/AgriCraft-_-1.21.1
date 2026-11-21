@@ -1,6 +1,7 @@
 package dev.illedrabomb.cropgenetics.command;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -8,6 +9,7 @@ import dev.illedrabomb.cropgenetics.content.CropConditions;
 import dev.illedrabomb.cropgenetics.content.CropSticksBlockEntity;
 import dev.illedrabomb.cropgenetics.content.GourdFruits;
 import dev.illedrabomb.cropgenetics.content.GourdFruitRules;
+import dev.illedrabomb.cropgenetics.config.HarvestDropOverride;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.data.AgriPlantsRegistry;
 import dev.illedrabomb.cropgenetics.data.CropReloadReport;
@@ -28,8 +30,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Read-only administrative datapack diagnostics for players with permission
- * level 2 and for the dedicated server console. Never initiates a reload.
+ * Administrative datapack diagnostics plus a separate, temporary harvest
+ * multiplier override. Requires permission level 2 or server console.
  */
 public final class CropDataCommand {
     private static final int PAGE_SIZE = 8;
@@ -67,7 +69,33 @@ public final class CropDataCommand {
         }
         event.getDispatcher().register(Commands.literal("cropgenetics")
                 .requires(source -> source.hasPermission(2))
-                .then(data));
+                .then(data)
+                .then(Commands.literal("harvestmultiplier")
+                        .executes(ctx -> showHarvestMultiplier(ctx.getSource()))
+                        .then(Commands.literal("reset")
+                                .executes(ctx -> resetHarvestMultiplier(ctx.getSource())))
+                        .then(Commands.argument("value", DoubleArgumentType.doubleArg(0.0D, 64.0D))
+                                .executes(ctx -> setHarvestMultiplier(ctx.getSource(),
+                                        DoubleArgumentType.getDouble(ctx, "value")))));
+    }
+
+    private static int showHarvestMultiplier(CommandSourceStack source) {
+        var server = source.getServer();
+        tell(source, "Harvest drop multiplier: " + HarvestDropOverride.effective(server)
+                + (HarvestDropOverride.isOverridden(server) ? " (temporary override)" : " (server config)"));
+        return 1;
+    }
+
+    private static int setHarvestMultiplier(CommandSourceStack source, double value) {
+        HarvestDropOverride.set(source.getServer(), value);
+        tell(source, "Temporary harvest drop multiplier set to " + value
+                + ". A server restart or /cropgenetics harvestmultiplier reset restores config.");
+        return 1;
+    }
+
+    private static int resetHarvestMultiplier(CommandSourceStack source) {
+        HarvestDropOverride.reset(source.getServer());
+        return showHarvestMultiplier(source);
     }
 
     private static int summary(CommandSourceStack source, AgriPlantsRegistry registry) {

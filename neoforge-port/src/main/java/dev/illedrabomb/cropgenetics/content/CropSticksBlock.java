@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.config.CropBalanceConfig;
+import dev.illedrabomb.cropgenetics.config.HarvestDropOverride;
 import dev.illedrabomb.cropgenetics.data.PlantDefinition;
 import dev.illedrabomb.cropgenetics.data.HarvestMode;
 import dev.illedrabomb.cropgenetics.genetics.GenePair;
@@ -519,7 +520,7 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
                     crop.isMature(plant), crop.fruitReady(), false, false)) return InteractionResult.PASS;
             if (!level.isClientSide && crop.harvestInternalFruit(plant)) {
                 for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom(),
-                        CropBalanceConfig.HARVEST_DROP_MULTIPLIER.get())) {
+                        HarvestDropOverride.effective(level.getServer()))) {
                     popResource(level, pos, drop);
                 }
             }
@@ -529,7 +530,7 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
 
         if (!level.isClientSide && crop.finishHarvest(plant)) {
             for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom(),
-                    CropBalanceConfig.HARVEST_DROP_MULTIPLIER.get())) {
+                    HarvestDropOverride.effective(level.getServer()))) {
                 popResource(level, pos, drop);
             }
         }
@@ -574,7 +575,7 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
                             crop.isMature(plant), crop.fruitReady(),
                             crop.fruitDirection() != null, crop.fruitToken() != null))) {
                 drops.addAll(CropHarvest.products(plant, genome, builder.getLevel().getRandom(),
-                        CropBalanceConfig.HARVEST_DROP_MULTIPLIER.get()));
+                        HarvestDropOverride.effective(builder.getLevel().getServer())));
             }
         }
         return drops;

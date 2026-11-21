@@ -26,6 +26,8 @@
 
 **ST-40 (Drop-Multiplikator, ungetestet):** Neue Serverconfig `harvest.dropMultiplier` (0..64; Standard 1); Ernteprodukte nach Gain und vor finalem Ein-Stack-Cap gerundet skaliert. Einheitlicher Codepfad für Rechtsklick/Abbau, Standard-/Gourd-Ernte; keine Auswirkung auf Seed-/Crop-Sticks-Restitution beabsichtigt. `HarvestDropScalingTest` und `CropHarvestBoundTest` erweitert, aber kein Build/JUnit-/Minecraft-Lauf.
 
+**ST-41 (Teststeuerung/Tracker, ungetestet):** Admin-Befehl `/cropgenetics harvestmultiplier` ergänzt (lesend, temporär 0..64 setzen, `reset`); `HarvestDropOverride` verwaltet eine pro laufendem Server nichtpersistente Vorgabe, ohne `harvest.dropMultiplier` auf Platte zu ändern. [v6-Tracker](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) mit **83 offenen Fällen** ergänzt ER-12–15, keine Import- oder Testausführung. Dedicated Server/Restart/Berechtigung bleibt Laufzeitnachweis.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.
