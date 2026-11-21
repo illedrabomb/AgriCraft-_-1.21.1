@@ -55,11 +55,13 @@
       "category": "01 Technisches Gate",
       "title": "Client und dedizierten Server starten",
       "steps": [
-        "Mit freigegebener Core-only-Modliste Client und dedizierten Server starten.",
-        "Registry-/Classloaderfehler, Crash-Report und latest.log prüfen; bei Absturz stoppen.",
-        "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+        "Erst nach gesonderter Minecraft-Freigabe: exakte Core-JAR-SHA und Modliste prüfen; dedizierten NeoForge-Server nur mit Hauptmod und Pflichtabhängigkeiten starten, ausdrücklich ohne JEI und ohne Add-ons. Server-latest.log und eventuellen Crash-Report sichern.",
+        "Mit kompatiblem Client ohne JEI verbinden, Welt beitreten und wieder trennen. Client- und Serverlog auf Registrierungs-, Payload-, Classloader- und net.minecraft.client-Fehler kontrollieren; bei Absturz sofort stoppen.",
+        "Danach denselben Core-Server mit einem Client testen, auf dem JEI 19.x zusätzlich installiert ist. Die dynamischen JEI-Pflanzenbedingungen erst nach serverseitiger Anmeldung prüfen; JEI darf auf dem dedizierten Server nicht vorausgesetzt werden.",
+        "Server-/Client-Neustart und bei vorhandener Testwelt ein kontrolliertes /reload separat protokollieren. Bei fehlender zweiter Konfiguration oder fehlender Freigabe einzelnen Unterfall als blocked vermerken, nicht still als pass bewerten.",
+        "Für jede Variante tatsächliche Git-/JAR-SHA, NeoForge-/JEI-Version, Modlisten, Ausgang und Exit-Code sowie genaue latest.log-/Crash-Report-Dateinamen im Tracker dokumentieren."
       ],
-      "expected": "Beide starten ohne Lade-/Registry-/Classloaderfehler; Modliste dokumentiert.",
+      "expected": "Dedizierter Core-only-Server startet und akzeptiert Client ohne JEI; Client mit optionalem JEI verbindet sich ebenfalls ohne Registrierung-/Payload-/Client-Classloaderfehler. Jede getestete Variante ist anhand von Build-SHA, Modliste und Logs nachgewiesen; kein nicht geprüfter Unterfall wird als bestanden markiert.",
       "commands": []
     },
     {

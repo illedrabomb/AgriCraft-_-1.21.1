@@ -36,6 +36,8 @@
 
 **ST-45 (Standard-Erntemenge bei Faktoren unter 1, ungetestet):** **MITTEL-Fund:** `CropHarvest.products` kappte Gain-/Datapack-Rohmengen bereits vor dem Drop-Faktor auf die Stackgröße; dadurch waren kleine Multiplikatoren bei großen Rohmengen zu schwach. Der Standardpfad akkumuliert jetzt die tatsächlichen Rohmengen als überlaufsicheres `long` und kappt erst **nach** dem Skalieren (gemeinsam mit Gourd-Pfad). `HarvestDropScaling` akzeptiert `long`; `CropHarvestBoundTest` enthält 128 × 0,5 → 64 und 4096 × 0,01 → 41, `HarvestDropScalingTest` den `Long.MAX_VALUE`-Grenzfall. [Balance-Details](GOURD_GAIN_YIELD_2026-11-21.md). **Quell-/NBT-Review, keine Tests ausgeführt.**
 
+**ST-46 (Dedicated-Server-/JEI-Boundary, rein statisch):** `CropGeneticsMod` registriert ausschließlich gemeinsame Module und `PlantConditionsSync`; Rendering- und JEI-Klassen liegen unter `client/` bzw. `compat/jei/`. Der 1.21.1-Payload-Registrar ruft Handler laut offizieller NeoForge-Doku standardmäßig auf dem Hauptthread auf; kein belegter Codefehler für einen Umbau. **Restrisiko:** tatsächlicher Client-Classloader auf Dedicated Server, JEI-Optionalität und Login-/Reload-Reihenfolge nicht ohne Lauf beweisbar. [TG-04 in v6](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) in Varianten Server ohne JEI + Client ohne/mit JEI, Log-/JAR-SHA-Nachweis und Stoppsignal aufgeteilt. **Kein Test freigegeben/ausgeführt.**
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.
