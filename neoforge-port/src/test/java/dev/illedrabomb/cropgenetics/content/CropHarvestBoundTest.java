@@ -54,6 +54,23 @@ class CropHarvestBoundTest {
     }
 
     @Test
+    void configuredDropMultiplierAppliesAfterGainWithOneStackCap() {
+        var boosted = CropHarvest.products(plant(1, 1, 1),
+                new Genome("minecraft:wheat_plant", 1, 10, 1),
+                RandomSource.create(123L), 3.0D);
+        var disabled = CropHarvest.products(plant(1, 1, 1),
+                Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L), 0.0D);
+        var capped = CropHarvest.products(plant(4096, 4096, 4),
+                new Genome("minecraft:wheat_plant", 1, 10, 1),
+                RandomSource.create(123L), 64.0D);
+
+        assertEquals(12, boosted.get(0).getCount());
+        assertTrue(disabled.isEmpty());
+        assertEquals(1, capped.size());
+        assertEquals(64, capped.get(0).getCount());
+    }
+
+    @Test
     void twoDistinctProductsCanEachYieldOneStack() {
         var base = plant(1, 1, 1);
         var mixed = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
@@ -93,6 +110,10 @@ class CropHarvestBoundTest {
                 new Genome("minecraft:pumpkin_plant", 1, 10, 1), RandomSource.create(17L));
         var highMelon = CropHarvest.products(melon,
                 new Genome("minecraft:melon_plant", 1, 10, 1), RandomSource.create(17L));
+        var boostedMelon = CropHarvest.products(melon,
+                new Genome("minecraft:melon_plant", 1, 10, 1), RandomSource.create(17L), 64.0D);
+        var noPumpkins = CropHarvest.products(pumpkin,
+                new Genome("minecraft:pumpkin_plant", 1, 10, 1), RandomSource.create(17L), 0.0D);
 
         assertEquals(1, lowPumpkin.size());
         assertEquals(1, lowPumpkin.get(0).getCount());
@@ -102,6 +123,9 @@ class CropHarvestBoundTest {
         assertEquals(1, highMelon.size());
         assertEquals(Items.MELON_SLICE, highMelon.get(0).getItem());
         assertTrue(highMelon.get(0).getCount() >= 12 && highMelon.get(0).getCount() <= 16);
+        assertEquals(1, boostedMelon.size());
+        assertEquals(64, boostedMelon.get(0).getCount());
+        assertTrue(noPumpkins.isEmpty());
     }
 
     @Test

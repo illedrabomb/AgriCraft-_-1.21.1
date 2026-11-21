@@ -24,6 +24,8 @@
 
 **ST-39 (Kürbis-Balance, ungetestet):** Nutzer hat die [weichere Gain-Kurve](GOURD_GAIN_YIELD_2026-11-21.md) bestätigt: Gain 2 81/19 statt 90/10; Gain 10 10/35/40/15 für 1/2/3/4 Stück, kumulative Schwellen abschnittsweise interpoliert. `GourdHarvestRulesTest` aktualisiert. Keine JUnit-/Minecraft-/Simulationsausführung.
 
+**ST-40 (Drop-Multiplikator, ungetestet):** Neue Serverconfig `harvest.dropMultiplier` (0..64; Standard 1); Ernteprodukte nach Gain und vor finalem Ein-Stack-Cap gerundet skaliert. Einheitlicher Codepfad für Rechtsklick/Abbau, Standard-/Gourd-Ernte; keine Auswirkung auf Seed-/Crop-Sticks-Restitution beabsichtigt. `HarvestDropScalingTest` und `CropHarvestBoundTest` erweitert, aber kein Build/JUnit-/Minecraft-Lauf.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

@@ -23,6 +23,12 @@ public final class CropHarvest {
     private CropHarvest() {}
 
     public static List<ItemStack> products(PlantDefinition plant, Genome genome, RandomSource random) {
+        return products(plant, genome, random, 1.0D);
+    }
+
+    /** Server-defined harvest scaling; default overload preserves pure core tests. */
+    public static List<ItemStack> products(PlantDefinition plant, Genome genome,
+                                           RandomSource random, double dropMultiplier) {
         if (!plant.id().equals(genome.plantId())) return List.of();
 
         // One visible fruit forms per gourd lifecycle, but Gain also affects
@@ -32,14 +38,16 @@ public final class CropHarvest {
                 // Vanilla melon gives slices; each Gain level contributes
                 // one additional slice to the normal 3..7 payout.
                 int slices = GourdHarvestRules.melonSlices(genome.gain(), random.nextInt(5));
-                return List.of(new ItemStack(Items.MELON_SLICE,
-                        Math.min(Items.MELON_SLICE.getDefaultMaxStackSize(), slices)));
+                int count = HarvestDropScaling.count(slices, dropMultiplier,
+                        Items.MELON_SLICE.getDefaultMaxStackSize());
+                return count == 0 ? List.of() : List.of(new ItemStack(Items.MELON_SLICE, count));
             }
             if (plant.id().equals("minecraft:pumpkin_plant")) {
-                // Gain 2: 90% one / 10% two; high Gain unlocks three/four.
+                // Approved Gain curve grows early but four drops stay rare.
                 int pumpkins = GourdHarvestRules.pumpkinCount(genome.gain(), random.nextDouble());
-                return List.of(new ItemStack(Items.PUMPKIN,
-                        Math.min(GourdHarvestRules.MAX_DROP, pumpkins)));
+                int count = HarvestDropScaling.count(pumpkins, dropMultiplier,
+                        Items.PUMPKIN.getDefaultMaxStackSize());
+                return count == 0 ? List.of() : List.of(new ItemStack(Items.PUMPKIN, count));
             }
             return List.of();
         }
@@ -70,7 +78,10 @@ public final class CropHarvest {
             }
         }
         List<ItemStack> drops = new ArrayList<>(counts.size());
-        counts.forEach((item, count) -> drops.add(new ItemStack(item, count)));
+        counts.forEach((item, count) -> {
+            int scaled = HarvestDropScaling.count(count, dropMultiplier, item.getDefaultMaxStackSize());
+            if (scaled > 0) drops.add(new ItemStack(item, scaled));
+        });
         return drops;
     }
 }

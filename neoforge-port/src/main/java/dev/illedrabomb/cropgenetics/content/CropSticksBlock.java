@@ -518,7 +518,8 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
             if (!CropFruitTransitionRules.canHarvestInternalGourd(plant.harvestMode(),
                     crop.isMature(plant), crop.fruitReady(), false, false)) return InteractionResult.PASS;
             if (!level.isClientSide && crop.harvestInternalFruit(plant)) {
-                for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom())) {
+                for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom(),
+                        CropBalanceConfig.HARVEST_DROP_MULTIPLIER.get())) {
                     popResource(level, pos, drop);
                 }
             }
@@ -527,7 +528,8 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
         if (!crop.readyForHarvest(plant)) return InteractionResult.PASS;
 
         if (!level.isClientSide && crop.finishHarvest(plant)) {
-            for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom())) {
+            for (ItemStack drop : CropHarvest.products(plant, genome, level.getRandom(),
+                    CropBalanceConfig.HARVEST_DROP_MULTIPLIER.get())) {
                 popResource(level, pos, drop);
             }
         }
@@ -571,7 +573,8 @@ public final class CropSticksBlock extends BaseEntityBlock implements Bonemealab
                     || CropFruitTransitionRules.canHarvestInternalGourd(plant.harvestMode(),
                             crop.isMature(plant), crop.fruitReady(),
                             crop.fruitDirection() != null, crop.fruitToken() != null))) {
-                drops.addAll(CropHarvest.products(plant, genome, builder.getLevel().getRandom()));
+                drops.addAll(CropHarvest.products(plant, genome, builder.getLevel().getRandom(),
+                        CropBalanceConfig.HARVEST_DROP_MULTIPLIER.get()));
             }
         }
         return drops;

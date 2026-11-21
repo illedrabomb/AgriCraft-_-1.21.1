@@ -12,6 +12,7 @@ public final class CropBalanceConfig {
     public static final ModConfigSpec.DoubleValue ROW_EVOLUTION_MUTATION_MULTIPLIER;
     public static final ModConfigSpec.DoubleValue CROSS_FERTILITY_MULTIPLIER;
     public static final ModConfigSpec.DoubleValue GOURD_FRUIT_CHANCE_MULTIPLIER;
+    public static final ModConfigSpec.DoubleValue HARVEST_DROP_MULTIPLIER;
 
     private CropBalanceConfig() {}
 
@@ -40,6 +41,15 @@ public final class CropBalanceConfig {
         GOURD_FRUIT_CHANCE_MULTIPLIER = b.comment(
                 "Multiplier for eligible mature melon/pumpkin fruit rolls.")
                 .defineInRange("fruitChanceMultiplier", 1.0D, 0.1D, 5.0D);
+        b.pop();
+
+        b.push("harvest");
+        HARVEST_DROP_MULTIPLIER = b.comment(
+                "Multiplier for harvested produce, including pumpkin and melon slices.",
+                "Applied after Gain; rounded to the nearest whole item.",
+                "Each different product remains limited to one stack (at most 64).",
+                "0 disables produce drops; does not suppress seed recovery or Crop Sticks.")
+                .defineInRange("dropMultiplier", 1.0D, 0.0D, 64.0D);
         b.pop();
         SPEC = b.build();
     }
