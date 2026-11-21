@@ -141,8 +141,10 @@ public final class SeedJournalScreen extends Screen {
             } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE
                     || keyCode == GLFW.GLFW_KEY_DELETE) {
                 applyOverlayKey(InputConstants.UNKNOWN);
-            } else if (keyCode != GLFW.GLFW_KEY_UNKNOWN) {
-                applyOverlayKey(InputConstants.getKey(keyCode, scanCode));
+            } else if (keyCode != GLFW.GLFW_KEY_UNKNOWN || scanCode > 0) {
+                // Non-standard keyboard layouts can report a scan code
+                // without a GLFW key symbol; allow Vanilla's SCANCODE binding.
+                applyOverlayKey(JournalKeyInput.resolve(keyCode, scanCode));
             }
             updateButtons();
             return true;
