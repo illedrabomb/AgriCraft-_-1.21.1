@@ -26,6 +26,23 @@
 
 **Entscheidungsregel:** Fehlt eine Voraussetzung, den betroffenen Abschnitt sauber als **Umgebung/blocked** melden; nicht automatisch in einen neuen Build, einen Test-Workaround oder eine Mod-Codeänderung wechseln. Eine grüne CodeQL-Anzeige auf `master` ist kein Ersatz für die freigegebenen Core-Gates.
 
+## Abschlussprüfung am 21.11.2026 – ausschließlich statisch
+
+**Geprüfter GitHub-HEAD:** `79615078ea52df44c0eaa666e905ca7702ce3925` auf `integration/neoforge-1211-consolidation` (vor diesem Dokumentationsnachtrag). Am Sonntag erneut abfragen; die SHA ist dann nicht mehr als HEAD vorauszusetzen.
+
+- **Build-Definition:** `neoforge-port/build.gradle` verlangt Java-Toolchain 21, NeoForge `21.1.265`, Minecraft `1.21.1`, JUnit Jupiter `5.11.4`; `settings.gradle` enthält zwar die optionalen Unterprojekte `:pam-hc2` und `:farmers-delight`, die Starter adressieren aber ausdrücklich **nur die Root-Tasks** `:test :build`. `-PloadTestMods` wird nicht gesetzt. Die Gradle-Plugin-/Maven-Abhängigkeiten sind **nicht auflösungsgeprüft**. Es gibt keinen Gradle-Wrapper im Checkout.
+- **Starter-Grenzen:** Beide Skripte erzwingen Freigabe-CLI-Flag, Branch, Clean-Checkout, Java 21 und Gradle-Verfügbarkeit vor Ausführung. Die zusätzliche **tatsächliche Nutzerfreigabe** und die Übereinstimmung **lokaler SHA ↔ GitHub-HEAD** werden nicht maschinell verifiziert: Codex muss beides vor dem Aufruf ausdrücklich prüfen und im Bericht festhalten. Kein stilles `git pull`, kein automatischer Dependency-Download als Umgebungsreparatur.
+- **Berichte und Triage:** Startmanifest, Gradle-Exitcode, frische JUnit-XMLs und JAR-Fingerabdrücke werden vorgesehen; bei fehlenden XMLs/JARs, Defekten, Failures oder ausschließlich übersprungenen Tests warnt der Parser. `summary.md` ist **kein Pass-Zertifikat** und keine automatische P0/P1-Klassifizierung. Der Parser hat neun vorbereitete, **nicht ausgeführte** Python-Testfälle. P0/P1 ausschließlich nach reproduzierbarer Ursache und minimalem Core-Fix; P2/P3 und Umgebungsprobleme **ohne Änderung** zurückmelden. Neue Ausführung nach Fix nur innerhalb ausdrücklich gewährter Reichweite.
+- **v8-Abdeckung (Datei statisch gezählt):** 86 verschiedene IDs, davon `TG` 5, `GE` 18, `ER` 15, `UI` 23, `MP` 23 und `BAL` 2; alle Fälle haben Schritte, Erwartung und Kurzzusammenfassung. 33 beschriebene Kopierbefehle. Diese **manuellen** Szenarien werden vom automatischen JUnit-/Build-Gate nicht ausgeführt. Dedicated Server ohne/mit Client-JEI, Jade, Identify, 2-Spieler-MP, Datapack-Reload, GE-12 und BAL-Statistik bleiben separate, teils blockierbare Spielnachweise. NBT-Teststrukturen werden außerhalb dieses Arbeitspakets vorbereitet und hier nicht verändert.
+
+### Kurzstart für Codex am Sonntag, 22.11.2026
+
+1. `AGENTS.md` und `docs/AI_START_HERE.md` lesen; den **neuen** GitHub-HEAD, lokalen `git rev-parse HEAD`, Branch und `git status --porcelain` **lesend** vergleichen. Bei Drift oder lokalen Änderungen stoppen und rückfragen.
+2. Ausführungsumgebung bestätigen: Java **21**, vorhandenes Gradle, Python 3 (für Kurzbericht), Netz-/Repository-Zugriff und benötigte Build-Abhängigkeiten. Fehlende Voraussetzungen als **Umgebungsblocker** melden; nichts ungefragt installieren. Die v8-Testwelt/Tracker-Sicherung gehört erst zur späteren manuellen Phase.
+3. **Explizite Nutzerfreigabe für genau den automatischen Core-Vorlauf einholen.** Erst dann in `neoforge-port/` je nach System `./scripts/core-test-gate.ps1 -ApproveCoreTests` (PowerShell) oder `bash scripts/core-test-gate.sh --approve-core-tests` (Bash) aufrufen. Keine CI, Minecraft-Runs, Add-ons, Simulationen oder NBT-Struktureingriffe.
+4. `manifest.txt`, `exit-code.txt`, `summary.md`, `gradle.log`, frische JUnit-Belege und JAR-SHA-256 prüfen; fehlende oder widersprüchliche Belege **nicht** als bestanden melden. Nur kausal belegte, eindeutig kritische P0/P1-Fälle nach Triage-Regel selbst korrigieren und zusammenhängend committen; alle anderen Befunde dem Chat übergeben.
+5. Bericht mit SHA, Umgebung, ausgeführter Testanzahl, Fehlern, Artefakten und Blockern abgeben. **Persönlichen Minecraft-/v8-Test nicht starten**; dafür ist eine neue, getrennte Freigabe erforderlich.
+
 ## Grenzen
 
 - Ohne Gradle/Abhängigkeiten in der Codex-Umgebung ist der Vorlauf blockiert, nicht bestanden. Kein Gradle-Wrapper und keine lokal heruntergeladenen Test-Mod-JARs vorhanden zu behaupten.
