@@ -3,6 +3,7 @@ package dev.illedrabomb.cropgenetics.data;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -83,5 +84,34 @@ class PlantConditionsWireTest {
 
         assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.encode(tooManySeeds));
         assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.encode(tooLongId));
+    }
+
+    @Test
+    void malformedWireCatalogueWithDuplicateSpeciesIsRejected() {
+        var requirements = PlantRequirements.defaultFarmland();
+        byte[] encoded = PlantConditionsWire.encode(new PlantConditionsView(List.of(
+                new PlantConditionsView.Entry("minecraft:wheat_plant", List.of(), requirements,
+                        PlantConditionsView.SiteRule.NONE),
+                new PlantConditionsView.Entry("minecraft:melon_plant", List.of(), requirements,
+                        PlantConditionsView.SiteRule.NONE))));
+        // Both identifiers have the same UTF-8 length, so changing only the
+        // second species name preserves the wire layout and checks uniqueness.
+        byte[] original = "minecraft:melon_plant".getBytes(StandardCharsets.UTF_8);
+        byte[] replacement = "minecraft:wheat_plant".getBytes(StandardCharsets.UTF_8);
+        assertEquals(original.length, replacement.length);
+        int matches = 0;
+        for (int i = 0; i <= encoded.length - original.length; i++) {
+            boolean found = true;
+            for (int j = 0; j < original.length; j++) {
+                if (encoded[i + j] != original[j]) { found = false; break; }
+            }
+            if (found) {
+                System.arraycopy(replacement, 0, encoded, i, replacement.length);
+                matches++;
+                i += original.length - 1;
+            }
+        }
+        assertEquals(1, matches);
+        assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.decode(encoded));
     }
 }

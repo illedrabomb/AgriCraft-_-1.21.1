@@ -80,4 +80,12 @@ class PlantConditionsViewTest {
                         PlantRequirements.defaultFarmland(), PlantConditionsView.SiteRule.NONE));
         assertThrows(IllegalArgumentException.class, () -> new PlantConditionsView(entries));
     }
+
+    @Test
+    void rejectsDuplicateSpeciesRatherThanPublishingAmbiguousConditions() {
+        var entry = new PlantConditionsView.Entry("minecraft:wheat_plant", List.of(),
+                PlantRequirements.defaultFarmland(), PlantConditionsView.SiteRule.NONE);
+        assertThrows(IllegalArgumentException.class,
+                () -> new PlantConditionsView(List.of(entry, entry)));
+    }
 }

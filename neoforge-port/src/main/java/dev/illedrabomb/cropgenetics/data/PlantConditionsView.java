@@ -2,6 +2,7 @@ package dev.illedrabomb.cropgenetics.data;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +36,14 @@ public record PlantConditionsView(List<Entry> plants) {
         plants = List.copyOf(plants);
         if (plants.size() > MAX_PLANTS)
             throw new IllegalArgumentException("Too many plant conditions for public view");
+        // Wire payloads must not claim two contradictory rule sets for one
+        // species. Real registry snapshots are unique by ID; reject malformed
+        // packets before any JEI cache can consume an ambiguous catalogue.
+        var seen = new HashSet<String>();
+        for (Entry plant : plants) {
+            if (!seen.add(plant.plantId()))
+                throw new IllegalArgumentException("Duplicate plant conditions: " + plant.plantId());
+        }
     }
 
     /** Capture a single published snapshot, never mix two reload generations. */

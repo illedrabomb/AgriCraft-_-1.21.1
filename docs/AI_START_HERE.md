@@ -70,6 +70,7 @@
 - **DOC-26, Command-Blöcke für Tester:** [v8-Sonntagssuite](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v8.json) konvertiert alle **33** bisherigen Minecraft-Chat-Commands zu benannten Kopierblöcken mit `context` und Sicherheitsbeschreibung. **Befehlsinhalte und alle 86 Testfälle unverändert**; v7 bleibt für alte Ergebnisse erhalten, neue `suiteId`. Kein Import, kein Spiel- oder Techniktest ausgeführt.
 - **ST-51, Journal-Scancode-Eingabe:** Tasten-Editor akzeptiert jetzt auch GLFW-Ereignisse mit unbekanntem Key-Symbol, aber gültigem physischem Scancode. Drei JUnit-Regressionen vorbereitet; [UI-14-Ergänzung und Grenzen](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md). Kein Build, JUnit oder Spieltest ausgeführt.
 - **ST-52, Ernte-Stackgrenzen:** Statischer Review bestätigt den bestehenden Ein-Stack-pro-Item-Pfad auch für Items mit Stackgröße 16; Regressionstestquellen für doppelte Enderperlen-Produkte und Null-Multiplikator ergänzt. [Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md). **Keine Build-/Testausführung; ER-14 offen.**
+- **ST-53, doppelte Pflanzen-IDs im JEI-Snapshot:** Öffentliche `PlantConditionsView`-Listen und damit dekodierte Netzwerkpakete verweigern jetzt doppelte Pflanzen-IDs vollständig. Zwei JUnit-Regressionen vorbereitet, [Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md); `UI-11i` bleibt offen. Keine Tests ausgeführt.
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.
