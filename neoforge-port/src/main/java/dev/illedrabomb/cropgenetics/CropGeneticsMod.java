@@ -17,6 +17,7 @@ import dev.illedrabomb.cropgenetics.data.SoilProfileRegistry;
 import dev.illedrabomb.cropgenetics.data.SoilOverrideSavedData;
 import dev.illedrabomb.cropgenetics.data.SoilProfileReloadListener;
 import dev.illedrabomb.cropgenetics.data.SoilDynamicsReloadListener;
+import dev.illedrabomb.cropgenetics.network.PlantConditionsSync;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
@@ -41,6 +42,7 @@ public final class CropGeneticsMod {
         CropBlocks.register(modBus);
         CropItems.register(modBus);
         CropRecipes.register(modBus);
+        modBus.addListener(PlantConditionsSync::register);
         // Server datapack soil profiles (including imported originals) provide
         // explicit chemistry; dimension-local overrides take precedence.
         SoilChemistryAccess.install((level, soilPos) -> {
@@ -53,6 +55,7 @@ public final class CropGeneticsMod {
         CropCreativeTabs.register(modBus);
         NeoForge.EVENT_BUS.addListener(this::registerReloadListeners);
         NeoForge.EVENT_BUS.addListener(this::registerCommands);
+        NeoForge.EVENT_BUS.addListener(PlantConditionsSync::onDatapackSync);
         NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onBreak);
         NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onPlace);
         NeoForge.EVENT_BUS.addListener(SoilOverrideInvalidation::onMultiPlace);

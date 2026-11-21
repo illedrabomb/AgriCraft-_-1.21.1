@@ -24,6 +24,37 @@ einem späteren Wire-Protokoll alle Listen/String-Felder einzeln begrenzen und
 bei Übergröße geschlossen abbrechen. Bis zum vollständigen Sync keine
 statischen Welt-Regeln in JEI als servergültig bewerben.
 
+## Umsetzungsetappe B – versionierter Core-Sync (21.11.2026)
+
+`PlantConditionsWire` serialisiert die öffentlich sichtbaren Regeln aus Etappe A
+mit Formatversion 1 und hartem Limit von **256 KiB**. Die Dekodierung begrenzt
+Artenzahl, Listen und Strings, prüft das Versionfeld und validiert anschließend
+die Anforderungen über die bereits bestehenden Record-Konstruktoren.
+`PlantConditionsPayload` ist ein **nur serverseitig gesendetes**
+NeoForge-Play-Payload (`plant_conditions_v1`). Beim `OnDatapackSyncEvent`
+(Eintritt oder `/reload`) wird ein einzelnes Abbild an die betroffenen Spieler
+gesendet. Übersteigt der Katalog das Budget, wird eine leere
+Ungültigkeitsmeldung versandt statt ein unvollständiger Katalog.
+
+`ClientPlantConditions` hält ein optionales unveränderliches Abbild, ersetzt es
+atomar bei Empfang und löscht es bei Logout oder ungültigem Paket. **Ein
+Client-Login-Event löscht es absichtlich nicht:** der Server darf bereits vor
+diesem Event synchronisieren. Vor Eintritt in eine weitere Verbindung entfernt
+der Logout-Pfad die vorherigen Regeln. Für ein noch laufendes `/reload` gibt es
+keinen gesonderten „Reload beginnt“-Hinweis; die alte Anzeige darf daher **noch
+nicht** als live garantiert werden. Die kommende JEI-Anzeige muss diesen
+Lifecycle-/Frischevorbehalt berücksichtigen.
+
+`PlantConditionsWireTest` enthält nur **vorbereitete**, nicht ausgeführte
+JUnit-Fälle zum Vollständigkeits-Roundtrip und zur Zurückweisung beschädigter,
+zu großer oder künftig versionierter Pakete. Keine Gradle-, CI-, JUnit-,
+Minecraft- oder Simulationstests durchgeführt. Statische Review-Risiken:
+Netzwerk-Event-Reihenfolge, Payload-Registrierung auf dediziertem Server und
+der tatsächliche Datapack-Reload im Multiplayer sind nicht laufzeitverifiziert.
+**UI-11 weiterhin offen:** In JEI existiert noch keine dynamische Darstellung;
+die unveränderlichen statischen `addItemStackInfo`-Seiten werden bewusst nicht
+als weltaktuelle Bedingungen ausgegeben.
+
 ## Nutzeranforderung
 
 Für jede in dieser Welt tatsächlich unterstützte Pflanze soll JEI verständlich erklären, auf welchem Boden und unter welchen Umweltbedingungen der Seed wächst: z. B. Ackerboden und Licht, Myzel/Pilze, Zuckerrohr mit Wasser neben dem Boden, gegebenenfalls Block-Tags, Biome, Dimension, Höhe, Jahreszeit und Bodenchemie. Die Anzeige muss nach einem Server-Datapackwechsel aktuell bleiben; JEI ist optional.
