@@ -81,17 +81,37 @@ class PlantConditionsWireTest {
     }
 
     @Test
+    void rejectsMalformedResourceIdsFromTheWire() throws IOException {
+        byte[] original = PlantConditionsWire.encode(new PlantConditionsView(List.of(
+                new PlantConditionsView.Entry("minecraft:wheat_plant", List.of("minecraft:wheat_seeds"),
+                        PlantRequirements.defaultFarmland(), PlantConditionsView.SiteRule.NONE))));
+
+        // Modified-UTF ASCII first byte after the two-byte string length.
+        byte[] invalidPlant = original.clone();
+        invalidPlant[10] = (byte) '?';
+        assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.decode(invalidPlant));
+
+        var input = new DataInputStream(new ByteArrayInputStream(original));
+        input.readInt(); // version
+        input.readInt(); // plant count
+        input.readUTF(); // plant ID
+        assertEquals(1, input.readUnsignedByte());
+        int seedStart = original.length - input.available();
+        byte[] invalidSeed = original.clone();
+        invalidSeed[seedStart + 2] = (byte) '?';
+        assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.decode(invalidSeed));
+    }
+
+    @Test
     void refusesOversizedSeedListsAndIdsBeforeSending() {
         var oversizedSeeds = java.util.Collections.nCopies(65, "minecraft:wheat_seeds");
-        var tooManySeeds = new PlantConditionsView(List.of(new PlantConditionsView.Entry(
+        // The public projection now rejects these before the encoder sees them.
+        assertThrows(IllegalArgumentException.class, () -> new PlantConditionsView.Entry(
                 "minecraft:wheat_plant", oversizedSeeds, PlantRequirements.defaultFarmland(),
-                PlantConditionsView.SiteRule.NONE)));
-        var tooLongId = new PlantConditionsView(List.of(new PlantConditionsView.Entry(
+                PlantConditionsView.SiteRule.NONE));
+        assertThrows(IllegalArgumentException.class, () -> new PlantConditionsView.Entry(
                 "x".repeat(129), List.of(), PlantRequirements.defaultFarmland(),
-                PlantConditionsView.SiteRule.NONE)));
-
-        assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.encode(tooManySeeds));
-        assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.encode(tooLongId));
+                PlantConditionsView.SiteRule.NONE));
     }
 
     @Test

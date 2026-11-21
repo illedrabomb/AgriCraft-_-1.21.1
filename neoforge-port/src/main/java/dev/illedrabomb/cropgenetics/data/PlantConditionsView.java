@@ -25,11 +25,20 @@ public record PlantConditionsView(List<Entry> plants) {
     public record Entry(String plantId, List<String> seedItems,
                         PlantRequirements requirements, SiteRule siteRule) {
         public Entry {
-            Objects.requireNonNull(plantId);
+            validateId(plantId);
             seedItems = List.copyOf(seedItems);
+            if (seedItems.size() > 64 || seedItems.stream().distinct().count() != seedItems.size())
+                throw new IllegalArgumentException("Invalid public seed list");
+            seedItems.forEach(PlantConditionsView::validateId);
             Objects.requireNonNull(requirements);
             Objects.requireNonNull(siteRule);
         }
+    }
+
+    private static void validateId(String id) {
+        if (id == null || id.length() > 128
+                || !id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+"))
+            throw new IllegalArgumentException("Invalid public plant/seed identifier");
     }
 
     public PlantConditionsView {

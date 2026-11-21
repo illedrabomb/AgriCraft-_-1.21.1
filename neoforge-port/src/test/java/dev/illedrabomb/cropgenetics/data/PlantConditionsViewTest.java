@@ -88,4 +88,20 @@ class PlantConditionsViewTest {
         assertThrows(IllegalArgumentException.class,
                 () -> new PlantConditionsView(List.of(entry, entry)));
     }
+
+    @Test
+    void rejectsInvalidIdsAndDuplicateSeedsBeforeJeiCanConsumeThem() {
+        var requirements = PlantRequirements.defaultFarmland();
+        var rule = PlantConditionsView.SiteRule.NONE;
+        assertThrows(IllegalArgumentException.class, () -> new PlantConditionsView.Entry(
+                "not-a-resource-id", List.of(), requirements, rule));
+        assertThrows(IllegalArgumentException.class, () -> new PlantConditionsView.Entry(
+                "minecraft:wheat_plant", List.of("not-a-seed-id"), requirements, rule));
+        assertThrows(IllegalArgumentException.class, () -> new PlantConditionsView.Entry(
+                "minecraft:wheat_plant", List.of("minecraft:wheat_seeds", "minecraft:wheat_seeds"),
+                requirements, rule));
+        assertThrows(IllegalArgumentException.class, () -> new PlantConditionsView.Entry(
+                "minecraft:wheat_plant", List.of("minecraft:" + "x".repeat(129)),
+                requirements, rule));
+    }
 }

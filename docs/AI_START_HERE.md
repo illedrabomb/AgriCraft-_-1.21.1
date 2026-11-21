@@ -81,6 +81,7 @@
 - **DOC-31, F2/F3 ergänzt:** Dasselbe [Testterrain-Datapack](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) bereitet jetzt auch ein getrenntes Erntefeld und farbige Analyzer-/Chest-Standortmarkierungen vor; F0/F1 bleiben an denselben relativen Koordinaten. Ausdehnung bis X+173, nur Wegwerf-Testwelt mit Backup; **keine Modgeräte/Seeds gesetzt, keine Ausführung.**
 - **DOC-32, selektive Feldvorbereitung:** [Dieselbe Bauhilfe](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) bietet jetzt `build_f0_f1` und `build_f2_f3` separat; der alte Gesamtbefehl bleibt erhalten. Gleicher Anker zwingend, erneutes Bauen überschreibt Testpflanzen/-geräte im Zielgebiet. **Keine Minecraft-Ausführung/Freigabe.**
 - **ST-57, normale Ernte ohne AIR-Phantomdrop:** `CropHarvest.products` ignoriert jetzt `minecraft:air` in Datapack-Produktlisten; JUnit-Quellfall für AIR plus echtes Produkt geschrieben. Keine Balanceänderung und **keine Testausführung**. Siehe [Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md).
+- **ST-58, JEI-Regel-IDs validiert:** Die öffentliche `PlantConditionsView.Entry` weist ungültige Pflanzen-/Seed-IDs und doppelte Seed-Links bereits bei der Konstruktion zurück; das wirkt auch für dekodierte Netzwerk-Snapshots. JUnit-Quellen angepasst/ergänzt, **keine Ausführung**; `UI-11i` offen. Siehe [Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md).
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.
