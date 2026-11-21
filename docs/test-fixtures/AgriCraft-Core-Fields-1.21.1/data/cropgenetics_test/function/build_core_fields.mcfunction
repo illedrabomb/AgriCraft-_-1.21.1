@@ -37,4 +37,22 @@ setblock ~96 ~-1 ~8 minecraft:water
 setblock ~104 ~-1 ~8 minecraft:water
 setblock ~108 ~-1 ~8 minecraft:water
 
-tellraw @s {"text":"AgriCraft test terrain F0/F1 prepared; crops and tests NOT executed.","color":"yellow"}
+# F2: independent harvest beds for standard produce, melon and pumpkin.
+# Leave gaps between crops and record each harvest's actual item counts.
+fill ~120 ~0 ~0 ~145 ~3 ~8 minecraft:air
+fill ~120 ~-1 ~0 ~145 ~-1 ~8 minecraft:farmland
+setblock ~124 ~-1 ~8 minecraft:water
+setblock ~132 ~-1 ~8 minecraft:water
+setblock ~140 ~-1 ~8 minecraft:water
+
+# F3: analyzer/seed-chest comparison platform; only floor markers are placed.
+# Blue = analyzer location; lime = directly adjacent chest.
+# Red = second analyzer; yellow = DIAGONAL chest negative control.
+fill ~155 ~0 ~0 ~173 ~3 ~8 minecraft:air
+fill ~155 ~-1 ~0 ~173 ~-1 ~8 minecraft:polished_andesite
+setblock ~159 ~-1 ~4 minecraft:blue_concrete
+setblock ~160 ~-1 ~4 minecraft:lime_concrete
+setblock ~169 ~-1 ~4 minecraft:red_concrete
+setblock ~170 ~-1 ~5 minecraft:yellow_concrete
+
+tellraw @s {"text":"AgriCraft test terrain F0-F3 prepared; crops and tests NOT executed.","color":"yellow"}

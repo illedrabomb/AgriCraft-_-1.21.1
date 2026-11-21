@@ -2,7 +2,7 @@
 
 **Stand:** 21.11.2026 · **nur Vorbereitung, nichts gebaut oder ausgeführt**. Erst nach ausdrücklicher Freigabe des Projektbesitzers Gradle, JUnit, Minecraft, CI, Multiplayer oder Simulation starten. Ergänzt den [Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und die [Tracker-v5-Suite mit 79 offenen Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v5.json); keine eigene Testsuite und keine heimlich abgehakten Fälle.
 
-**Optionale F0/F1-Bauhilfe:** Ein [nicht ausgeführtes Vanilla-Datapack](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) kann nach späterer Freigabe die sechs Basis-/Kreuzungsflächen vorbereiten. Es räumt Terrain ab und ist daher **ausschließlich für eine neue Wegwerf-Testwelt** geeignet; Crop Sticks, Eltern, Genetik und Reife müssen weiterhin manuell geprüft werden.
+**Optionale F0–F3-Bauhilfe:** Ein [nicht ausgeführtes Vanilla-Datapack](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) kann nach späterer Freigabe sechs Basis-/Kreuzungsflächen, ein Erntefeld und eine markierte Analyzer-/Chest-Plattform vorbereiten. Es räumt Terrain ab und ist daher **ausschließlich für eine neue Wegwerf-Testwelt** geeignet; Crop Sticks, Geräte, Eltern, Genetik und Reife müssen weiterhin manuell geprüft werden.
 
 ## Vorher – gleiche Spielbedingungen für vergleichbare Ergebnisse
 
