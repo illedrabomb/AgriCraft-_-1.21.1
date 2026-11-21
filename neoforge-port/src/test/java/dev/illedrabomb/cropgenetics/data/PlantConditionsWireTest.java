@@ -13,6 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlantConditionsWireTest {
     @Test
+    void emptyCatalogueUsesCompleteVersionedFrame() {
+        var empty = new PlantConditionsView(List.of());
+        byte[] bytes = PlantConditionsWire.encode(empty);
+        assertArrayEquals(new byte[] {0, 0, 0, 1, 0, 0, 0, 0}, bytes);
+        assertEquals(empty, PlantConditionsWire.decode(bytes));
+    }
+
+    @Test
     void roundTripPreservesPublicRequirementsAndSpecialRules() {
         PlantRequirements requirements = new PlantRequirements(3, 12,
                 Optional.empty(), Optional.of("cropgenetics:fungal_soils"), 2,

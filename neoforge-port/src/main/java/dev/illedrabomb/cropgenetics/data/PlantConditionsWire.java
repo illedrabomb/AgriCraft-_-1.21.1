@@ -49,6 +49,10 @@ public final class PlantConditionsWire {
                     throw new IllegalArgumentException("Plant conditions exceed wire size limit");
             }
             out.flush();
+            // Check the complete frame as well, including its version/count
+            // header. This also protects future changes to the wire trailer.
+            if (buffer.size() > MAX_BYTES)
+                throw new IllegalArgumentException("Plant conditions exceed wire size limit");
             return buffer.toByteArray();
         } catch (IOException ex) {
             throw new UncheckedIOException(ex);
