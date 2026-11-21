@@ -98,6 +98,39 @@ class CropHarvestBoundTest {
     }
 
     @Test
+    void sixteenItemStacksRespectTheirNativeLimitEvenWithRepeatedProducts() {
+        var base = plant(1, 1, 1);
+        var enderPearls = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
+                base.stages(), base.harvestStage(), base.growthChance(), base.growthBonus(),
+                base.cloneable(), base.spreadChance(),
+                List.of(new PlantDefinition.HarvestProduct("minecraft:ender_pearl", 4096, 4096, 1.0D),
+                        new PlantDefinition.HarvestProduct("minecraft:ender_pearl", 4096, 4096, 1.0D)),
+                base.requirements(), base.harvestMode(), base.fruitChance(), base.contactThorns());
+
+        var drops = CropHarvest.products(enderPearls,
+                new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(97L), 64.0D);
+
+        assertEquals(1, drops.size());
+        assertEquals(Items.ENDER_PEARL, drops.get(0).getItem());
+        assertEquals(16, drops.get(0).getCount());
+    }
+
+    @Test
+    void zeroMultiplierSuppressesEveryProduceTypeWithoutPhantomStacks() {
+        var base = plant(1, 1, 1);
+        var mixed = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
+                base.stages(), base.harvestStage(), base.growthChance(), base.growthBonus(),
+                base.cloneable(), base.spreadChance(),
+                List.of(new PlantDefinition.HarvestProduct("minecraft:wheat", 1, 1, 1.0D),
+                        new PlantDefinition.HarvestProduct("minecraft:ender_pearl", 1, 1, 1.0D)),
+                base.requirements(), base.harvestMode(), base.fruitChance(), base.contactThorns());
+
+        assertTrue(CropHarvest.products(mixed,
+                new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(97L), 0.0D)
+                .isEmpty());
+    }
+
+    @Test
     void wrongSpeciesNeverPaysOut() {
         assertTrue(CropHarvest.products(plant(1, 1, 1),
                 Genome.basic("minecraft:carrot_plant"), RandomSource.create(42L)).isEmpty());
