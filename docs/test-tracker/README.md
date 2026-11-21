@@ -65,7 +65,7 @@ Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitun
 
 ## Grenzen der aktuellen v8 (mit historischen v5-Spezialfällen)
 
-- Die 79 Fälle decken TG-/GE-/ER-/UI-01–UI-11-/MP- und BAL-IDs der [`Hauptmod-Prüfliste`](../MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md) ab, einschließlich der sechs GE-12- und neun UI-11-Unterfälle. Die JEI-Anzeige liegt **als ungeprüfter Quellcode** vor. Ein Teil erfordert **separate, technisch vorbereitete Teststände**.
+- Die aktuelle **v8 hat 86 Fälle**. Sie übernimmt die 79 historischen v5-Fälle (TG-/GE-/ER-/UI-01–UI-11-/MP-/BAL-IDs einschließlich sechs GE-12- und neun UI-11-Unterfällen) und ergänzt die ER-/HUD-/Kompatibilitätsfälle. Die JEI-Anzeige liegt **als ungeprüfter Quellcode** vor. Ein Teil erfordert **separate, technisch vorbereitete Teststände**.
 - Die 23 Multiplayerfälle sind aus der vorhandenen [detaillierten Multiplayer-Matrix](../MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md) in ausführbare deutsche Prüfschritte übertragen. Für ihre parallelen Aktionen werden zwei Personen beziehungsweise Accounts benötigt.
 - `GE-12` und einige Daten-/Blockschutz-Szenarien benötigen eine vorbereitete Weltkopie und kontrollierte Testdaten. Ohne solche Vorbedingungen **`blocked`** dokumentieren, nicht wahllos die produktive Testwelt verändern.
 - `UI-11` benötigt ein ausdrücklich freigegebenes JEI-19.x-Profil; `UI-11c/e/g/h` verlangen zusätzliche Datapack-/Serverstände, `UI-11d` zwei Spieler. `UI-11i` verlangt ein sicheres Netzwerk-Harness: ohne solches **blocked**. Die Hauptmod muss auch **ohne JEI** starten (`UI-11f`). [Abdeckungsreview](../SUNDAY_CORE_V5_COVERAGE_AUDIT_2026-11-21.md).

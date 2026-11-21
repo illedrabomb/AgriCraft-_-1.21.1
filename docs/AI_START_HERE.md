@@ -82,6 +82,7 @@
 - **DOC-32, selektive Feldvorbereitung:** [Dieselbe Bauhilfe](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) bietet jetzt `build_f0_f1` und `build_f2_f3` separat; der alte Gesamtbefehl bleibt erhalten. Gleicher Anker zwingend, erneutes Bauen überschreibt Testpflanzen/-geräte im Zielgebiet. **Keine Minecraft-Ausführung/Freigabe.**
 - **ST-57, normale Ernte ohne AIR-Phantomdrop:** `CropHarvest.products` ignoriert jetzt `minecraft:air` in Datapack-Produktlisten; JUnit-Quellfall für AIR plus echtes Produkt geschrieben. Keine Balanceänderung und **keine Testausführung**. Siehe [Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md).
 - **ST-58, JEI-Regel-IDs validiert:** Die öffentliche `PlantConditionsView.Entry` weist ungültige Pflanzen-/Seed-IDs und doppelte Seed-Links bereits bei der Konstruktion zurück; das wirkt auch für dekodierte Netzwerk-Snapshots. JUnit-Quellen angepasst/ergänzt, **keine Ausführung**; `UI-11i` offen. Siehe [Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md).
+- **DOC-33, Sonntag-Einstieg bereinigt:** [Runbook](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und [F0–F5-Aufbauplan](SUNDAY_CORE_TEST_FIXTURES_2026-11-22.md) verweisen jetzt eindeutig auf die aktuelle [v8-Testsuite mit 86 Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v8.json), inklusive neuer ER-/UI-Fälle, ZIP-Backup und Versionsgrenzen. Alte v1–v7 bleiben Historie; **kein Import oder Testlauf**.
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

@@ -1,6 +1,6 @@
 # AgriCraft-Hauptmod: Testwelt-Aufbauten und Vorbereitungen für Sonntag
 
-**Stand:** 21.11.2026 · **nur Vorbereitung, nichts gebaut oder ausgeführt**. Erst nach ausdrücklicher Freigabe des Projektbesitzers Gradle, JUnit, Minecraft, CI, Multiplayer oder Simulation starten. Ergänzt den [Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und die [Tracker-v5-Suite mit 79 offenen Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v5.json); keine eigene Testsuite und keine heimlich abgehakten Fälle.
+**Stand:** 21.11.2026 · **nur Vorbereitung, nichts gebaut oder ausgeführt**. Erst nach ausdrücklicher Freigabe des Projektbesitzers Gradle, JUnit, Minecraft, CI, Multiplayer oder Simulation starten. Ergänzt den [Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und die [aktuelle Tracker-v8-Suite mit 86 offenen Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v8.json); keine eigene Testsuite und keine heimlich abgehakten Fälle.
 
 **Optionale F0–F3-Bauhilfe:** Ein [nicht ausgeführtes Vanilla-Datapack](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) kann nach späterer Freigabe sechs Basis-/Kreuzungsflächen, ein Erntefeld und eine markierte Analyzer-/Chest-Plattform vorbereiten. Es räumt Terrain ab und ist daher **ausschließlich für eine neue Wegwerf-Testwelt** geeignet; Crop Sticks, Geräte, Eltern, Genetik und Reife müssen weiterhin manuell geprüft werden.
 
@@ -9,7 +9,7 @@
 - [ ] Exakten **Git-Commit des gebauten Hauptmod-JARs**, Minecraft-/NeoForge-Version, Java 21, Modliste und Server-/Client-Logs aufschreiben. Keine Pam-/MineColonies-/Farmer's-Add-ons. JEI nur als ausdrücklich dokumentierte **optionale Anzeigehilfe** für die JEI-Fälle.
 - [ ] Ein freies Areal in einer **neuen Core-Testwelt** auswählen; Weltname, Dimension, Biom, Startposition und **Koordinaten jeder Fläche** im Tracker notieren. Es werden **keine festen absoluten Koordinaten** vorausgesetzt.
 - [ ] Server-Config zunächst unverändert lassen und die Werte für `crossFertilityMultiplier`, `rowCrossEvolution`, `rowEvolutionMutationMultiplier`, `fruitChanceMultiplier` und `randomTickSpeed` erfassen. Standardwerte nicht mit später veränderten Vergleichswerten mischen. `/gamerule randomTickSpeed` liest den aktuellen Wert nur aus.
-- [ ] Eine **Backup-Kopie vor dem ersten Eingriff** anlegen; nach jedem Themenblock einen Tracker-Export und Screenshots sichern. Die alte 30er-/v1-/v2-/v3-/v4-`suiteId` ist nicht mit v5 kompatibel.
+- [ ] Eine **Backup-Kopie vor dem ersten Eingriff** anlegen; nach jedem Themenblock den aktuellen Testlauf **als ZIP mit Bildern** exportieren. Alte 30er- und v1–v7-Ergebnisse sind nicht ohne Weiteres mit der aktuellen v8-`suiteId`/`suiteFingerprint` kompatibel.
 - [ ] Keine Seeds mit `/give` und frei erfundenen Data Components erzeugen. Genetische Seeds zunächst durch normales Pflanzen/Abbau oder gesichert bekannte Testgegenstände beschaffen. Für perfekte Werte und künstliche NBT-Zustände später gezielte, getrennte Fixtures vorbereiten, andernfalls den Sonderfall als `blocked` markieren.
 
 ## F0 – Basistest: einfache Crop Sticks und Pflanzbedingungen
@@ -74,4 +74,4 @@ Alle Eltern müssen **tatsächlich bepflanzt, reif und am Standort wachstumsfäh
 
 `Fixture-ID; Fall-ID; Commit/JAR; Datum/Uhrzeit; Dimension/Biom/Koordinaten; Boden/Licht; Elternarten und Gene; Ausgangs-/Endinventar; Serverconfig/randomTickSpeed; Anzahl gültiger Ticks/Kinder; erwartetes Ergebnis; tatsächliches Ergebnis; pass/fail/blocked/open; Screenshot/Log/Tracker-Export`.
 
-**Abschluss:** Jeden Themenblock im [Tracker-v5](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v5.json) dokumentieren und Ergebnisse exportieren. Nur beobachtete Fälle `pass`; fehlende Voraussetzungen `blocked`, nicht still überspringen. Vor erneutem Test der nächsten Kategorie Weltzustand sichern. **Alle Häkchen in diesem Dokument sind Vorbereitungs-Checkpoints, derzeit nicht ausgeführt.**
+**Abschluss:** Jeden Themenblock im [Tracker-v8](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v8.json) dokumentieren und als ZIP mit Bildern sichern. Nur beobachtete Fälle `pass`; fehlende Voraussetzungen `blocked`, nicht still überspringen. Vor erneutem Test der nächsten Kategorie Weltzustand sichern. **Alle Häkchen in diesem Dokument sind Vorbereitungs-Checkpoints, derzeit nicht ausgeführt.**
