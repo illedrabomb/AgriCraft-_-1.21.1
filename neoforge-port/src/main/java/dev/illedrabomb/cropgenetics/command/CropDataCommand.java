@@ -108,22 +108,22 @@ public final class CropDataCommand {
         String speciesId = genome.plantId();
         if (ResourceLocation.tryParse(speciesId) == null
                 || !registry.snapshot().plants().containsKey(speciesId)) {
-            tell(source, "Unknown active plant species: " + speciesId);
+            source.sendFailure(Component.translatable(
+                    "command.cropgenetics.testseed.unknown_species", speciesId));
             return 0;
         }
         // Refuse a full inventory instead of dropping test items into the world.
         if (player.getInventory().getFreeSlot() < 0) {
-            tell(source, "No empty inventory slot for a test seed.");
+            source.sendFailure(Component.translatable("command.cropgenetics.testseed.inventory_full"));
             return 0;
         }
         ItemStack seed = CropItems.seedWithGenome(genome);
         if (!player.getInventory().add(seed)) {
-            tell(source, "Could not insert the test seed into your inventory.");
+            source.sendFailure(Component.translatable("command.cropgenetics.testseed.insert_failed"));
             return 0;
         }
-        tell(source, "Test seed received: " + speciesId + " (Growth " + genome.growth()
-                + " / Gain " + genome.gain() + " / Strength " + genome.strength()
-                + "; not analysed).");
+        source.sendSuccess(() -> Component.translatable("command.cropgenetics.testseed.received",
+                speciesId, genome.growth(), genome.gain(), genome.strength()), false);
         return 1;
     }
 

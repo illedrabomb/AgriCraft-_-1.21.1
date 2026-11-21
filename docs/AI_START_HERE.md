@@ -72,6 +72,7 @@
 - **ST-52, Ernte-Stackgrenzen:** Statischer Review bestätigt den bestehenden Ein-Stack-pro-Item-Pfad auch für Items mit Stackgröße 16; Regressionstestquellen für doppelte Enderperlen-Produkte und Null-Multiplikator ergänzt. [Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md). **Keine Build-/Testausführung; ER-14 offen.**
 - **ST-53, doppelte Pflanzen-IDs im JEI-Snapshot:** Öffentliche `PlantConditionsView`-Listen und damit dekodierte Netzwerkpakete verweigern jetzt doppelte Pflanzen-IDs vollständig. Zwei JUnit-Regressionen vorbereitet, [Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md); `UI-11i` bleibt offen. Keine Tests ausgeführt.
 - **ST-54, Admin-Befehl lokalisiert:** `/cropgenetics harvestmultiplier` gibt Status, Config-Ursprung und Setzen/Zurücksetzen jetzt in DE/EN aus; Berechtigungen und temporäre Wirkung unverändert. Sprach-Vertragstestquelle ergänzt, [Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md). **Kein Testlauf.**
+- **ST-55, Testseed-Rückmeldungen:** Der Operator-Befehl meldet Erfolg und Fehler nun in DE/EN; Ablehnungen verwenden `sendFailure`, ohne eine Saatgut-/Rechteänderung. Sprach-Vertragstest vorbereitet, [Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md); `ER-15` offen. Kein Build/JUnit/Minecraft-Test.
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

@@ -56,6 +56,8 @@
 
 **ST-54 (Erntemultiplikator-Bedienung, ungetestet):** `/cropgenetics harvestmultiplier` zeigt Konfigurationswert und temporäre Überschreibung nun über DE/EN-Schlüssel; Setzen und `reset` benutzen dieselbe übersetzbare Rückmeldung, wobei `reset` wieder den Konfigurationsursprung anzeigt. Operatorpflicht, Serverbindung und Nichtpersistenz bleiben unverändert. JUnit-Quellvertrag prüft vier Schlüssel und die erforderlichen Zahlenplatzhalter in beiden Sprachen. `ER-14`/`ER-15` müssen später Befehl, Berechtigungen und Neustart tatsächlich bestätigen. Kein Build oder Spieltest durchgeführt.
 
+**ST-55 (Testseed-Meldungen, ungetestet):** `/cropgenetics testseed` meldet unbekannte Art, volles Inventar und gescheiterte Einlage nun als DE/EN-übersetzbare **Fehler** (`sendFailure`) statt grünem Erfolgstext; erfolgreiche Ausgabe nennt Art und alle drei Genwerte lokalisiert. Genom-Erzeugung, Operatorpflicht und Item-Einlage bleiben unverändert. JUnit-Sprachvertrag prüft vier Schlüssel samt Platzhalterzahl; `ER-15` bleibt für echte Spieler-/Inventar- und Negativfälle offen. **Keine Tests ausgeführt.**
+
 **DOC-23 (Build-Artefaktidentität, ungetestet):** `summarize-core-gate.py` listet für **frisch erzeugte** JAR-Dateien nun Größe und SHA-256 statt nur Dateinamen. Neuer vierter Python-`unittest`-Quellfall prüft Inhaltshash und dass das Original nicht verändert wird. [Codex-Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) angepasst. Der Hash beweist weder Build-Erfolg noch Codeursprung allein; weiterhin Commit-SHA, Modliste, Log und frische Testberichte nötig. **Weder Skript noch Tests oder Build ausgeführt.**
 
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
