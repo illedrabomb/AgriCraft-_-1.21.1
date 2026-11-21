@@ -10,6 +10,8 @@
 
 **DOC-19 (Berichtsvorbereitung):** Nach einem später freigegebenen Lauf erstellt `neoforge-port/scripts/summarize-core-gate.py` optional eine knappe `summary.md` nur aus seit dem Startmarker geschriebenen JUnit-XML-/JAR-Artefakten. Das ist kein passender Ersatz für die vollständige Gradle-/Minecraft-Testabnahme; bis dahin keine Ergebnisse abgehakt.
 
+**DOC-20 (Parser-Regressionen, ungetestet):** `neoforge-port/scripts/test_summarize_core_gate.py` prüft später das Ausblenden alter Reports, die Darstellung von Failures/Skipped und das Erkennen kaputter XML-Dateien. Nur Testquelle geschrieben, keine Ausführung und kein Gate-Pass.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

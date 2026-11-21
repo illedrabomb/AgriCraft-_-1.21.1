@@ -6,20 +6,10 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("report_dir", type=Path)
-    args = parser.parse_args()
-    report_dir = args.report_dir.resolve()
-    marker = report_dir / "run-start.marker"
-    exit_code = report_dir / "exit-code.txt"
-    if not marker.is_file() or not exit_code.is_file():
-        parser.error("missing run marker or exit code: not a completed gate run")
-
-    project_dir = Path(__file__).resolve().parent.parent
-    xml_dir = project_dir / "build" / "test-results" / "test"
+def collect_results(xml_dir, marker_ns):
+    """Return only reports written since the current gate began."""
     fresh_xml = sorted(p for p in xml_dir.glob("TEST-*.xml")
-                       if p.stat().st_mtime_ns >= marker.stat().st_mtime_ns)
+                       if p.stat().st_mtime_ns >= marker_ns)
     totals = dict(tests=0, failures=0, errors=0, skipped=0)
     issues = []
     invalid_xml = []
@@ -41,6 +31,23 @@ def main():
                                            kind, title[:200], path.name))
         except (ET.ParseError, ValueError) as exc:
             invalid_xml.append((path.name, str(exc)))
+    return fresh_xml, totals, issues, invalid_xml
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("report_dir", type=Path)
+    args = parser.parse_args()
+    report_dir = args.report_dir.resolve()
+    marker = report_dir / "run-start.marker"
+    exit_code = report_dir / "exit-code.txt"
+    if not marker.is_file() or not exit_code.is_file():
+        parser.error("missing run marker or exit code: not a completed gate run")
+
+    project_dir = Path(__file__).resolve().parent.parent
+    xml_dir = project_dir / "build" / "test-results" / "test"
+    fresh_xml, totals, issues, invalid_xml = collect_results(
+        xml_dir, marker.stat().st_mtime_ns)
 
     code = exit_code.read_text(encoding="utf-8").strip()
     jars = sorted(p for p in (project_dir / "build" / "libs").glob("*.jar")
@@ -49,6 +56,8 @@ def main():
              "> Rohdaten-Auswertung, **keine** Ursachenanalyse oder P0/P1-Einstufung.", "",
              f"- Gradle-Exitcode: `{code}` (0 bedeutet nur Task-Erfolg)",
              f"- Frische JUnit-XML-Dateien: **{len(fresh_xml)}**",
+             f"- JUnit-Nachweis: **{'FEHLT' if not fresh_xml else 'VORHANDEN'}** "
+             "(kein automatischer Pass-Status)",
              f"- JUnit: {totals['tests']} Tests, {totals['failures']} Failures, "
              f"{totals['errors']} Errors, {totals['skipped']} Skipped",
              f"- Während dieses Laufs erzeugte JAR-Dateien: **{len(jars)}**",
@@ -65,6 +74,7 @@ def main():
     if invalid_xml:
         lines += ["", "## Nicht lesbare XML-Dateien", ""]
         lines.extend(f"- `{name}`: {reason}" for name, reason in invalid_xml)
+        lines.append("- **Nicht bestandssicher:** mindestens ein frischer JUnit-Bericht ist unlesbar.")
     lines += ["", "## Weiteres Vorgehen", "",
               "Codex prüft `gradle.log` und die oben verlinkten XML-Dateien auf Ursachen.",
               "Nur eindeutig kritische P0/P1-Funde minimal selbst beheben; P2/P3 im Chat melden.",
