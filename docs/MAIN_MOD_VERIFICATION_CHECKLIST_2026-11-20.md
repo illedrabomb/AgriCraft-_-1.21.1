@@ -66,6 +66,8 @@
 
 **DOC-29 (CodeQL-CI-Fehler, Korrektur nur vorbereitet):** Auf `master` scheitert CodeQL v1 beim Initialisieren mit `Resource not accessible by integration`, bevor Analyse/Build stattfinden. Auf dem **Integrationsbranch** ist jetzt v4 mit expliziten Berechtigungen und Java-`build-mode: none` vorbereitet. Trigger weiterhin nur `master`/PR/Schedule; bis zur separaten Freigabe kein CI-Lauf, kein Merge. Einstellungen und Erfolg später kontrollieren, siehe [CodeQL-Analyse](CODEQL_WORKFLOW_DIAGNOSIS_2026-11-21.md).
 
+**DOC-30 (F0/F1-Bauhilfe, nur Quellvorbereitung):** Ein optionales Minecraft-1.21.1-Datapack erzeugt auf ausdrücklichen Befehl sechs bewässerte Terrainflächen für Basis- und Kreuzungsaufbauten. [Sicherheits-/Bedienhinweise](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) verlangen eine neue Wegwerf-Testwelt mit Backup; die Funktion entfernt Blöcke im Zielbereich. Keine Crop Sticks, Eltern oder Seeds werden gesetzt; die Genetik-/Gameplay-Abnahme bleibt vollständig offen. **Datapack weder installiert noch ausgeführt.**
+
 **DOC-23 (Build-Artefaktidentität, ungetestet):** `summarize-core-gate.py` listet für **frisch erzeugte** JAR-Dateien nun Größe und SHA-256 statt nur Dateinamen. Neuer vierter Python-`unittest`-Quellfall prüft Inhaltshash und dass das Original nicht verändert wird. [Codex-Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) angepasst. Der Hash beweist weder Build-Erfolg noch Codeursprung allein; weiterhin Commit-SHA, Modliste, Log und frische Testberichte nötig. **Weder Skript noch Tests oder Build ausgeführt.**
 
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)

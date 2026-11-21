@@ -77,6 +77,7 @@
 - **DOC-28, Commit im Gate-Bericht:** Startmanifest wird nun mit Git-Commit, Branch, Java und Core-only-Umfang im Bericht ausgewiesen; fehlende/ungültige Provenienz erzeugt Warnungen. Zwei Parser-Testquellen vorbereitet, [Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). Kein Test ausgeführt.
 - **DOC-29, CodeQL-Workflow:** [Master-Fehler und vorbereitete Korrektur](CODEQL_WORKFLOW_DIAGNOSIS_2026-11-21.md): Alte CodeQL-v1-Action scheitert vor Analyse mit 403; auf Integrationsbranch v4, Permissions und build-freie Java-Analyse vorbereitet. **Kein Master-Merge, kein CI-Lauf; separate Freigabe bleibt erforderlich.**
 - **ST-56, JEI-Protokollrahmen:** `PlantConditionsWire.encode` prüft das 256-KiB-Budget jetzt zusätzlich nach Fertigstellung des gesamten Frames; Testquelle für leeren Versionsrahmen ergänzt. Defensiver Quellcheck, **kein Lauf und keine bestätigte Fehlerbehebung**. Siehe [Hauptmod-Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md).
+- **DOC-30, vorbereitete F0/F1-Testfelder:** [Optionales Vanilla-1.21.1-Datapack](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) legt später auf ausdrücklichen Befehl bewässerte Bodenflächen für Basis-/Kreuzungstests an. **Destruktiv für das Zielterrain**, nur in neuer Wegwerf-Testwelt mit Backup; keine automatische Crop-/Genom-Erzeugung. **Nicht installiert oder ausgeführt; Sonntagstest weiter gesperrt.**
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.
