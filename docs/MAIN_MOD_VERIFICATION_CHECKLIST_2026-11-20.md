@@ -84,6 +84,8 @@
 
 **DOC-35 (v8-Kopierbefehle, statisch):** Alle 33 Kopierbefehlseinträge der aktuellen v8-Suite sind mit dem im Hauptmod registrierten `testseed`-/`harvestmultiplier`-Baum und Vanilla-`/reload` abgeglichen. Keine statisch erkannte Schreibweisenabweichung; `ER-15` enthält absichtlich ungültige Zwei-Zahlen-/Grenzwerte-Befehle. [Rechte, Inventarvorbedingungen und Negativfälle](SUNDAY_V8_COMMAND_STATIC_AUDIT_2026-11-21.md) für externe Tester dokumentiert, v8-JSON unverändert. **Kein Minecraft-Lauf oder Test bestanden.**
 
+**DOC-36 (Codex-Start-/Blocker-Matrix, kein Test):** Die bestehende [Sonntags-Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) trennt jetzt belegte Repo-Dateien von unbestätigten Voraussetzungen: kein Gradle-Wrapper im Repository, Java-/Gradle-/PC-Verfügbarkeit ungeprüft, v8-Import/Welt und Spezial-Modprofile nicht bestätigt. Fehlende Voraussetzungen müssen als Umgebung/`blocked` gemeldet werden; keine automatische Installation oder voreilige Codeänderung. Codex-Vorlauf und persönlicher Minecraft-Test benötigen **separate Freigaben**. **Nur statischer Bestandsabgleich.**
+
 **DOC-23 (Build-Artefaktidentität, ungetestet):** `summarize-core-gate.py` listet für **frisch erzeugte** JAR-Dateien nun Größe und SHA-256 statt nur Dateinamen. Neuer vierter Python-`unittest`-Quellfall prüft Inhaltshash und dass das Original nicht verändert wird. [Codex-Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) angepasst. Der Hash beweist weder Build-Erfolg noch Codeursprung allein; weiterhin Commit-SHA, Modliste, Log und frische Testberichte nötig. **Weder Skript noch Tests oder Build ausgeführt.**
 
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)

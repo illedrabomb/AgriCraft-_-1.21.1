@@ -13,6 +13,19 @@
 
 **Neue Priorität:** Sparsamer Codex-Einsatz nach [`CODEX_TEST_TRIAGE_POLICY_2026-11-22.md`](CODEX_TEST_TRIAGE_POLICY_2026-11-22.md). Normale Korrekturen und Neubuilds sollen anschließend im gemeinsamen Chat abgestimmt werden. PC-Zugriff ist vom Nutzer grundsätzlich erlaubt, technisch aber noch nicht verifiziert und kein Anlass zum heutigen Teststart.
 
+## Start-/Blocker-Matrix für Sonntag (statischer Stand 21.11.)
+
+| Voraussetzung | Aktueller Beleg | Handlung erst nach Freigabe |
+| --- | --- | --- |
+| Richtiger Branch und frischer GitHub-HEAD | Integrationsbranch vorhanden; konkreten HEAD **am Testtag neu ermitteln** | SHA mit tatsächlich lokalem Checkout und späterem JAR vergleichen; bei Abweichung stoppen. |
+| Java 21 und Gradle | `neoforge-port/build.gradle`/`settings.gradle` vorhanden, aber **kein `gradlew`/`gradlew.bat` im Repository** | Lokal Java 21 und systemweites Gradle lesend prüfen; fehlt es, als **Umgebungsblocker** melden, keine Installation ohne Entscheidung. |
+| Codex-Ausführungsumgebung / Windows-PC | Grundsätzliche PC-Interaktion erlaubt; echte Verbindung, Rechte und installierte Abhängigkeiten **nicht nachgewiesen** | Nur die tatsächlich verfügbare Umgebung verwenden; keinen vorhandenen PC-/Minecraft-Zugriff erfinden. |
+| Automatischer Core-Vorlauf | Shell- und PowerShell-Starter samt Berichterstellung **nur als Dateien vorbereitet** | Nach ausdrücklicher Codex-Vorlauf-Freigabe einmal Core-only `:test :build`; Log/JUnit/JAR/Exitcode dokumentieren, keine Add-ons. |
+| Persönlicher Spieltest | [v8-Testsuite: 86 offene Fälle](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v8.json); Import und Testwelt nicht bestätigt | Erst nach **separater** Spielerfreigabe, neuer Weltkopie und ZIP-Sicherung beginnen. |
+| Spezialfälle | Zwei Spieler, JEI-/Jade-/Identify-Profile, gültige GE-12-Datapacks und UI-11i-Netzwerk-Harness **nicht als bereit belegt** | Fallweise `blocked` statt `pass`; Spezialwerkzeuge nicht ungefragt installieren oder produktive Welt manipulieren. |
+
+**Entscheidungsregel:** Fehlt eine Voraussetzung, den betroffenen Abschnitt sauber als **Umgebung/blocked** melden; nicht automatisch in einen neuen Build, einen Test-Workaround oder eine Mod-Codeänderung wechseln. Eine grüne CodeQL-Anzeige auf `master` ist kein Ersatz für die freigegebenen Core-Gates.
+
 ## Grenzen
 
 - Ohne Gradle/Abhängigkeiten in der Codex-Umgebung ist der Vorlauf blockiert, nicht bestanden. Kein Gradle-Wrapper und keine lokal heruntergeladenen Test-Mod-JARs vorhanden zu behaupten.
