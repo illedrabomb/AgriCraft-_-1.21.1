@@ -82,6 +82,7 @@
   "jei.cropgenetics.conditions.pending": "Server-Pflanzenbedingungen sind noch nicht synchronisiert. Lokale Standardwerte sind nicht verbindlich.",
   "jei.cropgenetics.conditions.ready": "Server-Pflanzenbedingungen empfangen. Öffne den genetischen oder normalen Seed einer unterstützten Art für die zuletzt empfangenen Regeln. Während /reload kann kurz ein älterer Stand sichtbar sein.",
   "jei.cropgenetics.conditions.cache_limit": "In dieser JEI-Sitzung wurden zu viele unterschiedliche Pflanzen-Seed-Zuordnungen registriert. Manche neuen Seiten wurden zurückgehalten, um veraltete Links und unbegrenztes Cachewachstum zu vermeiden. Client neu starten, um diesen Rezeptcache zurückzusetzen.",
+  "jei.cropgenetics.conditions.stale": "Diese Pflanzen-Seed-Zuordnung gehört nicht mehr zu den zuletzt empfangenen Serverregeln. Seite schließen und JEI neu öffnen, um die aktuelle Zuordnung anzusehen.",
   "jei.cropgenetics.conditions.plant": "Aktive Pflanzenart: %s",
   "jei.cropgenetics.conditions.soil_block": "Benötigter Stützboden: %s (%s)",
   "jei.cropgenetics.conditions.soil_tag": "Benötigter Boden-Tag: %s (Inhalt abhängig von Server-Datenpaketen)",

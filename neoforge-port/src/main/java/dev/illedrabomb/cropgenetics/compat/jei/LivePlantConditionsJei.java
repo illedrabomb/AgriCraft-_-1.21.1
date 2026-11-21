@@ -54,7 +54,7 @@ public final class LivePlantConditionsJei {
         var ingredient = jei.getIngredientManager().createTypedIngredient(
                 VanillaTypes.ITEM_STACK, CropItems.GENETIC_SEED.get().getDefaultInstance(), false);
         ingredient.ifPresent(value -> {
-            status = new Info("", List.of(value));
+            status = new Info("", "", List.of(value));
             jei.getRecipeManager().addRecipes(TYPE, List.of(status));
         });
         refresh();
@@ -95,7 +95,7 @@ public final class LivePlantConditionsJei {
                         .flatMap(java.util.Optional::stream)
                         .map(item -> (ITypedIngredient<?>) item).toList();
                 if (ingredients.isEmpty()) continue;
-                String signature = plant.plantId() + "|" + String.join("|", plant.seedItems());
+                String signature = signature(plant);
                 Info info = CACHE.get(signature);
                 if (info == null) {
                     if (CACHE.size() >= MAX_CACHED_RECIPES) {
@@ -105,7 +105,7 @@ public final class LivePlantConditionsJei {
                         cacheLimitReached = true;
                         continue;
                     }
-                    info = new Info(plant.plantId(), ingredients);
+                    info = new Info(plant.plantId(), signature, ingredients);
                     CACHE.put(signature, info);
                     newlyAdded.add(info);
                 }
@@ -119,7 +119,12 @@ public final class LivePlantConditionsJei {
         visible = List.copyOf(next);
     }
 
-    private record Info(String plantId, List<ITypedIngredient<?>> ingredients) {
+    private static String signature(PlantConditionsView.Entry entry) {
+        return entry.plantId() + "|" + String.join("|", entry.seedItems());
+    }
+
+    private record Info(String plantId, String seedSignature,
+                        List<ITypedIngredient<?>> ingredients) {
         public List<FormattedText> description() {
             if (plantId.isEmpty())
                 return cacheLimitReached
@@ -128,11 +133,17 @@ public final class LivePlantConditionsJei {
                                 ? "jei.cropgenetics.conditions.ready" : "jei.cropgenetics.conditions.pending"));
             return ClientPlantConditions.current().stream()
                     .flatMap(view -> view.plants().stream())
-                    .filter(entry -> entry.plantId().equals(plantId))
+                    // JEI may keep a previously opened page alive after an
+                    // update. Do not attach the new conditions to an old
+                    // seed-to-species link that the server has removed.
+                    .filter(entry -> seedSignature.equals(signature(entry)))
                     .findFirst()
                     .<List<FormattedText>>map(entry -> PlantConditionsText.lines(entry).stream()
                             .map(line -> (FormattedText) line).toList())
-                    .orElseGet(() -> List.of(Component.translatable("jei.cropgenetics.conditions.pending")));
+                    .orElseGet(() -> List.of(Component.translatable(
+                            ClientPlantConditions.current().isPresent()
+                                    ? "jei.cropgenetics.conditions.stale"
+                                    : "jei.cropgenetics.conditions.pending")));
         }
     }
 

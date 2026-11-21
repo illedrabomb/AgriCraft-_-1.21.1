@@ -103,6 +103,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
   - **Testvorbereitung v5, DOC-15:** `UI-11` und `UI-11a`–`UI-11i` als zehn offene Tracker-Einträge mit aktiven Datapacks, Reload, Serverwechsel, JEI-Optionalität und Fail-closed-Harness vorbereitet. [Abdeckungsreview](SUNDAY_CORE_V5_COVERAGE_AUDIT_2026-11-21.md). **Keine Laufzeitbelege.**
   - **ST-32 / JEI-Nachreview:** `@NonExtendable`-Implementierung durch eigene offizielle JEI-Rezeptkategorie ersetzt; `title` in DE/EN-Quelltest ergänzt. Reload-Cachewachstum und dedizierter Server bleiben mittlere offene Risiken, **nicht getestet**. [Fundmatrix](JEI_LIVE_PLANT_CONDITIONS_DESIGN_2026-11-21.md).
   - **ST-33 / Lifecycle-Härtung:** JEI-Rezeptvarianten auf höchstens 4096 je Runtime begrenzt, vorhandene Signaturen wiederverwendet, weitere Varianten mit lokalisiertem Warnstatus statt falschen Seed-Links verworfen. Anzeige beschreibt ausdrücklich den **zuletzt empfangenen** Snapshot, nicht einen im `/reload` entstehenden Stand. Quell-/Sprachprüfung nur statisch; `UI-11c/e/h` sowie Cache-Limit-Ausnahme **nicht ausgeführt**.
+  - **ST-34 / Pre-Gate-Review:** Bereits geöffnete JEI-Seite wird gegen die vollständige aktive Pflanzen-/Seed-Signatur geprüft und zeigt bei ungültiger Zuordnung eine DE/EN-Warnung. Registrierung, Netzwerkgrenzen, optionale JEI-Ladung und Datenintegrität in [statischem Pre-Gate-Bericht](CORE_PRE_GATE_STATIC_REVIEW_2026-11-21.md) bewertet. **Keine technische Testfreigabe oder Laufzeitbestätigung.**
 
 ## 3. Dokumentation und Abschluss
 

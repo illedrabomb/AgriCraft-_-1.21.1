@@ -82,6 +82,7 @@
   "jei.cropgenetics.conditions.pending": "Server plant conditions are not synchronized yet. No local defaults are authoritative.",
   "jei.cropgenetics.conditions.ready": "Server plant conditions received. Open a supported species' Genetic Seed or ordinary seed for the last received rules. During /reload, an older snapshot may briefly remain visible.",
   "jei.cropgenetics.conditions.cache_limit": "Too many different plant-to-seed mappings were registered during this JEI session. Some new pages were withheld to avoid stale links and unbounded memory growth. Restart the client to reset this recipe cache.",
+  "jei.cropgenetics.conditions.stale": "This plant/seed link is no longer part of the last received server rules. Close this page and reopen JEI to view the current mapping.",
   "jei.cropgenetics.conditions.plant": "Active species: %s",
   "jei.cropgenetics.conditions.soil_block": "Required supporting block: %s (%s)",
   "jei.cropgenetics.conditions.soil_tag": "Required supporting block tag: %s (contents depend on server datapacks)",

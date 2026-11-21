@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /** Source-only language contract; it does not execute JEI or Minecraft. */
 class PlantConditionsLocalizationContractTest {
     private static final Set<String> KEYS = Set.of(
-            "title", "pending", "ready", "cache_limit", "plant", "soil_block", "soil_tag", "light", "tolerance",
+            "title", "pending", "ready", "cache_limit", "stale", "plant", "soil_block", "soil_tag", "light", "tolerance",
             "sugar_cane", "cactus", "mushroom", "biomes_allowed", "biomes_blocked",
             "dimensions_allowed", "dimensions_blocked", "min_y", "max_y", "fluid",
             "seasons", "humidity", "acidity", "nutrients", "server_note");
