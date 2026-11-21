@@ -2,7 +2,7 @@
 
 ## Welche Datei laden?
 
-- **Für den Test bevorzugt:** [`AgriCraft-Core-Sonntag-2026-11-22-v6.json`](AgriCraft-Core-Sonntag-2026-11-22-v6.json) – **83 deutschsprachige Testfälle**, einschließlich neuer `ER-12`–`ER-15` zu Gain-Ernten, Drop-Multiplikator, temporärem Admin-Kommando und Restart. Alle Fälle offen, kein Import/Lauf bestätigt.
+- **Für den Test bevorzugt:** [`AgriCraft-Core-Sonntag-2026-11-22-v6.json`](AgriCraft-Core-Sonntag-2026-11-22-v6.json) – **85 deutschsprachige Testfälle**, einschließlich `ER-12`–`ER-15` zu Gain-Ernten und Drop-Multiplikator sowie der separaten optionalen HUD-Tests `UI-12` (Jade) und `UI-13` (Identify). Alle Fälle offen, kein Import/Lauf bestätigt.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v5.json`](AgriCraft-Core-Sonntag-2026-11-22-v5.json) – 79 Fälle inklusive `UI-10`, `UI-11` und neun JEI-/Sync-Unterfällen; historisch unverändert.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v4.json`](AgriCraft-Core-Sonntag-2026-11-22-v4.json) – 69 Fälle, für bisherige Ergebnisse unverändert erhalten.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v3.json`](AgriCraft-Core-Sonntag-2026-11-22-v3.json) – 68 Fälle, historisch unverändert für alte Ergebnisimporte.
@@ -11,6 +11,8 @@
 - Die alte 30-Fälle-Datei im getrennten Tracker-Repository ist eine andere Suite und enthält historische Buildangaben. Nicht als aktuellen Testnachweis behandeln.
 
 ## Vorbereitungen
+
+**Jade/Identify:** `UI-12` und `UI-13` sind **getrennte Clientprofile** innerhalb der Hauptmod-Kompatibilitätsabnahme, keine Pflichtmods und keine Freigabe für andere AgriCraft-Add-ons. Erst Core ohne HUD-Mod prüfen, dann Jade und Identify jeweils einzeln hinzufügen. Die Tests unterscheiden „gemeinsam lauffähig“ von „zusätzliche AgriCraft-Informationen im fremden Overlay vorhanden“. Identify besitzt nach dem bisherigen Playtest keine bestätigte Crop-Genetics-Integration; fehlende Zusatztexte sind kein Nachweis eines neu eingeführten Crashs. Private/unanalysierte Gene dürfen dennoch nie angezeigt werden.
 
 **Gain-Testdaten (ST-42, nur nach Testfreigabe):** Ein Spieler mit Operatorrechten und einem freien Inventarslot erhält über `/cropgenetics testseed minecraft:pumpkin_plant 10` einen nicht analysierten genetischen Kürbissamen mit `Growth 1 / Gain 10 / Strength 1`; für Melonen `minecraft:melon_plant`, für andere aktive Arten die genaue Arten-ID verwenden. Gain nur 1–10, keine freie NBT-Eingabe. Die Art muss im geladenen Datapack vorhanden sein. Serverkonsole, normale Spieler, unbekannte Arten und volles Inventar erhalten keine Samen. **Dieser Befehl ist eine Testhilfe, kein Nachweis, dass Pflanzenreife oder Drop-Balance funktionieren.** Die erzeugten Samen sind echte Items und können im Weltstand gespeichert werden: deshalb ausschließlich in Testweltkopien verwenden. ER-12 bis ER-15 verwenden die Hilfe und prüfen ihre Zugriffsgrenzen.
 

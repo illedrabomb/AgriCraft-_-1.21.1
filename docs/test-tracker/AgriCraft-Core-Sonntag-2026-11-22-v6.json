@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "suiteId": "agricraft-core-neoforge-1211-20261122-v6",
   "title": "AgriCraft NeoForge 1.21.1 – Hauptmod-Testgate mit Gain-Ernten und Testkommando (v6)",
-  "description": "83 offene Core-Testfälle; v5 mit 79 Fällen bleibt historisch unverändert. Neu: ER-12 bis ER-15 für Kürbis-/Melonenertrag, begrenzten Drop-Multiplikator, temporäres Admin-Kommando und Rechtsklick/Blockabbau. Ausführung nur nach ausdrücklicher Freigabe; bestehende Ergebnisse vor Suiteimport exportieren. Kein Lauf oder Import bestätigt.",
+  "description": "85 offene Hauptmod-Testfälle; v5 mit 79 Fällen bleibt historisch unverändert. ER-12 bis ER-15 prüfen Gain-Ernten und Drop-Multiplikator; UI-12/13 prüfen optionale Jade-/Identify-Overlay-Kompatibilität getrennt. Add-on-Integrationen bleiben außerhalb des Gates. Ausführung nur nach ausdrücklicher Freigabe; bestehende Ergebnisse vor Suiteimport exportieren. Kein Lauf oder Import bestätigt.",
   "environment": {
     "minecraft": "1.21.1",
     "loader": "NeoForge",
@@ -783,6 +783,32 @@
         "Keine privaten NBT-/Genomdaten oder reale Spielerinventare für die Testdaten verwenden."
       ],
       "expected": "Ungültige oder übergroße Regeln werden nicht als gültige Weltbedingungen dargestellt; alte Werte werden verworfen beziehungsweise Verbindung sicher abgewiesen; nach gültigem Sync wieder korrekte Anzeige.",
+      "commands": []
+    },
+    {
+      "id": "UI-12",
+      "category": "04 Analyzer und Journal",
+      "title": "Optionales Jade-Overlay: Crop Sticks, Reife und Gen-Privatsphäre",
+      "steps": [
+        "Nur nach gesonderter Spieltest-Freigabe mit eigener gesicherter Core-Testwelt: Clientprofil aus Hauptmod und kompatibler Jade-Version auf Minecraft 1.21.1/NeoForge vorbereiten. Tatsächliche Version, Modliste und JAR-SHA festhalten. Keine Pam-/Farmer-/MineColonies-Add-ons.",
+        "Mit Jade auf leere einfache und doppelte Crop Sticks schauen, danach auf unreife und reife Pflanzen mit normalen und genetischen Samen. Den tatsächlichen Jade-Inhalt von der eigenständigen AgriCraft-Anzeige unterscheiden.",
+        "Einen unanalysierten Seed der Art und später einen analysierten Seed vergleichen; in Jade dürfen keine nicht freigegebenen privaten Genwerte, Genome/NBT oder Journal-Entdeckungen auftauchen. Reife-/Artangaben nur als Soll erwarten, wenn die Unterstützung tatsächlich vorhanden ist.",
+        "Screenshots von Jade und eigener Anzeige, Clientlog und getestete Modversionen erfassen. Fehlende Jade-Integration als offenes Kompatibilitäts-Feature dokumentieren, nicht als erfundenes 'pass'; Crash, Datenleck oder Blockierung der Hauptmod-Interaktion als fail."
+      ],
+      "expected": "Core-JAR und Jade können gemeinsam starten, Crop Sticks behalten Pflanzung/Ernte und die Anzeige legt keine geschützten Gen-/Spielerdaten offen. Eine erweiterte Jade-Crop-Genetics-Anzeige ist nicht als bereits implementiert vorausgesetzt.",
+      "commands": []
+    },
+    {
+      "id": "UI-13",
+      "category": "04 Analyzer und Journal",
+      "title": "Optionales Identify-Overlay: Basiskompatibilität und bekannte Integrationslücke",
+      "steps": [
+        "Nur nach gesonderter Spieltest-Freigabe mit separatem Clientprofil: kompatibles Identify für NeoForge 1.21.1 plus Hauptmod starten, genaue Identify-Version, Modliste und JAR-SHA dokumentieren. Nicht gleichzeitig Jade laden, damit der Befund zuordenbar bleibt.",
+        "Identify bei leeren und bepflanzten Crop Sticks, unreifer und reifer Pflanze sowie Kürbis-/Melonenfrucht ansehen. Parallel AgriCraft-eigenes Overlay prüfen und Screenshots der beiden Anzeigen eindeutig benennen.",
+        "Unanalysierte und analysierte genetische Seeds sowie verschiedene Pflanzenarten vergleichen. Identify darf keine verborgenen Genwerte oder privaten Journal-/Inventardaten zeigen; Art/Reife nur als Zusatzanzeige werten, falls tatsächlich vorhanden.",
+        "Den aus früherem Playtest bekannten Stand berücksichtigen: bislang keine bestätigte Identify-spezifische Crop-Genetics-Integration. Fehlende Zusatzdaten als offenen Integrationsauftrag melden; Crash, falsche Datenfreigabe oder gestörte Hauptmod-Funktion sind ein Fehler."
+      ],
+      "expected": "Hauptmod und Identify starten gemeinsam, normale Interaktionen funktionieren und verborgene Genetik bleibt privat. Eine vollständige Identify-Datenintegration ist derzeit nicht zugesichert und wird getrennt von der reinen Kompatibilität bewertet.",
       "commands": []
     },
     {

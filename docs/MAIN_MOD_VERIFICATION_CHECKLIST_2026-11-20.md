@@ -38,6 +38,8 @@
 
 **ST-46 (Dedicated-Server-/JEI-Boundary, rein statisch):** `CropGeneticsMod` registriert ausschließlich gemeinsame Module und `PlantConditionsSync`; Rendering- und JEI-Klassen liegen unter `client/` bzw. `compat/jei/`. Der 1.21.1-Payload-Registrar ruft Handler laut offizieller NeoForge-Doku standardmäßig auf dem Hauptthread auf; kein belegter Codefehler für einen Umbau. **Restrisiko:** tatsächlicher Client-Classloader auf Dedicated Server, JEI-Optionalität und Login-/Reload-Reihenfolge nicht ohne Lauf beweisbar. [TG-04 in v6](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) in Varianten Server ohne JEI + Client ohne/mit JEI, Log-/JAR-SHA-Nachweis und Stoppsignal aufgeteilt. **Kein Test freigegeben/ausgeführt.**
 
+**DOC-22 (Jade-/Identify-Kompatibilität, ungetestet):** Auf Nutzerwunsch [v6-Tracker](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) um **`UI-12` Jade** und **`UI-13` Identify** auf **85 offene Fälle** ergänzt. Getrennte Clientprofile mit Hauptmod, ohne Add-ons; Overlay-Text, normale Crop-Sticks-Interaktionen und Schutz unanalysierter Genwerte getrennt prüfen. Bisherige [Identify-Lücke](MANUAL_TEST_TRACKER.md) nicht als bereits implementiert ausgeben. **Keine Modinstallation, kein Import, kein Minecraft-Test.**
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.
