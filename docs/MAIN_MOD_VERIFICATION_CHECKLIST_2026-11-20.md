@@ -102,6 +102,7 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
   - **Etappe C, statischer Quellstand 21.11.:** JEI-Laufzeit-Infoseiten mit DE/EN-Standortregeln, aktiven Seed-Links und Statusseite ergänzt; `PlantConditionsLocalizationContractTest` geschrieben, **nicht ausgeführt**. `@NonExtendable`-Informationsrezept, wiederholte Reloads und JEI ohne Server müssen im echten 19.x-Lauf gesondert geprüft werden. UI-11 bleibt **nicht bestanden**.
   - **Testvorbereitung v5, DOC-15:** `UI-11` und `UI-11a`–`UI-11i` als zehn offene Tracker-Einträge mit aktiven Datapacks, Reload, Serverwechsel, JEI-Optionalität und Fail-closed-Harness vorbereitet. [Abdeckungsreview](SUNDAY_CORE_V5_COVERAGE_AUDIT_2026-11-21.md). **Keine Laufzeitbelege.**
   - **ST-32 / JEI-Nachreview:** `@NonExtendable`-Implementierung durch eigene offizielle JEI-Rezeptkategorie ersetzt; `title` in DE/EN-Quelltest ergänzt. Reload-Cachewachstum und dedizierter Server bleiben mittlere offene Risiken, **nicht getestet**. [Fundmatrix](JEI_LIVE_PLANT_CONDITIONS_DESIGN_2026-11-21.md).
+  - **ST-33 / Lifecycle-Härtung:** JEI-Rezeptvarianten auf höchstens 4096 je Runtime begrenzt, vorhandene Signaturen wiederverwendet, weitere Varianten mit lokalisiertem Warnstatus statt falschen Seed-Links verworfen. Anzeige beschreibt ausdrücklich den **zuletzt empfangenen** Snapshot, nicht einen im `/reload` entstehenden Stand. Quell-/Sprachprüfung nur statisch; `UI-11c/e/h` sowie Cache-Limit-Ausnahme **nicht ausgeführt**.
 
 ## 3. Dokumentation und Abschluss
 

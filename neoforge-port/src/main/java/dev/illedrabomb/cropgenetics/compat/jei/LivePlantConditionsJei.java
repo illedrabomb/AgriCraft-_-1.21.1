@@ -3,6 +3,7 @@ package dev.illedrabomb.cropgenetics.compat.jei;
 import dev.illedrabomb.cropgenetics.client.ClientPlantConditions;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.content.CropItems;
+import dev.illedrabomb.cropgenetics.data.PlantConditionsView;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,12 +28,15 @@ import net.minecraft.world.item.Items;
 
 /** JEI-only bridge. Never referenced unless JEI is actually installed. */
 public final class LivePlantConditionsJei {
+    /** JEI 19.x can hide but not remove registered recipes at runtime. */
+    static final int MAX_CACHED_RECIPES = PlantConditionsView.MAX_PLANTS * 8;
     private static final RecipeType<Info> TYPE = RecipeType.create(
             CropGeneticsMod.MOD_ID, "plant_conditions", Info.class);
     private static IJeiRuntime runtime;
     private static final Map<String, Info> CACHE = new HashMap<>();
     private static List<Info> visible = List.of();
     private static Info status;
+    private static boolean cacheLimitReached;
     private LivePlantConditionsJei() {}
 
     public static void registerCategories(IRecipeCategoryRegistration registration) {
@@ -46,6 +50,7 @@ public final class LivePlantConditionsJei {
         CACHE.clear();
         visible = List.of();
         status = null;
+        cacheLimitReached = false;
         var ingredient = jei.getIngredientManager().createTypedIngredient(
                 VanillaTypes.ITEM_STACK, CropItems.GENETIC_SEED.get().getDefaultInstance(), false);
         ingredient.ifPresent(value -> {
@@ -60,6 +65,7 @@ public final class LivePlantConditionsJei {
         CACHE.clear();
         visible = List.of();
         status = null;
+        cacheLimitReached = false;
     }
 
     /** Call on the physical client's main thread after each new rules snapshot. */
@@ -69,6 +75,7 @@ public final class LivePlantConditionsJei {
         if (!visible.isEmpty()) manager.hideRecipes(TYPE, visible);
         List<Info> next = new ArrayList<>();
         List<Info> newlyAdded = new ArrayList<>();
+        cacheLimitReached = false;
         ClientPlantConditions.current().ifPresent(view -> {
             for (var plant : view.plants()) {
                 // Include only unambiguous ordinary seed sources and the
@@ -91,6 +98,13 @@ public final class LivePlantConditionsJei {
                 String signature = plant.plantId() + "|" + String.join("|", plant.seedItems());
                 Info info = CACHE.get(signature);
                 if (info == null) {
+                    if (CACHE.size() >= MAX_CACHED_RECIPES) {
+                        // Do not keep registering hidden recipes indefinitely.
+                        // This species is omitted rather than falsely linked
+                        // to an older seed mapping. The status page warns.
+                        cacheLimitReached = true;
+                        continue;
+                    }
                     info = new Info(plant.plantId(), ingredients);
                     CACHE.put(signature, info);
                     newlyAdded.add(info);
@@ -108,8 +122,10 @@ public final class LivePlantConditionsJei {
     private record Info(String plantId, List<ITypedIngredient<?>> ingredients) {
         public List<FormattedText> description() {
             if (plantId.isEmpty())
-                return List.of(Component.translatable(ClientPlantConditions.current().isPresent()
-                        ? "jei.cropgenetics.conditions.ready" : "jei.cropgenetics.conditions.pending"));
+                return cacheLimitReached
+                        ? List.of(Component.translatable("jei.cropgenetics.conditions.cache_limit"))
+                        : List.of(Component.translatable(ClientPlantConditions.current().isPresent()
+                                ? "jei.cropgenetics.conditions.ready" : "jei.cropgenetics.conditions.pending"));
             return ClientPlantConditions.current().stream()
                     .flatMap(view -> view.plants().stream())
                     .filter(entry -> entry.plantId().equals(plantId))

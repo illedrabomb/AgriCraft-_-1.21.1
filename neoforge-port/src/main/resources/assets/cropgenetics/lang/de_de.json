@@ -80,7 +80,8 @@
   "screen.cropgenetics.journal_related_mutations": "Bekannte Kreuzungsbezüge: %s",
   "jei.cropgenetics.conditions.title": "Pflanzen-Standortbedingungen",
   "jei.cropgenetics.conditions.pending": "Server-Pflanzenbedingungen sind noch nicht synchronisiert. Lokale Standardwerte sind nicht verbindlich.",
-  "jei.cropgenetics.conditions.ready": "Server-Pflanzenbedingungen empfangen. Öffne den genetischen oder normalen Seed einer unterstützten Art für ihre aktuellen Regeln.",
+  "jei.cropgenetics.conditions.ready": "Server-Pflanzenbedingungen empfangen. Öffne den genetischen oder normalen Seed einer unterstützten Art für die zuletzt empfangenen Regeln. Während /reload kann kurz ein älterer Stand sichtbar sein.",
+  "jei.cropgenetics.conditions.cache_limit": "In dieser JEI-Sitzung wurden zu viele unterschiedliche Pflanzen-Seed-Zuordnungen registriert. Manche neuen Seiten wurden zurückgehalten, um veraltete Links und unbegrenztes Cachewachstum zu vermeiden. Client neu starten, um diesen Rezeptcache zurückzusetzen.",
   "jei.cropgenetics.conditions.plant": "Aktive Pflanzenart: %s",
   "jei.cropgenetics.conditions.soil_block": "Benötigter Stützboden: %s (%s)",
   "jei.cropgenetics.conditions.soil_tag": "Benötigter Boden-Tag: %s (Inhalt abhängig von Server-Datenpaketen)",
@@ -100,5 +101,5 @@
   "jei.cropgenetics.conditions.humidity": "Bodenfeuchte: %s (%s; Robustheits-Toleranzfaktor %s)",
   "jei.cropgenetics.conditions.acidity": "Boden-Säuregrad: %s (%s; Robustheits-Toleranzfaktor %s)",
   "jei.cropgenetics.conditions.nutrients": "Bodennährstoffe: %s (%s; Robustheits-Toleranzfaktor %s)",
-  "jei.cropgenetics.conditions.server_note": "Regeln stammen aus dem zuletzt empfangenen Server-Snapshot; Standort und Bodenmodifikatoren werden in der Welt geprüft."
+  "jei.cropgenetics.conditions.server_note": "Regeln stammen aus dem zuletzt empfangenen Server-Snapshot (nicht zwingend aus einem gerade laufenden /reload). Standort und Bodenmodifikatoren werden in der Welt geprüft."
 }

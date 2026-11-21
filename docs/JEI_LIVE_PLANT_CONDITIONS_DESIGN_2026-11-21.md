@@ -122,6 +122,35 @@ Servern bleiben unbewiesen. `PlantConditionsLocalizationContractTest` enthält
 zusätzlich den DE/EN-Kategorietitel, wurde aber nicht ausgeführt. Kein
 Gradle/JUnit/CI/Minecraft/Simulation gestartet.
 
+## Lifecycle-Härtung – begrenzter JEI-Rezeptcache und Frischehinweis (21.11.2026)
+
+Der JEI-19.x-Rezeptmanager besitzt nur `hideRecipes`, nicht das vollständige
+Entfernen alter Rezeptobjekte. Deshalb ist **keine echte sofortige Freigabe**
+bereits registrierter Varianten garantiert. `LivePlantConditionsJei` begrenzt
+die Gesamtzahl verschiedener Signaturen pro JEI-Runtime nun auf
+`PlantConditionsView.MAX_PLANTS * 8 = 4096`. Bereits bekannte Kombinationen
+werden bei A/B/C-Rückwechseln wiederverwendet. Bei ausgeschöpftem Budget
+werden **neue, unregistrierte Zuordnungen unterdrückt**, anstatt alte
+Seed-Links fälschlich wiederzuverwenden oder den Cache endlos zu vergrößern.
+Die stets vorhandene Statusseite zeigt den DE/EN-Hinweis auf die Grenze und
+einen Client-Neustart. Das ist ein bewusstes **Fail-closed-Verhalten** mit
+reduzierter JEI-Abdeckung im Ausnahmefall, keine vollständige Cache-Eviction.
+
+Beim gültigen Snapshot und in der JEI-Detailseite steht nun ausdrücklich
+**„zuletzt empfangener Server-Snapshot“**. Zwischen Start von `/reload` und
+neuem Netzpaket kann der alte Stand weiterhin sichtbar sein; die Anzeige
+behauptet nicht mehr, jederzeit den gerade neu geladenen Stand abzubilden.
+Eine vollständige sofortige Invalidierung braucht ein zusätzliches sicher
+geordnetes Reload-Beginn-Protokoll, das ohne Testfreigabe nicht voreilig
+eingeführt wird. `UI-11c/e/h` bleiben offen; besonders der **Grenzfall bei
+4096 Rezeptvarianten** benötigt später einen eigenen dokumentierten Nachweis.
+
+**Statischer Review:** Keine Änderung an Genome-/Journal-/ItemStack-NBT oder
+dem Server-Wire-Format. Der Grenzwert wird nur auf dem physischen Client
+angewandt; normale Pflanzen-/Seed-Pflanzentscheidungen bleiben serverseitig.
+Quelltest der DE/EN-Schlüssel ergänzt, nicht ausgeführt. Kein Build,
+JUnit, CI, Minecraft oder Simulation gestartet.
+
 ## Nutzeranforderung
 
 Für jede in dieser Welt tatsächlich unterstützte Pflanze soll JEI verständlich erklären, auf welchem Boden und unter welchen Umweltbedingungen der Seed wächst: z. B. Ackerboden und Licht, Myzel/Pilze, Zuckerrohr mit Wasser neben dem Boden, gegebenenfalls Block-Tags, Biome, Dimension, Höhe, Jahreszeit und Bodenchemie. Die Anzeige muss nach einem Server-Datapackwechsel aktuell bleiben; JEI ist optional.
