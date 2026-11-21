@@ -68,7 +68,9 @@ public final class CropHarvest {
                 ResourceLocation id = ResourceLocation.tryParse(product.itemId());
                 if (id == null) continue;
                 Item item = BuiltInRegistries.ITEM.getOptional(id).orElse(null);
-                if (item == null) continue;
+                // AIR is registered, but ItemStack(AIR, count) is empty. Do
+                // not emit a phantom entry when a datapack names it as produce.
+                if (item == null || item == Items.AIR) continue;
 
                 int count = product.minimum();
                 int spread = product.maximum() - product.minimum();

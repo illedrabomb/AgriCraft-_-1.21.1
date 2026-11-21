@@ -186,4 +186,29 @@ class CropHarvestBoundTest {
         assertTrue(CropHarvest.products(invalid,
                 new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(17L)).isEmpty());
     }
+
+    @Test
+    void registeredAirProduceIsNotIncludedInTheDropList() {
+        var base = plant(1, 1, 1);
+        var withAir = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
+                base.stages(), base.harvestStage(), base.growthChance(), base.growthBonus(),
+                base.cloneable(), base.spreadChance(),
+                List.of(new PlantDefinition.HarvestProduct("minecraft:air", 1, 1, 1.0D),
+                        new PlantDefinition.HarvestProduct("minecraft:wheat", 1, 1, 1.0D)),
+                base.requirements(), HarvestMode.STANDARD, base.fruitChance(), base.contactThorns());
+
+        var drops = CropHarvest.products(withAir, Genome.basic("minecraft:wheat_plant"),
+                RandomSource.create(17L));
+        assertEquals(1, drops.size());
+        assertEquals(Items.WHEAT, drops.get(0).getItem());
+        assertTrue(drops.stream().noneMatch(net.minecraft.world.item.ItemStack::isEmpty));
+
+        var onlyAir = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
+                base.stages(), base.harvestStage(), base.growthChance(), base.growthBonus(),
+                base.cloneable(), base.spreadChance(),
+                List.of(new PlantDefinition.HarvestProduct("minecraft:air", 4096, 4096, 1.0D)),
+                base.requirements(), HarvestMode.STANDARD, base.fruitChance(), base.contactThorns());
+        assertTrue(CropHarvest.products(onlyAir, Genome.basic("minecraft:wheat_plant"),
+                RandomSource.create(17L), 64.0D).isEmpty());
+    }
 }
