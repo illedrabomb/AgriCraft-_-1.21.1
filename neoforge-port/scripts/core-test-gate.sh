@@ -53,6 +53,7 @@ sha="$(git rev-parse HEAD)"
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 report_dir="$project_dir/build/core-gate-reports/$timestamp-$sha"
 mkdir -p "$report_dir"
+touch "$report_dir/run-start.marker"
 {
   echo "UTC=$timestamp"
   echo "BRANCH=$branch"
@@ -68,6 +69,12 @@ set +e
 result=$?
 set -e
 echo "$result" > "$report_dir/exit-code.txt"
+if command -v python3 >/dev/null 2>&1; then
+  python3 scripts/summarize-core-gate.py "$report_dir" || \
+    echo 'WARNUNG: Ergebniszusammenfassung fehlgeschlagen; Rohlogs sind erhalten.' >&2
+else
+  echo 'HINWEIS: python3 fehlt; Rohlogs sind erhalten, keine Kurzfassung.' >&2
+fi
 echo "Protokoll: $report_dir"
 if [[ $result -ne 0 ]]; then
   echo 'NICHT BESTANDEN: Gradle-Log und Testberichte auswerten; kein Minecraft-Test freigegeben.' >&2

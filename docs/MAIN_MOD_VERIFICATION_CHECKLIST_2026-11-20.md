@@ -8,6 +8,8 @@
 
 **DOC-18 (Triage-Regel, keine Testfreigabe):** Codex soll gemäß [`CODEX_TEST_TRIAGE_POLICY_2026-11-22.md`](CODEX_TEST_TRIAGE_POLICY_2026-11-22.md) nur eindeutig kausale kritische P0/P1-Defekte minimal selbst beheben; alle übrigen Probleme mit Test-ID/Log an den gemeinsamen Chat zurückmelden. Weitere Builds dort abstimmen; kein Test wurde durch diese Regel gestartet.
 
+**DOC-19 (Berichtsvorbereitung):** Nach einem später freigegebenen Lauf erstellt `neoforge-port/scripts/summarize-core-gate.py` optional eine knappe `summary.md` nur aus seit dem Startmarker geschriebenen JUnit-XML-/JAR-Artefakten. Das ist kein passender Ersatz für die vollständige Gradle-/Minecraft-Testabnahme; bis dahin keine Ergebnisse abgehakt.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

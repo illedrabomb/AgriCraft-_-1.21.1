@@ -14,7 +14,7 @@
 
 ## Sparsame Ausführung
 
-1. **Ein** ausdrücklich freigegebener, core-only automatisierter Lauf; vorhandene JUnit-/Build-Reports lesen statt viele interaktive Einzelschritte und wiederholte Modellaufrufe.
+1. **Ein** ausdrücklich freigegebener, core-only automatisierter Lauf; zuerst `build/core-gate-reports/<UTC>-<SHA>/summary.md` und nur bei Bedarf die dort genannten frischen JUnit-XML- und Build-Logs lesen statt viele interaktive Einzelschritte und wiederholte Modellaufrufe. Die Kurzfassung ersetzt keine Ursachenanalyse.
 2. Bei Fehlschlag **zuerst Fehler zusammenfassen und Ursache priorisieren**, nicht pauschal alle Tests wiederholen. Das Skript führt selbst keine Reparaturen aus.
 3. Eigenkorrektur nur unter P0/P1-Bedingungen oben und nur mit reproduzierbarem, kausal verstandenem Defekt. Kein selbständiger Wechsel des Mod-Designs, der Genetik-/Balancewerte oder des Testplans. Keine Veränderungen an Originalwelten/Test-Mods ohne eigene Erlaubnis.
 4. Nach einer minimalen Eigenkorrektur maximal einen gezielten Nachweis unter der **bereits erteilten Ausführungsfreigabe** durchführen; bei unklarer Reichweite vorher nachfragen. Niemals einen fehlgeschlagenen Test als bestanden markieren.
