@@ -58,6 +58,8 @@ class CropJournalLocalizationContractTest {
             }
             assertNonEmpty(entries, "screen.cropgenetics.journal");
             assertNonEmpty(entries, "key.cropgenetics.toggle_overlay");
+            assertNonEmpty(entries, "screen.cropgenetics.overlay_key_current");
+            assertNonEmpty(entries, "screen.cropgenetics.overlay_key_waiting");
             assertNonEmpty(entries, "jei.cropgenetics.seed_conversion");
             assertNonEmpty(entries, "jei.cropgenetics.seed_recovery");
             assertNonEmpty(entries, "jei.cropgenetics.seed_analysis");

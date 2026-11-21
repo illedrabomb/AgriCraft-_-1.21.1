@@ -1,5 +1,6 @@
 package dev.illedrabomb.cropgenetics.client;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.illedrabomb.cropgenetics.content.CropSpeciesNames;
 import dev.illedrabomb.cropgenetics.content.SeedJournalItem;
 import dev.illedrabomb.cropgenetics.content.SeedSpeciesCatalog;
@@ -9,12 +10,14 @@ import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import java.util.List;
+import org.lwjgl.glfw.GLFW;
 
 /**
  * A standalone, client-side book for the server-saved journal entries.
@@ -31,6 +34,8 @@ public final class SeedJournalScreen extends Screen {
     private Button previous;
     private Button next;
     private Button back;
+    private Button overlayKeyButton;
+    private boolean awaitingOverlayKey;
     private String selectedSpecies;
 
     private SeedJournalScreen(ItemStack journal) {
@@ -65,10 +70,14 @@ public final class SeedJournalScreen extends Screen {
                 Component.translatable("screen.cropgenetics.journal_back"),
                 button -> { selectedSpecies = null; updateButtons(); })
                 .bounds(center - 44, bottom, 88, 20).build());
+        overlayKeyButton = addRenderableWidget(Button.builder(Component.empty(),
+                button -> { awaitingOverlayKey = true; updateButtons(); })
+                .bounds(center - 97, height / 2 - 64, 194, 20).build());
         updateButtons();
     }
 
     private void changePage(int direction) {
+        awaitingOverlayKey = false;
         selectedSpecies = null;
         page = Math.max(0, Math.min(totalPages() - 1, page + direction));
         updateButtons();
@@ -78,6 +87,13 @@ public final class SeedJournalScreen extends Screen {
         if (previous != null) previous.active = page > 0;
         if (next != null) next.active = page + 1 < totalPages();
         if (back != null) back.visible = selectedSpecies != null;
+        if (overlayKeyButton != null) {
+            overlayKeyButton.visible = page == 3;
+            overlayKeyButton.setMessage(awaitingOverlayKey
+                    ? Component.translatable("screen.cropgenetics.overlay_key_waiting")
+                    : Component.translatable("screen.cropgenetics.overlay_key_current",
+                            CropGeneticsClient.TOGGLE_CROP_OVERLAY.getTranslatedKeyMessage()));
+        }
     }
 
     @Override
@@ -109,10 +125,40 @@ public final class SeedJournalScreen extends Screen {
         graphics.drawCenteredString(font, Component.translatable(heading), width / 2,
                 top + 18, 0x54351C);
         for (int line = 0; line < 6; line++) {
+            // On the overlay page, the live editable key label replaces line 0.
+            if (page == 3 && line == 0) continue;
             graphics.drawString(font, Component.translatable(
                     "screen.cropgenetics.guide_" + page + "_" + line),
                     left + 15, top + 45 + line * 19, 0x49301C, false);
         }
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (awaitingOverlayKey) {
+            if (keyCode == GLFW.GLFW_KEY_ESCAPE) {
+                awaitingOverlayKey = false;
+            } else if (keyCode == GLFW.GLFW_KEY_BACKSPACE
+                    || keyCode == GLFW.GLFW_KEY_DELETE) {
+                applyOverlayKey(InputConstants.UNKNOWN);
+            } else if (keyCode != GLFW.GLFW_KEY_UNKNOWN) {
+                applyOverlayKey(InputConstants.getKey(keyCode, scanCode));
+            }
+            updateButtons();
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    private void applyOverlayKey(InputConstants.Key key) {
+        // Use Vanilla's own options path so the Controls screen, dispatch
+        // lookup and options.txt agree immediately and across restarts.
+        Minecraft client = Minecraft.getInstance();
+        KeyMapping binding = CropGeneticsClient.TOGGLE_CROP_OVERLAY;
+        client.options.setKey(binding, key);
+        KeyMapping.resetMapping();
+        client.options.save();
+        awaitingOverlayKey = false;
     }
 
     private void renderDiscoveredPage(GuiGraphics graphics, int left, int top, int mouseX, int mouseY) {

@@ -46,6 +46,8 @@
 
 **ST-49 (HUD-Standardtaste geändert, ungetestet):** Auf Nutzerwunsch die Vorgabe für `key.cropgenetics.toggle_overlay` von **H auf F10** verschoben, um seltener eine Buchstabentaste zu belegen. Client-Umbelegung bleibt möglich. Vierte Journal-Seite DE/EN, `UI-14` und [Tester-Anleitung](test-tracker/README.md) konsistent aktualisiert. Bestehende benutzerdefinierte Tastenbelegungen werden durch die geänderte Vorgabe nicht absichtlich zurückgesetzt. **Keine Minecraft-/JUnit-Ausführung.**
 
+**ST-50 (Journal-Tasteneditor, ungetestet):** Vierte Seite zeigt nun den **live aus `KeyMapping.getTranslatedKeyMessage()`** gelesenen Wert statt einer statischen F10-Anzeige; ein anklickbarer Knopf wartet auf die nächste Taste. `Esc` verwirft, `Delete`/`Backspace` lösen die Belegung; der tatsächliche Wechsel läuft über `Minecraft.options.setKey`, `KeyMapping.resetMapping()` und `options.save()` und soll so das Vanilla-Steuerungsprofil konsistent halten. Neue DE/EN-UI-Texte und Lokalisierungs-Testquellen, [UI-14](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) um Persistenz/Abbruch erweitert. Keine Veränderung am serverseitigen Journal-Item oder NBT. **Noch keine Build-/JUnit-/Minecraft-Ausführung.**
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

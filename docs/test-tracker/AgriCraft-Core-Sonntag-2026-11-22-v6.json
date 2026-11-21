@@ -819,10 +819,11 @@
         "Erst nach Minecraft-Testfreigabe Hauptmod in gesicherter Testwelt starten und eine bepflanzte Crop-Sticks-Fläche mit bekannter Art und Stufe ansehen. Zu Beginn soll das eigene Art-/Stufen-HUD sichtbar sein.",
         "Standardtaste F10 einmal drücken: nur die eigenständige AgriCraft-Zeile verschwindet; erneut F10 drücken: sie erscheint wieder. Während ein Menü beziehungsweise das Journal geöffnet ist, darf die Taste keine unbeabsichtigte Umschaltung auslösen.",
         "Unter Optionen > Steuerung die AgriCraft-Aktion 'Pflanzenanzeige umschalten' auf eine andere freie Taste legen und beide Zustände damit prüfen. Alte Taste darf dann nicht mehr umschalten.",
-        "Saatgut-Journal öffnen und zur vierten Anleitungsseite 'Pflanzenanzeige' blättern. DE/EN-Texte für Standardtaste, Umbelegung, Art/Stufe und unsichtbare Genwerte prüfen; bei anderer Belegung darf die Anleitung als Standardtaste F10, nicht als aktuelle Belegung verstanden werden.",
+        "Saatgut-Journal öffnen und zur vierten Anleitungsseite 'Pflanzenanzeige' blättern. Der klickbare Eintrag muss die aktuell in Minecraft gespeicherte Belegung zeigen (nicht pauschal F10). Mit Klick die Erfassung starten: Esc bricht ab, Delete/Backspace hebt die Belegung auf, eine neue Taste übernimmt sie; anschließend im Steuerungsmenü denselben Wert nachprüfen.",
+        "Journal schließen, die neu belegte Taste im Spiel auslösen und den HUD-Zustand prüfen; Journal/Client neu öffnen bzw. neu starten und Belegung erneut ablesen. Danach die Standardbelegung F10 optional über Steuerung zurücksetzen. DE/EN-Texte und geschützte Genwerte prüfen.",
         "Optional UI-12 (Jade) und UI-13 (Identify) mit separaten Profilen wiederholen; der Schalter darf weder fremde Overlay-Mods deaktivieren noch an ihnen vorbei geheime Gene zeigen. Nach Neustart Beginnzustand dokumentieren."
       ],
-      "expected": "F10 schaltet ausschließlich die eigene Art-/Stufenanzeige um, Taste ist in Steuerung umbelegbar und das Journal erklärt die Bedienung in Deutsch/Englisch. Keine Genwert-Leaks oder Beeinflussung von Jade/Identify; der Schalter startet pro Clientstart sichtbar und schreibt keine Welt-/Seed-Daten.",
+      "expected": "F10 ist nur die Vorgabe. Journal zeigt die tatsächliche aktuelle Belegung, erlaubt per Klick Umbelegung/Entfernung mit Escape-Abbruch und speichert identisch zum Steuerungsmenü auch über Clientneustart. Das HUD bleibt frei ein-/ausschaltbar, ohne Genwert-Leaks oder Einfluss auf Jade/Identify und ohne Welt-/Seed-Daten zu verändern.",
       "commands": []
     },
     {

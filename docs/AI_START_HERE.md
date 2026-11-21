@@ -63,6 +63,7 @@
 - **ST-47, HUD-Fix:** `CropInfoOverlay` verschwindet jetzt nicht mehr allein wegen installiertem Jade/WTHIT; ohne echte Integration muss die AgriCraft-Art-/Stufenzeile selbst erhalten bleiben. `UI-12`/`UI-13` berücksichtigen parallele Anzeigen und mögliche Überlappung. Keine fremden oder unanalysierten Genwerte in der Overlay-Zeile. **Ungetestet im Spiel.**
 - **ST-48, HUD-Tastenschalter und Buchanleitung:** Umbelegbare Clienttaste (**aktuell F10**, siehe ST-49) schaltet die eigene Pflanzen-Art-/Stufenzeile um (nicht Jade/Identify); vierte DE/EN-Anleitungsseite im Saatgut-Journal ergänzt. `UI-14` in [v6 mit 86 Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) prüft Taste, Menüs, Umbelegung und Journal. **Nur Quell-/Sprachreview, kein Test freigegeben.**
 - **ST-49, seltener belegte HUD-Taste:** Standard von **H auf F10** geändert; Spielsteuerung, vierte Journal-Seite und `UI-14` dokumentiert. Vorhandene eigene Belegungen bleiben Sache des Minecraft-Steuerungsprofils. **Keine Tests ausgeführt.**
+- **ST-50, Journal als Tasteneditor:** Vierte Journal-Seite zeigt die aktuelle Client-Tastenbelegung und lässt sie per Klick + neuer Taste ändern; Esc bricht ab, Entf/Backspace hebt auf. Speicherung über Minecraft-Optionen (kein Journal-NBT), DE/EN-Text und `UI-14` angepasst. **Noch nicht gebaut oder getestet.**
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.
