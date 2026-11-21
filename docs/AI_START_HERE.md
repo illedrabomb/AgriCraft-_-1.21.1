@@ -65,6 +65,7 @@
 - **ST-49, seltener belegte HUD-Taste:** Standard von **H auf F10** geändert; Spielsteuerung, vierte Journal-Seite und `UI-14` dokumentiert. Vorhandene eigene Belegungen bleiben Sache des Minecraft-Steuerungsprofils. **Keine Tests ausgeführt.**
 - **ST-50, Journal als Tasteneditor:** Vierte Journal-Seite zeigt die aktuelle Client-Tastenbelegung und lässt sie per Klick + neuer Taste ändern; Esc bricht ab, Entf/Backspace hebt auf. Speicherung über Minecraft-Optionen (kein Journal-NBT), DE/EN-Text und `UI-14` angepasst. **Noch nicht gebaut oder getestet.**
 - **DOC-23, JAR-Fingerabdruck im Sonntagsbericht:** Automatischer Codex-Kurzbericht nennt nun SHA-256 und Größe jedes frisch erzeugten Core-Gate-JARs; vierter Parser-Testquellfall vorbereitet. Das ersetzt weder Git-SHA noch Laufzeitbeleg. [Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Kein Lauf freigegeben.**
+- **DOC-24, externe Test-GUI v2.3 und Dateinamen:** [Aktualisierte Tester-Anleitung](test-tracker/README.md) dokumentiert ZIP inkl. Screenshots, Testlauf-Historie/Build-Vergleich, `suiteFingerprint` sowie verbindliche Namen für Suites, Lauf-ZIPs und Belege. Die bestehende v6-Testsuite bleibt unverändert kompatibel; kein Import, Test oder Build ausgeführt.
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

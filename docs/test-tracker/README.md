@@ -1,5 +1,20 @@
 # AgriCraft-Hauptmod – Testdateien für externe Tester
 
+**Tracker-Oberfläche:** Stand 21.11.2026 ist die externe App [Mod-Test-Tracker v2.3](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft). Maßgeblich für Import und Export ist deren [JSON_FORMAT.md](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft/blob/main/docs/JSON_FORMAT.md). Die vorhandene v6-Testsuite (`schemaVersion: 1`) bleibt importierbar; für neue Suiten `schemaVersion: 2`, `category` und eine kurze `summary` je Test bevorzugen. Fehlende `summary` macht alte Fälle lediglich weniger übersichtlich, nicht ungültig.
+
+## Verbindliche Namen für Testdateien
+
+Dateinamen nur mit ASCII-Buchstaben, Ziffern und Bindestrichen, ohne Leerzeichen. `YYYY-MM-DD` ist bei Suiten das **geplante Testdatum**, bei Ergebnissen das **tatsächliche Ausführungsdatum**. `NN` ist eine zweistellige, pro Tag und Testbuild aufsteigende Durchlaufnummer; `SHA8` sind die ersten acht Zeichen des **tatsächlich getesteten Git-Commits** (nicht des Vorbereitungscommits).
+
+| Art | Muster | Beispiel |
+| --- | --- | --- |
+| Unveränderliche Testsuite | `AgriCraft-Core-Sonntag-YYYY-MM-DD-vN.json` | `AgriCraft-Core-Sonntag-2026-11-22-v6.json` |
+| Vollständiges Testergebnis inklusive Bildern | `AgriCraft-Core-Ergebnis-YYYY-MM-DD-Lauf-NN-SHA8.zip` | `AgriCraft-Core-Ergebnis-2026-11-22-Lauf-01-1234abcd.zip` |
+| JSON-Ergebnis ohne Bilddaten (nur optional) | `AgriCraft-Core-Ergebnis-YYYY-MM-DD-Lauf-NN-SHA8.json` | `AgriCraft-Core-Ergebnis-2026-11-22-Lauf-01-1234abcd.json` |
+| Zusatzbeleg | `AgriCraft-Core-YYYY-MM-DD-Lauf-NN-TESTID-Kurzbeschreibung.ext` | `AgriCraft-Core-2026-11-22-Lauf-01-UI-14-Tastenbelegung.png` |
+
+Die `SHA8`-Beispiele sind **Platzhalter**, keine getesteten Builds. Bei unbekanntem Git-Stand `SHA8` durch `unbekannt` ersetzen und im Bericht als Blocker erfassen; keine SHA erfinden. Eine neue Suite-Version `vN` und neue `suiteId` nur bei geänderten Testdefinitionen; alte Dateien und Exporte nicht umbenennen oder überschreiben. Der **Dateiname allein** belegt weder JAR-Herkunft noch Testerfolg: vollständige Git-SHA, JAR-Name und SHA-256 im Tracker-Kommentar/technischen Bericht notieren. Core und Add-ons bekommen getrennte Dateinamen und Testläufe.
+
 ## Welche Datei laden?
 
 - **Für den Test bevorzugt:** [`AgriCraft-Core-Sonntag-2026-11-22-v6.json`](AgriCraft-Core-Sonntag-2026-11-22-v6.json) – **86 deutschsprachige Testfälle**, einschließlich `ER-12`–`ER-15` zu Gain-Ernten und Drop-Multiplikator sowie `UI-12` (Jade), `UI-13` (Identify) und `UI-14` (HUD-Taste/Journal). Alle Fälle offen, kein Import/Lauf bestätigt.
@@ -30,7 +45,7 @@ Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitun
 2. Minecraft 1.21.1, Java 21, passende NeoForge-Version, dedizierten Testserver und die für den jeweiligen Fall benötigten ein bis zwei Testspieler bereithalten. **Nur AgriCraft-Hauptmod**, keine Pam-/MineColonies-/Farmer's-Add-ons.
 3. Branch `integration/neoforge-1211-consolidation` und **genaue Git-Commit-ID des tatsächlich gebauten JARs** dokumentieren. Nicht den Vorbereitungscommit als bereits getesteten Build ausgeben.
 4. Eine neue Welt oder gesicherte **Weltkopie** verwenden. Datapack-/NBT-Manipulation, Blockschutz, gleichzeitiger Blockabbau und andere riskante Szenarien **niemals am einzigen Save** durchführen.
-5. [Mod-Test-Tracker](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft) lokal öffnen. **Vor „Tests laden“ bestehende Ergebnisse exportieren** – das Laden einer Suite ersetzt die bisherigen Testergebnisse im Browser.
+5. [Mod-Test-Tracker](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft) lokal öffnen. **Vor „Tests laden“ oder „Ergebnisse laden“ den aktiven Lauf über „ZIP mit Bildern exportieren“ extern sichern** – Imports ersetzen den aktuellen Bearbeitungsstand. Die lokale Testlauf-Historie ist kein externes Backup.
 6. **v6-Datei** unter **„Tests laden“** wählen. Die Suite-ID `agricraft-core-neoforge-1211-20261122-v6` ist bewusst anders als bei v1–v5 und der alten 30er-Suite. **Import ist nicht bestätigt; erst nach Freigabe und Export bisheriger Ergebnisse vornehmen.**
 
 **Windows-PowerShell, erst nach Freigabe und aus dem Hauptmod-Gradle-Projektverzeichnis:** Das bestehende technische Gate beschreibt `& .\gradlew.bat :test :build --no-daemon --console=plain`. Das ist ein **Anleitungstext**, hier wurde nichts ausgeführt. Vorher Java-21-Installation und den tatsächlichen Branch-HEAD prüfen; die korrekte Arbeitsverzeichnis-/Subprojektzuordnung steht im [`MAIN_MOD_TEST_GATE`](../MAIN_MOD_TEST_GATE_2026-11-19.md). Bei Fehlern Log und Testreport sichern und **nicht** die Spieltests als bestanden eintragen.
@@ -42,9 +57,11 @@ Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitun
 3. Das Feld **„Erwartet“** mit der tatsächlichen Beobachtung vergleichen. **`pass`** nur bei nachgewiesenem Soll, **`fail`** bei Abweichung, **`open`** bei noch nicht begonnenem Fall.
 4. Kommentar im Tracker immer nach diesem Muster ausfüllen: `Commit: …; Tester/Server: …; Ausgangslage: …; Ist: …; Anzahl/Ticks: …; Belege: Screenshot-Datei/latest.log: …`.
 5. Bei Itemduplikation, Datenverlust, sichtbaren geheimen Genen oder Crash sofort stoppen, Welt/Log sichern und **`fail`** mit kleinstem Reproduktionsweg erfassen.
-6. Nach jedem abgeschlossenen Themenblock **„Ergebnisse exportieren“** benutzen und JSON plus Screenshots/Logs sichern. Der Browser-Status allein ist keine belastbare Sicherung.
+6. Screenshots direkt beim aufgeklappten Test über das Screenshot-Feld mit **Strg+V** oder per Bilddatei hinzufügen und optional beschriften. Nach jedem Themenblock **„ZIP mit Bildern exportieren“** benutzen, mit dem oben festgelegten Namen sichern und Logs/Crash-Reports daneben ablegen. Ein bloßer JSON-Export enthält **nur Bildverweise, keine Bilddaten**. Zum Fortsetzen **„Ergebnisse laden“** mit dem vom Tracker erzeugten ZIP wählen: `suite.json` wird mitgeladen. Für reines Ergebnis-JSON vorher dieselbe Testsuite über **„Tests laden“** öffnen.
 
-## Grenzen der aktuellen v5
+**Mehrere Builds:** Oben **„＋ Durchlauf hinzufügen“**, **„Umbenennen“** und **„Zum Durchlauf wechseln“** verwenden; vor einem Neubeginn **„Durchlauf sichern“** und zusätzlich ZIP exportieren. **„Neuen Durchlauf beginnen“** erzeugt leere Ergebnisse für dieselbe Suite. Der Build-Vergleich ist nur für identische `suiteId` **und** identischen `suiteFingerprint` aussagekräftig; geänderte Testsuiten nicht als direkte Regression vergleichen. Screenshots bleiben lokal im Browser, bis sie als ZIP gesichert werden. **Keine automatische Testausführung** durch die Webseite.
+
+## Grenzen der aktuellen v6 (mit historischen v5-Spezialfällen)
 
 - Die 79 Fälle decken TG-/GE-/ER-/UI-01–UI-11-/MP- und BAL-IDs der [`Hauptmod-Prüfliste`](../MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md) ab, einschließlich der sechs GE-12- und neun UI-11-Unterfälle. Die JEI-Anzeige liegt **als ungeprüfter Quellcode** vor. Ein Teil erfordert **separate, technisch vorbereitete Teststände**.
 - Die 23 Multiplayerfälle sind aus der vorhandenen [detaillierten Multiplayer-Matrix](../MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md) in ausführbare deutsche Prüfschritte übertragen. Für ihre parallelen Aktionen werden zwei Personen beziehungsweise Accounts benötigt.
