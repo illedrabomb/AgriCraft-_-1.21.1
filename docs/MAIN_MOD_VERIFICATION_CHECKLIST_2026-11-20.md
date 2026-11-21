@@ -12,6 +12,8 @@
 
 **DOC-20 (Parser-Regressionen, ungetestet):** `neoforge-port/scripts/test_summarize_core_gate.py` prüft später das Ausblenden alter Reports, die Darstellung von Failures/Skipped und das Erkennen kaputter XML-Dateien. Nur Testquelle geschrieben, keine Ausführung und kein Gate-Pass.
 
+**ST-35 (Artenbremse, ungetestet):** Weitere `SpeciesGeneLimitsTest`-Fälle zu vier gemischten Eltern, permutationsunabhängiger Genobergrenze, fehlender Aufwertung schwacher Kinder und ungültiger Elternzahl/Nullvorlage hinzugefügt. Kein JUnit-Lauf und keine BAL-01-Simulation.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SpeciesGeneLimitsTest {
     private static Genome gene(String species, int growth, int gain, int strength) {
@@ -68,5 +69,51 @@ class SpeciesGeneLimitsTest {
         Genome weak = gene("potato", 2, 3, 1);
         assertEquals(weak, SpeciesGeneLimits.apply(weak,
                 List.of(perfect, gene("carrot", 1, 1, 1))));
+    }
+
+    @Test
+    void parentOrderAndFourParentExtensionCannotImportForeignSpeciesStrength() {
+        Genome potato = gene("potato", 7, 3, 9);
+        Genome carrot = gene("carrot", 10, 10, 10);
+        Genome potatoTwo = gene("potato", 3, 8, 2);
+        Genome beetroot = gene("beetroot", 10, 10, 10);
+        Genome inherited = gene("potato", 10, 10, 10);
+        Genome expected = gene("potato", 7, 8, 9);
+
+        assertEquals(expected, SpeciesGeneLimits.apply(inherited,
+                List.of(potato, carrot, potatoTwo, beetroot)));
+        assertEquals(expected, SpeciesGeneLimits.apply(inherited,
+                List.of(beetroot, potatoTwo, carrot, potato)));
+        // Even four powerful foreign parents cannot lift a completely new species.
+        assertEquals(gene("pumpkin", 4, 4, 4), SpeciesGeneLimits.apply(
+                gene("pumpkin", 10, 10, 10), List.of(potato, carrot, potatoTwo, beetroot)));
+    }
+
+    @Test
+    void weakChildrenAreNeverImprovedByCeilingsAcrossParentCounts() {
+        Genome weak = gene("potato", 1, 2, 3);
+        Genome potato = gene("potato", 10, 10, 10);
+        Genome carrot = gene("carrot", 10, 10, 10);
+        Genome beetroot = gene("beetroot", 10, 10, 10);
+        assertEquals(weak, SpeciesGeneLimits.apply(weak, List.of(potato, carrot)));
+        assertEquals(weak, SpeciesGeneLimits.apply(weak, List.of(potato, carrot, beetroot)));
+        assertEquals(weak, SpeciesGeneLimits.apply(weak, List.of(potato, carrot, beetroot, carrot)));
+        assertEquals(gene("pumpkin", 1, 2, 3), SpeciesGeneLimits.apply(
+                gene("pumpkin", 1, 2, 3), List.of(potato, carrot)));
+    }
+
+    @Test
+    void rejectsIncompleteOrOverfullParentSetsInsteadOfGuessingGenetics() {
+        Genome child = gene("potato", 5, 5, 5);
+        Genome parent = gene("carrot", 5, 5, 5);
+        assertThrows(IllegalArgumentException.class,
+                () -> SpeciesGeneLimits.apply(child, List.of()));
+        assertThrows(IllegalArgumentException.class,
+                () -> SpeciesGeneLimits.apply(child, List.of(parent)));
+        assertThrows(IllegalArgumentException.class,
+                () -> SpeciesGeneLimits.apply(child,
+                        List.of(parent, parent, parent, parent, parent)));
+        assertThrows(IllegalArgumentException.class,
+                () -> SpeciesGeneLimits.apply(child, java.util.Arrays.asList(parent, null)));
     }
 }

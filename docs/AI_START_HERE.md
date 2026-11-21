@@ -46,6 +46,7 @@
 - **DOC-18, kostensparende Testtriage:** [Verbindliche Codex-Regeln für Sonntags-Vorlauf](CODEX_TEST_TRIAGE_POLICY_2026-11-22.md): **nur eindeutig kritische P0/P1-Funde minimal selbst beheben**, P2/P3 mit kompakten Logs an gemeinsamen Chat zurückgeben; neue Builds/Korrekturen dort abstimmen. PC-Zugriff grundsätzlich erlaubt, technische Verbindung unbestätigt. Keine Tests oder Bot-Ausführung heute freigegeben.
 - **DOC-19, kompakter Ergebnisbericht:** `neoforge-port/scripts/summarize-core-gate.py` erzeugt nach freigegebenem Gradle-Vorlauf aus **frischen** JUnit-XMLs und JAR-Artefakten `summary.md` für Codex. [Ablauf und Grenzen](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). Reine Berichtsvorbereitung; keine Tests ausgeführt.
 - **DOC-20, Berichtssicherheit:** Drei isolierte Python-Testquellfälle für frische/veraltete/defekte JUnit-XMLs vorbereitet. Fehlende XMLs werden im Bericht ausdrücklich als fehlender Nachweis statt „bestanden“ markiert. **Weder Python-Unittest noch Gradle/JUnit/Minecraft ausgeführt.**
+- **ST-35, Artenbremsen-Regressionen:** `SpeciesGeneLimitsTest` um gemischte Vier-Eltern-Konstellation, Elternreihenfolge, schwache Kinder und ungültige Elternvorlagen ergänzt; [Codex-Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Testquelle nur geschrieben, kein Test/Build ausgeführt.**
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.
