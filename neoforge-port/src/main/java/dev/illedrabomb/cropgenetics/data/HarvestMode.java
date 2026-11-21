@@ -1,6 +1,6 @@
 package dev.illedrabomb.cropgenetics.data;
 
-/** Harvest lifecycle; GOURD produces one block fruit after the stem matures. */
+/** Harvest lifecycle; GOURD forms one visible fruit, with Gain-scaled drops. */
 public enum HarvestMode {
     STANDARD, GOURD;
 

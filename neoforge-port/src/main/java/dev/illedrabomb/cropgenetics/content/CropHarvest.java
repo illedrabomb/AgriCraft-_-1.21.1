@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,14 +25,24 @@ public final class CropHarvest {
     public static List<ItemStack> products(PlantDefinition plant, Genome genome, RandomSource random) {
         if (!plant.id().equals(genome.plantId())) return List.of();
 
-        // One fruit forms per gourd lifecycle. Gain speeds fruit formation,
-        // not the quantity harvested from that same single fruit.
+        // One visible fruit forms per gourd lifecycle, but Gain also affects
+        // the harvested amount. Keep the entire payout within one item stack.
         if (plant.harvestMode() == HarvestMode.GOURD) {
-            PlantDefinition.HarvestProduct fruit = plant.harvestProducts().get(0);
-            ResourceLocation fruitId = ResourceLocation.tryParse(fruit.itemId());
-            if (fruitId == null) return List.of();
-            Item item = BuiltInRegistries.ITEM.getOptional(fruitId).orElse(null);
-            return item == null ? List.of() : List.of(new ItemStack(item));
+            if (plant.id().equals("minecraft:melon_plant")) {
+                // Vanilla melon gives slices; each Gain level contributes
+                // one additional slice to the normal 3..7 payout.
+                int slices = GourdHarvestRules.melonSlices(genome.gain(), random.nextInt(5));
+                return List.of(new ItemStack(Items.MELON_SLICE,
+                        Math.min(Items.MELON_SLICE.getDefaultMaxStackSize(), slices)));
+            }
+            if (plant.id().equals("minecraft:pumpkin_plant")) {
+                // Gain 1: always one. Gain 2: 10% two, ... Gain 10: 90% two.
+                int pumpkins = 1 + (random.nextDouble()
+                        < GourdHarvestRules.secondPumpkinChance(genome.gain()) ? 1 : 0);
+                return List.of(new ItemStack(Items.PUMPKIN,
+                        Math.min(GourdHarvestRules.MAX_DROP, pumpkins)));
+            }
+            return List.of();
         }
 
         int gain = genome.gain();

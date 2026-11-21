@@ -55,6 +55,8 @@ public record PlantDefinition(
             throw new IllegalArgumentException("Gourd requires positive fruit chance and regrowth stages");
         if (harvestMode != HarvestMode.GOURD && fruitChance != 0)
             throw new IllegalArgumentException("Fruit chance is only defined for gourds");
+        // Gourd product is the canonical item type, not the Gain-scaled
+        // payout amount; CropHarvest computes that amount at harvest time.
         if (harvestMode == HarvestMode.GOURD && (harvestProducts.size() != 1
                 || harvestProducts.get(0).minimum() != 1 || harvestProducts.get(0).maximum() != 1
                 || harvestProducts.get(0).chance() != 1))

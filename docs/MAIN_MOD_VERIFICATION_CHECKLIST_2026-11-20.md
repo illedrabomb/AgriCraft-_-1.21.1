@@ -18,6 +18,8 @@
 
 **ST-36 (Ernte-/Papierremainder, ungetestet):** `CropHarvestBoundTest` deckt eine Gourd-Frucht trotz hohem Gain und ausbleibende Drops unbekannter/0-%-Produkte ab; `OriginalSeedRecoveryRemainderTest` prüft leere Eingaben und Komponenten beim einzelnen benannten Papier. Nur neue Testquellen, kein JUnit-/Minecraft-Lauf.
 
+**ST-37 (Gourd-Gain-Korrektur, ungetestet):** ST-36 enthielt eine zu strikte Einzel-Item-Annahme. Nach [Nutzerentscheidung](GOURD_GAIN_YIELD_2026-11-21.md) bleibt **eine sichtbare Frucht**, aber Kürbis erhält pro Gain-Schritt +10 Prozentpunkte auf zwei Items, Melone liefert 3–7 Scheiben plus Gain−1. `CropHarvest` und eingebaute Melonendefinition angepasst, `GourdHarvestRulesTest` und `CropHarvestBoundTest` nachgeführt. Kein Test/Build. Alte physische Gourd-Lootpfade und spätere Drop-Multiplikator-Config separat.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Optional;
+import net.minecraft.world.item.Items;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -74,17 +75,33 @@ class CropHarvestBoundTest {
     }
 
     @Test
-    void oneGourdLifecycleAlwaysProducesOneFruitRegardlessOfGain() {
-        var base = plant(4096, 4096, 4);
-        var gourd = new PlantDefinition(base.id(), base.requiredMods(), base.seedItems(),
+    void oneVisibleGourdFruitCanPayMorePumpkinsOrMelonSlices() {
+        var base = plant(1, 1, 1);
+        var pumpkin = new PlantDefinition("minecraft:pumpkin_plant", base.requiredMods(), base.seedItems(),
                 base.stages(), base.harvestStage(), base.growthChance(), base.growthBonus(),
-                base.cloneable(), base.spreadChance(), base.harvestProducts(),
-                base.requirements(), HarvestMode.GOURD, base.fruitChance(), base.contactThorns());
-        var drops = CropHarvest.products(gourd,
-                new Genome("minecraft:wheat_plant", 10, 10, 10), RandomSource.create(17L));
+                base.cloneable(), base.spreadChance(),
+                List.of(new PlantDefinition.HarvestProduct("minecraft:pumpkin", 1, 1, 1.0D)),
+                base.requirements(), HarvestMode.GOURD, 0.2D, base.contactThorns());
+        var melon = new PlantDefinition("minecraft:melon_plant", base.requiredMods(), base.seedItems(),
+                base.stages(), base.harvestStage(), base.growthChance(), base.growthBonus(),
+                base.cloneable(), base.spreadChance(),
+                List.of(new PlantDefinition.HarvestProduct("minecraft:melon_slice", 1, 1, 1.0D)),
+                base.requirements(), HarvestMode.GOURD, 0.2D, base.contactThorns());
+        var lowPumpkin = CropHarvest.products(pumpkin,
+                new Genome("minecraft:pumpkin_plant", 1, 1, 1), RandomSource.create(17L));
+        var highPumpkin = CropHarvest.products(pumpkin,
+                new Genome("minecraft:pumpkin_plant", 1, 10, 1), RandomSource.create(17L));
+        var highMelon = CropHarvest.products(melon,
+                new Genome("minecraft:melon_plant", 1, 10, 1), RandomSource.create(17L));
 
-        assertEquals(1, drops.size());
-        assertEquals(1, drops.get(0).getCount());
+        assertEquals(1, lowPumpkin.size());
+        assertEquals(1, lowPumpkin.get(0).getCount());
+        assertEquals(Items.PUMPKIN, lowPumpkin.get(0).getItem());
+        assertEquals(1, highPumpkin.size());
+        assertTrue(highPumpkin.get(0).getCount() >= 1 && highPumpkin.get(0).getCount() <= 2);
+        assertEquals(1, highMelon.size());
+        assertEquals(Items.MELON_SLICE, highMelon.get(0).getItem());
+        assertTrue(highMelon.get(0).getCount() >= 12 && highMelon.get(0).getCount() <= 16);
     }
 
     @Test
