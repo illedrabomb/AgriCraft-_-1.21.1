@@ -1,5 +1,9 @@
 package dev.illedrabomb.cropgenetics.data;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -35,5 +39,49 @@ class PlantConditionsWireTest {
                 () -> PlantConditionsWire.decode(new byte[] {0, 0, 0, 2, 0, 0, 0, 0}));
         assertThrows(IllegalArgumentException.class,
                 () -> PlantConditionsWire.decode(new byte[] {0, 0, 0, 1, 0, 0, 2, 1}));
+    }
+
+    @Test
+    void rejectsTrailingBytesAndTruncatedPublishedSnapshot() {
+        byte[] valid = PlantConditionsWire.encode(new PlantConditionsView(List.of(
+                new PlantConditionsView.Entry("minecraft:wheat_plant", List.of("minecraft:wheat_seeds"),
+                        PlantRequirements.defaultFarmland(), PlantConditionsView.SiteRule.NONE))));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> PlantConditionsWire.decode(Arrays.copyOf(valid, valid.length + 1)));
+        assertThrows(IllegalArgumentException.class,
+                () -> PlantConditionsWire.decode(Arrays.copyOf(valid, valid.length - 1)));
+        assertEquals(1, PlantConditionsWire.decode(valid).plants().size());
+    }
+
+    @Test
+    void rejectsInvalidSiteRuleWithoutAcceptingPartialCatalogue() throws IOException {
+        byte[] invalid = PlantConditionsWire.encode(new PlantConditionsView(List.of(
+                new PlantConditionsView.Entry("minecraft:cactus_plant", List.of("minecraft:cactus"),
+                        PlantRequirements.defaultFarmland(), PlantConditionsView.SiteRule.CACTUS_CLEAR_SIDES))));
+        var input = new DataInputStream(new ByteArrayInputStream(invalid));
+        input.readInt(); // protocol version
+        input.readInt(); // entry count
+        input.readUTF(); // plant ID
+        int seedCount = input.readUnsignedByte();
+        for (int i = 0; i < seedCount; i++) input.readUTF();
+        int siteRuleOffset = invalid.length - input.available();
+        invalid[siteRuleOffset] = (byte) 127;
+
+        assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.decode(invalid));
+    }
+
+    @Test
+    void refusesOversizedSeedListsAndIdsBeforeSending() {
+        var oversizedSeeds = java.util.Collections.nCopies(65, "minecraft:wheat_seeds");
+        var tooManySeeds = new PlantConditionsView(List.of(new PlantConditionsView.Entry(
+                "minecraft:wheat_plant", oversizedSeeds, PlantRequirements.defaultFarmland(),
+                PlantConditionsView.SiteRule.NONE)));
+        var tooLongId = new PlantConditionsView(List.of(new PlantConditionsView.Entry(
+                "x".repeat(129), List.of(), PlantRequirements.defaultFarmland(),
+                PlantConditionsView.SiteRule.NONE)));
+
+        assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.encode(tooManySeeds));
+        assertThrows(IllegalArgumentException.class, () -> PlantConditionsWire.encode(tooLongId));
     }
 }

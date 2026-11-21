@@ -53,6 +53,26 @@ class PlantConditionsViewTest {
     }
 
     @Test
+    void changedSeedMappingOnReloadCreatesDistinctImmutableProjection() {
+        AgriPlantsRegistry registry = new AgriPlantsRegistry();
+        registry.replaceAll(Map.of("minecraft:wheat_plant",
+                        plant("minecraft:wheat_plant", "minecraft:wheat_seeds")),
+                Map.of(), CropReloadReport.empty());
+        PlantConditionsView first = PlantConditionsView.from(registry.snapshot());
+
+        registry.replaceAll(Map.of("minecraft:wheat_plant",
+                        plant("minecraft:wheat_plant", "minecraft:beetroot_seeds")),
+                Map.of(), CropReloadReport.empty());
+        PlantConditionsView second = PlantConditionsView.from(registry.snapshot());
+
+        assertEquals("minecraft:wheat_plant", first.plants().get(0).plantId());
+        assertEquals("minecraft:wheat_plant", second.plants().get(0).plantId());
+        assertEquals(List.of("minecraft:wheat_seeds"), first.plants().get(0).seedItems());
+        assertEquals(List.of("minecraft:beetroot_seeds"), second.plants().get(0).seedItems());
+        assertNotEquals(first.plants().get(0).seedItems(), second.plants().get(0).seedItems());
+    }
+
+    @Test
     void failsClosedForOversizedCatalogueInsteadOfTruncating() {
         List<PlantConditionsView.Entry> entries = java.util.Collections.nCopies(
                 PlantConditionsView.MAX_PLANTS + 1,

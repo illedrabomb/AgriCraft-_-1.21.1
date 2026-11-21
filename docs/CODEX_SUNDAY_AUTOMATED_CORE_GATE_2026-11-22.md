@@ -17,3 +17,9 @@
 - Ein erfolgreicher `:test :build` beweist **weder** Minecraft-Clientstart noch Dedicated-Server-Betrieb, JEI-Lifecycle oder Multiplayer. Diese Punkte bleiben für den später ausdrücklich freigegebenen Spieltest offen.
 - Der Shell-Starter verlangt zusätzlich zur tatsächlichen Nutzerfreigabe absichtlich `--approve-core-tests`, den richtigen Branch, Java 21 und einen sauberen Arbeitsbaum. Der Schalter allein ist **keine** Nutzerfreigabe.
 - Vorhandene Testergebnisse, Saves und Testmods niemals überschreiben; die Berichte entstehen in einem neuen Zeitstempelverzeichnis. Keine automatisierte CI-Veröffentlichung oder zeitgesteuerte Ausführung.
+
+## Bereits vorbereitete Regressionstests (Quellcode, noch nicht ausgeführt)
+
+- `PlantConditionsWireTest`: zusätzlich vollständiger Snapshot gegen angehängte/abgeschnittene Daten, unbekannte Site-Rule-Nummer sowie zu lange IDs und zu große Seed-Listen. Soll beschädigte oder inkompatible Serverregelpakete sicher zurückweisen.
+- `PlantConditionsViewTest`: dieselbe Pflanzenart mit neuer Seed-Zuordnung nach Datapack-Reload; alte Projektion bleibt unverändert, neue enthält nur neue Seed-IDs. Diese Prüfung ist **kein** JEI-Laufzeittest.
+- Bereits vorhandene JUnit-Suite einschließlich Genetik, Kreuzung, Inventar, NBT, Lokalisierung und Ressourcen wird durch den Root-Task `:test` erfasst. Anzahl und Bestehen erst aus dem tatsächlichen Sonntagsbericht ableiten.
