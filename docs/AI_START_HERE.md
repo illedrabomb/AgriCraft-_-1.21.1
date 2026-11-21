@@ -85,6 +85,7 @@
 - **DOC-33, Sonntag-Einstieg bereinigt:** [Runbook](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und [F0–F5-Aufbauplan](SUNDAY_CORE_TEST_FIXTURES_2026-11-22.md) verweisen jetzt eindeutig auf die aktuelle [v8-Testsuite mit 86 Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v8.json), inklusive neuer ER-/UI-Fälle, ZIP-Backup und Versionsgrenzen. Alte v1–v7 bleiben Historie; **kein Import oder Testlauf**.
 - **DOC-34, Codex-Handoff abgeglichen:** [Automatischer Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md), [Triage](CODEX_TEST_TRIAGE_POLICY_2026-11-22.md) und [historischer Tracker-Leitfaden](MANUAL_TEST_TRACKER.md) nennen ebenfalls v8/86 statt der früheren v5/79 oder 30er-Testdatei. **Codex-Vorlauf und manueller Test erfordern weiterhin getrennte ausdrückliche Freigaben.**
 - **ST-59, Stufen-Sync-Rollback:** `CropSticksBlockEntity.syncState` stellt bei verweigertem oder nicht übernommenem Blockupdate auch `TotalGrowthStages` zurück; [GE-10/ER-09-Sonderfall](SUNDAY_CORE_TEST_FIXTURES_2026-11-22.md) für kontrollierte Weltkopie präzisiert. **Nur statischer Fix, kein Testlauf.**
+- **DOC-35, v8-Befehlsaudit:** Die [33 Kopierbefehle und ihre OP-/Inventarvorbedingungen](SUNDAY_V8_COMMAND_STATIC_AUDIT_2026-11-21.md) sind statisch gegen den Hauptmod-Befehlsbaum abgeglichen; ungültige `ER-15`-Formen bleiben absichtliche Negativtests. **Keine Testausführung und keine Änderung an v8.**
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

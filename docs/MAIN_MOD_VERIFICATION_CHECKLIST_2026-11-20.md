@@ -82,6 +82,8 @@
 
 **DOC-34 (Codex-/Tracker-Übergabe, kein Test):** Auch [Codex-Sonntags-Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md), [kritisch-only-Triage](CODEX_TEST_TRIAGE_POLICY_2026-11-22.md) und die [historische Tracker-Dokumentation](MANUAL_TEST_TRACKER.md) verweisen jetzt unmissverständlich auf die **86 manuellen v8-Fälle**. Die frühere 79er-/v5-Angabe und die irreführende Überschrift „unmittelbar zu verwendende“ 30er-Datei wurden korrigiert, ohne historische Dateiinhalte zu löschen. Technisches Core-Gate und persönlicher Minecraft-Test bleiben **zwei getrennte Freigaben**. Keine Ausführung.
 
+**DOC-35 (v8-Kopierbefehle, statisch):** Alle 33 Kopierbefehlseinträge der aktuellen v8-Suite sind mit dem im Hauptmod registrierten `testseed`-/`harvestmultiplier`-Baum und Vanilla-`/reload` abgeglichen. Keine statisch erkannte Schreibweisenabweichung; `ER-15` enthält absichtlich ungültige Zwei-Zahlen-/Grenzwerte-Befehle. [Rechte, Inventarvorbedingungen und Negativfälle](SUNDAY_V8_COMMAND_STATIC_AUDIT_2026-11-21.md) für externe Tester dokumentiert, v8-JSON unverändert. **Kein Minecraft-Lauf oder Test bestanden.**
+
 **DOC-23 (Build-Artefaktidentität, ungetestet):** `summarize-core-gate.py` listet für **frisch erzeugte** JAR-Dateien nun Größe und SHA-256 statt nur Dateinamen. Neuer vierter Python-`unittest`-Quellfall prüft Inhaltshash und dass das Original nicht verändert wird. [Codex-Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) angepasst. Der Hash beweist weder Build-Erfolg noch Codeursprung allein; weiterhin Commit-SHA, Modliste, Log und frische Testberichte nötig. **Weder Skript noch Tests oder Build ausgeführt.**
 
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)

@@ -50,6 +50,8 @@ Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitun
 5. [Mod-Test-Tracker](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft) lokal öffnen. **Vor „Tests laden“ oder „Ergebnisse laden“ den aktiven Lauf über „ZIP mit Bildern exportieren“ extern sichern** – Imports ersetzen den aktuellen Bearbeitungsstand. Die lokale Testlauf-Historie ist kein externes Backup.
 6. **v8-Datei** unter **„Tests laden“** wählen. Ihre `suiteId` lautet `agricraft-core-neoforge-1211-20261122-v8`; alte v6-/v7-Ergebnisexporte gehören weiterhin zu ihren jeweiligen Suites und dürfen nicht als v8-Ergebnisse importiert werden. **Import ist nicht bestätigt; erst nach Freigabe und Export bisheriger Ergebnisse vornehmen.**
 
+**Befehls-Vorbedingungen:** Für die 33 Kopierblöcke gibt es einen [statischen Abgleich mit dem Hauptmod-Befehlsbaum](../SUNDAY_V8_COMMAND_STATIC_AUDIT_2026-11-21.md). `testseed` und `harvestmultiplier` brauchen OP-Level 2; `testseed` zusätzlich ein Spielerinventar. Ungültige Werte bzw. genau zwei Gen-Zahlen sind in `ER-15` **gewollte Negativfälle**. Keiner dieser Befehle wurde im Spiel ausgeführt.
+
 **Windows-PowerShell, erst nach Freigabe und aus dem Hauptmod-Gradle-Projektverzeichnis:** Das bestehende technische Gate beschreibt `& .\gradlew.bat :test :build --no-daemon --console=plain`. Das ist ein **Anleitungstext**, hier wurde nichts ausgeführt. Vorher Java-21-Installation und den tatsächlichen Branch-HEAD prüfen; die korrekte Arbeitsverzeichnis-/Subprojektzuordnung steht im [`MAIN_MOD_TEST_GATE`](../MAIN_MOD_TEST_GATE_2026-11-19.md). Bei Fehlern Log und Testreport sichern und **nicht** die Spieltests als bestanden eintragen.
 
 ## Jeden Test gleich durchführen
