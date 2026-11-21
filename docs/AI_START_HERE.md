@@ -64,6 +64,7 @@
 - **ST-48, HUD-Tastenschalter und Buchanleitung:** Umbelegbare Clienttaste (**aktuell F10**, siehe ST-49) schaltet die eigene Pflanzen-Art-/Stufenzeile um (nicht Jade/Identify); vierte DE/EN-Anleitungsseite im Saatgut-Journal ergänzt. `UI-14` in [v6 mit 86 Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) prüft Taste, Menüs, Umbelegung und Journal. **Nur Quell-/Sprachreview, kein Test freigegeben.**
 - **ST-49, seltener belegte HUD-Taste:** Standard von **H auf F10** geändert; Spielsteuerung, vierte Journal-Seite und `UI-14` dokumentiert. Vorhandene eigene Belegungen bleiben Sache des Minecraft-Steuerungsprofils. **Keine Tests ausgeführt.**
 - **ST-50, Journal als Tasteneditor:** Vierte Journal-Seite zeigt die aktuelle Client-Tastenbelegung und lässt sie per Klick + neuer Taste ändern; Esc bricht ab, Entf/Backspace hebt auf. Speicherung über Minecraft-Optionen (kein Journal-NBT), DE/EN-Text und `UI-14` angepasst. **Noch nicht gebaut oder getestet.**
+- **DOC-23, JAR-Fingerabdruck im Sonntagsbericht:** Automatischer Codex-Kurzbericht nennt nun SHA-256 und Größe jedes frisch erzeugten Core-Gate-JARs; vierter Parser-Testquellfall vorbereitet. Das ersetzt weder Git-SHA noch Laufzeitbeleg. [Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Kein Lauf freigegeben.**
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

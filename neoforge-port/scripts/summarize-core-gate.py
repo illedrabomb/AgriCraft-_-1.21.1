@@ -2,8 +2,18 @@
 """Summarize existing Gradle/JUnit evidence; never starts Minecraft or tests."""
 
 import argparse
+import hashlib
 from pathlib import Path
 import xml.etree.ElementTree as ET
+
+
+def sha256_file(path):
+    """Fingerprint existing artifacts in bounded chunks; never modify them."""
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def collect_results(xml_dir, marker_ns):
@@ -63,7 +73,12 @@ def main():
              f"- Während dieses Laufs erzeugte JAR-Dateien: **{len(jars)}**",
              "- Fehlende oder nicht frisch erzeugte XML/JAR-Dateien sind **kein Erfolgsnachweis**.",
              "", "## JAR-Artefakte", ""]
-    lines.extend(f"- `{p.name}`" for p in jars)
+    for path in jars:
+        try:
+            lines.append(f"- `{path.name}` – {path.stat().st_size} Bytes, "
+                         f"SHA-256: `{sha256_file(path)}`")
+        except OSError as exc:
+            lines.append(f"- `{path.name}` – **nicht lesbar**, keine Prüfsumme: {exc}")
     if not jars:
         lines.append("- Keine frisch erzeugten JARs nachgewiesen.")
     lines += ["", "## Fehlgeschlagene JUnit-Fälle (ungekürzt in XML)", ""]

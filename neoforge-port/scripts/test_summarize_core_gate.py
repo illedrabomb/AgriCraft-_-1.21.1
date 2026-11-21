@@ -1,6 +1,7 @@
 """Regression tests for the report reader. Written but not executed pre-gate."""
 
 import importlib.util
+import hashlib
 import os
 from pathlib import Path
 import tempfile
@@ -14,6 +15,16 @@ SPEC.loader.exec_module(MODULE)
 
 
 class CoreGateSummaryTests(unittest.TestCase):
+    def test_artifact_fingerprint_matches_bytes_without_modifying_file(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "agricraft-fixture.jar"
+            payload = b"sample jar contents for fingerprint source test"
+            path.write_bytes(payload)
+            before = path.stat()
+            self.assertEqual(hashlib.sha256(payload).hexdigest(), MODULE.sha256_file(path))
+            self.assertEqual(payload, path.read_bytes())
+            self.assertEqual(before.st_mtime_ns, path.stat().st_mtime_ns)
+
     def test_ignores_stale_xml_and_does_not_invent_passes(self):
         with tempfile.TemporaryDirectory() as directory:
             old = Path(directory) / "TEST-old.xml"

@@ -48,6 +48,8 @@
 
 **ST-50 (Journal-Tasteneditor, ungetestet):** Vierte Seite zeigt nun den **live aus `KeyMapping.getTranslatedKeyMessage()`** gelesenen Wert statt einer statischen F10-Anzeige; ein anklickbarer Knopf wartet auf die nächste Taste. `Esc` verwirft, `Delete`/`Backspace` lösen die Belegung; der tatsächliche Wechsel läuft über `Minecraft.options.setKey`, `KeyMapping.resetMapping()` und `options.save()` und soll so das Vanilla-Steuerungsprofil konsistent halten. Neue DE/EN-UI-Texte und Lokalisierungs-Testquellen, [UI-14](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v6.json) um Persistenz/Abbruch erweitert. Keine Veränderung am serverseitigen Journal-Item oder NBT. **Noch keine Build-/JUnit-/Minecraft-Ausführung.**
 
+**DOC-23 (Build-Artefaktidentität, ungetestet):** `summarize-core-gate.py` listet für **frisch erzeugte** JAR-Dateien nun Größe und SHA-256 statt nur Dateinamen. Neuer vierter Python-`unittest`-Quellfall prüft Inhaltshash und dass das Original nicht verändert wird. [Codex-Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) angepasst. Der Hash beweist weder Build-Erfolg noch Codeursprung allein; weiterhin Commit-SHA, Modliste, Log und frische Testberichte nötig. **Weder Skript noch Tests oder Build ausgeführt.**
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.
