@@ -4,6 +4,8 @@
 
 **Geltungsbereich:** `integration/neoforge-1211-consolidation`, Hauptmod `neoforge-port/`. Add-ons sind bewusst ausgeschlossen. Bei jeder späteren Prüfung Datum, Commit-SHA, Testumgebung, Ergebnis, Log/Beleg und ggf. Fehlerticket ergänzen. `[x]` nur mit einem konkret überprüften Ergebnis setzen; `[-]` nicht benutzen, stattdessen Fehler im Nachweis dokumentieren.
 
+**DOC-16 (Vorbereitung, keine Testfreigabe):** Für Sonntag ist ein durch Codex selbst ausführbarer, ausdrücklich opt-in Core-only-Vorlauf **vor** dem persönlichen Minecraft-Test beschrieben: [`CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md`](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). Ergebnisse der technischen Gates bleiben bis zu echter Ausführung offen.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.

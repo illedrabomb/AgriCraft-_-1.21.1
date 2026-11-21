@@ -1,0 +1,19 @@
+# Codex-Vorlauf vor dem persönlichen Sonntagstest (22.11.2026)
+
+**Status: vorbereitet, nicht ausgeführt, nicht freigegeben.** Der Nutzer will, dass **Codex am Sonntag vor seinem persönlichen Minecraft-Test** die automatisierten Hauptmod-Prüfungen selbstständig durchführt. Dies ist **keine Termin-Automation** und keine vorgezogene Erlaubnis zur Ausführung.
+
+## Freigabe und Reihenfolge
+
+1. Am Sonntag zunächst den tatsächlichen GitHub-HEAD von `integration/neoforge-1211-consolidation` ermitteln, Arbeitsbaum synchronisieren und `AGENTS.md` sowie `docs/AI_START_HERE.md` beachten. Keine ungeprüften lokalen Altdateien ersetzen.
+2. Den Nutzer um ausdrückliche Freigabe **für den Codex-Vorlauf** bitten. Ohne diese Freigabe **keine** Gradle-, JUnit-, Build-, CI-, Minecraft-, Simulations- oder Testausführung. Eine Freigabe für den Vorlauf ist **keine** automatische Freigabe für den persönlichen Sonntagstest.
+3. Codex prüft in seiner **eigenen** Umgebung zunächst lesend Java 21, Gradle-Verfügbarkeit, Netzwerk-/Dependency-Zugriff, Branch und sauberen Arbeitsbaum. Im Repository liegt zurzeit **kein Gradle-Wrapper**; ein systemweit verfügbares Gradle ist nötig oder die Nutzerentscheidung zur Bereitstellung einer geeigneten Gradle-Installation. Keine implizite Installation/CI-Ausführung und keine Verwendung der Dateien auf dem PC des Nutzers behaupten.
+4. Nach Freigabe aus `neoforge-port/` den vorbereiteten Starter verwenden: `bash scripts/core-test-gate.sh --approve-core-tests`. Dieser führt nur `:test :build` des Root-Projekts aus; **keine** Minecraft-Runs, Add-on-Testtasks oder `-PloadTestMods`.
+5. Protokoll unter `neoforge-port/build/core-gate-reports/<UTC>-<SHA>/` auswerten: `manifest.txt`, `gradle.log`, `exit-code.txt`, JUnit-XML/HTML unter `build/test-results/test` bzw. `build/reports/tests/test`; JAR in `build/libs/` auf Hauptmod-Inhalt und unbeabsichtigte Add-on-Inhalte prüfen. Falls Test oder Build scheitert: genaue Ursache, Commit-SHA und Log sichern; nur nach Nutzerauftrag gezielt beheben und erneut freigeben lassen.
+6. Codex berichtet: aktueller SHA, Umgebung, welche Tests tatsächlich gelaufen sind, Summen Pass/Fail/Skipped, Build/JAR-Nachweis, offene Befunde. **Erst danach** kann der Nutzer den persönlichen Minecraft-Test separat freigeben. Die 79 Fälle aus `docs/test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v5.json` sind **manuell**, kein Ersatz durch JUnit.
+
+## Grenzen
+
+- Ohne Gradle/Abhängigkeiten in der Codex-Umgebung ist der Vorlauf blockiert, nicht bestanden. Kein Gradle-Wrapper und keine lokal heruntergeladenen Test-Mod-JARs vorhanden zu behaupten.
+- Ein erfolgreicher `:test :build` beweist **weder** Minecraft-Clientstart noch Dedicated-Server-Betrieb, JEI-Lifecycle oder Multiplayer. Diese Punkte bleiben für den später ausdrücklich freigegebenen Spieltest offen.
+- Der Shell-Starter verlangt zusätzlich zur tatsächlichen Nutzerfreigabe absichtlich `--approve-core-tests`, den richtigen Branch, Java 21 und einen sauberen Arbeitsbaum. Der Schalter allein ist **keine** Nutzerfreigabe.
+- Vorhandene Testergebnisse, Saves und Testmods niemals überschreiben; die Berichte entstehen in einem neuen Zeitstempelverzeichnis. Keine automatisierte CI-Veröffentlichung oder zeitgesteuerte Ausführung.

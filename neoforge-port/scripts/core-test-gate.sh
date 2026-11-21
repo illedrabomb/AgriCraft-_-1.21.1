@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# Explicitly opted-in, core-only automated verification. Never invoked by CI.
+set -Eeuo pipefail
+
+if [[ ${1:-} != '--approve-core-tests' || $# -ne 1 ]]; then
+  echo 'GESPERRT: Nur nach ausdruecklicher Freigabe: bash scripts/core-test-gate.sh --approve-core-tests' >&2
+  exit 2
+fi
+
+project_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$project_dir"
+
+if [[ ! -f build.gradle || ! -f settings.gradle ]]; then
+  echo 'FEHLER: Hauptmod-Projektverzeichnis nicht gefunden.' >&2
+  exit 2
+fi
+
+if [[ -f gradlew ]]; then
+  gradle_cmd=(bash ./gradlew)
+elif command -v gradle >/dev/null 2>&1; then
+  gradle_cmd=(gradle)
+else
+  echo 'FEHLER: Kein Gradle-Wrapper im Repository und kein gradle im PATH. Nichts ausgefuehrt.' >&2
+  exit 2
+fi
+
+if ! command -v java >/dev/null 2>&1; then
+  echo 'FEHLER: Java nicht gefunden. Nichts ausgefuehrt.' >&2
+  exit 2
+fi
+java_version="$(java -version 2>&1 | head -n 1)"
+if [[ "$java_version" != *'"21.'* && "$java_version" != *'"21"'* && "$java_version" != *'openjdk 21 '* ]]; then
+  echo "FEHLER: Java 21 erforderlich, gefunden: $java_version. Nichts ausgefuehrt." >&2
+  exit 2
+fi
+
+if ! command -v git >/dev/null 2>&1; then
+  echo 'FEHLER: Git nicht gefunden. Nichts ausgefuehrt.' >&2
+  exit 2
+fi
+
+branch="$(git branch --show-current)"
+if [[ "$branch" != 'integration/neoforge-1211-consolidation' ]]; then
+  echo "FEHLER: Falscher Branch: $branch. Nichts ausgefuehrt." >&2
+  exit 2
+fi
+if [[ -n "$(git status --porcelain)" ]]; then
+  echo 'FEHLER: Arbeitsbaum nicht sauber. Erst committen und GitHub-HEAD abgleichen.' >&2
+  exit 2
+fi
+
+sha="$(git rev-parse HEAD)"
+timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
+report_dir="$project_dir/build/core-gate-reports/$timestamp-$sha"
+mkdir -p "$report_dir"
+{
+  echo "UTC=$timestamp"
+  echo "BRANCH=$branch"
+  echo "COMMIT=$sha"
+  echo "JAVA=$java_version"
+  echo 'SCOPE=core-only :test :build (no Minecraft run, no addon tasks)'
+  echo 'APPROVAL=explicit CLI flag; user approval must exist separately'
+} > "$report_dir/manifest.txt"
+
+set +e
+"${gradle_cmd[@]}" :test :build --no-daemon --console=plain \
+  > "$report_dir/gradle.log" 2>&1
+result=$?
+set -e
+echo "$result" > "$report_dir/exit-code.txt"
+echo "Protokoll: $report_dir"
+if [[ $result -ne 0 ]]; then
+  echo 'NICHT BESTANDEN: Gradle-Log und Testberichte auswerten; kein Minecraft-Test freigegeben.' >&2
+else
+  echo 'Gradle-Aufgaben abgeschlossen; Berichte/JAR noch manuell zu kontrollieren. Kein Minecraft-Test.'
+fi
+exit "$result"
