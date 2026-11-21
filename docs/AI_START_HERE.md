@@ -47,6 +47,7 @@
 - **DOC-19, kompakter Ergebnisbericht:** `neoforge-port/scripts/summarize-core-gate.py` erzeugt nach freigegebenem Gradle-Vorlauf aus **frischen** JUnit-XMLs und JAR-Artefakten `summary.md` für Codex. [Ablauf und Grenzen](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). Reine Berichtsvorbereitung; keine Tests ausgeführt.
 - **DOC-20, Berichtssicherheit:** Drei isolierte Python-Testquellfälle für frische/veraltete/defekte JUnit-XMLs vorbereitet. Fehlende XMLs werden im Bericht ausdrücklich als fehlender Nachweis statt „bestanden“ markiert. **Weder Python-Unittest noch Gradle/JUnit/Minecraft ausgeführt.**
 - **ST-35, Artenbremsen-Regressionen:** `SpeciesGeneLimitsTest` um gemischte Vier-Eltern-Konstellation, Elternreihenfolge, schwache Kinder und ungültige Elternvorlagen ergänzt; [Codex-Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Testquelle nur geschrieben, kein Test/Build ausgeführt.**
+- **DOC-21, Windows-Vorlauf:** PowerShell-Pendant `neoforge-port/scripts/core-test-gate.ps1` für den Windows-PC vorbereitet: derselbe gesperrte Core-only-Aufruf, Java-/Branch-/Clean-Gates und Ergebnisberichte. [Betrieb/Freigabe](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Nicht auf Windows oder anderweitig ausgeführt.**
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

@@ -14,6 +14,8 @@
 
 **ST-35 (Artenbremse, ungetestet):** Weitere `SpeciesGeneLimitsTest`-Fälle zu vier gemischten Eltern, permutationsunabhängiger Genobergrenze, fehlender Aufwertung schwacher Kinder und ungültiger Elternzahl/Nullvorlage hinzugefügt. Kein JUnit-Lauf und keine BAL-01-Simulation.
 
+**DOC-21 (Windows-Startvorbereitung):** PowerShell-Starter `neoforge-port/scripts/core-test-gate.ps1` als Alternative für den lokalen Windows-PC ergänzt. Nur Quellreview, kein PowerShell-Lauf, kein Build, keine Testfreigabe.
+
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
 
 - [x] ST-01: Branch und Ausgangsübergaben (Handoff, Test-Gate, Multiplayerfälle) abgeglichen; Quellstand seit `70c3ffb0` fortgeschrieben.
