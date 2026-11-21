@@ -70,6 +70,8 @@
 
 **DOC-31 (F2/F3-Bauhilfe, nur Quellvorbereitung):** Dieselbe optionale Funktion erweitert den Bereich um ein getrenntes bewässertes Erntefeld F2 und eine ebene, **nur farblich markierte** F3-Plattform für Analyzer/Chest-Nachbarschaft und Diagonalkontrolle. Bisherige F0/F1-Offsets unverändert; Gesamtausdehnung jetzt X+0..173, Z+0..8, Y−1..+3. Es werden **keine** Blockentities/Items/Seeds angelegt; keine Ernte-, Geräte- oder Multiplayer-Prüfung wird damit ausgeführt. [Sichere Anleitung](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md). **Nicht installiert/ausgeführt.**
 
+**DOC-32 (Bauhilfe in Abschnitte getrennt, ungetestet):** Der vorhandene Aufruf `build_core_fields` bleibt als Kombination erhalten, delegiert aber an `build_f0_f1` und `build_f2_f3`. Bei gleicher Ankerposition können Tester einen Abschnitt separat vorbereiten, ohne die jeweils anderen Flächen erneut zu überschreiben. **Auch Teilaufrufe überschreiben ihr Gelände**, deshalb nur neue Wegwerf-Testwelt mit Backup; keine tatsächliche Ausführung oder Minecraft-Funktionsvalidierung. [Drei Aufrufvarianten](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md).
+
 **DOC-23 (Build-Artefaktidentität, ungetestet):** `summarize-core-gate.py` listet für **frisch erzeugte** JAR-Dateien nun Größe und SHA-256 statt nur Dateinamen. Neuer vierter Python-`unittest`-Quellfall prüft Inhaltshash und dass das Original nicht verändert wird. [Codex-Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) angepasst. Der Hash beweist weder Build-Erfolg noch Codeursprung allein; weiterhin Commit-SHA, Modliste, Log und frische Testberichte nötig. **Weder Skript noch Tests oder Build ausgeführt.**
 
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)
