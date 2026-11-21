@@ -504,9 +504,13 @@ public final class CropSticksBlockEntity extends BlockEntity {
     }
 
     private boolean syncState(PlantDefinition plant) {
+        int previousTotal = totalGrowthStages;
         totalGrowthStages = plant.stages().size();
         setChanged();
-        if (level == null) return false;
+        if (level == null) {
+            totalGrowthStages = previousTotal;
+            return false;
+        }
         BlockState previous = getBlockState();
         // Successful crossbreeding consumes the extra upper sticks: once a genome
                 // exists, the block remains planted on its single lower stick layer.
@@ -518,12 +522,17 @@ public final class CropSticksBlockEntity extends BlockEntity {
                 .setValue(CropSticksBlock.FACING, fruitDirection == null ? Direction.NORTH : fruitDirection)
                 .setValue(CropSticksBlock.SPECIES, genome == null
                         ? CropAppearance.GENERIC : CropAppearance.fromPlantId(genome.plantId()));
-        if (!updated.equals(previous) && !level.setBlock(worldPosition, updated, 3))
+        if (!updated.equals(previous) && !level.setBlock(worldPosition, updated, 3)) {
+            totalGrowthStages = previousTotal;
             return false;
+        }
         // Do not claim a successful planting/cross if an event or another mod
         // has replaced the requested state, even when setBlock returned true.
         BlockState actual = level.getBlockState(worldPosition);
-        if (!actual.equals(updated)) return false;
+        if (!actual.equals(updated)) {
+            totalGrowthStages = previousTotal;
+            return false;
+        }
         level.sendBlockUpdated(worldPosition, previous, actual, 3);
         return true;
     }
