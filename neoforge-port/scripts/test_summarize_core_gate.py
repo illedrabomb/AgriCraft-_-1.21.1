@@ -15,6 +15,27 @@ SPEC.loader.exec_module(MODULE)
 
 
 class CoreGateSummaryTests(unittest.TestCase):
+    def test_windows_manifest_bom_keeps_full_commit_and_scope(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "manifest.txt"
+            path.write_text(
+                "COMMIT=" + "a" * 40 + "\n"
+                "BRANCH=integration/neoforge-1211-consolidation\n"
+                "JAVA=openjdk version 21.0.2\n"
+                "SCOPE=core-only :test :build\n", encoding="utf-8-sig")
+            data = MODULE.read_manifest(path)
+            self.assertEqual("a" * 40, data["COMMIT"])
+            self.assertEqual([], MODULE.manifest_warnings(data))
+
+    def test_missing_or_malformed_manifest_never_proves_provenance(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "missing.txt"
+            self.assertEqual({}, MODULE.read_manifest(path))
+            self.assertEqual(4, len(MODULE.manifest_warnings({})))
+            path.write_text("COMMIT=not-a-sha\nBRANCH=master\n"
+                            "JAVA=\nSCOPE=addon-only\n", encoding="utf-8")
+            self.assertEqual(4, len(MODULE.manifest_warnings(MODULE.read_manifest(path))))
+
     def test_zero_exit_does_not_hide_missing_test_and_jar_evidence(self):
         warnings = MODULE.evidence_warnings(
             "0", [], dict(tests=0, failures=0, errors=0, skipped=0), [], [])

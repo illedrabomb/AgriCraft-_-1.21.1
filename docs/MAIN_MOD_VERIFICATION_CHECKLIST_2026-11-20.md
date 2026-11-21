@@ -60,6 +60,8 @@
 
 **DOC-27 (Codex-Gate-Beleglage, ungetestet):** Der Sonntags-Kurzbericht kennzeichnet fehlende/defekte JUnit-XMLs, keine oder ausschließlich übersprungene Tests, Gradle-Fehler und fehlende JARs ausdrücklich als Warnungen, selbst bei Exitcode 0. Drei zusätzliche Python-Unittest-Quellfälle vorbereitet. Das ist **keine P0/P1-Automatikentscheidung oder Testfreigabe**; Rohlogs und JAR-Zuordnung bleiben manuell zu prüfen. Siehe [Codex-Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md).
 
+**DOC-28 (Core-Gate-Provenienz, ungetestet):** Der Sonntagsbericht liest zusätzlich `manifest.txt` und druckt Git-Commit, Branch, Java und Core-only-Laufumfang. Fehlende/ungültige Werte erscheinen als Belegwarnung; Windows-UTF-8-BOM wird gelesen. Zwei Python-Unittest-Quellfälle vorbereitet. Die Angaben stammen aus dem Startskript, ersetzen aber weder GitHub-HEAD-Abgleich noch SHA-256/JAR-Inspektion. [Ablauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Keine Ausführung.**
+
 **DOC-23 (Build-Artefaktidentität, ungetestet):** `summarize-core-gate.py` listet für **frisch erzeugte** JAR-Dateien nun Größe und SHA-256 statt nur Dateinamen. Neuer vierter Python-`unittest`-Quellfall prüft Inhaltshash und dass das Original nicht verändert wird. [Codex-Vorlauf-Anleitung](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) angepasst. Der Hash beweist weder Build-Erfolg noch Codeursprung allein; weiterhin Commit-SHA, Modliste, Log und frische Testberichte nötig. **Weder Skript noch Tests oder Build ausgeführt.**
 
 ## 1. Bereits erledigte **statische** Quell-/Dokumentprüfung (keine Laufzeittests)

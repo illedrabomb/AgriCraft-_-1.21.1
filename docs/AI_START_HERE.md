@@ -74,6 +74,7 @@
 - **ST-54, Admin-Befehl lokalisiert:** `/cropgenetics harvestmultiplier` gibt Status, Config-Ursprung und Setzen/Zurücksetzen jetzt in DE/EN aus; Berechtigungen und temporäre Wirkung unverändert. Sprach-Vertragstestquelle ergänzt, [Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md). **Kein Testlauf.**
 - **ST-55, Testseed-Rückmeldungen:** Der Operator-Befehl meldet Erfolg und Fehler nun in DE/EN; Ablehnungen verwenden `sendFailure`, ohne eine Saatgut-/Rechteänderung. Sprach-Vertragstest vorbereitet, [Prüfliste](MAIN_MOD_VERIFICATION_CHECKLIST_2026-11-20.md); `ER-15` offen. Kein Build/JUnit/Minecraft-Test.
 - **DOC-27, klarere Gate-Beleglage:** Codex-Kurzbericht hebt fehlende JUnit-/JAR-Nachweise, übersprungene Tests und fehlerhafte Läufe als Warnungen hervor – auch bei Exitcode 0. Drei zusätzliche Parser-Testquellen vorbereitet, [Sonntags-Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). **Keine Ausführung/Freigabe.**
+- **DOC-28, Commit im Gate-Bericht:** Startmanifest wird nun mit Git-Commit, Branch, Java und Core-only-Umfang im Bericht ausgewiesen; fehlende/ungültige Provenienz erzeugt Warnungen. Zwei Parser-Testquellen vorbereitet, [Vorlauf](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). Kein Test ausgeführt.
 
 ## Dokumentenwegweiser
 - [Hauptmod-Testgate](MAIN_MOD_TEST_GATE_2026-11-19.md) – Testaufbau und Prüfverfahren.

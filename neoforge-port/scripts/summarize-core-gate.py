@@ -4,7 +4,37 @@
 import argparse
 import hashlib
 from pathlib import Path
+import re
 import xml.etree.ElementTree as ET
+
+
+EXPECTED_BRANCH = "integration/neoforge-1211-consolidation"
+
+
+def read_manifest(path):
+    """Read only plain, single-line gate metadata (Windows UTF-8 BOM accepted)."""
+    if not path.is_file():
+        return {}
+    data = {}
+    for line in path.read_text(encoding="utf-8-sig").splitlines():
+        key, separator, value = line.partition("=")
+        if separator and key in {"COMMIT", "BRANCH", "JAVA", "SCOPE"}:
+            data[key] = value.strip()
+    return data
+
+
+def manifest_warnings(data):
+    """Reject missing or invalid provenance instead of attributing a JAR."""
+    warnings = []
+    if not re.fullmatch(r"[0-9a-f]{40}", data.get("COMMIT", "")):
+        warnings.append("Git-Commit im Laufmanifest fehlt oder ist ungültig.")
+    if data.get("BRANCH") != EXPECTED_BRANCH:
+        warnings.append("Entwicklungsbranch im Laufmanifest fehlt oder stimmt nicht.")
+    if not data.get("JAVA"):
+        warnings.append("Java-Version im Laufmanifest fehlt.")
+    if not data.get("SCOPE", "").startswith("core-only "):
+        warnings.append("Core-only-Umfang im Laufmanifest fehlt oder stimmt nicht.")
+    return warnings
 
 
 def sha256_file(path):
@@ -80,9 +110,11 @@ def main():
         xml_dir, marker.stat().st_mtime_ns)
 
     code = exit_code.read_text(encoding="utf-8").strip()
+    manifest = read_manifest(report_dir / "manifest.txt")
     jars = sorted(p for p in (project_dir / "build" / "libs").glob("*.jar")
                   if p.stat().st_mtime_ns >= marker.stat().st_mtime_ns)
     warnings = evidence_warnings(code, fresh_xml, totals, invalid_xml, jars)
+    warnings.extend(manifest_warnings(manifest))
     lines = ["# Codex Core-Gate – automatisch extrahierter Befund", "",
              "> Rohdaten-Auswertung, **keine** Ursachenanalyse oder P0/P1-Einstufung.", "",
              "## Beleglage – keine automatische Testfreigabe", "",
@@ -91,6 +123,11 @@ def main():
              ""]
     lines.extend(f"- {warning}" for warning in warnings)
     lines += ["", "## Rohdaten", "",
+             f"- Git-Commit aus Laufmanifest: `{manifest.get('COMMIT', 'FEHLT')}` "
+             "(JAR-Zuordnung zusätzlich prüfen)",
+             f"- Entwicklungsbranch: `{manifest.get('BRANCH', 'FEHLT')}`",
+             f"- Java: `{manifest.get('JAVA', 'FEHLT')}`",
+             f"- Laufumfang: `{manifest.get('SCOPE', 'FEHLT')}`",
              f"- Gradle-Exitcode: `{code}` (0 bedeutet nur Task-Erfolg)",
              f"- Frische JUnit-XML-Dateien: **{len(fresh_xml)}**",
              f"- JUnit-Nachweis: **{'FEHLT' if not fresh_xml else 'VORHANDEN'}** "
