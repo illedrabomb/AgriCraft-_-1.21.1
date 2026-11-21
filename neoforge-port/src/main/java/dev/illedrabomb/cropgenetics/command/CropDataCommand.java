@@ -129,15 +129,19 @@ public final class CropDataCommand {
 
     private static int showHarvestMultiplier(CommandSourceStack source) {
         var server = source.getServer();
-        tell(source, "Harvest drop multiplier: " + HarvestDropOverride.effective(server)
-                + (HarvestDropOverride.isOverridden(server) ? " (temporary override)" : " (server config)"));
+        var origin = Component.translatable(HarvestDropOverride.isOverridden(server)
+                ? "command.cropgenetics.harvestmultiplier.temporary"
+                : "command.cropgenetics.harvestmultiplier.config");
+        source.sendSuccess(() -> Component.translatable(
+                "command.cropgenetics.harvestmultiplier.show",
+                HarvestDropOverride.effective(server), origin), false);
         return 1;
     }
 
     private static int setHarvestMultiplier(CommandSourceStack source, double value) {
         HarvestDropOverride.set(source.getServer(), value);
-        tell(source, "Temporary harvest drop multiplier set to " + value
-                + ". A server restart or /cropgenetics harvestmultiplier reset restores config.");
+        source.sendSuccess(() -> Component.translatable(
+                "command.cropgenetics.harvestmultiplier.set", value), false);
         return 1;
     }
 
