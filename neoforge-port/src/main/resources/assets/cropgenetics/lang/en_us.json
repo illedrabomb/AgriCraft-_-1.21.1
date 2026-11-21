@@ -78,6 +78,7 @@
   "screen.cropgenetics.journal_no_mutations": "No full combinations discovered.",
   "screen.cropgenetics.journal_conditions": "Location and soil rules still apply.",
   "screen.cropgenetics.journal_related_mutations": "Known breeding links: %s",
+  "jei.cropgenetics.conditions.title": "Plant growing conditions",
   "jei.cropgenetics.conditions.pending": "Server plant conditions are not synchronized yet. No local defaults are authoritative.",
   "jei.cropgenetics.conditions.ready": "Server plant conditions received. Open a supported species' Genetic Seed or ordinary seed to see its current rules.",
   "jei.cropgenetics.conditions.plant": "Active species: %s",

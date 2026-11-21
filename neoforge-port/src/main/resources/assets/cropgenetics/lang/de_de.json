@@ -78,6 +78,7 @@
   "screen.cropgenetics.journal_no_mutations": "Noch keine Kombination vollständig entdeckt.",
   "screen.cropgenetics.journal_conditions": "Standort- und Bodenregeln gelten weiterhin.",
   "screen.cropgenetics.journal_related_mutations": "Bekannte Kreuzungsbezüge: %s",
+  "jei.cropgenetics.conditions.title": "Pflanzen-Standortbedingungen",
   "jei.cropgenetics.conditions.pending": "Server-Pflanzenbedingungen sind noch nicht synchronisiert. Lokale Standardwerte sind nicht verbindlich.",
   "jei.cropgenetics.conditions.ready": "Server-Pflanzenbedingungen empfangen. Öffne den genetischen oder normalen Seed einer unterstützten Art für ihre aktuellen Regeln.",
   "jei.cropgenetics.conditions.plant": "Aktive Pflanzenart: %s",

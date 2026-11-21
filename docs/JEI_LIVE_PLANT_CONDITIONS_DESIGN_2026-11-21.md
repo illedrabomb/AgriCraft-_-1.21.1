@@ -94,6 +94,34 @@ ist im Quellcode durch `ModList.isLoaded("jei")` abgegrenzt, aber nicht
 im dedizierten Serverstart bestätigt. Für Sonntag eine neue, getrennte
 Tracker-v5-Suite mit UI-11 erstellen; v4 und bisherige Ergebnisse erhalten.
 
+## Statischer Nachreview – eigene JEI-Kategorie statt `@NonExtendable` (21.11.2026)
+
+Der bisherige Etappe-C-Code implementierte `IJeiIngredientInfoRecipe`, obwohl
+JEI 19.x diese Informationsrezept-Schnittstelle ausdrücklich als
+`@ApiStatus.NonExtendable` markiert. **Dieser konkrete API-Risikofall ist jetzt
+im Quellcode beseitigt:** `LivePlantConditionsJei` registriert eine **eigene**
+`IRecipeCategory<Info>` mit `RecipeType.create`, eigenem Icon, Ingredient-Slots
+und Scrolltext. Die öffentlichen JEI-19.x-Verträge `registerCategories`,
+`IRecipeManager.addRecipes/hideRecipes/unhideRecipes`,
+`IRecipeLayoutBuilder.addInputSlot` und
+`IRecipeExtrasBuilder.addScrollBoxWidget` wurden gegen die öffentliche
+1.21.1-API-Quelle gelesen. Kein Eingriff in JEI-interne Klassen.
+
+**Statischer Reviewstatus:**
+
+| Priorität | Fundstelle | Befund / Maßnahme | Status |
+| --- | --- | --- | --- |
+| HOCH | `LivePlantConditionsJei.Info` (zuvor) | Abhängigkeit von JEIs nicht erweiterbarer Informationsrezept-Schnittstelle | Durch eigene `IRecipeCategory` als Quelländerung beseitigt; **kein Build**. |
+| MITTEL | `LivePlantConditionsJei.CACHE` | Verschiedene Arten-/Seed-Signaturen über viele Datapack-Reloads bleiben als ausgeblendete JEI-Rezepte im Runtime-Manager. JEI 19.x bietet in der geprüften `IRecipeManager`-API kein `removeRecipes`; `hideRecipes` entfernt sie nicht aus dem Speicher. | Bekanntes Langläufer-Risiko; `UI-11h` bleibt Pflichtnachweis, bei deutlichem Wachstum eigene Strategie vor Gameplayfreigabe erforderlich. |
+| MITTEL | `ClientPlantConditions.receive` / `PlantConditionsSync` | Zwischen Reload-Beginn und Serverpaket kann die zuletzt empfangene Version noch sichtbar sein. Keine Frische-Garantie vor Paketeingang. | Ehrlich als „zuletzt empfangene Serverregeln“ ausgewiesen; `UI-11c/e` müssen die Reihenfolge belegen. |
+| MITTEL | `PlantConditionsSync.register` / `ClientPlantConditions` | Dedicated-Server-Classloading und NeoForge-Play-Payload-Reihenfolge ohne Runtimebefund. | `TG-04`, `UI-11d/f` offen. |
+
+Das Modul ist **nicht** automatisch freigegeben: Die Kompatibilität mit der
+tatsächlich eingesetzten JEI-JAR, deren Rezeptindex und der Wechsel zwischen
+Servern bleiben unbewiesen. `PlantConditionsLocalizationContractTest` enthält
+zusätzlich den DE/EN-Kategorietitel, wurde aber nicht ausgeführt. Kein
+Gradle/JUnit/CI/Minecraft/Simulation gestartet.
+
 ## Nutzeranforderung
 
 Für jede in dieser Welt tatsächlich unterstützte Pflanze soll JEI verständlich erklären, auf welchem Boden und unter welchen Umweltbedingungen der Seed wächst: z. B. Ackerboden und Licht, Myzel/Pilze, Zuckerrohr mit Wasser neben dem Boden, gegebenenfalls Block-Tags, Biome, Dimension, Höhe, Jahreszeit und Bodenchemie. Die Anzeige muss nach einem Server-Datapackwechsel aktuell bleiben; JEI ist optional.
