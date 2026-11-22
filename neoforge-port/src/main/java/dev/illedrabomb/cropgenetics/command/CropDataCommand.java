@@ -90,14 +90,14 @@ public final class CropDataCommand {
                                                                         ResourceLocationArgument.getId(ctx, "species").toString(),
                                                                         IntegerArgumentType.getInteger(ctx, "gainOrGrowth"),
                                                                         IntegerArgumentType.getInteger(ctx, "gain"),
-                                                                        IntegerArgumentType.getInteger(ctx, "strength"))))))))
+                                                                        IntegerArgumentType.getInteger(ctx, "strength")))))))))
                 .then(Commands.literal("harvestmultiplier")
                         .executes(ctx -> showHarvestMultiplier(ctx.getSource()))
                         .then(Commands.literal("reset")
                                 .executes(ctx -> resetHarvestMultiplier(ctx.getSource())))
                         .then(Commands.argument("value", DoubleArgumentType.doubleArg(0.0D, 64.0D))
                                 .executes(ctx -> setHarvestMultiplier(ctx.getSource(),
-                                        DoubleArgumentType.getDouble(ctx, "value")))));
+                                        DoubleArgumentType.getDouble(ctx, "value"))))));
     }
 
     /** Supply an unanalysed genetic seed fixture to the invoking operator only. */

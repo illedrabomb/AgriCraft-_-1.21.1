@@ -208,3 +208,12 @@ Freigabe durch den Benutzer erforderlich, **bevor** einer der folgenden Punkte a
 - [ ] DOC-05: Gemeinsamen Hauptmod-Test vollständig abnehmen; **erst danach** eigene Add-on-Testgates freigeben.
 
 **Nächste Aktion:** weitere Hauptmod-Quellarbeit ohne Testausführung. Nach ausdrücklicher Freigabe mit TG-01 beginnen und diese Datei schrittweise fortführen.
+
+## Lokaler Core-Vorlauf 22.11.2026
+
+- Nutzerfreigabe für lokalen Core-only-Test erteilt. Ausgang: `7288dbc7bd8e83585de2ac7094f1f03203e30c35`, Windows 11, Temurin 21.0.12.1+1, Gradle 9.2.1.
+- Erster Lauf `:test :build`: Exitcode 1, `compileJava` scheitert an fehlender schließender Klammer im `testseed`-Befehlszweig von `CropDataCommand.register`. Kein JUnit ausgeführt, kein JAR erzeugt. P1-Buildblocker, kein nachgewiesener Spieldefekt.
+- Minimale Korrektur: `testseed`-Zweig vor dem Geschwisterzweig `harvestmultiplier` schließen. Statisch geprüft: nur eine Klammer, keine Rechte-/Genetik-/NBT-/Inventaränderung. Kein zusätzlicher Testquellfall nötig; Java-Kompilierung prüft die Syntax.
+- Rohbeleg: `neoforge-port/build/core-gate-reports/20261122T165129Z-7288dbc7bd8e83585de2ac7094f1f03203e30c35/`. Einmaliger Folgelauf vorgesehen; Ergebnis noch offen. Minecraft-/MP-Abnahme unverändert offen.
+
+- Folgelauf auf `cbe6f23a18e71bde5fdfedd8c53fa2f3395aeea7`: Exitcode 1, gleicher Syntaxfehler; erste Korrektur unvollständig. Zweite fehlende Klammer am Ende von `register` nun ebenfalls ergänzt. Statische Klammerzählung des Registrierungs-Ausdrucks ausgeglichen. Keine weitere Ausführung gemäß Ein-Folgelauf-Grenze. Kein JUnit und kein JAR nachgewiesen. Zweiter Rohbeleg: `build/core-gate-reports/20261122T165251Z-cbe6f23a18e71bde5fdfedd8c53fa2f3395aeea7/`. Erneuter Core-Lauf benötigt neue Freigabe; beide Klammerkorrekturen noch nicht durch erfolgreiche Kompilierung bestätigt.

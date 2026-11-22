@@ -2,6 +2,10 @@
 
 **Stand:** 20.11.2026. Diese Datei ist eine Navigationshilfe, kein Ersatz für den aktuellen Git-Stand.
 
+## Lokaler Vorlauf 22.11.2026
+
+Core-only-Test freigegeben und auf GitHub-Ausgang `7288dbc7` ausgeführt: Syntaxfehler in `CropDataCommand.register` blockiert die Kompilierung; zwei fehlende Klammern lokal ergänzt. Erster Fix war unvollständig; einmaliger Folgelauf ebenfalls fehlgeschlagen. Endkorrektur nur statisch geprüft, weiterer Lauf benötigt neue Freigabe; Details in der Hauptmod-Prüfliste. Keine Minecraft-Abnahme.
+
 ## In 60 Sekunden starten
 1. Repository `illedrabomb/AgriCraft-_-1.21.1`, Branch `integration/neoforge-1211-consolidation` öffnen. **HEAD aktuell abrufen** – hier keine unveränderliche HEAD-SHA behaupten.
 2. `AGENTS.md` beachten; dann die betroffenen Quelldateien und nur benötigte Detaildokumente lesen.

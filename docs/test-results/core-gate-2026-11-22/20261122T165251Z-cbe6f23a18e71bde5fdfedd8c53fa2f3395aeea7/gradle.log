@@ -1,0 +1,28 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :createMinecraftArtifacts UP-TO-DATE
+
+> Task :compileJava FAILED
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\command\CropDataCommand.java:100: Fehler: ')' oder ',' erwartet
+                                        DoubleArgumentType.getDouble(ctx, "value")))));
+                                                                                      ^
+1 Fehler
+
+[Incubating] Problems report is available at: file:///D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\command\CropDataCommand.java:100: Fehler: ')' oder ',' erwartet
+                                          DoubleArgumentType.getDouble(ctx, "value")))));
+                                                                                        ^
+  1 Fehler
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to generate a Build Scan (powered by Develocity).
+
+BUILD FAILED in 16s
+2 actionable tasks: 1 executed, 1 up-to-date

@@ -1,0 +1,19 @@
+AgriCraft Core-Gate 22.11.2026
+Checkout: D:\guthub repositorys\AgriCraft-core-gate-2026-11-22
+Branch: integration/neoforge-1211-consolidation
+GitHub-Ausgang: 7288dbc7bd8e83585de2ac7094f1f03203e30c35
+Lokaler Endstand (nicht gepusht): 48d5d37cfd6c3308f9357d74bb15f45b591164b0
+Java: Temurin 21.0.12.1+1 unter D:\guthub repositorys\Minecraft_mods\Lena\jdk-21.0.12.1+1
+Gradle: 9.2.1 unter C:\Users\tinob\.gradle\wrapper\dists\gradle-9.2.1-bin\2t0n5ozlw9xmuyvbp7dnzaxug\gradle-9.2.1
+GRADLE_USER_HOME: G:\Android\Gradle
+Freigabe: Nutzer hat lokalen automatischen Core-Vorlauf ausdrücklich freigegeben.
+Umfang: :test :build --no-daemon --console=plain, kein Minecraft/CI/Addon-Test.
+Lauf 1: Ausgangscommit, Exitcode 1, compileJava: fehlende Klammer CropDataCommand.java:100.
+Lauf 2: cbe6f23a18e71bde5fdfedd8c53fa2f3395aeea7, Exitcode 1, gleicher Syntaxfehler. Erste Korrektur unvollständig.
+Endkorrektur: zwei schließende Klammern insgesamt ergänzt (testseed-Zweig und Register-Abschluss). Nur statisch geprüft; git diff --check sauber. Keine NBT-/Inventar-/Balanceänderung.
+JUnit: in beiden Läufen nicht erreicht. Keine frischen XMLs, kein JAR; kein SHA-256 verfügbar.
+Keine P2/P3-Testbefunde möglich, da Kompilierung blockiert.
+Keine erfolgreiche Kompilierung der Endkorrektur nachgewiesen. Weitere Build-/Testausführung erfordert neue Freigabe gemäß Triage-Grenze von einem Folgelauf.
+Originalcheckout und ungesicherte Wrapper-Änderung unverändert. Keine Installation oder globale Java/PATH-Änderung.
+Belege: beigefügte Logs.zip enthält beide vollständigen Gate-Verzeichnisse inklusive Manifest, Log, Exitcode und Parser-Zusammenfassung.
+Lokale Korrekturen einschließlich Dokumentation als Patch beigefügt. Zwei lokale Commits, keine Veröffentlichung auf GitHub, keine CI ausgelöst.
