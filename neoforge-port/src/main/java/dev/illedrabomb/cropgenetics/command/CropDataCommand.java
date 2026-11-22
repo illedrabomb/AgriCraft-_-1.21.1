@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.ArrayList;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
@@ -76,6 +77,8 @@ public final class CropDataCommand {
                 .then(data)
                 .then(Commands.literal("testseed")
                         .then(Commands.argument("species", ResourceLocationArgument.id())
+                                .suggests((ctx, builder) -> SharedSuggestionProvider.suggest(
+                                        registry.snapshot().plants().keySet(), builder))
                                 // One number is the legacy Gain-only shortcut; three
                                 // numbers follow the visible Growth/Gain/Strength order.
                                 .then(Commands.argument("gainOrGrowth", IntegerArgumentType.integer(1, 10))

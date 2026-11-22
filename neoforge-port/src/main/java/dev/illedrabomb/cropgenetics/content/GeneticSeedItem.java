@@ -13,10 +13,11 @@ import java.util.List;
  */
 public final class GeneticSeedItem extends Item {
     public GeneticSeedItem(Properties properties) {
-        // Every seed keeps its own hidden genome until the analyzer reveals it.
-        // An explicit one-seed stack size prevents accidental merging through
-        // foreign inventory mods that compare only item identity.
-        super(properties.stacksTo(1));
+        // Vanilla merges only matching item types AND all data components.
+        // Thus equal genome/analysis/source metadata can stack while distinct
+        // genetic seeds remain separate. The analyzer itself still limits its
+        // slot to one item.
+        super(properties.stacksTo(64));
     }
 
     @Override

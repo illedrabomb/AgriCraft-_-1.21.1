@@ -4,6 +4,8 @@
 
 **Core-Etappe 2 ausgeführt:** [Bericht und Belege](test-results/gameplay-core-2026-11-22-phase2/README.md): 4 pass, 2 partial, 2 P2-fail (UI-01 falsche Slotannahme; UI-09 Journal-Direkteinlage). Gleicher Hauptmod-Build, keine Codeänderung. Nächster Schritt: gemeinsame P2-Korrekturentscheidung; GUI-Portierung bleibt zurückgestellt.
 
+**Neue, ungetestete Core-Regel:** [Identische genetische Seeds stapeln bis 64 / testseed-Artenvorschläge](GENETIC_SEED_STACKING_AND_COMMAND_SUGGESTIONS_2026-11-22.md). Bisherige 212/212-Belege beziehen sich auf den älteren Commit; neue JUnit-/Spielprüfung ist offen. UI-01/UI-09 bleiben separat offen.
+
 ## Lokaler Vorlauf 22.11.2026
 
 Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Nächster Schritt: separat freizugebender persönlicher Minecraft-/v8-Test; keine Spiel-/MP-Abnahme durch JUnit.

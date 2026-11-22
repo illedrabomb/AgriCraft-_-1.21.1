@@ -8,9 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SeedInventoryStackLimitsTest {
     @Test
-    void geneticSeedIsLimitedToOneEvenInChestWithSixtyFourCapacity() {
+    void geneticSeedCanFillChestStackButNotAnalyzerSlot() {
         ItemStack seed = new ItemStack(CropItems.GENETIC_SEED.get());
-        assertEquals(1, SeedInventoryStackLimits.allowedCount(seed, 64));
+        assertEquals(64, SeedInventoryStackLimits.allowedCount(seed, 64));
+        assertEquals(1, SeedInventoryStackLimits.allowedCount(seed, 1));
     }
 
     @Test
