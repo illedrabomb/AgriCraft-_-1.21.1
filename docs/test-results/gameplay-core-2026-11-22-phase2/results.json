@@ -1,0 +1,2517 @@
+{
+  "phase": "Core phase2 2026-11-22",
+  "counts": {
+    "pass": 4,
+    "partial": 2,
+    "fail": 2
+  },
+  "results": [
+    {
+      "id": "ER-14",
+      "testedCommit": "4b2e78db09f02db3ee40a66e4bb98a8f7f4acac2",
+      "jarSha256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+      "worldCopy": "D:\\guthub repositorys\\AgriCraft-core-gate-2026-11-22\\work\\gameplay-phase2-20261122\\server\\isolated-core-world",
+      "profile": "Core server / MCPFabric-instrumented dev client, 1 local player",
+      "startUtc": "2026-11-22T18:18:14.085632+00:00",
+      "endUtc": "2026-11-22T18:33:53.097913+00:00",
+      "timeNote": "Conservative full-phase bounds; exact actions timestamped in evidence/rpc.jsonl. Raw trial start fields were recorded at result capture for some trials.",
+      "actions": "12 frische Ernten: Standard/Kürbis/Melone je Faktor 0/1/2/64. Faktor 0 ohne Produkte, beim Abbau je Seed+Stick. Faktor 64 je ein Produktstapel 64. Reset auf Serverconfig 1.0 belegt.",
+      "observedItemCounts": [
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [],
+          "stateAfter": {
+            "stage": 4,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "0, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 0L, z: 20, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "10, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 1L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "20, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 20, y: 100, FruitChancePassed: 1L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:wheat",
+              "count": 5
+            }
+          ],
+          "stateAfter": {
+            "stage": 4,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "30, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 0L, z: 20, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 3
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "40, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 2L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 2L, FruitPlacementEligibleFailed: 0L, x: 40, y: 100, FruitChancePassed: 1L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:melon_slice",
+              "count": 14
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "50, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 2L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 2L, FruitPlacementEligibleFailed: 0L, x: 50, y: 100, FruitChancePassed: 1L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:wheat",
+              "count": 12
+            }
+          ],
+          "stateAfter": {
+            "stage": 4,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "0, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 0L, z: 32, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 8
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "10, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 1L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:melon_slice",
+              "count": 28
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "20, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 20, y: 100, FruitChancePassed: 1L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:wheat",
+              "count": 64
+            }
+          ],
+          "stateAfter": {
+            "stage": 4,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "30, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 0L, z: 32, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 64
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "40, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 2L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 2L, FruitPlacementEligibleFailed: 0L, x: 40, y: 100, FruitChancePassed: 1L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:melon_slice",
+              "count": 64
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "50, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 50, y: 100, FruitChancePassed: 1L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        }
+      ],
+      "serverProof": [
+        {
+          "stage": 7,
+          "ready": 0,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "0, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 0L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "10, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 1L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "20, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 20, y: 100, FruitChancePassed: 1L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 0,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "30, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 0L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "40, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 2L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 2L, FruitPlacementEligibleFailed: 0L, x: 40, y: 100, FruitChancePassed: 1L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "50, 100, 20 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 2L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 2L, FruitPlacementEligibleFailed: 0L, x: 50, y: 100, FruitChancePassed: 1L, z: 20, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 0,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "0, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 0L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "10, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 1L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "20, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 20, y: 100, FruitChancePassed: 1L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 0,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "30, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 0L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "40, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 2L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 2L, FruitPlacementEligibleFailed: 0L, x: 40, y: 100, FruitChancePassed: 1L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "50, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 50, y: 100, FruitChancePassed: 1L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        }
+      ],
+      "screenshots": [
+        "shot-191907230284.png",
+        "shot-191919031801.png",
+        "shot-191930861055.png",
+        "shot-191940093799.png",
+        "shot-191950328130.png",
+        "shot-192000528386.png",
+        "shot-192008244354.png",
+        "shot-192018479032.png",
+        "shot-192028713482.png",
+        "shot-192036297094.png",
+        "shot-192046498662.png",
+        "shot-192058981815.png"
+      ],
+      "status": "pass",
+      "failureOrBlocker": null,
+      "rollback": "New world copy; source unchanged; multiplier reset 1.0; randomTickSpeed 0; isolated client binding F10; server saved and both processes closed.",
+      "rawTrialReferences": [
+        "wheat-factor-0",
+        "pumpkin-factor-0",
+        "melon-factor-0",
+        "wheat-factor-1",
+        "pumpkin-factor-1",
+        "melon-factor-1",
+        "wheat-factor-2",
+        "pumpkin-factor-2",
+        "melon-factor-2",
+        "wheat-factor-64",
+        "pumpkin-factor-64",
+        "melon-factor-64"
+      ]
+    },
+    {
+      "id": "ER-03",
+      "testedCommit": "4b2e78db09f02db3ee40a66e4bb98a8f7f4acac2",
+      "jarSha256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+      "worldCopy": "D:\\guthub repositorys\\AgriCraft-core-gate-2026-11-22\\work\\gameplay-phase2-20261122\\server\\isolated-core-world",
+      "profile": "Core server / MCPFabric-instrumented dev client, 1 local player",
+      "startUtc": "2026-11-22T18:18:14.085632+00:00",
+      "endUtc": "2026-11-22T18:33:53.097913+00:00",
+      "timeNote": "Conservative full-phase bounds; exact actions timestamped in evidence/rpc.jsonl. Raw trial start fields were recorded at result capture for some trials.",
+      "actions": "Hoher Gain 10: Weizen bei Faktor 64 genau ein serverseitig gemessener Produktstapel mit 64. Keine separaten Mehrfachprodukt-Datapackdefinitionen getestet.",
+      "observedItemCounts": [
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:wheat",
+              "count": 64
+            }
+          ],
+          "stateAfter": {
+            "stage": 4,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "30, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 0L, z: 32, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        }
+      ],
+      "serverProof": [
+        {
+          "stage": 7,
+          "ready": 0,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "30, 100, 32 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 0L, z: 32, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:wheat_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        }
+      ],
+      "screenshots": [
+        "shot-192036297094.png"
+      ],
+      "status": "pass",
+      "failureOrBlocker": null,
+      "rollback": "New world copy; source unchanged; multiplier reset 1.0; randomTickSpeed 0; isolated client binding F10; server saved and both processes closed.",
+      "rawTrialReferences": [
+        "wheat-factor-64"
+      ]
+    },
+    {
+      "id": "ER-13",
+      "testedCommit": "4b2e78db09f02db3ee40a66e4bb98a8f7f4acac2",
+      "jarSha256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+      "worldCopy": "D:\\guthub repositorys\\AgriCraft-core-gate-2026-11-22\\work\\gameplay-phase2-20261122\\server\\isolated-core-world",
+      "profile": "Core server / MCPFabric-instrumented dev client, 1 local player",
+      "startUtc": "2026-11-22T18:18:14.085632+00:00",
+      "endUtc": "2026-11-22T18:33:53.097913+00:00",
+      "timeNote": "Conservative full-phase bounds; exact actions timestamped in evidence/rpc.jsonl. Raw trial start fields were recorded at result capture for some trials.",
+      "actions": "Zwei bestätigte interne Fruchtzyklen pro Gain: Gain 1 jeweils 4 Scheiben, Gain 10 14 und 15; keine ganzen Melonenblöcke, je ein Stack.",
+      "observedItemCounts": [
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:melon_slice",
+              "count": 4
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 1,
+            "growth": 1,
+            "strength": 1,
+            "text": "0, 100, 44 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 9L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 9L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 1L, z: 44, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 1}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:melon_slice",
+              "count": 4
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 1,
+            "growth": 1,
+            "strength": 1,
+            "text": "0, 100, 44 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 12L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 12L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 2L, z: 44, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 1}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:melon_slice",
+              "count": 14
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "10, 100, 44 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 1L, z: 44, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:melon_slice",
+              "count": 15
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "10, 100, 44 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 2L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 2L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 2L, z: 44, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        }
+      ],
+      "serverProof": [
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 1,
+          "growth": 1,
+          "strength": 1,
+          "text": "0, 100, 44 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 9L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 9L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 1L, z: 44, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 1}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 1,
+          "growth": 1,
+          "strength": 1,
+          "text": "0, 100, 44 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 12L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 12L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 2L, z: 44, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 1}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "10, 100, 44 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 1L, z: 44, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "10, 100, 44 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 2L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 2L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 2L, z: 44, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:melon_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:melon_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        }
+      ],
+      "screenshots": [
+        "shot-192149833716.png",
+        "shot-192155233980.png",
+        "shot-192205451730.png",
+        "shot-192210902216.png"
+      ],
+      "status": "pass",
+      "failureOrBlocker": null,
+      "rollback": "New world copy; source unchanged; multiplier reset 1.0; randomTickSpeed 0; isolated client binding F10; server saved and both processes closed.",
+      "rawTrialReferences": [
+        "gain-1-cycle-1",
+        "gain-1-cycle-2",
+        "gain-10-cycle-1",
+        "gain-10-cycle-2"
+      ]
+    },
+    {
+      "id": "ER-12",
+      "testedCommit": "4b2e78db09f02db3ee40a66e4bb98a8f7f4acac2",
+      "jarSha256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+      "worldCopy": "D:\\guthub repositorys\\AgriCraft-core-gate-2026-11-22\\work\\gameplay-phase2-20261122\\server\\isolated-core-world",
+      "profile": "Core server / MCPFabric-instrumented dev client, 1 local player",
+      "startUtc": "2026-11-22T18:18:14.085632+00:00",
+      "endUtc": "2026-11-22T18:33:53.097913+00:00",
+      "timeNote": "Conservative full-phase bounds; exact actions timestamped in evidence/rpc.jsonl. Raw trial start fields were recorded at result capture for some trials.",
+      "actions": "Zwei Fruchtzyklen je Gain 1/2/5/8/10. Beobachtete Grenzen gültig, Gain 1 beide Male 1. Kleine Stichprobe erlaubt keinen Prozentnachweis. Tagbasierte Dropmessung beim letzten Zyklus durch Item-Merging verfälscht: Audit Gesamtstapel 6 statt vorher 3, neue Differenz 3; kein Itemverlust belegt.",
+      "observedItemCounts": [
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 1
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 1,
+            "growth": 1,
+            "strength": 1,
+            "text": "0, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 1}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 1
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 1,
+            "growth": 1,
+            "strength": 1,
+            "text": "0, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 4L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 4L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 1}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 1
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 2,
+            "growth": 1,
+            "strength": 1,
+            "text": "10, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 23L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 23L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 2}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 2
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 2,
+            "growth": 1,
+            "strength": 1,
+            "text": "10, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 26L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 26L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 2}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 3
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 5,
+            "growth": 1,
+            "strength": 1,
+            "text": "20, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 7L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 7L, FruitPlacementEligibleFailed: 0L, x: 20, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 5}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 2
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 5,
+            "growth": 1,
+            "strength": 1,
+            "text": "20, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 10L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 10L, FruitPlacementEligibleFailed: 0L, x: 20, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 5}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 3
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 8,
+            "growth": 1,
+            "strength": 1,
+            "text": "30, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 8}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 2
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 8,
+            "growth": 1,
+            "strength": 1,
+            "text": "30, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 8}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [
+            {
+              "id": "minecraft:pumpkin",
+              "count": 3
+            }
+          ],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "40, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 40, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "inventoryBefore": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "drops": [],
+          "stateAfter": {
+            "stage": 7,
+            "ready": 0,
+            "gain": 10,
+            "growth": 1,
+            "strength": 1,
+            "text": "40, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 6L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 6L, FruitPlacementEligibleFailed: 0L, x: 40, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+          },
+          "inventoryAfter": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:bone_meal",
+                "count": 25,
+                "name": "Bone Meal",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          }
+        },
+        {
+          "firstCycle": 3,
+          "mergedTotalAfterSecond": 6,
+          "secondCycleDifference": 3
+        }
+      ],
+      "serverProof": [
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 1,
+          "growth": 1,
+          "strength": 1,
+          "text": "0, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 1}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 1,
+          "growth": 1,
+          "strength": 1,
+          "text": "0, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 4L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 4L, FruitPlacementEligibleFailed: 0L, x: 0, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 1}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 2,
+          "growth": 1,
+          "strength": 1,
+          "text": "10, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 23L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 23L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 2}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 2,
+          "growth": 1,
+          "strength": 1,
+          "text": "10, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 26L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 26L, FruitPlacementEligibleFailed: 0L, x: 10, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 2}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 5,
+          "growth": 1,
+          "strength": 1,
+          "text": "20, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 7L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 7L, FruitPlacementEligibleFailed: 0L, x: 20, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 5}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 5,
+          "growth": 1,
+          "strength": 1,
+          "text": "20, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 10L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 10L, FruitPlacementEligibleFailed: 0L, x: 20, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 5}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 8,
+          "growth": 1,
+          "strength": 1,
+          "text": "30, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 8}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 8,
+          "growth": 1,
+          "strength": 1,
+          "text": "30, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 30, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 8}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "40, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 1L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 1L, FruitPlacementEligibleFailed: 0L, x: 40, y: 100, FruitChancePassed: 1L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        {
+          "stage": 7,
+          "ready": 1,
+          "gain": 10,
+          "growth": 1,
+          "strength": 1,
+          "text": "40, 100, 60 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 6L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 6L, FruitPlacementEligibleFailed: 0L, x: 40, y: 100, FruitChancePassed: 2L, z: 60, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: \"minecraft:pumpkin_seeds\", id: \"cropgenetics:crop_sticks\", Genome: {strength: 1, plant: \"minecraft:pumpkin_plant\", growth: 1, gain: 10}, TotalGrowthStages: 8}"
+        },
+        [
+          "Pumpkin has the following entity data: {Motion: [-1.4598659813973355E-84d, -0.04d, -4.7024782854203257E-85d], Health: 5s, Invulnerable: 0b, Air: 300s, OnGround: 1b, PortalCooldown: 0, Rotation: [175.6491f, 0.0f], FallDistance: 0.0f, Item: {count: 6, id: \"minecraft:pumpkin\"}, Pos: [40.23389046957642d, 99.9375d, 60.39371488988953d], PickupDelay: 0s, Fire: -1s, UUID: [I; 517334684, -631093451, -1737884651, -1745277881], Lifespan: 6000, Tags: [\"er12_10_2\"], Age: 1315s}"
+        ]
+      ],
+      "screenshots": [
+        "shot-192221154795.png",
+        "shot-192226553293.png",
+        "shot-192246021321.png",
+        "shot-192251422272.png",
+        "shot-192306172793.png",
+        "shot-192311573075.png",
+        "shot-192321739881.png",
+        "shot-192327140469.png",
+        "shot-192337374792.png",
+        "shot-192342774860.png"
+      ],
+      "status": "partial",
+      "failureOrBlocker": "Zwei Fruchtzyklen je Gain 1/2/5/8/10. Beobachtete Grenzen gültig, Gain 1 beide Male 1. Kleine Stichprobe erlaubt keinen Prozentnachweis. Tagbasierte Dropmessung beim letzten Zyklus durch Item-Merging verfälscht: Audit Gesamtstapel 6 statt vorher 3, neue Differenz 3; kein Itemverlust belegt.",
+      "rollback": "New world copy; source unchanged; multiplier reset 1.0; randomTickSpeed 0; isolated client binding F10; server saved and both processes closed.",
+      "rawTrialReferences": [
+        "gain-1-cycle-1",
+        "gain-1-cycle-2",
+        "gain-2-cycle-1",
+        "gain-2-cycle-2",
+        "gain-5-cycle-1",
+        "gain-5-cycle-2",
+        "gain-8-cycle-1",
+        "gain-8-cycle-2",
+        "gain-10-cycle-1",
+        "gain-10-cycle-2",
+        "gain-10-cycle-2-audit"
+      ]
+    },
+    {
+      "id": "UI-09",
+      "testedCommit": "4b2e78db09f02db3ee40a66e4bb98a8f7f4acac2",
+      "jarSha256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+      "worldCopy": "D:\\guthub repositorys\\AgriCraft-core-gate-2026-11-22\\work\\gameplay-phase2-20261122\\server\\isolated-core-world",
+      "profile": "Core server / MCPFabric-instrumented dev client, 1 local player",
+      "startUtc": "2026-11-22T18:18:14.085632+00:00",
+      "endUtc": "2026-11-22T18:33:53.097913+00:00",
+      "timeNote": "Conservative full-phase bounds; exact actions timestamped in evidence/rpc.jsonl. Raw trial start fields were recorded at result capture for some trials.",
+      "actions": "Ausgewähltes Journal und clientseitiges sneaking=true vor beiden Wegen bestätigt. Normaler Rechtsklick öffnet Journal; explizites useOn fügt nicht ein. Hand bleibt 1, Journalslot leer. P2 reproduziert über API; keine zusätzliche native Mausbestätigung.",
+      "observedItemCounts": {
+        "seedBefore": {
+          "selectedSlot": 0,
+          "hotbar": [
+            {
+              "id": "cropgenetics:genetic_seed",
+              "count": 1,
+              "name": "Wheat Crops Genetic Seed",
+              "slot": 0
+            }
+          ],
+          "main": [],
+          "armor": [],
+          "offhand": {
+            "empty": true
+          }
+        },
+        "seedAfter": {
+          "selectedSlot": 0,
+          "hotbar": [],
+          "main": [],
+          "armor": [],
+          "offhand": {
+            "empty": true
+          }
+        },
+        "occupiedSeedBefore": {
+          "selectedSlot": 0,
+          "hotbar": [
+            {
+              "id": "cropgenetics:genetic_seed",
+              "count": 1,
+              "name": "Wheat Crops Genetic Seed",
+              "slot": 0
+            }
+          ],
+          "main": [],
+          "armor": [],
+          "offhand": {
+            "empty": true
+          }
+        },
+        "occupiedSeedAfter": {
+          "selectedSlot": 0,
+          "hotbar": [
+            {
+              "id": "cropgenetics:genetic_seed",
+              "count": 1,
+              "name": "Wheat Crops Genetic Seed",
+              "slot": 0
+            }
+          ],
+          "main": [],
+          "armor": [],
+          "offhand": {
+            "empty": true
+          }
+        },
+        "journalBeforeAfter": [
+          {
+            "before": {
+              "selectedSlot": 1,
+              "hotbar": [
+                {
+                  "id": "cropgenetics:genetic_seed",
+                  "count": 1,
+                  "name": "Wheat Crops Genetic Seed",
+                  "slot": 0
+                },
+                {
+                  "id": "cropgenetics:seed_journal",
+                  "count": 1,
+                  "name": "Seed Journal",
+                  "slot": 1
+                }
+              ],
+              "main": [],
+              "armor": [],
+              "offhand": {
+                "empty": true
+              }
+            },
+            "after": {
+              "selectedSlot": 1,
+              "hotbar": [
+                {
+                  "id": "cropgenetics:genetic_seed",
+                  "count": 1,
+                  "name": "Wheat Crops Genetic Seed",
+                  "slot": 0
+                },
+                {
+                  "id": "cropgenetics:seed_journal",
+                  "count": 1,
+                  "name": "Seed Journal",
+                  "slot": 1
+                }
+              ],
+              "main": [],
+              "armor": [],
+              "offhand": {
+                "empty": true
+              }
+            }
+          },
+          {
+            "before": {
+              "selectedSlot": 1,
+              "hotbar": [
+                {
+                  "id": "cropgenetics:genetic_seed",
+                  "count": 1,
+                  "name": "Wheat Crops Genetic Seed",
+                  "slot": 0
+                },
+                {
+                  "id": "cropgenetics:seed_journal",
+                  "count": 1,
+                  "name": "Seed Journal",
+                  "slot": 1
+                }
+              ],
+              "main": [],
+              "armor": [],
+              "offhand": {
+                "empty": true
+              }
+            },
+            "after": {
+              "selectedSlot": 1,
+              "hotbar": [
+                {
+                  "id": "cropgenetics:genetic_seed",
+                  "count": 1,
+                  "name": "Wheat Crops Genetic Seed",
+                  "slot": 0
+                },
+                {
+                  "id": "cropgenetics:seed_journal",
+                  "count": 1,
+                  "name": "Seed Journal",
+                  "slot": 1
+                }
+              ],
+              "main": [],
+              "armor": [],
+              "offhand": {
+                "empty": true
+              }
+            }
+          }
+        ]
+      },
+      "serverProof": {
+        "seedSlot": [
+          "56, 100, 48 has the following block data: {x: 56, y: 100, Items: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}, \"cropgenetics:analyzed\": 1b}, id: \"cropgenetics:genetic_seed\"}], z: 48, id: \"cropgenetics:seed_analyzer\"}"
+        ],
+        "occupiedSeedSlot": [
+          "56, 100, 48 has the following block data: {x: 56, y: 100, Items: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}, \"cropgenetics:analyzed\": 1b}, id: \"cropgenetics:genetic_seed\"}], z: 48, id: \"cropgenetics:seed_analyzer\"}"
+        ],
+        "journalAttempts": [
+          {
+            "method": "interact.useItem",
+            "confirmedPlayerState": {
+              "x": 56.5,
+              "y": 100.0,
+              "z": 51.5,
+              "yaw": -180.0,
+              "pitch": 20.472055,
+              "motion": {
+                "x": 0.0,
+                "y": -0.0784000015258789,
+                "z": 0.0
+              },
+              "health": 20.0,
+              "maxHealth": 20.0,
+              "food": 20,
+              "saturation": 20.0,
+              "air": 300,
+              "maxAir": 300,
+              "xpLevel": 0,
+              "xpProgress": 0.0,
+              "onGround": true,
+              "inWater": false,
+              "sprinting": false,
+              "sneaking": true,
+              "usingItem": false,
+              "selectedSlot": 1,
+              "dimension": "minecraft:overworld",
+              "gameMode": "survival"
+            },
+            "inventoryBefore": {
+              "selectedSlot": 1,
+              "hotbar": [
+                {
+                  "id": "cropgenetics:genetic_seed",
+                  "count": 1,
+                  "name": "Wheat Crops Genetic Seed",
+                  "slot": 0
+                },
+                {
+                  "id": "cropgenetics:seed_journal",
+                  "count": 1,
+                  "name": "Seed Journal",
+                  "slot": 1
+                }
+              ],
+              "main": [],
+              "armor": [],
+              "offhand": {
+                "empty": true
+              }
+            },
+            "inventoryAfter": {
+              "selectedSlot": 1,
+              "hotbar": [
+                {
+                  "id": "cropgenetics:genetic_seed",
+                  "count": 1,
+                  "name": "Wheat Crops Genetic Seed",
+                  "slot": 0
+                },
+                {
+                  "id": "cropgenetics:seed_journal",
+                  "count": 1,
+                  "name": "Seed Journal",
+                  "slot": 1
+                }
+              ],
+              "main": [],
+              "armor": [],
+              "offhand": {
+                "empty": true
+              }
+            },
+            "serverBefore": [
+              "56, 100, 48 has the following block data: {x: 56, y: 100, Items: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}, \"cropgenetics:analyzed\": 1b}, id: \"cropgenetics:genetic_seed\"}], z: 48, id: \"cropgenetics:seed_analyzer\"}"
+            ],
+            "serverAfter": [
+              "56, 100, 48 has the following block data: {x: 56, y: 100, Items: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}, \"cropgenetics:analyzed\": 1b}, id: \"cropgenetics:genetic_seed\"}], z: 48, id: \"cropgenetics:seed_analyzer\"}"
+            ],
+            "action": {
+              "target": "air",
+              "result": "SUCCESS"
+            },
+            "screen": {
+              "inWorld": true,
+              "screen": "other",
+              "title": "Seed Journal",
+              "paused": false,
+              "canJoin": false,
+              "lastWorldId": "mp:7bbcd82d03376a6c"
+            },
+            "screenshot": "shot-192512135126.png"
+          },
+          {
+            "method": "interact.placeBlock",
+            "confirmedPlayerState": {
+              "x": 56.5,
+              "y": 100.0,
+              "z": 51.5,
+              "yaw": -180.0,
+              "pitch": 20.472055,
+              "motion": {
+                "x": 0.0,
+                "y": -0.0784000015258789,
+                "z": 0.0
+              },
+              "health": 20.0,
+              "maxHealth": 20.0,
+              "food": 20,
+              "saturation": 20.0,
+              "air": 300,
+              "maxAir": 300,
+              "xpLevel": 0,
+              "xpProgress": 0.0,
+              "onGround": true,
+              "inWater": false,
+              "sprinting": false,
+              "sneaking": true,
+              "usingItem": false,
+              "selectedSlot": 1,
+              "dimension": "minecraft:overworld",
+              "gameMode": "survival"
+            },
+            "inventoryBefore": {
+              "selectedSlot": 1,
+              "hotbar": [
+                {
+                  "id": "cropgenetics:genetic_seed",
+                  "count": 1,
+                  "name": "Wheat Crops Genetic Seed",
+                  "slot": 0
+                },
+                {
+                  "id": "cropgenetics:seed_journal",
+                  "count": 1,
+                  "name": "Seed Journal",
+                  "slot": 1
+                }
+              ],
+              "main": [],
+              "armor": [],
+              "offhand": {
+                "empty": true
+              }
+            },
+            "inventoryAfter": {
+              "selectedSlot": 1,
+              "hotbar": [
+                {
+                  "id": "cropgenetics:genetic_seed",
+                  "count": 1,
+                  "name": "Wheat Crops Genetic Seed",
+                  "slot": 0
+                },
+                {
+                  "id": "cropgenetics:seed_journal",
+                  "count": 1,
+                  "name": "Seed Journal",
+                  "slot": 1
+                }
+              ],
+              "main": [],
+              "armor": [],
+              "offhand": {
+                "empty": true
+              }
+            },
+            "serverBefore": [
+              "56, 100, 48 has the following block data: {x: 56, y: 100, Items: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}, \"cropgenetics:analyzed\": 1b}, id: \"cropgenetics:genetic_seed\"}], z: 48, id: \"cropgenetics:seed_analyzer\"}"
+            ],
+            "serverAfter": [
+              "56, 100, 48 has the following block data: {x: 56, y: 100, Items: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}, \"cropgenetics:analyzed\": 1b}, id: \"cropgenetics:genetic_seed\"}], z: 48, id: \"cropgenetics:seed_analyzer\"}"
+            ],
+            "action": {
+              "result": "PASS",
+              "note": "Connected to a remote server: 'result' is the client's prediction; poll get_block to confirm."
+            },
+            "screen": {
+              "inWorld": true,
+              "screen": "none",
+              "paused": false,
+              "canJoin": false,
+              "lastWorldId": "mp:7bbcd82d03376a6c"
+            },
+            "screenshot": "shot-192514980768.png"
+          }
+        ]
+      },
+      "screenshots": [
+        "shot-192512135126.png",
+        "shot-192514980768.png"
+      ],
+      "status": "fail",
+      "failureOrBlocker": "Ausgewähltes Journal und clientseitiges sneaking=true vor beiden Wegen bestätigt. Normaler Rechtsklick öffnet Journal; explizites useOn fügt nicht ein. Hand bleibt 1, Journalslot leer. P2 reproduziert über API; keine zusätzliche native Mausbestätigung.",
+      "rollback": "New world copy; source unchanged; multiplier reset 1.0; randomTickSpeed 0; isolated client binding F10; server saved and both processes closed.",
+      "rawTrialReferences": [
+        "single",
+        "reviewed-confirmed-sneak"
+      ]
+    },
+    {
+      "id": "UI-01",
+      "testedCommit": "4b2e78db09f02db3ee40a66e4bb98a8f7f4acac2",
+      "jarSha256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+      "worldCopy": "D:\\guthub repositorys\\AgriCraft-core-gate-2026-11-22\\work\\gameplay-phase2-20261122\\server\\isolated-core-world",
+      "profile": "Core server / MCPFabric-instrumented dev client, 1 local player",
+      "startUtc": "2026-11-22T18:18:14.085632+00:00",
+      "endUtc": "2026-11-22T18:33:53.097913+00:00",
+      "timeNote": "Conservative full-phase bounds; exact actions timestamped in evidence/rpc.jsonl. Raw trial start fields were recorded at result capture for some trials.",
+      "actions": "Server bestätigt unzulässige Speicherung in Journal-/Füllslots: nach 64er Shift-Klick Seeds in Slots 0..8, Chest 55; nach Füllslotversuch Stick in Slot 2. Gesamt Seeds 64 erhalten (8 Analyzer +55 Chest +1 Spieler). Ursache: super.mayPlace liefert true statt Container-Slotfilter. Kein nachgewiesener Verlust, P2, keine Reparatur.",
+      "observedItemCounts": [
+        {
+          "wheatSeedsTotal": 64,
+          "seedSlotsInAnalyzer": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "chestSeeds": 55,
+          "playerSeeds": 1,
+          "stickInFillerSlot": 2
+        }
+      ],
+      "serverProof": [
+        {
+          "menu": {
+            "open": true,
+            "containerId": 2,
+            "type": "minecraft:generic_9x4",
+            "title": "Seed Analyzer + Seed Chest",
+            "size": 36,
+            "slots": [
+              {
+                "slot": 0,
+                "id": "minecraft:wheat_seeds",
+                "count": 1
+              },
+              {
+                "slot": 1,
+                "id": "minecraft:wheat_seeds",
+                "count": 1
+              },
+              {
+                "slot": 2,
+                "id": "minecraft:stick",
+                "count": 1
+              },
+              {
+                "slot": 3,
+                "id": "minecraft:wheat_seeds",
+                "count": 1
+              },
+              {
+                "slot": 4,
+                "id": "minecraft:wheat_seeds",
+                "count": 1
+              },
+              {
+                "slot": 5,
+                "id": "minecraft:wheat_seeds",
+                "count": 1
+              },
+              {
+                "slot": 6,
+                "id": "minecraft:wheat_seeds",
+                "count": 1
+              },
+              {
+                "slot": 7,
+                "id": "minecraft:wheat_seeds",
+                "count": 1
+              },
+              {
+                "slot": 8,
+                "id": "minecraft:wheat_seeds",
+                "count": 1
+              },
+              {
+                "slot": 9,
+                "id": "minecraft:wheat_seeds",
+                "count": 55
+              }
+            ]
+          },
+          "analyzer": [
+            "56, 100, 60 has the following block data: {x: 56, y: 100, Items: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 1, plant: \"minecraft:wheat_plant\", growth: 1, gain: 1}, \"cropgenetics:analyzed\": 1b}, id: \"minecraft:wheat_seeds\"}, {count: 1, Slot: 1b, id: \"minecraft:wheat_seeds\"}, {count: 1, Slot: 2b, id: \"minecraft:stick\"}, {count: 1, Slot: 3b, id: \"minecraft:wheat_seeds\"}, {count: 1, Slot: 4b, id: \"minecraft:wheat_seeds\"}, {count: 1, Slot: 5b, id: \"minecraft:wheat_seeds\"}, {count: 1, Slot: 6b, id: \"minecraft:wheat_seeds\"}, {count: 1, Slot: 7b, id: \"minecraft:wheat_seeds\"}, {count: 1, Slot: 8b, id: \"minecraft:wheat_seeds\"}], z: 60, id: \"cropgenetics:seed_analyzer\"}"
+          ],
+          "chest": [
+            "57, 100, 60 has the following block data: {x: 57, y: 100, Items: [{count: 55, Slot: 0b, id: \"minecraft:wheat_seeds\"}], z: 60, id: \"cropgenetics:seed_chest\"}"
+          ],
+          "inventory": [
+            "Dev has the following entity data: [{count: 1, Slot: 1b, id: \"cropgenetics:seed_journal\"}, {count: 1, Slot: 2b, id: \"minecraft:wheat_seeds\"}, {count: 1, Slot: 3b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}}, id: \"cropgenetics:genetic_seed\"}]"
+          ]
+        }
+      ],
+      "screenshots": [
+        "shot-192648301593.png"
+      ],
+      "status": "fail",
+      "failureOrBlocker": "Server bestätigt unzulässige Speicherung in Journal-/Füllslots: nach 64er Shift-Klick Seeds in Slots 0..8, Chest 55; nach Füllslotversuch Stick in Slot 2. Gesamt Seeds 64 erhalten (8 Analyzer +55 Chest +1 Spieler). Ursache: super.mayPlace liefert true statt Container-Slotfilter. Kein nachgewiesener Verlust, P2, keine Reparatur.",
+      "rollback": "New world copy; source unchanged; multiplier reset 1.0; randomTickSpeed 0; isolated client binding F10; server saved and both processes closed.",
+      "rawTrialReferences": [
+        "single"
+      ]
+    },
+    {
+      "id": "ER-08",
+      "testedCommit": "4b2e78db09f02db3ee40a66e4bb98a8f7f4acac2",
+      "jarSha256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+      "worldCopy": "D:\\guthub repositorys\\AgriCraft-core-gate-2026-11-22\\work\\gameplay-phase2-20261122\\server\\isolated-core-world",
+      "profile": "Core server / MCPFabric-instrumented dev client, 1 local player",
+      "startUtc": "2026-11-22T18:18:14.085632+00:00",
+      "endUtc": "2026-11-22T18:33:53.097913+00:00",
+      "timeNote": "Conservative full-phase bounds; exact actions timestamped in evidence/rpc.jsonl. Raw trial start fields were recorded at result capture for some trials.",
+      "actions": "Echte Menü-Slotklicks: Papier 1/16/benannt16 sowie Shift-Klick mit zwei sequenziell eingelegten Seeds. Papiermenge/Name erhalten, je Craft ein Originalseed, Gesamtmengen stimmen.",
+      "observedItemCounts": [
+        {
+          "before": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "cropgenetics:genetic_seed",
+                "count": 1,
+                "name": "Wheat Crops Genetic Seed",
+                "slot": 0
+              },
+              {
+                "id": "minecraft:paper",
+                "count": 1,
+                "name": "Paper",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "after": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:wheat_seeds",
+                "count": 1,
+                "name": "Wheat Seeds",
+                "slot": 0
+              },
+              {
+                "id": "minecraft:paper",
+                "count": 1,
+                "name": "Paper",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "totals": {
+            "minecraft:wheat_seeds": 1,
+            "minecraft:paper": 1
+          }
+        },
+        {
+          "before": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "cropgenetics:genetic_seed",
+                "count": 1,
+                "name": "Wheat Crops Genetic Seed",
+                "slot": 0
+              },
+              {
+                "id": "minecraft:paper",
+                "count": 16,
+                "name": "Paper",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "after": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:wheat_seeds",
+                "count": 1,
+                "name": "Wheat Seeds",
+                "slot": 0
+              },
+              {
+                "id": "minecraft:paper",
+                "count": 16,
+                "name": "Paper",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "totals": {
+            "minecraft:wheat_seeds": 1,
+            "minecraft:paper": 16
+          }
+        },
+        {
+          "before": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "cropgenetics:genetic_seed",
+                "count": 1,
+                "name": "Wheat Crops Genetic Seed",
+                "slot": 0
+              },
+              {
+                "id": "minecraft:paper",
+                "count": 16,
+                "name": "Core named paper",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "after": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:wheat_seeds",
+                "count": 1,
+                "name": "Wheat Seeds",
+                "slot": 0
+              },
+              {
+                "id": "minecraft:paper",
+                "count": 16,
+                "name": "Core named paper",
+                "slot": 1
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "totals": {
+            "minecraft:wheat_seeds": 1,
+            "minecraft:paper": 16
+          }
+        },
+        {
+          "before": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "cropgenetics:genetic_seed",
+                "count": 1,
+                "name": "Wheat Crops Genetic Seed",
+                "slot": 0
+              },
+              {
+                "id": "minecraft:paper",
+                "count": 16,
+                "name": "Paper",
+                "slot": 1
+              },
+              {
+                "id": "cropgenetics:genetic_seed",
+                "count": 1,
+                "name": "Wheat Crops Genetic Seed",
+                "slot": 2
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "after": {
+            "selectedSlot": 8,
+            "hotbar": [
+              {
+                "id": "minecraft:paper",
+                "count": 16,
+                "name": "Paper",
+                "slot": 1
+              },
+              {
+                "id": "minecraft:wheat_seeds",
+                "count": 2,
+                "name": "Wheat Seeds",
+                "slot": 8
+              }
+            ],
+            "main": [],
+            "armor": [],
+            "offhand": {
+              "empty": true
+            }
+          },
+          "totals": {
+            "minecraft:paper": 16,
+            "minecraft:wheat_seeds": 2
+          }
+        }
+      ],
+      "serverProof": [
+        {
+          "before": [
+            "Dev has the following entity data: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}}, id: \"cropgenetics:genetic_seed\"}, {count: 1, Slot: 1b, id: \"minecraft:paper\"}]"
+          ],
+          "after": [
+            "Dev has the following entity data: [{count: 1, Slot: 0b, id: \"minecraft:wheat_seeds\"}, {count: 1, Slot: 1b, id: \"minecraft:paper\"}]"
+          ]
+        },
+        {
+          "before": [
+            "Dev has the following entity data: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}}, id: \"cropgenetics:genetic_seed\"}, {count: 16, Slot: 1b, id: \"minecraft:paper\"}]"
+          ],
+          "after": [
+            "Dev has the following entity data: [{count: 1, Slot: 0b, id: \"minecraft:wheat_seeds\"}, {count: 16, Slot: 1b, id: \"minecraft:paper\"}]"
+          ]
+        },
+        {
+          "before": [
+            "Dev has the following entity data: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}}, id: \"cropgenetics:genetic_seed\"}, {count: 16, Slot: 1b, components: {\"minecraft:custom_name\": '\"Core named paper\"'}, id: \"minecraft:paper\"}]"
+          ],
+          "after": [
+            "Dev has the following entity data: [{count: 1, Slot: 0b, id: \"minecraft:wheat_seeds\"}, {count: 16, Slot: 1b, components: {\"minecraft:custom_name\": '\"Core named paper\"'}, id: \"minecraft:paper\"}]"
+          ]
+        },
+        {
+          "before": [
+            "Dev has the following entity data: [{count: 1, Slot: 0b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}}, id: \"cropgenetics:genetic_seed\"}, {count: 16, Slot: 1b, id: \"minecraft:paper\"}, {count: 1, Slot: 2b, components: {\"cropgenetics:original_seed\": \"minecraft:wheat_seeds\", \"cropgenetics:genome\": {strength: 9, plant: \"minecraft:wheat_plant\", growth: 7, gain: 4}}, id: \"cropgenetics:genetic_seed\"}]"
+          ],
+          "after": [
+            "Dev has the following entity data: [{count: 16, Slot: 1b, id: \"minecraft:paper\"}, {count: 2, Slot: 8b, id: \"minecraft:wheat_seeds\"}]"
+          ]
+        }
+      ],
+      "screenshots": [
+        "shot-192655887006.png",
+        "shot-192700304491.png",
+        "shot-192704704712.png",
+        "shot-192710138665.png"
+      ],
+      "status": "pass",
+      "failureOrBlocker": null,
+      "rollback": "New world copy; source unchanged; multiplier reset 1.0; randomTickSpeed 0; isolated client binding F10; server saved and both processes closed.",
+      "rawTrialReferences": [
+        "one-paper",
+        "sixteen-paper",
+        "named-paper",
+        "shift-two-seeds"
+      ]
+    },
+    {
+      "id": "UI-14",
+      "testedCommit": "4b2e78db09f02db3ee40a66e4bb98a8f7f4acac2",
+      "jarSha256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+      "worldCopy": "D:\\guthub repositorys\\AgriCraft-core-gate-2026-11-22\\work\\gameplay-phase2-20261122\\server\\isolated-core-world",
+      "profile": "Core server / MCPFabric-instrumented dev client, 1 local player",
+      "startUtc": "2026-11-22T18:18:14.085632+00:00",
+      "endUtc": "2026-11-22T18:33:53.097913+00:00",
+      "timeNote": "Conservative full-phase bounds; exact actions timestamped in evidence/rpc.jsonl. Raw trial start fields were recorded at result capture for some trials.",
+      "actions": "F10 aus/an, kein Toggle im Journal; Steuerung auf F9 und Journal zeigt F9; alte Taste wirkungslos; Esc-Abbruch und Backspace-Unbind; Journal auf F8, identische Steuerung/Optionsdatei, F8 Toggle; Clientneustart erhält F8. Abschließend F10 zurückgesetzt. Entf-Injektion lieferte scancode.256 statt Unbind; physische Entf/kompletter DE-EN-Vergleich offen.",
+      "observedItemCounts": [
+        null
+      ],
+      "serverProof": [
+        {
+          "controls": {
+            "key": [
+              {
+                "id": 69,
+                "type": "button",
+                "text": "F8",
+                "active": true,
+                "x": 0,
+                "y": 0,
+                "width": 75,
+                "height": 20
+              }
+            ],
+            "option": [
+              "key_key.cropgenetics.toggle_overlay:key.keyboard.f8"
+            ]
+          },
+          "restart": {
+            "widgets": {
+              "screen": "other",
+              "title": "Seed Journal",
+              "width": 427,
+              "height": 240,
+              "widgets": [
+                {
+                  "id": 0,
+                  "type": "button",
+                  "text": "<",
+                  "active": true,
+                  "x": 120,
+                  "y": 204,
+                  "width": 40,
+                  "height": 20
+                },
+                {
+                  "id": 1,
+                  "type": "button",
+                  "text": ">",
+                  "active": true,
+                  "x": 266,
+                  "y": 204,
+                  "width": 40,
+                  "height": 20
+                },
+                {
+                  "id": 2,
+                  "type": "button",
+                  "text": "Current key: F8 (click)",
+                  "active": true,
+                  "x": 116,
+                  "y": 56,
+                  "width": 194,
+                  "height": 20
+                }
+              ]
+            },
+            "keyLine": [
+              "key_key.cropgenetics.toggle_overlay:key.keyboard.f8"
+            ],
+            "screenshot": {
+              "format": "png",
+              "width": 854,
+              "height": 480,
+              "bytes": 129872,
+              "saved": "shot-193315816631.png"
+            }
+          },
+          "final": {
+            "reset": [
+              "Harvest drop multiplier: 1.0 (server config)"
+            ],
+            "value": [
+              "Harvest drop multiplier: 1.0 (server config)"
+            ],
+            "keyLine": [
+              "key_key.cropgenetics.toggle_overlay:key.keyboard.f10"
+            ]
+          }
+        }
+      ],
+      "screenshots": [
+        "shot-192800772474.png",
+        "screenshot-192817.png",
+        "screenshot-192834.png",
+        "screenshot-192850.png",
+        "screenshot-192947.png",
+        "screenshot-192956.png",
+        "screenshot-193009.png",
+        "screenshot-193050.png",
+        "screenshot-193119.png",
+        "screenshot-193128.png"
+      ],
+      "status": "partial",
+      "failureOrBlocker": "F10 aus/an, kein Toggle im Journal; Steuerung auf F9 und Journal zeigt F9; alte Taste wirkungslos; Esc-Abbruch und Backspace-Unbind; Journal auf F8, identische Steuerung/Optionsdatei, F8 Toggle; Clientneustart erhält F8. Abschließend F10 zurückgesetzt. Entf-Injektion lieferte scancode.256 statt Unbind; physische Entf/kompletter DE-EN-Vergleich offen.",
+      "rollback": "New world copy; source unchanged; multiplier reset 1.0; randomTickSpeed 0; isolated client binding F10; server saved and both processes closed.",
+      "rawTrialReferences": [
+        "single"
+      ]
+    }
+  ]
+}

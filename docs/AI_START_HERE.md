@@ -2,7 +2,7 @@
 
 **Stand:** 20.11.2026. Diese Datei ist eine Navigationshilfe, kein Ersatz für den aktuellen Git-Stand.
 
-**Nächste Codex-Live-Runde (nur vorbereitet):** [Core-Etappe 2 mit Ernte-/Analyzer-/Journal-Tests](CODEX_LIVE_CORE_PHASE2_2026-11-22.md). Neuer Lauf nur nach ausdrücklicher Freigabe; die GUI-Portierung bleibt zurückgestellt.
+**Core-Etappe 2 ausgeführt:** [Bericht und Belege](test-results/gameplay-core-2026-11-22-phase2/README.md): 4 pass, 2 partial, 2 P2-fail (UI-01 falsche Slotannahme; UI-09 Journal-Direkteinlage). Gleicher Hauptmod-Build, keine Codeänderung. Nächster Schritt: gemeinsame P2-Korrekturentscheidung; GUI-Portierung bleibt zurückgestellt.
 
 ## Lokaler Vorlauf 22.11.2026
 

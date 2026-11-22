@@ -1,0 +1,431 @@
+[22Nov.2026 19:16:43.184] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeserverdev, --gameDir, ., --fml.fmlVersion, 4.0.45, --fml.mcVersion, 1.21.1, --fml.neoForgeVersion, 21.1.265, --fml.neoFormVersion, 20240808.144430, --nogui]
+[22Nov.2026 19:16:43.192] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: JVM identified as Eclipse Adoptium OpenJDK 64-Bit Server VM 21.0.12.1+1-LTS
+[22Nov.2026 19:16:43.195] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 11.0.5+main.901c6ea8 starting: java version 21.0.12.1 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
+[22Nov.2026 19:16:43.487] [main/INFO] [net.neoforged.fml.loading.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgeserverdev
+[22Nov.2026 19:16:43.619] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=union:/G:/Android/Gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.16.4+mixin.0.8.7/26d01f0567ab46e9ca0d2ed89d0ecc11aadbd433/sponge-mixin-0.16.4+mixin.0.8.7.jar%2394!/ Service=ModLauncher Env=SERVER
+[22Nov.2026 19:16:44.861] [main/INFO] [net.neoforged.fml.loading.moddiscovery.locators.JarInJarDependencyLocator/]: Found 2 dependencies adding them to mods collection
+[22Nov.2026 19:16:44.866] [main/INFO] [net.neoforged.fml.loading.moddiscovery.ModDiscoverer/]: 
+     Mod List:
+		Name Version (Mod Id)
+
+		Crop Genetics 0.2.14-alpha (cropgenetics)
+		Minecraft 1.21.1 (minecraft)
+		NeoForge 21.1.265 (neoforge)
+[22Nov.2026 19:16:47.760] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeserverdev' with arguments [--gameDir, ., --nogui]
+[22Nov.2026 19:16:51.296] [main/WARN] [oshi.driver.windows.perfmon.PerfmonDisabled/]: Invalid registry value type detected for PerfOS counters. Should be REG_DWORD. Ignoring: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PerfOS\Performance\Disable Performance Counters.
+[22Nov.2026 19:16:52.731] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.5).
+[22Nov.2026 19:17:08.120] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[22Nov.2026 19:17:08.124] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[22Nov.2026 19:17:08.129] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[22Nov.2026 19:17:08.133] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[22Nov.2026 19:17:08.135] [main/WARN] [net.minecraft.commands.Commands/]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[22Nov.2026 19:17:08.502] [modloading-worker-0/INFO] [net.neoforged.neoforge.common.NeoForgeMod/NEOFORGE-MOD]: NeoForge mod loading, version 21.1.265, for MC 1.21.1
+[22Nov.2026 19:17:09.833] [main/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[22Nov.2026 19:17:10.158] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/moddev/artifacts/neoforge-21.1.265.jar%23125!/assets/.mcassetsroot' uses unexpected schema
+[22Nov.2026 19:17:10.159] [main/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/moddev/artifacts/neoforge-21.1.265.jar%23125!/data/.mcassetsroot' uses unexpected schema
+[22Nov.2026 19:17:13.169] [main/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 1295 recipes
+[22Nov.2026 19:17:13.597] [main/INFO] [net.minecraft.advancements.AdvancementTree/]: Loaded 1399 advancements
+[22Nov.2026 19:17:13.610] [main/INFO] [dev.illedrabomb.cropgenetics.data.SoilProfileReloadListener/]: Loaded 9 soil chemistry profiles (0 conflicting blocks, 0 conflicting tags)
+[22Nov.2026 19:17:13.611] [main/INFO] [dev.illedrabomb.cropgenetics.data.SoilDynamicsReloadListener/]: Soil dynamics: rain=1/16, growth nutrient depletion=1/8 (0=disabled)
+[22Nov.2026 19:17:14.350] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer/]: Starting minecraft server version 1.21.1
+[22Nov.2026 19:17:14.353] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer/]: Loading properties
+[22Nov.2026 19:17:14.354] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer/]: Default game type: CREATIVE
+[22Nov.2026 19:17:14.355] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Generating keypair
+[22Nov.2026 19:17:14.465] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer/]: Starting Minecraft server on 127.0.0.1:25589
+[22Nov.2026 19:17:14.698] [Server thread/INFO] [net.minecraft.server.network.ServerConnectionListener/]: Using default channel type
+[22Nov.2026 19:17:14.791] [Server thread/WARN] [net.minecraft.server.dedicated.DedicatedServer/]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[22Nov.2026 19:17:14.792] [Server thread/WARN] [net.minecraft.server.dedicated.DedicatedServer/]: The server will make no attempt to authenticate usernames. Beware.
+[22Nov.2026 19:17:14.792] [Server thread/WARN] [net.minecraft.server.dedicated.DedicatedServer/]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[22Nov.2026 19:17:14.793] [Server thread/WARN] [net.minecraft.server.dedicated.DedicatedServer/]: To change this, set "online-mode" to "true" in the server.properties file.
+[22Nov.2026 19:17:14.922] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer/]: Preparing level "isolated-core-world"
+[22Nov.2026 19:17:16.360] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[22Nov.2026 19:17:16.957] [worldgen/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[22Nov.2026 19:17:16.958] [worldgen/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Preparing spawn area: 0%
+[22Nov.2026 19:17:17.301] [Server thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 940 ms
+[22Nov.2026 19:17:17.302] [Server thread/INFO] [net.minecraft.server.dedicated.DedicatedServer/]: Done (2.461s)! For help, type "help"
+[22Nov.2026 19:17:17.362] [Server thread/INFO] [net.neoforged.neoforge.gametest.GameTestHooks/]: Enabled Gametest Namespaces: []
+[22Nov.2026 19:17:17.378] [Server thread/INFO] [net.neoforged.neoforge.server.permission.PermissionAPI/]: Successfully initialized permission handler neoforge:default_handler
+[22Nov.2026 19:18:15.981] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[/127.0.0.1:56032] logged in with entity id 20 at (2.5, 80.0, 4.5)
+[22Nov.2026 19:18:16.147] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev joined the game
+[22Nov.2026 19:18:27.757] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:18:28.142] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 32.500000, 104.000000, 36.500000]
+[22Nov.2026 19:18:28.157] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! 30.0,24.0,32.0
+[22Nov.2026 19:18:28.174] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! 30.0,24.0,32.0
+[22Nov.2026 19:18:29.582] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Successfully filled 4161 block(s)]
+[22Nov.2026 19:18:29.850] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 23.500000]
+[22Nov.2026 19:18:30.064] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Set own game mode to Survival Mode]
+[22Nov.2026 19:18:30.276] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Set the time to 1000]
+[22Nov.2026 19:18:30.493] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Set the weather to clear]
+[22Nov.2026 19:18:30.724] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:18:33.808] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:18:33.809] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:18:33.809] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:18:33.810] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:18:33.811] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:18:33.812] [Server thread/WARN] [net.minecraft.server.MinecraftServer/]: Can't keep up! Is the server overloaded? Running 2878ms or 57 ticks behind
+[22Nov.2026 19:18:33.858] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now disabled]
+[22Nov.2026 19:18:33.860] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now enabled]
+[22Nov.2026 19:18:52.925] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:18:53.241] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Set own game mode to Creative Mode]
+[22Nov.2026 19:18:53.559] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 32.500000, 104.000000, 36.500000]
+[22Nov.2026 19:18:53.574] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! 32.0,4.0,13.0
+[22Nov.2026 19:18:55.550] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 23.500000]
+[22Nov.2026 19:18:55.559] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! -32.0,0.0,-13.0
+[22Nov.2026 19:18:55.575] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! -32.0,0.0,-13.0
+[22Nov.2026 19:18:55.867] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Set own game mode to Survival Mode]
+[22Nov.2026 19:18:56.176] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Set the time to 1000]
+[22Nov.2026 19:18:56.492] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Set the weather to clear]
+[22Nov.2026 19:18:56.825] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:18:57.208] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:18:57.209] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:18:57.210] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:18:57.210] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:18:57.210] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:18:57.458] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now disabled]
+[22Nov.2026 19:18:59.008] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now enabled]
+[22Nov.2026 19:19:00.292] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:00.864] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 47 item(s) from player Dev]
+[22Nov.2026 19:19:01.179] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 0, 99, 20]
+[22Nov.2026 19:19:01.492] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 1, 99, 20]
+[22Nov.2026 19:19:01.820] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:19:02.927] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:19:05.093] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:05.681] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_0' to 14 entities]
+[22Nov.2026 19:19:07.243] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'zero_break_0' to 14 entities]
+[22Nov.2026 19:19:08.893] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:09.460] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:19:09.776] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 10, 99, 20]
+[22Nov.2026 19:19:10.093] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 11, 99, 20]
+[22Nov.2026 19:19:10.410] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:19:11.493] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:19:13.959] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:19:16.593] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:19:16.911] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:17.493] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_1' to 16 entities]
+[22Nov.2026 19:19:19.044] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'zero_break_1' to 16 entities]
+[22Nov.2026 19:19:20.710] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 20.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:21.276] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:19:21.594] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 20, 99, 20]
+[22Nov.2026 19:19:21.910] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 21, 99, 20]
+[22Nov.2026 19:19:22.228] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:19:23.344] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:19:25.793] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:19:28.427] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:19:28.744] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 20.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:29.327] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_2' to 21 entities]
+[22Nov.2026 19:19:30.877] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'zero_break_2' to 21 entities]
+[22Nov.2026 19:19:33.194] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 30.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:33.761] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:19:34.077] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 30, 99, 20]
+[22Nov.2026 19:19:34.394] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 31, 99, 20]
+[22Nov.2026 19:19:34.711] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:19:35.795] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:19:37.944] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 30.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:38.544] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_3' to 29 entities]
+[22Nov.2026 19:19:40.111] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 40.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:40.678] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:19:40.996] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 40, 99, 20]
+[22Nov.2026 19:19:41.311] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 41, 99, 20]
+[22Nov.2026 19:19:41.628] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:19:42.745] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:19:45.211] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:19:47.844] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:19:48.178] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 40.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:48.762] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_4' to 34 entities]
+[22Nov.2026 19:19:50.344] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 50.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:50.962] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:19:51.280] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 50, 99, 20]
+[22Nov.2026 19:19:51.596] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 51, 99, 20]
+[22Nov.2026 19:19:51.914] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:19:53.045] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:19:55.428] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:19:58.079] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:19:58.396] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 50.500000, 100.000000, 23.500000]
+[22Nov.2026 19:19:58.978] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_5' to 40 entities]
+[22Nov.2026 19:20:01.179] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:01.796] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:20:02.112] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 0, 99, 32]
+[22Nov.2026 19:20:02.429] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 1, 99, 32]
+[22Nov.2026 19:20:02.763] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:20:03.930] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:20:06.096] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:06.696] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_6' to 43 entities]
+[22Nov.2026 19:20:08.263] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:08.829] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:20:09.146] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 10, 99, 32]
+[22Nov.2026 19:20:09.463] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 11, 99, 32]
+[22Nov.2026 19:20:09.780] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:20:10.930] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:20:13.346] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:20:15.980] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:20:16.313] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:16.913] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_7' to 45 entities]
+[22Nov.2026 19:20:18.497] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 20.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:19.063] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:20:19.380] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 20, 99, 32]
+[22Nov.2026 19:20:19.696] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 21, 99, 32]
+[22Nov.2026 19:20:20.013] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:20:21.130] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:20:23.612] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:20:26.247] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:20:26.564] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 20.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:27.180] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_8' to 49 entities]
+[22Nov.2026 19:20:29.397] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 30.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:29.964] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:20:30.281] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 30, 99, 32]
+[22Nov.2026 19:20:30.597] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 31, 99, 32]
+[22Nov.2026 19:20:30.914] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:20:31.997] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:20:34.181] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 30.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:34.764] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_9' to 52 entities]
+[22Nov.2026 19:20:36.315] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 40.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:36.881] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:20:37.198] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 40, 99, 32]
+[22Nov.2026 19:20:37.515] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 41, 99, 32]
+[22Nov.2026 19:20:37.831] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:20:38.948] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:20:41.381] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:20:44.048] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:20:44.366] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 40.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:44.948] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_10' to 58 entities]
+[22Nov.2026 19:20:46.515] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 50.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:47.082] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:20:47.399] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 50, 99, 32]
+[22Nov.2026 19:20:47.715] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 51, 99, 32]
+[22Nov.2026 19:20:48.033] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:20:49.149] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:20:51.549] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:20:56.532] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:20:56.850] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 50.500000, 100.000000, 35.500000]
+[22Nov.2026 19:20:57.432] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er14_11' to 64 entities]
+[22Nov.2026 19:20:58.999] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:21:00.073] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:21:00.073] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:21:00.073] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:21:00.073] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:21:00.073] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:21:34.135] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:21:34.525] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:21:34.525] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:21:34.525] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:21:34.525] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:21:34.525] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:21:34.768] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now disabled]
+[22Nov.2026 19:21:36.336] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now enabled]
+[22Nov.2026 19:21:37.286] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 47.500000]
+[22Nov.2026 19:21:37.301] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! -50.0,0.0,12.0
+[22Nov.2026 19:21:37.317] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! -50.0,0.0,12.0
+[22Nov.2026 19:21:37.851] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:21:38.186] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 0, 99, 44]
+[22Nov.2026 19:21:38.501] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 1, 99, 44]
+[22Nov.2026 19:21:38.819] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:21:39.952] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:21:42.418] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:21:47.368] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:21:47.685] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 47.500000]
+[22Nov.2026 19:21:48.285] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er13_1_1' to 67 entities]
+[22Nov.2026 19:21:50.169] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:21:52.802] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:21:53.119] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 47.500000]
+[22Nov.2026 19:21:53.703] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er13_1_2' to 69 entities]
+[22Nov.2026 19:21:55.253] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 47.500000]
+[22Nov.2026 19:21:55.819] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:21:56.136] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 10, 99, 44]
+[22Nov.2026 19:21:56.452] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 11, 99, 44]
+[22Nov.2026 19:21:56.769] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:21:57.921] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:22:00.369] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:22:03.002] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:22:03.337] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 47.500000]
+[22Nov.2026 19:22:03.920] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er13_10_1' to 70 entities]
+[22Nov.2026 19:22:05.786] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:22:08.420] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:22:08.737] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 47.500000]
+[22Nov.2026 19:22:09.353] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er13_10_2' to 72 entities]
+[22Nov.2026 19:22:10.937] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 63.500000]
+[22Nov.2026 19:22:10.953] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! -10.0,0.0,16.0
+[22Nov.2026 19:22:10.969] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! -10.0,0.0,16.0
+[22Nov.2026 19:22:11.538] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:22:11.853] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 0, 99, 60]
+[22Nov.2026 19:22:12.170] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 1, 99, 60]
+[22Nov.2026 19:22:12.488] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:22:13.604] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:22:16.070] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:22:18.703] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:22:19.021] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 63.500000]
+[22Nov.2026 19:22:19.621] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_1_1' to 79 entities]
+[22Nov.2026 19:22:21.487] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:22:24.121] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:22:24.438] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 0.500000, 100.000000, 63.500000]
+[22Nov.2026 19:22:25.020] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_1_2' to 79 entities]
+[22Nov.2026 19:22:26.571] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 63.500000]
+[22Nov.2026 19:22:27.137] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:22:27.454] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 10, 99, 60]
+[22Nov.2026 19:22:27.771] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 11, 99, 60]
+[22Nov.2026 19:22:28.104] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:22:29.238] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:22:31.620] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:22:43.591] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:22:43.905] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 63.500000]
+[22Nov.2026 19:22:44.489] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_2_1' to 91 entities]
+[22Nov.2026 19:22:46.354] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:22:48.991] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:22:49.306] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 10.500000, 100.000000, 63.500000]
+[22Nov.2026 19:22:49.888] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_2_2' to 92 entities]
+[22Nov.2026 19:22:51.440] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 20.500000, 100.000000, 63.500000]
+[22Nov.2026 19:22:52.006] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:22:52.322] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 20, 99, 60]
+[22Nov.2026 19:22:52.639] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 21, 99, 60]
+[22Nov.2026 19:22:52.956] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:22:54.039] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:22:56.489] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:23:03.756] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:23:04.073] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 20.500000, 100.000000, 63.500000]
+[22Nov.2026 19:23:04.657] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_5_1' to 96 entities]
+[22Nov.2026 19:23:06.507] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:23:09.141] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:23:09.474] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 20.500000, 100.000000, 63.500000]
+[22Nov.2026 19:23:10.057] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_5_2' to 97 entities]
+[22Nov.2026 19:23:11.590] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 30.500000, 100.000000, 63.500000]
+[22Nov.2026 19:23:12.157] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:23:12.474] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 30, 99, 60]
+[22Nov.2026 19:23:12.790] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 31, 99, 60]
+[22Nov.2026 19:23:13.108] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:23:14.241] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:23:16.673] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:23:19.307] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:23:19.624] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 30.500000, 100.000000, 63.500000]
+[22Nov.2026 19:23:20.208] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_8_1' to 98 entities]
+[22Nov.2026 19:23:22.074] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:23:24.708] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:23:25.025] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 30.500000, 100.000000, 63.500000]
+[22Nov.2026 19:23:25.608] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_8_2' to 98 entities]
+[22Nov.2026 19:23:27.158] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 40.500000, 100.000000, 63.500000]
+[22Nov.2026 19:23:27.725] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:23:28.041] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 40, 99, 60]
+[22Nov.2026 19:23:28.358] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 41, 99, 60]
+[22Nov.2026 19:23:28.676] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:23:29.825] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:23:32.258] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:23:34.891] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:23:35.226] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 40.500000, 100.000000, 63.500000]
+[22Nov.2026 19:23:35.809] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_10_1' to 98 entities]
+[22Nov.2026 19:23:37.725] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[22Nov.2026 19:23:40.358] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:23:40.676] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 40.500000, 100.000000, 63.500000]
+[22Nov.2026 19:23:41.259] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Added tag 'er12_10_2' to 99 entities]
+[22Nov.2026 19:24:46.463] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:24:47.175] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:24:47.175] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:24:47.175] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:24:47.176] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:24:47.176] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:25:01.030] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:25:01.418] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:25:01.418] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:25:01.418] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:25:01.418] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:25:01.419] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:25:01.663] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now disabled]
+[22Nov.2026 19:25:03.263] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now enabled]
+[22Nov.2026 19:25:03.580] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 25 item(s) from player Dev]
+[22Nov.2026 19:25:03.931] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 56, 100, 48]
+[22Nov.2026 19:25:04.247] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 56.500000, 100.000000, 51.500000]
+[22Nov.2026 19:25:04.263] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! 16.0,0.0,-12.0
+[22Nov.2026 19:25:04.280] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! 16.0,0.0,-12.0
+[22Nov.2026 19:25:08.498] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Seed Journal]]
+[22Nov.2026 19:25:15.102] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:25:15.102] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:25:15.102] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:25:15.102] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:25:15.103] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:25:28.748] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:25:29.141] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:25:29.141] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:25:29.141] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:25:29.141] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:25:29.141] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:25:29.382] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now disabled]
+[22Nov.2026 19:25:30.966] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now enabled]
+[22Nov.2026 19:25:31.299] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 2 item(s) from player Dev]
+[22Nov.2026 19:25:31.616] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 56.500000, 100.000000, 63.500000]
+[22Nov.2026 19:25:31.632] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! 0.0,0.0,12.0
+[22Nov.2026 19:25:32.182] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 56, 100, 60]
+[22Nov.2026 19:25:32.499] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 57, 100, 60]
+[22Nov.2026 19:25:32.816] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Wheat Seeds]]
+[22Nov.2026 19:25:33.133] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Seed Journal]]
+[22Nov.2026 19:25:33.449] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Stick]]
+[22Nov.2026 19:26:16.135] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:26:16.135] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:26:16.135] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:26:16.135] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:26:16.135] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:26:48.409] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:26:48.409] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:26:48.409] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:26:48.409] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:26:48.410] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:26:48.937] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:26:49.306] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:26:49.307] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:26:49.307] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:26:49.307] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:26:49.307] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:26:49.570] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now disabled]
+[22Nov.2026 19:26:51.153] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now enabled]
+[22Nov.2026 19:26:51.471] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 3 item(s) from player Dev]
+[22Nov.2026 19:26:51.817] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Paper]]
+[22Nov.2026 19:26:55.904] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 2 item(s) from player Dev]
+[22Nov.2026 19:26:56.254] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Paper]]
+[22Nov.2026 19:27:00.321] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 17 item(s) from player Dev]
+[22Nov.2026 19:27:00.662] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Core named paper]]
+[22Nov.2026 19:27:04.721] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 17 item(s) from player Dev]
+[22Nov.2026 19:27:05.055] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Paper]]
+[22Nov.2026 19:27:10.250] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:27:10.251] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:27:10.251] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:27:10.251] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:27:10.251] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:27:40.523] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:27:40.901] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:27:40.902] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:27:40.902] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:27:40.902] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:27:40.902] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:27:41.157] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now disabled]
+[22Nov.2026 19:27:42.723] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Automatic saving is now enabled]
+[22Nov.2026 19:27:43.041] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Teleported Dev to 56.500000, 100.000000, 47.500000]
+[22Nov.2026 19:27:43.056] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! 0.0,0.0,-16.0
+[22Nov.2026 19:27:43.071] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev moved too quickly! 0.0,0.0,-16.0
+[22Nov.2026 19:27:43.607] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Removed 18 item(s) from player Dev]
+[22Nov.2026 19:27:43.924] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 56, 99, 44]
+[22Nov.2026 19:27:44.240] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Changed the block at 57, 99, 44]
+[22Nov.2026 19:27:44.557] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[22Nov.2026 19:27:45.691] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[22Nov.2026 19:27:48.391] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Replaced a slot on Dev with [Seed Journal]]
+[22Nov.2026 19:31:46.561] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:31:46.562] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:31:46.562] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:31:46.562] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:31:46.562] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:31:54.836] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev lost connection: Disconnected
+[22Nov.2026 19:31:54.837] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev left the game
+[22Nov.2026 19:33:02.799] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[/127.0.0.1:50666] logged in with entity id 534 at (56.5, 100.0, 47.5)
+[22Nov.2026 19:33:02.919] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev joined the game
+[22Nov.2026 19:33:52.150] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[22Nov.2026 19:33:52.546] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:33:52.546] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:33:52.546] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:33:52.546] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[22Nov.2026 19:33:52.546] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Saved the game]
+[22Nov.2026 19:33:52.797] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: Stopping the server]
+[22Nov.2026 19:33:52.835] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[22Nov.2026 19:33:52.836] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[22Nov.2026 19:33:52.845] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[22Nov.2026 19:33:53.010] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[isolated-core-world]'/minecraft:overworld
+[22Nov.2026 19:33:53.242] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[isolated-core-world]'/minecraft:the_end
+[22Nov.2026 19:33:53.248] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[isolated-core-world]'/minecraft:the_nether
+[22Nov.2026 19:33:53.263] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[22Nov.2026 19:33:53.263] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[22Nov.2026 19:33:53.263] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[22Nov.2026 19:33:53.263] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved

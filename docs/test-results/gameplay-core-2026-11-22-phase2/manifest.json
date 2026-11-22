@@ -1,0 +1,26 @@
+{
+  "testedCommit": "4b2e78db09f02db3ee40a66e4bb98a8f7f4acac2",
+  "sameBuildAs": "a2fe5625caf17233efa32be691053bce5f561e36",
+  "jarSha256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+  "jarBytes": 385545,
+  "java": "Temurin 21.0.12.1+1",
+  "gradle": "9.2.1",
+  "minecraft": "1.21.1",
+  "neoForge": "21.1.265",
+  "serverMods": [
+    "cropgenetics 0.2.14-alpha",
+    "minecraft 1.21.1",
+    "neoforge 21.1.265"
+  ],
+  "clientInstrumentation": "mcpfabric 0.8.0+1.21.1",
+  "scope": "Core only, one local player; no addon/multiplayer cases",
+  "startUtc": "2026-11-22T18:18:14.085632+00:00",
+  "endUtc": "2026-11-22T18:33:53.097913+00:00",
+  "runtime": "Gradle development runs, unchanged main classes and JAR",
+  "approval": "User explicitly authorized newly prepared tests in current chat",
+  "newInstallations": false,
+  "modSourceChanges": false,
+  "junitReexecuted": false,
+  "finalState": "both processes stopped, no listeners on 25589 or 25599",
+  "backups": "Each series saved/flushed; save-off during world ZIP; session.lock excluded because Windows locks it; save-on restored in finally"
+}

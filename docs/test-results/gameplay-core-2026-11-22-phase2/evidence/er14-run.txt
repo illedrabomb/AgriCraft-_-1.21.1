@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\work\gameplay-phase2-20261122\round-a-er14.py", line 5, in <module>
+    backup('round-a-er14');baseline=cmd('cropgenetics harvestmultiplier')
+    ^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\work\gameplay-phase2-20261122\live.py", line 44, in backup
+    try:shutil.make_archive(str(ROOT/('backup-'+label)),'zip',ROOT/'server','isolated-core-world')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\Lib\shutil.py", line 1165, in make_archive
+    filename = func(base_name, base_dir, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "E:\python\Lib\shutil.py", line 1046, in _make_zipfile
+    zf.write(path, arcname)
+  File "E:\python\Lib\zipfile.py", line 1814, in write
+    shutil.copyfileobj(src, dest, 1024*8)
+  File "E:\python\Lib\shutil.py", line 197, in copyfileobj
+    buf = fsrc_read(length)
+          ^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied

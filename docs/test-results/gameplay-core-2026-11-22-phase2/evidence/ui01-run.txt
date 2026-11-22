@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\work\gameplay-phase2-20261122\round-b-ui01.py", line 22, in <module>
+    assert not any(s['slot'] in range(2,9) for s in rpc('container.state')['slots'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

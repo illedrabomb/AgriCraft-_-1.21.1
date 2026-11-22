@@ -1,0 +1,4 @@
+{"id": "ER-08", "trial": "one-paper", "status": "pass", "failureOrBlocker": null}
+{"id": "ER-08", "trial": "sixteen-paper", "status": "pass", "failureOrBlocker": null}
+{"id": "ER-08", "trial": "named-paper", "status": "pass", "failureOrBlocker": null}
+{"id": "ER-08", "trial": "shift-two-seeds", "status": "pass", "failureOrBlocker": null}

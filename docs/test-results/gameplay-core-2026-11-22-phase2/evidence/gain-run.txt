@@ -1,0 +1,19 @@
+{"id": "ER-13", "trial": "gain-1-cycle-1", "drops": [{"id": "minecraft:melon_slice", "count": 4}], "status": "pass"}
+{"id": "ER-13", "trial": "gain-1-cycle-2", "drops": [{"id": "minecraft:melon_slice", "count": 4}], "status": "pass"}
+{"id": "ER-13", "trial": "gain-10-cycle-1", "drops": [{"id": "minecraft:melon_slice", "count": 14}], "status": "pass"}
+{"id": "ER-13", "trial": "gain-10-cycle-2", "drops": [{"id": "minecraft:melon_slice", "count": 15}], "status": "pass"}
+{"id": "ER-12", "trial": "gain-1-cycle-1", "drops": [{"id": "minecraft:pumpkin", "count": 1}], "status": "partial", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+{"id": "ER-12", "trial": "gain-1-cycle-2", "drops": [{"id": "minecraft:pumpkin", "count": 1}], "status": "partial", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+{"id": "ER-12", "trial": "gain-2-cycle-1", "drops": [{"id": "minecraft:pumpkin", "count": 1}], "status": "partial", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+{"id": "ER-12", "trial": "gain-2-cycle-2", "drops": [{"id": "minecraft:pumpkin", "count": 2}], "status": "partial", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+{"id": "ER-12", "trial": "gain-5-cycle-1", "drops": [{"id": "minecraft:pumpkin", "count": 3}], "status": "partial", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+{"id": "ER-12", "trial": "gain-5-cycle-2", "drops": [{"id": "minecraft:pumpkin", "count": 2}], "status": "partial", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+{"id": "ER-12", "trial": "gain-8-cycle-1", "drops": [{"id": "minecraft:pumpkin", "count": 3}], "status": "partial", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+{"id": "ER-12", "trial": "gain-8-cycle-2", "drops": [{"id": "minecraft:pumpkin", "count": 2}], "status": "partial", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+{"id": "ER-12", "trial": "gain-10-cycle-1", "drops": [{"id": "minecraft:pumpkin", "count": 3}], "status": "partial", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+{"id": "ER-12", "trial": "gain-10-cycle-2", "drops": [], "status": "fail", "failureOrBlocker": "Bounds observed only; two samples per gain are not a distribution acceptance."}
+Traceback (most recent call last):
+  File "D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\work\gameplay-phase2-20261122\round-a-gain.py", line 16, in <module>
+    if not valid:raise RuntimeError('Unexpected pumpkin harvest; stop')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Unexpected pumpkin harvest; stop

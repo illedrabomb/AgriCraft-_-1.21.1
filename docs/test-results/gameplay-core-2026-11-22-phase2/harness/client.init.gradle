@@ -1,0 +1,6 @@
+gradle.afterProject { p ->
+ if (p == p.rootProject) {
+  p.neoForge.runs.client.gameDirectory = p.file('D:/guthub repositorys/AgriCraft-core-gate-2026-11-22/work/gameplay-phase2-20261122/client')
+  p.dependencies.add('runtimeOnly', p.files('D:/local-agent/minecraft/downloads/mcpfabric-neoforge-0.8.0+1.21.1.jar'))
+ }
+}

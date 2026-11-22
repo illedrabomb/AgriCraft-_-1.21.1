@@ -254,3 +254,7 @@ Vollständige Logs und JUnit-/HTML-Berichte im Ordner `20261122T171632Z-5ec9c3c7
 ## Automatisierter Core-Spieltest 22.11.2026
 
 Core-Dev-Server und einzelner MCPFabric-Client auf a2fe5625 gestartet, Gameplay-Teilprüfungen und regulärer Persistenzneustart dokumentiert. Keine Codeänderung. Sechs v8-Fälle pass; keine vollständige Abnahme. UI-09 Journal-Direkteinlage unklar (P2-Verdacht, kein Modbugbeweis). Alle 86 Statuswerte und Logs/Screenshots im [Spieltestbericht](test-results/gameplay-core-2026-11-22/README.md). Historischer 212/212-JUnit-Nachweis separat.
+
+## Core-Live-Etappe 2 am 22.11.2026
+
+Auf Dokumentationscommit 4b2e78db, unveränderter JAR-Hash 9e272b6c…: ER-14/ER-03/ER-13/ER-08 pass; ER-12/UI-14 partial; UI-01/UI-09 fail (P2). Server-NBT bestätigt unzulässige Analyzer-Journal-/Füllslotannahme; Journal-Direkteinlage bei bestätigtem Sneak scheitert. Keine bestätigte Duplikation/Verlust, keine P0/P1-Reparatur und keine Codeänderung. Drop-Merging-Audit korrigiert einen Messfehler, keine statistische Kürbis-Abnahme. Vollständige strukturierte Fälle/Logs/Screenshots: [Etappe-2-Bericht](test-results/gameplay-core-2026-11-22-phase2/README.md). Ursprüngliche v8 und frühere Resultate unverändert; beide Programme beendet.

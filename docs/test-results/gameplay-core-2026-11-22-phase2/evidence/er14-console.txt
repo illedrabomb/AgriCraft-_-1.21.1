@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\work\gameplay-phase2-20261122\round-a-er14.py", line 3, in <module>
+    cmd('gamerule randomTickSpeed 0');cmd('gamemode creative');cmd('tp @s 32.5 104 36.5');time.sleep(1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\work\gameplay-phase2-20261122\live.py", line 27, in cmd
+    chat();rpc('chat.send',{'message':'/'+command});time.sleep(.18);out=chat()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\work\gameplay-phase2-20261122\live.py", line 16, in rpc
+    if not r.get('ok'):raise RuntimeError(method+': '+json.dumps(r))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: chat.send: {"ok": false, "error": {"code": "no_client_player", "message": "No local client player is available (this action is client-only and requires being in a world)."}}

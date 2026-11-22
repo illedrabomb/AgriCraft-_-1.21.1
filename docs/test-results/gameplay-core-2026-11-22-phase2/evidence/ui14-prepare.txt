@@ -1,0 +1,3 @@
+{'x': 56.5, 'y': 100.0, 'z': 47.5, 'yaw': -180.0, 'pitch': 23.749453, 'motion': {'x': 0.0, 'y': -0.0784000015258789, 'z': 0.0}, 'health': 20.0, 'maxHealth': 20.0, 'food': 20, 'saturation': 20.0, 'air': 300, 'maxAir': 300, 'xpLevel': 0, 'xpProgress': 0.0, 'onGround': True, 'inWater': False, 'sprinting': False, 'sneaking': False, 'usingItem': False, 'selectedSlot': 8, 'dimension': 'minecraft:overworld', 'gameMode': 'survival'}
+{'inWorld': True, 'screen': 'none', 'paused': False, 'canJoin': False, 'lastWorldId': 'mp:7bbcd82d03376a6c'}
+{'format': 'png', 'width': 854, 'height': 480, 'bytes': 92200, 'saved': 'shot-192800772474.png'}

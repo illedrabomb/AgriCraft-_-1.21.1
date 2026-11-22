@@ -1,0 +1,12 @@
+{"id": "ER-14", "trial": "wheat-factor-0", "drops": [], "status": "pass"}
+{"id": "ER-14", "trial": "pumpkin-factor-0", "drops": [], "status": "pass"}
+{"id": "ER-14", "trial": "melon-factor-0", "drops": [], "status": "pass"}
+{"id": "ER-14", "trial": "wheat-factor-1", "drops": [{"id": "minecraft:wheat", "count": 5}], "status": "pass"}
+{"id": "ER-14", "trial": "pumpkin-factor-1", "drops": [{"id": "minecraft:pumpkin", "count": 3}], "status": "pass"}
+{"id": "ER-14", "trial": "melon-factor-1", "drops": [{"id": "minecraft:melon_slice", "count": 14}], "status": "pass"}
+{"id": "ER-14", "trial": "wheat-factor-2", "drops": [{"id": "minecraft:wheat", "count": 12}], "status": "pass"}
+{"id": "ER-14", "trial": "pumpkin-factor-2", "drops": [{"id": "minecraft:pumpkin", "count": 8}], "status": "pass"}
+{"id": "ER-14", "trial": "melon-factor-2", "drops": [{"id": "minecraft:melon_slice", "count": 28}], "status": "pass"}
+{"id": "ER-14", "trial": "wheat-factor-64", "drops": [{"id": "minecraft:wheat", "count": 64}], "status": "pass"}
+{"id": "ER-14", "trial": "pumpkin-factor-64", "drops": [{"id": "minecraft:pumpkin", "count": 64}], "status": "pass"}
+{"id": "ER-14", "trial": "melon-factor-64", "drops": [{"id": "minecraft:melon_slice", "count": 64}], "status": "pass"}
