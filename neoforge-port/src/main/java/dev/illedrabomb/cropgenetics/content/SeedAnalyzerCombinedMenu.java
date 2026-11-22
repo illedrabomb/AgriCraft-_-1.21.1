@@ -53,7 +53,8 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(analyzer, index, x, y) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
-                    return stillValid(inventory.player) && super.mayPlace(stack);
+                    return stillValid(inventory.player) && analyzer.canPlaceItem(combinedIndex, stack)
+                            && super.mayPlace(stack);
                 }
 
                 @Override
@@ -77,7 +78,8 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(chest, index, x, y) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
-                    return stillValid(inventory.player) && super.mayPlace(stack);
+                    return stillValid(inventory.player) && chest.canPlaceItem(combinedIndex - ANALYZER_SLOTS, stack)
+                            && super.mayPlace(stack);
                 }
 
                 @Override

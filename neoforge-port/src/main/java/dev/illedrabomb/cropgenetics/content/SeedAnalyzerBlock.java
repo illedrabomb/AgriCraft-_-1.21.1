@@ -12,8 +12,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -156,7 +154,7 @@ public final class SeedAnalyzerBlock extends BaseEntityBlock {
                     ? "container.cropgenetics.seed_analyzer"
                     : "container.cropgenetics.seed_analyzer_with_chest");
             player.openMenu(new SimpleMenuProvider((id, inventory, viewer) ->
-                    chest == null ? new ChestMenu(MenuType.GENERIC_9x1, id, inventory, analyzer, 1)
+                    chest == null ? new SeedAnalyzerStandaloneMenu(id, inventory, analyzer)
                             : new SeedAnalyzerCombinedMenu(id, inventory, analyzer, chest), title));
         }
         return InteractionResult.SUCCESS;

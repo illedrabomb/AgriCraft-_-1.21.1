@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.HashSet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -75,6 +77,28 @@ public final class SeedJournalItem extends Item {
         if (previous.equals(known)) return false;
         journal.set(CropComponents.JOURNAL_MUTATIONS.get(), known);
         return true;
+    }
+
+    /**
+     * Sneaking with a journal bypasses the block's normal useItemOn callback
+     * in Minecraft 1.21.1. Handle the item-on-block route directly so the
+     * journal goes into the analyzer instead of opening its own book screen.
+     */
+    @Override
+    public InteractionResult useOn(UseOnContext context) {
+        Player player = context.getPlayer();
+        if (player == null || !player.isShiftKeyDown()) return InteractionResult.PASS;
+        Level level = context.getLevel();
+        if (!(level.getBlockEntity(context.getClickedPos()) instanceof SeedAnalyzerBlockEntity analyzer))
+            return InteractionResult.PASS;
+        if (!analyzer.displayJournal().isEmpty()) return InteractionResult.FAIL;
+
+        if (!level.isClientSide) {
+            ItemStack held = context.getItemInHand();
+            analyzer.setItem(1, held.copyWithCount(1));
+            if (!player.getAbilities().instabuild) held.shrink(1);
+        }
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override

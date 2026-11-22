@@ -6,6 +6,8 @@
 
 **Neue, ungetestete Core-Regel:** [Identische genetische Seeds stapeln bis 64 / testseed-Artenvorschläge](GENETIC_SEED_STACKING_AND_COMMAND_SUGGESTIONS_2026-11-22.md). Bisherige 212/212-Belege beziehen sich auf den älteren Commit; neue JUnit-/Spielprüfung ist offen. UI-01/UI-09 bleiben separat offen.
 
+**Aktuelles Quellpaket (ungetestet):** [Analyzer-Slotschutz und Journal-Direkteinlage](ANALYZER_SLOT_AND_JOURNAL_FIX_2026-11-22.md). UI-01/UI-09 aus dem Live-Test wurden gezielt adressiert; gemeinsame GUI-/Inventar-Regression vor Beta offen.
+
 ## Lokaler Vorlauf 22.11.2026
 
 Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Nächster Schritt: separat freizugebender persönlicher Minecraft-/v8-Test; keine Spiel-/MP-Abnahme durch JUnit.

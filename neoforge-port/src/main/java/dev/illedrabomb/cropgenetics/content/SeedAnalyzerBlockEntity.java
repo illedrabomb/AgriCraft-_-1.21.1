@@ -112,6 +112,7 @@ public final class SeedAnalyzerBlockEntity extends SeedInventoryBlockEntity {
         // analyzeSeed() refuses to touch its unknown external components.
         if (slot == 1) return stack.is(CropItems.SEED_JOURNAL.get());
         return slot == 0 && !stack.isEmpty()
+                && !stack.is(CropItems.SEED_JOURNAL.get())
                 && (level == null || level.isClientSide
                         || CropItems.isGeneticSeedStack(stack)
                         || CropGeneticsSeedRecognition.isUnmodifiedRegisteredSeed(stack));
