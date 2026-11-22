@@ -35,4 +35,4 @@ Offene Minecraft-/JEI-/Multiplayer-Abnahme:
 Nächster Schritt für gemeinsamen Chat:
 ```
 
-**Nicht automatisch starten:** Mineflayer/NeoForge-Bot, Minecraft-Client, Dedicated Server und die **89 manuellen Fälle der v9-Sonntagssuite** sind jeweils separat zu prüfen/freizugeben. Eine Bot-Verbindung ist noch nicht nachgewiesen. [Aktuelle Import-/Sicherungshinweise](test-tracker/README.md); ältere v5-Ergebnisse bleiben historisch.
+**Nicht automatisch starten:** Mineflayer/NeoForge-Bot, Minecraft-Client, Dedicated Server und die **91 manuellen Definitionen der neuen Core-Regressionsrunde 1.0** sind jeweils separat zu prüfen/freizugeben. Die optionalen Fälle `MOD-01`/`MOD-02` starten erst nach erfolgreichem Core-Gate und gesonderter Freigabe. Eine Bot-Verbindung ist noch nicht nachgewiesen. [Aktuelle Import-/Sicherungshinweise](test-tracker/README.md); ältere v5-Ergebnisse bleiben historisch.

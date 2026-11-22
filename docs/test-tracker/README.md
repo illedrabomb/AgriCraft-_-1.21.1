@@ -1,24 +1,25 @@
 # AgriCraft-Hauptmod – Testdateien für externe Tester
 
-**Tracker-Oberfläche:** Stand 21.11.2026 ist die externe App [Mod-Test-Tracker v2.3](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft). Maßgeblich für Import und Export ist deren [JSON_FORMAT.md](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft/blob/main/docs/JSON_FORMAT.md). Die aktuelle v9-Testsuite nutzt `schemaVersion: 2`, `category`, kurze `summary`-Texte und beschriftete kopierbare Command-Blöcke. Die ältere v6 (`schemaVersion: 1`) bleibt importierbar, zeigt eingeklappt aber noch keine Erklärung an.
+**Tracker-Oberfläche:** Stand 21.11.2026 ist die externe App [Mod-Test-Tracker v2.3](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft). Maßgeblich für Import und Export ist deren [JSON_FORMAT.md](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft/blob/main/docs/JSON_FORMAT.md). Die neue Testreihe „Core-Regression 1.0“ nutzt `schemaVersion: 2`, `category`, kurze `summary`-Texte und beschriftete kopierbare Command-Blöcke. Die ältere v6 (`schemaVersion: 1`) bleibt importierbar, zeigt eingeklappt aber noch keine Erklärung an.
 
 ## Verbindliche Namen für Testdateien
 
-Dateinamen nur mit ASCII-Buchstaben, Ziffern und Bindestrichen, ohne Leerzeichen. `YYYY-MM-DD` ist bei Suiten das **geplante Testdatum**, bei Ergebnissen das **tatsächliche Ausführungsdatum**. `NN` ist eine zweistellige, pro Tag und Testbuild aufsteigende Durchlaufnummer; `SHA8` sind die ersten acht Zeichen des **tatsächlich getesteten Git-Commits** (nicht des Vorbereitungscommits).
+Dateinamen nur mit ASCII-Buchstaben, Ziffern und Bindestrichen; für die neue Versionsnummer ist zusätzlich genau ein Punkt zwischen Haupt- und Nebenversion erlaubt (z. B. `v1.0`). Keine Leerzeichen. `YYYY-MM-DD` ist bei Suiten das **geplante Testdatum**, bei Ergebnissen das **tatsächliche Ausführungsdatum**. `NN` ist eine zweistellige, pro Tag und Testbuild aufsteigende Durchlaufnummer; `SHA8` sind die ersten acht Zeichen des **tatsächlich getesteten Git-Commits** (nicht des Vorbereitungscommits).
 
 | Art | Muster | Beispiel |
 | --- | --- | --- |
-| Unveränderliche Testsuite | `AgriCraft-Core-Sonntag-YYYY-MM-DD-vN.json` | `AgriCraft-Core-Sonntag-2026-11-22-v9.json` |
+| Neue Core-Regressionsreihe | `AgriCraft-Core-Regression-YYYY-MM-DD-vMAJOR.MINOR.json` | `AgriCraft-Core-Regression-2026-11-22-v1.0.json` |
+| Historische Sonntagssuiten | `AgriCraft-Core-Sonntag-YYYY-MM-DD-vN.json` | `AgriCraft-Core-Sonntag-2026-11-22-v8.json` |
 | Vollständiges Testergebnis inklusive Bildern | `AgriCraft-Core-Ergebnis-YYYY-MM-DD-Lauf-NN-SHA8.zip` | `AgriCraft-Core-Ergebnis-2026-11-22-Lauf-01-1234abcd.zip` |
 | JSON-Ergebnis ohne Bilddaten (nur optional) | `AgriCraft-Core-Ergebnis-YYYY-MM-DD-Lauf-NN-SHA8.json` | `AgriCraft-Core-Ergebnis-2026-11-22-Lauf-01-1234abcd.json` |
 | Zusatzbeleg | `AgriCraft-Core-YYYY-MM-DD-Lauf-NN-TESTID-Kurzbeschreibung.ext` | `AgriCraft-Core-2026-11-22-Lauf-01-UI-14-Tastenbelegung.png` |
 
-Die `SHA8`-Beispiele sind **Platzhalter**, keine getesteten Builds. Bei unbekanntem Git-Stand `SHA8` durch `unbekannt` ersetzen und im Bericht als Blocker erfassen; keine SHA erfinden. Eine neue Suite-Version `vN` und neue `suiteId` nur bei geänderten Testdefinitionen; alte Dateien und Exporte nicht umbenennen oder überschreiben. Der **Dateiname allein** belegt weder JAR-Herkunft noch Testerfolg: vollständige Git-SHA, JAR-Name und SHA-256 im Tracker-Kommentar/technischen Bericht notieren. Core und Add-ons bekommen getrennte Dateinamen und Testläufe.
+Die `SHA8`-Beispiele sind **Platzhalter**, keine getesteten Builds. Bei unbekanntem Git-Stand `SHA8` durch `unbekannt` ersetzen und im Bericht als Blocker erfassen; keine SHA erfinden. Einen neuen Versionsstand `vMAJOR.MINOR` beziehungsweise in der alten Serie `vN` und eine neue `suiteId` nur bei geänderten Testdefinitionen anlegen; alte Dateien und Exporte nicht umbenennen oder überschreiben. Der **Dateiname allein** belegt weder JAR-Herkunft noch Testerfolg: vollständige Git-SHA, JAR-Name und SHA-256 im Tracker-Kommentar/technischen Bericht notieren. Core und Add-ons bekommen getrennte Dateinamen und Testläufe.
 
 ## Welche Datei laden?
 
-- **Für den nächsten neuen Test bevorzugt:** [`AgriCraft-Core-Sonntag-2026-11-22-v9.json`](AgriCraft-Core-Sonntag-2026-11-22-v9.json) – **89 offene deutschsprachige Hauptmod-Fälle** und **35 beschriftete kopierbare Chat-Befehle**. Neue Fälle `GE-13` (gleiches Genom stapelt), `UI-15` (klassische Analyzer-GUI), `UI-16` (Standalone-Seed-Chest). `UI-01`, `UI-07`, `UI-09` und `ER-15` präzisiert. Keine automatische Befehlsausführung, kein Import/Lauf bestätigt.
-- [`AgriCraft-Core-Sonntag-2026-11-22-v8.json`](AgriCraft-Core-Sonntag-2026-11-22-v8.json) – **86 historische Fälle und 33 Kopierblöcke**; unverändert für die bereits dokumentierten v8-Spieltests und deren Exporte. Niemals als v9-Ergebnis umetikettieren.
+- **Für den nächsten neuen Test bevorzugt:** [`AgriCraft-Core-Regression-2026-11-22-v1.0.json`](AgriCraft-Core-Regression-2026-11-22-v1.0.json) – **91 offene Definitionen (89 Core, 2 optionale Mod-Support-Fälle)** und **35 beschriftete kopierbare Chat-Befehle**. Neue Core-Fälle `GE-13` (gleiches Genom stapelt), `UI-15` (klassische Analyzer-GUI), `UI-16` (Standalone-Seed-Chest); optionale Fälle `MOD-01` (Pam's HarvestCraft 2) und `MOD-02` (Farmer's Delight) nur nach bestandenem Hauptmod-Gate und eigener Freigabe. `UI-01`, `UI-07`, `UI-09` und `ER-15` präzisiert. Keine automatische Befehlsausführung, kein Import/Lauf bestätigt.
+- [`AgriCraft-Core-Sonntag-2026-11-22-v8.json`](AgriCraft-Core-Sonntag-2026-11-22-v8.json) – **86 historische Fälle und 33 Kopierblöcke**; unverändert für die bereits dokumentierten v8-Spieltests und deren Exporte. Niemals als Regression 1.0-Ergebnis umetikettieren.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v7.json`](AgriCraft-Core-Sonntag-2026-11-22-v7.json) – dieselben 86 Fälle mit `summary`, aber noch einfachen Command-Strings; unverändert für alte Exporte.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v6.json`](AgriCraft-Core-Sonntag-2026-11-22-v6.json) – 86 Fälle inklusive `ER-12`–`ER-15`, `UI-12` (Jade), `UI-13` (Identify) und `UI-14` (HUD-Taste/Journal); historische Ausgangssuite für eigene ältere Exporte.
 - [`AgriCraft-Core-Sonntag-2026-11-22-v5.json`](AgriCraft-Core-Sonntag-2026-11-22-v5.json) – 79 Fälle inklusive `UI-10`, `UI-11` und neun JEI-/Sync-Unterfällen; historisch unverändert.
@@ -28,13 +29,30 @@ Die `SHA8`-Beispiele sind **Platzhalter**, keine getesteten Builds. Bei unbekann
 - [`AgriCraft-Core-Sonntag-2026-11-22-v1.json`](AgriCraft-Core-Sonntag-2026-11-22-v1.json) – historisch vorbereitete erste Etappe mit 16 Fällen, nicht mit v2-Ergebnissen mischen.
 - Die alte 30-Fälle-Datei im getrennten Tracker-Repository ist eine andere Suite und enthält historische Buildangaben. Nicht als aktuellen Testnachweis behandeln.
 
-## Änderungen v9 gegenüber v8 (nur neue Testdefinitionen)
+## V8-Restaufgaben und getrennte Testbereiche
+
+Die beiden belegten Core-Spieltest-Etappen auf älteren Commits ergeben nach Zusammenführung anhand der Test-ID folgende **historische** Lage; die zweite Etappe ersetzt die frühere Bewertung derselben ID:
+
+| Letzter Beleg in v8 | Anzahl | Bedeutung für Regression 1.0 |
+| --- | ---: | --- |
+| `pass` | 10 | Historisch bestanden, für neue Codeänderungen nicht automatisch erneut bestanden |
+| `prior_pass` | 2 | Älterer JUnit-/Buildnachweis, nicht der neue HEAD |
+| `partial` | 9 | Unterfälle fehlen noch |
+| `fail` | 2 | `UI-01` und `UI-09` waren P2-Fehler; Quellfixes ungetestet |
+| `blocked` | 36 | Testumgebung/Sonderaufbau fehlt |
+| `not_authorized` | 27 | Keine Freigabe für diese Spezialtests |
+
+**74 der 86 v8-Fälle** waren somit noch nicht vollständig erfolgreich belegt. **Alle 86 IDs sind in dieser neuen Suite enthalten**, auch die 10 historischen Pass-Fälle und 2 alten Technikbelege als Regressionsschutz. Die neue Suite beginnt mit offenen Ergebnissen; Status und Beweise dürfen nicht aus alten Builds übernommen werden. Nachweise: [erste v8-Abdeckung](../test-results/gameplay-core-2026-11-22/v8-coverage.json), [zweite Etappe](../test-results/gameplay-core-2026-11-22-phase2/results.json).
+
+Die Testoberfläche zeigt eigene Kategorien **„05 Mod-Support“** (JEI, Jade, Identify sowie zwei optionale Integrationsfälle) und **„06 Multiplayer“** (23 gesondert freizugebende MP-Fälle). Die neuen `MOD-01`/`MOD-02` für Pam's HarvestCraft 2 und Farmer's Delight sind **nachgelagert**: zuerst das Hauptmod-Gate ohne diese Add-ons abschließen; danach Versionen und zusätzliche Testfreigabe einholen. MineColonies ist ein späteres separates Add-on und hier kein implizit freigegebener Test.
+
+## Änderungen der Core-Regression 1.0 gegenüber v8 (nur neue Testdefinitionen)
 
 - `GE-13` prüft bis zu 64 Seeds mit gleichen Genen und **allen** gleichen Data Components; abweichende Analyse-/Originalseed-/Fremd-Komponenten bleiben getrennt. Elternnamen allein dürfen kein Hindernis sein.
 - `ER-15` testet die TAB-Artenvorschläge aus dem tatsächlich aktiven Datapack zusätzlich zur unveränderten OP-/Reset-/Negativmatrix. `UI-07` überprüft die korrigierte JEI-Stapelhilfe.
 - `UI-01` und `UI-09` wiederholen die belegten P2-Fehler nach Quellkorrekturen mit Cursor/Shift/Hotbar beziehungsweise echtem Sneak+Journal. `UI-15` prüft die neue Original-GUI einschließlich DE/EN und Skalierung, `UI-16` die alleinstehende Seed Chest.
 - `UI-12` (Jade) und `UI-13` (Identify) bleiben erhalten und brauchen getrennt freigegebene Clientprofile. Multiplayer- und invasive Fälle bleiben separat gesperrt, bis dafür die Freigabe vorliegt.
-- Alle v8-Testergebnisse haben ihre **eigene alte Suite-ID und Fingerabdruck**. Neue v9-Ergebnisse nur auf einem tatsächlich neu gebauten, mit SHA belegten Teststand erzeugen; zuerst ZIP mit Bildern sichern.
+- Alle v8-Testergebnisse haben ihre **eigene alte Suite-ID und Fingerabdruck**. Neue Regression 1.0-Ergebnisse nur auf einem tatsächlich neu gebauten, mit SHA belegten Teststand erzeugen; zuerst ZIP mit Bildern sichern.
 
 ## Vorbereitungen
 
@@ -57,9 +75,9 @@ Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitun
 3. Branch `integration/neoforge-1211-consolidation` und **genaue Git-Commit-ID des tatsächlich gebauten JARs** dokumentieren. Nicht den Vorbereitungscommit als bereits getesteten Build ausgeben.
 4. Eine neue Welt oder gesicherte **Weltkopie** verwenden. Datapack-/NBT-Manipulation, Blockschutz, gleichzeitiger Blockabbau und andere riskante Szenarien **niemals am einzigen Save** durchführen.
 5. [Mod-Test-Tracker](https://github.com/illedrabomb/Mod-Test-Tracker-Minecraft) lokal öffnen. **Vor „Tests laden“ oder „Ergebnisse laden“ den aktiven Lauf über „ZIP mit Bildern exportieren“ extern sichern** – Imports ersetzen den aktuellen Bearbeitungsstand. Die lokale Testlauf-Historie ist kein externes Backup.
-6. **v9-Datei** unter **„Tests laden“** wählen. Ihre `suiteId` lautet `agricraft-core-neoforge-1211-20261122-v9`; alte v1–v8-Ergebnisexporte gehören weiterhin zu ihren jeweiligen Suites und dürfen nicht als v9-Ergebnisse importiert werden. **Import ist nicht bestätigt; erst nach Freigabe und Export bisheriger Ergebnisse vornehmen.**
+6. **Core-Regression-1.0-Datei** unter **„Tests laden“** wählen. Ihre `suiteId` lautet `agricraft-core-neoforge-1211-regression-20261122-v1.0`; alte v1–v8-Ergebnisexporte gehören weiterhin zu ihren jeweiligen Suites und dürfen nicht als Regression 1.0-Ergebnisse importiert werden. **Import ist nicht bestätigt; erst nach Freigabe und Export bisheriger Ergebnisse vornehmen.**
 
-**Befehls-Vorbedingungen:** Für die 33 aus v8 übernommenen Kopierblöcke gibt es einen [statischen Abgleich mit dem Hauptmod-Befehlsbaum](../SUNDAY_V8_COMMAND_STATIC_AUDIT_2026-11-21.md). `testseed` und `harvestmultiplier` brauchen OP-Level 2; `testseed` zusätzlich ein Spielerinventar. Ungültige Werte bzw. genau zwei Gen-Zahlen sind in `ER-15` **gewollte Negativfälle**. Die zwei zusätzlichen v9-Kopierblöcke sind der bestehende gültige `testseed`-Aufruf `minecraft:wheat_plant 4 7 9` sowie ein unvollständiger TAB-Vorschlagspräfix (`/cropgenetics testseed minecraft:p`), der **nicht abgesendet** werden soll. Kein neuer Befehl wurde durch diese Vorbereitung ausgeführt.
+**Befehls-Vorbedingungen:** Für die 33 aus v8 übernommenen Kopierblöcke gibt es einen [statischen Abgleich mit dem Hauptmod-Befehlsbaum](../SUNDAY_V8_COMMAND_STATIC_AUDIT_2026-11-21.md). `testseed` und `harvestmultiplier` brauchen OP-Level 2; `testseed` zusätzlich ein Spielerinventar. Ungültige Werte bzw. genau zwei Gen-Zahlen sind in `ER-15` **gewollte Negativfälle**. Die zwei zusätzlichen Regression 1.0-Kopierblöcke sind der bestehende gültige `testseed`-Aufruf `minecraft:wheat_plant 4 7 9` sowie ein unvollständiger TAB-Vorschlagspräfix (`/cropgenetics testseed minecraft:p`), der **nicht abgesendet** werden soll. Kein neuer Befehl wurde durch diese Vorbereitung ausgeführt.
 
 **Windows-PowerShell, erst nach Freigabe und aus dem Hauptmod-Gradle-Projektverzeichnis:** Das bestehende technische Gate beschreibt `& .\gradlew.bat :test :build --no-daemon --console=plain`. Das ist ein **Anleitungstext**, hier wurde nichts ausgeführt. Vorher Java-21-Installation und den tatsächlichen Branch-HEAD prüfen; die korrekte Arbeitsverzeichnis-/Subprojektzuordnung steht im [`MAIN_MOD_TEST_GATE`](../MAIN_MOD_TEST_GATE_2026-11-19.md). Bei Fehlern Log und Testreport sichern und **nicht** die Spieltests als bestanden eintragen.
 
@@ -74,9 +92,9 @@ Für die konkrete Gestaltung der Testflächen zuerst die [F0–F5-Aufbauanleitun
 
 **Mehrere Builds:** Oben **„＋ Durchlauf hinzufügen“**, **„Umbenennen“** und **„Zum Durchlauf wechseln“** verwenden; vor einem Neubeginn **„Durchlauf sichern“** und zusätzlich ZIP exportieren. **„Neuen Durchlauf beginnen“** erzeugt leere Ergebnisse für dieselbe Suite. Der Build-Vergleich ist nur für identische `suiteId` **und** identischen `suiteFingerprint` aussagekräftig; geänderte Testsuiten nicht als direkte Regression vergleichen. Screenshots bleiben lokal im Browser, bis sie als ZIP gesichert werden. **Keine automatische Testausführung** durch die Webseite.
 
-## Grenzen der aktuellen v9 (mit historischen v5-Spezialfällen)
+## Grenzen der aktuellen Regression 1.0 (mit historischen v5-Spezialfällen)
 
-- Die aktuelle **v9 hat 89 Fälle**. Sie übernimmt die 86 historischen v8-Fälle (TG-/GE-/ER-/UI-01–UI-11-/MP-/BAL-IDs einschließlich sechs GE-12- und neun UI-11-Unterfällen) und ergänzt `GE-13`, `UI-15` und `UI-16` sowie aktualisierte Prüfschritte für vier bestehende IDs. Die JEI-Anzeige liegt **als ungeprüfter Quellcode** vor. Ein Teil erfordert **separate, technisch vorbereitete Teststände**.
+- Die neue **Core-Regression 1.0 hat 91 Fälle**. Sie übernimmt alle 86 historischen v8-Fälle (TG-/GE-/ER-/UI-01–UI-11-/MP-/BAL-IDs einschließlich sechs GE-12- und neun UI-11-Unterfällen) und ergänzt `GE-13`, `UI-15`, `UI-16`, `MOD-01` und `MOD-02` sowie aktualisierte Prüfschritte für vier bestehende IDs. Die JEI-Anzeige liegt **als ungeprüfter Quellcode** vor. Ein Teil erfordert **separate, technisch vorbereitete Teststände**.
 - Die 23 Multiplayerfälle sind aus der vorhandenen [detaillierten Multiplayer-Matrix](../MULTIPLAYER_INVENTORY_TEST_CASES_2026-11-19.md) in ausführbare deutsche Prüfschritte übertragen. Für ihre parallelen Aktionen werden zwei Personen beziehungsweise Accounts benötigt.
 - `GE-12` und einige Daten-/Blockschutz-Szenarien benötigen eine vorbereitete Weltkopie und kontrollierte Testdaten. Ohne solche Vorbedingungen **`blocked`** dokumentieren, nicht wahllos die produktive Testwelt verändern.
 - `UI-11` benötigt ein ausdrücklich freigegebenes JEI-19.x-Profil; `UI-11c/e/g/h` verlangen zusätzliche Datapack-/Serverstände, `UI-11d` zwei Spieler. `UI-11i` verlangt ein sicheres Netzwerk-Harness: ohne solches **blocked**. Die Hauptmod muss auch **ohne JEI** starten (`UI-11f`). [Abdeckungsreview](../SUNDAY_CORE_V5_COVERAGE_AUDIT_2026-11-21.md).

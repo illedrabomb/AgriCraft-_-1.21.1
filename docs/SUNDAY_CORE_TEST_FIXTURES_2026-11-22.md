@@ -1,6 +1,6 @@
 # AgriCraft-Hauptmod: Testwelt-Aufbauten und Vorbereitungen für Sonntag
 
-**Stand:** 21.11.2026 · **nur Vorbereitung, nichts gebaut oder ausgeführt**. Erst nach ausdrücklicher Freigabe des Projektbesitzers Gradle, JUnit, Minecraft, CI, Multiplayer oder Simulation starten. Ergänzt den [Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und die [aktuelle Tracker-v9-Suite mit 89 offenen Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v9.json); keine eigene Testsuite und keine heimlich abgehakten Fälle.
+**Stand:** 21.11.2026 · **nur Vorbereitung, nichts gebaut oder ausgeführt**. Erst nach ausdrücklicher Freigabe des Projektbesitzers Gradle, JUnit, Minecraft, CI, Multiplayer oder Simulation starten. Ergänzt den [Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und die [aktuelle Core-Regression-1.0-Suite mit 91 Definitionen (89 Core + 2 optionale)](test-tracker/AgriCraft-Core-Regression-2026-11-22-v1.0.json); keine eigene Testsuite und keine heimlich abgehakten Fälle.
 
 **Optionale F0–F3-Bauhilfe:** Ein [nicht ausgeführtes Vanilla-Datapack](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) kann nach späterer Freigabe sechs Basis-/Kreuzungsflächen, ein Erntefeld und eine markierte Analyzer-/Chest-Plattform vorbereiten. Es räumt Terrain ab und ist daher **ausschließlich für eine neue Wegwerf-Testwelt** geeignet; Crop Sticks, Geräte, Eltern, Genetik und Reife müssen weiterhin manuell geprüft werden.
 
@@ -9,7 +9,7 @@
 - [ ] Exakten **Git-Commit des gebauten Hauptmod-JARs**, Minecraft-/NeoForge-Version, Java 21, Modliste und Server-/Client-Logs aufschreiben. Keine Pam-/MineColonies-/Farmer's-Add-ons. JEI nur als ausdrücklich dokumentierte **optionale Anzeigehilfe** für die JEI-Fälle.
 - [ ] Ein freies Areal in einer **neuen Core-Testwelt** auswählen; Weltname, Dimension, Biom, Startposition und **Koordinaten jeder Fläche** im Tracker notieren. Es werden **keine festen absoluten Koordinaten** vorausgesetzt.
 - [ ] Server-Config zunächst unverändert lassen und die Werte für `crossFertilityMultiplier`, `rowCrossEvolution`, `rowEvolutionMutationMultiplier`, `fruitChanceMultiplier` und `randomTickSpeed` erfassen. Standardwerte nicht mit später veränderten Vergleichswerten mischen. `/gamerule randomTickSpeed` liest den aktuellen Wert nur aus.
-- [ ] Eine **Backup-Kopie vor dem ersten Eingriff** anlegen; nach jedem Themenblock den aktuellen Testlauf **als ZIP mit Bildern** exportieren. Alte 30er- und v1–v8-Ergebnisse sind nicht ohne Weiteres mit der aktuellen v9-`suiteId`/`suiteFingerprint` kompatibel.
+- [ ] Eine **Backup-Kopie vor dem ersten Eingriff** anlegen; nach jedem Themenblock den aktuellen Testlauf **als ZIP mit Bildern** exportieren. Alte 30er- und v1–v8-Ergebnisse sind nicht ohne Weiteres mit der neuen Core-Regression-1.0-`suiteId` und ihrem `suiteFingerprint` kompatibel.
 - [ ] Keine Seeds mit `/give` und frei erfundenen Data Components erzeugen. Genetische Seeds zunächst durch normales Pflanzen/Abbau oder gesichert bekannte Testgegenstände beschaffen. Für perfekte Werte und künstliche NBT-Zustände später gezielte, getrennte Fixtures vorbereiten, andernfalls den Sonderfall als `blocked` markieren.
 
 ## F0 – Basistest: einfache Crop Sticks und Pflanzbedingungen
@@ -55,7 +55,7 @@ Alle Eltern müssen **tatsächlich bepflanzt, reif und am Standort wachstumsfäh
 4. Nur wenn JEI ausdrücklich im freigegebenen Testprofil vorhanden ist: genetische Seed-Varianten, Papier-Katalysator-Hinweis und DE/EN-Text prüfen. `UI-11a/b/g` vergleichen `soil_block`/`#soil_tag`, Licht, Umwelt und Sonderregeln mit der **wirklichen Serverdefinition**. Die Quellimplementierung von `UI-11` ist **noch nicht im Spiel bestätigt**.
 5. Für `UI-11c` zwei gültige Datapackstände, für `UI-11e` zwei getrennte Server und für `UI-11h` eine gesicherte A/B/C-Reloadfolge vorbereiten. `UI-11d` erfordert zwei Spieler; `UI-11f` ein Core-Profil ohne JEI. `UI-11i` ohne sicheres Netzwerk-Harness als **blocked** dokumentieren, keine Pakete in einen echten Server injizieren.
 
-6. **v9-Sonderfläche (GE-13/UI-15/UI-16):** Eine **allein stehende** Seed Chest außerhalb der Analyzer-Nachbarschaft vorbereiten. Dieselben genetischen Seeds (gleiche Art/4/7/9/Analyse/Herkunft) getrennt und zusammengelegt prüfen, ungleiche Gene/Analyseflags nicht stapeln. Analyzer solo/verbunden mit Original-GUI, DE/EN und verschiedenen Auflösungen kontrollieren; Stick/Stein/Journal in der Standalone-Chest per Cursor/Shift/Hotbar verweigern lassen. Vor/nach Save-Reload Count und Data Components belegen. Keine heimliche Mod-/Clientinstallation.
+6. **Regressionstest 1.0: Sonderfläche (GE-13/UI-15/UI-16):** Eine **allein stehende** Seed Chest außerhalb der Analyzer-Nachbarschaft vorbereiten. Dieselben genetischen Seeds (gleiche Art/4/7/9/Analyse/Herkunft) getrennt und zusammengelegt prüfen, ungleiche Gene/Analyseflags nicht stapeln. Analyzer solo/verbunden mit Original-GUI, DE/EN und verschiedenen Auflösungen kontrollieren; Stick/Stein/Journal in der Standalone-Chest per Cursor/Shift/Hotbar verweigern lassen. Vor/nach Save-Reload Count und Data Components belegen. Keine heimliche Mod-/Clientinstallation.
 
 **Zugeordnete IDs:** `GE-13`, `UI-01`, `UI-03`–`UI-11i`, `UI-15`, `UI-16`, `MP-06`, `MP-10`–`MP-12`, `MP-15`–`MP-16`, `MP-19`–`MP-23`. Gene niemals durch einen rein optischen Vergleich als gleich behaupten – berechtigter Spieler muss sie am einzelnen Seed prüfen.
 
@@ -73,8 +73,14 @@ Alle Eltern müssen **tatsächlich bepflanzt, reif und am Standort wachstumsfäh
 
 `BAL-01` verlangt dokumentierte **erfolgreich entstandene Kinder** bis `10/10/10` mit konsequenter Beste-Kinder-Auslese und ausreichend unabhängige Zuchtläufe; `BAL-02` braucht kontrollierte artübergreifende Eltern und ggf. ein Datapack. Ohne gesonderte statistische Vorbereitung/Freigabe `blocked`/`open`, **niemals** aus einer kurzen Testreihe `pass` ableiten. Keine Simulation gestartet.
 
+## F6 – Mod-Support: erst nach Core-Gate und eigener Freigabe
+
+**Eigene Tracker-Kategorie „05 Mod-Support“:** Bestehende `UI-07` (JEI-Papier/Stapelhilfe), `UI-11` und `UI-11a`–`UI-11i` (JEI-Serverregeln), `UI-12` (Jade) sowie `UI-13` (Identify) werden mit separaten Testprofilen geprüft. Beim Core-Start ist JEI optional; Jade/Identify nicht als Pflichtmods darstellen.
+
+`MOD-01` (Pam's HarvestCraft 2) und `MOD-02` (Farmer's Delight) sind **bewusst nachgelagerte optionale Integrationen**. Für jeden Fall eigene neue Weltkopie, eigene Modliste, die zum Loader passende JAR, aktiven Seed-Registry-Snapshot, DE/EN-Logs und Item-/Genom-Belege dokumentieren. Kein MineColonies-Test; dieses Add-on gehört später in eine eigene Suite. **Kein automatischer Download, keine Installation oder Minecraft-Tests freigegeben.**
+
 ## Minimaler Ergebniszettel pro Fläche
 
 `Fixture-ID; Fall-ID; Commit/JAR; Datum/Uhrzeit; Dimension/Biom/Koordinaten; Boden/Licht; Elternarten und Gene; Ausgangs-/Endinventar; Serverconfig/randomTickSpeed; Anzahl gültiger Ticks/Kinder; erwartetes Ergebnis; tatsächliches Ergebnis; pass/fail/blocked/open; Screenshot/Log/Tracker-Export`.
 
-**Abschluss:** Jeden Themenblock im [Tracker-v9](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v9.json) dokumentieren und als ZIP mit Bildern sichern. Nur beobachtete Fälle `pass`; fehlende Voraussetzungen `blocked`, nicht still überspringen. Vor erneutem Test der nächsten Kategorie Weltzustand sichern. **Alle Häkchen in diesem Dokument sind Vorbereitungs-Checkpoints, derzeit nicht ausgeführt.**
+**Abschluss:** Jeden Themenblock im [Core-Regression 1.0](test-tracker/AgriCraft-Core-Regression-2026-11-22-v1.0.json) dokumentieren und als ZIP mit Bildern sichern. Nur beobachtete Fälle `pass`; fehlende Voraussetzungen `blocked`, nicht still überspringen. Vor erneutem Test der nächsten Kategorie Weltzustand sichern. **Alle Häkchen in diesem Dokument sind Vorbereitungs-Checkpoints, derzeit nicht ausgeführt.**

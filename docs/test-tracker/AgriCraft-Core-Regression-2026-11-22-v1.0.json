@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
-  "suiteId": "agricraft-core-neoforge-1211-20261122-v9",
-  "title": "AgriCraft NeoForge 1.21.1 – Hauptmod-Testgate nach Seed-, Analyzer- und GUI-Korrekturen (v9, Tracker 2.3)",
-  "description": "89 offene Hauptmod-Testfälle: v8 unverändert archiviert, nun mit identisch stapelbaren genetischen Seeds, TAB-Artenvorschlägen, geschützten Analyzer-/Seed-Chest-Slots und klassischer lokalisierter Analyzer-GUI. 35 benannte kopierbare Chat-Befehle; keine automatische Ausführung. Freigaben separat erforderlich.",
+  "suiteId": "agricraft-core-neoforge-1211-regression-20261122-v1.0",
+  "title": "AgriCraft NeoForge 1.21.1 – Core-Regression 1.0: Nachtests und Mod-Kompatibilität",
+  "description": "Neue Testreihe 1.0 nach den bisherigen v8-Spieltests: alle 86 v8-IDs, drei Core-Nachtests und zwei getrennt gesperrte optionale Mod-Support-Fälle. Insgesamt 91 offene Definitionen, 35 kopierbare Chat-Befehle. Erst Hauptmod-Gate, dann optionaler Mod-Support; ohne eigene Freigabe keine Ausführung. Alte Ergebnisbelege bleiben separat.",
   "environment": {
     "minecraft": "1.21.1",
     "loader": "NeoForge",
@@ -10,7 +10,7 @@
     "branch": "integration/neoforge-1211-consolidation",
     "testedCommit": "VOR TEST EINTRAGEN",
     "authorization": "AUSSTEHEND",
-    "scope": "Core only; Spezialfälle in Weltkopie"
+    "scope": "Hauptmod zuerst; optionaler Mod-Support (MOD-01/MOD-02) erst nach gesondertem Core-Gate/Freigabe; Spezialfälle nur in Weltkopien"
   },
   "tests": [
     {
@@ -859,21 +859,6 @@
       "summary": "Keine Gen-/Journal-Verluste oder Client-/Server-Sync-Abweichungen; nicht vorhandene Mods niemals aus produktivem Save entfernen."
     },
     {
-      "id": "UI-07",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI-Hinweis zum wiederverwendbaren Papier",
-      "steps": [
-        "JEI-Rezept für genetischen Seed → Originalseed mit Papier öffnen.",
-        "Deutsche und englische Sprache separat wählen und Text zur Papier-Wiederverwendung prüfen.",
-        "Im tatsächlichen Crafting-Feld einen Seed mit genau einem Blatt Papier umwandeln und Rest zählen.",
-        "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten.",
-        "JEI-Analysehilfe auf die aktualisierte Stapelregel in DE/EN prüfen: gleiche Item-Data-Components bis 64 stapelbar; kein alter Hinweis, unanalysierte genetische Seeds seien grundsätzlich nicht stapelbar."
-      ],
-      "expected": "JEI erklärt wiederverwendbares Papier in DE/EN; ein Blatt bleibt netto erhalten und Rezeptvorschau vermittelt keinen Verbrauch. Die Analyzer-Hilfe behauptet nicht mehr pauschal, unanalysierte genetische Seeds seien unstackbar.",
-      "commands": [],
-      "summary": "JEI erklärt Papier-Rückgabe und die neue Genetik-Stapelregel korrekt in DE/EN."
-    },
-    {
       "id": "UI-08",
       "category": "04 Analyzer und Journal",
       "title": "Journal-Ergänzung nach Save und Reload",
@@ -927,176 +912,6 @@
       "summary": "Pro abgewiesenem geeignetem Seed-Klick genau eine konkrete, lokalisierte Meldung."
     },
     {
-      "id": "UI-11",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI-Pflanzenbedingungen: Hauptabnahme der Serverautorität",
-      "steps": [
-        "Nur nach Freigabe: Hauptmod, JEI 19.x und tatsächlich geladenen Server mit notierter JAR-/Branch-SHA starten. Verbindliche Bedingungen zuvor mit dem aktiven Server-Datapack und der Crop-Datenübersicht abgleichen.",
-        "Einfachen unterstützten normalen Seed sowie artgenauen genetischen Seed in JEI öffnen; Boden, Licht und Zusatzregeln ablesen und die zugehörigen technischen IDs notieren.",
-        "Die Unterfälle UI-11a bis UI-11i nacheinander prüfen. Benötigte Weltkopien, zwei Testspieler oder ein gezieltes Datapack vorbereiten; fehlende Voraussetzungen pro Unterfall als blocked festhalten.",
-        "Je Unterfall exakte Commit-ID, JEI-Version, Server-Datapackliste, aktuelle UI-Anzeige, erwartete Bedingung, Screenshot und Server-/Clientlog eintragen. Die Hauptabnahme erst bei nachgewiesenen Pflichtunterfällen als pass markieren."
-      ],
-      "expected": "JEI beschreibt ausschließlich zuletzt synchronisierte öffentliche Serverregeln, nie pauschal den lokalen Default-Katalog; keine veralteten oder privat-genetischen Angaben. Offene oder blockierte wesentliche Unterfälle verhindern eine vollständige Abnahme.",
-      "commands": [],
-      "summary": "JEI beschreibt ausschließlich zuletzt synchronisierte öffentliche Serverregeln, nie pauschal den lokalen Default-Katalog; keine veralteten oder …"
-    },
-    {
-      "id": "UI-11a",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI: Standardart, Boden-Tag und Licht/Robustheit",
-      "steps": [
-        "Auf dediziertem Core-Testserver mit JEI einen aktiv unterstützten Weizen- oder Karottenseed wählen; dessen serverseitige Pflanzenregel (soil_block oder soil_tag, min/max light, light_tolerance) aus dem aktiven Datapack notieren.",
-        "In JEI für normalen und artgenauen genetischen Seed die Informationsseiten öffnen. Bodenname und ID beziehungsweise #Tag, Lichtbereich und Robustheitstoleranz abfotografieren.",
-        "Eine zweite Pflanzenart mit abweichender gültiger Boden- oder Lichtregel verwenden. Keine Tag-Aufzählung als vollständig annehmen; bei unverfügbarem Spezial-Datapack den zweiten Teil blocked kennzeichnen.",
-        "Mit unveränderten Seeds prüfen, ob die angegebenen Stützböden und Lichtbedingungen mit einer erlaubten bzw. verweigerten Pflanzung übereinstimmen; Itemzahlen und Positionen protokollieren."
-      ],
-      "expected": "Aktive Regeln pro Art statt Standard-Floskeln; soil_block nennt den Block samt ID, soil_tag die echte #ID und keine erfundene vollständige Blockliste; Licht- und Strength-Toleranz stimmen mit dem Datapack überein.",
-      "commands": [],
-      "summary": "Aktive Regeln pro Art statt Standard-Floskeln; soil_block nennt den Block samt ID, soil_tag die echte #ID und keine erfundene vollständige Blockliste; Licht- und …"
-    },
-    {
-      "id": "UI-11b",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI: Zuckerrohr, Pilze und Kaktus nur mit eigenen Sonderregeln",
-      "steps": [
-        "Auf dem Server prüfen, ob Zuckerrohr, brauner/roter Pilz und Kaktus wirklich als AgriCraft-Pflanzen aktiv sind; nicht vorhandene Arten als blocked dokumentieren.",
-        "Zuckerrohr-JEI-Seite öffnen und Wasser/Frosteis direkt neben dem Stützboden vergleichen; parallel gewöhnlichen Weizen ansehen und sicherstellen, dass dort keine generelle Nachbarwasser-Pflicht steht.",
-        "Pilz auf Myzel/Podsol oder Nylium und auf einem sonst zulässigen hellen Boden vergleichen; JEI soll die Substrat-Ausnahme und weiterhin geltende Datapack-Bodenregel erklären.",
-        "Kaktus-Seite auf freie horizontale Nachbarn prüfen, danach in einer sicheren Testfläche feste Blöcke bzw. Flüssigkeit daneben als Negativkontrolle verwenden.",
-        "JEI-Screenshots, Datapack-Pflanzen-ID, Bodenblock, tatsächliche Pflanzreaktion und Seedbestand notieren."
-      ],
-      "expected": "Wasserhinweis nur beim Zuckerrohr; Helligkeitsausnahme nur bei passenden Pilzsubstraten; freie Nachbarn nur beim Kaktus. Keine Sonderregeln fälschlich anderen Arten zuordnen.",
-      "commands": [],
-      "summary": "Wasserhinweis nur beim Zuckerrohr; Helligkeitsausnahme nur bei passenden Pilzsubstraten; freie Nachbarn nur beim Kaktus."
-    },
-    {
-      "id": "UI-11c",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI: geändertes Datapack nach /reload ohne Client-Neustart",
-      "steps": [
-        "Nur in gesicherter Weltkopie zwei gültige Versionen eines kleinen Pflanzen-Datapacks vorbereiten, bei denen sich Bodenregel, Lichtbereich oder Biome einer bekannten Art unterscheiden; unveränderten Ausgangsstand separat sichern.",
-        "Vor /reload die JEI-Regel auf Screenshot A und die Server-Datapack-Version notieren; Datapackdatei ausschließlich in der Testwelt kontrolliert wechseln.",
-        "Nach /reload ohne Client-Neustart dieselbe JEI-Seite neu öffnen; Screenshot B, Server-/Clientlog und Zeitpunkt der erhaltenen Daten festhalten.",
-        "Während eines noch unbestätigten Reload-Zustands keinen voreiligen Aktualitätsnachweis behaupten. Falls die frühere Anzeige bis zum neuen Paket sichtbar bleibt, Dauer dokumentieren und diesen Frische-Randfall gesondert bewerten.",
-        "Datapack danach auf den gesicherten Stand zurücksetzen und die Rückänderung ebenfalls dokumentieren."
-      ],
-      "expected": "Nach bestätigter Synchronisierung zeigt JEI die neue Serverregel ohne Client-Neustart. Keine dauerhafte Rückkehr zu lokalen Defaultwerten; ein alter Zwischenstand wird dokumentiert und nicht als sofortige Aktualisierung ausgegeben.",
-      "commands": [],
-      "summary": "Nach bestätigter Synchronisierung zeigt JEI die neue Serverregel ohne Client-Neustart."
-    },
-    {
-      "id": "UI-11d",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI: zwei Spieler am dedizierten Server und private Daten",
-      "steps": [
-        "Dedizierten Server, zwei echte Testspieler A/B, JEI und denselben aktiven Datapackstand vorbereiten. Nur eine Person: blocked.",
-        "A und B öffnen dieselbe Pflanzenart in JEI und vergleichen Screenshots für Boden, Licht, IDs und Zusatzbedingungen.",
-        "A analysiert einen privaten genetischen Seed und verändert sein Journal; B beobachtet die JEI-Ansicht ohne Zugriff auf A-Inventar oder Journal.",
-        "Beide Clients nach serverseitigem /reload erneut vergleichen; Server-/Clientlogs und Zeitpunkt aufzeichnen."
-      ],
-      "expected": "Beide erhalten identische öffentliche Regeln, aber keine individuellen Genome, Journal-Entdeckungen oder Inventar-/Spielerinformationen des anderen.",
-      "commands": [],
-      "summary": "Beide erhalten identische öffentliche Regeln, aber keine individuellen Genome, Journal-Entdeckungen oder Inventar-/Spielerinformationen des anderen."
-    },
-    {
-      "id": "UI-11e",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI: Logout und Wechsel zwischen zwei Servern",
-      "steps": [
-        "Zwei getrennte gesicherte Server/Testwelten mit absichtlich verschiedenen gültigen Boden-/Lichtregeln derselben Art vorbereiten; beide Konfigurationen dokumentieren.",
-        "Server A betreten und gültige JEI-Information A aufnehmen; ordentlich ins Menü abmelden, ohne Minecraft zu beenden.",
-        "Ohne Neustart Server B betreten und vor/ nach dem Eintreffen seiner Regeln die JEI-Information dokumentieren. Anschließend wieder Server A betreten.",
-        "Auf der Abmeldeseite beziehungsweise ohne gültigen Server-Snapshot nur die ehrliche Statusmeldung erwarten; niemals A-Regeln als aktuelle B-Regeln akzeptieren."
-      ],
-      "expected": "A- und B-Regeln bleiben getrennt; der Client verwirft den vorherigen Snapshot beim Logout. Bei fehlenden Regeln zeigt JEI 'nicht synchronisiert' statt fremde Datapackangaben.",
-      "commands": [],
-      "summary": "A- und B-Regeln bleiben getrennt; der Client verwirft den vorherigen Snapshot beim Logout."
-    },
-    {
-      "id": "UI-11f",
-      "category": "04 Analyzer und Journal",
-      "title": "Core-only ohne JEI und optionale Seed-Links",
-      "steps": [
-        "Nach TG-04 in getrenntem Core-only-Testprofil ohne JEI und ohne Pam-/Farmer's-/MineColonies-Add-ons starten; genaue Modliste und Startlog sichern.",
-        "Eine vorhandene Standardpflanze auf Crop Sticks pflanzen, wachsen lassen und wieder abbauen; auf Classloading- oder Netzwerkfehler achten.",
-        "In separatem ausdrücklich dokumentiertem Profil JEI hinzufügen, aber keine Add-on-Integration installieren. Nachsehen, ob unbekannte Drittanbieter-Seeds zu Unrecht als aktive Pflanzen beworben werden.",
-        "Optionales Add-on nur nach eigenständiger späterer Freigabe testen; das Core-Gate darf keine Add-on-Ladung voraussetzen."
-      ],
-      "expected": "Hauptmod funktioniert ohne JEI; JEI ist keine Pflichtabhängigkeit. Nur serverseitig aktive und eindeutig zugeordnete Seed-Items führen zu artbezogenen Regeln.",
-      "commands": [],
-      "summary": "Hauptmod funktioniert ohne JEI; JEI ist keine Pflichtabhängigkeit."
-    },
-    {
-      "id": "UI-11g",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI: DE/EN-Texte und erweiterte Umweltbedingungen",
-      "steps": [
-        "In einem kontrollierten Server-Datapack mindestens eine Art mit erlaubten/gesperrten Biomen und Dimensionen, Y-Grenze, Fluid-Anforderung, Saison und Bodenchemie vorbereiten. Fehlende Anbieter als separate Voraussetzung notieren.",
-        "JEI mit deutscher Sprache öffnen und alle vorhandenen Felder samt IDs, Kategorien, Vergleichsoperatoren und Toleranzfaktoren dokumentieren.",
-        "Sprache auf Englisch umstellen, JEI erneut öffnen und dieselben Regeln abgleichen. Bei komplexen Sonderregeln im Spiel zulässige und unzulässige Standorte vergleichen.",
-        "Wenn ein Chemie-/Saison-Anbieter nicht vorhanden ist, nicht automatisch eine Pflicht oder vollständige Werteliste annehmen; fehlende Voraussetzungen als blocked markieren."
-      ],
-      "expected": "DE/EN verständlich ohne fehlende Übersetzungsschlüssel; alle konfigurierten Einschränkungen werden mit tatsächlichen IDs/Werten benannt, ohne nicht vorhandene Anbieter oder Tag-Inhalte zu erfinden.",
-      "commands": [],
-      "summary": "DE/EN verständlich ohne fehlende Übersetzungsschlüssel; alle konfigurierten Einschränkungen werden mit tatsächlichen IDs/Werten benannt, ohne nicht vorhandene …"
-    },
-    {
-      "id": "UI-11h",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI: wiederholter Reload, versteckte Rezepte und Speicherwachstum",
-      "steps": [
-        "Nur mit freigegebenem Testprofil und gesicherter Weltkopie drei gültige Datapackstände A/B/C mit unterschiedlicher Pflanzen- oder Seed-Zuordnung vorbereiten.",
-        "JEI-Laufzeit auf A, B und C nach jeweils bestätigtem /reload prüfen; dann A/B/C mehrfach in dokumentierter Reihenfolge wiederholen, ohne Client-Neustart.",
-        "JEI nach jeder Runde auf versteckte alte Arten, doppelte Infoseiten, fehlende Reaktivierung und auffälliges Speicher-/Rezeptanzahlwachstum untersuchen; bei Messmöglichkeiten konkrete Zahlen protokollieren.",
-        "Bei JEI-Fehler, deutlicher Cachezunahme oder ausbleibender Aktualisierung Abbruch und Logs sichern; keine unbegrenzten Reload-Schleifen starten."
-      ],
-      "expected": "Für jede Serverversion genau aktuelle, nicht duplizierte sichtbare Regeln; alte Arten verborgen, zurückkehrende Arten wieder sichtbar. Keine fortschreitende relevante Cache-/Speicherzunahme.",
-      "commands": [],
-      "summary": "Für jede Serverversion genau aktuelle, nicht duplizierte sichtbare Regeln; alte Arten verborgen, zurückkehrende Arten wieder sichtbar."
-    },
-    {
-      "id": "UI-11i",
-      "category": "04 Analyzer und Journal",
-      "title": "JEI: ungültige oder zu große Regelpakete fail-closed",
-      "steps": [
-        "Nur nach gesonderter Freigabe mit isoliertem Netzwerk-Testharness oder dediziert vorbereitetem Testserver und Weltkopie ausführen. Ohne sicheres Harness ausdrücklich blocked, niemals beliebige Pakete in einen produktiven Server injizieren.",
-        "Ein Paket mit falscher Versionskennung, zu langem String, zu vielen Pflanzen beziehungsweise über 256 KiB und eine ungültige Datapack-Registry-Sicht jeweils separat vorbereiten.",
-        "JEI vor/nach jedem Fall öffnen; Clientlog und eventuelle Disconnect-/Fehleranzeige dokumentieren. Danach mit gültigem Snapshot prüfen, ob sich die Anzeige erholt.",
-        "Keine privaten NBT-/Genomdaten oder reale Spielerinventare für die Testdaten verwenden."
-      ],
-      "expected": "Ungültige oder übergroße Regeln werden nicht als gültige Weltbedingungen dargestellt; alte Werte werden verworfen beziehungsweise Verbindung sicher abgewiesen; nach gültigem Sync wieder korrekte Anzeige.",
-      "commands": [],
-      "summary": "Ungültige oder übergroße Regeln werden nicht als gültige Weltbedingungen dargestellt; alte Werte werden verworfen beziehungsweise Verbindung sicher abgewiesen …"
-    },
-    {
-      "id": "UI-12",
-      "category": "04 Analyzer und Journal",
-      "title": "Optionales Jade-Overlay: Crop Sticks, Reife und Gen-Privatsphäre",
-      "steps": [
-        "Nur nach gesonderter Spieltest-Freigabe mit eigener gesicherter Core-Testwelt: Clientprofil aus Hauptmod und kompatibler Jade-Version auf Minecraft 1.21.1/NeoForge vorbereiten. Tatsächliche Version, Modliste und JAR-SHA festhalten. Keine Pam-/Farmer-/MineColonies-Add-ons.",
-        "Mit Jade auf leere einfache und doppelte Crop Sticks schauen, danach auf unreife und reife Pflanzen mit normalen und genetischen Samen. Die eigene AgriCraft-Art-/Wachstumszeile muss auch bei geladenem Jade sichtbar bleiben; den tatsächlichen Jade-Inhalt getrennt notieren.",
-        "Einen unanalysierten Seed der Art und später einen analysierten Seed vergleichen; in Jade dürfen keine nicht freigegebenen privaten Genwerte, Genome/NBT oder Journal-Entdeckungen auftauchen. Reife-/Artangaben nur als Soll erwarten, wenn die Unterstützung tatsächlich vorhanden ist.",
-        "Screenshots von Jade und eigener Anzeige, Clientlog und getestete Modversionen erfassen. Fehlende Jade-Integration als offenes Kompatibilitäts-Feature dokumentieren, nicht als erfundenes 'pass'; Crash, Datenleck oder Blockierung der Hauptmod-Interaktion als fail."
-      ],
-      "expected": "Core-JAR und Jade können gemeinsam starten, die eigene AgriCraft-Art-/Stufenanzeige bleibt erhalten, Crop Sticks behalten Pflanzung/Ernte und keine geschützten Gen-/Spielerdaten werden offengelegt. Eine erweiterte Jade-Crop-Genetics-Anzeige ist nicht als bereits implementiert vorausgesetzt.",
-      "commands": [],
-      "summary": "Core-JAR und Jade können gemeinsam starten, die eigene AgriCraft-Art-/Stufenanzeige bleibt erhalten, Crop Sticks behalten Pflanzung/Ernte und keine geschützten …"
-    },
-    {
-      "id": "UI-13",
-      "category": "04 Analyzer und Journal",
-      "title": "Optionales Identify-Overlay: Basiskompatibilität und bekannte Integrationslücke",
-      "steps": [
-        "Nur nach gesonderter Spieltest-Freigabe mit separatem Clientprofil: kompatibles Identify für NeoForge 1.21.1 plus Hauptmod starten, genaue Identify-Version, Modliste und JAR-SHA dokumentieren. Nicht gleichzeitig Jade laden, damit der Befund zuordenbar bleibt.",
-        "Identify bei leeren und bepflanzten Crop Sticks, unreifer und reifer Pflanze sowie Kürbis-/Melonenfrucht ansehen. Die AgriCraft-eigene Art-/Stufenzeile muss parallel weiterlaufen; Screenshots der beiden Anzeigen eindeutig benennen.",
-        "Unanalysierte und analysierte genetische Seeds sowie verschiedene Pflanzenarten vergleichen. Identify darf keine verborgenen Genwerte oder privaten Journal-/Inventardaten zeigen; Art/Reife nur als Zusatzanzeige werten, falls tatsächlich vorhanden.",
-        "Den aus früherem Playtest bekannten Stand berücksichtigen: bislang keine bestätigte Identify-spezifische Crop-Genetics-Integration. Fehlende Zusatzdaten als offenen Integrationsauftrag melden; Crash, falsche Datenfreigabe oder gestörte Hauptmod-Funktion sind ein Fehler."
-      ],
-      "expected": "Hauptmod und Identify starten gemeinsam, normale Interaktionen funktionieren und verborgene Genetik bleibt privat. Eine vollständige Identify-Datenintegration ist derzeit nicht zugesichert und wird getrennt von der reinen Kompatibilität bewertet.",
-      "commands": [],
-      "summary": "Hauptmod und Identify starten gemeinsam, normale Interaktionen funktionieren und verborgene Genetik bleibt privat."
-    },
-    {
       "id": "UI-14",
       "category": "04 Analyzer und Journal",
       "title": "Pflanzen-HUD per Taste umschalten und im Journal erklären",
@@ -1145,8 +960,225 @@
       "summary": "Standalone-Seed-Chest: 27 Slots, nur zulässige Seeds, keine Fremditems per Cursor/Shift/Hotbar oder nach Reload."
     },
     {
+      "id": "UI-07",
+      "category": "05 Mod-Support",
+      "title": "JEI-Hinweis zum wiederverwendbaren Papier",
+      "steps": [
+        "JEI-Rezept für genetischen Seed → Originalseed mit Papier öffnen.",
+        "Deutsche und englische Sprache separat wählen und Text zur Papier-Wiederverwendung prüfen.",
+        "Im tatsächlichen Crafting-Feld einen Seed mit genau einem Blatt Papier umwandeln und Rest zählen.",
+        "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten.",
+        "JEI-Analysehilfe auf die aktualisierte Stapelregel in DE/EN prüfen: gleiche Item-Data-Components bis 64 stapelbar; kein alter Hinweis, unanalysierte genetische Seeds seien grundsätzlich nicht stapelbar."
+      ],
+      "expected": "JEI erklärt wiederverwendbares Papier in DE/EN; ein Blatt bleibt netto erhalten und Rezeptvorschau vermittelt keinen Verbrauch. Die Analyzer-Hilfe behauptet nicht mehr pauschal, unanalysierte genetische Seeds seien unstackbar.",
+      "commands": [],
+      "summary": "JEI erklärt Papier-Rückgabe und die neue Genetik-Stapelregel korrekt in DE/EN."
+    },
+    {
+      "id": "UI-11",
+      "category": "05 Mod-Support",
+      "title": "JEI-Pflanzenbedingungen: Hauptabnahme der Serverautorität",
+      "steps": [
+        "Nur nach Freigabe: Hauptmod, JEI 19.x und tatsächlich geladenen Server mit notierter JAR-/Branch-SHA starten. Verbindliche Bedingungen zuvor mit dem aktiven Server-Datapack und der Crop-Datenübersicht abgleichen.",
+        "Einfachen unterstützten normalen Seed sowie artgenauen genetischen Seed in JEI öffnen; Boden, Licht und Zusatzregeln ablesen und die zugehörigen technischen IDs notieren.",
+        "Die Unterfälle UI-11a bis UI-11i nacheinander prüfen. Benötigte Weltkopien, zwei Testspieler oder ein gezieltes Datapack vorbereiten; fehlende Voraussetzungen pro Unterfall als blocked festhalten.",
+        "Je Unterfall exakte Commit-ID, JEI-Version, Server-Datapackliste, aktuelle UI-Anzeige, erwartete Bedingung, Screenshot und Server-/Clientlog eintragen. Die Hauptabnahme erst bei nachgewiesenen Pflichtunterfällen als pass markieren."
+      ],
+      "expected": "JEI beschreibt ausschließlich zuletzt synchronisierte öffentliche Serverregeln, nie pauschal den lokalen Default-Katalog; keine veralteten oder privat-genetischen Angaben. Offene oder blockierte wesentliche Unterfälle verhindern eine vollständige Abnahme.",
+      "commands": [],
+      "summary": "JEI beschreibt ausschließlich zuletzt synchronisierte öffentliche Serverregeln, nie pauschal den lokalen Default-Katalog; keine veralteten oder …"
+    },
+    {
+      "id": "UI-11a",
+      "category": "05 Mod-Support",
+      "title": "JEI: Standardart, Boden-Tag und Licht/Robustheit",
+      "steps": [
+        "Auf dediziertem Core-Testserver mit JEI einen aktiv unterstützten Weizen- oder Karottenseed wählen; dessen serverseitige Pflanzenregel (soil_block oder soil_tag, min/max light, light_tolerance) aus dem aktiven Datapack notieren.",
+        "In JEI für normalen und artgenauen genetischen Seed die Informationsseiten öffnen. Bodenname und ID beziehungsweise #Tag, Lichtbereich und Robustheitstoleranz abfotografieren.",
+        "Eine zweite Pflanzenart mit abweichender gültiger Boden- oder Lichtregel verwenden. Keine Tag-Aufzählung als vollständig annehmen; bei unverfügbarem Spezial-Datapack den zweiten Teil blocked kennzeichnen.",
+        "Mit unveränderten Seeds prüfen, ob die angegebenen Stützböden und Lichtbedingungen mit einer erlaubten bzw. verweigerten Pflanzung übereinstimmen; Itemzahlen und Positionen protokollieren."
+      ],
+      "expected": "Aktive Regeln pro Art statt Standard-Floskeln; soil_block nennt den Block samt ID, soil_tag die echte #ID und keine erfundene vollständige Blockliste; Licht- und Strength-Toleranz stimmen mit dem Datapack überein.",
+      "commands": [],
+      "summary": "Aktive Regeln pro Art statt Standard-Floskeln; soil_block nennt den Block samt ID, soil_tag die echte #ID und keine erfundene vollständige Blockliste; Licht- und …"
+    },
+    {
+      "id": "UI-11b",
+      "category": "05 Mod-Support",
+      "title": "JEI: Zuckerrohr, Pilze und Kaktus nur mit eigenen Sonderregeln",
+      "steps": [
+        "Auf dem Server prüfen, ob Zuckerrohr, brauner/roter Pilz und Kaktus wirklich als AgriCraft-Pflanzen aktiv sind; nicht vorhandene Arten als blocked dokumentieren.",
+        "Zuckerrohr-JEI-Seite öffnen und Wasser/Frosteis direkt neben dem Stützboden vergleichen; parallel gewöhnlichen Weizen ansehen und sicherstellen, dass dort keine generelle Nachbarwasser-Pflicht steht.",
+        "Pilz auf Myzel/Podsol oder Nylium und auf einem sonst zulässigen hellen Boden vergleichen; JEI soll die Substrat-Ausnahme und weiterhin geltende Datapack-Bodenregel erklären.",
+        "Kaktus-Seite auf freie horizontale Nachbarn prüfen, danach in einer sicheren Testfläche feste Blöcke bzw. Flüssigkeit daneben als Negativkontrolle verwenden.",
+        "JEI-Screenshots, Datapack-Pflanzen-ID, Bodenblock, tatsächliche Pflanzreaktion und Seedbestand notieren."
+      ],
+      "expected": "Wasserhinweis nur beim Zuckerrohr; Helligkeitsausnahme nur bei passenden Pilzsubstraten; freie Nachbarn nur beim Kaktus. Keine Sonderregeln fälschlich anderen Arten zuordnen.",
+      "commands": [],
+      "summary": "Wasserhinweis nur beim Zuckerrohr; Helligkeitsausnahme nur bei passenden Pilzsubstraten; freie Nachbarn nur beim Kaktus."
+    },
+    {
+      "id": "UI-11c",
+      "category": "05 Mod-Support",
+      "title": "JEI: geändertes Datapack nach /reload ohne Client-Neustart",
+      "steps": [
+        "Nur in gesicherter Weltkopie zwei gültige Versionen eines kleinen Pflanzen-Datapacks vorbereiten, bei denen sich Bodenregel, Lichtbereich oder Biome einer bekannten Art unterscheiden; unveränderten Ausgangsstand separat sichern.",
+        "Vor /reload die JEI-Regel auf Screenshot A und die Server-Datapack-Version notieren; Datapackdatei ausschließlich in der Testwelt kontrolliert wechseln.",
+        "Nach /reload ohne Client-Neustart dieselbe JEI-Seite neu öffnen; Screenshot B, Server-/Clientlog und Zeitpunkt der erhaltenen Daten festhalten.",
+        "Während eines noch unbestätigten Reload-Zustands keinen voreiligen Aktualitätsnachweis behaupten. Falls die frühere Anzeige bis zum neuen Paket sichtbar bleibt, Dauer dokumentieren und diesen Frische-Randfall gesondert bewerten.",
+        "Datapack danach auf den gesicherten Stand zurücksetzen und die Rückänderung ebenfalls dokumentieren."
+      ],
+      "expected": "Nach bestätigter Synchronisierung zeigt JEI die neue Serverregel ohne Client-Neustart. Keine dauerhafte Rückkehr zu lokalen Defaultwerten; ein alter Zwischenstand wird dokumentiert und nicht als sofortige Aktualisierung ausgegeben.",
+      "commands": [],
+      "summary": "Nach bestätigter Synchronisierung zeigt JEI die neue Serverregel ohne Client-Neustart."
+    },
+    {
+      "id": "UI-11d",
+      "category": "05 Mod-Support",
+      "title": "JEI: zwei Spieler am dedizierten Server und private Daten",
+      "steps": [
+        "Dedizierten Server, zwei echte Testspieler A/B, JEI und denselben aktiven Datapackstand vorbereiten. Nur eine Person: blocked.",
+        "A und B öffnen dieselbe Pflanzenart in JEI und vergleichen Screenshots für Boden, Licht, IDs und Zusatzbedingungen.",
+        "A analysiert einen privaten genetischen Seed und verändert sein Journal; B beobachtet die JEI-Ansicht ohne Zugriff auf A-Inventar oder Journal.",
+        "Beide Clients nach serverseitigem /reload erneut vergleichen; Server-/Clientlogs und Zeitpunkt aufzeichnen."
+      ],
+      "expected": "Beide erhalten identische öffentliche Regeln, aber keine individuellen Genome, Journal-Entdeckungen oder Inventar-/Spielerinformationen des anderen.",
+      "commands": [],
+      "summary": "Beide erhalten identische öffentliche Regeln, aber keine individuellen Genome, Journal-Entdeckungen oder Inventar-/Spielerinformationen des anderen."
+    },
+    {
+      "id": "UI-11e",
+      "category": "05 Mod-Support",
+      "title": "JEI: Logout und Wechsel zwischen zwei Servern",
+      "steps": [
+        "Zwei getrennte gesicherte Server/Testwelten mit absichtlich verschiedenen gültigen Boden-/Lichtregeln derselben Art vorbereiten; beide Konfigurationen dokumentieren.",
+        "Server A betreten und gültige JEI-Information A aufnehmen; ordentlich ins Menü abmelden, ohne Minecraft zu beenden.",
+        "Ohne Neustart Server B betreten und vor/ nach dem Eintreffen seiner Regeln die JEI-Information dokumentieren. Anschließend wieder Server A betreten.",
+        "Auf der Abmeldeseite beziehungsweise ohne gültigen Server-Snapshot nur die ehrliche Statusmeldung erwarten; niemals A-Regeln als aktuelle B-Regeln akzeptieren."
+      ],
+      "expected": "A- und B-Regeln bleiben getrennt; der Client verwirft den vorherigen Snapshot beim Logout. Bei fehlenden Regeln zeigt JEI 'nicht synchronisiert' statt fremde Datapackangaben.",
+      "commands": [],
+      "summary": "A- und B-Regeln bleiben getrennt; der Client verwirft den vorherigen Snapshot beim Logout."
+    },
+    {
+      "id": "UI-11f",
+      "category": "05 Mod-Support",
+      "title": "Core-only ohne JEI und optionale Seed-Links",
+      "steps": [
+        "Nach TG-04 in getrenntem Core-only-Testprofil ohne JEI und ohne Pam-/Farmer's-/MineColonies-Add-ons starten; genaue Modliste und Startlog sichern.",
+        "Eine vorhandene Standardpflanze auf Crop Sticks pflanzen, wachsen lassen und wieder abbauen; auf Classloading- oder Netzwerkfehler achten.",
+        "In separatem ausdrücklich dokumentiertem Profil JEI hinzufügen, aber keine Add-on-Integration installieren. Nachsehen, ob unbekannte Drittanbieter-Seeds zu Unrecht als aktive Pflanzen beworben werden.",
+        "Optionales Add-on nur nach eigenständiger späterer Freigabe testen; das Core-Gate darf keine Add-on-Ladung voraussetzen."
+      ],
+      "expected": "Hauptmod funktioniert ohne JEI; JEI ist keine Pflichtabhängigkeit. Nur serverseitig aktive und eindeutig zugeordnete Seed-Items führen zu artbezogenen Regeln.",
+      "commands": [],
+      "summary": "Hauptmod funktioniert ohne JEI; JEI ist keine Pflichtabhängigkeit."
+    },
+    {
+      "id": "UI-11g",
+      "category": "05 Mod-Support",
+      "title": "JEI: DE/EN-Texte und erweiterte Umweltbedingungen",
+      "steps": [
+        "In einem kontrollierten Server-Datapack mindestens eine Art mit erlaubten/gesperrten Biomen und Dimensionen, Y-Grenze, Fluid-Anforderung, Saison und Bodenchemie vorbereiten. Fehlende Anbieter als separate Voraussetzung notieren.",
+        "JEI mit deutscher Sprache öffnen und alle vorhandenen Felder samt IDs, Kategorien, Vergleichsoperatoren und Toleranzfaktoren dokumentieren.",
+        "Sprache auf Englisch umstellen, JEI erneut öffnen und dieselben Regeln abgleichen. Bei komplexen Sonderregeln im Spiel zulässige und unzulässige Standorte vergleichen.",
+        "Wenn ein Chemie-/Saison-Anbieter nicht vorhanden ist, nicht automatisch eine Pflicht oder vollständige Werteliste annehmen; fehlende Voraussetzungen als blocked markieren."
+      ],
+      "expected": "DE/EN verständlich ohne fehlende Übersetzungsschlüssel; alle konfigurierten Einschränkungen werden mit tatsächlichen IDs/Werten benannt, ohne nicht vorhandene Anbieter oder Tag-Inhalte zu erfinden.",
+      "commands": [],
+      "summary": "DE/EN verständlich ohne fehlende Übersetzungsschlüssel; alle konfigurierten Einschränkungen werden mit tatsächlichen IDs/Werten benannt, ohne nicht vorhandene …"
+    },
+    {
+      "id": "UI-11h",
+      "category": "05 Mod-Support",
+      "title": "JEI: wiederholter Reload, versteckte Rezepte und Speicherwachstum",
+      "steps": [
+        "Nur mit freigegebenem Testprofil und gesicherter Weltkopie drei gültige Datapackstände A/B/C mit unterschiedlicher Pflanzen- oder Seed-Zuordnung vorbereiten.",
+        "JEI-Laufzeit auf A, B und C nach jeweils bestätigtem /reload prüfen; dann A/B/C mehrfach in dokumentierter Reihenfolge wiederholen, ohne Client-Neustart.",
+        "JEI nach jeder Runde auf versteckte alte Arten, doppelte Infoseiten, fehlende Reaktivierung und auffälliges Speicher-/Rezeptanzahlwachstum untersuchen; bei Messmöglichkeiten konkrete Zahlen protokollieren.",
+        "Bei JEI-Fehler, deutlicher Cachezunahme oder ausbleibender Aktualisierung Abbruch und Logs sichern; keine unbegrenzten Reload-Schleifen starten."
+      ],
+      "expected": "Für jede Serverversion genau aktuelle, nicht duplizierte sichtbare Regeln; alte Arten verborgen, zurückkehrende Arten wieder sichtbar. Keine fortschreitende relevante Cache-/Speicherzunahme.",
+      "commands": [],
+      "summary": "Für jede Serverversion genau aktuelle, nicht duplizierte sichtbare Regeln; alte Arten verborgen, zurückkehrende Arten wieder sichtbar."
+    },
+    {
+      "id": "UI-11i",
+      "category": "05 Mod-Support",
+      "title": "JEI: ungültige oder zu große Regelpakete fail-closed",
+      "steps": [
+        "Nur nach gesonderter Freigabe mit isoliertem Netzwerk-Testharness oder dediziert vorbereitetem Testserver und Weltkopie ausführen. Ohne sicheres Harness ausdrücklich blocked, niemals beliebige Pakete in einen produktiven Server injizieren.",
+        "Ein Paket mit falscher Versionskennung, zu langem String, zu vielen Pflanzen beziehungsweise über 256 KiB und eine ungültige Datapack-Registry-Sicht jeweils separat vorbereiten.",
+        "JEI vor/nach jedem Fall öffnen; Clientlog und eventuelle Disconnect-/Fehleranzeige dokumentieren. Danach mit gültigem Snapshot prüfen, ob sich die Anzeige erholt.",
+        "Keine privaten NBT-/Genomdaten oder reale Spielerinventare für die Testdaten verwenden."
+      ],
+      "expected": "Ungültige oder übergroße Regeln werden nicht als gültige Weltbedingungen dargestellt; alte Werte werden verworfen beziehungsweise Verbindung sicher abgewiesen; nach gültigem Sync wieder korrekte Anzeige.",
+      "commands": [],
+      "summary": "Ungültige oder übergroße Regeln werden nicht als gültige Weltbedingungen dargestellt; alte Werte werden verworfen beziehungsweise Verbindung sicher abgewiesen …"
+    },
+    {
+      "id": "UI-12",
+      "category": "05 Mod-Support",
+      "title": "Optionales Jade-Overlay: Crop Sticks, Reife und Gen-Privatsphäre",
+      "steps": [
+        "Nur nach gesonderter Spieltest-Freigabe mit eigener gesicherter Core-Testwelt: Clientprofil aus Hauptmod und kompatibler Jade-Version auf Minecraft 1.21.1/NeoForge vorbereiten. Tatsächliche Version, Modliste und JAR-SHA festhalten. Keine Pam-/Farmer-/MineColonies-Add-ons.",
+        "Mit Jade auf leere einfache und doppelte Crop Sticks schauen, danach auf unreife und reife Pflanzen mit normalen und genetischen Samen. Die eigene AgriCraft-Art-/Wachstumszeile muss auch bei geladenem Jade sichtbar bleiben; den tatsächlichen Jade-Inhalt getrennt notieren.",
+        "Einen unanalysierten Seed der Art und später einen analysierten Seed vergleichen; in Jade dürfen keine nicht freigegebenen privaten Genwerte, Genome/NBT oder Journal-Entdeckungen auftauchen. Reife-/Artangaben nur als Soll erwarten, wenn die Unterstützung tatsächlich vorhanden ist.",
+        "Screenshots von Jade und eigener Anzeige, Clientlog und getestete Modversionen erfassen. Fehlende Jade-Integration als offenes Kompatibilitäts-Feature dokumentieren, nicht als erfundenes 'pass'; Crash, Datenleck oder Blockierung der Hauptmod-Interaktion als fail."
+      ],
+      "expected": "Core-JAR und Jade können gemeinsam starten, die eigene AgriCraft-Art-/Stufenanzeige bleibt erhalten, Crop Sticks behalten Pflanzung/Ernte und keine geschützten Gen-/Spielerdaten werden offengelegt. Eine erweiterte Jade-Crop-Genetics-Anzeige ist nicht als bereits implementiert vorausgesetzt.",
+      "commands": [],
+      "summary": "Core-JAR und Jade können gemeinsam starten, die eigene AgriCraft-Art-/Stufenanzeige bleibt erhalten, Crop Sticks behalten Pflanzung/Ernte und keine geschützten …"
+    },
+    {
+      "id": "UI-13",
+      "category": "05 Mod-Support",
+      "title": "Optionales Identify-Overlay: Basiskompatibilität und bekannte Integrationslücke",
+      "steps": [
+        "Nur nach gesonderter Spieltest-Freigabe mit separatem Clientprofil: kompatibles Identify für NeoForge 1.21.1 plus Hauptmod starten, genaue Identify-Version, Modliste und JAR-SHA dokumentieren. Nicht gleichzeitig Jade laden, damit der Befund zuordenbar bleibt.",
+        "Identify bei leeren und bepflanzten Crop Sticks, unreifer und reifer Pflanze sowie Kürbis-/Melonenfrucht ansehen. Die AgriCraft-eigene Art-/Stufenzeile muss parallel weiterlaufen; Screenshots der beiden Anzeigen eindeutig benennen.",
+        "Unanalysierte und analysierte genetische Seeds sowie verschiedene Pflanzenarten vergleichen. Identify darf keine verborgenen Genwerte oder privaten Journal-/Inventardaten zeigen; Art/Reife nur als Zusatzanzeige werten, falls tatsächlich vorhanden.",
+        "Den aus früherem Playtest bekannten Stand berücksichtigen: bislang keine bestätigte Identify-spezifische Crop-Genetics-Integration. Fehlende Zusatzdaten als offenen Integrationsauftrag melden; Crash, falsche Datenfreigabe oder gestörte Hauptmod-Funktion sind ein Fehler."
+      ],
+      "expected": "Hauptmod und Identify starten gemeinsam, normale Interaktionen funktionieren und verborgene Genetik bleibt privat. Eine vollständige Identify-Datenintegration ist derzeit nicht zugesichert und wird getrennt von der reinen Kompatibilität bewertet.",
+      "commands": [],
+      "summary": "Hauptmod und Identify starten gemeinsam, normale Interaktionen funktionieren und verborgene Genetik bleibt privat."
+    },
+    {
+      "id": "MOD-01",
+      "category": "05 Mod-Support",
+      "title": "Pam's HarvestCraft 2: optionaler Saatgut-/Crop-Support nach Core-Gate",
+      "steps": [
+        "Nur nach bestandener Hauptmod-Abnahme und separater Freigabe eine neue Testwelt sowie ein eigenes NeoForge-1.21.1-Profil mit dokumentierten, tatsächlich kompatiblen Pam's-HarvestCraft-2-JARs vorbereiten. Core-JAR, Modversionen, Loader und Logs festhalten.",
+        "Start ohne Pam-Mod als Core-Baseline dokumentieren, dann nur Pam's zum Profil ergänzen. Keine anderen Add-ons oder HUD-Mods gleichzeitig aktivieren.",
+        "Tatsächlich im aktiven Server-Datapack registrierte Pam-Saatgutarten ermitteln; nur diese auf passendem Boden in Crop Sticks einsetzen. Erste Gene 1/1/1, Entwicklung, Ernte und Analyzer prüfen.",
+        "Zwei gleiche genetische Samen kontrolliert stapeln; Gene/Originalseed-Item beim Pflanzen, Abbau, Journal und der Papier-Rückwandlung vergleichen. Ungültige/unbekannte Pam-Items dürfen keine stillschweigende konvertierte Art erzeugen.",
+        "Client-/Server-Neustart und Datapack-/Adapterentfernung nur in einer separaten Weltkopie testen; Originalsave und Quellitems sichern. Keine pauschale Aussage, alle Pam-Pflanzen seien unterstützt.",
+        "Ist keine kompatible Pam-Version oder keine aktive Seed-Zuordnung verfügbar, als blocked/offener Integrationsauftrag dokumentieren – nicht als nachgewiesenen Modfehler."
+      ],
+      "expected": "Hauptmod bleibt ohne Pam lauffähig; mit ausdrücklich freigegebenem Pam-Profil funktionieren nur aktiv registrierte Seed-/Crop-Adapter ohne Item-/Genomverlust. Keine unbekannten Arten, Pflichtabhängigkeit oder unbewiesene Kompatibilitätsbehauptung.",
+      "commands": [],
+      "summary": "Optional nach Core-Gate: Pam's HarvestCraft 2, aktive Seed-Adapter, Analyse, Ernte und Originalseed-Verlustfreiheit."
+    },
+    {
+      "id": "MOD-02",
+      "category": "05 Mod-Support",
+      "title": "Farmer's Delight: optionaler Seed-Support und Rice-Ausnahme",
+      "steps": [
+        "Nur nach Core-Gate und gesonderter Freigabe ein eigenes NeoForge-1.21.1-Profil mit exakt dokumentierter Farmer's-Delight-Version und frischer Weltkopie starten. Pam's, Jade und Identify dabei nicht gleichzeitig laden.",
+        "Ohne und mit Farmer's Delight den Hauptmod-Start vergleichen; Logs, registrierte Pflanzenarten und aktive Server-Datapack-Seed-Links erfassen.",
+        "Nur tatsächlich aktiv zugeordnete Farmer's-Delight-Saatgutarten auf passenden Crop Sticks pflanzen und Wachstum, Ernte, Originalseed-Sicherung, Analyzer und Journal prüfen.",
+        "Die derzeit dokumentierte Farmer's-Delight-Rice-Ausnahme getrennt prüfen: darf nicht als unterstützte Crop-Sticks-Pflanze oder falscher JEI-Regel-Link ausgegeben werden, solange sie nicht explizit im aktiven Datapack freigegeben ist.",
+        "Analysevorgang, genetische Stapel, Papier-Rückwandlung und Save/Reload in der Testwelt auf Datenverluste prüfen; unbekannte oder beschädigte fremde Components dürfen nicht stillschweigend verworfen werden.",
+        "Fehlende passende JAR oder Seed-Definition als blocked/Integrationsbedarf dokumentieren. Nicht behaupten, dass sämtliche Farmer's-Delight-Pflanzen bereits unterstützt werden."
+      ],
+      "expected": "Core ist ohne Farmer's Delight unabhängig nutzbar; freigegebene aktive Pflanzenadapter laufen ohne Item-/Komponentenverlust. Die Rice-Ausnahme bleibt korrekt, solange keine explizite neue Serverregel sie unterstützt.",
+      "commands": [],
+      "summary": "Optional nach Core-Gate: Farmer's-Delight-Saatgut, sichere Genom-/Originalseed-Pfade und dokumentierte Rice-Ausnahme."
+    },
+    {
       "id": "MP-01",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Journal-Entdeckungen bleiben beim richtigen Spieler",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1160,7 +1192,7 @@
     },
     {
       "id": "MP-02",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Verborgene Genwerte bei Zuschauern",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1174,7 +1206,7 @@
     },
     {
       "id": "MP-03",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Analyse darf Gene nicht verändern",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1188,7 +1220,7 @@
     },
     {
       "id": "MP-04",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Gleichzeitige Entnahme desselben Seeds",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1202,7 +1234,7 @@
     },
     {
       "id": "MP-05",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Journal bei konkurrierender Entnahme",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1216,7 +1248,7 @@
     },
     {
       "id": "MP-06",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Chest nur bei direkter Nachbarschaft verbinden",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1230,7 +1262,7 @@
     },
     {
       "id": "MP-07",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Kein Duplikat zwischen zwei Chest-Menüs",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1244,7 +1276,7 @@
     },
     {
       "id": "MP-08",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Chest-Abbau während offener Benutzeroberfläche",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1258,7 +1290,7 @@
     },
     {
       "id": "MP-09",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Analyzer-Abbau mit Seed und Journal",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1272,7 +1304,7 @@
     },
     {
       "id": "MP-10",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Genetische Seeds mit verschiedenen Werten stapeln nicht",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1286,7 +1318,7 @@
     },
     {
       "id": "MP-11",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "64 normale Seeds: Chest und Analyzer",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1300,7 +1332,7 @@
     },
     {
       "id": "MP-12",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Inventar und Journal nach Neustart",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1314,7 +1346,7 @@
     },
     {
       "id": "MP-13",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Menü bei Entfernung oder Chunk-Unload",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1328,7 +1360,7 @@
     },
     {
       "id": "MP-14",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Creative-Einlage erzeugt keinen Survival-Duplikationsweg",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1342,7 +1374,7 @@
     },
     {
       "id": "MP-15",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Shift-Klick eines 64er-Weizensamenstapels",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1356,7 +1388,7 @@
     },
     {
       "id": "MP-16",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Cursor-Stapel und gleichzeitige Einlage",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1370,7 +1402,7 @@
     },
     {
       "id": "MP-17",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Analyzer-Abbau bei verbundener Chest",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1384,7 +1416,7 @@
     },
     {
       "id": "MP-18",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Chest-Inhalt nicht an Zuschauer übertragen",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1398,7 +1430,7 @@
     },
     {
       "id": "MP-19",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Leere Slots bleiben nach Neustart leer",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1412,7 +1444,7 @@
     },
     {
       "id": "MP-20",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Journal passt Mutationshinweise nach Reload an",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1433,7 +1465,7 @@
     },
     {
       "id": "MP-21",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Gleichzeitige Klicks während beider Block-Abbauten",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1447,7 +1479,7 @@
     },
     {
       "id": "MP-22",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Fehlende Journal-Entdeckung nach Weltladevorgang ergänzen",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1461,7 +1493,7 @@
     },
     {
       "id": "MP-23",
-      "category": "05 Multiplayer und Inventar",
+      "category": "06 Multiplayer",
       "title": "Client-Vorschau bei belegtem Analyzer",
       "steps": [
         "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
@@ -1475,7 +1507,7 @@
     },
     {
       "id": "BAL-01",
-      "category": "06 Balance und Artenmutation",
+      "category": "07 Balance und Artenmutation",
       "title": "Vier 1/1/1-Eltern bis 10/10/10: statistische Abnahme",
       "steps": [
         "Erst nach gesonderter Freigabe mehrere unabhängige Zuchtläufe oder eine zugelassene Simulation mit Standardconfig vorbereiten; andernfalls blocked.",
@@ -1489,7 +1521,7 @@
     },
     {
       "id": "BAL-02",
-      "category": "06 Balance und Artenmutation",
+      "category": "07 Balance und Artenmutation",
       "title": "Fremdart-Deckel mit Kartoffeln, Karotten und dritter Art",
       "steps": [
         "Weltkopie und passendes Mutations-Datapack verwenden; Karotte/Kartoffel/Kürbis nur verwenden, wenn die Regel tatsächlich vorhanden ist.",
@@ -1501,5 +1533,21 @@
       "commands": [],
       "summary": "Beteiligte Kindart höchstens 5 oder ihr eigener schon höherer Elternwert je Eigenschaft; neue dritte Art höchstens 4/4/4, schwächere Werte erlaubt."
     }
-  ]
+  ],
+  "previousTestEvidence": {
+    "suiteId": "agricraft-core-neoforge-1211-20261122-v8",
+    "sources": [
+      "docs/test-results/gameplay-core-2026-11-22/v8-coverage.json",
+      "docs/test-results/gameplay-core-2026-11-22-phase2/results.json"
+    ],
+    "lastKnownStatuses": {
+      "pass": 10,
+      "prior_pass": 2,
+      "partial": 9,
+      "fail": 2,
+      "blocked": 36,
+      "not_authorized": 27
+    },
+    "interpretation": "74 v8-Fälle waren zuletzt nicht vollständig erfolgreich belegt; 10 bestanden historisch, 2 haben nur ältere technische Nachweise. Alle 86 bleiben im neuen Plan, aber kein alter Status wird auf den neuen Build übertragen."
+  }
 }

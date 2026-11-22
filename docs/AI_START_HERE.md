@@ -12,11 +12,11 @@
 
 **ST-61 (ungetestet):** Die allein geöffnete Seed Chest erhält einen serverseitig gefilterten Vanilla-3x9-Menüpfad; damit sind Nicht-Saatgut-Einlagen nicht mehr vom permissiven `ChestMenu`-Slot abhängig. [UI-01-Ergänzung und Testschritte](ANALYZER_SLOT_AND_JOURNAL_FIX_2026-11-22.md). Client-Vorhersage, Cursor/Shift/Hotbar und Save-Reload im gebündelten Test prüfen; kein neuer Lauf.
 
-**DOC-38, nächste gebündelte Testsuite (ungetestet):** [v9 mit 89 Fällen und 35 Kopierbefehlen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v9.json) führt die neuen Seed-Stapel-/Original-GUI-/Standalone-Chest-Regressionsfälle und aktualisierte `UI-01`/`UI-09`/`ER-15` zusammen. [Tester-Anleitung](test-tracker/README.md), [Runbook](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und [Codex-Handoff](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) verweisen für **neue** Läufe auf v9. Frühere v8-Testergebnisse und unveränderte v8-Datei bleiben gültige Historie. **Kein Import oder Test freigegeben.**
+**DOC-38, nächste gebündelte Testsuite (ungetestet):** [Core-Regression 1.0 mit 91 Fällen (89 Core + 2 optionale Mod-Fälle) und 35 Kopierbefehlen](test-tracker/AgriCraft-Core-Regression-2026-11-22-v1.0.json) führt alle 86 v8-Test-IDs (davon historisch 74 nicht vollständig belegt) sowie die neuen Seed-Stapel-/Original-GUI-/Standalone-Chest-Regressionsfälle und aktualisierte `UI-01`/`UI-09`/`ER-15` zusammen. [Tester-Anleitung](test-tracker/README.md), [Runbook](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und [Codex-Handoff](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) verweisen für **neue** Läufe auf Regression 1.0. Mod-Support und Multiplayer stehen als getrennte Kategorien; `MOD-01`/`MOD-02` sind erst nach Core-Gate freizugeben. Frühere v8-Testergebnisse und unveränderte v8-Datei bleiben gültige Historie. **Kein Import oder Test freigegeben.**
 
 ## Lokaler Vorlauf 22.11.2026
 
-Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Für neue v9-Fälle ist ein neuer SHA-gebundener Build erforderlich; diese frühere JUnit-Abnahme ist keine Spiel-/MP- oder GUI-Abnahme.
+Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Für neue Regression 1.0-Fälle ist ein neuer SHA-gebundener Build erforderlich; diese frühere JUnit-Abnahme ist keine Spiel-/MP- oder GUI-Abnahme.
 
 ## Automatisierter Spieltest 22.11.2026
 
@@ -119,6 +119,6 @@ Core-Server und einzelner instrumentierter Client auf a2fe5625 gestartet, Pflanz
 
 ## Dokumentationsumstellung: Fehlerquellen-Hinweis
 - **Änderungspaket 20.11.2026:** Einführung dieser Kurzdatei und `AGENTS.md`, zunächst **ohne** Löschen oder Umschreiben der alten Dokumentation.
-- **Einführungskommit AGENTS.md:** `d4b0f4e5a0c18e49d4b2191fd889d5f6dbcee19e`. Den Commit dieser Kurzdatei in der Git-Historie über den Betreff `docs: add fast-start guide for new chats` finden.
+- **Einführungskommit AGENTS.md:** `d4b0f4e5a0c18e49d4b2191fd891d5f6dbcee19e`. Den Commit dieser Kurzdatei in der Git-Historie über den Betreff `docs: add fast-start guide for new chats` finden.
 - Bei abweichender Assistenzentscheidung, übersehener Aufgabe oder falschem Wiedereinstieg **auch diese beiden Commits als mögliche Ursache prüfen** und mit dem Stand davor vergleichen. Keine Behauptung, dass diese reinen Dokumentationsänderungen einen Minecraft-Laufzeitfehler verursachen.
 - Ältere Dokumente und Git-Historie bleiben als Rückfalloption erhalten.
