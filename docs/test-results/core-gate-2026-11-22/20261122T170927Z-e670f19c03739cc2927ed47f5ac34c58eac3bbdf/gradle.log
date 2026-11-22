@@ -1,0 +1,45 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :createMinecraftArtifacts UP-TO-DATE
+> Task :compileJava UP-TO-DATE
+> Task :generateModMetadata UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :jarJar NO-SOURCE
+> Task :jar UP-TO-DATE
+> Task :compileTestJava
+
+> Task :downloadAssets
+Loaded 145 artifacts from D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\build\tmp\downloadAssets\nfrt_artifact_manifest.properties
+Downloading asset index 17
+Using Minecraft asset root: G:\Android\Gradle\caches\neoformruntime\assets
+  DL    https://piston-meta.mojang.com/v1/packages/fe8483e9e95c56b261ed6ab05aa57f83d669edf1/17.json
+
+> Task :writeNeoForgeTestClasspath
+> Task :prepareNeoForgeTestFiles
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+
+> Task :test
+
+GeneticSeedStackingTest > defaultGeneticSeedIsAlwaysUnstackable() FAILED
+    java.lang.IllegalStateException at GeneticSeedStackingTest.java:13
+
+SeedInventoryStackLimitsTest > geneticSeedIsLimitedToOneEvenInChestWithSixtyFourCapacity() FAILED
+    java.lang.IllegalStateException at SeedInventoryStackLimitsTest.java:13
+
+212 tests completed, 2 failed
+
+> Task :test FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> There were failing tests. See the report at: file:///D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/reports/tests/test/index.html
+
+* Try:
+> Run with --scan to generate a Build Scan (powered by Develocity).
+
+BUILD FAILED in 53s
+10 actionable tasks: 5 executed, 5 up-to-date

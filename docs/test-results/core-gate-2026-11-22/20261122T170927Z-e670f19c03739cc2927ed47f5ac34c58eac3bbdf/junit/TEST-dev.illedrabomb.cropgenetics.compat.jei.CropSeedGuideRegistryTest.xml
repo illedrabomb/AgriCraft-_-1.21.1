@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.compat.jei.CropSeedGuideRegistryTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-22T17:10:19.875Z" hostname="DESKTOP-WORKSTA" time="0.012">
+  <properties/>
+  <testcase name="noThirdPartyItemsAreInferredWithoutAnAddonRegistration()" classname="dev.illedrabomb.cropgenetics.compat.jei.CropSeedGuideRegistryTest" time="0.002"/>
+  <testcase name="registeredAddonProvidesOnlyItsDeclaredCandidates()" classname="dev.illedrabomb.cropgenetics.compat.jei.CropSeedGuideRegistryTest" time="0.001"/>
+  <testcase name="duplicateAndInvalidProvidersAreRejected()" classname="dev.illedrabomb.cropgenetics.compat.jei.CropSeedGuideRegistryTest" time="0.002"/>
+  <testcase name="brokenOptionalProviderDoesNotHideHealthyGuides()" classname="dev.illedrabomb.cropgenetics.compat.jei.CropSeedGuideRegistryTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

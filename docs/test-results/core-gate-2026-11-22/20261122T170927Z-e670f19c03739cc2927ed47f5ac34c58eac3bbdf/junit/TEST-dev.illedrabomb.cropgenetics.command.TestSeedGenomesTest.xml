@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.command.TestSeedGenomesTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-22T17:10:19.862Z" hostname="DESKTOP-WORKSTA" time="0.007">
+  <properties/>
+  <testcase name="legacyOneNumberAlwaysControlsOnlyGain()" classname="dev.illedrabomb.cropgenetics.command.TestSeedGenomesTest" time="0.003"/>
+  <testcase name="threeNumbersAreAlwaysGrowthGainStrength()" classname="dev.illedrabomb.cropgenetics.command.TestSeedGenomesTest" time="0.001"/>
+  <testcase name="invalidGenomeBoundsOrSpeciesAreRejected()" classname="dev.illedrabomb.cropgenetics.command.TestSeedGenomesTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

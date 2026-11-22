@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.genetics.UnavailableModGenomePersistenceTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-22T17:10:20.335Z" hostname="DESKTOP-WORKSTA" time="0.049">
+  <properties/>
+  <testcase name="legacyFivePairNbtMigratesWithoutLosingExpressedValues()" classname="dev.illedrabomb.cropgenetics.genetics.UnavailableModGenomePersistenceTest" time="0.031"/>
+  <testcase name="legacyGenomeOfUnavailableSpeciesCanStillMigrate()" classname="dev.illedrabomb.cropgenetics.genetics.UnavailableModGenomePersistenceTest" time="0.005"/>
+  <testcase name="currentThreeStatGenomeSurvivesActualWorldNbtFormat()" classname="dev.illedrabomb.cropgenetics.genetics.UnavailableModGenomePersistenceTest" time="0.004"/>
+  <testcase name="unknownOptionalModSpeciesSurvivesCodecRoundTrip()" classname="dev.illedrabomb.cropgenetics.genetics.UnavailableModGenomePersistenceTest" time="0.002"/>
+  <testcase name="malformedModlessGenomeCannotReplaceASavedPlant()" classname="dev.illedrabomb.cropgenetics.genetics.UnavailableModGenomePersistenceTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

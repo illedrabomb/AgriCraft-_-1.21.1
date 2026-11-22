@@ -232,3 +232,11 @@ Revision 1: sämtliche vorher ausgegebenen fehlenden Minecraft-/LWJGL-/Serializa
 Revision 1 auf `53ec07cdef11ffa11754648a37efe9b9e7bbe2cc`: Gradle-Konfiguration scheitert, da JUnit-Aktivierung vor NeoForge-Version stand. Eigener Konfigurationsfehler, keine Testausführung. Revision 2: Aktivierung nach Versions- und Mod-Deklaration verschoben; beide Voraussetzungen statisch geprüft. Zweiter freigegebener Lauf noch offen.
 
 Revision 2 auf `c9a5bf9cf19abf31c1e746241d2ebd4a98249d20`: Gradle-Konfiguration erfolgreich; `compileTestJava` scheitert nun bei Abhängigkeitsauflösung. Explizites Test-Gson 2.11.0 kollidiert mit Minecraft 1.21.1 `strictly 2.10.1`; drei weitere Fehler laut Gradle mit identischer Ursache. Abweichende Test-Versionsvorgabe anschließend entfernt, sodass die Minecraft-Vorgabe gilt. Diese Endkorrektur nur statisch geprüft, nicht ausgeführt. Beide freigegebenen Läufe ausgeschöpft. Kein JUnit ausgeführt, kein frisches JAR. Alte JARs sind keine neuen Nachweise. Beide neuen vollständigen Belege in `docs/test-results/core-gate-2026-11-22/`; lokale Zwischencommits 53ec07cd/c9a5bf9c werden nicht einzeln veröffentlicht.
+
+## Freigegebener Lauf ohne Codeänderungen
+
+Ausgangspunkt `e670f19c03739cc2927ed47f5ac34c58eac3bbdf`, Windows, Java 21.0.12.1+1, Gradle 9.2.1. `:test :build` endet mit Exitcode 1: 212 Tests, 210 erfolgreich, 2 fehlgeschlagen, 0 übersprungen. Testkompilierung erfolgreich; `:build` nicht abgeschlossen, JAR nur UP-TO-DATE (kein frisches Artefakt).
+
+Beide Fehler: `GeneticSeedStackingTest.defaultGeneticSeedIsAlwaysUnstackable` und `SeedInventoryStackLimitsTest.geneticSeedIsLimitedToOneEvenInChestWithSixtyFourCapacity`, jeweils Zeile 13. Test erzeugt `new GeneticSeedItem(new Item.Properties())` nach Registry-Freeze; `MappedRegistry.createIntrusiveHolder` wirft `IllegalStateException: Registry is already frozen`. Belegt ist ein Testaufbauproblem, kein nachgewiesener Gameplay-Stackfehler. Vorschlag für gemeinsame Korrektur: bereits registriertes genetisches Seed-Item verwenden statt nachträglicher Item-Erzeugung; hier nicht umgesetzt.
+
+Keine Code-/Testquelländerung, keine Reparatur, kein weiterer Testlauf. Vollständige Gate-Logs, JUnit-XML und HTML-Berichte im Laufordner `20261122T170927Z-e670f19c03739cc2927ed47f5ac34c58eac3bbdf/`. Minecraft-Abnahme weiterhin offen.

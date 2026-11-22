@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.content.CropGrowthStageReloadTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-22T17:10:19.942Z" hostname="DESKTOP-WORKSTA" time="0.003">
+  <properties/>
+  <testcase name="lootMaturityUsesRelativeProgressAfterStageCountChanges()" classname="dev.illedrabomb.cropgenetics.content.CropGrowthStageReloadTest" time="0.001"/>
+  <testcase name="legacyAgeWithoutSavedStageCountRetainsOldFallback()" classname="dev.illedrabomb.cropgenetics.content.CropGrowthStageReloadTest" time="0.0"/>
+  <testcase name="matureEndpointStaysMatureAndFreshSeedStaysImmature()" classname="dev.illedrabomb.cropgenetics.content.CropGrowthStageReloadTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

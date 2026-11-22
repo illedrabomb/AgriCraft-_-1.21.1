@@ -4,7 +4,7 @@
 
 ## Lokaler Vorlauf 22.11.2026
 
-Hauptquellen kompilierten bereits, JUnit weiterhin nicht ausgeführt. Zwei weitere Revisionen freigegeben und verbraucht: ModDev-JUnit-Integration aktiviert, Reihenfolge nach Version/Mod-Deklaration korrigiert. Zweiter Lauf stoppt an Gson-Konflikt (Test 2.11.0 vs. Minecraft strikt 2.10.1). Abweichende Test-Versionsvorgabe danach entfernt; Endstand nur statisch geprüft. Weitere Testausführung benötigt neue Freigabe. Belege unter `docs/test-results/core-gate-2026-11-22/`. Keine erfolgreiche Gate-/Minecraft-Abnahme.
+Letzter freigegebener Lauf auf `e670f19c`: Testkompilierung erfolgreich, 212 JUnit-Tests ausgeführt: 210 erfolgreich, 2 Fehler wegen neuer Item-Erzeugung nach Registry-Freeze in zwei Stacklimit-Tests. Kein vollständiger Build, kein frisches JAR. Nutzer verlangt aktuell nur Dokumentation/Commit, keine Codeänderungen. Vollständige Belege und Korrekturvorschlag in `docs/test-results/core-gate-2026-11-22/`. Keine Minecraft-Abnahme.
 
 ## In 60 Sekunden starten
 1. Repository `illedrabomb/AgriCraft-_-1.21.1`, Branch `integration/neoforge-1211-consolidation` öffnen. **HEAD aktuell abrufen** – hier keine unveränderliche HEAD-SHA behaupten.

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.content.GeneticSeedStackingTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-11-22T17:10:20.056Z" hostname="DESKTOP-WORKSTA" time="0.007">
+  <properties/>
+  <testcase name="defaultGeneticSeedIsAlwaysUnstackable()" classname="dev.illedrabomb.cropgenetics.content.GeneticSeedStackingTest" time="0.007">
+    <failure message="java.lang.IllegalStateException: Registry is already frozen" type="java.lang.IllegalStateException">java.lang.IllegalStateException: Registry is already frozen
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.core.MappedRegistry.validateWrite(MappedRegistry.java:111)
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.core.MappedRegistry.createIntrusiveHolder(MappedRegistry.java:384)
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.item.Item.&lt;init&gt;(Item.java:67)
+	at TRANSFORMER/cropgenetics@0.2.14-alpha/dev.illedrabomb.cropgenetics.content.GeneticSeedItem.&lt;init&gt;(GeneticSeedItem.java:19)
+	at TRANSFORMER/cropgenetics@0.2.14-alpha/dev.illedrabomb.cropgenetics.content.GeneticSeedStackingTest.defaultGeneticSeedIsAlwaysUnstackable(GeneticSeedStackingTest.java:13)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

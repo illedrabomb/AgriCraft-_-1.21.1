@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.client.FieldCropVisualResourcesTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-22T17:10:19.630Z" hostname="DESKTOP-WORKSTA" time="0.02">
+  <properties/>
+  <testcase name="wheatAndRootCropsUseEightFourSidedVisualFrames()" classname="dev.illedrabomb.cropgenetics.client.FieldCropVisualResourcesTest" time="0.015"/>
+  <testcase name="wheatUsesDistinctFirstAndLastFrames()" classname="dev.illedrabomb.cropgenetics.client.FieldCropVisualResourcesTest" time="0.001"/>
+  <testcase name="wheatAndCarrotFirstStagesUseDifferentSpriteIds()" classname="dev.illedrabomb.cropgenetics.client.FieldCropVisualResourcesTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

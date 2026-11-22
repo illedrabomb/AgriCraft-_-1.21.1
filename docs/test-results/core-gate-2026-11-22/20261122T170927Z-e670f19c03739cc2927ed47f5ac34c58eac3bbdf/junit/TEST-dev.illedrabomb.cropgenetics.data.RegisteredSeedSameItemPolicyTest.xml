@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.data.RegisteredSeedSameItemPolicyTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-22T17:10:20.276Z" hostname="DESKTOP-WORKSTA" time="0.004">
+  <properties/>
+  <testcase name="inferredNamesRemainSeparateFromExplicitFoodPairs()" classname="dev.illedrabomb.cropgenetics.data.RegisteredSeedSameItemPolicyTest" time="0.001"/>
+  <testcase name="explicitlyReviewedSelfPlantableProduceIsAllowed()" classname="dev.illedrabomb.cropgenetics.data.RegisteredSeedSameItemPolicyTest" time="0.001"/>
+  <testcase name="otherCropCannotReuseSameSeedOrProduce()" classname="dev.illedrabomb.cropgenetics.data.RegisteredSeedSameItemPolicyTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

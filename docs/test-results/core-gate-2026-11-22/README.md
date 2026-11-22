@@ -26,3 +26,11 @@ Manuelle Minecraft-/Multiplayer-Abnahme und die 86 v8-Fälle bleiben offen. Kein
 2. `c9a5bf9cf19abf31c1e746241d2ebd4a98249d20`: Reihenfolge korrigiert, Konfiguration erfolgreich. Test-Klassenpfad scheitert bei Gson-Auflösung: explizite 2.11.0 gegen Minecraft `strictly 2.10.1`; laut Gradle drei weitere Fehler gleicher Ursache. Keine Testkompilierung/JUnit-Ausführung und kein frisches JAR.
 
 Endkorrektur nach Lauf 2: Test-Gson ohne eigene Versionsvorgabe, sodass Minecraft die Version bestimmt. **Nicht erneut ausgeführt**, beide Freigaben verbraucht. ModDev-Einbindung gemäß https://github.com/neoforged/ModDevGradle#unit-testing-with-junit. Keine Testfälle ausgeschlossen oder Assertions geändert. Veröffentlichungscommit bündelt finale Build-Konfiguration, Status und beide vollständigen Laufprotokolle; genannte Zwischencommits bleiben lokal.
+
+## Freigegebener Lauf ohne Codeänderungen
+
+Ausgangspunkt `e670f19c03739cc2927ed47f5ac34c58eac3bbdf`, Windows, Java 21.0.12.1+1, Gradle 9.2.1. `:test :build` endet mit Exitcode 1: 212 Tests, 210 erfolgreich, 2 fehlgeschlagen, 0 übersprungen. Testkompilierung erfolgreich; `:build` nicht abgeschlossen, JAR nur UP-TO-DATE (kein frisches Artefakt).
+
+Beide Fehler: `GeneticSeedStackingTest.defaultGeneticSeedIsAlwaysUnstackable` und `SeedInventoryStackLimitsTest.geneticSeedIsLimitedToOneEvenInChestWithSixtyFourCapacity`, jeweils Zeile 13. Test erzeugt `new GeneticSeedItem(new Item.Properties())` nach Registry-Freeze; `MappedRegistry.createIntrusiveHolder` wirft `IllegalStateException: Registry is already frozen`. Belegt ist ein Testaufbauproblem, kein nachgewiesener Gameplay-Stackfehler. Vorschlag für gemeinsame Korrektur: bereits registriertes genetisches Seed-Item verwenden statt nachträglicher Item-Erzeugung; hier nicht umgesetzt.
+
+Keine Code-/Testquelländerung, keine Reparatur, kein weiterer Testlauf. Vollständige Gate-Logs, JUnit-XML und HTML-Berichte im Laufordner `20261122T170927Z-e670f19c03739cc2927ed47f5ac34c58eac3bbdf/`. Minecraft-Abnahme weiterhin offen.
