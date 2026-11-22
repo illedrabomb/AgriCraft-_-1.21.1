@@ -34,3 +34,9 @@ Ausgangspunkt `e670f19c03739cc2927ed47f5ac34c58eac3bbdf`, Windows, Java 21.0.12.
 Beide Fehler: `GeneticSeedStackingTest.defaultGeneticSeedIsAlwaysUnstackable` und `SeedInventoryStackLimitsTest.geneticSeedIsLimitedToOneEvenInChestWithSixtyFourCapacity`, jeweils Zeile 13. Test erzeugt `new GeneticSeedItem(new Item.Properties())` nach Registry-Freeze; `MappedRegistry.createIntrusiveHolder` wirft `IllegalStateException: Registry is already frozen`. Belegt ist ein Testaufbauproblem, kein nachgewiesener Gameplay-Stackfehler. Vorschlag für gemeinsame Korrektur: bereits registriertes genetisches Seed-Item verwenden statt nachträglicher Item-Erzeugung; hier nicht umgesetzt.
 
 Keine Code-/Testquelländerung, keine Reparatur, kein weiterer Testlauf. Vollständige Gate-Logs, JUnit-XML und HTML-Berichte im Laufordner `20261122T170927Z-e670f19c03739cc2927ed47f5ac34c58eac3bbdf/`. Minecraft-Abnahme weiterhin offen.
+
+## Korrektur der zwei JUnit-Fixture-Fehler (nach Lauf 17:09 UTC)
+
+- `GeneticSeedStackingTest` und `SeedInventoryStackLimitsTest` verwenden jetzt `CropItems.GENETIC_SEED.get()` statt `new GeneticSeedItem(new Item.Properties())`. Das registrierte Mod-Item darf nach Minecraft-Registry-Freeze weiter in `ItemStack`s benutzt werden; eine neue `Item`-Instanz darf dann nicht mehr erzeugt werden.
+- Die Assertions zum Maximalstapel (ein genetischer Seed) und zur Chest-Kapazität bleiben unverändert. **Keine Gameplay-, Registry- oder NBT-Änderung.**
+- Nur statisch geprüft; ein neuer `:test :build` und die Minecraft-Abnahme benötigen gesonderte Freigabe. Die beiden bisherigen Fehlresultate bleiben unverändert archiviert und dürfen nicht rückwirkend als bestanden gelten.

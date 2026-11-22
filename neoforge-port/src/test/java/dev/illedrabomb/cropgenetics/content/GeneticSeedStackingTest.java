@@ -1,6 +1,5 @@
 package dev.illedrabomb.cropgenetics.content;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GeneticSeedStackingTest {
     @Test
     void defaultGeneticSeedIsAlwaysUnstackable() {
-        GeneticSeedItem geneticSeed = new GeneticSeedItem(new Item.Properties());
+        GeneticSeedItem geneticSeed = CropItems.GENETIC_SEED.get();
         ItemStack seed = new ItemStack(geneticSeed);
 
         // An unanalyzed seed has no analyzed marker yet, but still cannot

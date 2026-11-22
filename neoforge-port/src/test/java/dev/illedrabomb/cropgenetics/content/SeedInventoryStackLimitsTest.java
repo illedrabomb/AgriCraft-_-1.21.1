@@ -1,6 +1,5 @@
 package dev.illedrabomb.cropgenetics.content;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class SeedInventoryStackLimitsTest {
     @Test
     void geneticSeedIsLimitedToOneEvenInChestWithSixtyFourCapacity() {
-        ItemStack seed = new ItemStack(new GeneticSeedItem(new Item.Properties()));
+        ItemStack seed = new ItemStack(CropItems.GENETIC_SEED.get());
         assertEquals(1, SeedInventoryStackLimits.allowedCount(seed, 64));
     }
 
