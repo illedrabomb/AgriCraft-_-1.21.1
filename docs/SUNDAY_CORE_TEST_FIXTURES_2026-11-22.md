@@ -1,6 +1,6 @@
 # AgriCraft-Hauptmod: Testwelt-Aufbauten und Vorbereitungen für Sonntag
 
-**Stand:** 21.11.2026 · **nur Vorbereitung, nichts gebaut oder ausgeführt**. Erst nach ausdrücklicher Freigabe des Projektbesitzers Gradle, JUnit, Minecraft, CI, Multiplayer oder Simulation starten. Ergänzt den [Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und die [aktuelle Tracker-v8-Suite mit 86 offenen Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v8.json); keine eigene Testsuite und keine heimlich abgehakten Fälle.
+**Stand:** 21.11.2026 · **nur Vorbereitung, nichts gebaut oder ausgeführt**. Erst nach ausdrücklicher Freigabe des Projektbesitzers Gradle, JUnit, Minecraft, CI, Multiplayer oder Simulation starten. Ergänzt den [Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und die [aktuelle Tracker-v9-Suite mit 89 offenen Fällen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v9.json); keine eigene Testsuite und keine heimlich abgehakten Fälle.
 
 **Optionale F0–F3-Bauhilfe:** Ein [nicht ausgeführtes Vanilla-Datapack](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) kann nach späterer Freigabe sechs Basis-/Kreuzungsflächen, ein Erntefeld und eine markierte Analyzer-/Chest-Plattform vorbereiten. Es räumt Terrain ab und ist daher **ausschließlich für eine neue Wegwerf-Testwelt** geeignet; Crop Sticks, Geräte, Eltern, Genetik und Reife müssen weiterhin manuell geprüft werden.
 
@@ -9,7 +9,7 @@
 - [ ] Exakten **Git-Commit des gebauten Hauptmod-JARs**, Minecraft-/NeoForge-Version, Java 21, Modliste und Server-/Client-Logs aufschreiben. Keine Pam-/MineColonies-/Farmer's-Add-ons. JEI nur als ausdrücklich dokumentierte **optionale Anzeigehilfe** für die JEI-Fälle.
 - [ ] Ein freies Areal in einer **neuen Core-Testwelt** auswählen; Weltname, Dimension, Biom, Startposition und **Koordinaten jeder Fläche** im Tracker notieren. Es werden **keine festen absoluten Koordinaten** vorausgesetzt.
 - [ ] Server-Config zunächst unverändert lassen und die Werte für `crossFertilityMultiplier`, `rowCrossEvolution`, `rowEvolutionMutationMultiplier`, `fruitChanceMultiplier` und `randomTickSpeed` erfassen. Standardwerte nicht mit später veränderten Vergleichswerten mischen. `/gamerule randomTickSpeed` liest den aktuellen Wert nur aus.
-- [ ] Eine **Backup-Kopie vor dem ersten Eingriff** anlegen; nach jedem Themenblock den aktuellen Testlauf **als ZIP mit Bildern** exportieren. Alte 30er- und v1–v7-Ergebnisse sind nicht ohne Weiteres mit der aktuellen v8-`suiteId`/`suiteFingerprint` kompatibel.
+- [ ] Eine **Backup-Kopie vor dem ersten Eingriff** anlegen; nach jedem Themenblock den aktuellen Testlauf **als ZIP mit Bildern** exportieren. Alte 30er- und v1–v8-Ergebnisse sind nicht ohne Weiteres mit der aktuellen v9-`suiteId`/`suiteFingerprint` kompatibel.
 - [ ] Keine Seeds mit `/give` und frei erfundenen Data Components erzeugen. Genetische Seeds zunächst durch normales Pflanzen/Abbau oder gesichert bekannte Testgegenstände beschaffen. Für perfekte Werte und künstliche NBT-Zustände später gezielte, getrennte Fixtures vorbereiten, andernfalls den Sonderfall als `blocked` markieren.
 
 ## F0 – Basistest: einfache Crop Sticks und Pflanzbedingungen
@@ -50,12 +50,14 @@ Alle Eltern müssen **tatsächlich bepflanzt, reif und am Standort wachstumsfäh
 ## F3 – Analyzer, Seed Chest, Journal und optionale JEI-Sicht
 
 1. **Analyzer allein** sowie **Analyzer mit genau einer waagerecht benachbarten Seed Chest** aufbauen. Diagonal aufgestellte Chest als Negativkontrolle verwenden. Vor dem Öffnen alle Inventarplätze leer lassen.
-2. Normale 64er-Samenstapel, **zwei verschiedene genetische Seeds mit notierten Genen** sowie ein gesondertes Journal bereithalten. Analyzer-Seed-/Journal-Slots (je **1**) von Chest-Slots (**27 × bis 64**) unterscheiden; Shift-Klick und Cursor-Transfer zählen.
+2. Normale 64er-Samenstapel, **mindestens zwei genetisch identische Seeds, zwei mit verschiedenen Genen** sowie ein gesondertes Journal bereithalten. Analyzer-Seed-/Journal-Slots (je **1**) von Chest-Slots (**27 × bis 64**) unterscheiden; Shift-Klick und Cursor-Transfer zählen.
 3. Journal bei analysiertem Seed einlegen, Entdeckungen notieren, gespeichert lassen, dann **normalen** Save/Restart durchführen. `/reload` und gezielte fehlende Journal-Einträge erst in gesicherter Sonderwelt. Private Gene dürfen bloßen Zuschauern nicht sichtbar werden.
 4. Nur wenn JEI ausdrücklich im freigegebenen Testprofil vorhanden ist: genetische Seed-Varianten, Papier-Katalysator-Hinweis und DE/EN-Text prüfen. `UI-11a/b/g` vergleichen `soil_block`/`#soil_tag`, Licht, Umwelt und Sonderregeln mit der **wirklichen Serverdefinition**. Die Quellimplementierung von `UI-11` ist **noch nicht im Spiel bestätigt**.
 5. Für `UI-11c` zwei gültige Datapackstände, für `UI-11e` zwei getrennte Server und für `UI-11h` eine gesicherte A/B/C-Reloadfolge vorbereiten. `UI-11d` erfordert zwei Spieler; `UI-11f` ein Core-Profil ohne JEI. `UI-11i` ohne sicheres Netzwerk-Harness als **blocked** dokumentieren, keine Pakete in einen echten Server injizieren.
 
-**Zugeordnete IDs:** `UI-01`, `UI-03`–`UI-11i`, `MP-06`, `MP-10`–`MP-12`, `MP-15`–`MP-16`, `MP-19`–`MP-23`. Gene niemals durch einen rein optischen Vergleich als gleich behaupten – berechtigter Spieler muss sie am einzelnen Seed prüfen.
+6. **v9-Sonderfläche (GE-13/UI-15/UI-16):** Eine **allein stehende** Seed Chest außerhalb der Analyzer-Nachbarschaft vorbereiten. Dieselben genetischen Seeds (gleiche Art/4/7/9/Analyse/Herkunft) getrennt und zusammengelegt prüfen, ungleiche Gene/Analyseflags nicht stapeln. Analyzer solo/verbunden mit Original-GUI, DE/EN und verschiedenen Auflösungen kontrollieren; Stick/Stein/Journal in der Standalone-Chest per Cursor/Shift/Hotbar verweigern lassen. Vor/nach Save-Reload Count und Data Components belegen. Keine heimliche Mod-/Clientinstallation.
+
+**Zugeordnete IDs:** `GE-13`, `UI-01`, `UI-03`–`UI-11i`, `UI-15`, `UI-16`, `MP-06`, `MP-10`–`MP-12`, `MP-15`–`MP-16`, `MP-19`–`MP-23`. Gene niemals durch einen rein optischen Vergleich als gleich behaupten – berechtigter Spieler muss sie am einzelnen Seed prüfen.
 
 ## F4 – Zwei Spieler und gefährliche Zustandswechsel: Weltkopie
 
@@ -75,4 +77,4 @@ Alle Eltern müssen **tatsächlich bepflanzt, reif und am Standort wachstumsfäh
 
 `Fixture-ID; Fall-ID; Commit/JAR; Datum/Uhrzeit; Dimension/Biom/Koordinaten; Boden/Licht; Elternarten und Gene; Ausgangs-/Endinventar; Serverconfig/randomTickSpeed; Anzahl gültiger Ticks/Kinder; erwartetes Ergebnis; tatsächliches Ergebnis; pass/fail/blocked/open; Screenshot/Log/Tracker-Export`.
 
-**Abschluss:** Jeden Themenblock im [Tracker-v8](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v8.json) dokumentieren und als ZIP mit Bildern sichern. Nur beobachtete Fälle `pass`; fehlende Voraussetzungen `blocked`, nicht still überspringen. Vor erneutem Test der nächsten Kategorie Weltzustand sichern. **Alle Häkchen in diesem Dokument sind Vorbereitungs-Checkpoints, derzeit nicht ausgeführt.**
+**Abschluss:** Jeden Themenblock im [Tracker-v9](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v9.json) dokumentieren und als ZIP mit Bildern sichern. Nur beobachtete Fälle `pass`; fehlende Voraussetzungen `blocked`, nicht still überspringen. Vor erneutem Test der nächsten Kategorie Weltzustand sichern. **Alle Häkchen in diesem Dokument sind Vorbereitungs-Checkpoints, derzeit nicht ausgeführt.**

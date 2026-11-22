@@ -1,8 +1,8 @@
 # AgriCraft NeoForge 1.21.1 – Schnelleinstieg für neue Chats
 
-**Stand:** 20.11.2026. Diese Datei ist eine Navigationshilfe, kein Ersatz für den aktuellen Git-Stand.
+**Stand:** 22.11.2026. Diese Datei ist eine Navigationshilfe, kein Ersatz für den aktuellen Git-Stand.
 
-**Core-Etappe 2 ausgeführt:** [Bericht und Belege](test-results/gameplay-core-2026-11-22-phase2/README.md): 4 pass, 2 partial, 2 P2-fail (UI-01 falsche Slotannahme; UI-09 Journal-Direkteinlage). Gleicher Hauptmod-Build, keine Codeänderung. Nächster Schritt: gemeinsame P2-Korrekturentscheidung; GUI-Portierung bleibt zurückgestellt.
+**Core-Etappe 2 ausgeführt:** [Bericht und Belege](test-results/gameplay-core-2026-11-22-phase2/README.md): 4 pass, 2 partial, 2 P2-fail (UI-01 falsche Slotannahme; UI-09 Journal-Direkteinlage). Gleicher Hauptmod-Build, keine Codeänderung. Diese Befunde gehören zum historischen v8-Lauf; P2-Quellkorrekturen und Original-GUI sind inzwischen vorbereitet, aber auf dem neuen HEAD noch nicht gebaut oder im Spiel geprüft.
 
 **Neue, ungetestete Core-Regel:** [Identische genetische Seeds stapeln bis 64 / testseed-Artenvorschläge](GENETIC_SEED_STACKING_AND_COMMAND_SUGGESTIONS_2026-11-22.md). Bisherige 212/212-Belege beziehen sich auf den älteren Commit; neue JUnit-/Spielprüfung ist offen. UI-01/UI-09 bleiben separat offen.
 
@@ -10,9 +10,13 @@
 
 **Klassische Analyzer-GUI (ungetesteter Quellstand):** [Original-Atlas, eigene Menütypen und DNA-/Chest-Ansicht](CLASSIC_ANALYZER_GUI_PORT_2026-11-22.md). Erst nach gebündeltem Build/JUnit-/Spieltest abnehmen; GUI und UI-01/UI-09 sind noch nicht runtimebestätigt. **ST-60:** Genwerte und Artenname jetzt DE/EN-lokalisiert; JEI-Stapeltext auf aktuelle 64er-Regel korrigiert. Prüffallquelle ergänzt, nicht ausgeführt.
 
-**ST-61 (ungetestet):** Die allein geöffnete Seed Chest erhält einen serverseitig gefilterten Vanilla-3x9-Menüpfad; damit sind Nicht-Saatgut-Einlagen nicht mehr vom permissiven `ChestMenu`-Slot abhängig. [UI-01-Ergänzung und Testschritte](ANALYZER_SLOT_AND_JOURNAL_FIX_2026-11-22.md). Client-Vorhersage, Cursor/Shift/Hotbar und Save-Reload im gebündelten Test prüfen; kein neuer Lauf.\n\n## Lokaler Vorlauf 22.11.2026
+**ST-61 (ungetestet):** Die allein geöffnete Seed Chest erhält einen serverseitig gefilterten Vanilla-3x9-Menüpfad; damit sind Nicht-Saatgut-Einlagen nicht mehr vom permissiven `ChestMenu`-Slot abhängig. [UI-01-Ergänzung und Testschritte](ANALYZER_SLOT_AND_JOURNAL_FIX_2026-11-22.md). Client-Vorhersage, Cursor/Shift/Hotbar und Save-Reload im gebündelten Test prüfen; kein neuer Lauf.
 
-Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Nächster Schritt: separat freizugebender persönlicher Minecraft-/v8-Test; keine Spiel-/MP-Abnahme durch JUnit.
+**DOC-38, nächste gebündelte Testsuite (ungetestet):** [v9 mit 89 Fällen und 35 Kopierbefehlen](test-tracker/AgriCraft-Core-Sonntag-2026-11-22-v9.json) führt die neuen Seed-Stapel-/Original-GUI-/Standalone-Chest-Regressionsfälle und aktualisierte `UI-01`/`UI-09`/`ER-15` zusammen. [Tester-Anleitung](test-tracker/README.md), [Runbook](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und [Codex-Handoff](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md) verweisen für **neue** Läufe auf v9. Frühere v8-Testergebnisse und unveränderte v8-Datei bleiben gültige Historie. **Kein Import oder Test freigegeben.**
+
+## Lokaler Vorlauf 22.11.2026
+
+Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Für neue v9-Fälle ist ein neuer SHA-gebundener Build erforderlich; diese frühere JUnit-Abnahme ist keine Spiel-/MP- oder GUI-Abnahme.
 
 ## Automatisierter Spieltest 22.11.2026
 
