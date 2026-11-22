@@ -1,0 +1,913 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :createMinecraftArtifacts UP-TO-DATE
+
+> Task :compileJava
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\client\CropGeneticsClient.java:26: Warnung: [removal] bus() in EventBusSubscriber ist veraltet und wurde zum Entfernen markiert
+        bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+        ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\client\CropGeneticsClient.java:26: Warnung: [removal] Bus in EventBusSubscriber ist veraltet und wurde zum Entfernen markiert
+        bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+                                ^
+Hinweis: Einige Eingabedateien verwenden oder überschreiben eine veraltete API.
+Hinweis: Wiederholen Sie die Kompilierung mit -Xlint:deprecation, um Details zu erhalten.
+2 Warnungen
+
+> Task :generateModMetadata
+> Task :processResources
+> Task :classes
+> Task :jarJar NO-SOURCE
+> Task :jar
+
+> Task :compileTestJava
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:3: Fehler: Package com.mojang.blaze3d.platform ist nicht vorhanden
+import com.mojang.blaze3d.platform.InputConstants;
+                                  ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:5: Fehler: Package org.lwjgl.glfw ist nicht vorhanden
+import org.lwjgl.glfw.GLFW;
+                     ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:7: Fehler: Package net.minecraft.util ist nicht vorhanden
+import net.minecraft.util.RandomSource;
+                         ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:12: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.Items;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:3: Fehler: Package net.minecraft.core.component ist nicht vorhanden
+import net.minecraft.core.component.DataComponents;
+                                   ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:4: Fehler: Package net.minecraft.network.chat ist nicht vorhanden
+import net.minecraft.network.chat.Component;
+                                 ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:5: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.ItemStack;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:6: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.Items;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:3: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.Item;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:4: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.ItemStack;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:3: Fehler: Package net.minecraft.core.component ist nicht vorhanden
+import net.minecraft.core.component.DataComponents;
+                                   ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:4: Fehler: Package net.minecraft.network.chat ist nicht vorhanden
+import net.minecraft.network.chat.Component;
+                                 ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:5: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.ItemStack;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:6: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.Items;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryRestoreRulesTest.java:3: Fehler: Package net.minecraft.core ist nicht vorhanden
+import net.minecraft.core.NonNullList;
+                         ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryRestoreRulesTest.java:4: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.ItemStack;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryRestoreRulesTest.java:5: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.Items;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryStackLimitsTest.java:3: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.Item;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryStackLimitsTest.java:4: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.ItemStack;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryStackLimitsTest.java:5: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+import net.minecraft.world.item.Items;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\CropDiscoveryAddonRegistryTest.java:3: Fehler: Package net.minecraft.server.packs.resources ist nicht vorhanden
+import net.minecraft.server.packs.resources.ResourceManager;
+                                           ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\CropOptionalDiscoveryStatsTest.java:4: Fehler: Package net.minecraft.resources ist nicht vorhanden
+import net.minecraft.resources.ResourceLocation;
+                              ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\ExplicitPlantClaimsTest.java:5: Fehler: Package net.minecraft.resources ist nicht vorhanden
+import net.minecraft.resources.ResourceLocation;
+                              ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\ExplicitPlantClaimsTest.java:15: Fehler: Symbol nicht gefunden
+    private static final ResourceLocation SOURCE =
+                         ^
+  Symbol: Klasse ResourceLocation
+  Ort: Klasse ExplicitPlantClaimsTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\ExplicitPlantClaimsTest.java:18: Fehler: Symbol nicht gefunden
+    private static Map<ResourceLocation, JsonElement> definition(String json) {
+                       ^
+  Symbol: Klasse ResourceLocation
+  Ort: Klasse ExplicitPlantClaimsTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\RegisteredSeedCropDiscoveryNamingTest.java:3: Fehler: Package net.minecraft.resources ist nicht vorhanden
+import net.minecraft.resources.ResourceLocation;
+                              ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\genetics\UnavailableModGenomePersistenceTest.java:4: Fehler: Package com.mojang.serialization ist nicht vorhanden
+import com.mojang.serialization.JsonOps;
+                               ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\genetics\UnavailableModGenomePersistenceTest.java:5: Fehler: Package net.minecraft.nbt ist nicht vorhanden
+import net.minecraft.nbt.CompoundTag;
+                        ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\genetics\UnavailableModGenomePersistenceTest.java:6: Fehler: Package net.minecraft.nbt ist nicht vorhanden
+import net.minecraft.nbt.NbtOps;
+                        ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:12: Fehler: Package InputConstants ist nicht vorhanden
+        assertEquals(InputConstants.Type.KEYSYM,
+                                   ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:13: Fehler: Symbol nicht gefunden
+                JournalKeyInput.resolve(GLFW.GLFW_KEY_F10, 0).getType());
+                                        ^
+  Symbol: Variable GLFW
+  Ort: Klasse JournalKeyInputTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:18: Fehler: Package InputConstants ist nicht vorhanden
+        assertEquals(InputConstants.Type.SCANCODE,
+                                   ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:19: Fehler: Symbol nicht gefunden
+                JournalKeyInput.resolve(GLFW.GLFW_KEY_UNKNOWN, 42).getType());
+                                        ^
+  Symbol: Variable GLFW
+  Ort: Klasse JournalKeyInputTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:24: Fehler: Symbol nicht gefunden
+        assertEquals(InputConstants.UNKNOWN,
+                     ^
+  Symbol: Variable InputConstants
+  Ort: Klasse JournalKeyInputTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:25: Fehler: Symbol nicht gefunden
+                JournalKeyInput.resolve(GLFW.GLFW_KEY_UNKNOWN, 0));
+                                        ^
+  Symbol: Variable GLFW
+  Ort: Klasse JournalKeyInputTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\command\CropDataCommandExtensionsTest.java:12: Fehler: Kein Zugriff auf CommandSourceStack
+        CropDataCommandExtensions.register("registered_addon_test", (source, registry) -> 1);
+                                                                    ^
+  Klassendatei für net.minecraft.commands.CommandSourceStack nicht gefunden
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:34: Fehler: Kein Zugriff auf RandomSource
+        var drops = CropHarvest.products(plant(1, 1, 1),
+                               ^
+  Klassendatei für net.minecraft.util.RandomSource nicht gefunden
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:43: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(123L));
+                                                               ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:51: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(123L));
+                                                               ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:60: Fehler: Symbol nicht gefunden
+                RandomSource.create(123L), 3.0D);
+                ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:62: Fehler: Symbol nicht gefunden
+                Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L), 0.0D);
+                                                       ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:65: Fehler: Symbol nicht gefunden
+                RandomSource.create(123L), 64.0D);
+                ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:76: Fehler: Symbol nicht gefunden
+                Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L), 0.5D);
+                                                       ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:78: Fehler: Symbol nicht gefunden
+                Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L), 0.01D);
+                                                       ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:95: Fehler: Symbol nicht gefunden
+                Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L));
+                                                       ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:111: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(97L), 64.0D);
+                                                               ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:114: Fehler: Symbol nicht gefunden
+        assertEquals(Items.ENDER_PEARL, drops.get(0).getItem());
+                     ^
+  Symbol: Variable Items
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:129: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(97L), 0.0D)
+                                                               ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:136: Fehler: Symbol nicht gefunden
+                Genome.basic("minecraft:carrot_plant"), RandomSource.create(42L)).isEmpty());
+                                                        ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:153: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:pumpkin_plant", 1, 1, 1), RandomSource.create(17L));
+                                                                ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:155: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:pumpkin_plant", 1, 10, 1), RandomSource.create(17L));
+                                                                 ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:157: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:melon_plant", 1, 10, 1), RandomSource.create(17L));
+                                                               ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:159: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:melon_plant", 1, 10, 1), RandomSource.create(17L), 64.0D);
+                                                               ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:161: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:pumpkin_plant", 1, 10, 1), RandomSource.create(17L), 0.0D);
+                                                                 ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:165: Fehler: Symbol nicht gefunden
+        assertEquals(Items.PUMPKIN, lowPumpkin.get(0).getItem());
+                     ^
+  Symbol: Variable Items
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:169: Fehler: Symbol nicht gefunden
+        assertEquals(Items.MELON_SLICE, highMelon.get(0).getItem());
+                     ^
+  Symbol: Variable Items
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:187: Fehler: Symbol nicht gefunden
+                new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(17L)).isEmpty());
+                                                               ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:201: Fehler: Symbol nicht gefunden
+                RandomSource.create(17L));
+                ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:203: Fehler: Symbol nicht gefunden
+        assertEquals(Items.WHEAT, drops.get(0).getItem());
+                     ^
+  Symbol: Variable Items
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:204: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+        assertTrue(drops.stream().noneMatch(net.minecraft.world.item.ItemStack::isEmpty));
+                                                                    ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:212: Fehler: Symbol nicht gefunden
+                RandomSource.create(17L), 64.0D).isEmpty());
+                ^
+  Symbol: Variable RandomSource
+  Ort: Klasse CropHarvestBoundTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:16: Fehler: Symbol nicht gefunden
+                new ItemStack(Items.WHEAT_SEEDS)));
+                    ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:16: Fehler: Symbol nicht gefunden
+                new ItemStack(Items.WHEAT_SEEDS)));
+                              ^
+  Symbol: Variable Items
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:21: Fehler: Symbol nicht gefunden
+        ItemStack renamed = new ItemStack(Items.WHEAT_SEEDS);
+        ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:21: Fehler: Symbol nicht gefunden
+        ItemStack renamed = new ItemStack(Items.WHEAT_SEEDS);
+                                ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:21: Fehler: Symbol nicht gefunden
+        ItemStack renamed = new ItemStack(Items.WHEAT_SEEDS);
+                                          ^
+  Symbol: Variable Items
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:22: Fehler: Symbol nicht gefunden
+        renamed.set(DataComponents.CUSTOM_NAME, Component.literal("unique mod seed"));
+                    ^
+  Symbol: Variable DataComponents
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:22: Fehler: Symbol nicht gefunden
+        renamed.set(DataComponents.CUSTOM_NAME, Component.literal("unique mod seed"));
+                                                ^
+  Symbol: Variable Component
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:28: Fehler: Symbol nicht gefunden
+        ItemStack analyzed = new ItemStack(Items.WHEAT_SEEDS);
+        ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:28: Fehler: Symbol nicht gefunden
+        ItemStack analyzed = new ItemStack(Items.WHEAT_SEEDS);
+                                 ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:28: Fehler: Symbol nicht gefunden
+        ItemStack analyzed = new ItemStack(Items.WHEAT_SEEDS);
+                                           ^
+  Symbol: Variable Items
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:29: Fehler: Symbol nicht gefunden
+        analyzed.set(DataComponents.CUSTOM_NAME, Component.literal("analyzed and renamed"));
+                     ^
+  Symbol: Variable DataComponents
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:29: Fehler: Symbol nicht gefunden
+        analyzed.set(DataComponents.CUSTOM_NAME, Component.literal("analyzed and renamed"));
+                                                 ^
+  Symbol: Variable Component
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:35: Fehler: Symbol nicht gefunden
+        ItemStack genetic = new ItemStack(Items.PAPER);
+        ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:35: Fehler: Symbol nicht gefunden
+        ItemStack genetic = new ItemStack(Items.PAPER);
+                                ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:35: Fehler: Symbol nicht gefunden
+        ItemStack genetic = new ItemStack(Items.PAPER);
+                                          ^
+  Symbol: Variable Items
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:36: Fehler: Symbol nicht gefunden
+        genetic.set(DataComponents.CUSTOM_NAME, Component.literal("genetic and renamed"));
+                    ^
+  Symbol: Variable DataComponents
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:36: Fehler: Symbol nicht gefunden
+        genetic.set(DataComponents.CUSTOM_NAME, Component.literal("genetic and renamed"));
+                                                ^
+  Symbol: Variable Component
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:42: Fehler: Symbol nicht gefunden
+        ItemStack source = new ItemStack(Items.PAPER);
+        ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:42: Fehler: Symbol nicht gefunden
+        ItemStack source = new ItemStack(Items.PAPER);
+                               ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:42: Fehler: Symbol nicht gefunden
+        ItemStack source = new ItemStack(Items.PAPER);
+                                         ^
+  Symbol: Variable Items
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:45: Fehler: Symbol nicht gefunden
+        source.remove(DataComponents.MAX_STACK_SIZE);
+                      ^
+  Symbol: Variable DataComponents
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:51: Fehler: Symbol nicht gefunden
+        assertTrue(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(ItemStack.EMPTY));
+                                                                          ^
+  Symbol: Variable ItemStack
+  Ort: Klasse CropSeedSourceSafetyTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:13: Fehler: Package Item ist nicht vorhanden
+        GeneticSeedItem geneticSeed = new GeneticSeedItem(new Item.Properties());
+                                                                  ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:14: Fehler: Symbol nicht gefunden
+        ItemStack seed = new ItemStack(geneticSeed);
+        ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse GeneticSeedStackingTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:14: Fehler: Symbol nicht gefunden
+        ItemStack seed = new ItemStack(geneticSeed);
+                             ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse GeneticSeedStackingTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:14: Fehler: Symbol nicht gefunden
+        ItemStack ingredient = new ItemStack(Items.PAPER, 16);
+        ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:14: Fehler: Symbol nicht gefunden
+        ItemStack ingredient = new ItemStack(Items.PAPER, 16);
+                                   ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:14: Fehler: Symbol nicht gefunden
+        ItemStack ingredient = new ItemStack(Items.PAPER, 16);
+                                             ^
+  Symbol: Variable Items
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:15: Fehler: Symbol nicht gefunden
+        ingredient.set(DataComponents.CUSTOM_NAME, Component.literal("Research notes"));
+                       ^
+  Symbol: Variable DataComponents
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:15: Fehler: Symbol nicht gefunden
+        ingredient.set(DataComponents.CUSTOM_NAME, Component.literal("Research notes"));
+                                                   ^
+  Symbol: Variable Component
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:17: Fehler: Symbol nicht gefunden
+        ItemStack remainder = OriginalSeedRecoveryRecipe.paperRemainder(ingredient);
+        ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:17: Fehler: Kein Zugriff auf CustomRecipe
+        ItemStack remainder = OriginalSeedRecoveryRecipe.paperRemainder(ingredient);
+                                                        ^
+  Klassendatei für net.minecraft.world.item.crafting.CustomRecipe nicht gefunden
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:28: Fehler: Symbol nicht gefunden
+                new ItemStack(Items.DIAMOND)).isEmpty());
+                    ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:28: Fehler: Symbol nicht gefunden
+                new ItemStack(Items.DIAMOND)).isEmpty());
+                              ^
+  Symbol: Variable Items
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:33: Fehler: Symbol nicht gefunden
+        assertTrue(OriginalSeedRecoveryRecipe.paperRemainder(ItemStack.EMPTY).isEmpty());
+                                                             ^
+  Symbol: Variable ItemStack
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:38: Fehler: Symbol nicht gefunden
+        ItemStack ingredient = new ItemStack(Items.PAPER);
+        ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:38: Fehler: Symbol nicht gefunden
+        ItemStack ingredient = new ItemStack(Items.PAPER);
+                                   ^
+  Symbol: Klasse ItemStack
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:38: Fehler: Symbol nicht gefunden
+        ItemStack ingredient = new ItemStack(Items.PAPER);
+                                             ^
+  Symbol: Variable Items
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:39: Fehler: Symbol nicht gefunden
+        ingredient.set(DataComponents.CUSTOM_NAME, Component.literal("Notebook"));
+                       ^
+  Symbol: Variable DataComponents
+  Ort: Klasse OriginalSeedRecoveryRemainderTest
+Hinweis: Einige Meldungen wurden vereinfacht. Wiederholen Sie die Kompilierung mit -Xdiags:verbose, um die vollständige Ausgabe abzurufen
+100 Fehler
+
+> Task :compileTestJava FAILED
+
+[Incubating] Problems report is available at: file:///D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileTestJava'.
+> Compilation failed; see the compiler output below.
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\command\CropDataCommandExtensionsTest.java:12: Fehler: Kein Zugriff auf CommandSourceStack
+          CropDataCommandExtensions.register("registered_addon_test", (source, registry) -> 1);
+                                                                      ^
+    Klassendatei für net.minecraft.commands.CommandSourceStack nicht gefunden
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:34: Fehler: Kein Zugriff auf RandomSource
+          var drops = CropHarvest.products(plant(1, 1, 1),
+                                 ^
+    Klassendatei für net.minecraft.util.RandomSource nicht gefunden
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:17: Fehler: Kein Zugriff auf CustomRecipe
+          ItemStack remainder = OriginalSeedRecoveryRecipe.paperRemainder(ingredient);
+                                                          ^
+    Klassendatei für net.minecraft.world.item.crafting.CustomRecipe nicht gefunden
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\ExplicitPlantClaimsTest.java:15: Fehler: Symbol nicht gefunden
+      private static final ResourceLocation SOURCE =
+                           ^
+    Symbol: Klasse ResourceLocation
+    Ort: Klasse ExplicitPlantClaimsTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\ExplicitPlantClaimsTest.java:18: Fehler: Symbol nicht gefunden
+      private static Map<ResourceLocation, JsonElement> definition(String json) {
+                         ^
+    Symbol: Klasse ResourceLocation
+    Ort: Klasse ExplicitPlantClaimsTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:13: Fehler: Symbol nicht gefunden
+                  JournalKeyInput.resolve(GLFW.GLFW_KEY_F10, 0).getType());
+                                          ^
+    Symbol: Variable GLFW
+    Ort: Klasse JournalKeyInputTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:19: Fehler: Symbol nicht gefunden
+                  JournalKeyInput.resolve(GLFW.GLFW_KEY_UNKNOWN, 42).getType());
+                                          ^
+    Symbol: Variable GLFW
+    Ort: Klasse JournalKeyInputTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:24: Fehler: Symbol nicht gefunden
+          assertEquals(InputConstants.UNKNOWN,
+                       ^
+    Symbol: Variable InputConstants
+    Ort: Klasse JournalKeyInputTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:25: Fehler: Symbol nicht gefunden
+                  JournalKeyInput.resolve(GLFW.GLFW_KEY_UNKNOWN, 0));
+                                          ^
+    Symbol: Variable GLFW
+    Ort: Klasse JournalKeyInputTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:43: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(123L));
+                                                                 ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:51: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(123L));
+                                                                 ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:60: Fehler: Symbol nicht gefunden
+                  RandomSource.create(123L), 3.0D);
+                  ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:62: Fehler: Symbol nicht gefunden
+                  Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L), 0.0D);
+                                                         ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:65: Fehler: Symbol nicht gefunden
+                  RandomSource.create(123L), 64.0D);
+                  ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:76: Fehler: Symbol nicht gefunden
+                  Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L), 0.5D);
+                                                         ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:78: Fehler: Symbol nicht gefunden
+                  Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L), 0.01D);
+                                                         ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:95: Fehler: Symbol nicht gefunden
+                  Genome.basic("minecraft:wheat_plant"), RandomSource.create(123L));
+                                                         ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:111: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(97L), 64.0D);
+                                                                 ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:114: Fehler: Symbol nicht gefunden
+          assertEquals(Items.ENDER_PEARL, drops.get(0).getItem());
+                       ^
+    Symbol: Variable Items
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:129: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(97L), 0.0D)
+                                                                 ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:136: Fehler: Symbol nicht gefunden
+                  Genome.basic("minecraft:carrot_plant"), RandomSource.create(42L)).isEmpty());
+                                                          ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:153: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:pumpkin_plant", 1, 1, 1), RandomSource.create(17L));
+                                                                  ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:155: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:pumpkin_plant", 1, 10, 1), RandomSource.create(17L));
+                                                                   ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:157: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:melon_plant", 1, 10, 1), RandomSource.create(17L));
+                                                                 ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:159: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:melon_plant", 1, 10, 1), RandomSource.create(17L), 64.0D);
+                                                                 ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:161: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:pumpkin_plant", 1, 10, 1), RandomSource.create(17L), 0.0D);
+                                                                   ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:165: Fehler: Symbol nicht gefunden
+          assertEquals(Items.PUMPKIN, lowPumpkin.get(0).getItem());
+                       ^
+    Symbol: Variable Items
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:169: Fehler: Symbol nicht gefunden
+          assertEquals(Items.MELON_SLICE, highMelon.get(0).getItem());
+                       ^
+    Symbol: Variable Items
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:187: Fehler: Symbol nicht gefunden
+                  new Genome("minecraft:wheat_plant", 1, 10, 1), RandomSource.create(17L)).isEmpty());
+                                                                 ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:201: Fehler: Symbol nicht gefunden
+                  RandomSource.create(17L));
+                  ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:203: Fehler: Symbol nicht gefunden
+          assertEquals(Items.WHEAT, drops.get(0).getItem());
+                       ^
+    Symbol: Variable Items
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:212: Fehler: Symbol nicht gefunden
+                  RandomSource.create(17L), 64.0D).isEmpty());
+                  ^
+    Symbol: Variable RandomSource
+    Ort: Klasse CropHarvestBoundTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:16: Fehler: Symbol nicht gefunden
+                  new ItemStack(Items.WHEAT_SEEDS)));
+                      ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:16: Fehler: Symbol nicht gefunden
+                  new ItemStack(Items.WHEAT_SEEDS)));
+                                ^
+    Symbol: Variable Items
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:21: Fehler: Symbol nicht gefunden
+          ItemStack renamed = new ItemStack(Items.WHEAT_SEEDS);
+          ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:21: Fehler: Symbol nicht gefunden
+          ItemStack renamed = new ItemStack(Items.WHEAT_SEEDS);
+                                  ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:21: Fehler: Symbol nicht gefunden
+          ItemStack renamed = new ItemStack(Items.WHEAT_SEEDS);
+                                            ^
+    Symbol: Variable Items
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:22: Fehler: Symbol nicht gefunden
+          renamed.set(DataComponents.CUSTOM_NAME, Component.literal("unique mod seed"));
+                      ^
+    Symbol: Variable DataComponents
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:22: Fehler: Symbol nicht gefunden
+          renamed.set(DataComponents.CUSTOM_NAME, Component.literal("unique mod seed"));
+                                                  ^
+    Symbol: Variable Component
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:28: Fehler: Symbol nicht gefunden
+          ItemStack analyzed = new ItemStack(Items.WHEAT_SEEDS);
+          ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:28: Fehler: Symbol nicht gefunden
+          ItemStack analyzed = new ItemStack(Items.WHEAT_SEEDS);
+                                   ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:28: Fehler: Symbol nicht gefunden
+          ItemStack analyzed = new ItemStack(Items.WHEAT_SEEDS);
+                                             ^
+    Symbol: Variable Items
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:29: Fehler: Symbol nicht gefunden
+          analyzed.set(DataComponents.CUSTOM_NAME, Component.literal("analyzed and renamed"));
+                       ^
+    Symbol: Variable DataComponents
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:29: Fehler: Symbol nicht gefunden
+          analyzed.set(DataComponents.CUSTOM_NAME, Component.literal("analyzed and renamed"));
+                                                   ^
+    Symbol: Variable Component
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:35: Fehler: Symbol nicht gefunden
+          ItemStack genetic = new ItemStack(Items.PAPER);
+          ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:35: Fehler: Symbol nicht gefunden
+          ItemStack genetic = new ItemStack(Items.PAPER);
+                                  ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:35: Fehler: Symbol nicht gefunden
+          ItemStack genetic = new ItemStack(Items.PAPER);
+                                            ^
+    Symbol: Variable Items
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:36: Fehler: Symbol nicht gefunden
+          genetic.set(DataComponents.CUSTOM_NAME, Component.literal("genetic and renamed"));
+                      ^
+    Symbol: Variable DataComponents
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:36: Fehler: Symbol nicht gefunden
+          genetic.set(DataComponents.CUSTOM_NAME, Component.literal("genetic and renamed"));
+                                                  ^
+    Symbol: Variable Component
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:42: Fehler: Symbol nicht gefunden
+          ItemStack source = new ItemStack(Items.PAPER);
+          ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:42: Fehler: Symbol nicht gefunden
+          ItemStack source = new ItemStack(Items.PAPER);
+                                 ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:42: Fehler: Symbol nicht gefunden
+          ItemStack source = new ItemStack(Items.PAPER);
+                                           ^
+    Symbol: Variable Items
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:45: Fehler: Symbol nicht gefunden
+          source.remove(DataComponents.MAX_STACK_SIZE);
+                        ^
+    Symbol: Variable DataComponents
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:51: Fehler: Symbol nicht gefunden
+          assertTrue(CropSeedSourceSafety.canConvertWithoutExternalDataLoss(ItemStack.EMPTY));
+                                                                            ^
+    Symbol: Variable ItemStack
+    Ort: Klasse CropSeedSourceSafetyTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:14: Fehler: Symbol nicht gefunden
+          ItemStack seed = new ItemStack(geneticSeed);
+          ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse GeneticSeedStackingTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:14: Fehler: Symbol nicht gefunden
+          ItemStack seed = new ItemStack(geneticSeed);
+                               ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse GeneticSeedStackingTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:14: Fehler: Symbol nicht gefunden
+          ItemStack ingredient = new ItemStack(Items.PAPER, 16);
+          ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:14: Fehler: Symbol nicht gefunden
+          ItemStack ingredient = new ItemStack(Items.PAPER, 16);
+                                     ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:14: Fehler: Symbol nicht gefunden
+          ItemStack ingredient = new ItemStack(Items.PAPER, 16);
+                                               ^
+    Symbol: Variable Items
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:15: Fehler: Symbol nicht gefunden
+          ingredient.set(DataComponents.CUSTOM_NAME, Component.literal("Research notes"));
+                         ^
+    Symbol: Variable DataComponents
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:15: Fehler: Symbol nicht gefunden
+          ingredient.set(DataComponents.CUSTOM_NAME, Component.literal("Research notes"));
+                                                     ^
+    Symbol: Variable Component
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:17: Fehler: Symbol nicht gefunden
+          ItemStack remainder = OriginalSeedRecoveryRecipe.paperRemainder(ingredient);
+          ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:28: Fehler: Symbol nicht gefunden
+                  new ItemStack(Items.DIAMOND)).isEmpty());
+                      ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:28: Fehler: Symbol nicht gefunden
+                  new ItemStack(Items.DIAMOND)).isEmpty());
+                                ^
+    Symbol: Variable Items
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:33: Fehler: Symbol nicht gefunden
+          assertTrue(OriginalSeedRecoveryRecipe.paperRemainder(ItemStack.EMPTY).isEmpty());
+                                                               ^
+    Symbol: Variable ItemStack
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:38: Fehler: Symbol nicht gefunden
+          ItemStack ingredient = new ItemStack(Items.PAPER);
+          ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:38: Fehler: Symbol nicht gefunden
+          ItemStack ingredient = new ItemStack(Items.PAPER);
+                                     ^
+    Symbol: Klasse ItemStack
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:38: Fehler: Symbol nicht gefunden
+          ItemStack ingredient = new ItemStack(Items.PAPER);
+                                               ^
+    Symbol: Variable Items
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:39: Fehler: Symbol nicht gefunden
+          ingredient.set(DataComponents.CUSTOM_NAME, Component.literal("Notebook"));
+                         ^
+    Symbol: Variable DataComponents
+    Ort: Klasse OriginalSeedRecoveryRemainderTest
+  Hinweis: Einige Meldungen wurden vereinfacht. Wiederholen Sie die Kompilierung mit -Xdiags:verbose, um die vollständige Ausgabe abzurufen
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:3: Fehler: Package com.mojang.blaze3d.platform ist nicht vorhanden
+  import com.mojang.blaze3d.platform.InputConstants;
+                                    ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:5: Fehler: Package org.lwjgl.glfw ist nicht vorhanden
+  import org.lwjgl.glfw.GLFW;
+                       ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:7: Fehler: Package net.minecraft.util ist nicht vorhanden
+  import net.minecraft.util.RandomSource;
+                           ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:12: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.Items;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:3: Fehler: Package net.minecraft.core.component ist nicht vorhanden
+  import net.minecraft.core.component.DataComponents;
+                                     ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:4: Fehler: Package net.minecraft.network.chat ist nicht vorhanden
+  import net.minecraft.network.chat.Component;
+                                   ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:5: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.ItemStack;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropSeedSourceSafetyTest.java:6: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.Items;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:3: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.Item;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:4: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.ItemStack;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:3: Fehler: Package net.minecraft.core.component ist nicht vorhanden
+  import net.minecraft.core.component.DataComponents;
+                                     ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:4: Fehler: Package net.minecraft.network.chat ist nicht vorhanden
+  import net.minecraft.network.chat.Component;
+                                   ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:5: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.ItemStack;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\OriginalSeedRecoveryRemainderTest.java:6: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.Items;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryRestoreRulesTest.java:3: Fehler: Package net.minecraft.core ist nicht vorhanden
+  import net.minecraft.core.NonNullList;
+                           ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryRestoreRulesTest.java:4: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.ItemStack;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryRestoreRulesTest.java:5: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.Items;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryStackLimitsTest.java:3: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.Item;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryStackLimitsTest.java:4: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.ItemStack;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\SeedInventoryStackLimitsTest.java:5: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+  import net.minecraft.world.item.Items;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\CropDiscoveryAddonRegistryTest.java:3: Fehler: Package net.minecraft.server.packs.resources ist nicht vorhanden
+  import net.minecraft.server.packs.resources.ResourceManager;
+                                             ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\CropOptionalDiscoveryStatsTest.java:4: Fehler: Package net.minecraft.resources ist nicht vorhanden
+  import net.minecraft.resources.ResourceLocation;
+                                ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\ExplicitPlantClaimsTest.java:5: Fehler: Package net.minecraft.resources ist nicht vorhanden
+  import net.minecraft.resources.ResourceLocation;
+                                ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\data\RegisteredSeedCropDiscoveryNamingTest.java:3: Fehler: Package net.minecraft.resources ist nicht vorhanden
+  import net.minecraft.resources.ResourceLocation;
+                                ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\genetics\UnavailableModGenomePersistenceTest.java:4: Fehler: Package com.mojang.serialization ist nicht vorhanden
+  import com.mojang.serialization.JsonOps;
+                                 ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\genetics\UnavailableModGenomePersistenceTest.java:5: Fehler: Package net.minecraft.nbt ist nicht vorhanden
+  import net.minecraft.nbt.CompoundTag;
+                          ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\genetics\UnavailableModGenomePersistenceTest.java:6: Fehler: Package net.minecraft.nbt ist nicht vorhanden
+  import net.minecraft.nbt.NbtOps;
+                          ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:12: Fehler: Package InputConstants ist nicht vorhanden
+          assertEquals(InputConstants.Type.KEYSYM,
+                                     ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\client\JournalKeyInputTest.java:18: Fehler: Package InputConstants ist nicht vorhanden
+          assertEquals(InputConstants.Type.SCANCODE,
+                                     ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\CropHarvestBoundTest.java:204: Fehler: Package net.minecraft.world.item ist nicht vorhanden
+          assertTrue(drops.stream().noneMatch(net.minecraft.world.item.ItemStack::isEmpty));
+                                                                      ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\test\java\dev\illedrabomb\cropgenetics\content\GeneticSeedStackingTest.java:13: Fehler: Package Item ist nicht vorhanden
+          GeneticSeedItem geneticSeed = new GeneticSeedItem(new Item.Properties());
+                                                                    ^
+  100 Fehler
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to generate a Build Scan (powered by Develocity).
+
+BUILD FAILED in 27s
+6 actionable tasks: 5 executed, 1 up-to-date

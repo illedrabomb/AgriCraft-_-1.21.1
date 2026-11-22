@@ -11,3 +11,11 @@ Ausgangspunkt: `7288dbc7bd8e83585de2ac7094f1f03203e30c35`. Windows 11, Temurin 2
 Die beiden Laufverzeichnisse enthalten unveränderte Rohlogs, Manifest, Exitcode, Startmarker und automatisch extrahierte Zusammenfassung. Die darin genannten lokalen Zwischencommits `cbe6f23a…` und im Bericht `48d5d37c…` wurden nicht einzeln veröffentlicht. Dieser gemeinsame Veröffentlichungscommit enthält beide Klammerkorrekturen, die Prüfstatus-Dokumentation und alle Belege. Der Textbericht beschreibt den Zustand vor Veröffentlichung; seine Angabe „nicht gepusht“ bezieht sich auf diese lokalen Zwischencommits.
 
 Manuelle Minecraft-/Multiplayer-Abnahme und die 86 v8-Fälle bleiben offen. Keine JAR-Datei und daher kein JAR-SHA-256 vorhanden.
+
+## Erneuter freigegebener Lauf und Folgelauf
+
+- Ausgang `6862a993c0778171f1538947c97472ac6534ed60`: vier weitere Compilerfehler, JUnit nicht erreicht, kein frisches JAR. Siehe Laufordner `20261122T165839Z-*`.
+- Minimal korrigiert: fehlende Reader-/JsonParser-Imports, expliziter JEI-Stream-Typparameter, öffentliche ChestMenu-Konstruktorsignatur für 1.21.1. Keine Balance-/NBT-Änderung. Zwei Deprecation-Warnungen bleiben unverändert.
+- Lokaler Zwischencommit `077d70f70334b87acd3aaaaa0ec4ade854779ca2`: Hauptquellen und JAR erfolgreich, Gate dennoch Exitcode 1 wegen `compileTestJava` (100 ausgegebene Fehler: Minecraft-/LWJGL-/Serialization-Klassen fehlen). JUnit nicht ausgeführt. Test-Classpath-Konfiguration als Ursache untersuchen; nicht behoben, keine weiteren Läufe. Siehe Laufordner `20261122T170001Z-*`.
+- JAR `cropgenetics-0.2.14-alpha.jar`: 385545 Bytes, SHA-256 `9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a`. Kein erfolgreicher Gate- oder Spielnachweis. JAR nicht als abgenommen bereitgestellt.
+- Gemeinsamer Folge-Veröffentlichungscommit enthält die vier Compilerkorrekturen und beide neuen Berichte; `077d70f7` ist nur lokaler Zwischencommit. Der Abschnitt und Bericht oben dokumentieren die früheren Läufe.

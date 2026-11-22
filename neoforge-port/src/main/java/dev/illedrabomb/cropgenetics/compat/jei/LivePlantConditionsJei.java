@@ -93,7 +93,7 @@ public final class LivePlantConditionsJei {
                         .map(stack -> runtime.getIngredientManager()
                                 .createTypedIngredient(VanillaTypes.ITEM_STACK, stack, false))
                         .flatMap(java.util.Optional::stream)
-                        .map(item -> (ITypedIngredient<?>) item).toList();
+                        .<ITypedIngredient<?>>map(item -> item).toList();
                 if (ingredients.isEmpty()) continue;
                 String signature = signature(plant);
                 Info info = CACHE.get(signature);

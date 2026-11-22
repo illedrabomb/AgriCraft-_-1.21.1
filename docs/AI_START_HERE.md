@@ -4,7 +4,7 @@
 
 ## Lokaler Vorlauf 22.11.2026
 
-Core-only-Test freigegeben und auf GitHub-Ausgang `7288dbc7` ausgeführt: Syntaxfehler in `CropDataCommand.register` blockiert die Kompilierung; zwei fehlende Klammern lokal ergänzt. Erster Fix war unvollständig; einmaliger Folgelauf ebenfalls fehlgeschlagen. Endkorrektur nur statisch geprüft, weiterer Lauf benötigt neue Freigabe; Details in der Hauptmod-Prüfliste. Keine Minecraft-Abnahme.
+Core-only erneut freigegeben: Klammerfehler und vier danach sichtbare Compilerfehler korrigiert. Hauptquellen auf lokalem Zwischencommit `077d70f7` erfolgreich kompiliert, JAR erzeugt. Gate scheitert nun bei `compileTestJava` wegen fehlender Minecraft-/LWJGL-Klassen; kein JUnit ausgeführt. Test-Abhängigkeiten in `neoforge-port/build.gradle` als nächste Ursache untersuchen. Einmaliger Folgelauf ausgeschöpft; weitere Ausführung gesondert freigeben. Belege und JAR-Hash in `docs/test-results/core-gate-2026-11-22/`. Keine Minecraft-Abnahme.
 
 ## In 60 Sekunden starten
 1. Repository `illedrabomb/AgriCraft-_-1.21.1`, Branch `integration/neoforge-1211-consolidation` öffnen. **HEAD aktuell abrufen** – hier keine unveränderliche HEAD-SHA behaupten.

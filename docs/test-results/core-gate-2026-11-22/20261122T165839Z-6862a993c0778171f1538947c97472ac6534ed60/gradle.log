@@ -1,0 +1,84 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :createMinecraftArtifacts UP-TO-DATE
+
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\client\CropGeneticsClient.java:26: Warnung: [removal] bus() in EventBusSubscriber ist veraltet und wurde zum Entfernen markiert
+> Task :compileJava
+        bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+        ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\client\CropGeneticsClient.java:26: Warnung: [removal] Bus in EventBusSubscriber ist veraltet und wurde zum Entfernen markiert
+        bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+                                ^
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\compat\jei\LivePlantConditionsJei.java:96: Fehler: Inkompatible Typen: List<ITypedIngredient<CAP#1>> kann nicht in List<ITypedIngredient<?>> konvertiert werden
+                        .map(item -> (ITypedIngredient<?>) item).toList();
+                                                                       ^
+  Dabei ist CAP#1 eine neue Typvariable:
+    CAP#1 erweitert Object aus Erfassung von ?
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\content\SeedAnalyzerBlock.java:158: Fehler: Methode oneRow in Klasse ChestMenu kann nicht auf die angegebenen Typen angewendet werden.
+                    chest == null ? ChestMenu.oneRow(id, inventory, analyzer)
+                                             ^
+  Erforderlich: int,Inventory
+  Ermittelt:    int,Inventory,SeedAnalyzerBlockEntity
+  Grund: Liste der tatsächlichen Argumente hat eine andere Länge als die der formalen Argumente
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\data\CropDataReloadListener.java:57: Fehler: Symbol nicht gefunden
+                    try (Reader reader = entry.getValue().openAsReader()) {
+                         ^
+  Symbol: Klasse Reader
+  Ort: Klasse CropDataReloadListener
+D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\data\CropDataReloadListener.java:58: Fehler: Symbol nicht gefunden
+                        result.put(entry.getKey(), JsonParser.parseReader(reader));
+                                                   ^
+  Symbol: Variable JsonParser
+  Ort: Klasse CropDataReloadListener
+Hinweis: Einige Eingabedateien verwenden oder überschreiben eine veraltete API.
+Hinweis: Wiederholen Sie die Kompilierung mit -Xlint:deprecation, um Details zu erhalten.
+4 Fehler
+2 Warnungen
+
+> Task :compileJava FAILED
+
+[Incubating] Problems report is available at: file:///D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\content\SeedAnalyzerBlock.java:158: Fehler: Methode oneRow in Klasse ChestMenu kann nicht auf die angegebenen Typen angewendet werden.
+                      chest == null ? ChestMenu.oneRow(id, inventory, analyzer)
+                                               ^
+    Erforderlich: int,Inventory
+    Ermittelt:    int,Inventory,SeedAnalyzerBlockEntity
+    Grund: Liste der tatsächlichen Argumente hat eine andere Länge als die der formalen Argumente
+  Hinweis: Wiederholen Sie die Kompilierung mit -Xlint:deprecation, um Details zu erhalten.
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\compat\jei\LivePlantConditionsJei.java:96: Fehler: Inkompatible Typen: List<ITypedIngredient<CAP#1>> kann nicht in List<ITypedIngredient<?>> konvertiert werden
+                          .map(item -> (ITypedIngredient<?>) item).toList();
+                                                                         ^
+    Dabei ist CAP#1 eine neue Typvariable:
+      CAP#1 erweitert Object aus Erfassung von ?
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\data\CropDataReloadListener.java:57: Fehler: Symbol nicht gefunden
+                      try (Reader reader = entry.getValue().openAsReader()) {
+                           ^
+    Symbol: Klasse Reader
+    Ort: Klasse CropDataReloadListener
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\data\CropDataReloadListener.java:58: Fehler: Symbol nicht gefunden
+                          result.put(entry.getKey(), JsonParser.parseReader(reader));
+                                                     ^
+    Symbol: Variable JsonParser
+    Ort: Klasse CropDataReloadListener
+  Hinweis: Einige Eingabedateien verwenden oder überschreiben eine veraltete API.
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\client\CropGeneticsClient.java:26: Warnung: [removal] bus() in EventBusSubscriber ist veraltet und wurde zum Entfernen markiert
+          bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+          ^
+  D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\client\CropGeneticsClient.java:26: Warnung: [removal] Bus in EventBusSubscriber ist veraltet und wurde zum Entfernen markiert
+          bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+                                  ^
+  4 Fehler
+  2 Warnungen
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to generate a Build Scan (powered by Develocity).
+
+BUILD FAILED in 20s
+2 actionable tasks: 1 executed, 1 up-to-date
