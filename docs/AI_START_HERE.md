@@ -4,7 +4,7 @@
 
 ## Lokaler Vorlauf 22.11.2026
 
-Letzter freigegebener Lauf auf `e670f19c`: Testkompilierung erfolgreich, 212 JUnit-Tests ausgeführt: 210 erfolgreich, 2 Fehler wegen neuer Item-Erzeugung nach Registry-Freeze in zwei Stacklimit-Tests. Kein vollständiger Build, kein frisches JAR. Nutzer verlangt aktuell nur Dokumentation/Commit, keine Codeänderungen. Vollständige Belege und Korrekturvorschlag in `docs/test-results/core-gate-2026-11-22/`. Keine Minecraft-Abnahme.
+Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Nächster Schritt: separat freizugebender persönlicher Minecraft-/v8-Test; keine Spiel-/MP-Abnahme durch JUnit.
 
 ## In 60 Sekunden starten
 1. Repository `illedrabomb/AgriCraft-_-1.21.1`, Branch `integration/neoforge-1211-consolidation` öffnen. **HEAD aktuell abrufen** – hier keine unveränderliche HEAD-SHA behaupten.

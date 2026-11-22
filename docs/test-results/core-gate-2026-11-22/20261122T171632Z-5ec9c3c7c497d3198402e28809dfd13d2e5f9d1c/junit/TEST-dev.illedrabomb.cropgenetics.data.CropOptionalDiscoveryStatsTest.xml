@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.data.CropOptionalDiscoveryStatsTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-22T17:17:14.726Z" hostname="DESKTOP-WORKSTA" time="0.008">
+  <properties/>
+  <testcase name="invalidNamespacePrefixIsRejected()" classname="dev.illedrabomb.cropgenetics.data.CropOptionalDiscoveryStatsTest" time="0.001"/>
+  <testcase name="sentinelAndInvalidPolicyMarkAddonAsSuspended()" classname="dev.illedrabomb.cropgenetics.data.CropOptionalDiscoveryStatsTest" time="0.004"/>
+  <testcase name="disabledEntriesRemainInFullReport()" classname="dev.illedrabomb.cropgenetics.data.CropOptionalDiscoveryStatsTest" time="0.001"/>
+  <testcase name="intentionalExplicitOverrideIsNotReportedAsWarning()" classname="dev.illedrabomb.cropgenetics.data.CropOptionalDiscoveryStatsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimitsTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-22T17:17:14.862Z" hostname="DESKTOP-WORKSTA" time="0.013">
+  <properties/>
+  <testcase name="thirdSpeciesCapsAtFourWithoutRaisingWeakGenes()" classname="dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimitsTest" time="0.005"/>
+  <testcase name="rejectsIncompleteOrOverfullParentSetsInsteadOfGuessingGenetics()" classname="dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimitsTest" time="0.002"/>
+  <testcase name="weakChildrenAreNeverImprovedByCeilingsAcrossParentCounts()" classname="dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimitsTest" time="0.001"/>
+  <testcase name="newSpeciesAlsoCapsAtFourWhenEveryParentHasTheSameSpecies()" classname="dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimitsTest" time="0.001"/>
+  <testcase name="sameSpeciesBreedingAndExistingWeakChildrenAreUnchanged()" classname="dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimitsTest" time="0.0"/>
+  <testcase name="higherValuesAlreadyDevelopedInChildSpeciesRemainPossiblePerStat()" classname="dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimitsTest" time="0.0"/>
+  <testcase name="weakParentSpeciesCannotJumpPastFiveOrExploitRepeatedCrosses()" classname="dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimitsTest" time="0.001"/>
+  <testcase name="parentOrderAndFourParentExtensionCannotImportForeignSpeciesStrength()" classname="dev.illedrabomb.cropgenetics.genetics.SpeciesGeneLimitsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

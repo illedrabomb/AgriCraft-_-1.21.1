@@ -40,3 +40,13 @@ Keine Code-/Testquelländerung, keine Reparatur, kein weiterer Testlauf. Vollst�
 - `GeneticSeedStackingTest` und `SeedInventoryStackLimitsTest` verwenden jetzt `CropItems.GENETIC_SEED.get()` statt `new GeneticSeedItem(new Item.Properties())`. Das registrierte Mod-Item darf nach Minecraft-Registry-Freeze weiter in `ItemStack`s benutzt werden; eine neue `Item`-Instanz darf dann nicht mehr erzeugt werden.
 - Die Assertions zum Maximalstapel (ein genetischer Seed) und zur Chest-Kapazität bleiben unverändert. **Keine Gameplay-, Registry- oder NBT-Änderung.**
 - Nur statisch geprüft; ein neuer `:test :build` und die Minecraft-Abnahme benötigen gesonderte Freigabe. Die beiden bisherigen Fehlresultate bleiben unverändert archiviert und dürfen nicht rückwirkend als bestanden gelten.
+
+## Erfolgreicher Core-Lauf nach Testfixture-Update
+
+22.11.2026, geprüfter Commit `5ec9c3c7c497d3198402e28809dfd13d2e5f9d1c`, Java 21.0.12.1+1, Gradle 9.2.1, Windows 11. Nutzerfreigabe für GitHub-Sync und erneuten Core-Lauf. Fast-forward synchronisiert, keine lokale Code-/Teständerung.
+
+`:test :build`: **BUILD SUCCESSFUL**, Exitcode 0, 212 Tests ausgeführt, 212 erfolgreich, 0 Failures, 0 Errors, 0 Skipped. Testtask tatsächlich ausgeführt. Beide früheren Registry-Freeze-Testfehler treten nicht mehr auf.
+
+JAR-Task UP-TO-DATE: vorhandenes `cropgenetics-0.2.14-alpha.jar` wiederverwendet, **kein frisch erzeugtes JAR** in diesem Lauf. 385545 Bytes, SHA-256 `9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a`. Hauptquellen gegenüber Erzeugungsstand `077d70f7` unverändert (Git-Diff geprüft); JAR-Metadaten cropgenetics 0.2.14-alpha / Minecraft 1.21.1 / NeoForge ab 21.1.265 geprüft, keine Pam-/Farmer-/MineColonies-Namespace-Einträge gefunden. Der automatische Parser warnt wegen fehlendem frischen JAR; dies ist vom erfolgreichen Task-/JUnit-Ergebnis zu unterscheiden.
+
+Vollständige Logs und JUnit-/HTML-Berichte im Ordner `20261122T171632Z-5ec9c3c7c497d3198402e28809dfd13d2e5f9d1c/`. Keine Minecraft-/Multiplayer-/Addon-Abnahme; 86 manuelle v8-Fälle bleiben separat offen.
