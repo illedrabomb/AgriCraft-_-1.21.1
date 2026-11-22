@@ -17,3 +17,20 @@
 4. Neue `SeedAnalyzerSlotRulesTest`-JUnit-Quelle prüft die zulässigen Slottypen und 1er-Grenze; **nicht ausgeführt**. Vorheriger grüner Build gilt nur für älteren Commit.
 
 Ergebnisse getrennt zu `UI-01`/`UI-09` im v8-Tracker und dem Live-Testbeleg eintragen, keine alten Rohdaten überschreiben.
+
+## ST-61 – Standalone Seed Chest: Slotfilter auch im Menü (ungetestet)
+
+**Statischer Fund, Priorität mittel:** `SeedChestBlock.useWithoutItem` öffnete bislang `ChestMenu.threeRows`. Wie bei `UI-01` fragen die Vanilla-`Slot`-Instanzen dabei den Container-Filter `SeedChestBlockEntity.canPlaceItem` nicht selbst ab. Damit war eine nicht zum Saatgut passende Cursor-/Shift-Klick-Einlage in die **allein geöffnete** Seed Chest voraussichtlich möglich; **kein neuer Live-Nachweis**.
+
+**Korrektur:** `SeedChestRestrictedMenu` erbt das Vanilla-3x9-Menü samt unverändertem Menütyp, Slotindex und Bildschirm. Nur auf dem Server ersetzt es die 27 Chest-Slots während `addSlot` durch Slots, deren `mayPlace` die bestehende Containerregel abfragt. Spieler-Slots bleiben unverändert. Client benutzt weiterhin die Vanilla-Truhenansicht. Kein neues Netzwerkprotokoll, keine ItemStack-Konvertierung, keine NBT-Migration, keine Änderung an bestehenden Brust-Inhalten.
+
+**Geschriebene Regression (nicht ausgeführt):** `SeedChestRestrictedMenuTest` prüft Index/Position und einen Fake-Container, der nur Saatgut in einem ausgewählten Slot akzeptiert. Diese reine Quellprüfung beweist nicht den vollständigen Minecraft-Click-Dispatch.
+
+**Gebündelter Spieltest (neuer Unterfall zu UI-01):**
+1. Seed Chest **ohne** angrenzenden Analyzer öffnen. Stick, Journal, Stein oder fremdes Nicht-Saatgut per Cursor, Shift-Klick und Hotbar-Tausch versuchen; darf serverseitig nicht in die Chest gelangen.
+2. Normale registrierte und genetische Seeds passend hineinlegen; identische Genwerte bis 64 zusammenführen; unterschiedliche Data Components getrennt halten.
+3. Seed Chest an Analyzer anschließen, gemeinsam öffnen, erneut dieselben Positiv-/Negativfälle prüfen. 27 Slotpositionen und Gesamtmenge vor/nach festhalten.
+4. Gesicherten Weltstand neu laden; bereits vorhandene Items bleiben erhalten. Bei kurzzeitig falscher clientseitiger Vanillavorhersage muss der Server korrigieren; keine Ghost-/Dupe-/Verlustannahme ohne Logs.
+5. Bei weggebrochener Chest und altem geöffnetem Menü weitere Klicks versuchen; Menügültigkeit/Serverzustand protokollieren. Mehrspieler erst nach separater Freigabe.
+
+**Restrisiko:** Vanilla-Client prüft ohne eigenen Menütyp die Seed-only-Regel nicht lokal voraus. Ob Fehlklicks visuell kurz „springen“, bleibt im Spiel zu beurteilen. Rückbau durch Revert des ST-61-Commits möglich.

@@ -7,7 +7,6 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -30,7 +29,7 @@ public final class SeedChestBlock extends BaseEntityBlock {
                                                           Player player, BlockHitResult hit) {
         if (!(level.getBlockEntity(pos) instanceof SeedChestBlockEntity chest)) return InteractionResult.PASS;
         if (!level.isClientSide) player.openMenu(new SimpleMenuProvider(
-                (id, inventory, viewer) -> ChestMenu.threeRows(id, inventory, chest),
+                (id, inventory, viewer) -> new SeedChestRestrictedMenu(id, inventory, chest),
                 Component.translatable("container.cropgenetics.seed_chest")));
         return InteractionResult.SUCCESS;
     }
