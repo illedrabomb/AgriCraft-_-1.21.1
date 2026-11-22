@@ -2,6 +2,8 @@
 
 **Verbindlicher Status:** Die nachfolgenden Häkchen trennen **statische Quellprüfung** von tatsächlich **ausgeführten Tests**. Ein geschriebener JUnit-Test ist nicht bestanden. Seit den neueren Analyzer-/Journal-/Cross-/Harvest-Änderungen gibt es **keine** Build-, JUnit-, CI- oder Minecraft-Freigabe des Benutzers. Historische erfolgreiche Läufe vom 17.11.2026 zählen nicht als Bestätigung des aktuellen Branches.
 
+**ST-60 (klassische Analyzer-GUI, ungetestet):** Drei Genwertzeilen und Pflanzenname im originalen Analyzer-Panel sind nun lokalisiert; die JEI-Analysehilfe in DE/EN stimmt wieder mit der 64er-Stapelregel überein. `ClassicSeedAnalyzerGuiResourcesTest` prüft die Textschlüssel und Hilfeaussage als Quelltest. **Kein Build, JUnit oder Minecraft-Lauf.** Verifikation: GUI in DE/EN, Stapeln mit gleichen/verschiedenen Data Components, JEI-Anzeige im gebündelten Testgate. [GUI-Details](CLASSIC_ANALYZER_GUI_PORT_2026-11-22.md).
+
 **Geltungsbereich:** `integration/neoforge-1211-consolidation`, Hauptmod `neoforge-port/`. Add-ons sind bewusst ausgeschlossen. Bei jeder späteren Prüfung Datum, Commit-SHA, Testumgebung, Ergebnis, Log/Beleg und ggf. Fehlerticket ergänzen. `[x]` nur mit einem konkret überprüften Ergebnis setzen; `[-]` nicht benutzen, stattdessen Fehler im Nachweis dokumentieren.
 
 **DOC-16 (Vorbereitung, keine Testfreigabe):** Für Sonntag ist ein durch Codex selbst ausführbarer, ausdrücklich opt-in Core-only-Vorlauf **vor** dem persönlichen Minecraft-Test beschrieben: [`CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md`](CODEX_SUNDAY_AUTOMATED_CORE_GATE_2026-11-22.md). Ergebnisse der technischen Gates bleiben bis zu echter Ausführung offen.

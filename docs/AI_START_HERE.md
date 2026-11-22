@@ -8,7 +8,7 @@
 
 **Aktuelles Quellpaket (ungetestet):** [Analyzer-Slotschutz und Journal-Direkteinlage](ANALYZER_SLOT_AND_JOURNAL_FIX_2026-11-22.md). UI-01/UI-09 aus dem Live-Test wurden gezielt adressiert; gemeinsame GUI-/Inventar-Regression vor Beta offen.
 
-**Klassische Analyzer-GUI (ungetesteter Quellstand):** [Original-Atlas, eigene Menütypen und DNA-/Chest-Ansicht](CLASSIC_ANALYZER_GUI_PORT_2026-11-22.md). Erst nach gebündeltem Build/JUnit-/Spieltest abnehmen; GUI und UI-01/UI-09 sind noch nicht runtimebestätigt.
+**Klassische Analyzer-GUI (ungetesteter Quellstand):** [Original-Atlas, eigene Menütypen und DNA-/Chest-Ansicht](CLASSIC_ANALYZER_GUI_PORT_2026-11-22.md). Erst nach gebündeltem Build/JUnit-/Spieltest abnehmen; GUI und UI-01/UI-09 sind noch nicht runtimebestätigt. **ST-60:** Genwerte und Artenname jetzt DE/EN-lokalisiert; JEI-Stapeltext auf aktuelle 64er-Regel korrigiert. Prüffallquelle ergänzt, nicht ausgeführt.
 
 ## Lokaler Vorlauf 22.11.2026
 

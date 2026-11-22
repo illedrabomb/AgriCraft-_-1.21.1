@@ -3,6 +3,7 @@ package dev.illedrabomb.cropgenetics.client;
 import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropItems;
+import dev.illedrabomb.cropgenetics.content.CropSpeciesNames;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -78,12 +79,15 @@ public final class ClassicSeedAnalyzerScreen<T extends AbstractContainerMenu>
         }
 
         // Genome is synchronized only to the menu viewer, not block watchers.
-        String species = genome.plantId();
+        String species = CropSpeciesNames.label(genome.plantId()).getString();
         graphics.drawString(font, font.plainSubstrByWidth(species, 88),
                 87, 16, 0x4b3829, false);
         graphics.blit(TEXTURE, 88, 26, 186, 0, 19, 73, 256, 256);
-        graphics.drawString(font, "Growth: " + genome.growth(), 110, 31, 0x3e5636, false);
-        graphics.drawString(font, "Gain: " + genome.gain(), 110, 51, 0x76512b, false);
-        graphics.drawString(font, "Strength: " + genome.strength(), 110, 71, 0x49466c, false);
+        graphics.drawString(font, Component.translatable("screen.cropgenetics.analyzer.growth_short", genome.growth()),
+                110, 31, 0x3e5636, false);
+        graphics.drawString(font, Component.translatable("screen.cropgenetics.analyzer.gain_short", genome.gain()),
+                110, 51, 0x76512b, false);
+        graphics.drawString(font, Component.translatable("screen.cropgenetics.analyzer.strength_short", genome.strength()),
+                110, 71, 0x49466c, false);
     }
 }
