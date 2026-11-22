@@ -1,22 +1,15 @@
 package dev.illedrabomb.cropgenetics.content;
 
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-/**
- * Server-side four-row analyzer/chest menu with real per-slot limits.
- *
- * The standard GENERIC_9x4 client screen draws the identical 36 storage
- * slots in the identical order. A CompoundContainer alone loses the
- * analyzer's one-item slot limit when its combined inventory is presented
- * as a generic chest: generic slots may then try to insert a 64-item stack,
- * although the underlying analyzer stores only one item.
- */
-final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
+/** Analyzer plus adjacent chest: original analyzer positions, separate 27-slot pane. */
+public final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
     static final int ANALYZER_SLOTS = 9;
     static final int CHEST_SLOTS = 27;
     static final int STORAGE_SLOTS = ANALYZER_SLOTS + CHEST_SLOTS;
@@ -32,12 +25,16 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
         return combinedIndex < ANALYZER_SLOTS ? 1 : 64;
     }
 
-    private final SeedAnalyzerBlockEntity analyzer;
-    private final SeedChestBlockEntity chest;
+    private final Container analyzer;
+    private final Container chest;
+
+    public SeedAnalyzerCombinedMenu(int id, Inventory inventory) {
+        this(id, inventory, new SimpleContainer(ANALYZER_SLOTS), new SimpleContainer(CHEST_SLOTS));
+    }
 
     SeedAnalyzerCombinedMenu(int id, Inventory inventory,
-                             SeedAnalyzerBlockEntity analyzer, SeedChestBlockEntity chest) {
-        super(MenuType.GENERIC_9x4, id);
+                             Container analyzer, Container chest) {
+        super(CropMenus.ANALYZER_CHEST.get(), id);
         checkContainerSize(analyzer, ANALYZER_SLOTS);
         checkContainerSize(chest, CHEST_SLOTS);
         this.analyzer = analyzer;
@@ -47,8 +44,8 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
         chest.startOpen(inventory.player);
 
         for (int index = 0; index < ANALYZER_SLOTS; index++) {
-            int x = 8 + (index % 9) * 18;
-            int y = 18;
+            int x = index == 0 || index == 1 ? 26 : -1000;
+            int y = index == 0 ? 38 : (index == 1 ? 71 : -1000);
             final int combinedIndex = index;
             this.addSlot(new Slot(analyzer, index, x, y) {
                 @Override
@@ -72,8 +69,8 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
             });
         }
         for (int index = 0; index < CHEST_SLOTS; index++) {
-            int x = 8 + (index % 9) * 18;
-            int y = 36 + (index / 9) * 18;
+            int x = 199 + (index % 9) * 18;
+            int y = 27 + (index / 9) * 18;
             final int combinedIndex = ANALYZER_SLOTS + index;
             this.addSlot(new Slot(chest, index, x, y) {
                 @Override
@@ -94,16 +91,15 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
             });
         }
 
-        // Match vanilla ChestMenu.fourRows exactly. The client receives the
-        // standard MenuType.GENERIC_9x4 with no new menu registration.
+        // Original analyzer player-inventory positions, mirrored on client.
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
                 this.addSlot(new Slot(inventory, col + row * 9 + 9,
-                        8 + col * 18, 103 + row * 18));
+                        13 + col * 18, 104 + row * 18));
             }
         }
         for (int col = 0; col < 9; col++) {
-            this.addSlot(new Slot(inventory, col, 8 + col * 18, 161));
+            this.addSlot(new Slot(inventory, col, 13 + col * 18, 162));
         }
     }
 
@@ -111,7 +107,10 @@ final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
     public boolean stillValid(Player player) {
         // When either block is removed or the player moves too far away,
         // stop all interaction with the now-stale combined inventory.
-        return analyzer.stillValid(player) && chest.stillValid(player);
+        return (!(analyzer instanceof SeedAnalyzerBlockEntity liveAnalyzer)
+                || liveAnalyzer.stillValid(player))
+                && (!(chest instanceof SeedChestBlockEntity liveChest)
+                || liveChest.stillValid(player));
     }
 
     @Override

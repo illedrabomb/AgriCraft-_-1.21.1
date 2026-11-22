@@ -7,6 +7,7 @@ import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.content.CropCreativeTabs;
 import dev.illedrabomb.cropgenetics.content.CropItems;
+import dev.illedrabomb.cropgenetics.content.CropMenus;
 import dev.illedrabomb.cropgenetics.content.CropRecipes;
 import dev.illedrabomb.cropgenetics.content.SoilChemistryAccess;
 import dev.illedrabomb.cropgenetics.content.SoilDynamics;
@@ -41,6 +42,7 @@ public final class CropGeneticsMod {
         CropComponents.register(modBus);
         CropBlocks.register(modBus);
         CropItems.register(modBus);
+        CropMenus.register(modBus);
         CropRecipes.register(modBus);
         modBus.addListener(PlantConditionsSync::register);
         // Server datapack soil profiles (including imported originals) provide

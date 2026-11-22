@@ -4,6 +4,7 @@ import dev.illedrabomb.cropgenetics.CropGeneticsMod;
 import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.SeedSpeciesCatalog;
 import dev.illedrabomb.cropgenetics.content.CropItems;
+import dev.illedrabomb.cropgenetics.content.CropMenus;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -19,6 +20,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.minecraft.world.level.block.Blocks;
 
 /** Physical client only: no renderer classes loaded by a dedicated server. */
@@ -48,6 +50,14 @@ public final class CropGeneticsClient {
                     return index < 0 ? 0.0F
                             : (float) index / SeedSpeciesCatalog.DEFAULT_SPECIES.size();
                 }));
+    }
+
+    @SubscribeEvent
+    public static void registerMenuScreens(RegisterMenuScreensEvent event) {
+        event.register(CropMenus.ANALYZER.get(),
+                (menu, inventory, title) -> new ClassicSeedAnalyzerScreen<>(menu, inventory, title, false));
+        event.register(CropMenus.ANALYZER_CHEST.get(),
+                (menu, inventory, title) -> new ClassicSeedAnalyzerScreen<>(menu, inventory, title, true));
     }
 
     @SubscribeEvent

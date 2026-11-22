@@ -1,31 +1,38 @@
 package dev.illedrabomb.cropgenetics.content;
 
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * Vanilla one-row chest layout with the analyzer's real slot restrictions.
- * Client still uses GENERIC_9x1; only server-side slot validation differs.
+ * Original analyzer layout with server-owned slot restrictions.
+ * The client uses synchronized dummy storage, not real world block entities.
  */
-final class SeedAnalyzerStandaloneMenu extends AbstractContainerMenu {
+public final class SeedAnalyzerStandaloneMenu extends AbstractContainerMenu {
     private static final int ANALYZER_SLOTS = 9;
     private static final int PLAYER_SLOTS = 36;
 
-    private final SeedAnalyzerBlockEntity analyzer;
+    private final Container analyzer;
 
-    SeedAnalyzerStandaloneMenu(int id, Inventory inventory, SeedAnalyzerBlockEntity analyzer) {
-        super(MenuType.GENERIC_9x1, id);
+    public SeedAnalyzerStandaloneMenu(int id, Inventory inventory) {
+        this(id, inventory, new SimpleContainer(ANALYZER_SLOTS));
+    }
+
+    SeedAnalyzerStandaloneMenu(int id, Inventory inventory, Container analyzer) {
+        super(CropMenus.ANALYZER.get(), id);
         checkContainerSize(analyzer, ANALYZER_SLOTS);
         this.analyzer = analyzer;
         analyzer.startOpen(inventory.player);
 
         for (int index = 0; index < ANALYZER_SLOTS; index++) {
             final int slotIndex = index;
-            addSlot(new Slot(analyzer, index, 8 + index * 18, 18) {
+            addSlot(new Slot(analyzer, index,
+                    index == 0 ? 26 : (index == 1 ? 26 : -1000),
+                    index == 0 ? 38 : (index == 1 ? 71 : -1000)) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
                     return stillValid(inventory.player)
@@ -43,21 +50,22 @@ final class SeedAnalyzerStandaloneMenu extends AbstractContainerMenu {
                 }
             });
         }
-        // Match ChestMenu.oneRow slot coordinates and packet slot order.
+        // Original analyzer inventory coordinates; keep slot order stable.
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
                 addSlot(new Slot(inventory, col + row * 9 + 9,
-                        8 + col * 18, 49 + row * 18));
+                        13 + col * 18, 104 + row * 18));
             }
         }
         for (int col = 0; col < 9; col++) {
-            addSlot(new Slot(inventory, col, 8 + col * 18, 107));
+            addSlot(new Slot(inventory, col, 13 + col * 18, 162));
         }
     }
 
     @Override
     public boolean stillValid(Player player) {
-        return analyzer.stillValid(player);
+        return !(analyzer instanceof SeedAnalyzerBlockEntity live)
+                || live.stillValid(player);
     }
 
     @Override

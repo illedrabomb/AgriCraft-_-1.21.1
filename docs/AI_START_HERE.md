@@ -8,6 +8,8 @@
 
 **Aktuelles Quellpaket (ungetestet):** [Analyzer-Slotschutz und Journal-Direkteinlage](ANALYZER_SLOT_AND_JOURNAL_FIX_2026-11-22.md). UI-01/UI-09 aus dem Live-Test wurden gezielt adressiert; gemeinsame GUI-/Inventar-Regression vor Beta offen.
 
+**Klassische Analyzer-GUI (ungetesteter Quellstand):** [Original-Atlas, eigene Menütypen und DNA-/Chest-Ansicht](CLASSIC_ANALYZER_GUI_PORT_2026-11-22.md). Erst nach gebündeltem Build/JUnit-/Spieltest abnehmen; GUI und UI-01/UI-09 sind noch nicht runtimebestätigt.
+
 ## Lokaler Vorlauf 22.11.2026
 
 Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Nächster Schritt: separat freizugebender persönlicher Minecraft-/v8-Test; keine Spiel-/MP-Abnahme durch JUnit.
