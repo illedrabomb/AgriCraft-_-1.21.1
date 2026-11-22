@@ -4,7 +4,7 @@
 
 ## Lokaler Vorlauf 22.11.2026
 
-Core-only erneut freigegeben: Klammerfehler und vier danach sichtbare Compilerfehler korrigiert. Hauptquellen auf lokalem Zwischencommit `077d70f7` erfolgreich kompiliert, JAR erzeugt. Gate scheitert nun bei `compileTestJava` wegen fehlender Minecraft-/LWJGL-Klassen; kein JUnit ausgeführt. Test-Abhängigkeiten in `neoforge-port/build.gradle` als nächste Ursache untersuchen. Einmaliger Folgelauf ausgeschöpft; weitere Ausführung gesondert freigeben. Belege und JAR-Hash in `docs/test-results/core-gate-2026-11-22/`. Keine Minecraft-Abnahme.
+Hauptquellen kompilierten bereits, JUnit weiterhin nicht ausgeführt. Zwei weitere Revisionen freigegeben und verbraucht: ModDev-JUnit-Integration aktiviert, Reihenfolge nach Version/Mod-Deklaration korrigiert. Zweiter Lauf stoppt an Gson-Konflikt (Test 2.11.0 vs. Minecraft strikt 2.10.1). Abweichende Test-Versionsvorgabe danach entfernt; Endstand nur statisch geprüft. Weitere Testausführung benötigt neue Freigabe. Belege unter `docs/test-results/core-gate-2026-11-22/`. Keine erfolgreiche Gate-/Minecraft-Abnahme.
 
 ## In 60 Sekunden starten
 1. Repository `illedrabomb/AgriCraft-_-1.21.1`, Branch `integration/neoforge-1211-consolidation` öffnen. **HEAD aktuell abrufen** – hier keine unveränderliche HEAD-SHA behaupten.

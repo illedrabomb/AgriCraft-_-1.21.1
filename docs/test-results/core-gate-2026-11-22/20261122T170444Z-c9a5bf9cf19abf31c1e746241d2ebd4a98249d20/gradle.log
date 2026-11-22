@@ -1,0 +1,38 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :createMinecraftArtifacts UP-TO-DATE
+> Task :compileJava UP-TO-DATE
+> Task :generateModMetadata UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :jarJar NO-SOURCE
+> Task :jar UP-TO-DATE
+> Task :compileTestJava FAILED
+
+[Incubating] Problems report is available at: file:///D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileTestJava'.
+> Could not resolve all files for configuration ':testCompileClasspath'.
+   > Could not resolve com.google.code.gson:gson:2.11.0.
+     Required by:
+         root project 'cropgenetics-neoforge'
+      > Cannot find a version of 'com.google.code.gson:gson' that satisfies the version constraints:
+           Dependency path: 'root project :' (testCompileClasspath) --> 'com.google.code.gson:gson:2.11.0'
+           Dependency path: 'root project :' (testCompileClasspath) --> 'net.neoforged:neoforge:21.1.265' (modDevApiElements) --> 'net.neoforged.fancymodloader:loader:4.0.45' (apiElements) --> 'com.google.code.gson:gson:2.10'
+           Dependency path: 'root project :' (testCompileClasspath) --> 'net.neoforged:neoforge:21.1.265' (modDevApiElements) --> 'net.neoforged:JarJarSelector:0.4.1' (apiElements) --> 'com.google.code.gson:gson:2.8.5'
+           Dependency path: 'root project :' (testCompileClasspath) --> 'net.neoforged:neoforge:21.1.265' (modDevApiElements) --> 'net.neoforged:JarJarMetadata:0.4.1' (apiElements) --> 'com.google.code.gson:gson:2.8.5'
+           Dependency path: 'root project :' (testCompileClasspath) --> 'net.neoforged:neoforge:21.1.265' (modDevApiElements) --> 'net.neoforged:neoform:1.21.1-20240808.144430' (neoformApiElements) --> 'net.neoforged:minecraft-dependencies:1.21.1' (clientCompileDependencies) --> 'com.google.code.gson:gson:{strictly 2.10.1}'
+
+> There are 3 more failures with identical causes.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to generate a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 16s
+6 actionable tasks: 1 executed, 5 up-to-date

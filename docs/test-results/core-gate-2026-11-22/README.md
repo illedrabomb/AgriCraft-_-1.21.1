@@ -19,3 +19,10 @@ Manuelle Minecraft-/Multiplayer-Abnahme und die 86 v8-Fälle bleiben offen. Kein
 - Lokaler Zwischencommit `077d70f70334b87acd3aaaaa0ec4ade854779ca2`: Hauptquellen und JAR erfolgreich, Gate dennoch Exitcode 1 wegen `compileTestJava` (100 ausgegebene Fehler: Minecraft-/LWJGL-/Serialization-Klassen fehlen). JUnit nicht ausgeführt. Test-Classpath-Konfiguration als Ursache untersuchen; nicht behoben, keine weiteren Läufe. Siehe Laufordner `20261122T170001Z-*`.
 - JAR `cropgenetics-0.2.14-alpha.jar`: 385545 Bytes, SHA-256 `9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a`. Kein erfolgreicher Gate- oder Spielnachweis. JAR nicht als abgenommen bereitgestellt.
 - Gemeinsamer Folge-Veröffentlichungscommit enthält die vier Compilerkorrekturen und beide neuen Berichte; `077d70f7` ist nur lokaler Zwischencommit. Der Abschnitt und Bericht oben dokumentieren die früheren Läufe.
+
+## Zwei weitere ausdrücklich freigegebene Revisionen
+
+1. `53ec07cdef11ffa11754648a37efe9b9e7bbe2cc`: ModDev-JUnit-Integration ergänzt, jedoch vor NeoForge-Version aktiviert; Gradle bricht beim Konfigurieren ab. Eigener Konfigurationsfehler, keine Testausführung.
+2. `c9a5bf9cf19abf31c1e746241d2ebd4a98249d20`: Reihenfolge korrigiert, Konfiguration erfolgreich. Test-Klassenpfad scheitert bei Gson-Auflösung: explizite 2.11.0 gegen Minecraft `strictly 2.10.1`; laut Gradle drei weitere Fehler gleicher Ursache. Keine Testkompilierung/JUnit-Ausführung und kein frisches JAR.
+
+Endkorrektur nach Lauf 2: Test-Gson ohne eigene Versionsvorgabe, sodass Minecraft die Version bestimmt. **Nicht erneut ausgeführt**, beide Freigaben verbraucht. ModDev-Einbindung gemäß https://github.com/neoforged/ModDevGradle#unit-testing-with-junit. Keine Testfälle ausgeschlossen oder Assertions geändert. Veröffentlichungscommit bündelt finale Build-Konfiguration, Status und beide vollständigen Laufprotokolle; genannte Zwischencommits bleiben lokal.
