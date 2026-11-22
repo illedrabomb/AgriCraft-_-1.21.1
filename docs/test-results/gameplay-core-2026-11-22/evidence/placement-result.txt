@@ -1,0 +1,24 @@
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+chat.send {"ok": true, "result": {"sent": true, "asCommand": true}}
+inventory.selectHotbar {"ok": true, "result": {"ok": true, "message": "selected slot 0"}}
+interact.placeBlock {"ok": true, "result": {"result": "SUCCESS", "note": "Connected to a remote server: 'result' is the client's prediction; poll get_block to confirm."}}
+world.getBlock {"ok": false, "error": {"code": "no_server", "message": "No server is running (this action requires an integrated or dedicated server)."}}
+player.getInventory {"ok": true, "result": {"selectedSlot": 0, "hotbar": [{"id": "cropgenetics:crop_sticks", "count": 3, "name": "Crop Sticks", "slot": 0}], "main": [], "armor": [], "offhand": {"empty": true}}}
+control.lookAt {"ok": true, "result": {"yaw": -180.0, "pitch": 23.749453}}
+interact.useItem {"ok": true, "result": {"target": "block", "result": "SUCCESS"}}
+world.getBlock {"ok": false, "error": {"code": "no_server", "message": "No server is running (this action requires an integrated or dedicated server)."}}
+player.getInventory {"ok": true, "result": {"selectedSlot": 0, "hotbar": [{"id": "cropgenetics:crop_sticks", "count": 2, "name": "Crop Sticks", "slot": 0}], "main": [], "armor": [], "offhand": {"empty": true}}}
+inventory.selectHotbar {"ok": true, "result": {"ok": true, "message": "selected slot 8"}}
+interact.useItem {"ok": true, "result": {"target": "block", "result": "SUCCESS"}}
+world.getBlock {"ok": false, "error": {"code": "no_server", "message": "No server is running (this action requires an integrated or dedicated server)."}}
+player.getInventory {"ok": true, "result": {"selectedSlot": 8, "hotbar": [{"id": "cropgenetics:crop_sticks", "count": 2, "name": "Crop Sticks", "slot": 0}], "main": [], "armor": [], "offhand": {"empty": true}}}
+vision.screenshot {"ok": true, "result": {"format": "png", "width": 854, "height": 480, "bytes": 158764, "saved": "screenshot-183509.png"}}
+chat.getRecent {"ok": true, "result": {"messages": [{"id": 3, "type": "system_message", "gameTime": 0, "data": {"text": "  LOADED: 17", "overlay": false}}, {"id": 4, "type": "system_message", "gameTime": 0, "data": {"text": "Use /cropgenetics data errors [page], all [page], or tags [page].", "overlay": false}}, {"id": 5, "type": "system_message", "gameTime": 0, "data": {"text": "Gamerule randomTickSpeed is now set to: 0", "overlay": false}}, {"id": 6, "type": "system_message", "gameTime": 0, "data": {"text": "Set the time to 1000", "overlay": false}}, {"id": 7, "type": "system_message", "gameTime": 0, "data": {"text": "Set the weather to clear", "overlay": false}}, {"id": 8, "type": "system_message", "gameTime": 0, "data": {"text": "Successfully filled 72 block(s)", "overlay": false}}, {"id": 9, "type": "system_message", "gameTime": 0, "data": {"text": "No blocks were filled", "overlay": false}}, {"id": 10, "type": "system_message", "gameTime": 0, "data": {"text": "Changed the block at 0, 79, 0", "overlay": false}}, {"id": 11, "type": "system_message", "gameTime": 0, "data": {"text": "Changed the block at 1, 79, 0", "overlay": false}}, {"id": 12, "type": "system_message", "gameTime": 0, "data": {"text": "Teleported Dev to 0.500000, 80.000000, 3.500000", "overlay": false}}, {"id": 13, "type": "system_message", "gameTime": 0, "data": {"text": "Set own game mode to Survival Mode", "overlay": false}}, {"id": 14, "type": "system_message", "gameTime": 0, "data": {"text": "Replaced a slot on Dev with [Crop Sticks]", "overlay": false}}]}}

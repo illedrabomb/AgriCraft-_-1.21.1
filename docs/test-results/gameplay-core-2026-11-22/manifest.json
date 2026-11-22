@@ -1,0 +1,18 @@
+{
+  "git": "a2fe5625caf17233efa32be691053bce5f561e36",
+  "java": "Temurin 21.0.12.1+1",
+  "gradle": "9.2.1",
+  "minecraft": "1.21.1",
+  "neoforge": "21.1.265",
+  "mainMod": "cropgenetics 0.2.14-alpha",
+  "clientInstrumentation": "mcpfabric 0.8.0+1.21.1",
+  "serverInstrumentation": null,
+  "loadedMainClassesComparedToJar": 149,
+  "classDifferences": 0,
+  "jarSHA256": "9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a",
+  "jarBytes": 385545,
+  "runtime": "Gradle Dev-Run",
+  "sourceChanges": false,
+  "installationOrDownload": false,
+  "finalState": "client and server stopped"
+}

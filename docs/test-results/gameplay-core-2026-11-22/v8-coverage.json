@@ -1,0 +1,532 @@
+{
+  "suiteId": "agricraft-core-neoforge-1211-20261122-v8",
+  "testedCommit": "a2fe5625caf17233efa32be691053bce5f561e36",
+  "date": "2026-11-22",
+  "counts": {
+    "pass": 6,
+    "prior_pass": 2,
+    "partial": 8,
+    "blocked": 36,
+    "not_run": 6,
+    "not_authorized": 27,
+    "inconclusive": 1
+  },
+  "results": [
+    {
+      "id": "TG-01",
+      "title": "Freigabe, Build-SHA und Testumgebung",
+      "status": "pass",
+      "observation": "Freigabe, HEAD, Versionen, Modliste dokumentiert. Neue Testwelt, vor Persistenzneustart ZIP-Sicherung; keine alten Tracker-Ergebnisse ersetzt."
+    },
+    {
+      "id": "TG-02",
+      "title": "JUnit-Gate nach ausdrücklicher Freigabe",
+      "status": "prior_pass",
+      "observation": "212/212 JUnit auf 5ec9c3c7 zuvor bestanden, nicht neu ausgeführt."
+    },
+    {
+      "id": "TG-03",
+      "title": "Hauptmod-Build und JAR",
+      "status": "prior_pass",
+      "observation": "Core-Build zuvor bestanden. Alle 149 geladenen Hauptklassen bytegleich zu JAR; SHA-256 9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a, 385545 Bytes. Dev-Run, kein gepackter Produktionsstart."
+    },
+    {
+      "id": "TG-04",
+      "title": "Client und dedizierten Server starten",
+      "status": "partial",
+      "observation": "Dedicated ohne JEI/Addons und echter Client mit MCPFabric ohne JEI verbunden, Restart/Reload erfolgreich. Zweite JEI-Clientvariante fehlt."
+    },
+    {
+      "id": "TG-05",
+      "title": "Save, Restart und Datapack-Reload",
+      "status": "pass",
+      "observation": "Wheat 7/4/9 Stage 0, Analyzer genetic_seed 1/1/1 analyzed und Inventarkomponenten nach regulärem Speichern, ZIP, Neustart und reload unverändert."
+    },
+    {
+      "id": "GE-01",
+      "title": "Weizen und Karotte ab 1/1/1",
+      "status": "partial",
+      "observation": "Wheat/Carrot 1/1/1 jeweils Stage 0 bis 7 per Knochenmehl bestätigt. Saubere Stage-0/X-Modellabnahme durch Chatüberlagerung eingeschränkt; natürliche Wachstumszeit nicht geprüft."
+    },
+    {
+      "id": "GE-02",
+      "title": "Zwei, drei und vier direkte Eltern",
+      "status": "blocked",
+      "observation": "Validierter Elternfeld-/Statistik-/Tick-Messablauf fehlt; aus Einzelpflanzen keine Zucht-Abnahme ableiten."
+    },
+    {
+      "id": "GE-03",
+      "title": "Ein-Eltern-Klon und Reihenregel",
+      "status": "blocked",
+      "observation": "Validierter Elternfeld-/Statistik-/Tick-Messablauf fehlt; aus Einzelpflanzen keine Zucht-Abnahme ableiten."
+    },
+    {
+      "id": "GE-04",
+      "title": "Mutationspunkte, Analyzer und erneutes Pflanzen",
+      "status": "blocked",
+      "observation": "Validierter Elternfeld-/Statistik-/Tick-Messablauf fehlt; aus Einzelpflanzen keine Zucht-Abnahme ableiten."
+    },
+    {
+      "id": "GE-05",
+      "title": "Speichern und Neustart mit zwei Eltern",
+      "status": "blocked",
+      "observation": "Validierter Elternfeld-/Statistik-/Tick-Messablauf fehlt; aus Einzelpflanzen keine Zucht-Abnahme ableiten."
+    },
+    {
+      "id": "GE-06",
+      "title": "Knochenmehl und Nährstoffe",
+      "status": "partial",
+      "observation": "Knochenmehlwachstum bestätigt, kompletter Boden-/Ressourcenvergleich fehlt."
+    },
+    {
+      "id": "GE-07",
+      "title": "Zweite Crop-Sticks-Lage",
+      "status": "pass",
+      "observation": "Survival Sticks 4->3 beim Setzen, 3->2 bei Kreuzlage; obere Lage entfernt und genau ein Stick eingesammelt. CROSS_READY und CROSS_REJECTS_SEED_OK serverseitig bestätigt, 7/4/9-Seed bei Ablehnung unverändert."
+    },
+    {
+      "id": "GE-08",
+      "title": "Abgelehnte Handpflanzung und Kreuzung",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "GE-09",
+      "title": "Abgelehnter Wachstumsschritt",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "GE-10",
+      "title": "Stage-Remap nach Reload",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "GE-11",
+      "title": "Reihenlänge 3, 4, 10 und 20",
+      "status": "blocked",
+      "observation": "Validierter Elternfeld-/Statistik-/Tick-Messablauf fehlt; aus Einzelpflanzen keine Zucht-Abnahme ableiten."
+    },
+    {
+      "id": "GE-12",
+      "title": "Artenmutation und Fallback in Weltkopie",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "GE-12a",
+      "title": "Neue dritte Art bei Mutation mit 100-%-Artenchance",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "GE-12b",
+      "title": "Mutationschance null: Elternart-Fallback",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "GE-12c",
+      "title": "Neue Art benötigt zu hohe Robustheit",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "GE-12d",
+      "title": "Neue Art aus gleichartigen perfekten Eltern",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "GE-12e",
+      "title": "Keine geeignete Kindart: Feld bleibt leer",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "GE-12f",
+      "title": "Wiederholte Fremdkreuzung umgeht 5er-Grenze nicht",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "ER-01",
+      "title": "Rechtsklick-Ernte und Doppelernte",
+      "status": "pass",
+      "observation": "Wheat 7/4/9 Stage 7->4, Drop 3 Wheat. Sofortiger zweiter leerer Klick und Klick mit Stick: weiterhin Stage 4 und derselbe Dropstack 3, kein Doppel-Drop."
+    },
+    {
+      "id": "ER-02",
+      "title": "Sticks-Abbau erhält den genetischen Seed",
+      "status": "pass",
+      "observation": "Reife Wheat 1/1/1 in Survival abgebaut, genau ein genetic_seed mit original_seed wheat_seeds und 1/1/1 eingesammelt, anschließend im Analyzer mit analyzed=1 und gleichem Genom bestätigt."
+    },
+    {
+      "id": "ER-03",
+      "title": "Ein Stack je Ernteprodukt",
+      "status": "not_run",
+      "observation": "Vollständiger v8-Ablauf noch nicht ausgeführt, kein Pass aus Einzelaktionen oder JUnit abgeleitet."
+    },
+    {
+      "id": "ER-04",
+      "title": "Melone und Kürbis: zweite Frucht",
+      "status": "pass",
+      "observation": "Pumpkin und melon jeweils zwei interne Fruchtzyklen: FruitReady 0->1->0->1->0, FruitPlacementSucceeded 2, Stage bleibt 7. Randomticks 512 zweimal 15s; kein natürlicher Zeit-/Balancebeleg."
+    },
+    {
+      "id": "ER-05",
+      "title": "Gourd-Datapack auf Standard umschalten",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "ER-06",
+      "title": "Unreifer Stamm mit alter interner Frucht",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "ER-07",
+      "title": "Original-Seed-Herkunft und fremde Komponenten",
+      "status": "partial",
+      "observation": "OriginalSeed wheat_seeds bei Pflanzen/Abbau/Save/Reload erhalten. Fremde manipulierte Components nicht geprüft."
+    },
+    {
+      "id": "ER-08",
+      "title": "Papier bleibt beim Rückwandeln erhalten",
+      "status": "not_run",
+      "observation": "Vollständiger v8-Ablauf noch nicht ausgeführt, kein Pass aus Einzelaktionen oder JUnit abgeleitet."
+    },
+    {
+      "id": "ER-09",
+      "title": "Fehlgeschlagene Ernte gibt keine Items",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "ER-10",
+      "title": "Fehlerhafte Fruchtbereinigung nach Datapackwechsel",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "ER-11",
+      "title": "Neue interne und alte physische Melonen/Kürbisse",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "ER-12",
+      "title": "Kürbis-Gain: frühere Verbesserung, selten vier Drops",
+      "status": "not_run",
+      "observation": "Vollständiger v8-Ablauf noch nicht ausgeführt, kein Pass aus Einzelaktionen oder JUnit abgeleitet."
+    },
+    {
+      "id": "ER-13",
+      "title": "Melonenstücke statt ganzer Blöcke bei Gain 1 und 10",
+      "status": "not_run",
+      "observation": "Vollständiger v8-Ablauf noch nicht ausgeführt, kein Pass aus Einzelaktionen oder JUnit abgeleitet."
+    },
+    {
+      "id": "ER-14",
+      "title": "Drop-Multiplikator 0/1/2/64 und Ein-Stack-Schutz",
+      "status": "not_run",
+      "observation": "Vollständiger v8-Ablauf noch nicht ausgeführt, kein Pass aus Einzelaktionen oder JUnit abgeleitet."
+    },
+    {
+      "id": "ER-15",
+      "title": "Temporärer Override: Rechte, Neustart und Erntewege",
+      "status": "partial",
+      "observation": "Operator-Testseed 7/4/9 und 3/5/7 erfolgreich. Vollständige Rechte-/Override-/Negativmatrix offen."
+    },
+    {
+      "id": "UI-01",
+      "title": "Analyzer-Slots und angeschlossene Chest",
+      "status": "partial",
+      "observation": "Standalone-Analyzer öffnet, direkte Analyse funktioniert. Verbundene Chest und 64er Shift-Klick fehlen."
+    },
+    {
+      "id": "UI-02",
+      "title": "Zwei Spieler greifen gleichzeitig auf Analyzer und Chest zu",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "UI-03",
+      "title": "Fremde Gene und Journaldaten bleiben privat",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "UI-04",
+      "title": "Mutationshinweise ohne Journal-Neueinlage aktualisieren",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "UI-05",
+      "title": "Seed-Tooltip, HUD und Wachstumsstufe 0",
+      "status": "partial",
+      "observation": "Stage und Analyzer beobachtet. Vollständiger Tooltip-/HUD-Abgleich fehlt."
+    },
+    {
+      "id": "UI-06",
+      "title": "Zwei-Spieler-Sync nach Neustart und optionaler Modentfernung",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "UI-07",
+      "title": "JEI-Hinweis zum wiederverwendbaren Papier",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-08",
+      "title": "Journal-Ergänzung nach Save und Reload",
+      "status": "blocked",
+      "observation": "Validierte Spezial-Datapack/NBT/Blockupdate-/Journal-Fixture fehlt. NBT-Felder werden im anderen Chat vorbereitet; nicht parallel verändert."
+    },
+    {
+      "id": "UI-09",
+      "title": "Client-/Server-Prognose für direkte Einlage",
+      "status": "inconclusive",
+      "observation": "Seedanalyse bestätigt. Journalversuche lassen Handjournal unverändert und Journalslot leer. Sneak-/Interaktionsweg nicht unabhängig verifiziert: P2-Verdacht/Testharnessproblem, kein bestätigter Modbug. Letzter Seedversuch nutzte versehentlich Melonenscheiben in Slot 1 statt Seed in Slot 8, wird nicht gewertet."
+    },
+    {
+      "id": "UI-10",
+      "title": "Seed kann nicht gepflanzt werden: konkreter Hinweis",
+      "status": "partial",
+      "observation": "Konkrete englische CROSS-Ablehnung mit unverändertem Seed bestätigt. Restliche Boden/Licht/DE-Matrix offen."
+    },
+    {
+      "id": "UI-11",
+      "title": "JEI-Pflanzenbedingungen: Hauptabnahme der Serverautorität",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-11a",
+      "title": "JEI: Standardart, Boden-Tag und Licht/Robustheit",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-11b",
+      "title": "JEI: Zuckerrohr, Pilze und Kaktus nur mit eigenen Sonderregeln",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-11c",
+      "title": "JEI: geändertes Datapack nach /reload ohne Client-Neustart",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-11d",
+      "title": "JEI: zwei Spieler am dedizierten Server und private Daten",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "UI-11e",
+      "title": "JEI: Logout und Wechsel zwischen zwei Servern",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-11f",
+      "title": "Core-only ohne JEI und optionale Seed-Links",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-11g",
+      "title": "JEI: DE/EN-Texte und erweiterte Umweltbedingungen",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-11h",
+      "title": "JEI: wiederholter Reload, versteckte Rezepte und Speicherwachstum",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-11i",
+      "title": "JEI: ungültige oder zu große Regelpakete fail-closed",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-12",
+      "title": "Optionales Jade-Overlay: Crop Sticks, Reife und Gen-Privatsphäre",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-13",
+      "title": "Optionales Identify-Overlay: Basiskompatibilität und bekannte Integrationslücke",
+      "status": "blocked",
+      "observation": "Separates JEI/Jade/Identify-Profil oder Netzwerk-Harness nicht vorhanden/geladen."
+    },
+    {
+      "id": "UI-14",
+      "title": "Pflanzen-HUD per Taste umschalten und im Journal erklären",
+      "status": "not_run",
+      "observation": "Vollständiger v8-Ablauf noch nicht ausgeführt, kein Pass aus Einzelaktionen oder JUnit abgeleitet."
+    },
+    {
+      "id": "MP-01",
+      "title": "Journal-Entdeckungen bleiben beim richtigen Spieler",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-02",
+      "title": "Verborgene Genwerte bei Zuschauern",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-03",
+      "title": "Analyse darf Gene nicht verändern",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-04",
+      "title": "Gleichzeitige Entnahme desselben Seeds",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-05",
+      "title": "Journal bei konkurrierender Entnahme",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-06",
+      "title": "Chest nur bei direkter Nachbarschaft verbinden",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-07",
+      "title": "Kein Duplikat zwischen zwei Chest-Menüs",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-08",
+      "title": "Chest-Abbau während offener Benutzeroberfläche",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-09",
+      "title": "Analyzer-Abbau mit Seed und Journal",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-10",
+      "title": "Genetische Seeds mit verschiedenen Werten stapeln nicht",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-11",
+      "title": "64 normale Seeds: Chest und Analyzer",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-12",
+      "title": "Inventar und Journal nach Neustart",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-13",
+      "title": "Menü bei Entfernung oder Chunk-Unload",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-14",
+      "title": "Creative-Einlage erzeugt keinen Survival-Duplikationsweg",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-15",
+      "title": "Shift-Klick eines 64er-Weizensamenstapels",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-16",
+      "title": "Cursor-Stapel und gleichzeitige Einlage",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-17",
+      "title": "Analyzer-Abbau bei verbundener Chest",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-18",
+      "title": "Chest-Inhalt nicht an Zuschauer übertragen",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-19",
+      "title": "Leere Slots bleiben nach Neustart leer",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-20",
+      "title": "Journal passt Mutationshinweise nach Reload an",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-21",
+      "title": "Gleichzeitige Klicks während beider Block-Abbauten",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-22",
+      "title": "Fehlende Journal-Entdeckung nach Weltladevorgang ergänzen",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "MP-23",
+      "title": "Client-Vorschau bei belegtem Analyzer",
+      "status": "not_authorized",
+      "observation": "Mehrspieler-/Zuschauerfall nicht separat freigegeben; nur ein lokaler Testspieler."
+    },
+    {
+      "id": "BAL-01",
+      "title": "Vier 1/1/1-Eltern bis 10/10/10: statistische Abnahme",
+      "status": "blocked",
+      "observation": "Validierter Elternfeld-/Statistik-/Tick-Messablauf fehlt; aus Einzelpflanzen keine Zucht-Abnahme ableiten."
+    },
+    {
+      "id": "BAL-02",
+      "title": "Fremdart-Deckel mit Kartoffeln, Karotten und dritter Art",
+      "status": "blocked",
+      "observation": "Validierter Elternfeld-/Statistik-/Tick-Messablauf fehlt; aus Einzelpflanzen keine Zucht-Abnahme ableiten."
+    }
+  ]
+}

@@ -6,6 +6,10 @@
 
 Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Nächster Schritt: separat freizugebender persönlicher Minecraft-/v8-Test; keine Spiel-/MP-Abnahme durch JUnit.
 
+## Automatisierter Spieltest 22.11.2026
+
+Core-Server und einzelner instrumentierter Client auf a2fe5625 gestartet, Pflanzen/Ernte/Analyzer und Persistenzneustart geprüft. Sechs v8-Fälle pass, keine vollständige Abnahme. UI-09 Journal-Direkteinlage unklar (P2-Verdacht, kein bestätigter Modbug); Spezial-/GUI-/MP-Fälle offen. [Bericht und alle 86 Statuswerte](test-results/gameplay-core-2026-11-22/README.md). Client/Server beendet, keine Codeänderung.
+
 ## In 60 Sekunden starten
 1. Repository `illedrabomb/AgriCraft-_-1.21.1`, Branch `integration/neoforge-1211-consolidation` öffnen. **HEAD aktuell abrufen** – hier keine unveränderliche HEAD-SHA behaupten.
 2. `AGENTS.md` beachten; dann die betroffenen Quelldateien und nur benötigte Detaildokumente lesen.

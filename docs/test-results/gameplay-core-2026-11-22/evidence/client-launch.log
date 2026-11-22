@@ -1,0 +1,246 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :createMinecraftArtifacts UP-TO-DATE
+> Task :compileJava UP-TO-DATE
+> Task :generateModMetadata UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :downloadAssets UP-TO-DATE
+> Task :writeClientLegacyClasspath
+> Task :prepareClientRun
+
+> Task :runClient
+WARN StatusConsoleListener Advanced terminal features are not available in this environment
+[18:31:10] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeclientdev, --version, 21.1.265, --assetIndex, 17, --assetsDir, G:\\Android\\Gradle\\caches\\neoformruntime\\assets, --gameDir, ., --fml.fmlVersion, 4.0.45, --fml.mcVersion, 1.21.1, --fml.neoForgeVersion, 21.1.265, --fml.neoFormVersion, 20240808.144430]
+[18:31:10] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: JVM identified as Eclipse Adoptium OpenJDK 64-Bit Server VM 21.0.12.1+1-LTS
+[18:31:10] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher 11.0.5+main.901c6ea8 starting: java version 21.0.12.1 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
+[18:31:10] [main/INFO] [ne.ne.fm.lo.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
+[18:31:10] [main/INFO] [EARLYDISPLAY/]: Trying GL version 4.6
+[18:31:11] [main/INFO] [EARLYDISPLAY/]: Requested GL version 4.6 got version 4.6
+[18:31:11] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=union:/G:/Android/Gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.16.4+mixin.0.8.7/26d01f0567ab46e9ca0d2ed89d0ecc11aadbd433/sponge-mixin-0.16.4+mixin.0.8.7.jar%23138!/ Service=ModLauncher Env=CLIENT
+[18:31:11] [pool-2-thread-1/INFO] [EARLYDISPLAY/]: GL info: NVIDIA GeForce RTX 4080 SUPER/PCIe/SSE2 GL version 4.6.0 NVIDIA 616.92, NVIDIA Corporation
+[18:31:12] [main/INFO] [ne.ne.fm.lo.mo.lo.JarInJarDependencyLocator/]: Found 2 dependencies adding them to mods collection
+[18:31:12] [main/INFO] [ne.ne.fm.lo.mo.ModDiscoverer/]: 
+     Mod List:
+		Name Version (Mod Id)
+
+		Crop Genetics 0.2.14-alpha (cropgenetics)
+		MCP Fabric 0.8.0+1.21.1 (mcpfabric)
+		Minecraft 1.21.1 (minecraft)
+		NeoForge 21.1.265 (neoforge)
+[18:31:15] [main/INFO] [cp.mo.mo.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeclientdev' with arguments [--version, 21.1.265, --gameDir, ., --assetsDir, G:\Android\Gradle\caches\neoformruntime\assets, --assetIndex, 17]
+[18:31:19] [Datafixer Bootstrap/INFO] [mojang/DataFixerBuilder]: 229 Datafixer optimizations took 574 milliseconds
+[18:31:20] [main/WARN] [os.dr.wi.pe.PerfmonDisabled/]: Invalid registry value type detected for PerfOS counters. Should be REG_DWORD. Ignoring: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PerfOS\Performance\Disable Performance Counters.
+[18:31:20] [pool-8-thread-1/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.5).
+[18:31:29] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[18:31:29] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[18:31:29] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[18:31:29] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[18:31:29] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[18:31:29] [Render thread/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/moddev/artifacts/neoforge-21.1.265.jar%23189!/assets/.mcassetsroot' uses unexpected schema
+[18:31:29] [Render thread/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/moddev/artifacts/neoforge-21.1.265.jar%23189!/data/.mcassetsroot' uses unexpected schema
+[18:31:29] [Render thread/INFO] [mojang/YggdrasilAuthenticationService]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[18:31:29] [Render thread/INFO] [minecraft/Minecraft]: Setting user: Dev
+[18:31:29] [Render thread/INFO] [minecraft/Minecraft]: Backend library: LWJGL version 3.3.3+5
+[18:31:30] [modloading-worker-0/INFO] [ne.ne.ne.co.NeoForgeMod/NEOFORGE-MOD]: NeoForge mod loading, version 21.1.265, for MC 1.21.1
+[18:31:30] [modloading-worker-0/INFO] [mcpfabric/]: [mcpfabric] HTTP bridge listening on http://127.0.0.1:25599
+[18:31:30] [modloading-worker-0/INFO] [mcpfabric/]: [mcpfabric] ready (neoforge) — bridge http://127.0.0.1:25599 (token: D:\guthub repositorys\AgriCraft-core-gate-2026-11-22\work\gameplay-20261122\client\config\mcpfabric.config.json)
+[18:31:30] [modloading-worker-0/INFO] [mcpfabric/]: [mcpfabric] client handlers registered
+[18:31:32] [Render thread/INFO] [ne.ne.ne.ga.GameTestHooks/]: Enabled Gametest Namespaces: []
+[18:31:32] [Render thread/INFO] [minecraft/ReloadableResourceManager]: Reloading ResourceManager: vanilla, mod_resources, mod/cropgenetics, mod/mcpfabric, mod/neoforge
+[18:31:32] [Worker-Main-1/INFO] [minecraft/UnihexProvider]: Found unifont_all_no_pua-15.1.05.hex, loading
+[18:31:32] [Worker-Main-3/INFO] [minecraft/UnihexProvider]: Found unifont_jp_patch-15.1.05.hex, loading
+[18:31:35] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:item.goat_horn.play
+[18:31:35] [Render thread/WARN] [minecraft/SoundEngine]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
+[18:31:35] [Render thread/INFO] [mojang/Library]: OpenAL initialized on device OpenAL Soft on Kopfhörer (4- Arctis Nova Pro Wireless)
+[18:31:35] [Render thread/INFO] [minecraft/SoundEngine]: Sound engine started
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 1024x512x4 minecraft:textures/atlas/blocks.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 512x256x0 minecraft:textures/atlas/particles.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 512x256x0 minecraft:textures/atlas/paintings.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 256x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 64x64x0 minecraft:textures/atlas/map_decorations.png-atlas
+[18:31:35] [Render thread/INFO] [minecraft/TextureAtlas]: Created: 1024x512x0 minecraft:textures/atlas/gui.png-atlas
+[18:31:35] [Render thread/WARN] [minecraft/ShaderInstance]: Shader rendertype_entity_translucent_emissive could not find sampler named Sampler2 in the specified shader program.
+[18:31:36] [Render thread/INFO] [de.il.cr.cl.PlantVisuals/]: Loaded 16 plant visual definitions; 0 missing-PNG reports, 0 ambiguous IDs
+[18:31:36] [Render thread/INFO] [ne.ne.ne.cl.en.an.js.AnimationLoader/]: Loaded 0 entity animations
+[18:33:03] [Render thread/INFO] [minecraft/ConnectScreen]: Connecting to 127.0.0.1, 25589
+[18:33:05] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 2 advancements
+[18:33:34] [Netty Client IO #0/ERROR] [minecraft/Connection]: Exception caught in connection
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.SocketChannelImpl.throwConnectionReset(SocketChannelImpl.java:401) ~[?:?] {}
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:434) ~[?:?] {}
+	at MC-BOOTSTRAP/io.netty.buffer@4.1.97.Final/io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:254) ~[netty-buffer-4.1.97.Final.jar%23129!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.buffer@4.1.97.Final/io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1132) ~[netty-buffer-4.1.97.Final.jar%23129!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:357) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:151) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:788) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.common@4.1.97.Final/io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997) ~[netty-common-4.1.97.Final.jar%23131!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.common@4.1.97.Final/io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[netty-common-4.1.97.Final.jar%23131!/:4.1.97.Final] {}
+	at java.base/java.lang.Thread.run(Thread.java:1583) [?:?] {}
+[18:33:35] [Netty Client IO #0/ERROR] [minecraft/CrashReport]: Negative index in crash report handler (13/21)
+[18:33:35] [Netty Client IO #0/FATAL] [ne.ne.ne.co.NeoForgeMod/]: Preparing crash report with UUID a04abd12-2b36-404e-a0b4-2fd07eb94bbc
+[18:33:35] [Render thread/WARN] [minecraft/ClientCommonPacketListenerImpl]: Client disconnected with reason: Internal Exception: java.net.SocketException: Connection reset
+[18:34:01] [Render thread/INFO] [minecraft/ConnectScreen]: Connecting to 127.0.0.1, 25589
+[18:34:01] [Server Connector #2/ERROR] [minecraft/ConnectScreen]: Couldn't connect to server
+io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: getsockopt: kubernetes.docker.internal/127.0.0.1:25589
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[?:?] {}
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:694) ~[?:?] {}
+	at java.base/sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:973) ~[?:?] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:337) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:776) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.transport@4.1.97.Final/io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562) ~[netty-transport-4.1.97.Final.jar%23136!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.common@4.1.97.Final/io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997) ~[netty-common-4.1.97.Final.jar%23131!/:4.1.97.Final] {}
+	at MC-BOOTSTRAP/io.netty.common@4.1.97.Final/io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[netty-common-4.1.97.Final.jar%23131!/:4.1.97.Final] {}
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[?:?] {}
+[18:34:29] [Render thread/INFO] [minecraft/ConnectScreen]: Connecting to 127.0.0.1, 25589
+[18:34:29] [Render thread/WARN] [ne.ne.fm.co.ConfigTracker/]: Overwriting non-null config LoadedConfig[config=SynchronizedConfig{DataHolder:{removeErroringBlockEntities=false, removeErroringEntities=false, fullBoundingBoxLadders=false, permissionHandler=neoforge:default_handler, advertiseDedicatedServerToLan=true}}, path=null, modConfig=net.neoforged.fml.config.ModConfig@2022d04] at path neoforge-server.toml with synced config
+[18:34:29] [Render thread/WARN] [ne.ne.fm.co.ConfigTracker/]: Overwriting non-null config LoadedConfig[config=SynchronizedConfig{DataHolder:{breeding=SynchronizedConfig{DataHolder:{rowCrossEvolution=true, rowEvolutionMutationMultiplier=1.0, crossFertilityMultiplier=1.0}}, gourds=SynchronizedConfig{DataHolder:{fruitChanceMultiplier=1.0}}, harvest=SynchronizedConfig{DataHolder:{dropMultiplier=1.0}}}}, path=null, modConfig=net.neoforged.fml.config.ModConfig@2390c879] at path cropgenetics-server.toml with synced config
+[18:34:31] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 2 advancements
+[18:34:37] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Crop Genetics datapack: 16 plants, 1 mutations, 17 resource files.
+[18:34:37] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT]   Addon auto-discovered species: 0
+[18:34:37] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT]   LOADED: 17
+[18:34:37] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Use /cropgenetics data errors [page], all [page], or tags [page].
+[18:35:00] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Gamerule randomTickSpeed is now set to: 0
+[18:35:00] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Set the time to 1000
+[18:35:01] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Set the weather to clear
+[18:35:01] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Successfully filled 72 block(s)
+[18:35:02] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] No blocks were filled
+[18:35:02] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Changed the block at 0, 79, 0
+[18:35:03] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Changed the block at 1, 79, 0
+[18:35:03] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 0.500000, 80.000000, 3.500000
+[18:35:04] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Set own game mode to Survival Mode
+[18:35:04] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Crop Sticks]
+[18:35:37] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] [Dev] CHECK_SINGLE_EMPTY_OK
+[18:35:38] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 0.500000, 80.000000, 0.800000
+[18:35:40] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 0.500000, 80.000000, 3.500000
+[18:35:40] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Wheat Seeds]
+[18:35:42] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 0, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:35:43] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Bone Meal]
+[18:35:43] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 4 advancements
+[18:35:48] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:35:50] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:35:50] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 0.500000, 80.000000, 0.800000
+[18:35:50] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 6 advancements
+[18:35:52] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 0.500000, 80.000000, 3.500000
+[18:35:54] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:36:24] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:36:26] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:36:28] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 0.500000, 80.000000, 0.800000
+[18:36:30] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Dev has the following entity data: [{count: 4, Slot: 0b, id: "cropgenetics:crop_sticks"}, {count: 1, Slot: 1b, id: "minecraft:wheat_seeds"}, {count: 4, Slot: 2b, id: "minecraft:bone_meal"}, {count: 3, Slot: 3b, id: "minecraft:wheat"}, {count: 1, Slot: 4b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}}, id: "cropgenetics:genetic_seed"}]
+[18:36:31] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Changed the block at 2, 80, 2
+[18:36:31] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 2.500000, 80.000000, 4.500000
+[18:36:33] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 2, 80, 2 has the following block data: {x: 2, y: 80, Items: [{count: 1, Slot: 0b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "minecraft:wheat_seeds"}], z: 2, id: "cropgenetics:seed_analyzer"}
+[18:36:36] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Test seed received: minecraft:wheat_plant (Growth 7 / Gain 4 / Strength 9; not analyzed).
+[18:36:36] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Dev has the following entity data: [{count: 4, Slot: 0b, id: "cropgenetics:crop_sticks"}, {count: 1, Slot: 1b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 9, plant: "minecraft:wheat_plant", growth: 7, gain: 4}}, id: "cropgenetics:genetic_seed"}, {count: 4, Slot: 2b, id: "minecraft:bone_meal"}, {count: 3, Slot: 3b, id: "minecraft:wheat"}, {count: 1, Slot: 4b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}}, id: "cropgenetics:genetic_seed"}]
+[18:37:35] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 2, 80, 2 has the following block data: {x: 2, y: 80, Items: [{count: 1, Slot: 0b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "cropgenetics:genetic_seed"}], z: 2, id: "cropgenetics:seed_analyzer"}
+[18:37:36] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 0.500000, 80.000000, 3.500000
+[18:37:38] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] [Dev] CROSS_READY
+[18:37:40] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] [Dev] CROSS_REJECTS_SEED_OK
+[18:37:42] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 0, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 9, plant: "minecraft:wheat_plant", growth: 7, gain: 4}, TotalGrowthStages: 8}
+[18:37:43] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Dev has the following entity data: [{count: 2, Slot: 0b, id: "cropgenetics:crop_sticks"}, {count: 4, Slot: 2b, id: "minecraft:bone_meal"}, {count: 3, Slot: 3b, id: "minecraft:wheat"}, {count: 1, Slot: 5b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "minecraft:wheat_seeds"}]
+[18:37:43] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Saving the game (this may take a moment!)
+[18:37:43] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Saved the game
+[18:37:44] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Reloading!
+[18:37:46] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 6 advancements
+[18:37:46] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 0, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 9, plant: "minecraft:wheat_plant", growth: 7, gain: 4}, TotalGrowthStages: 8}
+[18:37:47] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Dev has the following entity data: [{count: 2, Slot: 0b, id: "cropgenetics:crop_sticks"}, {count: 4, Slot: 2b, id: "minecraft:bone_meal"}, {count: 3, Slot: 3b, id: "minecraft:wheat"}, {count: 1, Slot: 5b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "minecraft:wheat_seeds"}]
+[18:37:48] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Saving the game (this may take a moment!)
+[18:37:48] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Saved the game
+[18:37:49] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Stopping the server
+[18:37:49] [Render thread/WARN] [minecraft/ClientCommonPacketListenerImpl]: Client disconnected with reason: Server closed
+[18:38:51] [Render thread/INFO] [minecraft/ConnectScreen]: Connecting to 127.0.0.1, 25589
+[18:38:51] [Render thread/WARN] [ne.ne.fm.co.ConfigTracker/]: Overwriting non-null config LoadedConfig[config=SynchronizedConfig{DataHolder:{removeErroringBlockEntities=false, removeErroringEntities=false, fullBoundingBoxLadders=false, permissionHandler=neoforge:default_handler, advertiseDedicatedServerToLan=true}}, path=null, modConfig=net.neoforged.fml.config.ModConfig@2022d04] at path neoforge-server.toml with synced config
+[18:38:51] [Render thread/WARN] [ne.ne.fm.co.ConfigTracker/]: Overwriting non-null config LoadedConfig[config=SynchronizedConfig{DataHolder:{breeding=SynchronizedConfig{DataHolder:{rowCrossEvolution=true, rowEvolutionMutationMultiplier=1.0, crossFertilityMultiplier=1.0}}, gourds=SynchronizedConfig{DataHolder:{fruitChanceMultiplier=1.0}}, harvest=SynchronizedConfig{DataHolder:{dropMultiplier=1.0}}}}, path=null, modConfig=net.neoforged.fml.config.ModConfig@2390c879] at path cropgenetics-server.toml with synced config
+[18:38:52] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 6 advancements
+[18:39:20] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 0, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 9, plant: "minecraft:wheat_plant", growth: 7, gain: 4}, TotalGrowthStages: 8}
+[18:39:21] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 2, 80, 2 has the following block data: {x: 2, y: 80, Items: [{count: 1, Slot: 0b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "cropgenetics:genetic_seed"}], z: 2, id: "cropgenetics:seed_analyzer"}
+[18:39:22] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Dev has the following entity data: [{count: 2, Slot: 0b, id: "cropgenetics:crop_sticks"}, {count: 4, Slot: 2b, id: "minecraft:bone_meal"}, {count: 3, Slot: 3b, id: "minecraft:wheat"}, {count: 1, Slot: 5b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "minecraft:wheat_seeds"}]
+[18:39:22] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Reloading!
+[18:39:24] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 6 advancements
+[18:39:25] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 0, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 9, plant: "minecraft:wheat_plant", growth: 7, gain: 4}, TotalGrowthStages: 8}
+[18:39:25] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 2, 80, 2 has the following block data: {x: 2, y: 80, Items: [{count: 1, Slot: 0b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "cropgenetics:genetic_seed"}], z: 2, id: "cropgenetics:seed_analyzer"}
+[18:39:26] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Dev has the following entity data: [{count: 2, Slot: 0b, id: "cropgenetics:crop_sticks"}, {count: 4, Slot: 2b, id: "minecraft:bone_meal"}, {count: 3, Slot: 3b, id: "minecraft:wheat"}, {count: 1, Slot: 5b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "minecraft:wheat_seeds"}]
+[18:39:27] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Changed the block at 3, 79, 0
+[18:39:27] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 3.500000, 80.000000, 3.500000
+[18:39:29] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Carrot]
+[18:39:29] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 7 advancements
+[18:39:30] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 3, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 3, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 0, SeedAnalyzed: 0b, OriginalSeed: "minecraft:carrot", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:carrot_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:39:31] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Bone Meal]
+[18:39:35] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 3, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 3, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:carrot", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:carrot_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:39:36] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 0.500000, 80.000000, 3.500000
+[18:39:40] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 9, plant: "minecraft:wheat_plant", growth: 7, gain: 4}, TotalGrowthStages: 8}
+[18:39:41] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 9, plant: "minecraft:wheat_plant", growth: 7, gain: 4}, TotalGrowthStages: 8}
+[18:39:42] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Crop Sticks has the following entity data: {count: 1, id: "cropgenetics:crop_sticks"}
+[18:39:42] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Wheat has the following entity data: {count: 3, id: "minecraft:wheat"}
+[18:39:43] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 9, plant: "minecraft:wheat_plant", growth: 7, gain: 4}, TotalGrowthStages: 8}
+[18:39:44] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Crop Sticks has the following entity data: {count: 1, id: "cropgenetics:crop_sticks"}
+[18:39:44] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Wheat has the following entity data: {count: 3, id: "minecraft:wheat"}
+[18:39:44] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Stick]
+[18:39:44] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 14 advancements
+[18:39:46] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 0, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 0, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 4, SeedAnalyzed: 0b, OriginalSeed: "minecraft:wheat_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 9, plant: "minecraft:wheat_plant", growth: 7, gain: 4}, TotalGrowthStages: 8}
+[18:39:46] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Crop Sticks has the following entity data: {count: 1, id: "cropgenetics:crop_sticks"}
+[18:39:46] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Wheat has the following entity data: {count: 3, id: "minecraft:wheat"}
+[18:40:14] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Crop Sticks]
+[18:40:15] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Changed the block at 5, 79, 0
+[18:40:15] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Changed the block at 4, 79, 1
+[18:40:16] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 5.500000, 80.000000, 2.500000
+[18:40:17] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Pumpkin Seeds]
+[18:40:22] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 0L, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:pumpkin_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:pumpkin_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:40:22] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Changed the block at 5, 79, 2
+[18:40:23] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Could not set the block
+[18:40:23] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 5.500000, 80.000000, 4.500000
+[18:40:25] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Melon Seeds]
+[18:40:29] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 2 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 0L, FruitPlacementSucceeded: 0L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 0L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 0L, z: 2, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:melon_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:melon_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:40:30] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Gamerule randomTickSpeed is now set to: 512
+[18:40:45] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Gamerule randomTickSpeed is now set to: 0
+[18:40:46] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 5.500000, 80.000000, 2.500000
+[18:40:46] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 7L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 7L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 1L, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:pumpkin_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:pumpkin_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:40:48] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 7L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 7L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 1L, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:pumpkin_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:pumpkin_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:40:48] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 5.500000, 80.000000, 4.500000
+[18:40:49] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 2 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 1L, z: 2, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:melon_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:melon_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:40:50] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 2 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 3L, FruitPlacementSucceeded: 1L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 3L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 1L, z: 2, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:melon_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:melon_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:40:51] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Gamerule randomTickSpeed is now set to: 512
+[18:41:07] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Gamerule randomTickSpeed is now set to: 0
+[18:41:08] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 5.500000, 80.000000, 2.500000
+[18:41:08] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 17 advancements
+[18:41:09] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 9L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 9L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 2L, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:pumpkin_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:pumpkin_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:41:10] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 0 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 9L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 9L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 2L, z: 0, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:pumpkin_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:pumpkin_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:41:10] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 5.500000, 80.000000, 4.500000
+[18:41:11] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 2 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 1b, FruitChanceRolls: 6L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 6L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 2L, z: 2, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:melon_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:melon_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:41:12] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 5, 80, 2 has the following block data: {MatureFruitTicksBlocked: 0L, FruitReady: 0b, FruitChanceRolls: 6L, FruitPlacementSucceeded: 2L, FruitPlacementNoEligibleTarget: 0L, MatureFruitTicks: 6L, FruitPlacementEligibleFailed: 0L, x: 5, y: 80, FruitChancePassed: 2L, z: 2, GrowthStage: 7, SeedAnalyzed: 0b, OriginalSeed: "minecraft:melon_seeds", id: "cropgenetics:crop_sticks", Genome: {strength: 1, plant: "minecraft:melon_plant", growth: 1, gain: 1}, TotalGrowthStages: 8}
+[18:41:42] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 5.500000, 80.000000, 1.500000
+[18:41:42] [Render thread/INFO] [minecraft/AdvancementTree]: Loaded 19 advancements
+[18:41:44] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Crop Sticks has the following entity data: {count: 1, id: "cropgenetics:crop_sticks"}
+[18:41:44] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Wheat has the following entity data: {count: 3, id: "minecraft:wheat"}
+[18:41:44] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Pumpkin has the following entity data: {count: 1, id: "minecraft:pumpkin"}
+[18:41:44] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Teleported Dev to 2.500000, 80.000000, 4.500000
+[18:41:45] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Seed Journal]
+[18:41:47] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 2, 80, 2 has the following block data: {x: 2, y: 80, Items: [{count: 1, Slot: 0b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "cropgenetics:genetic_seed"}], z: 2, id: "cropgenetics:seed_analyzer"}
+[18:41:48] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Replaced a slot on Dev with [Seed Journal]
+[18:41:50] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 2, 80, 2 has the following block data: {x: 2, y: 80, Items: [{count: 1, Slot: 0b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "cropgenetics:genetic_seed"}], z: 2, id: "cropgenetics:seed_analyzer"}
+[18:41:51] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Test seed received: minecraft:wheat_plant (Growth 3 / Gain 5 / Strength 7; not analyzed).
+[18:41:53] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] 2, 80, 2 has the following block data: {x: 2, y: 80, Items: [{count: 1, Slot: 0b, components: {"cropgenetics:original_seed": "minecraft:wheat_seeds", "cropgenetics:genome": {strength: 1, plant: "minecraft:wheat_plant", growth: 1, gain: 1}, "cropgenetics:analyzed": 1b}, id: "cropgenetics:genetic_seed"}], z: 2, id: "cropgenetics:seed_analyzer"}
+[18:41:54] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Saving the game (this may take a moment!)
+[18:41:54] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Saved the game
+[18:41:55] [Render thread/INFO] [minecraft/ChatComponent]: [System] [CHAT] Stopping the server
+[18:41:55] [Render thread/WARN] [minecraft/ClientCommonPacketListenerImpl]: Client disconnected with reason: Server closed
+[18:42:42] [Render thread/INFO] [minecraft/Minecraft]: Stopping!
+
+BUILD SUCCESSFUL in 11m 58s
+8 actionable tasks: 3 executed, 5 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.2.1/userguide/configuration_cache_enabling.html

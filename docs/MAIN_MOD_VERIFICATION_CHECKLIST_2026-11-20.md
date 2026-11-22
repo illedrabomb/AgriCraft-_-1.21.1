@@ -250,3 +250,7 @@ Keine Code-/Testquelländerung, keine Reparatur, kein weiterer Testlauf. Vollst�
 JAR-Task UP-TO-DATE: vorhandenes `cropgenetics-0.2.14-alpha.jar` wiederverwendet, **kein frisch erzeugtes JAR** in diesem Lauf. 385545 Bytes, SHA-256 `9e272b6c9ddf97d8a96dbee64ec27b595caea704bef68c79760f0ad0e41da27a`. Hauptquellen gegenüber Erzeugungsstand `077d70f7` unverändert (Git-Diff geprüft); JAR-Metadaten cropgenetics 0.2.14-alpha / Minecraft 1.21.1 / NeoForge ab 21.1.265 geprüft, keine Pam-/Farmer-/MineColonies-Namespace-Einträge gefunden. Der automatische Parser warnt wegen fehlendem frischen JAR; dies ist vom erfolgreichen Task-/JUnit-Ergebnis zu unterscheiden.
 
 Vollständige Logs und JUnit-/HTML-Berichte im Ordner `20261122T171632Z-5ec9c3c7c497d3198402e28809dfd13d2e5f9d1c/`. Keine Minecraft-/Multiplayer-/Addon-Abnahme; 86 manuelle v8-Fälle bleiben separat offen.
+
+## Automatisierter Core-Spieltest 22.11.2026
+
+Core-Dev-Server und einzelner MCPFabric-Client auf a2fe5625 gestartet, Gameplay-Teilprüfungen und regulärer Persistenzneustart dokumentiert. Keine Codeänderung. Sechs v8-Fälle pass; keine vollständige Abnahme. UI-09 Journal-Direkteinlage unklar (P2-Verdacht, kein Modbugbeweis). Alle 86 Statuswerte und Logs/Screenshots im [Spieltestbericht](test-results/gameplay-core-2026-11-22/README.md). Historischer 212/212-JUnit-Nachweis separat.

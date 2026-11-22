@@ -1,0 +1,113 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :createMinecraftArtifacts UP-TO-DATE
+> Task :compileJava UP-TO-DATE
+> Task :generateModMetadata UP-TO-DATE
+> Task :processResources UP-TO-DATE
+> Task :classes UP-TO-DATE
+> Task :downloadAssets UP-TO-DATE
+> Task :writeServerLegacyClasspath UP-TO-DATE
+> Task :prepareServerRun UP-TO-DATE
+
+> Task :runServer
+WARN StatusConsoleListener Advanced terminal features are not available in this environment
+[18:38:21] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeserverdev, --gameDir, ., --fml.fmlVersion, 4.0.45, --fml.mcVersion, 1.21.1, --fml.neoForgeVersion, 21.1.265, --fml.neoFormVersion, 20240808.144430, --nogui]
+[18:38:21] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: JVM identified as Eclipse Adoptium OpenJDK 64-Bit Server VM 21.0.12.1+1-LTS
+[18:38:21] [main/INFO] [cp.mo.mo.Launcher/MODLAUNCHER]: ModLauncher 11.0.5+main.901c6ea8 starting: java version 21.0.12.1 by Eclipse Adoptium; OS Windows 11 arch amd64 version 10.0
+[18:38:21] [main/INFO] [ne.ne.fm.lo.ImmediateWindowHandler/]: ImmediateWindowProvider not loading because launch target is forgeserverdev
+[18:38:21] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.7 Source=union:/G:/Android/Gradle/caches/modules-2/files-2.1/net.fabricmc/sponge-mixin/0.16.4+mixin.0.8.7/26d01f0567ab46e9ca0d2ed89d0ecc11aadbd433/sponge-mixin-0.16.4+mixin.0.8.7.jar%2394!/ Service=ModLauncher Env=SERVER
+[18:38:22] [main/INFO] [ne.ne.fm.lo.mo.lo.JarInJarDependencyLocator/]: Found 2 dependencies adding them to mods collection
+[18:38:22] [main/INFO] [ne.ne.fm.lo.mo.ModDiscoverer/]: 
+     Mod List:
+		Name Version (Mod Id)
+
+		Crop Genetics 0.2.14-alpha (cropgenetics)
+		Minecraft 1.21.1 (minecraft)
+		NeoForge 21.1.265 (neoforge)
+[18:38:25] [main/INFO] [cp.mo.mo.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeserverdev' with arguments [--gameDir, ., --nogui]
+[18:38:28] [main/WARN] [os.dr.wi.pe.PerfmonDisabled/]: Invalid registry value type detected for PerfOS counters. Should be REG_DWORD. Ignoring: HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PerfOS\Performance\Disable Performance Counters.
+[18:38:29] [main/INFO] [MixinExtras|Service/]: Initializing MixinExtras via com.llamalad7.mixinextras.service.MixinExtrasServiceImpl(version=0.5.5).
+[18:38:40] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[18:38:40] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, location] and [teleport, targets] with inputs: [0.1 -0.5 .9, 0 0 0]
+[18:38:40] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, destination] and [teleport, targets] with inputs: [Player, 0123, @e, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[18:38:40] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets] and [teleport, destination] with inputs: [Player, 0123, dd12be42-52a9-4a91-a8a1-11c01849e498]
+[18:38:40] [main/WARN] [minecraft/Commands]: Ambiguity between arguments [teleport, targets, location] and [teleport, targets, destination] with inputs: [0.1 -0.5 .9, 0 0 0]
+[18:38:40] [modloading-worker-0/INFO] [ne.ne.ne.co.NeoForgeMod/NEOFORGE-MOD]: NeoForge mod loading, version 21.1.265, for MC 1.21.1
+[18:38:41] [main/INFO] [mojang/YggdrasilAuthenticationService]: Environment: Environment[sessionHost=https://sessionserver.mojang.com, servicesHost=https://api.minecraftservices.com, name=PROD]
+[18:38:41] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/moddev/artifacts/neoforge-21.1.265.jar%23125!/assets/.mcassetsroot' uses unexpected schema
+[18:38:41] [main/WARN] [minecraft/VanillaPackResourcesBuilder]: Assets URL 'union:/D:/guthub%20repositorys/AgriCraft-core-gate-2026-11-22/neoforge-port/build/moddev/artifacts/neoforge-21.1.265.jar%23125!/data/.mcassetsroot' uses unexpected schema
+[18:38:43] [main/INFO] [minecraft/RecipeManager]: Loaded 1295 recipes
+[18:38:44] [main/INFO] [minecraft/AdvancementTree]: Loaded 1399 advancements
+[18:38:44] [main/INFO] [de.il.cr.da.SoilProfileReloadListener/]: Loaded 9 soil chemistry profiles (0 conflicting blocks, 0 conflicting tags)
+[18:38:44] [main/INFO] [de.il.cr.da.SoilDynamicsReloadListener/]: Soil dynamics: rain=1/16, growth nutrient depletion=1/8 (0=disabled)
+[18:38:44] [Server thread/INFO] [minecraft/DedicatedServer]: Starting minecraft server version 1.21.1
+[18:38:44] [Server thread/INFO] [minecraft/DedicatedServer]: Loading properties
+[18:38:44] [Server thread/INFO] [minecraft/DedicatedServer]: Default game type: CREATIVE
+[18:38:44] [Server thread/INFO] [minecraft/MinecraftServer]: Generating keypair
+[18:38:45] [Server thread/INFO] [minecraft/DedicatedServer]: Starting Minecraft server on 127.0.0.1:25589
+[18:38:45] [Server thread/INFO] [minecraft/ServerConnectionListener]: Using default channel type
+[18:38:45] [Server thread/WARN] [minecraft/DedicatedServer]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[18:38:45] [Server thread/WARN] [minecraft/DedicatedServer]: The server will make no attempt to authenticate usernames. Beware.
+[18:38:45] [Server thread/WARN] [minecraft/DedicatedServer]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[18:38:45] [Server thread/WARN] [minecraft/DedicatedServer]: To change this, set "online-mode" to "true" in the server.properties file.
+[18:38:45] [Server thread/INFO] [minecraft/DedicatedServer]: Preparing level "isolated-core-world"
+[18:38:46] [Server thread/INFO] [minecraft/MinecraftServer]: Preparing start region for dimension minecraft:overworld
+[18:38:47] [worldgen/INFO] [minecraft/LoggerChunkProgressListener]: Preparing spawn area: 0%
+[18:38:47] [worldgen/INFO] [minecraft/LoggerChunkProgressListener]: Preparing spawn area: 0%
+[18:38:47] [Server thread/INFO] [minecraft/LoggerChunkProgressListener]: Time elapsed: 844 ms
+[18:38:47] [Server thread/INFO] [minecraft/DedicatedServer]: Done (2.182s)! For help, type "help"
+[18:38:47] [Server thread/INFO] [ne.ne.ne.ga.GameTestHooks/]: Enabled Gametest Namespaces: []
+[18:38:47] [Server thread/INFO] [ne.ne.ne.se.pe.PermissionAPI/]: Successfully initialized permission handler neoforge:default_handler
+[18:38:52] [Server thread/INFO] [minecraft/PlayerList]: Dev[/127.0.0.1:49294] logged in with entity id 21 at (0.5, 80.0, 3.5)
+[18:38:52] [Server thread/INFO] [minecraft/MinecraftServer]: Dev joined the game
+[18:39:22] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Reloading!]
+[18:39:23] [Server thread/INFO] [minecraft/RecipeManager]: Loaded 1295 recipes
+[18:39:23] [Server thread/INFO] [minecraft/AdvancementTree]: Loaded 1399 advancements
+[18:39:23] [Server thread/INFO] [de.il.cr.da.SoilProfileReloadListener/]: Loaded 9 soil chemistry profiles (0 conflicting blocks, 0 conflicting tags)
+[18:39:23] [Server thread/INFO] [de.il.cr.da.SoilDynamicsReloadListener/]: Soil dynamics: rain=1/16, growth nutrient depletion=1/8 (0=disabled)
+[18:39:27] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Changed the block at 3, 79, 0]
+[18:39:27] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 3.500000, 80.000000, 3.500000]
+[18:39:29] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Replaced a slot on Dev with [Carrot]]
+[18:39:31] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Replaced a slot on Dev with [Bone Meal]]
+[18:39:36] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 0.500000, 80.000000, 3.500000]
+[18:39:44] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Replaced a slot on Dev with [Stick]]
+[18:40:14] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Replaced a slot on Dev with [Crop Sticks]]
+[18:40:15] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Changed the block at 5, 79, 0]
+[18:40:15] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Changed the block at 4, 79, 1]
+[18:40:16] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 5.500000, 80.000000, 2.500000]
+[18:40:17] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Replaced a slot on Dev with [Pumpkin Seeds]]
+[18:40:22] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Changed the block at 5, 79, 2]
+[18:40:23] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 5.500000, 80.000000, 4.500000]
+[18:40:25] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Replaced a slot on Dev with [Melon Seeds]]
+[18:40:30] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[18:40:45] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[18:40:46] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 5.500000, 80.000000, 2.500000]
+[18:40:48] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 5.500000, 80.000000, 4.500000]
+[18:40:51] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Gamerule randomTickSpeed is now set to: 512]
+[18:41:07] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Gamerule randomTickSpeed is now set to: 0]
+[18:41:08] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 5.500000, 80.000000, 2.500000]
+[18:41:10] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 5.500000, 80.000000, 4.500000]
+[18:41:42] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 5.500000, 80.000000, 1.500000]
+[18:41:44] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Teleported Dev to 2.500000, 80.000000, 4.500000]
+[18:41:45] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Replaced a slot on Dev with [Seed Journal]]
+[18:41:48] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Replaced a slot on Dev with [Seed Journal]]
+[18:41:54] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[18:41:54] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[18:41:54] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[18:41:54] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+[18:41:54] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Saved the game]
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: [Dev: Stopping the server]
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: Stopping server
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: Saving players
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: Saving worlds
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[isolated-core-world]'/minecraft:overworld
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[isolated-core-world]'/minecraft:the_nether
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: Saving chunks for level 'ServerLevel[isolated-core-world]'/minecraft:the_end
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (isolated-core-world): All chunks are saved
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[18:41:55] [Server thread/INFO] [minecraft/MinecraftServer]: ThreadedAnvilChunkStorage: All dimensions are saved
+
+BUILD SUCCESSFUL in 3m 51s
+8 actionable tasks: 1 executed, 7 up-to-date
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.2.1/userguide/configuration_cache_enabling.html
