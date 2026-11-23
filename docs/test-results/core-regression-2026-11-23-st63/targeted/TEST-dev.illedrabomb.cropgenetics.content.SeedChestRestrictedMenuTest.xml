@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.content.SeedChestRestrictedMenuTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:41:08.695Z" hostname="DESKTOP-WORKSTA" time="0.037">
+  <properties/>
+  <testcase name="wrapperDelegatesEveryPlacementToContainerRules()" classname="dev.illedrabomb.cropgenetics.content.SeedChestRestrictedMenuTest" time="0.037"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

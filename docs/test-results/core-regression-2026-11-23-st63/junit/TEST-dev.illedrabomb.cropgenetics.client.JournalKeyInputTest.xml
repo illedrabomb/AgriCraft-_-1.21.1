@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.client.JournalKeyInputTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:41:57.930Z" hostname="DESKTOP-WORKSTA" time="0.08">
+  <properties/>
+  <testcase name="normalKeysRetainTheirKeySymbol()" classname="dev.illedrabomb.cropgenetics.client.JournalKeyInputTest" time="0.079"/>
+  <testcase name="unknownKeyWithoutScanCodeRemainsUnbound()" classname="dev.illedrabomb.cropgenetics.client.JournalKeyInputTest" time="0.0"/>
+  <testcase name="unknownKeyWithScanCodeBecomesBindAble()" classname="dev.illedrabomb.cropgenetics.client.JournalKeyInputTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

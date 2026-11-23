@@ -1,0 +1,30 @@
+{
+  "testedCommit": "e0670fae3ee63ec0552625a8750de0d38d57ca78",
+  "branch": "integration/neoforge-1211-consolidation",
+  "gateStartUtc": "2026-11-23T10:41:21Z",
+  "java": "Temurin 21.0.12.1+1",
+  "gradle": "9.2.1",
+  "targeted": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "core": {
+    "tests": 220,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "xmlFiles": 62,
+    "exitCode": 0
+  },
+  "jar": {
+    "name": "cropgenetics-0.2.14-alpha.jar",
+    "bytes": 403199,
+    "sha256": "313fb7466b110cdf5e5c255196e387e2f4393049500705a4830b22a93f79a08e"
+  },
+  "sourceChanges": false,
+  "betaApproved": false,
+  "gameplayPerformed": false
+}

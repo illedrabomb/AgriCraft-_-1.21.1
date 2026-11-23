@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:41:58.504Z" hostname="DESKTOP-WORKSTA" time="0.021">
+  <properties/>
+  <testcase name="rejectsInvalidConfigMutationMultipliers()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.009"/>
+  <testcase name="fourPointPoolCannotGiveMoreThanThreeToOneStat()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.002"/>
+  <testcase name="zeroPointRollDoesNotNeedASecondMutationActivationRoll()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.001"/>
+  <testcase name="highStrengthPreventsLossAtTheSameRoll()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.001"/>
+  <testcase name="zeroMultiplierPreservesOneFullTemplateWithoutAnyMutation()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.001"/>
+  <testcase name="weakerRowsUseTheTwoParentPointPool()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.001"/>
+  <testcase name="maximumConfigMultiplierStillHonorsThreePointLimitAndTenCap()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.001"/>
+  <testcase name="onlyActuallyLostPointsAreEligibleForPartialRefund()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.001"/>
+  <testcase name="actualLostPointsCanReturnButNeverBelowOne()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.0"/>
+  <testcase name="selectsWholeParentByStrengthIncludingWeakerSevenOfThirtySevenTickets()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.001"/>
+  <testcase name="straightRowDoesNotThinItsAlreadyWeakerPointTableAgain()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.0"/>
+  <testcase name="threeLostPointsWithoutRefundMakeTheChildWeaker()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.001"/>
+  <testcase name="customRowMultiplierCanStillReduceMutation()" classname="dev.illedrabomb.cropgenetics.genetics.BalancedBreedingTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

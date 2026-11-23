@@ -1,5 +1,9 @@
 # AgriCraft NeoForge 1.21.1 – Übergabe an einen Chat ohne Projektkontext
 
+**Aktueller technischer Nachweis (23.11.2026):** Nach erneuter ausdrücklicher Freigabe besteht Quellcommit `e0670fae3ee63ec0552625a8750de0d38d57ca78` den gezielten ST-63-Test (1/1) und das Hauptmod-Gate **220/220 JUnit, :test :build erfolgreich**. [Bericht, Logs und JAR-Hash](test-results/core-regression-2026-11-23-st63/README.md). Keine Quelländerung im Nachlauf. Gameplay/GUI/Kompatibilität/Multiplayer und Beta-Freigabe bleiben offen; weitere Läufe separat freigeben.
+
+Die folgende Übergabe bleibt als historische Momentaufnahme **vor diesem Nachtest** erhalten.
+
 **Stand:** 23.11.2026 · **Status:** Hauptmod in Integration, **kein erfolgreicher aktueller Core-Gate-Abschluss und keine Beta-Freigabe**. Diese Datei ist eine Momentaufnahme; **GitHub-HEAD vor jeder Folgearbeit neu abrufen**.
 
 ## Sofortiger Start im neuen Chat

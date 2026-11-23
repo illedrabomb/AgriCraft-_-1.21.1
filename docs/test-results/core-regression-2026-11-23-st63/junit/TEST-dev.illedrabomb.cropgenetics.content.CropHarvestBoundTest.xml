@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:41:58.113Z" hostname="DESKTOP-WORKSTA" time="0.043">
+  <properties/>
+  <testcase name="fractionalMultiplierScalesRawHarvestBeforeApplyingStackLimit()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.02"/>
+  <testcase name="wrongSpeciesNeverPaysOut()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.001"/>
+  <testcase name="gainStillIncreasesAmountWithinSingleStack()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.002"/>
+  <testcase name="registeredAirProduceIsNotIncludedInTheDropList()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.004"/>
+  <testcase name="configuredDropMultiplierAppliesAfterGainWithOneStackCap()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.002"/>
+  <testcase name="twoDistinctProductsCanEachYieldOneStack()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.001"/>
+  <testcase name="normalHarvestStillUsesExpectedGainRolls()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.002"/>
+  <testcase name="zeroMultiplierSuppressesEveryProduceTypeWithoutPhantomStacks()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.001"/>
+  <testcase name="sixteenItemStacksRespectTheirNativeLimitEvenWithRepeatedProducts()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.0"/>
+  <testcase name="oneVisibleGourdFruitCanPayMorePumpkinsOrMelonSlices()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.004"/>
+  <testcase name="extremeRepeatedProductEntriesStillYieldOnlyOneStackPerItem()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.001"/>
+  <testcase name="unregisteredAndZeroChanceProductsCannotProducePhantomDrops()" classname="dev.illedrabomb.cropgenetics.content.CropHarvestBoundTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.content.CropSeedSourceSafetyTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:41:58.191Z" hostname="DESKTOP-WORKSTA" time="0.026">
+  <properties/>
+  <testcase name="emptySourceNeedsNoComponentTransfer()" classname="dev.illedrabomb.cropgenetics.content.CropSeedSourceSafetyTest" time="0.003"/>
+  <testcase name="customDataOnOrdinarySeedIsNotSilentlyDiscarded()" classname="dev.illedrabomb.cropgenetics.content.CropSeedSourceSafetyTest" time="0.019"/>
+  <testcase name="customDataOnGeneticSeedAlsoBlocksLossyConversion()" classname="dev.illedrabomb.cropgenetics.content.CropSeedSourceSafetyTest" time="0.001"/>
+  <testcase name="removedExternalComponentIsAlsoUnsafeToDiscard()" classname="dev.illedrabomb.cropgenetics.content.CropSeedSourceSafetyTest" time="0.0"/>
+  <testcase name="customDataOnAlreadyAnalyzedSeedAlsoBlocksLossyConversion()" classname="dev.illedrabomb.cropgenetics.content.CropSeedSourceSafetyTest" time="0.0"/>
+  <testcase name="plainUnmodifiedSourceIsSafeToConvert()" classname="dev.illedrabomb.cropgenetics.content.CropSeedSourceSafetyTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

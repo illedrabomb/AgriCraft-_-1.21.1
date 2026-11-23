@@ -1,0 +1,5 @@
+﻿COMMIT=e0670fae3ee63ec0552625a8750de0d38d57ca78
+BRANCH=integration/neoforge-1211-consolidation
+UTC=2026-11-23T10:39:59.5400419Z
+APPROVAL=User explicitly approved targeted regression then core :test :build
+COMMAND=gradle :test --tests dev.illedrabomb.cropgenetics.content.SeedChestRestrictedMenuTest.wrapperDelegatesEveryPlacementToContainerRules --no-daemon --console=plain

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.content.CropGenomeSyncRulesTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:41:58.090Z" hostname="DESKTOP-WORKSTA" time="0.007">
+  <properties/>
+  <testcase name="unanalyzedCropSharesSpeciesButNotPrivateGeneValues()" classname="dev.illedrabomb.cropgenetics.content.CropGenomeSyncRulesTest" time="0.002"/>
+  <testcase name="emptyCropRemainsEmptyOnClient()" classname="dev.illedrabomb.cropgenetics.content.CropGenomeSyncRulesTest" time="0.002"/>
+  <testcase name="analyzedCropCanDisplayItsActualValues()" classname="dev.illedrabomb.cropgenetics.content.CropGenomeSyncRulesTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

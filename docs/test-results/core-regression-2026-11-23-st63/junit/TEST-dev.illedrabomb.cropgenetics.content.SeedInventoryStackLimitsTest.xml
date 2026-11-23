@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.content.SeedInventoryStackLimitsTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:41:58.310Z" hostname="DESKTOP-WORKSTA" time="0.005">
+  <properties/>
+  <testcase name="ordinarySeedsRetainNormalStackingInChest()" classname="dev.illedrabomb.cropgenetics.content.SeedInventoryStackLimitsTest" time="0.002"/>
+  <testcase name="geneticSeedCanFillChestStackButNotAnalyzerSlot()" classname="dev.illedrabomb.cropgenetics.content.SeedInventoryStackLimitsTest" time="0.0"/>
+  <testcase name="emptyStackCannotBeStored()" classname="dev.illedrabomb.cropgenetics.content.SeedInventoryStackLimitsTest" time="0.0"/>
+  <testcase name="itemLimitAlsoWinsAgainstLargerContainerCapacity()" classname="dev.illedrabomb.cropgenetics.content.SeedInventoryStackLimitsTest" time="0.001"/>
+  <testcase name="analyzerIsStillLimitedToOneOrdinarySeed()" classname="dev.illedrabomb.cropgenetics.content.SeedInventoryStackLimitsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.content.StraightRowParentsTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:41:58.339Z" hostname="DESKTOP-WORKSTA" time="0.009">
+  <properties/>
+  <testcase name="secondPositionMissingDoesNotMakeAValidRow()" classname="dev.illedrabomb.cropgenetics.content.StraightRowParentsTest" time="0.005"/>
+  <testcase name="onlyThreeContiguousParentsAlreadyQualifyAsRow()" classname="dev.illedrabomb.cropgenetics.content.StraightRowParentsTest" time="0.001"/>
+  <testcase name="gapOrUnloadedChunkEndsRowWithoutLookingPastIt()" classname="dev.illedrabomb.cropgenetics.content.StraightRowParentsTest" time="0.001"/>
+  <testcase name="uninterruptedTwentyParentRowUsesOnlyFirstFourAsGeneticTemplates()" classname="dev.illedrabomb.cropgenetics.content.StraightRowParentsTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
