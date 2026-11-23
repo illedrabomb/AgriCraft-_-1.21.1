@@ -1,0 +1,1585 @@
+{
+    "schemaVersion":  2,
+    "suiteId":  "agricraft-core-neoforge-1211-regression-20261123-v1.1",
+    "title":  "AgriCraft NeoForge 1.21.1 – Core-Regression 1.1: offene Resttests",
+    "description":  "Offener Restkatalog nach den belegten Tests auf Quellcommit e0670fae: 85 Definitionen (83 Core + 2 optionale Mod-Support-Fälle), 23 Multiplayer-Fälle und 31 kopierbare Chat-Befehle. Die bestandenen Fälle UI-01, UI-09, UI-12, UI-13, UI-16 und ER-13 sind durch den Bericht vom 23.11.2026 belegt und aus diesem offenen Katalog entfernt. ER-12 und UI-11 bleiben wegen Partial-Status enthalten. Core-Regression 1.0 bleibt unveränderte Historie.",
+    "environment":  {
+                        "minecraft":  "1.21.1",
+                        "loader":  "NeoForge",
+                        "project":  "AgriCraft-_-1.21.1",
+                        "branch":  "integration/neoforge-1211-consolidation",
+                        "testedCommit":  "e0670fae3ee63ec0552625a8750de0d38d57ca78",
+                        "authorization":  "AUSSTEHEND FUER WEITERE TESTS",
+                        "scope":  "Hauptmod zuerst; optionaler Mod-Support (MOD-01/MOD-02) erst nach gesondertem Core-Gate/Freigabe; Spezialfälle nur in Weltkopien"
+                    },
+    "tests":  [
+                  {
+                      "id":  "TG-01",
+                      "category":  "01 Technisches Gate",
+                      "title":  "Freigabe, Build-SHA und Testumgebung",
+                      "steps":  [
+                                    "Vor einem Gradle-, JUnit- oder Minecraft-Start ausdrückliche Freigabe des Besitzers einholen.",
+                                    "Aktuellen Branch-HEAD, Java 21, Minecraft 1.21.1, NeoForge-Version, Betriebssystem und genaue Core-Modliste erfassen.",
+                                    "Testwelt und vorhandenen Tracker-Export sichern. Keine Add-on-JARs für Pam, MineColonies oder Farmer\u0027s Delight laden.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Freigabe und exakte Versionen/SHA sind mit Beleg notiert; bestehende Welt und Ergebnisse sind gesichert.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Freigabe und exakte Versionen/SHA sind mit Beleg notiert; bestehende Welt und Ergebnisse sind gesichert."
+                  },
+                  {
+                      "id":  "TG-02",
+                      "category":  "01 Technisches Gate",
+                      "title":  "JUnit-Gate nach ausdrücklicher Freigabe",
+                      "steps":  [
+                                    "Erst nach Freigabe die im Hauptmod-Testgate vorgeschriebene Gradle-:test-Aufgabe ausführen.",
+                                    "Testanzahl, Fehler, Log/Report und Git-SHA sichern. Bei Fehlschlag Gate stoppen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "JUnit-Ergebnis mit Zahl und Log belegt; kein alter Testerfolg wird als Ergebnis dieses Builds übernommen.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "JUnit-Ergebnis mit Zahl und Log belegt; kein alter Testerfolg wird als Ergebnis dieses Builds übernommen."
+                  },
+                  {
+                      "id":  "TG-03",
+                      "category":  "01 Technisches Gate",
+                      "title":  "Hauptmod-Build und JAR",
+                      "steps":  [
+                                    "Erst nach Freigabe die :build-Aufgabe der Hauptmod ausführen.",
+                                    "Build-Ergebnis, JAR-Dateiname und SHA protokollieren; nur diese JAR später laden.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Eine konkrete erzeugte Hauptmod-JAR ist dem dokumentierten Commit zugeordnet.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Eine konkrete erzeugte Hauptmod-JAR ist dem dokumentierten Commit zugeordnet."
+                  },
+                  {
+                      "id":  "TG-04",
+                      "category":  "01 Technisches Gate",
+                      "title":  "Client und dedizierten Server starten",
+                      "steps":  [
+                                    "Erst nach gesonderter Minecraft-Freigabe: exakte Core-JAR-SHA und Modliste prüfen; dedizierten NeoForge-Server nur mit Hauptmod und Pflichtabhängigkeiten starten, ausdrücklich ohne JEI und ohne Add-ons. Server-latest.log und eventuellen Crash-Report sichern.",
+                                    "Mit kompatiblem Client ohne JEI verbinden, Welt beitreten und wieder trennen. Client- und Serverlog auf Registrierungs-, Payload-, Classloader- und net.minecraft.client-Fehler kontrollieren; bei Absturz sofort stoppen.",
+                                    "Danach denselben Core-Server mit einem Client testen, auf dem JEI 19.x zusätzlich installiert ist. Die dynamischen JEI-Pflanzenbedingungen erst nach serverseitiger Anmeldung prüfen; JEI darf auf dem dedizierten Server nicht vorausgesetzt werden.",
+                                    "Server-/Client-Neustart und bei vorhandener Testwelt ein kontrolliertes /reload separat protokollieren. Bei fehlender zweiter Konfiguration oder fehlender Freigabe einzelnen Unterfall als blocked vermerken, nicht still als pass bewerten.",
+                                    "Für jede Variante tatsächliche Git-/JAR-SHA, NeoForge-/JEI-Version, Modlisten, Ausgang und Exit-Code sowie genaue latest.log-/Crash-Report-Dateinamen im Tracker dokumentieren."
+                                ],
+                      "expected":  "Dedizierter Core-only-Server startet und akzeptiert Client ohne JEI; Client mit optionalem JEI verbindet sich ebenfalls ohne Registrierung-/Payload-/Client-Classloaderfehler. Jede getestete Variante ist anhand von Build-SHA, Modliste und Logs nachgewiesen; kein nicht geprüfter Unterfall wird als bestanden markiert.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Dedizierter Core-only-Server startet und akzeptiert Client ohne JEI; Client mit optionalem JEI verbindet sich ebenfalls ohne …"
+                  },
+                  {
+                      "id":  "TG-05",
+                      "category":  "01 Technisches Gate",
+                      "title":  "Save, Restart und Datapack-Reload",
+                      "steps":  [
+                                    "Genetischen Seed mit bekannten Werten und eine Pflanze in einer gesicherten Testwelt anlegen.",
+                                    "Welt speichern, Server neu starten und Seed/Pflanze prüfen; danach /reload und erneut prüfen.",
+                                    "Alle drei Genwerte, Art und Pflanzenzustand vorher/nachher dokumentieren.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Keine still verlorene Art, Gene oder Wachstumsdaten; bei Abweichung Log und Weltkopie sichern.",
+                      "commands":  [
+                                       {
+                                           "label":  "Datapacks neu laden",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Nur im ausdrücklich freigegebenen Teststand und nach Sicherung der Welt ausführen.",
+                                           "text":  "/reload"
+                                       }
+                                   ],
+                      "summary":  "Keine still verlorene Art, Gene oder Wachstumsdaten; bei Abweichung Log und Weltkopie sichern."
+                  },
+                  {
+                      "id":  "GE-01",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Weizen und Karotte ab 1/1/1",
+                      "steps":  [
+                                    "Weizen- und Karottensaat auf einfachen Crop Sticks pflanzen; Stage 0 jeweils fotografieren.",
+                                    "Wachstumsstufen bis Reife mit unverändertem Genom beobachten.",
+                                    "Frühere Stage-0-/X-Sticks-Abweichung ausdrücklich nachprüfen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Beide Arten besitzen korrektes Stage-0-Modell und entwickeln sich mit erhaltener Genetik zur Reife.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Beide Arten besitzen korrektes Stage-0-Modell und entwickeln sich mit erhaltener Genetik zur Reife."
+                  },
+                  {
+                      "id":  "GE-02",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Zwei, drei und vier direkte Eltern",
+                      "steps":  [
+                                    "Drei getrennte Kreuzziel-Felder mit genau 2, 3 bzw. 4 direkt benachbarten reifen Eltern vorbereiten.",
+                                    "Jede Formation bei gleicher Serverconfig beobachten; gültige Ziel-Random-Ticks und erfolgreiche Kinder getrennt zählen.",
+                                    "Gene der Kinder analysieren und Elternwerte vor/nach dem Versuch vergleichen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Zielwahrscheinlichkeiten bei Standardconfig rechnerisch 30 %, 37,5 %, 45 % pro gültigem Ziel-Tick; höchstens vier Eltern vererben, Eltern unverändert. Einzelversuche sind kein Prozentnachweis.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Zielwahrscheinlichkeiten bei Standardconfig rechnerisch 30 %, 37,5 %, 45 % pro gültigem Ziel-Tick; höchstens vier Eltern vererben, Eltern unverändert."
+                  },
+                  {
+                      "id":  "GE-03",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Ein-Eltern-Klon und Reihenregel",
+                      "steps":  [
+                                    "Nur einen reifen direkten Elternseed neben leerem Kreuzungsfeld platzieren und das Kind untersuchen.",
+                                    "Danach drei reife Eltern ohne Lücke geradlinig vor einem Kreuzziel aufbauen.",
+                                    "Genotypen und Entstehungen vergleichen; mindestens eine Lücke als Negativfall setzen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Ein Elternteil erzeugt einen unveränderten Klon. Eine lückenlose 3+-Reihe verwendet eine eigene, schwächere Evolution; Lücken beenden die Reihe.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Ein Elternteil erzeugt einen unveränderten Klon."
+                  },
+                  {
+                      "id":  "GE-04",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Mutationspunkte, Analyzer und erneutes Pflanzen",
+                      "steps":  [
+                                    "Ein Kind mit geänderten Genwerten erzeugen und im Analyzer prüfen.",
+                                    "Den Seed abbauen, erneut pflanzen und alle drei Werte vergleichen.",
+                                    "Verluste, Teilrückgewinnung und max. drei zusätzliche Punkte pro Eigenschaft nur nach beobachtbaren Belegen beurteilen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Gene bleiben bei Analyse, Abbauen und erneutem Pflanzen gleich; Werte bleiben im Bereich 1 bis 10.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Gene bleiben bei Analyse, Abbauen und erneutem Pflanzen gleich; Werte bleiben im Bereich 1 bis 10."
+                  },
+                  {
+                      "id":  "GE-05",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Speichern und Neustart mit zwei Eltern",
+                      "steps":  [
+                                    "Zwei reife Eltern mit unterschiedlichen bekannten Genen und ein leeres Kreuzungsfeld fotografieren.",
+                                    "Welt speichern und Server regulär neu starten.",
+                                    "Beide Gene und belegte/leere Zielzustände vergleichen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Keine unsichtbare Pflanze oder verlorene/neu gewürfelte Gene.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Keine unsichtbare Pflanze oder verlorene/neu gewürfelte Gene."
+                  },
+                  {
+                      "id":  "GE-06",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Knochenmehl und Nährstoffe",
+                      "steps":  [
+                                    "Unreife und reife Pflanze auf Farmland vorbereiten.",
+                                    "Knochenmehl auf beide anwenden; Vorher/Nachher-Stufe, Itemzahl und Bodenwerte protokollieren.",
+                                    "Normalen Wachstumstick und ungeeigneten Boden getrennt beobachten.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Nur gültiges Wachstum verbraucht Ressourcen und verändert Stufe.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Nur gültiges Wachstum verbraucht Ressourcen und verändert Stufe."
+                  },
+                  {
+                      "id":  "GE-07",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Zweite Crop-Sticks-Lage",
+                      "steps":  [
+                                    "Leere Crop Sticks mit zweitem Stick rechtsklicken; Itemzahl und Kreuzmodell prüfen.",
+                                    "Mit leerer Hand obere Ebene entfernen und Stick-Rückgabe prüfen.",
+                                    "Direktes Pflanzen auf weiterhin gekreuztem Feld versuchen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Pro bestätigter Aktion genau ein Stick; Seed darf nicht direkt auf CROSS gepflanzt werden.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Pro bestätigter Aktion genau ein Stick; Seed darf nicht direkt auf CROSS gepflanzt werden."
+                  },
+                  {
+                      "id":  "GE-08",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Abgelehnte Handpflanzung und Kreuzung",
+                      "steps":  [
+                                    "Weltkopie und Mechanismus für verweigerten Blockwechsel vorbereiten; ohne diesen blocked.",
+                                    "Seed per Hand pflanzen und separat Nachkommen-Kreuzung versuchen.",
+                                    "Seedzahl, PLANTED-Zustand und verstecktes Genom prüfen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Kein Itemverlust oder unsichtbares Genom bei verweigertem Update.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Kein Itemverlust oder unsichtbares Genom bei verweigertem Update."
+                  },
+                  {
+                      "id":  "GE-09",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Abgelehnter Wachstumsschritt",
+                      "steps":  [
+                                    "Weltkopie mit ablehnbarem Blockzustandswechsel vorbereiten.",
+                                    "Knochenmehl und normalen Wachstumstick getrennt versuchen.",
+                                    "Vor/Nach-Wachstumsstufe, Verbrauch und Bodenwerte erfassen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Bei abgelehntem Update keine Stufe, kein Nährstoffverbrauch; ohne Setup blocked.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Bei abgelehntem Update keine Stufe, kein Nährstoffverbrauch; ohne Setup blocked."
+                  },
+                  {
+                      "id":  "GE-10",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Stage-Remap nach Reload",
+                      "steps":  [
+                                    "Weltkopie und Datapack mit anderer Stufenzahl vorbereiten.",
+                                    "/reload bei versperrtem Blockupdate, danach bei erlaubtem Blockupdate ausführen.",
+                                    "GrowthStage und TotalGrowthStages jeweils vergleichen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Bei Verweigerung Metadaten unverändert; bei Erfolg einmalig korrekt umgerechnet.",
+                      "commands":  [
+                                       {
+                                           "label":  "Datapacks neu laden",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Nur im ausdrücklich freigegebenen Teststand und nach Sicherung der Welt ausführen.",
+                                           "text":  "/reload"
+                                       }
+                                   ],
+                      "summary":  "Bei Verweigerung Metadaten unverändert; bei Erfolg einmalig korrekt umgerechnet."
+                  },
+                  {
+                      "id":  "GE-11",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Reihenlänge 3, 4, 10 und 20",
+                      "steps":  [
+                                    "Je eine lückenlose, reife Gerade mit 3, 4, 10 und 20 Eltern aufbauen und gleiche Serverconfig notieren.",
+                                    "Für jede Länge gültige Ziel-Random-Ticks sowie erfolgreiche Kinder erfassen; nur erste vier Reiheneltern kommen als Genvorlage infrage.",
+                                    "Lücken, unreife Eltern und nicht geladene Chunks als negative Prüfungen erfassen, wenn sicher durchführbar.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Rechnerische Chance bei Standardconfig 15 % (3 Eltern) bis 30 % (20 Eltern) pro gültigem Ziel-Tick; maximal vier genetische Vorlagen. Statistik nicht aus Einzelereignissen behaupten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Rechnerische Chance bei Standardconfig 15 % (3 Eltern) bis 30 % (20 Eltern) pro gültigem Ziel-Tick; maximal vier genetische Vorlagen."
+                  },
+                  {
+                      "id":  "GE-12",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Artenmutation und Fallback in Weltkopie",
+                      "steps":  [
+                                    "Nur eine gesicherte Kopie mit tatsächlich passendem Test-Datapack verwenden; sonst blocked eintragen.",
+                                    "Sechs Fälle a bis f aus docs/CROSSBREEDING_SPECIES_FALLBACK_TESTS_2026-11-20.md einzeln protokollieren.",
+                                    "Neue dritte Art auf höchstens 4/4/4 prüfen; Elternart auf höchstens 5 je Wert außer bereits höherer eigener Elternwert; schwächere Werte bleiben erlaubt.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Artenwahl, Umgebungsprüfung und Cap stimmen in allen sechs Fällen; keine Umgehung durch wiederholte artübergreifende Kreuzung.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Artenwahl, Umgebungsprüfung und Cap stimmen in allen sechs Fällen; keine Umgehung durch wiederholte artübergreifende Kreuzung."
+                  },
+                  {
+                      "id":  "GE-12a",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Neue dritte Art bei Mutation mit 100-%-Artenchance",
+                      "steps":  [
+                                    "Nur Weltkopie mit tatsächlich passenden zwei Elternarten und Test-Datapack-Regel zur dritten Art; Mutations-chance auf 1 setzen.",
+                                    "Reife Eltern mit bekannten hohen Genwerten an gekreuztes Zielfeld stellen; auf ein erfolgreiches Kind warten und gültige Ziel-Ticks zählen.",
+                                    "Kindart und alle drei Gene nach Analyzer prüfen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Ein tatsächlich entstandenes Kind dieser gültigen Mutation gehört zur dritten Art und hat höchstens 4/4/4. Chance 1 garantiert keine Entstehung pro Tick.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Ein tatsächlich entstandenes Kind dieser gültigen Mutation gehört zur dritten Art und hat höchstens 4/4/4."
+                  },
+                  {
+                      "id":  "GE-12b",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Mutationschance null: Elternart-Fallback",
+                      "steps":  [
+                                    "Dieselben zwei geeigneten reifen Eltern und identische Bedingungen wie GE-12a herstellen.",
+                                    "Im kopierten Test-Datapack Artenmutations-chance auf 0 setzen, /reload, auf ein erfolgreiches Kind warten.",
+                                    "Kindart und gedeckelte Genwerte protokollieren.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Kind ist eine zulässige Elternart, keine dritte; keine garantierte exakte Klonkopie. Maximal 5 oder eigener höherer Elternwert.",
+                      "commands":  [
+                                       {
+                                           "label":  "Datapacks neu laden",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Nur im ausdrücklich freigegebenen Teststand und nach Sicherung der Welt ausführen.",
+                                           "text":  "/reload"
+                                       }
+                                   ],
+                      "summary":  "Kind ist eine zulässige Elternart, keine dritte; keine garantierte exakte Klonkopie."
+                  },
+                  {
+                      "id":  "GE-12c",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Neue Art benötigt zu hohe Robustheit",
+                      "steps":  [
+                                    "In Test-Datapack eine Zielart einstellen, die Strength über 4 oder entsprechende höhere Bodenchemie verlangt.",
+                                    "Mit starken Eltern und gültiger Mutation kreuzen; Standortbedingungen und Anzahl gültiger Ziel-Ticks notieren.",
+                                    "Entstandene Elternart oder leeres Zielfeld dokumentieren.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Keine neue dritte Art, die nach 4er-Deckel am Standort nicht wachsen könnte; geeigneter Eltern-Fallback erlaubt.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Keine neue dritte Art, die nach 4er-Deckel am Standort nicht wachsen könnte; geeigneter Eltern-Fallback erlaubt."
+                  },
+                  {
+                      "id":  "GE-12d",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Neue Art aus gleichartigen perfekten Eltern",
+                      "steps":  [
+                                    "In Weltkopie Mutationsregel konfigurieren, die dieselbe Elternart zweimal ausdrücklich akzeptiert und andere Zielart erzeugt.",
+                                    "Zwei oder vier Eltern derselben Art mit 10/10/10 reifen lassen, Kreuzungsfeld vorbereiten und Kindart analysieren.",
+                                    "Zum Vergleich gleichen Eltern ohne Artenmutation kreuzen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Bei neuer Kindart höchstens 4/4/4; normale gleiche Kindart darf höhere elterliche Werte behalten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Bei neuer Kindart höchstens 4/4/4; normale gleiche Kindart darf höhere elterliche Werte behalten."
+                  },
+                  {
+                      "id":  "GE-12e",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Keine geeignete Kindart: Feld bleibt leer",
+                      "steps":  [
+                                    "Test-Datapack und Zielstandort so vorbereiten, dass sowohl neue Mutationsart als auch alle Elternarten mit gedeckelten Genen ungeeignet sind.",
+                                    "Reife Eltern an leeres gekreuztes Zielfeld stellen und mehrere gültige Tick-Versuche beobachten.",
+                                    "Blockzustand, Drops und Blockentity-Daten vor/nachher vergleichen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Keine Pflanze, kein verstecktes Genom und kein verbrauchtes Item; Feld bleibt leer.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Keine Pflanze, kein verstecktes Genom und kein verbrauchtes Item; Feld bleibt leer."
+                  },
+                  {
+                      "id":  "GE-12f",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Wiederholte Fremdkreuzung umgeht 5er-Grenze nicht",
+                      "steps":  [
+                                    "Weltkopie mit reifen 10/10/10-Karotten und Kartoffeln bis 5/5/5 vorbereiten; passende tatsächlich existierende Vermehrungsregeln verwenden.",
+                                    "Mehrfach Kinder der Kartoffelart erzeugen und jeweils Genwerte sowie Elternarten dokumentieren.",
+                                    "Zur Kontrolle Kartoffel-Eltern mit bereits eigenen höheren Werten gesondert vergleichen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Fremde 10er-Art hebt Kartoffeln nicht schrittweise über 5; tatsächlich höhere Kartoffel-Eltern dürfen ihre eigenen höheren Werte vererben.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Fremde 10er-Art hebt Kartoffeln nicht schrittweise über 5; tatsächlich höhere Kartoffel-Eltern dürfen ihre eigenen höheren Werte vererben."
+                  },
+                  {
+                      "id":  "GE-13",
+                      "category":  "02 Genetik und Wachstum",
+                      "title":  "Genetische Seeds mit identischen Genen bis 64 stapeln",
+                      "steps":  [
+                                    "Gesicherte Testwelt mit Operatorrechten und freien Inventarslots nutzen; /cropgenetics testseed minecraft:wheat_plant 4 7 9 mehrfach ausführen. Es müssen nicht analysierte genetische Weizensamen mit 4/7/9 entstehen.",
+                                    "Mindestens zwei identische Seeds auseinanderziehen und wieder zusammenlegen; im Spielerinventar sowie in einer allein stehenden Seed Chest prüfen. Wenn sie automatisch zu einem Stack zusammenfallen, ist das erwünscht.",
+                                    "Für die 64er-Grenze identische ItemStacks bereitstellen (Creative-Kopie oder wiederholter Testseed-Befehl, Methode notieren) und bis 64 zusammenführen. Bei einem weiteren identischen Seed darf kein Stack größer als 64 entstehen.",
+                                    "Eine Kopie im Analyzer analysieren und mit einem noch nicht analysierten Seed vergleichen: gleicher sichtbarer Genwert reicht bei unterschiedlichem Analyseflag nicht. Eine weitere Kopie mit 4/8/9 sowie eine andere Pflanzenart dürfen ebenfalls nicht stapeln.",
+                                    "Wenn zwei gleiche Seeds aus verschiedenen Kreuzungseltern vorliegen, das Zusammenlegen zusätzlich prüfen. Elternidentitäten dürfen keinen eigenen Stapelblocker darstellen; abweichende original_seed- oder fremde Komponenten bleiben bewusst getrennt.",
+                                    "Vor/nach Verschieben und nach Save/Reload Anzahl, Genome, Analyseflag und Original-Seed-Komponente vergleichen; keine stillschweigende Datenbereinigung oder erfundene Herkunft."
+                                ],
+                      "expected":  "Gleicher Itemtyp, Pflanzenart, Genwerte und alle Item-Data-Components: Stapelgröße bis 64, unabhängig von den Eltern. Unterschiede bei Genen, Art, Analyse, Original-Seed oder Zusatzkomponenten bleiben getrennt; kein Datenverlust.",
+                      "commands":  [
+                                       {
+                                           "label":  "Gleiche genetische Weizensamen (4/7/9)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz; mehrfach zum Aufbau identischer unanalysierter genetischer Seeds in gesicherter Testwelt verwenden.",
+                                           "text":  "/cropgenetics testseed minecraft:wheat_plant 4 7 9"
+                                       }
+                                   ],
+                      "summary":  "Identische Genetik und Komponenten stapeln bis 64, andere Gen-/Analyse-/Herkunftsdaten nicht; Elternidentität ist kein eigener Blocker."
+                  },
+                  {
+                      "id":  "ER-01",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Rechtsklick-Ernte und Doppelernte",
+                      "steps":  [
+                                    "Reife Standardpflanze herstellen.",
+                                    "Mit leerer Hand ernten, Dropzahl und neue Stufe notieren.",
+                                    "Sofort erneut ernten, anschließend Versuch mit Item in Hand.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Nur ein gültiger Ertrag pro Reifezustand; kein Doppel-Drop.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Nur ein gültiger Ertrag pro Reifezustand; kein Doppel-Drop."
+                  },
+                  {
+                      "id":  "ER-02",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Sticks-Abbau erhält den genetischen Seed",
+                      "steps":  [
+                                    "Saatgut mit bekannten drei Genwerten pflanzen und reifen lassen.",
+                                    "Sticks abbrechen; genau eingesammelte Drops und Genom dokumentieren.",
+                                    "Genom erneut im Analyzer prüfen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Exakt ein genetischer Seed mit unveränderten Genen plus zulässige Produkte.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Exakt ein genetischer Seed mit unveränderten Genen plus zulässige Produkte."
+                  },
+                  {
+                      "id":  "ER-03",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Ein Stack je Ernteprodukt",
+                      "steps":  [
+                                    "Pflanzen mit hohem Gain und möglichst mehreren Dropdefinitionen vorbereiten.",
+                                    "Einmal ernten und Drops pro eindeutiger Item-ID zählen.",
+                                    "Vergleichen, ob derselbe Produkttyp in mehrere Stapel aufgeteilt wurde.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Pro Produkttyp und Erntevorgang maximal ein zulässiger Stack.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Pro Produkttyp und Erntevorgang maximal ein zulässiger Stack."
+                  },
+                  {
+                      "id":  "ER-04",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Melone und Kürbis: zweite Frucht",
+                      "steps":  [
+                                    "Je eine Melonen- und Kürbispflanze bis zum reifen Stängel wachsen lassen.",
+                                    "Erste Frucht ernten und Stängelzustand protokollieren.",
+                                    "Auf zweiten Fruchtzyklus warten und gültige Tick-/Fruchtversuche dokumentieren.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Zweite Frucht kann entstehen; Stängel bleibt nach erster Frucht reif.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Zweite Frucht kann entstehen; Stängel bleibt nach erster Frucht reif."
+                  },
+                  {
+                      "id":  "ER-05",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Gourd-Datapack auf Standard umschalten",
+                      "steps":  [
+                                    "In Weltkopie fertige interne Frucht und reifen Stängel speichern.",
+                                    "Harvest-Mode auf STANDARD ändern und /reload durchführen.",
+                                    "Rechtsklick-Ernte und Blockabbau mit Dropzählung prüfen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Keine Doppelernte oder stale Fruchtkennung.",
+                      "commands":  [
+                                       {
+                                           "label":  "Datapacks neu laden",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Nur im ausdrücklich freigegebenen Teststand und nach Sicherung der Welt ausführen.",
+                                           "text":  "/reload"
+                                       }
+                                   ],
+                      "summary":  "Keine Doppelernte oder stale Fruchtkennung."
+                  },
+                  {
+                      "id":  "ER-06",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Unreifer Stamm mit alter interner Frucht",
+                      "steps":  [
+                                    "Nur Weltkopie mit kontrolliertem alten NBT-Teststand; sonst blocked.",
+                                    "Unreifen Stängel mit gespeicherter Frucht rechtsklicken.",
+                                    "Sticks abbauen und jeden Drop zählen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Kein Fruchtertrag von unreifem Stängel.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Kein Fruchtertrag von unreifem Stängel."
+                  },
+                  {
+                      "id":  "ER-07",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Original-Seed-Herkunft und fremde Komponenten",
+                      "steps":  [
+                                    "Genetischen Seed mit bekannter Original-Seed-Herkunft herstellen und Gene/Herkunft notieren.",
+                                    "Vor und nach Pflanzung, Abbau sowie Save/Reload alle Komponenten vergleichen.",
+                                    "Seed mit fremden Komponenten in kopierter Welt auf verweigerte unsichere Rückwandlung prüfen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Genetik und Herkunft bleiben beim normalen Weg erhalten; unsichere Konversion löscht keine fremden Daten und verbraucht nichts.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Genetik und Herkunft bleiben beim normalen Weg erhalten; unsichere Konversion löscht keine fremden Daten und verbraucht nichts."
+                  },
+                  {
+                      "id":  "ER-08",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Papier bleibt beim Rückwandeln erhalten",
+                      "steps":  [
+                                    "Ein Blatt Papier und einen geeigneten genetischen Seed in verschiedene Crafting-Felder legen.",
+                                    "Einmal craften; Papierplatz, Papierzahl und Ergebnis-Seed protokollieren.",
+                                    "Mit 16 Papier und mit benanntem Papier wiederholen; anschließend Shift-Klick mit mehreren Seeds prüfen.",
+                                    "Vorher-/Nachher-Mengen und Komponenten erfassen; beim ersten Duplikations- oder Verlusthinweis stoppen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Pro Craft genau ein ursprünglicher Seed; Papierzahl und Papier-Komponenten netto unverändert, keine Duplikate oder Verluste beim Shift-Klick.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Pro Craft genau ein ursprünglicher Seed; Papierzahl und Papier-Komponenten netto unverändert, keine Duplikate oder Verluste beim Shift-Klick."
+                  },
+                  {
+                      "id":  "ER-09",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Fehlgeschlagene Ernte gibt keine Items",
+                      "steps":  [
+                                    "Nur Weltkopie: reife Standardpflanze und reife interne Gourd-Frucht vorbereiten; kontrollierten Blockupdate-Blocker bereitstellen.",
+                                    "Bei aktivem Blocker jeweils einmal mit leerer Hand ernten und vorher/nachher Itemzahlen, Stufen und Fruchtstatus vergleichen.",
+                                    "Blocker entfernen und Ernte wiederholen; Drops erneut zählen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Bei abgelehntem Blockupdate keine Drops oder verlorenen Frucht-/Altersdaten; nach erlaubtem Update genau regulärer Ertrag. Ohne Blocker blocked.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Bei abgelehntem Blockupdate keine Drops oder verlorenen Frucht-/Altersdaten; nach erlaubtem Update genau regulärer Ertrag."
+                  },
+                  {
+                      "id":  "ER-10",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Fehlerhafte Fruchtbereinigung nach Datapackwechsel",
+                      "steps":  [
+                                    "Nur Weltkopie mit gespeicherter interner Frucht beziehungsweise historischer Besitzerkennung vorbereiten.",
+                                    "Nach Änderung des Datapack-Erntemodus mit /reload gezielt einen Blockupdate verweigern; vorher/nachher Fruchtkennungen und Stängelstufe dokumentieren.",
+                                    "Blockupdate wieder zulassen und Bereinigung beobachten.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Bei Verweigerung keine teilweise gelöschte Frucht-/Besitzerkennung; späterer Erfolg bereinigt genau einmal.",
+                      "commands":  [
+                                       {
+                                           "label":  "Datapacks neu laden",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Nur im ausdrücklich freigegebenen Teststand und nach Sicherung der Welt ausführen.",
+                                           "text":  "/reload"
+                                       }
+                                   ],
+                      "summary":  "Bei Verweigerung keine teilweise gelöschte Frucht-/Besitzerkennung; späterer Erfolg bereinigt genau einmal."
+                  },
+                  {
+                      "id":  "ER-11",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Neue interne und alte physische Melonen/Kürbisse",
+                      "steps":  [
+                                    "Frische Welt: eine intern erzeugte Melonen- und Kürbisfrucht inklusive reifem Stängel dokumentieren.",
+                                    "Unabhängige Kopie eines alten Spielstands mit physischer Nachbarfrucht und Besitzerkennung öffnen; falls nicht vorhanden blocked.",
+                                    "Beide Welten getrennt ernten und Drops, Fruchtstatus und Stängelgenom vergleichen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Keine Duplikate; neu interne Frucht und alte physische Besitzerfrucht werden passend zum jeweiligen Save behandelt.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Keine Duplikate; neu interne Frucht und alte physische Besitzerfrucht werden passend zum jeweiligen Save behandelt."
+                  },
+                  {
+                      "id":  "ER-12",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Kürbis-Gain: frühere Verbesserung, selten vier Drops",
+                      "steps":  [
+                                    "Nach gesonderter Testfreigabe und mit Operatorrechten je einen Saatgut-Fixture via /cropgenetics testseed minecraft:pumpkin_plant \u003cGain\u003e (Kurzform Growth 1/Gain/Strength 1) für Gain 1, 2, 5, 8 und 10 ins eigene freie Inventar geben lassen. Auf getrennten Crop Sticks pflanzen; ohne verfügbaren Befehl oder bestätigte Arten-ID: blocked.",
+                                    "Mit harvest.dropMultiplier=1 arbeiten, zunächst /cropgenetics harvestmultiplier reset und danach /cropgenetics harvestmultiplier zur Anzeige nutzen.",
+                                    "Pro Gain-Wert Frucht reifen lassen, rechtsklicken und Stückzahl pro Ernte zählen; mehrere unabhängige Ernten je Stufe wiederholen und gültige Versuche notieren.",
+                                    "Nicht einen einzelnen Zufallswurf als Prozentbeweis werten; beobachtete Mengenverteilung und unbekannte Tickzahl im Kommentar kennzeichnen."
+                                ],
+                      "expected":  "Ein sichtbarer Kürbis, Ernte 1–4 Kürbis-Items in einem Stack; bei Gain 1 immer 1, bei Gain 2 ungefähr 81 % 1/19 % 2, Gain 10 ungefähr 10/35/40/15 % für 1/2/3/4. Für die Prozentabnahme sind ausreichend Wiederholungen nötig.",
+                      "commands":  [
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (1)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 1"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (2)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 2"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (5)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 5"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (8)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 8"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (10)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 10"
+                                       },
+                                       {
+                                           "label":  "Erntemultiplikator zurücksetzen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte erforderlich; Änderung gilt nur bis zum Serverneustart. Nur im freigegebenen Teststand verwenden.",
+                                           "text":  "/cropgenetics harvestmultiplier reset"
+                                       },
+                                       {
+                                           "label":  "Aktuellen Erntemultiplikator anzeigen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte erforderlich; Änderung gilt nur bis zum Serverneustart. Nur im freigegebenen Teststand verwenden.",
+                                           "text":  "/cropgenetics harvestmultiplier"
+                                       }
+                                   ],
+                      "summary":  "Ein sichtbarer Kürbis, Ernte 1–4 Kürbis-Items in einem Stack; bei Gain 1 immer 1, bei Gain 2 ungefähr 81 % 1/19 % 2, Gain 10 ungefähr 10/35/40/15 % für 1/2/3/4."
+                  },
+                  {
+                      "id":  "ER-14",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Drop-Multiplikator 0/1/2/64 und Ein-Stack-Schutz",
+                      "steps":  [
+                                    "Nur in einer gesicherten Testwelt und mit Operatorberechtigung: geeignete reife Standardpflanzen, Kürbisse und Melonen mit bekannter Art/Gain vorbereitet halten; bei Bedarf Testseed-Fixtures mit /cropgenetics testseed \u003caktive-art\u003e \u003cgain\u003e erzeugen.",
+                                    "Nacheinander /cropgenetics harvestmultiplier 0, 1, 2 und 64 setzen, nach jedem Befehl mit /cropgenetics harvestmultiplier die wirksame Zahl kontrollieren und je eine frische Ernte zählen.",
+                                    "Bei 0 keine PRODUKT-Drops erwarten; beim zerstörenden Abbau Seed und Crop Sticks separat zählen, sie dürfen nicht verschwinden. Bei 1 normale Gain-Baseline; bei 2 verdoppelte gerundete Menge; bei 64 höchstens ein normaler Stack pro Produkt, maximal 64.",
+                                    "Nach Abschluss /cropgenetics harvestmultiplier reset ausführen und den Serverconfig-Wert anzeigen. Dropmengen, Item-IDs, konfigurierte Werte und genaue JAR-SHA je Stufe protokollieren."
+                                ],
+                      "expected":  "Temporärer Multiplikator wirkt ausschließlich auf Ernteprodukte, Endmenge ganzzahlig und je Itemart auf einen Stack/64 begrenzt; Seeds und Sticks bleiben erhalten; Reset stellt den Config-Wert wieder her.",
+                      "commands":  [
+                                       {
+                                           "label":  "Erntemultiplikator auf 0 setzen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte erforderlich; Änderung gilt nur bis zum Serverneustart. Nur im freigegebenen Teststand verwenden.",
+                                           "text":  "/cropgenetics harvestmultiplier 0"
+                                       },
+                                       {
+                                           "label":  "Erntemultiplikator auf 1 setzen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte erforderlich; Änderung gilt nur bis zum Serverneustart. Nur im freigegebenen Teststand verwenden.",
+                                           "text":  "/cropgenetics harvestmultiplier 1"
+                                       },
+                                       {
+                                           "label":  "Erntemultiplikator auf 2 setzen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte erforderlich; Änderung gilt nur bis zum Serverneustart. Nur im freigegebenen Teststand verwenden.",
+                                           "text":  "/cropgenetics harvestmultiplier 2"
+                                       },
+                                       {
+                                           "label":  "Erntemultiplikator auf 64 setzen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte erforderlich; Änderung gilt nur bis zum Serverneustart. Nur im freigegebenen Teststand verwenden.",
+                                           "text":  "/cropgenetics harvestmultiplier 64"
+                                       },
+                                       {
+                                           "label":  "Erntemultiplikator zurücksetzen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte erforderlich; Änderung gilt nur bis zum Serverneustart. Nur im freigegebenen Teststand verwenden.",
+                                           "text":  "/cropgenetics harvestmultiplier reset"
+                                       }
+                                   ],
+                      "summary":  "Temporärer Multiplikator wirkt ausschließlich auf Ernteprodukte, Endmenge ganzzahlig und je Itemart auf einen Stack/64 begrenzt; Seeds und Sticks bleiben …"
+                  },
+                  {
+                      "id":  "ER-15",
+                      "category":  "03 Ernte und Seeds",
+                      "title":  "Temporärer Override: Rechte, Neustart und Erntewege",
+                      "steps":  [
+                                    "Nur gesicherte Welt: Operator und normaler Spieler sowie je reife Standardpflanze und interne Gourd-Frucht vorbereiten.",
+                                    "Normaler Spieler versucht /cropgenetics harvestmultiplier 2 sowie /cropgenetics testseed minecraft:pumpkin_plant 10 10 10; beide Befehle müssen mangels Berechtigung abgewiesen werden. Operator setzt Faktor 2 und prüft die Anzeige.",
+                                    "Getrennte Pflanzen bei Rechtsklick und Blockabbau ernten; Produkte pro Itemart auf einen Stack und Samen/Sticks auf Erhalt prüfen; Blockabbau darf keinen doppelten Ernteweg auslösen.",
+                                    "Operator prüft beide Formen: /cropgenetics testseed minecraft:pumpkin_plant 10 ergibt 1/10/1, /cropgenetics testseed minecraft:pumpkin_plant 10 5 3 ergibt 10/5/3. Danach unbekannte Art, Genwerte 0 und 11 in allen drei Positionen, nur zwei Werte und volles Inventar prüfen: keine Ausgabe; Serverkonsole ohne Spielerinventar muss scheitern.",
+                                    "Operator tippt /cropgenetics testseed gefolgt von einem Leerzeichen und drückt TAB; die Vorschlagsliste muss aktive Datapack-Pflanzenarten enthalten. Mit Präfix minecraft:p erneut TAB testen. Nach kontrolliertem /reload Vorschläge und tatsächlich geladene Arten abgleichen; keine veralteten oder erfundenen IDs erwarten. Der normale Spieler darf keinen Operator-Befehl ausführen.",
+                                    "Server kontrolliert neu starten (nicht bloß /reload) und /cropgenetics harvestmultiplier abfragen: die temporäre Zahl darf nicht persistiert werden. Ursprünglichen Serverconfig-Wert und Log notieren."
+                                ],
+                      "expected":  "Nur Operator darf temporär ändern; beide Erntewege nutzen denselben Faktor, keine Duplikation/Verlust; nach echtem Serverneustart wieder Serverconfig-Wert ohne Override. TAB bietet nur aktive Pflanzenarten als Vorschläge an und folgt nach /reload der geladenen Artenliste.",
+                      "commands":  [
+                                       {
+                                           "label":  "Erntemultiplikator auf 2 setzen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte erforderlich; Änderung gilt nur bis zum Serverneustart. Nur im freigegebenen Teststand verwenden.",
+                                           "text":  "/cropgenetics harvestmultiplier 2"
+                                       },
+                                       {
+                                           "label":  "Aktuellen Erntemultiplikator anzeigen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte erforderlich; Änderung gilt nur bis zum Serverneustart. Nur im freigegebenen Teststand verwenden.",
+                                           "text":  "/cropgenetics harvestmultiplier"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (10)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 10"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (10/5/3)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 10 5 3"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: unbekannt (10)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:unbekannt 10"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (0)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 0"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (1/11/1)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 1 11 1"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (1/1/0)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 1 1 0"
+                                       },
+                                       {
+                                           "label":  "Test-Samen: pumpkin_plant (1/1)",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Operatorrechte und freier Inventarplatz erforderlich. Nur in einer gesicherten Testwelt verwenden; absichtlich ungültige Eingaben sind Negativtests.",
+                                           "text":  "/cropgenetics testseed minecraft:pumpkin_plant 1 1"
+                                       },
+                                       {
+                                           "label":  "Testseed-Arten mit Präfix und TAB anzeigen",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Nur für Operatoren: in den Minecraft-Chat einfügen, NICHT absenden; direkt nach minecraft:p TAB drücken und aktive Artenvorschläge protokollieren.",
+                                           "text":  "/cropgenetics testseed minecraft:p"
+                                       }
+                                   ],
+                      "summary":  "Operatorrechte, Mengen und Neustart-Reset stimmen; testseed ergänzt aktive Pflanzenarten per TAB."
+                  },
+                  {
+                      "id":  "UI-02",
+                      "category":  "04 Analyzer und Journal",
+                      "title":  "Zwei Spieler greifen gleichzeitig auf Analyzer und Chest zu",
+                      "steps":  [
+                                    "Auf dediziertem Server A und B am selben Analyzer mit Chest treffen; genau einen Seed und ein Journal einlegen.",
+                                    "A/B öffnen gleichzeitig, verschieben die Items und notieren Counts.",
+                                    "In Weltkopie einen der Blöcke während offenem Menü abbauen; danach Drops und Menüs prüfen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Einmalige Items ohne Verluste oder Duplikate; entfernte Blockentity nimmt keine späteren Transfers an.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Einmalige Items ohne Verluste oder Duplikate; entfernte Blockentity nimmt keine späteren Transfers an."
+                  },
+                  {
+                      "id":  "UI-03",
+                      "category":  "04 Analyzer und Journal",
+                      "title":  "Fremde Gene und Journaldaten bleiben privat",
+                      "steps":  [
+                                    "A besitzt analysiertes 7/4/9-Saatgut und Forschungsjournal, B steht daneben ohne Menüzugriff.",
+                                    "A legt beide in den Analyzer; B prüft nur Pflanzenanzeige, Blockmodell und normale Umgebung.",
+                                    "A entnimmt Items, speichert/neustartet Server; A kontrolliert Genreichtum und Journal, B bleibt ohne Einblick.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "B erhält keine verborgenen Genwerte oder Journal-Komponenten; A behält vollständige Daten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "B erhält keine verborgenen Genwerte oder Journal-Komponenten; A behält vollständige Daten."
+                  },
+                  {
+                      "id":  "UI-04",
+                      "category":  "04 Analyzer und Journal",
+                      "title":  "Mutationshinweise ohne Journal-Neueinlage aktualisieren",
+                      "steps":  [
+                                    "In Weltkopie Test-Datapack mit bekannter Mutation und erforschtem Journal vorbereiten; Buch in Analyzer lassen.",
+                                    "Mutationsregel deaktivieren und /reload durchführen, mindestens sechs Sekunden warten.",
+                                    "Dasselbe Buch entnehmen und Hinweis prüfen; Regel wiederherstellen und wiederholen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Hinweise folgen dem aktiven Datapack; schon entdeckte Arten werden nicht gelöscht. Ohne Test-Datapack blocked.",
+                      "commands":  [
+                                       {
+                                           "label":  "Datapacks neu laden",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Nur im ausdrücklich freigegebenen Teststand und nach Sicherung der Welt ausführen.",
+                                           "text":  "/reload"
+                                       }
+                                   ],
+                      "summary":  "Hinweise folgen dem aktiven Datapack; schon entdeckte Arten werden nicht gelöscht."
+                  },
+                  {
+                      "id":  "UI-05",
+                      "category":  "04 Analyzer und Journal",
+                      "title":  "Seed-Tooltip, HUD und Wachstumsstufe 0",
+                      "steps":  [
+                                    "Nicht analysierten und analysierten genetischen Seed derselben Art vorbereiten; beide im Inventar prüfen.",
+                                    "Jeweils auf Crop Sticks setzen, Stage 0 und HUD ohne sowie mit Analyse dokumentieren.",
+                                    "Sprache DE/EN vergleichen, unanalysierte Genwerte auf Sichtbarkeit prüfen; Identify ist kein Core-Test.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Genwerte nur bei analysiertem Seed sichtbar; Artname und Stage-0-Modell korrekt. Keine Identifikation von Add-on-Kompatibilität ableiten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Genwerte nur bei analysiertem Seed sichtbar; Artname und Stage-0-Modell korrekt."
+                  },
+                  {
+                      "id":  "UI-06",
+                      "category":  "04 Analyzer und Journal",
+                      "title":  "Zwei-Spieler-Sync nach Neustart und optionaler Modentfernung",
+                      "steps":  [
+                                    "A und B mit unterschiedlichen genetischen Seeds und Journalen auf dediziertem Server einloggen; Daten notieren.",
+                                    "A ausloggen, Server speichern und neustarten; beide erneut einloggen, Data Components und Mengen vergleichen.",
+                                    "Falls optionale Mods entfernt werden müssen, das ausschließlich in gesicherter Weltkopie durchführen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Keine Gen-/Journal-Verluste oder Client-/Server-Sync-Abweichungen; nicht vorhandene Mods niemals aus produktivem Save entfernen.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Keine Gen-/Journal-Verluste oder Client-/Server-Sync-Abweichungen; nicht vorhandene Mods niemals aus produktivem Save entfernen."
+                  },
+                  {
+                      "id":  "UI-08",
+                      "category":  "04 Analyzer und Journal",
+                      "title":  "Journal-Ergänzung nach Save und Reload",
+                      "steps":  [
+                                    "Analysierten Seed und Journal einlegen, Arten/Mutationshinweise vorher notieren.",
+                                    "Server speichern, neu starten und gegebenenfalls Datapack /reload in Kopie durchführen.",
+                                    "Journal ohne erneute Buchentnahme auf neue Entdeckungen und erhaltene Alt-Einträge prüfen.",
+                                    "Im Tracker Status sowie Git-SHA, tatsächliche Beobachtung, Mengen und Screenshot-/Logname in den Kommentar schreiben."
+                                ],
+                      "expected":  "Bereits eingelegte Seeds werden nachgetragen; alte Entdeckungen und genetische Informationen bleiben erhalten.",
+                      "commands":  [
+                                       {
+                                           "label":  "Datapacks neu laden",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Nur im ausdrücklich freigegebenen Teststand und nach Sicherung der Welt ausführen.",
+                                           "text":  "/reload"
+                                       }
+                                   ],
+                      "summary":  "Bereits eingelegte Seeds werden nachgetragen; alte Entdeckungen und genetische Informationen bleiben erhalten."
+                  },
+                  {
+                      "id":  "UI-10",
+                      "category":  "04 Analyzer und Journal",
+                      "title":  "Seed kann nicht gepflanzt werden: konkreter Hinweis",
+                      "steps":  [
+                                    "Nur AgriCraft-Hauptmod, serverseitigen Testbuild und ein einzelnes normales Seed auf einfachen Crop Sticks vorbereiten; Inventar vor jedem Klick zählen.",
+                                    "Je ein geeignetes Saatgut auf falschem Boden, in zu wenig/zu viel Licht, auf bereits bepflanzten Sticks und auf doppelten Kreuz-Sticks rechtsklicken; jeweils die Aktionsleisten-Meldung und den unveränderten Seedbestand notieren.",
+                                    "Zuckerrohr mit/ohne direkt neben dem Stützboden liegendes Wasser prüfen; Pilz auf Myzel und hellem anderem Boden vergleichen. Bei nicht vorhandenen Pflanzen/Datapacks einzelne Unterfälle im Kommentar als blockiert notieren.",
+                                    "Analysierte 1/1/1- und robuste Samen bei einer konfigurierten Lichttoleranz vergleichen; manipulierte/extern benannte Samen nicht still verbrauchen. Mit beliebigem Nicht-Seed-Gegenstand keine Pflanzfehlermeldung erwarten.",
+                                    "Zu jedem negativen Fall Screenshot der Meldung, Itemzahl vorher/nachher, Bodenblock-ID, Licht und Genom (nur berechtigter Testspieler) protokollieren; auf DE und EN umstellen und Meldungen vergleichen."
+                                ],
+                      "expected":  "Pro abgewiesenem geeignetem Seed-Klick genau eine konkrete, lokalisierte Meldung. Kein Seed, Genom oder Bestand verändert; Kreuzlage und belegter Stick werden richtig erklärt. Bei erlaubter Pflanzung keine Fehlermeldung. Keine fremden Genwerte für Zuschauer.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Pro abgewiesenem geeignetem Seed-Klick genau eine konkrete, lokalisierte Meldung."
+                  },
+                  {
+                      "id":  "UI-14",
+                      "category":  "04 Analyzer und Journal",
+                      "title":  "Pflanzen-HUD per Taste umschalten und im Journal erklären",
+                      "steps":  [
+                                    "Erst nach Minecraft-Testfreigabe Hauptmod in gesicherter Testwelt starten und eine bepflanzte Crop-Sticks-Fläche mit bekannter Art und Stufe ansehen. Zu Beginn soll das eigene Art-/Stufen-HUD sichtbar sein.",
+                                    "Standardtaste F10 einmal drücken: nur die eigenständige AgriCraft-Zeile verschwindet; erneut F10 drücken: sie erscheint wieder. Während ein Menü beziehungsweise das Journal geöffnet ist, darf die Taste keine unbeabsichtigte Umschaltung auslösen.",
+                                    "Unter Optionen \u003e Steuerung die AgriCraft-Aktion \u0027Pflanzenanzeige umschalten\u0027 auf eine andere freie Taste legen und beide Zustände damit prüfen. Alte Taste darf dann nicht mehr umschalten.",
+                                    "Saatgut-Journal öffnen und zur vierten Anleitungsseite \u0027Pflanzenanzeige\u0027 blättern. Der klickbare Eintrag muss die aktuell in Minecraft gespeicherte Belegung zeigen (nicht pauschal F10). Mit Klick die Erfassung starten: Esc bricht ab, Delete/Backspace hebt die Belegung auf, eine neue Taste übernimmt sie; anschließend im Steuerungsmenü denselben Wert nachprüfen.",
+                                    "Journal schließen, die neu belegte Taste im Spiel auslösen und den HUD-Zustand prüfen; Journal/Client neu öffnen bzw. neu starten und Belegung erneut ablesen. Danach die Standardbelegung F10 optional über Steuerung zurücksetzen. DE/EN-Texte und geschützte Genwerte prüfen.",
+                                    "Jade-/Identify-Basiskompatibilität ist für diesen Build separat belegt. Hier nur noch F10, Umbelegung, Journalanzeige und Neustart-Persistenz im aktuellen Core-Profil prüfen."
+                                ],
+                      "expected":  "F10 ist nur die Vorgabe. Journal zeigt die tatsächliche aktuelle Belegung, erlaubt per Klick Umbelegung/Entfernung mit Escape-Abbruch und speichert identisch zum Steuerungsmenü auch über Clientneustart. Das HUD bleibt frei ein-/ausschaltbar, ohne Genwert-Leaks oder Einfluss auf Jade/Identify und ohne Welt-/Seed-Daten zu verändern.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "F10 ist nur die Vorgabe."
+                  },
+                  {
+                      "id":  "UI-15",
+                      "category":  "04 Analyzer und Journal",
+                      "title":  "Klassische Analyzer-GUI: Grafik, Gene, Sprache und Seed Chest",
+                      "steps":  [
+                                    "Nach technischer Freigabe Hauptmod-Client mit aktuellem JAR und frischer Testwelt starten. Analyzer ohne Chest rechtsklicken: originale 186x186-Grafik mit Lupe, Seed-Slot (26/38), Journal-Slot (26/71), normalem Spielerinventar und ohne fremde Vanilla-Truhentextur erwarten.",
+                                    "Unanalysierten genetischen Seed zunächst in der Hand prüfen: keine privaten Genwerte sichtbar. In den Analyzer legen: nach serverseitiger Analyse zeigt die GUI Pflanzennamen sowie drei Werte Wachstum/Ertrag/Robustheit, ohne Werte zu verändern.",
+                                    "DE und EN jeweils separat prüfen, einschließlich übersetztem Pflanzennamen und langer Datapack-Arten-ID. Text darf nicht über Slot, DNA-Grafik oder Paneel hinausragen; Screen und Itemtooltip fotografieren.",
+                                    "Seed Chest direkt daneben setzen, Analyzer erneut öffnen: rechte 27er-Slotfläche, korrekte Hover-/Klickpositionen, Originalbereich links unverändert. Danach Chest entfernen oder diagonal stellen: Analyzer-GUI wieder ohne rechte Fläche.",
+                                    "Bei 854x480 und höherer Auflösung sowie verschiedenen GUI-Skalierungen Titel, Slotränder, überlange Pflanzennamen, Tooltips und Spielerinventar kontrollieren. Unerreichbare Slots oder abgeschnittene Bedienflächen als fail/partial dokumentieren.",
+                                    "Mit und ohne JEI im freigegebenen Core-Clientprofil prüfen. Jade und Identify sind für diesen Build separat belegt und müssen in diesem GUI-Fall nicht erneut gestartet werden. Git-SHA, GUI-Skalierung und Screenshots je Sprache erfassen."
+                                ],
+                      "expected":  "Original-Analyzeransicht funktioniert solo und mit rechter Chest-Fläche, Slots stimmen mit Klicks überein; Gene erscheinen nur nach Analyse und bleiben unverändert. DE/EN und verschiedene GUI-Größen sind lesbar, keine verdeckten/genetischen Datenlecks.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Original-GUI mit Lupe, DNA, lokalisierter Genetik und optionaler 27er-Chest rechts; klickbar und lesbar auf mehreren Skalierungen."
+                  },
+                  {
+                      "id":  "UI-07",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI-Hinweis zum wiederverwendbaren Papier",
+                      "steps":  [
+                                    "JEI-Rezept für genetischen Seed → Originalseed mit Papier öffnen.",
+                                    "Deutsche und englische Sprache separat wählen und Text zur Papier-Wiederverwendung prüfen.",
+                                    "Im tatsächlichen Crafting-Feld einen Seed mit genau einem Blatt Papier umwandeln und Rest zählen.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten.",
+                                    "JEI-Analysehilfe auf die aktualisierte Stapelregel in DE/EN prüfen: gleiche Item-Data-Components bis 64 stapelbar; kein alter Hinweis, unanalysierte genetische Seeds seien grundsätzlich nicht stapelbar."
+                                ],
+                      "expected":  "JEI erklärt wiederverwendbares Papier in DE/EN; ein Blatt bleibt netto erhalten und Rezeptvorschau vermittelt keinen Verbrauch. Die Analyzer-Hilfe behauptet nicht mehr pauschal, unanalysierte genetische Seeds seien unstackbar.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "JEI erklärt Papier-Rückgabe und die neue Genetik-Stapelregel korrekt in DE/EN."
+                  },
+                  {
+                      "id":  "UI-11",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI-Pflanzenbedingungen: Hauptabnahme der Serverautorität",
+                      "steps":  [
+                                    "Nur nach Freigabe: Hauptmod, JEI 19.x und tatsächlich geladenen Server mit notierter JAR-/Branch-SHA starten. Verbindliche Bedingungen zuvor mit dem aktiven Server-Datapack und der Crop-Datenübersicht abgleichen.",
+                                    "Einfachen unterstützten normalen Seed sowie artgenauen genetischen Seed in JEI öffnen; Boden, Licht und Zusatzregeln ablesen und die zugehörigen technischen IDs notieren.",
+                                    "Die Unterfälle UI-11a bis UI-11i nacheinander prüfen. Benötigte Weltkopien, zwei Testspieler oder ein gezieltes Datapack vorbereiten; fehlende Voraussetzungen pro Unterfall als blocked festhalten.",
+                                    "Je Unterfall exakte Commit-ID, JEI-Version, Server-Datapackliste, aktuelle UI-Anzeige, erwartete Bedingung, Screenshot und Server-/Clientlog eintragen. Die Hauptabnahme erst bei nachgewiesenen Pflichtunterfällen als pass markieren."
+                                ],
+                      "expected":  "JEI beschreibt ausschließlich zuletzt synchronisierte öffentliche Serverregeln, nie pauschal den lokalen Default-Katalog; keine veralteten oder privat-genetischen Angaben. Offene oder blockierte wesentliche Unterfälle verhindern eine vollständige Abnahme.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "JEI beschreibt ausschließlich zuletzt synchronisierte öffentliche Serverregeln, nie pauschal den lokalen Default-Katalog; keine veralteten oder …"
+                  },
+                  {
+                      "id":  "UI-11a",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI: Standardart, Boden-Tag und Licht/Robustheit",
+                      "steps":  [
+                                    "Auf dediziertem Core-Testserver mit JEI einen aktiv unterstützten Weizen- oder Karottenseed wählen; dessen serverseitige Pflanzenregel (soil_block oder soil_tag, min/max light, light_tolerance) aus dem aktiven Datapack notieren.",
+                                    "In JEI für normalen und artgenauen genetischen Seed die Informationsseiten öffnen. Bodenname und ID beziehungsweise #Tag, Lichtbereich und Robustheitstoleranz abfotografieren.",
+                                    "Eine zweite Pflanzenart mit abweichender gültiger Boden- oder Lichtregel verwenden. Keine Tag-Aufzählung als vollständig annehmen; bei unverfügbarem Spezial-Datapack den zweiten Teil blocked kennzeichnen.",
+                                    "Mit unveränderten Seeds prüfen, ob die angegebenen Stützböden und Lichtbedingungen mit einer erlaubten bzw. verweigerten Pflanzung übereinstimmen; Itemzahlen und Positionen protokollieren."
+                                ],
+                      "expected":  "Aktive Regeln pro Art statt Standard-Floskeln; soil_block nennt den Block samt ID, soil_tag die echte #ID und keine erfundene vollständige Blockliste; Licht- und Strength-Toleranz stimmen mit dem Datapack überein.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Aktive Regeln pro Art statt Standard-Floskeln; soil_block nennt den Block samt ID, soil_tag die echte #ID und keine erfundene vollständige Blockliste; Licht- und …"
+                  },
+                  {
+                      "id":  "UI-11b",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI: Zuckerrohr, Pilze und Kaktus nur mit eigenen Sonderregeln",
+                      "steps":  [
+                                    "Auf dem Server prüfen, ob Zuckerrohr, brauner/roter Pilz und Kaktus wirklich als AgriCraft-Pflanzen aktiv sind; nicht vorhandene Arten als blocked dokumentieren.",
+                                    "Zuckerrohr-JEI-Seite öffnen und Wasser/Frosteis direkt neben dem Stützboden vergleichen; parallel gewöhnlichen Weizen ansehen und sicherstellen, dass dort keine generelle Nachbarwasser-Pflicht steht.",
+                                    "Pilz auf Myzel/Podsol oder Nylium und auf einem sonst zulässigen hellen Boden vergleichen; JEI soll die Substrat-Ausnahme und weiterhin geltende Datapack-Bodenregel erklären.",
+                                    "Kaktus-Seite auf freie horizontale Nachbarn prüfen, danach in einer sicheren Testfläche feste Blöcke bzw. Flüssigkeit daneben als Negativkontrolle verwenden.",
+                                    "JEI-Screenshots, Datapack-Pflanzen-ID, Bodenblock, tatsächliche Pflanzreaktion und Seedbestand notieren."
+                                ],
+                      "expected":  "Wasserhinweis nur beim Zuckerrohr; Helligkeitsausnahme nur bei passenden Pilzsubstraten; freie Nachbarn nur beim Kaktus. Keine Sonderregeln fälschlich anderen Arten zuordnen.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Wasserhinweis nur beim Zuckerrohr; Helligkeitsausnahme nur bei passenden Pilzsubstraten; freie Nachbarn nur beim Kaktus."
+                  },
+                  {
+                      "id":  "UI-11c",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI: geändertes Datapack nach /reload ohne Client-Neustart",
+                      "steps":  [
+                                    "Nur in gesicherter Weltkopie zwei gültige Versionen eines kleinen Pflanzen-Datapacks vorbereiten, bei denen sich Bodenregel, Lichtbereich oder Biome einer bekannten Art unterscheiden; unveränderten Ausgangsstand separat sichern.",
+                                    "Vor /reload die JEI-Regel auf Screenshot A und die Server-Datapack-Version notieren; Datapackdatei ausschließlich in der Testwelt kontrolliert wechseln.",
+                                    "Nach /reload ohne Client-Neustart dieselbe JEI-Seite neu öffnen; Screenshot B, Server-/Clientlog und Zeitpunkt der erhaltenen Daten festhalten.",
+                                    "Während eines noch unbestätigten Reload-Zustands keinen voreiligen Aktualitätsnachweis behaupten. Falls die frühere Anzeige bis zum neuen Paket sichtbar bleibt, Dauer dokumentieren und diesen Frische-Randfall gesondert bewerten.",
+                                    "Datapack danach auf den gesicherten Stand zurücksetzen und die Rückänderung ebenfalls dokumentieren."
+                                ],
+                      "expected":  "Nach bestätigter Synchronisierung zeigt JEI die neue Serverregel ohne Client-Neustart. Keine dauerhafte Rückkehr zu lokalen Defaultwerten; ein alter Zwischenstand wird dokumentiert und nicht als sofortige Aktualisierung ausgegeben.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Nach bestätigter Synchronisierung zeigt JEI die neue Serverregel ohne Client-Neustart."
+                  },
+                  {
+                      "id":  "UI-11d",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI: zwei Spieler am dedizierten Server und private Daten",
+                      "steps":  [
+                                    "Dedizierten Server, zwei echte Testspieler A/B, JEI und denselben aktiven Datapackstand vorbereiten. Nur eine Person: blocked.",
+                                    "A und B öffnen dieselbe Pflanzenart in JEI und vergleichen Screenshots für Boden, Licht, IDs und Zusatzbedingungen.",
+                                    "A analysiert einen privaten genetischen Seed und verändert sein Journal; B beobachtet die JEI-Ansicht ohne Zugriff auf A-Inventar oder Journal.",
+                                    "Beide Clients nach serverseitigem /reload erneut vergleichen; Server-/Clientlogs und Zeitpunkt aufzeichnen."
+                                ],
+                      "expected":  "Beide erhalten identische öffentliche Regeln, aber keine individuellen Genome, Journal-Entdeckungen oder Inventar-/Spielerinformationen des anderen.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Beide erhalten identische öffentliche Regeln, aber keine individuellen Genome, Journal-Entdeckungen oder Inventar-/Spielerinformationen des anderen."
+                  },
+                  {
+                      "id":  "UI-11e",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI: Logout und Wechsel zwischen zwei Servern",
+                      "steps":  [
+                                    "Zwei getrennte gesicherte Server/Testwelten mit absichtlich verschiedenen gültigen Boden-/Lichtregeln derselben Art vorbereiten; beide Konfigurationen dokumentieren.",
+                                    "Server A betreten und gültige JEI-Information A aufnehmen; ordentlich ins Menü abmelden, ohne Minecraft zu beenden.",
+                                    "Ohne Neustart Server B betreten und vor/ nach dem Eintreffen seiner Regeln die JEI-Information dokumentieren. Anschließend wieder Server A betreten.",
+                                    "Auf der Abmeldeseite beziehungsweise ohne gültigen Server-Snapshot nur die ehrliche Statusmeldung erwarten; niemals A-Regeln als aktuelle B-Regeln akzeptieren."
+                                ],
+                      "expected":  "A- und B-Regeln bleiben getrennt; der Client verwirft den vorherigen Snapshot beim Logout. Bei fehlenden Regeln zeigt JEI \u0027nicht synchronisiert\u0027 statt fremde Datapackangaben.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "A- und B-Regeln bleiben getrennt; der Client verwirft den vorherigen Snapshot beim Logout."
+                  },
+                  {
+                      "id":  "UI-11f",
+                      "category":  "05 Mod-Support",
+                      "title":  "Core-only ohne JEI und optionale Seed-Links",
+                      "steps":  [
+                                    "Nach TG-04 in getrenntem Core-only-Testprofil ohne JEI und ohne Pam-/Farmer\u0027s-/MineColonies-Add-ons starten; genaue Modliste und Startlog sichern.",
+                                    "Eine vorhandene Standardpflanze auf Crop Sticks pflanzen, wachsen lassen und wieder abbauen; auf Classloading- oder Netzwerkfehler achten.",
+                                    "In separatem ausdrücklich dokumentiertem Profil JEI hinzufügen, aber keine Add-on-Integration installieren. Nachsehen, ob unbekannte Drittanbieter-Seeds zu Unrecht als aktive Pflanzen beworben werden.",
+                                    "Optionales Add-on nur nach eigenständiger späterer Freigabe testen; das Core-Gate darf keine Add-on-Ladung voraussetzen."
+                                ],
+                      "expected":  "Hauptmod funktioniert ohne JEI; JEI ist keine Pflichtabhängigkeit. Nur serverseitig aktive und eindeutig zugeordnete Seed-Items führen zu artbezogenen Regeln.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Hauptmod funktioniert ohne JEI; JEI ist keine Pflichtabhängigkeit."
+                  },
+                  {
+                      "id":  "UI-11g",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI: DE/EN-Texte und erweiterte Umweltbedingungen",
+                      "steps":  [
+                                    "In einem kontrollierten Server-Datapack mindestens eine Art mit erlaubten/gesperrten Biomen und Dimensionen, Y-Grenze, Fluid-Anforderung, Saison und Bodenchemie vorbereiten. Fehlende Anbieter als separate Voraussetzung notieren.",
+                                    "JEI mit deutscher Sprache öffnen und alle vorhandenen Felder samt IDs, Kategorien, Vergleichsoperatoren und Toleranzfaktoren dokumentieren.",
+                                    "Sprache auf Englisch umstellen, JEI erneut öffnen und dieselben Regeln abgleichen. Bei komplexen Sonderregeln im Spiel zulässige und unzulässige Standorte vergleichen.",
+                                    "Wenn ein Chemie-/Saison-Anbieter nicht vorhanden ist, nicht automatisch eine Pflicht oder vollständige Werteliste annehmen; fehlende Voraussetzungen als blocked markieren."
+                                ],
+                      "expected":  "DE/EN verständlich ohne fehlende Übersetzungsschlüssel; alle konfigurierten Einschränkungen werden mit tatsächlichen IDs/Werten benannt, ohne nicht vorhandene Anbieter oder Tag-Inhalte zu erfinden.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "DE/EN verständlich ohne fehlende Übersetzungsschlüssel; alle konfigurierten Einschränkungen werden mit tatsächlichen IDs/Werten benannt, ohne nicht vorhandene …"
+                  },
+                  {
+                      "id":  "UI-11h",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI: wiederholter Reload, versteckte Rezepte und Speicherwachstum",
+                      "steps":  [
+                                    "Nur mit freigegebenem Testprofil und gesicherter Weltkopie drei gültige Datapackstände A/B/C mit unterschiedlicher Pflanzen- oder Seed-Zuordnung vorbereiten.",
+                                    "JEI-Laufzeit auf A, B und C nach jeweils bestätigtem /reload prüfen; dann A/B/C mehrfach in dokumentierter Reihenfolge wiederholen, ohne Client-Neustart.",
+                                    "JEI nach jeder Runde auf versteckte alte Arten, doppelte Infoseiten, fehlende Reaktivierung und auffälliges Speicher-/Rezeptanzahlwachstum untersuchen; bei Messmöglichkeiten konkrete Zahlen protokollieren.",
+                                    "Bei JEI-Fehler, deutlicher Cachezunahme oder ausbleibender Aktualisierung Abbruch und Logs sichern; keine unbegrenzten Reload-Schleifen starten."
+                                ],
+                      "expected":  "Für jede Serverversion genau aktuelle, nicht duplizierte sichtbare Regeln; alte Arten verborgen, zurückkehrende Arten wieder sichtbar. Keine fortschreitende relevante Cache-/Speicherzunahme.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Für jede Serverversion genau aktuelle, nicht duplizierte sichtbare Regeln; alte Arten verborgen, zurückkehrende Arten wieder sichtbar."
+                  },
+                  {
+                      "id":  "UI-11i",
+                      "category":  "05 Mod-Support",
+                      "title":  "JEI: ungültige oder zu große Regelpakete fail-closed",
+                      "steps":  [
+                                    "Nur nach gesonderter Freigabe mit isoliertem Netzwerk-Testharness oder dediziert vorbereitetem Testserver und Weltkopie ausführen. Ohne sicheres Harness ausdrücklich blocked, niemals beliebige Pakete in einen produktiven Server injizieren.",
+                                    "Ein Paket mit falscher Versionskennung, zu langem String, zu vielen Pflanzen beziehungsweise über 256 KiB und eine ungültige Datapack-Registry-Sicht jeweils separat vorbereiten.",
+                                    "JEI vor/nach jedem Fall öffnen; Clientlog und eventuelle Disconnect-/Fehleranzeige dokumentieren. Danach mit gültigem Snapshot prüfen, ob sich die Anzeige erholt.",
+                                    "Keine privaten NBT-/Genomdaten oder reale Spielerinventare für die Testdaten verwenden."
+                                ],
+                      "expected":  "Ungültige oder übergroße Regeln werden nicht als gültige Weltbedingungen dargestellt; alte Werte werden verworfen beziehungsweise Verbindung sicher abgewiesen; nach gültigem Sync wieder korrekte Anzeige.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Ungültige oder übergroße Regeln werden nicht als gültige Weltbedingungen dargestellt; alte Werte werden verworfen beziehungsweise Verbindung sicher abgewiesen …"
+                  },
+                  {
+                      "id":  "MOD-01",
+                      "category":  "05 Mod-Support",
+                      "title":  "Pam\u0027s HarvestCraft 2: optionaler Saatgut-/Crop-Support nach Core-Gate",
+                      "steps":  [
+                                    "Nur nach bestandener Hauptmod-Abnahme und separater Freigabe eine neue Testwelt sowie ein eigenes NeoForge-1.21.1-Profil mit dokumentierten, tatsächlich kompatiblen Pam\u0027s-HarvestCraft-2-JARs vorbereiten. Core-JAR, Modversionen, Loader und Logs festhalten.",
+                                    "Start ohne Pam-Mod als Core-Baseline dokumentieren, dann nur Pam\u0027s zum Profil ergänzen. Keine anderen Add-ons oder HUD-Mods gleichzeitig aktivieren.",
+                                    "Tatsächlich im aktiven Server-Datapack registrierte Pam-Saatgutarten ermitteln; nur diese auf passendem Boden in Crop Sticks einsetzen. Erste Gene 1/1/1, Entwicklung, Ernte und Analyzer prüfen.",
+                                    "Zwei gleiche genetische Samen kontrolliert stapeln; Gene/Originalseed-Item beim Pflanzen, Abbau, Journal und der Papier-Rückwandlung vergleichen. Ungültige/unbekannte Pam-Items dürfen keine stillschweigende konvertierte Art erzeugen.",
+                                    "Client-/Server-Neustart und Datapack-/Adapterentfernung nur in einer separaten Weltkopie testen; Originalsave und Quellitems sichern. Keine pauschale Aussage, alle Pam-Pflanzen seien unterstützt.",
+                                    "Ist keine kompatible Pam-Version oder keine aktive Seed-Zuordnung verfügbar, als blocked/offener Integrationsauftrag dokumentieren – nicht als nachgewiesenen Modfehler."
+                                ],
+                      "expected":  "Hauptmod bleibt ohne Pam lauffähig; mit ausdrücklich freigegebenem Pam-Profil funktionieren nur aktiv registrierte Seed-/Crop-Adapter ohne Item-/Genomverlust. Keine unbekannten Arten, Pflichtabhängigkeit oder unbewiesene Kompatibilitätsbehauptung.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Optional nach Core-Gate: Pam\u0027s HarvestCraft 2, aktive Seed-Adapter, Analyse, Ernte und Originalseed-Verlustfreiheit."
+                  },
+                  {
+                      "id":  "MOD-02",
+                      "category":  "05 Mod-Support",
+                      "title":  "Farmer\u0027s Delight: optionaler Seed-Support und Rice-Ausnahme",
+                      "steps":  [
+                                    "Nur nach Core-Gate und gesonderter Freigabe ein eigenes NeoForge-1.21.1-Profil mit exakt dokumentierter Farmer\u0027s-Delight-Version und frischer Weltkopie starten. Pam\u0027s, Jade und Identify dabei nicht gleichzeitig laden.",
+                                    "Ohne und mit Farmer\u0027s Delight den Hauptmod-Start vergleichen; Logs, registrierte Pflanzenarten und aktive Server-Datapack-Seed-Links erfassen.",
+                                    "Nur tatsächlich aktiv zugeordnete Farmer\u0027s-Delight-Saatgutarten auf passenden Crop Sticks pflanzen und Wachstum, Ernte, Originalseed-Sicherung, Analyzer und Journal prüfen.",
+                                    "Die derzeit dokumentierte Farmer\u0027s-Delight-Rice-Ausnahme getrennt prüfen: darf nicht als unterstützte Crop-Sticks-Pflanze oder falscher JEI-Regel-Link ausgegeben werden, solange sie nicht explizit im aktiven Datapack freigegeben ist.",
+                                    "Analysevorgang, genetische Stapel, Papier-Rückwandlung und Save/Reload in der Testwelt auf Datenverluste prüfen; unbekannte oder beschädigte fremde Components dürfen nicht stillschweigend verworfen werden.",
+                                    "Fehlende passende JAR oder Seed-Definition als blocked/Integrationsbedarf dokumentieren. Nicht behaupten, dass sämtliche Farmer\u0027s-Delight-Pflanzen bereits unterstützt werden."
+                                ],
+                      "expected":  "Core ist ohne Farmer\u0027s Delight unabhängig nutzbar; freigegebene aktive Pflanzenadapter laufen ohne Item-/Komponentenverlust. Die Rice-Ausnahme bleibt korrekt, solange keine explizite neue Serverregel sie unterstützt.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Optional nach Core-Gate: Farmer\u0027s-Delight-Saatgut, sichere Genom-/Originalseed-Pfade und dokumentierte Rice-Ausnahme."
+                  },
+                  {
+                      "id":  "MP-01",
+                      "category":  "06 Multiplayer",
+                      "title":  "Journal-Entdeckungen bleiben beim richtigen Spieler",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "Spieler A legt ein eigenes leeres Journal in den Analyzer und analysiert einen für A neuen Seed. B steht daneben und hält ein zweites leeres Journal, öffnet aber kein Menü.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Nur das Journal von A enthält die neue Art; Bs Journal und reine Blockansicht bleiben ohne Entdeckungsdaten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Nur das Journal von A enthält die neue Art; Bs Journal und reine Blockansicht bleiben ohne Entdeckungsdaten."
+                  },
+                  {
+                      "id":  "MP-02",
+                      "category":  "06 Multiplayer",
+                      "title":  "Verborgene Genwerte bei Zuschauern",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "A pflanzt einen nicht analysierten genetischen Seed mit bekannten Werten 7/4/9 auf einfache Sticks; B sieht Pflanzen-HUD und später das Analyzer-Modell, ohne dessen Menü zu öffnen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "B sieht keine 7/4/9-Genwerte; ein Arten-Icon darf sichtbar sein.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "B sieht keine 7/4/9-Genwerte; ein Arten-Icon darf sichtbar sein."
+                  },
+                  {
+                      "id":  "MP-03",
+                      "category":  "06 Multiplayer",
+                      "title":  "Analyse darf Gene nicht verändern",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "A setzt einen genetischen Seed 7/4/9 in den Analyzer, analysiert und entnimmt ihn; Vorher-/Nachher-Genome durch den berechtigten Besitzer vergleichen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Der entnommene Seed hat weiterhin exakt 7/4/9, nicht 1/1/1 oder neu gewürfelte Werte.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Der entnommene Seed hat weiterhin exakt 7/4/9, nicht 1/1/1 oder neu gewürfelte Werte."
+                  },
+                  {
+                      "id":  "MP-04",
+                      "category":  "06 Multiplayer",
+                      "title":  "Gleichzeitige Entnahme desselben Seeds",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "Genau einen Seed in Analyzer legen. A und B öffnen zeitgleich das Menü und versuchen auf gemeinsames Zeichen, den Seed zu entnehmen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Zusammen existiert exakt ein Seed; beim zweiten Spieler wird der Slot leer synchronisiert.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Zusammen existiert exakt ein Seed; beim zweiten Spieler wird der Slot leer synchronisiert."
+                  },
+                  {
+                      "id":  "MP-05",
+                      "category":  "06 Multiplayer",
+                      "title":  "Journal bei konkurrierender Entnahme",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "Genau ein Journal mit zwei dokumentierten Arten in den Analyzer legen. A und B versuchen gleichzeitig, es herauszunehmen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Exakt ein Journal bleibt erhalten, einschließlich aller vorherigen Entdeckungen.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Exakt ein Journal bleibt erhalten, einschließlich aller vorherigen Entdeckungen."
+                  },
+                  {
+                      "id":  "MP-06",
+                      "category":  "06 Multiplayer",
+                      "title":  "Chest nur bei direkter Nachbarschaft verbinden",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "Seed Chest waagerecht direkt neben Analyzer stellen und Analyzer öffnen. Slots zählen und Seed/Journal/Füllslots prüfen. Danach Chest diagonal umsetzen, Menüs erneut öffnen und Chest direkt anklicken.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Direkt nebeneinander: 36 Speicherplätze (9 Analyzer, 27 Chest), nur Analyzer-Slots 0/1 aktiv; diagonal: Analyzer allein 9 Slots, Chest direkt 27.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Direkt nebeneinander: 36 Speicherplätze (9 Analyzer, 27 Chest), nur Analyzer-Slots 0/1 aktiv; diagonal: Analyzer allein 9 Slots, Chest direkt 27."
+                  },
+                  {
+                      "id":  "MP-07",
+                      "category":  "06 Multiplayer",
+                      "title":  "Kein Duplikat zwischen zwei Chest-Menüs",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "A öffnet Seed Chest direkt; B dieselbe Chest über den benachbarten Analyzer. Beide versuchen gleichzeitig, denselben einzelnen genetischen Seed zu verschieben.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Genau ein Seed mit unveränderten Genen bleibt in einem autoritativen Slot.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Genau ein Seed mit unveränderten Genen bleibt in einem autoritativen Slot."
+                  },
+                  {
+                      "id":  "MP-08",
+                      "category":  "06 Multiplayer",
+                      "title":  "Chest-Abbau während offener Benutzeroberfläche",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "AUSSCHLIESSLICH IN GESICHERTER WELTKOPIE. Nur Weltkopie. A öffnet kombiniertes Analyzer-/Chest-Menü; B baut die Chest ab, während A unmittelbar eine Entnahme versucht.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Menü schließt oder wird ungültig; Chest-Inhalt fällt genau einmal und kein Phantomslot bleibt zugänglich.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Menü schließt oder wird ungültig; Chest-Inhalt fällt genau einmal und kein Phantomslot bleibt zugänglich."
+                  },
+                  {
+                      "id":  "MP-09",
+                      "category":  "06 Multiplayer",
+                      "title":  "Analyzer-Abbau mit Seed und Journal",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "AUSSCHLIESSLICH IN GESICHERTER WELTKOPIE. Nur Weltkopie. Einen Seed und ein Journal im Analyzer lagern; A hält dessen Menü offen, B baut Analyzer ab.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Beide Inhalte droppen genau einmal; A kann keine zusätzlichen Items aus dem offenen Menü ziehen.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Beide Inhalte droppen genau einmal; A kann keine zusätzlichen Items aus dem offenen Menü ziehen."
+                  },
+                  {
+                      "id":  "MP-10",
+                      "category":  "06 Multiplayer",
+                      "title":  "Genetische Seeds mit verschiedenen Werten stapeln nicht",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "Zwei genetische Seeds derselben Art mit unterschiedlichen 1–10-Genen herstellen; Stapeln im Spielerinventar, in Chest und Analyzer versuchen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Beide Seeds bleiben einzeln und jedes Genom bleibt unverändert.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Beide Seeds bleiben einzeln und jedes Genom bleibt unverändert."
+                  },
+                  {
+                      "id":  "MP-11",
+                      "category":  "06 Multiplayer",
+                      "title":  "64 normale Seeds: Chest und Analyzer",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "64 gewöhnliche Weizensamen in Chest lagern und wieder entnehmen; anschließend bei leerem Analyzer einen normalen Seed einlegen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Chest erhält 64 unverändert; Analyzer enthält höchstens einen analysierten 1/1/1-Seed, die anderen 63 bleiben erhalten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Chest erhält 64 unverändert; Analyzer enthält höchstens einen analysierten 1/1/1-Seed, die anderen 63 bleiben erhalten."
+                  },
+                  {
+                      "id":  "MP-12",
+                      "category":  "06 Multiplayer",
+                      "title":  "Inventar und Journal nach Neustart",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "Genetischen Seed mit bekannter Mutation in Chest, anderen Seed im Analyzer und Forschungsjournal mit Einträgen ablegen; Server sauber neu starten.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Alle Counts, Genome, Analyseflags und Journal-Einträge bleiben exakt erhalten; keine Phantomitems.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Alle Counts, Genome, Analyseflags und Journal-Einträge bleiben exakt erhalten; keine Phantomitems."
+                  },
+                  {
+                      "id":  "MP-13",
+                      "category":  "06 Multiplayer",
+                      "title":  "Menü bei Entfernung oder Chunk-Unload",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "AUSSCHLIESSLICH IN GESICHERTER WELTKOPIE. Nur gesicherte Testwelt. A lässt Analyzer-Menü offen, bewegt sich weit weg; B veranlasst, soweit möglich, normales Entladen des Chunks.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Kein Crash; ungültiges Menü schließt und Inventar bleibt ausschließlich serverseitig erhalten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Kein Crash; ungültiges Menü schließt und Inventar bleibt ausschließlich serverseitig erhalten."
+                  },
+                  {
+                      "id":  "MP-14",
+                      "category":  "06 Multiplayer",
+                      "title":  "Creative-Einlage erzeugt keinen Survival-Duplikationsweg",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "A ist im Kreativmodus und legt Seed/Journal per Rechtsklick in Analyzer; B beobachtet. Inventar- und Blockbestände vor/nachher zählen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Creative-Verhalten ist konsistent; im Survival-Modus lässt sich daraus keine Duplikation ableiten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Creative-Verhalten ist konsistent; im Survival-Modus lässt sich daraus keine Duplikation ableiten."
+                  },
+                  {
+                      "id":  "MP-15",
+                      "category":  "06 Multiplayer",
+                      "title":  "Shift-Klick eines 64er-Weizensamenstapels",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "Analyzer mit direkt benachbarter Chest verbinden; Analyzer-Seed-Slot und ausreichend Chest-Slots leer lassen. A shift-klickt 64 normale Weizensamen aus dem Inventar hinein; B beobachtet.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Exakt 64 Seeds gesamt: höchstens einer im Analyzer, Rest in Chest/Spielerinventar; nichts verschwindet.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Exakt 64 Seeds gesamt: höchstens einer im Analyzer, Rest in Chest/Spielerinventar; nichts verschwindet."
+                  },
+                  {
+                      "id":  "MP-16",
+                      "category":  "06 Multiplayer",
+                      "title":  "Cursor-Stapel und gleichzeitige Einlage",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "A nimmt 64 normale Seeds auf den Cursor und klickt leeren Analyzer-Seed-Slot im Kombimenü. B öffnet dasselbe Menü und versucht gleichzeitig einen Transfer.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Nur ein Item im Analyzer; übrige Seeds bleiben auf Cursor oder in Slots; sieben Füllslots bleiben leer.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Nur ein Item im Analyzer; übrige Seeds bleiben auf Cursor oder in Slots; sieben Füllslots bleiben leer."
+                  },
+                  {
+                      "id":  "MP-17",
+                      "category":  "06 Multiplayer",
+                      "title":  "Analyzer-Abbau bei verbundener Chest",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "AUSSCHLIESSLICH IN GESICHERTER WELTKOPIE. Nur Weltkopie. A hat kombiniertes Menü offen, B baut nur Analyzer ab, Chest bleibt stehen. A versucht sofort Shift-Klick aus Chest.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Menü wird ungültig; die intakte Chest enthält unveränderte Items abzüglich legitimer Transfers vor dem Abbau.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Menü wird ungültig; die intakte Chest enthält unveränderte Items abzüglich legitimer Transfers vor dem Abbau."
+                  },
+                  {
+                      "id":  "MP-18",
+                      "category":  "06 Multiplayer",
+                      "title":  "Chest-Inhalt nicht an Zuschauer übertragen",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "A lagert nicht analysierten 7/4/9-Seed in Chest und Forschungsjournal im angrenzenden Analyzer. B steht daneben, ohne ein Inventar zu öffnen; danach erst berechtigten Menüblick vergleichen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Welt-/Blockpakete verraten weder Gene noch ganze ItemStacks oder Journal-Einträge; autorisiertes Menü zeigt korrekten Inhalt.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Welt-/Blockpakete verraten weder Gene noch ganze ItemStacks oder Journal-Einträge; autorisiertes Menü zeigt korrekten Inhalt."
+                  },
+                  {
+                      "id":  "MP-19",
+                      "category":  "06 Multiplayer",
+                      "title":  "Leere Slots bleiben nach Neustart leer",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "AUSSCHLIESSLICH IN GESICHERTER WELTKOPIE. A belegt zwei nicht benachbarte Chest-Slots, speichert und startet neu; entfernt beide Items, speichert und startet wieder neu. Mit Analyzer-Seed-/Journal-Slots wiederholen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Entleerte Slots bleiben leer; kein Seed und kein Journal taucht als Phantom erneut auf.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Entleerte Slots bleiben leer; kein Seed und kein Journal taucht als Phantom erneut auf."
+                  },
+                  {
+                      "id":  "MP-20",
+                      "category":  "06 Multiplayer",
+                      "title":  "Journal passt Mutationshinweise nach Reload an",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "AUSSCHLIESSLICH IN GESICHERTER WELTKOPIE. Nur Weltkopie. Journal mit bekannten Mutationen im Analyzer liegen lassen; eine Datapack-Mutationsregel deaktivieren und /reload ausführen; mindestens sechs Sekunden warten, Journal entnehmen. Regel wieder aktivieren und wiederholen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Bekannte Arten bleiben; Mutationshinweise folgen dem aktuellen Datapack, ohne dass das Journal neu eingelegt wird.",
+                      "commands":  [
+                                       {
+                                           "label":  "Datapacks neu laden",
+                                           "context":  "Minecraft-Chat",
+                                           "description":  "Nur im ausdrücklich freigegebenen Teststand und nach Sicherung der Welt ausführen.",
+                                           "text":  "/reload"
+                                       }
+                                   ],
+                      "summary":  "Bekannte Arten bleiben; Mutationshinweise folgen dem aktuellen Datapack, ohne dass das Journal neu eingelegt wird."
+                  },
+                  {
+                      "id":  "MP-21",
+                      "category":  "06 Multiplayer",
+                      "title":  "Gleichzeitige Klicks während beider Block-Abbauten",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "AUSSCHLIESSLICH IN GESICHERTER WELTKOPIE. Nur Weltkopie. A öffnet Kombimenü und hält speziellen Seed auf Cursor. B baut Analyzer ab; A versucht Einlage, Entnahme, Hotbar-Tausch und Shift-Klick. Mit neuem Aufbau Chest statt Analyzer abbauen und Rollen wechseln.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Abgetrennte Inventare nehmen keine Klicks mehr an; Drops genau einmal; intakter Block behält korrekte Bestände.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Abgetrennte Inventare nehmen keine Klicks mehr an; Drops genau einmal; intakter Block behält korrekte Bestände."
+                  },
+                  {
+                      "id":  "MP-22",
+                      "category":  "06 Multiplayer",
+                      "title":  "Fehlende Journal-Entdeckung nach Weltladevorgang ergänzen",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "AUSSCHLIESSLICH IN GESICHERTER WELTKOPIE. Nur kontrollierte NBT-Weltkopie: Analyzer-Save mit analysiertem Seed und Journal herstellen, dem dessen Art-Eintrag absichtlich fehlt. Chunk/Welt neu laden, sechs Sekunden ohne Neuinlage warten. Mit vollständigem Journal und unanalyisiertem Seed wiederholen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Nur analysierter Seed ergänzt die fehlende Art; bestehende Arten, Genom, Analyseflag und Itemzahlen bleiben erhalten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Nur analysierter Seed ergänzt die fehlende Art; bestehende Arten, Genom, Analyseflag und Itemzahlen bleiben erhalten."
+                  },
+                  {
+                      "id":  "MP-23",
+                      "category":  "06 Multiplayer",
+                      "title":  "Client-Vorschau bei belegtem Analyzer",
+                      "steps":  [
+                                    "Dedizierten Server mit zwei Testspielern A und B sowie vorab gezählten Seed-/Journal-Beständen vorbereiten. Wenn zwei Spieler notwendig, aber nicht verfügbar sind: blocked.",
+                                    "Zwei Spieler A/B. A legt Seed direkt in leeren Analyzer, B beobachtet ohne Menü. A versucht zweiten Seed in belegten Slot; dann Shift+Journal bei leerem und belegtem Journal-Slot. Items entnehmen und Einlagen wiederholen.",
+                                    "Nach der Aktion alle Itemzahlen, betreffenden Slots und Genome/Journal-Einträge vergleichen; bei Duplikation, Itemverlust oder Datenleck den Fall sofort stoppen.",
+                                    "Status und tatsächliches Ergebnis mit Commit-ID, Tester, Itemzahlen und Screenshot-/Logdatei im Webtool-Kommentar sichern."
+                                ],
+                      "expected":  "Kein falscher Einlageeffekt, kein Verbrauch bei belegtem Slot; nach Freimachen klappt Einlage; B erhält keine privaten Daten.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Kein falscher Einlageeffekt, kein Verbrauch bei belegtem Slot; nach Freimachen klappt Einlage; B erhält keine privaten Daten."
+                  },
+                  {
+                      "id":  "BAL-01",
+                      "category":  "07 Balance und Artenmutation",
+                      "title":  "Vier 1/1/1-Eltern bis 10/10/10: statistische Abnahme",
+                      "steps":  [
+                                    "Erst nach gesonderter Freigabe mehrere unabhängige Zuchtläufe oder eine zugelassene Simulation mit Standardconfig vorbereiten; andernfalls blocked.",
+                                    "Vier 1/1/1-Eltern aufbauen; nach jedem erfolgreich entstandenen Kind die besten Nachkommen als nächste Eltern verwenden.",
+                                    "Zahl erfolgreich erzeugter Kinder bis 10/10/10 je Lauf erfassen, Mittelwert und Streuung aus ausreichend Wiederholungen auswerten.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Ziel ist ein statistischer Erwartungswert von höchstens 70 erfolgreichen Kindern; ein Einzellauf ist kein Nachweis.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Ziel ist ein statistischer Erwartungswert von höchstens 70 erfolgreichen Kindern; ein Einzellauf ist kein Nachweis."
+                  },
+                  {
+                      "id":  "BAL-02",
+                      "category":  "07 Balance und Artenmutation",
+                      "title":  "Fremdart-Deckel mit Kartoffeln, Karotten und dritter Art",
+                      "steps":  [
+                                    "Weltkopie und passendes Mutations-Datapack verwenden; Karotte/Kartoffel/Kürbis nur verwenden, wenn die Regel tatsächlich vorhanden ist.",
+                                    "10/10/10 einer Art mit 1/1/1 einer anderen Art kreuzen, Genwerte und genaue Kindart analysieren.",
+                                    "Mit 5/5/5 der schwächeren Art wiederholen; neue dritte Art gesondert prüfen und mögliche Verluste notieren.",
+                                    "Status mit exakter Commit-ID, tatsächlichen Gen-/Itemwerten und Belegpfad im Webtool-Kommentar festhalten."
+                                ],
+                      "expected":  "Beteiligte Kindart höchstens 5 oder ihr eigener schon höherer Elternwert je Eigenschaft; neue dritte Art höchstens 4/4/4, schwächere Werte erlaubt.",
+                      "commands":  [
+
+                                   ],
+                      "summary":  "Beteiligte Kindart höchstens 5 oder ihr eigener schon höherer Elternwert je Eigenschaft; neue dritte Art höchstens 4/4/4, schwächere Werte erlaubt."
+                  }
+              ],
+    "previousTestEvidence":  {
+                                 "suiteId":  "agricraft-core-neoforge-1211-20261122-v8",
+                                 "sources":  [
+                                                 "docs/test-results/gameplay-core-2026-11-22/v8-coverage.json",
+                                                 "docs/test-results/gameplay-core-2026-11-22-phase2/results.json",
+                                                 "docs/test-results/core-regression-2026-11-23-st63/README.md",
+                                                 "docs/test-results/gameplay-automated-2026-11-23/results.json"
+                                             ],
+                                 "lastKnownStatuses":  {
+                                                           "pass":  10,
+                                                           "prior_pass":  2,
+                                                           "partial":  9,
+                                                           "fail":  2,
+                                                           "blocked":  36,
+                                                           "not_authorized":  27
+                                                       },
+                                 "interpretation":  "Für Quellcommit e0670fae sind technisches Gate 220/220 sowie UI-01, UI-09, UI-12, UI-13, UI-16 und ER-13 erfolgreich belegt; diese sechs IDs sind aus dem offenen v1.1-Katalog entfernt. ER-12 und UI-11 bleiben partial und deshalb offen. Historische v8- und v1.0-Dateien bleiben unverändert."
+                             }
+}

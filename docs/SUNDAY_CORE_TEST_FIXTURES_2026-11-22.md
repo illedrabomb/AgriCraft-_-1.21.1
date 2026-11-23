@@ -1,6 +1,6 @@
 # AgriCraft-Hauptmod: Testwelt-Aufbauten und Vorbereitungen für Sonntag
 
-**Stand:** 21.11.2026 · **nur Vorbereitung, nichts gebaut oder ausgeführt**. Erst nach ausdrücklicher Freigabe des Projektbesitzers Gradle, JUnit, Minecraft, CI, Multiplayer oder Simulation starten. Ergänzt den [Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und die [aktuelle Core-Regression-1.0-Suite mit 91 Definitionen (89 Core + 2 optionale)](test-tracker/AgriCraft-Core-Regression-2026-11-22-v1.0.json); keine eigene Testsuite und keine heimlich abgehakten Fälle.
+**Stand:** Für weitere offene Prüfungen zusammen mit dem [Testabend-Ablauf](SUNDAY_CORE_TEST_RUNBOOK_2026-11-22.md) und der [Core-Regression 1.1 mit 85 Restfällen](test-tracker/AgriCraft-Core-Regression-2026-11-23-v1.1.json) verwenden. Die Fixtures selbst sind Vorbereitung und keine automatische Freigabe; bestandene Fälle wurden nur aufgrund des verlinkten Laufberichts aus dem offenen Katalog entfernt.
 
 **Optionale F0–F3-Bauhilfe:** Ein [nicht ausgeführtes Vanilla-Datapack](SUNDAY_CORE_FIELD_DATAPACK_2026-11-22.md) kann nach späterer Freigabe sechs Basis-/Kreuzungsflächen, ein Erntefeld und eine markierte Analyzer-/Chest-Plattform vorbereiten. Es räumt Terrain ab und ist daher **ausschließlich für eine neue Wegwerf-Testwelt** geeignet; Crop Sticks, Geräte, Eltern, Genetik und Reife müssen weiterhin manuell geprüft werden.
 
@@ -83,4 +83,4 @@ Alle Eltern müssen **tatsächlich bepflanzt, reif und am Standort wachstumsfäh
 
 `Fixture-ID; Fall-ID; Commit/JAR; Datum/Uhrzeit; Dimension/Biom/Koordinaten; Boden/Licht; Elternarten und Gene; Ausgangs-/Endinventar; Serverconfig/randomTickSpeed; Anzahl gültiger Ticks/Kinder; erwartetes Ergebnis; tatsächliches Ergebnis; pass/fail/blocked/open; Screenshot/Log/Tracker-Export`.
 
-**Abschluss:** Jeden Themenblock im [Core-Regression 1.0](test-tracker/AgriCraft-Core-Regression-2026-11-22-v1.0.json) dokumentieren und als ZIP mit Bildern sichern. Nur beobachtete Fälle `pass`; fehlende Voraussetzungen `blocked`, nicht still überspringen. Vor erneutem Test der nächsten Kategorie Weltzustand sichern. **Alle Häkchen in diesem Dokument sind Vorbereitungs-Checkpoints, derzeit nicht ausgeführt.**
+**Abschluss:** Jeden noch enthaltenen Themenblock in [Core-Regression 1.1](test-tracker/AgriCraft-Core-Regression-2026-11-23-v1.1.json) dokumentieren und als ZIP mit Bildern sichern. Nur beobachtete Fälle `pass`; fehlende Voraussetzungen `blocked`, nicht still überspringen. Vor erneutem Test der nächsten Kategorie Weltzustand sichern.
