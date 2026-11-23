@@ -20,6 +20,13 @@
 - `ClassicSeedAnalyzerGuiResourcesTest` prüft zusätzlich die Existenz der DE/EN-GUI-Schlüssel und die neue JEI-Aussage. **Nur Testquelle, nicht ausgeführt.**
 - **Statischer Review:** keine Änderungen am Menü-/ItemStack-/NBT-/Sync-Pfad; keine neue Geheimdatenfreigabe. Verbleibendes Risiko: exakte Schriftbreite, Originalgrafik und Klickbereich erst im Spiel belegbar.
 
+## DOC-39 – Menü-/GUI-Vertrag vor dem Build (statischer Review, 23.11.2026)
+
+- `SeedAnalyzerBlock` öffnet serverseitig `SeedAnalyzerStandaloneMenu` oder `SeedAnalyzerCombinedMenu`, abhängig von einer horizontal benachbarten Seed Chest. `CropMenus` registriert beide Menütypen; `CropGeneticsClient.registerMenuScreens` ordnet ihnen die Classic-GUI zu.
+- Die Client-Menüs nutzen `SimpleContainer` als Dummy für synchronisierte Slots. Die **allein geöffnete Seed Chest** verwendet separat `SeedChestRestrictedMenu` mit Vanilla-3x9-Menütyp/Bildschirm; der Analyzer selbst verwendet **nicht mehr** das Vanilla-Truhenmenü.
+- Slotfolge und Koordinaten des originalen Analyzer-Panels sowie der rechten 27er-Chest stimmen in Server-Menü und Client-Screen statisch überein. Die sieben Analyzer-Füllslots bleiben außerhalb des sichtbaren Panels und serverseitig gesperrt. **Nur Quellreview**, kein bewiesener GUI-Klick, Menü-Sync oder erfolgreicher Build.
+- Offene Risiken: NeoForge-1.21.1-Registrierung, Original-Texture-Blits, GUI-Skalierung, Tooltips, Client-Vorhersage und Altbestände. In Core-Regression 1.0 `UI-01`, `UI-09`, `UI-15`, `UI-16` nach Freigabe prüfen.
+
 ## Gebündelter Abnahmelauf (noch nicht freigegeben)
 
 1. Gradle/JUnit/Build für neuen GitHub-HEAD und optische GUI-Prüfung getrennt protokollieren. `ClassicSeedAnalyzerGuiResourcesTest` prüft die vorhandene Original-Atlasgröße, ist **geschrieben, nicht gelaufen**.

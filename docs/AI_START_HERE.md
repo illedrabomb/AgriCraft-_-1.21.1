@@ -16,6 +16,8 @@
 
 **ST-62 (ungetestet):** Standalone- und verbundene Seed Chest blockieren nun auch im Shift-Klick-Vorlauf nicht zulässige **Alt-Items**, ohne deren Entnahme zu sperren; Standalone prüft ein veraltetes Menü vor Transfer. [Risiken und Regression](ANALYZER_SLOT_AND_JOURNAL_FIX_2026-11-22.md). Die Core-Regressionsrunde 1.0 verwendet die bestehenden `UI-01`/`UI-16`-IDs; keine neue Version oder Testausführung.
 
+**DOC-39 (23.11., statisch):** [GUI-Vertrag](CLASSIC_ANALYZER_GUI_PORT_2026-11-22.md) und [ursprüngliche P2-Doku](ANALYZER_SLOT_AND_JOURNAL_FIX_2026-11-22.md) abgeglichen: der aktuelle Analyzer nutzt eigene Menütypen und die klassische Oberfläche; nur die separate Seed Chest bleibt beim Vanilla-3x9-Screen. Regression 1.0 unverändert, kein neuer Test.
+
 ## Lokaler Vorlauf 22.11.2026
 
 Erneuter freigegebener Lauf auf `5ec9c3c7`: **212/212 JUnit-Tests erfolgreich, 0 übersprungen, :test :build erfolgreich (Exitcode 0)**. Keine lokale Code-/Teständerung. JAR-Task UP-TO-DATE; vorhandenes Artefakt mit Hash dokumentiert, kein frisches JAR erzeugt. Vollständige Belege unter `docs/test-results/core-gate-2026-11-22/`. Für neue Regression 1.0-Fälle ist ein neuer SHA-gebundener Build erforderlich; diese frühere JUnit-Abnahme ist keine Spiel-/MP- oder GUI-Abnahme.
