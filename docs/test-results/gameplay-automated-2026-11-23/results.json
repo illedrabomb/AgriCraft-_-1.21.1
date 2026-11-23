@@ -1,0 +1,29 @@
+{
+  "testedSourceCommit": "e0670fae3ee63ec0552625a8750de0d38d57ca78",
+  "documentationHeadAtStart": "48f83db1f9c959fcad053fc7bfbad09421da6f69",
+  "jar": {
+    "name": "cropgenetics-0.2.14-alpha.jar",
+    "bytes": 403199,
+    "sha256": "313fb7466b110cdf5e5c255196e387e2f4393049500705a4830b22a93f79a08e"
+  },
+  "environment": {
+    "os": "Windows 11",
+    "java": "Temurin 21.0.12.1+1",
+    "gradle": "9.2.1",
+    "minecraft": "1.21.1",
+    "neoForge": "21.1.265"
+  },
+  "results": [
+    {"id": "UI-01", "status": "pass"},
+    {"id": "UI-09", "status": "pass"},
+    {"id": "UI-16", "status": "pass"},
+    {"id": "ER-13", "status": "pass", "trials": 4},
+    {"id": "ER-12", "status": "partial", "trials": 10, "reason": "bounds observed; no statistical acceptance; final raw 6 was item-entity merge 3+3"},
+    {"id": "UI-12", "status": "pass", "scope": "Jade base compatibility, interaction and privacy"},
+    {"id": "UI-13", "status": "pass", "scope": "Identify base compatibility, interaction and privacy"},
+    {"id": "UI-11", "status": "partial", "scope": "JEI startup, category registration, join and reload only"}
+  ],
+  "sourceChanges": false,
+  "betaApproved": false,
+  "finalState": "server and all clients stopped; ports 25589 and 25599 closed"
+}
