@@ -2,7 +2,7 @@
 
 **Stand:** 23.11.2026. Diese Datei ist eine Navigationshilfe, kein Ersatz für den aktuellen Git-Stand.
 
-**Neuer lokaler Core-Lauf:** Ausgang 4eddb68c scheitert an zwei GUI-Typinferenzfehlern; minimaler P1-Typfix vorbereitet und kompiliert. Folgelauf 1c1b7cd4: **219/220 JUnit erfolgreich, ein P2-Fehler in SeedChestRestrictedMenuTest** (Menüindex verdeckt Container-Slotindex). Kein Minecraftstart, keine neue Laufzeitabnahme. 11 Parser-Tests erfolgreich. [Bericht und nächste Korrektur](test-results/core-regression-2026-11-23/README.md).
+**Core-Lauf 23.11. und ST-63:** Nach dem im lokalen Codex-Chat freigegebenen Lauf scheiterten zunächst zwei GUI-Typinferenzstellen; der P1-Fix wurde danach kompiliert. Im Folgelauf: **219/220 JUnit erfolgreich, ein P2-Fehler in `SeedChestRestrictedMenuTest`** (Menü- statt Containerindex), 11 Parser-Tests erfolgreich. Der Seed-Chest-Index ist **jetzt im Quellcode korrigiert, aber seitdem nicht erneut gebaut oder getestet**; die 219/220 sind historisch, **kein** grünes Gate. Kein Minecraftstart oder Runtime-Abnahme dieses Stands. [Originalbericht](test-results/core-regression-2026-11-23/README.md) · [Vollständige Übergabe für einen Chat ohne Projektkontext](EXTERNAL_CHAT_HANDOFF_2026-11-23.md).
 
 **Core-Etappe 2 ausgeführt:** [Bericht und Belege](test-results/gameplay-core-2026-11-22-phase2/README.md): 4 pass, 2 partial, 2 P2-fail (UI-01 falsche Slotannahme; UI-09 Journal-Direkteinlage). Gleicher Hauptmod-Build, keine Codeänderung. Diese Befunde gehören zum historischen v8-Lauf; P2-Quellkorrekturen und Original-GUI sind inzwischen vorbereitet, aber auf dem neuen HEAD noch nicht gebaut oder im Spiel geprüft.
 

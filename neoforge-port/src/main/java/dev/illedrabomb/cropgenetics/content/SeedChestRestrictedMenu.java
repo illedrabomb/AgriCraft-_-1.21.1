@@ -61,11 +61,12 @@ final class SeedChestRestrictedMenu extends ChestMenu {
     /** Preserve Vanilla slot indices and coordinates; only change mayPlace. */
     static Slot restrictPlacement(Slot original) {
         Container container = original.container;
-        int index = original.getContainerSlot();
-        return new Slot(container, index, original.x, original.y) {
+        int containerSlot = original.getContainerSlot();
+        return new Slot(container, containerSlot, original.x, original.y) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return container.canPlaceItem(index, stack) && super.mayPlace(stack);
+                // The inherited Slot.index is a menu index, not the container slot.
+                return container.canPlaceItem(getContainerSlot(), stack) && super.mayPlace(stack);
             }
         };
     }
