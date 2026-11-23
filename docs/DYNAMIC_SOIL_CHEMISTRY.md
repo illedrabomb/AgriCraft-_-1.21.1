@@ -60,10 +60,10 @@ Das optionale `SoilTreatment`-Modul und die Item-Interaktion von `CropSticksBloc
 
 1. Einfache Regen-Feuchtigkeitserhöhung und Nährstoffverbrauch bei erfolgreicher Wachstumsstufe sind nun über `SoilDynamics` vorhanden. **Verdunstung, Regeneration, echte Bewässerungsnetze, Nachbarblockeffekte und vollständige AgriCore-Physik fehlen.** Alle automatischen Änderungen sind auf explizit profilierte Böden unter bepflanzten Crop Sticks begrenzt.
 2. Eigenes Werkzeug/UI zur Bodenbearbeitung, Berechtigungen für Nicht-Administratoren und spätere Integration in MineColonies.
-3. Automatisches Löschen bei Blockabbau **im selben Tick**: abweichende Blocktypen werden erst bei der nächsten Abfrage bemerkt; ein Ersatz durch denselben Blocktyp kann weiterhin den alten Wert übernehmen, bis eine gesonderte Blockänderungs-Ereignisbehandlung implementiert wird.
+3. **Aktueller Quellstand (Nachabgleich 23.11.):** `SoilOverrideInvalidation` ist bereits als Ereignis-Hook in `CropGeneticsMod` registriert (`BreakEvent`, einzelnes/mehrfaches `EntityPlaceEvent`, `LevelTickEvent.Post`). Bei akzeptierter gewöhnlicher Spieleränderung wird die Position nach dem endgültigen Blockzustand am Tick-Ende bereinigt – **nicht** zwangsläufig im selben Tick-Moment wie das Ereignis. Noch nicht abgedeckt sind insbesondere Vanilla-Befehle, Kolben, Explosionen, Maschinen und gleichartige Blockersetzungen ohne korrespondierendes Place-Ereignis. Die Speicherung und die Event-Semantik sind noch nicht im Spiel geprüft.
 4. Die dokumentierten Originalkategorien und `tolerance_factor × Strength` sind übernommen; AgriCore-Bodenphysik, vollständige Originalprofile und World-State-Mechanik bleiben offen.
 5. Java-/NeoForge-API-Kompilierung, SavedData-Roundtrip, Permissions, Dimensionen/Chunkgrenzen, Serverneustart und Multiplayer **noch nicht getestet**.
 
 ## Nächster Schritt
 
-Vor der Releasevalidierung die Blockänderungs-Invalidierung und gegebenenfalls eine spielbare, datengesteuerte Bewässerungs-/Düngemechanik ergänzen; dann bei ausdrücklicher Nutzerfreigabe Kompilierung und kontrollierte Tests.
+Die vorhandene Spieler-Break-/Place-Invalidierung nach Freigabe im Spiel prüfen; für nicht abgedeckte Weltänderungen vor einem Ausbau zunächst die gewünschte Core-Beta-Grenze festlegen. Weitere Bewässerungs-/Düngemechanik und vollständige AgriCore-Physik sind kein automatisch freigegebener Beta-Umfang. Kompilierung und Tests nur nach ausdrücklicher Nutzerfreigabe.

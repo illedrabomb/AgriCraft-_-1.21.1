@@ -18,11 +18,13 @@ Scope: branch `integration/neoforge-1211-consolidation`, root `neoforge-port/`, 
 
 ### A. Core only – first test gate
 
-From PowerShell inside `neoforge-port`:
+From PowerShell inside `neoforge-port` **erst nach ausdrücklicher Freigabe**:
 
 ```powershell
-& .\gradlew.bat :test :build --no-daemon --console=plain
+gradle :test :build --no-daemon --console=plain
 ```
+
+**DOC-40, 23.11.2026 – korrigierter Aufruf (nicht ausgeführt):** Im `neoforge-port/` liegt derzeit kein `gradlew.bat`; der Wrapper im Repository-Root gehört zum historischen Forge-Projekt und startet Gradle 7.4. Daher bei diesem eigenständigen NeoForge-Projekt ein geprüftes, geeignetes Gradle aus `PATH` oder einen künftig ausdrücklich bereitgestellten NeoForge-Wrapper verwenden. Für den freigegebenen technischen Vorlauf bevorzugt `scripts/core-test-gate.ps1 -ApproveCoreTests` mit Startmanifest/Belegkontrolle nutzen. Der letzte belegte lokale Core-Lauf nutzte Gradle 9.2.1; daraus folgt keine Freigabe des aktuellen HEAD.
 
 Use explicit `:test :build`: unqualified `test build` may include subprojects. Collect the console log and HTML test report when failures occur. Inspect the JAR for accidental Pam/Farmer crop resources and class entries.
 
@@ -47,7 +49,7 @@ Only core JAR with minimum required loader/vanilla dependencies, optionally JEI 
 Only after main mod has passed and user releases add-on testing:
 
 ```powershell
-& .\gradlew.bat :pam-hc2:build :farmers-delight:build --no-daemon --console=plain
+gradle :pam-hc2:build :farmers-delight:build --no-daemon --console=plain
 ```
 
 Add-on build/launch verification is **not** a prerequisite to the core-only manual gameplay test; however, their build configuration is now parsed as part of the Gradle multi-project setup and must remain syntactically valid.
