@@ -272,3 +272,11 @@ Core-Dev-Server und einzelner MCPFabric-Client auf a2fe5625 gestartet, Gameplay-
 ## Core-Live-Etappe 2 am 22.11.2026
 
 Auf Dokumentationscommit 4b2e78db, unveränderter JAR-Hash 9e272b6c…: ER-14/ER-03/ER-13/ER-08 pass; ER-12/UI-14 partial; UI-01/UI-09 fail (P2). Server-NBT bestätigt unzulässige Analyzer-Journal-/Füllslotannahme; Journal-Direkteinlage bei bestätigtem Sneak scheitert. Keine bestätigte Duplikation/Verlust, keine P0/P1-Reparatur und keine Codeänderung. Drop-Merging-Audit korrigiert einen Messfehler, keine statistische Kürbis-Abnahme. Vollständige strukturierte Fälle/Logs/Screenshots: [Etappe-2-Bericht](test-results/gameplay-core-2026-11-22-phase2/README.md). Ursprüngliche v8 und frühere Resultate unverändert; beide Programme beendet.
+
+## Core-Regression 23.11.2026 – technischer Vorlauf
+
+- Nutzerfreigabe zum Test des neuen Builds im lokalen Chat. GitHub-Ausgang `4eddb68c8d45c614b98f45ccb285cde13dd7f7f3`, sauberer neuer Checkout, Temurin 21.0.12.1+1, Gradle 9.2.1. Berichtsauswertung: 11 Python-Tests tatsächlich bestanden.
+- Erster Core-Tasklauf scheitert in compileJava: zwei Typinferenzfehler an den Screen-Registrierungen in CropGeneticsClient:57/59. Kein JUnit/JAR. Beleg: `build/core-gate-reports/20261123T101023Z-4eddb68c8d45c614b98f45ccb285cde13dd7f7f3/`. P1-Buildblocker, kein bewiesener Spieldefekt.
+- Minimalfix: Menü- und generischen Screen-Typ für beide Register-Aufrufe explizit angeben. Kein Menü-/NBT-/ItemStack-Verhalten geändert; Compiler ist der direkte Syntax-/Typnachweis. Statischer Diff geprüft; einmaliger freigegebener Folgelauf noch offen.
+
+- Folgelauf 1c1b7cd4: 220 JUnit, 219 pass, 1 failure, 0 skipped; compileJava erfolgreich, :build wegen :test nicht abgeschlossen. Offener P2: SeedChestRestrictedMenu.restrictPlacement liest geerbten Menüindex statt Container-Slotindex (Bytecode bestätigt). Kein P2-Fix, kein Minecraftstart. Neues JAR 403187 Bytes, SHA-256 7408c8226446f85af40299df7161eae96c6c2c11be635f2b3350e42869308a2c, nicht abgenommen. [Vollständiger Bericht/Belege](test-results/core-regression-2026-11-23/README.md).

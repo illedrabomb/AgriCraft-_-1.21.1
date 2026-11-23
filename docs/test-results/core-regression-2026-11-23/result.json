@@ -1,0 +1,29 @@
+{
+  "githubInput": "4eddb68c8d45c614b98f45ccb285cde13dd7f7f3",
+  "testedLocalFix": "1c1b7cd4f990b84577537e1d3a549713f10576c5",
+  "date": "2026-11-23",
+  "java": "Temurin 21.0.12.1+1",
+  "gradle": "9.2.1",
+  "parserTests": {
+    "tests": 11,
+    "failures": 0,
+    "exitCode": 0
+  },
+  "junit": {
+    "tests": 220,
+    "passed": 219,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0
+  },
+  "build": "failed at :test",
+  "failure": "SeedChestRestrictedMenuTest.wrapperDelegatesEveryPlacementToContainerRules, line 53",
+  "priority": "P2",
+  "gameplay": "not started because core gate failed",
+  "jar": {
+    "file": "cropgenetics-0.2.14-alpha.jar",
+    "bytes": 403187,
+    "sha256": "7408c8226446f85af40299df7161eae96c6c2c11be635f2b3350e42869308a2c",
+    "accepted": false
+  }
+}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.genetics.GenePairDisplayContractTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:12:53.211Z" hostname="DESKTOP-WORKSTA" time="0.008">
+  <properties/>
+  <testcase name="legacyPairsStillSortTheirValuesForMigration()" classname="dev.illedrabomb.cropgenetics.genetics.GenePairDisplayContractTest" time="0.007"/>
+  <testcase name="freshVanillaAndGeneticSeedsStartWithTheSameThreeStats()" classname="dev.illedrabomb.cropgenetics.genetics.GenePairDisplayContractTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

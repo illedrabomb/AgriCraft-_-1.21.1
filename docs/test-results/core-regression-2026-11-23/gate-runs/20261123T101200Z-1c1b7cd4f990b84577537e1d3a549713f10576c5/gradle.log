@@ -1,0 +1,55 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :createMinecraftArtifacts UP-TO-DATE
+
+> Task :compileJava
+D:\guthub repositorys\AgriCraft-core-regression-2026-11-23\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\client\CropGeneticsClient.java:30: Warnung: [removal] bus() in EventBusSubscriber ist veraltet und wurde zum Entfernen markiert
+        bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+        ^
+D:\guthub repositorys\AgriCraft-core-regression-2026-11-23\neoforge-port\src\main\java\dev\illedrabomb\cropgenetics\client\CropGeneticsClient.java:30: Warnung: [removal] Bus in EventBusSubscriber ist veraltet und wurde zum Entfernen markiert
+        bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+                                ^
+Hinweis: Einige Eingabedateien verwenden oder überschreiben eine veraltete API.
+Hinweis: Wiederholen Sie die Kompilierung mit -Xlint:deprecation, um Details zu erhalten.
+2 Warnungen
+
+> Task :generateModMetadata
+> Task :processResources
+> Task :classes
+> Task :jarJar NO-SOURCE
+> Task :jar
+> Task :compileTestJava
+
+> Task :downloadAssets
+Loaded 145 artifacts from D:\guthub repositorys\AgriCraft-core-regression-2026-11-23\neoforge-port\build\tmp\downloadAssets\nfrt_artifact_manifest.properties
+Downloading asset index 17
+Using Minecraft asset root: G:\Android\Gradle\caches\neoformruntime\assets
+  DL    https://piston-meta.mojang.com/v1/packages/fe8483e9e95c56b261ed6ab05aa57f83d669edf1/17.json
+
+> Task :writeNeoForgeTestClasspath
+> Task :prepareNeoForgeTestFiles
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+
+> Task :test
+
+SeedChestRestrictedMenuTest > wrapperDelegatesEveryPlacementToContainerRules() FAILED
+    org.opentest4j.AssertionFailedError at SeedChestRestrictedMenuTest.java:53
+
+220 tests completed, 1 failed
+
+> Task :test FAILED
+
+[Incubating] Problems report is available at: file:///D:/guthub%20repositorys/AgriCraft-core-regression-2026-11-23/neoforge-port/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> There were failing tests. See the report at: file:///D:/guthub%20repositorys/AgriCraft-core-regression-2026-11-23/neoforge-port/build/reports/tests/test/index.html
+
+* Try:
+> Run with --scan to generate a Build Scan (powered by Develocity).
+
+BUILD FAILED in 53s
+10 actionable tasks: 9 executed, 1 up-to-date

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.data.PlantConditionsWireTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:12:53.155Z" hostname="DESKTOP-WORKSTA" time="0.028">
+  <properties/>
+  <testcase name="rejectsTrailingBytesAndTruncatedPublishedSnapshot()" classname="dev.illedrabomb.cropgenetics.data.PlantConditionsWireTest" time="0.004"/>
+  <testcase name="malformedAndFuturePayloadsAreRejected()" classname="dev.illedrabomb.cropgenetics.data.PlantConditionsWireTest" time="0.001"/>
+  <testcase name="rejectsMalformedResourceIdsFromTheWire()" classname="dev.illedrabomb.cropgenetics.data.PlantConditionsWireTest" time="0.001"/>
+  <testcase name="malformedWireCatalogueWithDuplicateSpeciesIsRejected()" classname="dev.illedrabomb.cropgenetics.data.PlantConditionsWireTest" time="0.002"/>
+  <testcase name="emptyCatalogueUsesCompleteVersionedFrame()" classname="dev.illedrabomb.cropgenetics.data.PlantConditionsWireTest" time="0.003"/>
+  <testcase name="rejectsInvalidSiteRuleWithoutAcceptingPartialCatalogue()" classname="dev.illedrabomb.cropgenetics.data.PlantConditionsWireTest" time="0.001"/>
+  <testcase name="refusesOversizedSeedListsAndIdsBeforeSending()" classname="dev.illedrabomb.cropgenetics.data.PlantConditionsWireTest" time="0.001"/>
+  <testcase name="roundTripPreservesPublicRequirementsAndSpecialRules()" classname="dev.illedrabomb.cropgenetics.data.PlantConditionsWireTest" time="0.012"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

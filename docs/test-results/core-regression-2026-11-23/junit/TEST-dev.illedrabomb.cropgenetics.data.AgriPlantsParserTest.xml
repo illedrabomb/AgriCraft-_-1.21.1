@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.data.AgriPlantsParserTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:12:53.067Z" hostname="DESKTOP-WORKSTA" time="0.011">
+  <properties/>
+  <testcase name="plantIdMatchesGenomeWireLimit()" classname="dev.illedrabomb.cropgenetics.data.AgriPlantsParserTest" time="0.005"/>
+  <testcase name="parsesOriginalCarrotPlant()" classname="dev.illedrabomb.cropgenetics.data.AgriPlantsParserTest" time="0.0"/>
+  <testcase name="invalidStageAndConditionalMutationAreRejected()" classname="dev.illedrabomb.cropgenetics.data.AgriPlantsParserTest" time="0.002"/>
+  <testcase name="oneStageRepeatHarvestExploitIsRejected()" classname="dev.illedrabomb.cropgenetics.data.AgriPlantsParserTest" time="0.001"/>
+  <testcase name="parsesOriginalMutationAndSupportsEitherParentOrder()" classname="dev.illedrabomb.cropgenetics.data.AgriPlantsParserTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.client.ClassicSeedAnalyzerGuiResourcesTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:12:52.446Z" hostname="DESKTOP-WORKSTA" time="0.161">
+  <properties/>
+  <testcase name="analyzerTextAndJeiStackingGuideMatchBothLanguages()" classname="dev.illedrabomb.cropgenetics.client.ClassicSeedAnalyzerGuiResourcesTest" time="0.003"/>
+  <testcase name="originalAnalyzerTextureHasFullAtlasDimensions()" classname="dev.illedrabomb.cropgenetics.client.ClassicSeedAnalyzerGuiResourcesTest" time="0.157"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

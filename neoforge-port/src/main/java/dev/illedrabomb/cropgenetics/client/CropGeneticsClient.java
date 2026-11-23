@@ -5,6 +5,8 @@ import dev.illedrabomb.cropgenetics.content.CropBlocks;
 import dev.illedrabomb.cropgenetics.content.SeedSpeciesCatalog;
 import dev.illedrabomb.cropgenetics.content.CropItems;
 import dev.illedrabomb.cropgenetics.content.CropMenus;
+import dev.illedrabomb.cropgenetics.content.SeedAnalyzerStandaloneMenu;
+import dev.illedrabomb.cropgenetics.content.SeedAnalyzerCombinedMenu;
 import dev.illedrabomb.cropgenetics.content.CropComponents;
 import dev.illedrabomb.cropgenetics.genetics.Genome;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -54,9 +56,9 @@ public final class CropGeneticsClient {
 
     @SubscribeEvent
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
-        event.register(CropMenus.ANALYZER.get(),
+        event.<SeedAnalyzerStandaloneMenu, ClassicSeedAnalyzerScreen<SeedAnalyzerStandaloneMenu>>register(CropMenus.ANALYZER.get(),
                 (menu, inventory, title) -> new ClassicSeedAnalyzerScreen<>(menu, inventory, title, false));
-        event.register(CropMenus.ANALYZER_CHEST.get(),
+        event.<SeedAnalyzerCombinedMenu, ClassicSeedAnalyzerScreen<SeedAnalyzerCombinedMenu>>register(CropMenus.ANALYZER_CHEST.get(),
                 (menu, inventory, title) -> new ClassicSeedAnalyzerScreen<>(menu, inventory, title, true));
     }
 

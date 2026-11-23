@@ -1,0 +1,7 @@
+UTC=20261123T101200Z
+BRANCH=integration/neoforge-1211-consolidation
+COMMIT=1c1b7cd4f990b84577537e1d3a549713f10576c5
+JAVA=openjdk version "21.0.12.1" 2026-08-18 LTS
+GRADLE=9.2.1
+SCOPE=core-only :test :build (no Minecraft run, no addon tasks)
+APPROVAL=explicit CLI flag; user approval must exist separately

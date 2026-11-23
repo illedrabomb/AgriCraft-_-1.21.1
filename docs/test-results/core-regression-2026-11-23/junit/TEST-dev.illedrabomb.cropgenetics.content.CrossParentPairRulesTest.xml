@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.content.CrossParentPairRulesTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:12:52.968Z" hostname="DESKTOP-WORKSTA" time="0.008">
+  <properties/>
+  <testcase name="mutationCanUseFourthParentWithEarlierParent()" classname="dev.illedrabomb.cropgenetics.content.CrossParentPairRulesTest" time="0.004"/>
+  <testcase name="mutationCanUseThirdParentEvenWhenFirstTwoDoNotMatch()" classname="dev.illedrabomb.cropgenetics.content.CrossParentPairRulesTest" time="0.001"/>
+  <testcase name="unrelatedRecipeDoesNotMatchAnyCombination()" classname="dev.illedrabomb.cropgenetics.content.CrossParentPairRulesTest" time="0.001"/>
+  <testcase name="oneParentCannotPairWithItself()" classname="dev.illedrabomb.cropgenetics.content.CrossParentPairRulesTest" time="0.0"/>
+  <testcase name="twoParentsStillMatchTheirPair()" classname="dev.illedrabomb.cropgenetics.content.CrossParentPairRulesTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,30 @@
+Compiled from "SeedChestRestrictedMenu.java"
+class dev.illedrabomb.cropgenetics.content.SeedChestRestrictedMenu$1 extends net.minecraft.world.inventory.Slot {
+  dev.illedrabomb.cropgenetics.content.SeedChestRestrictedMenu$1(net.minecraft.world.Container, int, int, int);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: iload_3
+       4: iload         4
+       6: invokespecial #1                  // Method net/minecraft/world/inventory/Slot."<init>":(Lnet/minecraft/world/Container;III)V
+       9: return
+
+  public boolean mayPlace(net.minecraft.world.item.ItemStack);
+    Code:
+       0: aload_0
+       1: getfield      #7                  // Field container:Lnet/minecraft/world/Container;
+       4: aload_0
+       5: getfield      #13                 // Field index:I
+       8: aload_1
+       9: invokeinterface #17,  3           // InterfaceMethod net/minecraft/world/Container.canPlaceItem:(ILnet/minecraft/world/item/ItemStack;)Z
+      14: ifeq          29
+      17: aload_0
+      18: aload_1
+      19: invokespecial #23                 // Method net/minecraft/world/inventory/Slot.mayPlace:(Lnet/minecraft/world/item/ItemStack;)Z
+      22: ifeq          29
+      25: iconst_1
+      26: goto          30
+      29: iconst_0
+      30: ireturn
+}

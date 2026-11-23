@@ -2,6 +2,8 @@
 
 **Stand:** 23.11.2026. Diese Datei ist eine Navigationshilfe, kein Ersatz für den aktuellen Git-Stand.
 
+**Neuer lokaler Core-Lauf:** Ausgang 4eddb68c scheitert an zwei GUI-Typinferenzfehlern; minimaler P1-Typfix vorbereitet und kompiliert. Folgelauf 1c1b7cd4: **219/220 JUnit erfolgreich, ein P2-Fehler in SeedChestRestrictedMenuTest** (Menüindex verdeckt Container-Slotindex). Kein Minecraftstart, keine neue Laufzeitabnahme. 11 Parser-Tests erfolgreich. [Bericht und nächste Korrektur](test-results/core-regression-2026-11-23/README.md).
+
 **Core-Etappe 2 ausgeführt:** [Bericht und Belege](test-results/gameplay-core-2026-11-22-phase2/README.md): 4 pass, 2 partial, 2 P2-fail (UI-01 falsche Slotannahme; UI-09 Journal-Direkteinlage). Gleicher Hauptmod-Build, keine Codeänderung. Diese Befunde gehören zum historischen v8-Lauf; P2-Quellkorrekturen und Original-GUI sind inzwischen vorbereitet, aber auf dem neuen HEAD noch nicht gebaut oder im Spiel geprüft.
 
 **Neue, ungetestete Core-Regel:** [Identische genetische Seeds stapeln bis 64 / testseed-Artenvorschläge](GENETIC_SEED_STACKING_AND_COMMAND_SUGGESTIONS_2026-11-22.md). Bisherige 212/212-Belege beziehen sich auf den älteren Commit; neue JUnit-/Spielprüfung ist offen. UI-01/UI-09 bleiben separat offen.

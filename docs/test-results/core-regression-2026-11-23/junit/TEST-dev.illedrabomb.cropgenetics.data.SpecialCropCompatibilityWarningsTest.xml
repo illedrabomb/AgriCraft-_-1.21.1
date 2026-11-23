@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.data.SpecialCropCompatibilityWarningsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:12:53.198Z" hostname="DESKTOP-WORKSTA" time="0.002">
+  <properties/>
+  <testcase name="supportedFarmerPilotsHaveNoSpecialWarning()" classname="dev.illedrabomb.cropgenetics.data.SpecialCropCompatibilityWarningsTest" time="0.001"/>
+  <testcase name="vanillaAndPamCropsDoNotReceiveRiceWarning()" classname="dev.illedrabomb.cropgenetics.data.SpecialCropCompatibilityWarningsTest" time="0.0"/>
+  <testcase name="farmerRiceMustExplicitlyWarnAboutMissingOriginalMechanics()" classname="dev.illedrabomb.cropgenetics.data.SpecialCropCompatibilityWarningsTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

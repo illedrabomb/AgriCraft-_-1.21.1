@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.illedrabomb.cropgenetics.data.GourdDefinitionRegressionTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-11-23T10:12:53.130Z" hostname="DESKTOP-WORKSTA" time="0.011">
+  <properties/>
+  <testcase name="fruitChanceMustBePositiveFiniteAndOnlyForGourds()" classname="dev.illedrabomb.cropgenetics.data.GourdDefinitionRegressionTest" time="0.005"/>
+  <testcase name="physicalFruitDefinitionMustHaveExactlyOneGuaranteedProduct()" classname="dev.illedrabomb.cropgenetics.data.GourdDefinitionRegressionTest" time="0.003"/>
+  <testcase name="unsupportedPhysicalGourdSpeciesAreRejected()" classname="dev.illedrabomb.cropgenetics.data.GourdDefinitionRegressionTest" time="0.002"/>
+  <testcase name="bothVanillaGourdsAllowARegrowthStageBeforeMaturity()" classname="dev.illedrabomb.cropgenetics.data.GourdDefinitionRegressionTest" time="0.0"/>
+  <testcase name="ownedFruitRemovalAndOrdinaryHarvestUseSameRegrowthPolicy()" classname="dev.illedrabomb.cropgenetics.data.GourdDefinitionRegressionTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
