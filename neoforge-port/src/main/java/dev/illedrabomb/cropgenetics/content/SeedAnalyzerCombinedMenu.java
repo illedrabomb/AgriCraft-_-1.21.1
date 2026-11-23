@@ -125,6 +125,14 @@ public final class SeedAnalyzerCombinedMenu extends AbstractContainerMenu {
         if (!slot.hasItem()) return original;
 
         ItemStack moving = slot.getItem();
+        // A legacy chest may contain non-seed items from an older menu.
+        // Block shift-merging more such items into that invalid stack.
+        // Removal FROM storage remains allowed so players can recover it.
+        if (index >= STORAGE_SLOTS
+                && !analyzer.canPlaceItem(0, moving)
+                && !analyzer.canPlaceItem(1, moving)
+                && !SeedChestRestrictedMenu.canTransferIntoAnySlot(chest, moving))
+            return ItemStack.EMPTY;
         original = moving.copy();
         if (index < STORAGE_SLOTS) {
             if (!moveItemStackTo(moving, STORAGE_SLOTS,

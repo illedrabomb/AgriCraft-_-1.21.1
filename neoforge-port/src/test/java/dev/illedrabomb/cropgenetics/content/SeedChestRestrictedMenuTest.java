@@ -22,6 +22,22 @@ class SeedChestRestrictedMenuTest {
     }
 
     @Test
+    void quickTransferPreflightRespectsEveryDestinationSlot() {
+        SimpleContainer inventory = new SimpleContainer(27) {
+            @Override
+            public boolean canPlaceItem(int index, ItemStack stack) {
+                return index == 5 && stack.is(Items.WHEAT_SEEDS);
+            }
+        };
+        assertTrue(SeedChestRestrictedMenu.canTransferIntoAnySlot(
+                inventory, new ItemStack(Items.WHEAT_SEEDS)));
+        assertFalse(SeedChestRestrictedMenu.canTransferIntoAnySlot(
+                inventory, new ItemStack(Items.STICK)));
+        assertFalse(SeedChestRestrictedMenu.canTransferIntoAnySlot(
+                inventory, ItemStack.EMPTY));
+    }
+
+    @Test
     void wrapperDelegatesEveryPlacementToContainerRules() {
         // The menu must honor the container's answer, rather than Vanilla's
         // permissive default Slot.mayPlace (the UI-01 regression pattern).

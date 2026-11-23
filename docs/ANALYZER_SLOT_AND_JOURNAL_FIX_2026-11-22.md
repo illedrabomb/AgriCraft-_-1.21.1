@@ -34,3 +34,15 @@ Ergebnisse getrennt zu `UI-01`/`UI-09` im v8-Tracker und dem Live-Testbeleg eint
 5. Bei weggebrochener Chest und altem geöffnetem Menü weitere Klicks versuchen; Menügültigkeit/Serverzustand protokollieren. Mehrspieler erst nach separater Freigabe.
 
 **Restrisiko:** Vanilla-Client prüft ohne eigenen Menütyp die Seed-only-Regel nicht lokal voraus. Ob Fehlklicks visuell kurz „springen“, bleibt im Spiel zu beurteilen. Rückbau durch Revert des ST-61-Commits möglich.
+
+## ST-62 – Shift-Klick-Vorprüfung für Seed Chest (ungetestet)
+
+**Statischer Risikofund, Priorität mittel:** Der serverseitige `Slot.mayPlace`-Schutz aus ST-61 verhindert normale neue Einlagen. Eine bislang falsch befüllte Seed Chest kann aber **alte Fremditems** enthalten. Für den geerbten `ChestMenu.quickMoveStack`-Mergepfad und das kombinierte Analyzer-Menü darf nicht angenommen werden, dass eine einzelne neue `mayPlace`-Regel alle Merge-Randfälle abdeckt. Kein erneuter Live-Nachweis und keine behauptete neue Duplikation.
+
+**Defensive Korrektur:** Vor jedem Shift-Klick **vom Spieler in die Chest** prüft `SeedChestRestrictedMenu`, ob wenigstens ein Chest-Zielslot das Item laut `Container.canPlaceItem` akzeptiert. Das kombinierte Menü prüft dieselbe Chest-Regel sowie die zwei gültigen Analyzer-Slots vor seiner bestehenden Transferlogik. Auch ein unzulässiger Altstapel darf dadurch nicht weiter aufgefüllt werden. Shift-Klick **aus** der Chest zum Spieler bleibt erlaubt, damit alte Fremditems gerettet werden können. Standalone prüft außerdem `stillValid` vor dem geerbten Transfer, um Klicks nach Blockentfernung zu unterbinden. Kein neuer Menütyp, kein Client-Screen-Wechsel, kein ItemStack-Split und keine Datenmigration.
+
+**Regressionstestquelle:** `SeedChestRestrictedMenuTest.quickTransferPreflightRespectsEveryDestinationSlot` benutzt einen gefilterten Fake-Container und prüft zulässige Seeds, abgewiesene Sticks und leere Stacks. **Nur geschrieben, nicht ausgeführt**; vollständige Vanilla-/NeoForge-Click- und Race-Semantik bleibt im späteren Spieltest zu bestätigen.
+
+**Regressionsrunde 1.0:** `UI-01` und `UI-16` prüfen zusätzlich ausdrücklich eine gesicherte Weltkopie mit schon vor dem Fix enthaltenem Fremditem: Shift-Klick eines weiteren gleichen Fremditems aus dem Spielerinventar darf die Chest **nicht** auffüllen; bereits enthaltenes Fremditem muss weiterhin entnommen werden können. Nach Blockabbau bei noch offenem Menü keine späte Verschiebung oder Doppel-Drops; Gesamtbestand mit Serverdaten vergleichen. Multiplayer-Rennen nur bei separater Freigabe.
+
+**Restrisiken:** Client-Vanilla-Menü sagt mögliche Einlagen kurzfristig voraus; serverseitige Korrektur kann zu sichtbarem Springen führen. Exakte `ChestMenu`-/`moveItemStackTo`-Mergepfade und Save-/Reconnect-Belege sind ohne freigegebene Minecraft-/JUnit-Ausführung unbestätigt.
