@@ -18,7 +18,7 @@ def read_manifest(path):
     data = {}
     for line in path.read_text(encoding="utf-8-sig").splitlines():
         key, separator, value = line.partition("=")
-        if separator and key in {"COMMIT", "BRANCH", "JAVA", "SCOPE"}:
+        if separator and key in {"COMMIT", "BRANCH", "JAVA", "GRADLE", "SCOPE"}:
             data[key] = value.strip()
     return data
 
@@ -32,6 +32,12 @@ def manifest_warnings(data):
         warnings.append("Entwicklungsbranch im Laufmanifest fehlt oder stimmt nicht.")
     if not data.get("JAVA"):
         warnings.append("Java-Version im Laufmanifest fehlt.")
+    gradle = re.fullmatch(r"([0-9]+)\.([0-9]+)(?:\.[0-9]+)?",
+                          data.get("GRADLE", ""))
+    if gradle is None:
+        warnings.append("Gradle-Version im Laufmanifest fehlt oder ist ungültig.")
+    elif (int(gradle.group(1)), int(gradle.group(2))) < (8, 5):
+        warnings.append("Gradle-Version unterstützt den Java-21-Lauf nicht (mindestens 8.5).")
     if not data.get("SCOPE", "").startswith("core-only "):
         warnings.append("Core-only-Umfang im Laufmanifest fehlt oder stimmt nicht.")
     return warnings
@@ -127,6 +133,7 @@ def main():
              "(JAR-Zuordnung zusätzlich prüfen)",
              f"- Entwicklungsbranch: `{manifest.get('BRANCH', 'FEHLT')}`",
              f"- Java: `{manifest.get('JAVA', 'FEHLT')}`",
+             f"- Gradle: `{manifest.get('GRADLE', 'FEHLT')}`",
              f"- Laufumfang: `{manifest.get('SCOPE', 'FEHLT')}`",
              f"- Gradle-Exitcode: `{code}` (0 bedeutet nur Task-Erfolg)",
              f"- Frische JUnit-XML-Dateien: **{len(fresh_xml)}**",

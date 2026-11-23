@@ -22,6 +22,7 @@ class CoreGateSummaryTests(unittest.TestCase):
                 "COMMIT=" + "a" * 40 + "\n"
                 "BRANCH=integration/neoforge-1211-consolidation\n"
                 "JAVA=openjdk version 21.0.2\n"
+                "GRADLE=9.2.1\n"
                 "SCOPE=core-only :test :build\n", encoding="utf-8-sig")
             data = MODULE.read_manifest(path)
             self.assertEqual("a" * 40, data["COMMIT"])
@@ -31,10 +32,36 @@ class CoreGateSummaryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "missing.txt"
             self.assertEqual({}, MODULE.read_manifest(path))
-            self.assertEqual(4, len(MODULE.manifest_warnings({})))
+            self.assertEqual(5, len(MODULE.manifest_warnings({})))
             path.write_text("COMMIT=not-a-sha\nBRANCH=master\n"
-                            "JAVA=\nSCOPE=addon-only\n", encoding="utf-8")
-            self.assertEqual(4, len(MODULE.manifest_warnings(MODULE.read_manifest(path))))
+                            "JAVA=\nGRADLE=7.4\nSCOPE=addon-only\n", encoding="utf-8")
+            self.assertEqual(5, len(MODULE.manifest_warnings(MODULE.read_manifest(path))))
+
+    def test_obsolete_forge_gradle_is_rejected_by_provenance(self):
+        valid = {
+            "COMMIT": "a" * 40,
+            "BRANCH": "integration/neoforge-1211-consolidation",
+            "JAVA": "openjdk version 21.0.2",
+            "GRADLE": "7.4",
+            "SCOPE": "core-only :test :build",
+        }
+        warnings = MODULE.manifest_warnings(valid)
+        self.assertEqual(1, len(warnings))
+        self.assertIn("mindestens 8.5", warnings[0])
+        valid["GRADLE"] = "8.5"
+        self.assertEqual([], MODULE.manifest_warnings(valid))
+
+    def test_invalid_gradle_manifest_version_is_not_a_pass(self):
+        valid = {
+            "COMMIT": "a" * 40,
+            "BRANCH": "integration/neoforge-1211-consolidation",
+            "JAVA": "openjdk version 21.0.2",
+            "GRADLE": "unbekannt",
+            "SCOPE": "core-only :test :build",
+        }
+        warnings = MODULE.manifest_warnings(valid)
+        self.assertEqual(1, len(warnings))
+        self.assertIn("Gradle-Version", warnings[0])
 
     def test_zero_exit_does_not_hide_missing_test_and_jar_evidence(self):
         warnings = MODULE.evidence_warnings(

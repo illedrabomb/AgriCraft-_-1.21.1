@@ -49,6 +49,25 @@ if [[ -n "$(git status --porcelain)" ]]; then
   exit 2
 fi
 
+# This probe reads Gradle version only; it never starts build tasks.
+# Gradle must support running under Java 21 (Gradle >= 8.5).
+if ! gradle_version_output="$("${gradle_cmd[@]}" --version 2>&1)"; then
+  echo 'FEHLER: Gradle-Version nicht lesbar. Keine Tests oder Build-Tasks gestartet.' >&2
+  exit 2
+fi
+gradle_version="$(printf '%s\n' "$gradle_version_output" |
+  awk '/^Gradle [0-9]+\.[0-9]+/ { print $2; exit }')"
+if [[ ! "$gradle_version" =~ ^([0-9]+)\.([0-9]+)(\.[0-9]+)?$ ]]; then
+  echo "FEHLER: Ungueltige Gradle-Version: $gradle_version. Nichts ausgefuehrt." >&2
+  exit 2
+fi
+gradle_major="${BASH_REMATCH[1]}"
+gradle_minor="${BASH_REMATCH[2]}"
+if (( gradle_major < 8 || (gradle_major == 8 && gradle_minor < 5) )); then
+  echo "FEHLER: Gradle $gradle_version kann nicht unter Java 21 laufen (mindestens 8.5 erforderlich). Alten Forge-7.4-Wrapper nicht verwenden." >&2
+  exit 2
+fi
+
 sha="$(git rev-parse HEAD)"
 timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
 report_dir="$project_dir/build/core-gate-reports/$timestamp-$sha"
@@ -59,6 +78,7 @@ touch "$report_dir/run-start.marker"
   echo "BRANCH=$branch"
   echo "COMMIT=$sha"
   echo "JAVA=$java_version"
+  echo "GRADLE=$gradle_version"
   echo 'SCOPE=core-only :test :build (no Minecraft run, no addon tasks)'
   echo 'APPROVAL=explicit CLI flag; user approval must exist separately'
 } > "$report_dir/manifest.txt"

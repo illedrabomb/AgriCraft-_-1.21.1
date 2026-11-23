@@ -42,6 +42,27 @@ try {
         throw 'Arbeitsbaum nicht sauber. Erst committen und GitHub-HEAD abgleichen.'
     }
 
+    # This checks the selected Gradle without running any build/test task.
+    # Gradle 8.5+ is required to run under Java 21.
+    $ErrorActionPreference = 'Continue'
+    $gradleVersionOutput = & $gradleExecutable '--version' 2>&1
+    $gradleVersionExitCode = $LASTEXITCODE
+    $ErrorActionPreference = 'Stop'
+    $gradleVersionLine = $gradleVersionOutput |
+        Where-Object { $_.ToString() -match '^Gradle\s+[0-9]+\.[0-9]+' } |
+        Select-Object -First 1
+    if ($gradleVersionExitCode -ne 0 -or -not $gradleVersionLine) {
+        throw 'Gradle-Version nicht lesbar. Keine Tests oder Build-Tasks gestartet.'
+    }
+    $gradleVersion = ($gradleVersionLine.ToString() -replace '^Gradle\s+', '').Trim()
+    if ($gradleVersion -notmatch '^(\d+)\.(\d+)(?:\.\d+)?$') {
+        throw "Ungueltige Gradle-Version: $gradleVersion. Kein Test gestartet."
+    }
+    $gradleMajor = [int]$Matches[1]
+    $gradleMinor = [int]$Matches[2]
+    if ($gradleMajor -lt 8 -or ($gradleMajor -eq 8 -and $gradleMinor -lt 5)) {
+        throw "Gradle $gradleVersion unterstuetzt Java 21 nicht (mindestens 8.5 erforderlich). Alten Forge-7.4-Wrapper nicht verwenden."
+    }
     $sha = (& git rev-parse HEAD).Trim()
     $timestamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ')
     $reportDir = Join-Path $projectDir "build/core-gate-reports/$timestamp-$sha"
@@ -52,6 +73,7 @@ try {
         "BRANCH=$branch"
         "COMMIT=$sha"
         "JAVA=$javaVersion"
+        "GRADLE=$gradleVersion"
         'SCOPE=core-only :test :build (no Minecraft run, no addon tasks)'
         'APPROVAL=explicit CLI flag; user approval must exist separately'
     ) | Set-Content (Join-Path $reportDir 'manifest.txt') -Encoding UTF8
